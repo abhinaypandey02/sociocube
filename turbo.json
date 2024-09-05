@@ -1,0 +1,57 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [
+    "./.env"
+  ],
+  "globalEnv": [
+    "SIGNING_KEY",
+    "NEXT_PUBLIC_DEVELOPMENT",
+    "POSTGRES_URL",
+    "REFRESH_KEY",
+    "BACKEND_SECRET",
+    "NEXT_PUBLIC_BACKEND_BASE_URL",
+    "NEXT_PUBLIC_FRONTEND_BASE_URL",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "META_CLIENT_ID",
+    "META_CLIENT_SECRET",
+    "AWS_BUCKET",
+    "AWS_REGION",
+    "AWS_ACCESS_KEY",
+    "AWS_ACCESS_KEY_ID",
+    "STRIPE_SECRET_KEY",
+    "WEBHOOK_SECRET",
+    "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
+    "TURNSTILE_SECRET_KEY"
+  ],
+  "tasks": {
+    "db-studio": {
+      "cache": false,
+      "persistent": true
+    },
+    "build": {
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "storybook-static"
+      ]
+    },
+    "lint": {},
+    "storybook": {},
+    "compile": {
+      "outputs": [
+        "__generated__/**"
+      ]
+    },
+    "start": {
+      "cache": false,
+      "persistent": true
+    },
+    "test-ci": {},
+    "tsc": {},
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

@@ -1,0 +1,50 @@
+name: Tests
+on:
+  push:
+  pull_request:
+jobs:
+  tests:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache for Turbo
+        uses: rharkor/caching-for-turbo@v1.5
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo "${{ secrets.env }}" > .env
+          cat .env
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: latest
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'pnpm'
+      - name: Install packages
+        run: pnpm install --frozen-lockfile
+      - name: Cache playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright
+      - name: Install Playwright
+        run: pnpm dlx playwright install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Build apps
+        run: pnpm build
+      - name: Serve Storybook
+        uses: Eun/http-server-action@v1
+        with:
+          directory: packages/ui/storybook-static
+          port: 6006
+      - name: Cypress tests 🧪
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+          start: pnpm start
+          command: pnpm test-ci
+          wait-on: http://127.0.0.1:6006
+          wait-on-timeout: 10

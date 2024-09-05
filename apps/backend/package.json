@@ -1,0 +1,45 @@
+{
+  "name": "backend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "next lint",
+    "tsc": "tsc",
+    "push-schema": "drizzle-kit push",
+    "db-studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.10.5",
+    "@as-integrations/next": "^3.0.0",
+    "@vercel/postgres": "^0.9.0",
+    "bcrypt": "^5.1.1",
+    "class-validator": "^0.14.1",
+    "drizzle-orm": "^0.33.0",
+    "googleapis": "^131.0.0",
+    "graphql": "^16.9.0",
+    "graphql-scalars": "^1.23.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.8.0",
+    "next": "^14.2.5",
+    "postgres": "^3.4.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "reflect-metadata": "^0.2.2",
+    "stripe": "^16.9.0",
+    "type-graphql": "2.0.0-rc.2"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^20.14.13",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "config": "workspace:*",
+    "drizzle-kit": "^0.24.2",
+    "eslint-config-app": "workspace:*",
+    "typescript": "^5.5.4"
+  }
+}
