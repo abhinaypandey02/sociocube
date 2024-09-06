@@ -1,7 +1,7 @@
 import { cache } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { ROUTES } from "../constants/routes";
+import { Route } from "../constants/routes";
 
 export const getServerToken = cache(async () => {
   const token = cookies().get("refresh")?.value;
@@ -19,9 +19,9 @@ export const getServerToken = cache(async () => {
 });
 
 export function handleUnauthorized() {
-  redirect(ROUTES.SIGNUP);
+  redirect(Route.SignUp);
 }
 
 export function handleAuthorized() {
-  redirect(ROUTES.HOME);
+  redirect(Route.Home);
 }

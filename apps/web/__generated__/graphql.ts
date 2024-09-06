@@ -1,5 +1,6 @@
 /* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import {TypedDocumentNode as DocumentNode} from '@graphql-typed-document-node/core';
+
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -25,12 +26,19 @@ export enum AuthScopes {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  updateOnboardingBuyerBasicDetails: User;
+  completeOnboarding: Scalars['Boolean']['output'];
+  updateOnboardingBasicDetails: Scalars['Boolean']['output'];
 };
 
 
-export type MutationUpdateOnboardingBuyerBasicDetailsArgs = {
-  data: UpdateBuyerBasicDetailsArgs;
+export type MutationUpdateOnboardingBasicDetailsArgs = {
+  data: UpdateBasicDetailsArgs;
+};
+
+export type OnboardingData = {
+  __typename?: 'OnboardingData';
+  name?: Maybe<Scalars['String']['output']>;
+  photo?: Maybe<Scalars['String']['output']>;
 };
 
 export type Query = {
@@ -39,30 +47,51 @@ export type Query = {
 };
 
 export enum Roles {
-  Buyer = 'BUYER',
   Seller = 'SELLER'
 }
 
-export type UpdateBuyerBasicDetailsArgs = {
-  companyName: Scalars['String']['input'];
+export type UpdateBasicDetailsArgs = {
   imageURL?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
 };
 
 export type User = {
   __typename?: 'User';
+  companyName?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
-  image?: Maybe<Scalars['String']['output']>;
+  isOnboarded?: Maybe<Scalars['Boolean']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  onboardingData?: Maybe<OnboardingData>;
   phone?: Maybe<Scalars['String']['output']>;
-  role?: Maybe<Roles>;
+  photo?: Maybe<Scalars['String']['output']>;
+  roles?: Maybe<Array<Roles>>;
   scopes: Array<AuthScopes>;
 };
+
+export type UpdateOnboardingBasicDetailsMutationVariables = Exact<{
+  data: UpdateBasicDetailsArgs;
+}>;
+
+
+export type UpdateOnboardingBasicDetailsMutation = { __typename?: 'Mutation', updateOnboardingBasicDetails: boolean };
+
+export type CompleteOnboardingMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CompleteOnboardingMutation = { __typename?: 'Mutation', completeOnboarding: boolean };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', email?: string | null } };
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', email?: string | null, name?: string | null, photo?: string | null, isOnboarded?: boolean | null, scopes: Array<AuthScopes> } };
+
+export type GetDefaultOnboardingDetailsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export const GetCurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
+export type GetDefaultOnboardingDetailsQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', email?: string | null, name?: string | null, photo?: string | null, isOnboarded?: boolean | null, scopes: Array<AuthScopes>, onboardingData?: { __typename?: 'OnboardingData', name?: string | null, photo?: string | null } | null } };
+
+
+export const UpdateOnboardingBasicDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOnboardingBasicDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateBasicDetailsArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOnboardingBasicDetails"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}]}]}}]} as unknown as DocumentNode<UpdateOnboardingBasicDetailsMutation, UpdateOnboardingBasicDetailsMutationVariables>;
+export const CompleteOnboardingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CompleteOnboarding"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"completeOnboarding"}}]}}]} as unknown as DocumentNode<CompleteOnboardingMutation, CompleteOnboardingMutationVariables>;
+export const GetCurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"photo"}},{"kind":"Field","name":{"kind":"Name","value":"isOnboarded"}},{"kind":"Field","name":{"kind":"Name","value":"scopes"}}]}}]}}]} as unknown as DocumentNode<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
+export const GetDefaultOnboardingDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetDefaultOnboardingDetails"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"photo"}},{"kind":"Field","name":{"kind":"Name","value":"isOnboarded"}},{"kind":"Field","name":{"kind":"Name","value":"scopes"}},{"kind":"Field","name":{"kind":"Name","value":"onboardingData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"photo"}}]}}]}}]}}]} as unknown as DocumentNode<GetDefaultOnboardingDetailsQuery, GetDefaultOnboardingDetailsQueryVariables>;

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import * as types from './graphql';
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import {TypedDocumentNode as DocumentNode} from '@graphql-typed-document-node/core';
 
 /**
  * Map of all GraphQL operations in the project.
@@ -13,7 +13,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  #graphql\n  query GetCurrentUser {\n    getCurrentUser {\n      email\n    }\n  }\n": types.GetCurrentUserDocument,
+    "\n  #graphql\n  mutation UpdateOnboardingBasicDetails($data: UpdateBasicDetailsArgs!) {\n    updateOnboardingBasicDetails(data: $data)\n  }\n": types.UpdateOnboardingBasicDetailsDocument,
+    "\n  #graphql\n  mutation CompleteOnboarding {\n    completeOnboarding\n  }\n": types.CompleteOnboardingDocument,
+    "\n  #graphql\n  query GetCurrentUser {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n    }\n  }\n": types.GetCurrentUserDocument,
+    "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      onboardingData {\n        name\n        photo\n      }\n    }\n  }\n": types.GetDefaultOnboardingDetailsDocument,
 };
 
 /**
@@ -33,7 +36,19 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  query GetCurrentUser {\n    getCurrentUser {\n      email\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetCurrentUser {\n    getCurrentUser {\n      email\n    }\n  }\n"];
+export function gql(source: "\n  #graphql\n  mutation UpdateOnboardingBasicDetails($data: UpdateBasicDetailsArgs!) {\n    updateOnboardingBasicDetails(data: $data)\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdateOnboardingBasicDetails($data: UpdateBasicDetailsArgs!) {\n    updateOnboardingBasicDetails(data: $data)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  #graphql\n  mutation CompleteOnboarding {\n    completeOnboarding\n  }\n"): (typeof documents)["\n  #graphql\n  mutation CompleteOnboarding {\n    completeOnboarding\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  #graphql\n  query GetCurrentUser {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetCurrentUser {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      onboardingData {\n        name\n        photo\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      onboardingData {\n        name\n        photo\n      }\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

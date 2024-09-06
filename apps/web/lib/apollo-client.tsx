@@ -3,17 +3,17 @@
 import {
   HttpLink,
   type OperationVariables,
-  useApolloClient,
+  useLazyQuery,
+  useMutation,
 } from "@apollo/client";
 import {
-  ApolloNextAppProvider,
   ApolloClient,
+  ApolloNextAppProvider,
   InMemoryCache,
 } from "@apollo/experimental-nextjs-app-support";
 import type { PropsWithChildren } from "react";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
-import type { GraphQLFormattedError } from "graphql/error";
 import { useToken } from "./auth-client";
 
 function makeClient() {
@@ -42,47 +42,43 @@ export const tokenContext = (token?: string | null) => {
   };
 };
 
-function checkErrors(errors?: readonly GraphQLFormattedError[]) {
-  if (errors && errors.length > 0)
-    throw new Error(errors.map((e) => e.message).join(" | "));
-}
-
-export function useAuthQuery() {
+export function useAuthQuery<T, V extends OperationVariables>(
+  query: TypedDocumentNode<T, V>,
+  variables?: V,
+) {
   const token = useToken();
-  const client = useApolloClient();
-  return useCallback(
-    async <T, V extends OperationVariables>(
-      query: TypedDocumentNode<T, V>,
-      variables?: V,
-    ) => {
-      const res = await client.query({
-        query,
+  const [fetch, { ...result }] = useLazyQuery(query);
+  useEffect(() => {
+    if (token && variables) {
+      void fetch({
         variables,
         context: tokenContext(token),
       });
-      checkErrors(res.errors);
-      return res.data;
-    },
-    [client, token],
+    }
+  }, [fetch, token, variables]);
+  const reFetch = useCallback(
+    (v?: V) =>
+      fetch({
+        variables: v,
+        context: tokenContext(token),
+      }),
+    [fetch, token],
   );
+  return [reFetch, result] as const;
 }
 
-export function useAuthMutation() {
+export function useAuthMutation<T, V extends OperationVariables>(
+  mutation: TypedDocumentNode<T, V>,
+) {
   const token = useToken();
-  const client = useApolloClient();
-  return useCallback(
-    async <T, V extends OperationVariables>(
-      mutation: TypedDocumentNode<T, V>,
-      variables?: V,
-    ) => {
-      const res = await client.mutate({
-        mutation,
+  const [mutate, result] = useMutation(mutation);
+  const method = useCallback(
+    (variables?: V) =>
+      mutate({
         variables,
         context: tokenContext(token),
-      });
-      checkErrors(res.errors);
-      return res.data;
-    },
-    [client, token],
+      }),
+    [mutate, token],
   );
+  return [method, result] as const;
 }

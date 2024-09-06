@@ -59,6 +59,7 @@ export function useSignUpWithEmail() {
       if (res.ok) {
         setToken(await res.text());
       }
+      return res.ok;
     },
     [setToken],
   );
@@ -79,6 +80,7 @@ export function useLoginWithEmail() {
       if (res.ok) {
         setToken(await res.text());
       }
+      return res.ok;
     },
     [setToken],
   );

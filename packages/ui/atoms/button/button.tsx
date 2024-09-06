@@ -11,6 +11,8 @@ function Button({
   variant = Variants.PRIMARY,
   outline = false,
   children,
+  className,
+  type,
   ...rest
 }: PropsWithChildren<ButtonProps>) {
   return (
@@ -36,7 +38,12 @@ function Button({
             variant === Variants.ACCENT,
           "hover:bg-dark hover:text-white": variant === Variants.DARK,
         },
+        className,
       )}
+      type={
+        /* eslint-disable-next-line react/button-has-type -- type comes from the parent button */
+        type || "button"
+      }
       {...rest}
     >
       {children}

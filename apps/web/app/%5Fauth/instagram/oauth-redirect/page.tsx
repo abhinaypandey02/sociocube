@@ -1,7 +1,7 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { ROUTES } from "../../../../constants/routes";
+import { Route } from "../../../../constants/routes";
 
 export default function InstagramRedirectHandler() {
   const router = useRouter();
@@ -18,7 +18,7 @@ export default function InstagramRedirectHandler() {
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram?${params}&redirectURL=${redirectURL}`,
       );
     else if (redirectURL) router.push(redirectURL);
-    else router.push(ROUTES.SIGNUP);
-  }, [router]);
+    else router.push(Route.SignUp);
+  }, [router, searchParams]);
   return null;
 }

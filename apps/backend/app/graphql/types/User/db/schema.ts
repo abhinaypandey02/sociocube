@@ -10,7 +10,7 @@ import {
 import { Roles } from "../../../constants/roles";
 import { AuthScopes } from "../../../constants/scopes";
 
-export const rolesEnum = pgEnum("role", [Roles.BUYER, Roles.SELLER]);
+export const rolesEnum = pgEnum("role", [Roles.SELLER]);
 export const authScopesEnum = pgEnum("scope", [
   AuthScopes.GOOGLE,
   AuthScopes.INSTAGRAM,
@@ -28,9 +28,12 @@ export const UserTable = pgTable("user", {
   photo: text("photo"),
   refreshTokens: text("refresh_tokens").array(),
   scopes: authScopesEnum("scope").array().notNull(),
-  roles: rolesEnum("roles").array().notNull(),
+  roles: rolesEnum("role").array().notNull(),
   otp: integer("otp_id").references(() => OTPTable.id),
-  isAdmin: boolean("is_admin").default(false),
+  onboardingData: integer("onboarding_data").references(
+    () => OnboardingDataTable.id,
+  ),
+  isOnboarded: boolean("is_admin").default(false),
   stripeConnectedAccountID: text("stripe_connected_account_id"),
   stripeSubscriptionID: text("stripe_subscription_id"),
 });
@@ -39,6 +42,11 @@ export const OTPTable = pgTable("otp", {
   id: serial("id").primaryKey(),
   code: text("code"),
   requestedAt: timestamp("requestedAt"),
+});
+export const OnboardingDataTable = pgTable("onboarding_data", {
+  id: serial("id").primaryKey(),
+  name: text("name"),
+  photo: text("photo"),
 });
 
 export type UserDBInsert = typeof UserTable.$inferInsert;

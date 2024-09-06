@@ -4,9 +4,7 @@ import type { Config } from "tailwindcss";
 const config: Config = {
   content: [
     "./app/**/*.tsx",
-    "../../packages/ui/atoms/**/*.tsx",
-    "../../packages/ui/molecules/**/*.tsx",
-    "../../packages/ui/organisms/**/*.tsx",
+    "../../packages/ui/{atoms,molecules,organisms}/**/*.{ts,tsx}",
   ],
   theme: {
     extend: {

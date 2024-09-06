@@ -236,7 +236,13 @@ enum AuthScopes {
 }
 
 type Mutation {
-  updateOnboardingBuyerBasicDetails(data: UpdateBuyerBasicDetailsArgs!): User!
+  completeOnboarding: Boolean!
+  updateOnboardingBasicDetails(data: UpdateBasicDetailsArgs!): Boolean!
+}
+
+type OnboardingData {
+  name: String
+  photo: String
 }
 
 type Query {
@@ -246,21 +252,22 @@ type Query {
 }
 
 enum ROLES {
-  BUYER
   SELLER
 }
 
-input UpdateBuyerBasicDetailsArgs {
-  companyName: String!
+input UpdateBasicDetailsArgs {
   imageURL: String
   name: String!
 }
 
 type User {
+  companyName: String
   email: String
-  image: String
+  isOnboarded: Boolean
   name: String
+  onboardingData: OnboardingData
   phone: String
-  role: ROLES
+  photo: String
+  roles: [ROLES!]
   scopes: [AuthScopes!]!
 }
