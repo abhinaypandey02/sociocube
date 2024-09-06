@@ -5,7 +5,7 @@ import { db } from "../../../../../../../lib/db";
 import { OnboardingDataTable, UserTable } from "../../../db/schema";
 import { getCurrentUser } from "../../../utils";
 
-@InputType()
+@InputType("UpdateBasicDetailsArgs")
 export class UpdateBasicDetailsArgs {
   @Field()
   name: string;

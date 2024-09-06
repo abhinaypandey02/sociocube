@@ -2,7 +2,7 @@ import { Field, InputType } from "type-graphql";
 import { PgSelect } from "drizzle-orm/pg-core";
 import { MaxLength } from "class-validator";
 
-@InputType()
+@InputType("PaginationArgs")
 export class PaginationArgs {
   @MaxLength(20)
   @Field({ defaultValue: 10 })

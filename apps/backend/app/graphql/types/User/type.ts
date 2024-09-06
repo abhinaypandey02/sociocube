@@ -2,7 +2,7 @@ import { Field, ObjectType } from "type-graphql";
 import { AuthScopes } from "../../constants/scopes";
 import { Roles } from "../../constants/roles";
 
-@ObjectType()
+@ObjectType("OnboardingData")
 class OnboardingData {
   @Field({ nullable: true })
   name?: string;
