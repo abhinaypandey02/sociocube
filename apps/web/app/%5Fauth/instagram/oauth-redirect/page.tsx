@@ -1,9 +1,9 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { Route } from "../../../../constants/routes";
 
-export default function InstagramRedirectHandler() {
+function InstagramRedirectHandler() {
   const router = useRouter();
   const searchParams = useSearchParams();
   useEffect(() => {
@@ -21,4 +21,11 @@ export default function InstagramRedirectHandler() {
     else router.push(Route.SignUp);
   }, [router, searchParams]);
   return null;
+}
+export default function InstagramRedirectHandlerPage() {
+  return (
+    <Suspense>
+      <InstagramRedirectHandler />
+    </Suspense>
+  );
 }
