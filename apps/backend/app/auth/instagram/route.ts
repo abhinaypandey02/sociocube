@@ -48,7 +48,7 @@ export const GET = async (req: NextRequest) => {
       refreshToken = await updateRefreshTokenAndScope(
         existingUser.id,
         existingUser.refreshTokens,
-        Array.from(new Set(existingUser.scopes).add(AuthScopes.EMAIL)),
+        Array.from(new Set(existingUser.scopes).add(AuthScopes.INSTAGRAM)),
       );
     } else if (loggedInUserID) {
       const loggedInUser = await getUser(eq(UserTable.id, loggedInUserID));
@@ -56,7 +56,10 @@ export const GET = async (req: NextRequest) => {
         refreshToken = await updateRefreshTokenAndScope(
           loggedInUser.id,
           loggedInUser.refreshTokens,
-          Array.from(new Set(loggedInUser.scopes).add(AuthScopes.EMAIL)),
+          Array.from(new Set(loggedInUser.scopes).add(AuthScopes.INSTAGRAM)),
+          {
+            instagramBusinessId,
+          },
         );
       }
     } else {

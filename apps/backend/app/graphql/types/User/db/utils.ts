@@ -9,7 +9,7 @@ export async function updateRefreshTokenAndScope(
   id: number,
   refreshTokens: UserDB["refreshTokens"],
   scopes?: UserDB["scopes"],
-  data?: UserDBInsert,
+  data?: Partial<UserDBInsert>,
 ) {
   const refreshToken = generateRefreshToken(id);
   await db
