@@ -62,7 +62,7 @@ export const GET = async (req: NextRequest) => {
         refreshToken = await updateRefreshTokenAndScope(
           existingUser.id,
           existingUser.refreshTokens,
-            Array.from(new Set(existingUser.scopes).add(AuthScopes.GOOGLE)),
+          Array.from(new Set(existingUser.scopes).add(AuthScopes.GOOGLE)),
         );
       } else if (loggedInUserID) {
         const loggedInUser = await getUser(eq(UserTable.id, loggedInUserID));

@@ -40,6 +40,7 @@ export async function handleCompleteOnboarding(ctx: Context) {
       ...res.onboardingData,
       onboardingData: null,
       roles: [...res.user.roles, Roles.SELLER],
+      isOnboarded: true,
     })
     .where(eq(UserTable.id, ctx.userId));
   return true;

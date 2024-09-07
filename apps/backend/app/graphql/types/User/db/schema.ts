@@ -33,7 +33,7 @@ export const UserTable = pgTable("user", {
   onboardingData: integer("onboarding_data").references(
     () => OnboardingDataTable.id,
   ),
-  isOnboarded: boolean("is_admin").default(false),
+  isOnboarded: boolean("is_onboarded").default(false),
   stripeConnectedAccountID: text("stripe_connected_account_id"),
   stripeSubscriptionID: text("stripe_subscription_id"),
 });
