@@ -6,4 +6,5 @@ export type ButtonProps = {
   variant?: Variants;
   outline?: boolean;
   loading?: boolean;
+  success?: boolean;
 } & ComponentProps<"button">;

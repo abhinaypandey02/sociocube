@@ -27,6 +27,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string>();
+  const [success, setSuccess] = useState(false);
 
   const loginWithEmail = useLoginWithEmail();
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
@@ -36,6 +37,7 @@ export default function LoginPage() {
     }
     setIsLoading(true);
     if (await loginWithEmail(data.email, data.password, turnstileToken)) {
+      setSuccess(true);
       router.push(Route.Home);
       router.refresh();
     } else {
@@ -79,7 +81,11 @@ export default function LoginPage() {
           {...register("password")}
         />
         <div id="captcha-container" />
-        <Button loading={!turnstileToken || isLoading} type="submit">
+        <Button
+          loading={!turnstileToken || isLoading}
+          success={success}
+          type="submit"
+        >
           Login
         </Button>
       </form>

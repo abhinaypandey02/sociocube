@@ -8,6 +8,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { ProgressLoader } from "nextjs-progressloader";
 
 const GlobalState = createContext<{
   token?: string;
@@ -32,7 +33,7 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
   }, []);
   return (
     <GlobalState.Provider value={{ token, setToken }}>
-      {/*<ProgressLoader showSpinner={false} />*/}
+      <ProgressLoader showSpinner={false} />
       {children}
     </GlobalState.Provider>
   );

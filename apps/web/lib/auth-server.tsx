@@ -1,4 +1,4 @@
-import { cache } from "react";
+import { cache, Suspense } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Route } from "../constants/routes";
@@ -17,6 +17,22 @@ export const getServerToken = cache(async () => {
   if (res.ok) return res.text();
   return null;
 });
+
+export function Authorizer() {
+  return (
+    <Suspense>
+      <AuthorizerBase />
+    </Suspense>
+  );
+}
+
+async function AuthorizerBase() {
+  const token = await getServerToken();
+  if (token) {
+    handleAuthorized();
+  }
+  return null;
+}
 
 export function handleUnauthorized() {
   redirect(Route.SignUp);

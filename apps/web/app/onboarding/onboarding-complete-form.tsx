@@ -31,8 +31,8 @@ export default function OnboardingCompleteForm() {
         className="flex flex-col items-center gap-3"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Button disabled={success} loading={loading} type="submit">
-          {success ? "Success!" : "Complete Onboarding"}
+        <Button loading={loading} success={success} type="submit">
+          Complete Onboarding
         </Button>
       </form>
     </>

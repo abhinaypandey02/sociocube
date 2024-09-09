@@ -1,12 +1,9 @@
 import { Button } from "ui/button";
 import { UserCard } from "ui/user-card";
-import { getServerToken } from "../lib/auth-server";
 import { queryGQL } from "../lib/apollo-server";
 import { GET_FEATURED_SELLERS } from "../lib/queries";
-import Logout from "./logout";
 
 async function Page() {
-  const token = await getServerToken();
   const sellers = await queryGQL(GET_FEATURED_SELLERS);
   return (
     <main>
@@ -19,7 +16,6 @@ async function Page() {
         />
       ))}
       <Button />
-      {token ? <Logout /> : null}
     </main>
   );
 }

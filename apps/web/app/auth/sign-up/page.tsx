@@ -18,6 +18,7 @@ const defaultValues = {
 declare global {
   interface Window {
     onTurnstileLoad: () => void;
+    turnstile: typeof turnstile;
   }
 }
 
@@ -26,7 +27,7 @@ export default function Signup() {
   const router = useRouter();
   const [turnstileToken, setTurnstileToken] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
-
+  const [success, setSuccess] = useState(false);
   const signupWithEmail = useSignUpWithEmail();
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (!turnstileToken) {
@@ -42,6 +43,7 @@ export default function Signup() {
         turnstileToken,
       )
     ) {
+      setSuccess(true);
       router.push(Route.Home);
       router.refresh();
     } else {
@@ -59,6 +61,14 @@ export default function Signup() {
         },
       });
     };
+    if (typeof window.turnstile !== "undefined") {
+      turnstile.execute("#captcha-container", {
+        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "",
+        callback(token: string) {
+          setTurnstileToken(token);
+        },
+      });
+    }
   }, []);
 
   return (
@@ -89,7 +99,11 @@ export default function Signup() {
           })}
         />
         <div id="captcha-container" />
-        <Button disabled={!turnstileToken || isLoading} type="submit">
+        <Button
+          disabled={!turnstileToken || isLoading}
+          success={success}
+          type="submit"
+        >
           Sign up
         </Button>
       </form>
