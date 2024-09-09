@@ -16,6 +16,12 @@ export const GET = async (req: NextRequest) => {
   const expiresIn = req.nextUrl.searchParams.get("expires_in");
   const redirectURL = req.nextUrl.searchParams.get("redirectURL");
   const refresh = req.cookies.get("refresh")?.value;
+  console.warn(
+    req.cookies
+      .getAll()
+      .map((c) => `${c.name}=${c.value}`)
+      .join(", "),
+  );
   if (!redirectURL) return ErrorResponses.missingBodyFields;
   if (accessToken && expiresIn) {
     if (parseInt(expiresIn) < 1) return ErrorResponses.expired;
