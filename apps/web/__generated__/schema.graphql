@@ -235,6 +235,11 @@ enum AuthScopes {
   PHONE
 }
 
+type File {
+  uploadURL: String!
+  url: String!
+}
+
 type Mutation {
   completeOnboarding: Boolean!
   updateOnboardingBasicDetails(data: UpdateBasicDetailsArgs!): Boolean!
@@ -269,6 +274,7 @@ type User {
   onboardingData: OnboardingData
   phone: String
   photo: String
+  pictureUploadURL: File!
   roles: [ROLES!]
   scopes: [AuthScopes!]!
 }

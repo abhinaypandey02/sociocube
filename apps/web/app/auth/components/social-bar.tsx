@@ -7,10 +7,10 @@ export default function SocialBar() {
     <>
       <hr className="mx-auto mt-8 w-40" />
       <div className="my-6 flex items-center justify-center gap-5">
-        <Link href="/_auth/google">
+        <Link href="/_auth/google" prefetch={false}>
           <GoogleLogo size={40} />
         </Link>
-        <Link href="/_auth/instagram">
+        <Link href="/_auth/instagram" prefetch={false}>
           <InstagramLogo size={40} />
         </Link>
       </div>

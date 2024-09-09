@@ -2,11 +2,10 @@
 import React from "react";
 import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "ui/button";
-import Link from "next/link";
 import type { AuthScopes } from "../../__generated__/graphql";
 import { Route } from "../../constants/routes";
 import { ONBOARDING_SCOPES } from "./constants";
-import { hasOnboardingScopes } from "./utils";
+import { completedOnboardingScopes } from "./utils";
 
 export default function SocialsStatus({
   scopes,
@@ -32,14 +31,16 @@ export default function SocialsStatus({
               <CheckCircle />
             </div>
           ) : (
-            <Link href={`${scope.url}?redirectURL=${Route.Onboarding}`}>
+            <a href={`${scope.url}?redirectURL=${Route.Onboarding}`}>
               <Button>Connect</Button>
-            </Link>
+            </a>
           )}
         </div>
       ))}
 
-      {hasOnboardingScopes(scopes) && <Button onClick={nextStep}>Next</Button>}
+      {completedOnboardingScopes(scopes).length ? (
+        <Button onClick={nextStep}>Next</Button>
+      ) : null}
     </>
   );
 }

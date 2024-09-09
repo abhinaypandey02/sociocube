@@ -4,6 +4,11 @@ import { UserGQL } from "../type";
 import type { UserDB } from "../db/schema";
 import { OnboardingDataTable } from "../db/schema";
 import { db } from "../../../../../lib/db";
+import { FileGQL } from "../../File/type";
+import {
+  getFileURL,
+  getUploadFileURL,
+} from "../../../../../lib/storage/aws-s3";
 
 @Resolver(() => UserGQL)
 export class UserFieldResolver {
@@ -15,5 +20,15 @@ export class UserFieldResolver {
       .from(OnboardingDataTable)
       .where(eq(OnboardingDataTable.id, user.onboardingData));
     return data;
+  }
+  @FieldResolver(() => FileGQL)
+  async pictureUploadURL(@Root() user: UserDB): Promise<FileGQL> {
+    return {
+      uploadURL: await getUploadFileURL(
+        ["User", user.id.toString(), "photo"],
+        true,
+      ),
+      url: getFileURL(["User", user.id.toString(), "photo"]),
+    };
   }
 }

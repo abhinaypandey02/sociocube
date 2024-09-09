@@ -24,6 +24,12 @@ export enum AuthScopes {
   Phone = 'PHONE'
 }
 
+export type File = {
+  __typename?: 'File';
+  uploadURL: Scalars['String']['output'];
+  url: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   completeOnboarding: Scalars['Boolean']['output'];
@@ -65,6 +71,7 @@ export type User = {
   onboardingData?: Maybe<OnboardingData>;
   phone?: Maybe<Scalars['String']['output']>;
   photo?: Maybe<Scalars['String']['output']>;
+  pictureUploadURL: File;
   roles?: Maybe<Array<Roles>>;
   scopes: Array<AuthScopes>;
 };

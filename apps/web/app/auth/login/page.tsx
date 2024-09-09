@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -7,6 +7,7 @@ import { Input } from "ui/input";
 import { Button } from "ui/button";
 import { useLoginWithEmail } from "../../../lib/auth-client";
 import { Route } from "../../../constants/routes";
+import useTurnstileToken from "../use-turnstile-token";
 
 const defaultValues = {
   email: "",
@@ -15,24 +16,19 @@ const defaultValues = {
   name: "",
 };
 
-declare global {
-  interface Window {
-    onTurnstileLoad: () => void;
-    turnstile: typeof turnstile;
-  }
-}
+const CONTAINER_ID = "captcha-container";
 
 export default function LoginPage() {
   const { register, handleSubmit } = useForm({ defaultValues });
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [turnstileToken, setTurnstileToken] = useState<string>();
+  const { turnstileToken, resetTurnstileToken } =
+    useTurnstileToken(CONTAINER_ID);
   const [success, setSuccess] = useState(false);
 
   const loginWithEmail = useLoginWithEmail();
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (!turnstileToken) {
-      turnstile.execute("#captcha-container");
       return;
     }
     setIsLoading(true);
@@ -42,29 +38,9 @@ export default function LoginPage() {
       router.refresh();
     } else {
       setIsLoading(false);
-      turnstile.reset();
+      resetTurnstileToken();
     }
   };
-
-  useEffect(() => {
-    window.onTurnstileLoad = () => {
-      turnstile.render("#captcha-container", {
-        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "",
-        callback(token: string) {
-          setTurnstileToken(token);
-        },
-      });
-    };
-
-    if (typeof window.turnstile !== "undefined") {
-      turnstile.execute("#captcha-container", {
-        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "",
-        callback(token: string) {
-          setTurnstileToken(token);
-        },
-      });
-    }
-  }, []);
 
   return (
     <>
@@ -73,14 +49,18 @@ export default function LoginPage() {
         className="flex flex-col items-center gap-3"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Input className="block" placeholder="Email" {...register("email")} />
+        <Input
+          className="block"
+          placeholder="Email"
+          {...register("email", { required: true })}
+        />
         <Input
           className="block"
           placeholder="Password"
           type="password"
-          {...register("password")}
+          {...register("password", { required: true })}
         />
-        <div id="captcha-container" />
+        <div id={CONTAINER_ID} />
         <Button
           loading={!turnstileToken || isLoading}
           success={success}
