@@ -15,14 +15,7 @@ export const GET = async (req: NextRequest) => {
   const accessToken = req.nextUrl.searchParams.get("access_token");
   const expiresIn = req.nextUrl.searchParams.get("expires_in");
   const redirectURL = req.nextUrl.searchParams.get("redirectURL");
-  const refresh = req.cookies.get("refresh")?.value;
-  console.warn(
-    "cookies",
-    req.cookies
-      .getAll()
-      .map((c) => `${c.name}=${c.value}`)
-      .join(", "),
-  );
+  const refresh = req.nextUrl.searchParams.get("refresh") || "";
   if (!redirectURL) return ErrorResponses.missingBodyFields;
   if (accessToken && expiresIn) {
     if (parseInt(expiresIn) < 1) return ErrorResponses.expired;
@@ -46,7 +39,6 @@ export const GET = async (req: NextRequest) => {
     const existingUser = await getUser(
       eq(UserTable.instagramBusinessId, instagramBusinessId),
     );
-    console.warn(loggedInUserID, existingUser);
     let refreshToken;
     if (existingUser && loggedInUserID) {
       return NextResponse.redirect(
@@ -60,7 +52,6 @@ export const GET = async (req: NextRequest) => {
       );
     } else if (loggedInUserID) {
       const loggedInUser = await getUser(eq(UserTable.id, loggedInUserID));
-      console.warn(loggedInUser);
       if (loggedInUser) {
         refreshToken = await updateRefreshTokenAndScope(
           loggedInUser.id,
