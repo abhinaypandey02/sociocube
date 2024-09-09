@@ -43,8 +43,11 @@ function OnboardingWizard({
       <OnboardingBasicDetailsForm
         defaultValues={{
           name: currentUser.onboardingData?.name || currentUser.name || "",
+          photo: currentUser.onboardingData?.photo || currentUser.photo || "",
+          bio: currentUser.onboardingData?.bio || currentUser.bio || "",
         }}
         nextStep={nextStep}
+        photoUpload={currentUser.pictureUploadURL}
       />
     );
   if (step === 2)

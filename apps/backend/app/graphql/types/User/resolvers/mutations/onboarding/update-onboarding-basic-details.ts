@@ -9,6 +9,8 @@ import { getCurrentUser } from "../../../utils";
 export class UpdateBasicDetailsArgs {
   @Field()
   name: string;
+  @Field()
+  bio: string;
   @Field({ nullable: true })
   imageURL: string;
 }
@@ -22,7 +24,11 @@ export async function handleUpdateOnboardingBasicDetails(
     if (user.onboardingData) {
       await db
         .update(OnboardingDataTable)
-        .set(args)
+        .set({
+          name: args.name,
+          photo: args.imageURL,
+          bio: args.bio,
+        })
         .where(eq(OnboardingDataTable.id, user.onboardingData));
       return true;
     }

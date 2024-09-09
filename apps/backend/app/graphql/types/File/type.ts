@@ -1,6 +1,6 @@
 import { Field, ObjectType } from "type-graphql";
 
-@ObjectType("File")
+@ObjectType("StorageFile")
 export class FileGQL {
   @Field()
   uploadURL: string;

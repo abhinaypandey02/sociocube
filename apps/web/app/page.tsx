@@ -7,14 +7,18 @@ async function Page() {
   const sellers = await queryGQL(GET_FEATURED_SELLERS);
   return (
     <main>
-      {sellers.getFeaturedSellers.map((seller) => (
-        <UserCard
-          bio="A seller"
-          imageURL="https://picsum.photos/200/300"
-          key={seller.name}
-          name={seller.name || ""}
-        />
-      ))}
+      {sellers.getFeaturedSellers.map(
+        (seller) =>
+          seller.photo &&
+          seller.bio && (
+            <UserCard
+              bio={seller.bio}
+              imageURL={seller.photo}
+              key={seller.name}
+              name={seller.name || ""}
+            />
+          ),
+      )}
       <Button />
     </main>
   );
@@ -22,4 +26,4 @@ async function Page() {
 export default Page;
 
 export const fetchCache = "force-cache";
-export const revalidate = 180;
+export const revalidate = 5;

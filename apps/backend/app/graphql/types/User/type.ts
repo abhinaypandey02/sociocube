@@ -7,6 +7,8 @@ class OnboardingData {
   @Field({ nullable: true })
   name?: string;
   @Field({ nullable: true })
+  bio?: string;
+  @Field({ nullable: true })
   photo?: string;
 }
 
@@ -14,6 +16,8 @@ class OnboardingData {
 export class UserGQL {
   @Field({ nullable: true })
   name?: string;
+  @Field({ nullable: true })
+  bio?: string;
   @Field({ nullable: true })
   photo?: string;
   @Field({ nullable: true })

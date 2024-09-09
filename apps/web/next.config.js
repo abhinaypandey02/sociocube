@@ -9,7 +9,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "picsum.photos",
+        protocol: "https",
+        hostname: `${process.env.AWS_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com`,
       },
     ],
   },

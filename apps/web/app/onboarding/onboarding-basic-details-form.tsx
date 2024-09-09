@@ -1,31 +1,54 @@
 "use client";
-import React from "react";
+import type { ChangeEvent } from "react";
+import React, { useRef, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
+import Image from "next/image";
 import { useAuthMutation } from "../../lib/apollo-client";
 import { UPDATE_ONBOARDING_BASIC_DETAILS } from "../../lib/mutations";
+import type { StorageFile } from "../../__generated__/graphql";
 
 export default function OnboardingBasicDetailsForm({
   defaultValues,
   nextStep,
+  photoUpload,
 }: {
   defaultValues: {
     name: string;
+    photo: string;
+    bio: string;
   };
   nextStep: () => void;
+  photoUpload: StorageFile;
 }) {
   const { register, handleSubmit } = useForm({ defaultValues });
+  const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
+  const [profilePicture, setProfilePicture] = useState<File>();
+  const [uploadingPicture, setUploadingPicture] = useState(false);
   const [updateBasicDetails, { loading }] = useAuthMutation(
     UPDATE_ONBOARDING_BASIC_DETAILS,
   );
 
+  const displayURL = profilePicture
+    ? URL.createObjectURL(profilePicture)
+    : defaultValues.photo;
+
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
+    if (profilePicture) {
+      setUploadingPicture(true);
+      const res = await fetch(photoUpload.uploadURL, {
+        method: "PUT",
+        body: profilePicture,
+      });
+      if (!res.ok) return;
+    }
     const res = await updateBasicDetails({
       data: {
         name: data.name,
-        imageURL: "",
+        imageURL: profilePicture ? photoUpload.url : null,
+        bio: data.bio,
       },
     });
     if (res.data?.updateOnboardingBasicDetails) {
@@ -42,7 +65,37 @@ export default function OnboardingBasicDetailsForm({
         onSubmit={handleSubmit(onSubmit)}
       >
         <Input className="block" placeholder="Name" {...register("name")} />
-        <Button loading={loading} type="submit">
+        <Input
+          className="block"
+          placeholder="Bio"
+          textarea
+          {...register("bio")}
+        />
+        <Input
+          className="hidden"
+          onChange={(e) => {
+            const event = e as unknown as ChangeEvent<HTMLInputElement>;
+            const file = event.target.files?.[0];
+            if (file) setProfilePicture(file);
+          }}
+          ref={ref}
+          type="file"
+        />
+        {displayURL ? (
+          <Image
+            alt={defaultValues.name}
+            height={300}
+            src={displayURL}
+            width={300}
+          />
+        ) : null}
+        <Button
+          loading={loading || uploadingPicture}
+          onClick={() => ref.current?.click()}
+        >
+          Upload Image
+        </Button>
+        <Button loading={loading || uploadingPicture} type="submit">
           Next
         </Button>
       </form>

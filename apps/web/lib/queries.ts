@@ -22,9 +22,15 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
       photo
       isOnboarded
       scopes
+      bio
       onboardingData {
         name
         photo
+        bio
+      }
+      pictureUploadURL {
+        uploadURL
+        url
       }
     }
   }
@@ -36,6 +42,7 @@ export const GET_FEATURED_SELLERS = gql(`
     getFeaturedSellers {
       name
       photo
+      bio
     }
   }
 `);

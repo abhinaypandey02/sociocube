@@ -21,6 +21,7 @@ export const authScopesEnum = pgEnum("scope", [
 export const UserTable = pgTable("user", {
   id: serial("id").primaryKey(),
   name: text("name"),
+  bio: text("bio"),
   email: text("email").unique(),
   instagramBusinessId: text("instagramBusinessId"),
   password: text("password"),
@@ -46,6 +47,7 @@ export const OTPTable = pgTable("otp", {
 export const OnboardingDataTable = pgTable("onboarding_data", {
   id: serial("id").primaryKey(),
   name: text("name"),
+  bio: text("bio"),
   photo: text("photo"),
 });
 

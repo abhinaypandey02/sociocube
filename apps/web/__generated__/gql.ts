@@ -16,8 +16,8 @@ const documents = {
     "\n  #graphql\n  mutation UpdateOnboardingBasicDetails($data: UpdateBasicDetailsArgs!) {\n    updateOnboardingBasicDetails(data: $data)\n  }\n": types.UpdateOnboardingBasicDetailsDocument,
     "\n  #graphql\n  mutation CompleteOnboarding {\n    completeOnboarding\n  }\n": types.CompleteOnboardingDocument,
     "\n  #graphql\n  query GetCurrentUser {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n    }\n  }\n": types.GetCurrentUserDocument,
-    "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      onboardingData {\n        name\n        photo\n      }\n    }\n  }\n": types.GetDefaultOnboardingDetailsDocument,
-    "\n  #graphql\n  query GetFeaturedSellers {\n    getFeaturedSellers {\n      name\n      photo\n    }\n  }\n": types.GetFeaturedSellersDocument,
+    "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      bio\n      onboardingData {\n        name\n        photo\n        bio\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n": types.GetDefaultOnboardingDetailsDocument,
+    "\n  #graphql\n  query GetFeaturedSellers {\n    getFeaturedSellers {\n      name\n      photo\n      bio\n    }\n  }\n": types.GetFeaturedSellersDocument,
 };
 
 /**
@@ -49,11 +49,11 @@ export function gql(source: "\n  #graphql\n  query GetCurrentUser {\n    getCurr
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      onboardingData {\n        name\n        photo\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      onboardingData {\n        name\n        photo\n      }\n    }\n  }\n"];
+export function gql(source: "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      bio\n      onboardingData {\n        name\n        photo\n        bio\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      bio\n      onboardingData {\n        name\n        photo\n        bio\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  query GetFeaturedSellers {\n    getFeaturedSellers {\n      name\n      photo\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetFeaturedSellers {\n    getFeaturedSellers {\n      name\n      photo\n    }\n  }\n"];
+export function gql(source: "\n  #graphql\n  query GetFeaturedSellers {\n    getFeaturedSellers {\n      name\n      photo\n      bio\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetFeaturedSellers {\n    getFeaturedSellers {\n      name\n      photo\n      bio\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
