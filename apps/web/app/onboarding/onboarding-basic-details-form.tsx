@@ -2,22 +2,21 @@
 import React from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
-import { Route } from "../../../constants/routes";
-import { useAuthMutation } from "../../../lib/apollo-client";
-import { UPDATE_ONBOARDING_BASIC_DETAILS } from "../../../lib/mutations";
+import { useAuthMutation } from "../../lib/apollo-client";
+import { UPDATE_ONBOARDING_BASIC_DETAILS } from "../../lib/mutations";
 
 export default function OnboardingBasicDetailsForm({
   defaultValues,
+  nextStep,
 }: {
   defaultValues: {
     name: string;
   };
+  nextStep: () => void;
 }) {
   const { register, handleSubmit } = useForm({ defaultValues });
-  const router = useRouter();
   const [updateBasicDetails, { loading }] = useAuthMutation(
     UPDATE_ONBOARDING_BASIC_DETAILS,
   );
@@ -30,19 +29,23 @@ export default function OnboardingBasicDetailsForm({
       },
     });
     if (res.data?.updateOnboardingBasicDetails) {
-      router.push(Route.OnboardingSocials);
-      router.refresh();
+      nextStep();
     }
   };
   return (
-    <form
-      className="flex flex-col items-center gap-3"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <Input className="block" placeholder="Name" {...register("name")} />
-      <Button disabled={loading} type="submit">
-        Next
-      </Button>
-    </form>
+    <>
+      <h2 className=" my-10 text-center text-4xl font-bold">
+        Some details about you!
+      </h2>
+      <form
+        className="flex flex-col items-center gap-3"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Input className="block" placeholder="Name" {...register("name")} />
+        <Button loading={loading} type="submit">
+          Next
+        </Button>
+      </form>
+    </>
   );
 }

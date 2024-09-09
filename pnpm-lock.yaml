@@ -64,7 +64,7 @@ importers:
         version: 6.8.0
       next:
         specifier: ^14.2.5
-        version: 14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       postgres:
         specifier: ^3.4.4
         version: 3.4.4
@@ -116,25 +116,28 @@ importers:
     dependencies:
       '@apollo/client':
         specifier: ^3.11.1
-        version: 3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904)
+        version: 3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
       '@apollo/experimental-nextjs-app-support':
         specifier: 0.11.2
-        version: 0.11.2(@apollo/client@3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904))(next@15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904)
+        version: 0.11.2(@apollo/client@3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(next@15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
       '@phosphor-icons/react':
         specifier: ^2.1.7
-        version: 2.1.7(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904)
+        version: 2.1.7(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
       next:
         specifier: rc
-        version: 15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904)
+        version: 15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
+      nextjs-progressloader:
+        specifier: ^1.2.0
+        version: 1.2.0(next@15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
       react:
         specifier: rc
-        version: 19.0.0-rc-4c58fce7-20240904
+        version: 19.0.0-rc-a03254bc-20240905
       react-dom:
         specifier: rc
-        version: 19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904)
+        version: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
       react-hook-form:
         specifier: ^7.52.1
-        version: 7.52.1(react@19.0.0-rc-4c58fce7-20240904)
+        version: 7.52.1(react@19.0.0-rc-a03254bc-20240905)
       ui:
         specifier: workspace:*
         version: link:../../packages/ui
@@ -241,22 +244,25 @@ importers:
 
   packages/ui:
     dependencies:
+      '@phosphor-icons/react':
+        specifier: ^2.1.7
+        version: 2.1.7(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
       next:
-        specifier: ^14.2.5
-        version: 14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: rc
+        version: 15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
       react:
-        specifier: ^18.3.1
-        version: 18.3.1
+        specifier: rc
+        version: 19.0.0-rc-a03254bc-20240905
       react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
+        specifier: rc
+        version: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
     devDependencies:
       '@chromatic-com/storybook':
         specifier: ^1.6.1
-        version: 1.6.1(react@18.3.1)
+        version: 1.6.1(react@19.0.0-rc-a03254bc-20240905)
       '@storybook/addon-coverage':
         specifier: ^1.0.4
         version: 1.0.4
@@ -268,19 +274,19 @@ importers:
         version: 8.2.6(@jest/globals@29.7.0)(jest@29.7.0(@types/node@20.14.13))(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@storybook/addon-links':
         specifier: ^8.2.6
-        version: 8.2.6(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
+        version: 8.2.6(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@storybook/addon-onboarding':
         specifier: ^8.2.6
-        version: 8.2.6(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
+        version: 8.2.6(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@storybook/blocks':
         specifier: ^8.2.6
-        version: 8.2.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
+        version: 8.2.6(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@storybook/nextjs':
         specifier: ^8.2.8
-        version: 8.2.8(@jest/globals@29.7.0)(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5)(jest@29.7.0(@types/node@20.14.13))(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(type-fest@2.19.0)(typescript@5.5.4)(webpack-hot-middleware@2.26.1)(webpack@5.93.0(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5))
+        version: 8.2.8(@jest/globals@29.7.0)(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5)(jest@29.7.0(@types/node@20.14.13))(next@15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(type-fest@2.19.0)(typescript@5.5.4)(webpack-hot-middleware@2.26.1)(webpack@5.93.0(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5))
       '@storybook/react':
         specifier: ^8.2.6
-        version: 8.2.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)
+        version: 8.2.6(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)
       '@storybook/test':
         specifier: ^8.2.6
         version: 8.2.6(@jest/globals@29.7.0)(jest@29.7.0(@types/node@20.14.13))(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
@@ -6620,6 +6626,14 @@ packages:
       sass:
         optional: true
 
+  nextjs-progressloader@1.2.0:
+    resolution: {integrity: sha512-S2gD7nmb0smFaDjI48n+CHkCRoyi9GjqLDmndyHHvTyUXfDsHnmJWruYaPuusZi3Gdryz+2cd/Xjduh8x8KCLA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      next: '>= 6.0.0'
+      react: '>= 16.0.0'
+      react-dom: '>= 16.0.0'
+
   no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
 
@@ -6699,6 +6713,9 @@ packages:
   npmlog@5.0.1:
     resolution: {integrity: sha512-AqZtDUWOMKs1G/8lwylVjrdYgqA4d9nu8hc+0gzRxlDb1I10+FHBGMXs6aiQHFdCUUlqH99MUMuLfzWDNDtfxw==}
     deprecated: This package is no longer supported.
+
+  nprogress@0.2.0:
+    resolution: {integrity: sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==}
 
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
@@ -7295,10 +7312,10 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  react-dom@19.0.0-rc-4c58fce7-20240904:
-    resolution: {integrity: sha512-Qmp34cw7mUxI6J7KaFn0LkA0GfwzvLM5Yb4tkM3cjPkSpaPEw2xgRNj2NIrjnbheWNEtCK8dJBgpV90Hv/HENA==}
+  react-dom@19.0.0-rc-a03254bc-20240905:
+    resolution: {integrity: sha512-gcT0dNxfpx6LYkeuaTgOLf3xKpiQy5CkKTjynLGLimzBDrHT5sUZ4j0L5mS4IJ8kDri/8gn3tbumlgtT9qSZzA==}
     peerDependencies:
-      react: 19.0.0-rc-4c58fce7-20240904
+      react: 19.0.0-rc-a03254bc-20240905
 
   react-element-to-jsx-string@15.0.0:
     resolution: {integrity: sha512-UDg4lXB6BzlobN60P8fHWVPX3Kyw8ORrTeBtClmIlGdkOOE+GYQSFvmEU5iLLpwp/6v42DINwNcwOhOLfQ//FQ==}
@@ -7332,8 +7349,8 @@ packages:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
     engines: {node: '>=0.10.0'}
 
-  react@19.0.0-rc-4c58fce7-20240904:
-    resolution: {integrity: sha512-zyekIzYByBxumlv+VL5pN7Kk0153ud6ZA17IU54GrURWFXJsQzv/ZZ0zF8rsBasQ55VEm74VVeVefYOKbOZTQA==}
+  react@19.0.0-rc-a03254bc-20240905:
+    resolution: {integrity: sha512-ZeZnU7zFU1eyjU6MwDc9f3H6iOS0MtY/e4zI8WNNkwKNjzajJaEqhumbgu8O9haEiPq9rV98QAPrQv4qwAgxeA==}
     engines: {node: '>=0.10.0'}
 
   read-cache@1.0.0:
@@ -7593,8 +7610,8 @@ packages:
   scheduler@0.23.2:
     resolution: {integrity: sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==}
 
-  scheduler@0.25.0-rc-4c58fce7-20240904:
-    resolution: {integrity: sha512-eU7RBVIRjFNzLI3oWxMGUYy872yVmN7gDcJiNiWo8Jh+lKfh/k003fgFTZNBCE7DgVCIc6k6/afMuMDqDcUwcw==}
+  scheduler@0.25.0-rc-a03254bc-20240905:
+    resolution: {integrity: sha512-YAqLXn+WwogKpm3KdBTekXCTkbGzgeH3YwnrzMKurtT7f0CMYFSIp+sqQydlXAt/YQU7xYaedSWnlM/F2UaHQA==}
 
   schema-utils@2.7.1:
     resolution: {integrity: sha512-SHiNtMOUGWBQJwzISiVYKu82GiV4QYGePp3odlY1tuKO7gPtphAT5R/py0fA6xtbgLL/RvtJZnU9b8s0F1q0Xg==}
@@ -8648,13 +8665,13 @@ snapshots:
     dependencies:
       graphql: 16.9.0
 
-  '@apollo/client-react-streaming@0.11.2(@apollo/client@3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904)':
+  '@apollo/client-react-streaming@0.11.2(@apollo/client@3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)':
     dependencies:
-      '@apollo/client': 3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904)
-      react: 19.0.0-rc-4c58fce7-20240904
+      '@apollo/client': 3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
+      react: 19.0.0-rc-a03254bc-20240905
       ts-invariant: 0.10.3
 
-  '@apollo/client@3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904)':
+  '@apollo/client@3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.9.0)
       '@wry/caches': 1.0.1
@@ -8665,7 +8682,7 @@ snapshots:
       hoist-non-react-statics: 3.3.2
       optimism: 0.18.0
       prop-types: 15.8.1
-      rehackt: 0.1.0(@types/react@18.3.3)(react@19.0.0-rc-4c58fce7-20240904)
+      rehackt: 0.1.0(@types/react@18.3.3)(react@19.0.0-rc-a03254bc-20240905)
       response-iterator: 0.2.6
       symbol-observable: 4.0.0
       ts-invariant: 0.10.3
@@ -8673,17 +8690,17 @@ snapshots:
       zen-observable-ts: 1.2.5
     optionalDependencies:
       graphql-ws: 5.16.0(graphql@16.9.0)
-      react: 19.0.0-rc-4c58fce7-20240904
-      react-dom: 19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904)
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
     transitivePeerDependencies:
       - '@types/react'
 
-  '@apollo/experimental-nextjs-app-support@0.11.2(@apollo/client@3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904))(next@15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904)':
+  '@apollo/experimental-nextjs-app-support@0.11.2(@apollo/client@3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(next@15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)':
     dependencies:
-      '@apollo/client': 3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904)
-      '@apollo/client-react-streaming': 0.11.2(@apollo/client@3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904)
-      next: 15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904)
-      react: 19.0.0-rc-4c58fce7-20240904
+      '@apollo/client': 3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
+      '@apollo/client-react-streaming': 0.11.2(@apollo/client@3.11.1(@types/react@18.3.3)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
+      next: 15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
+      react: 19.0.0-rc-a03254bc-20240905
 
   '@apollo/protobufjs@1.2.7':
     dependencies:
@@ -8825,7 +8842,7 @@ snapshots:
   '@as-integrations/next@3.0.0(@apollo/server@4.10.5(graphql@16.9.0))(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
     dependencies:
       '@apollo/server': 4.10.5(graphql@16.9.0)
-      next: 14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      next: 14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   '@babel/code-frame@7.24.7':
     dependencies:
@@ -9734,12 +9751,12 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@chromatic-com/storybook@1.6.1(react@18.3.1)':
+  '@chromatic-com/storybook@1.6.1(react@19.0.0-rc-a03254bc-20240905)':
     dependencies:
       chromatic: 11.5.6
       filesize: 10.1.4
       jsonfile: 6.1.0
-      react-confetti: 6.1.0(react@18.3.1)
+      react-confetti: 6.1.0(react@19.0.0-rc-a03254bc-20240905)
       strip-ansi: 7.1.0
     transitivePeerDependencies:
       - '@chromatic-com/cypress'
@@ -11086,10 +11103,10 @@ snapshots:
       tslib: 2.6.3
       webcrypto-core: 1.8.0
 
-  '@phosphor-icons/react@2.1.7(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904)':
+  '@phosphor-icons/react@2.1.7(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)':
     dependencies:
-      react: 19.0.0-rc-4c58fce7-20240904
-      react-dom: 19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904)
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
@@ -11249,14 +11266,14 @@ snapshots:
       - jest
       - vitest
 
-  '@storybook/addon-links@8.2.6(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))':
+  '@storybook/addon-links@8.2.6(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))':
     dependencies:
       '@storybook/csf': 0.1.11
       '@storybook/global': 5.0.0
       storybook: 8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4)
       ts-dedent: 2.2.0
     optionalDependencies:
-      react: 18.3.1
+      react: 19.0.0-rc-a03254bc-20240905
 
   '@storybook/addon-measure@8.2.6(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))':
     dependencies:
@@ -11264,9 +11281,9 @@ snapshots:
       storybook: 8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4)
       tiny-invariant: 1.3.3
 
-  '@storybook/addon-onboarding@8.2.6(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))':
+  '@storybook/addon-onboarding@8.2.6(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))':
     dependencies:
-      react-confetti: 6.1.0(react@18.3.1)
+      react-confetti: 6.1.0(react@19.0.0-rc-a03254bc-20240905)
       storybook: 8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4)
     transitivePeerDependencies:
       - react
@@ -11306,6 +11323,27 @@ snapshots:
     optionalDependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+
+  '@storybook/blocks@8.2.6(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))':
+    dependencies:
+      '@storybook/csf': 0.1.11
+      '@storybook/global': 5.0.0
+      '@storybook/icons': 1.2.10(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
+      '@types/lodash': 4.17.7
+      color-convert: 2.0.1
+      dequal: 2.0.3
+      lodash: 4.17.21
+      markdown-to-jsx: 7.4.7(react@19.0.0-rc-a03254bc-20240905)
+      memoizerific: 1.11.3
+      polished: 4.3.1
+      react-colorful: 5.6.1(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
+      storybook: 8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+      telejson: 7.2.0
+      ts-dedent: 2.2.0
+      util-deprecate: 1.0.2
+    optionalDependencies:
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
 
   '@storybook/builder-webpack5@8.2.8(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)':
     dependencies:
@@ -11427,6 +11465,11 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
+  '@storybook/icons@1.2.10(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)':
+    dependencies:
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
+
   '@storybook/instrumenter@8.2.6(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))':
     dependencies:
       '@storybook/global': 5.0.0
@@ -11449,7 +11492,7 @@ snapshots:
     dependencies:
       storybook: 8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4)
 
-  '@storybook/nextjs@8.2.8(@jest/globals@29.7.0)(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5)(jest@29.7.0(@types/node@20.14.13))(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(type-fest@2.19.0)(typescript@5.5.4)(webpack-hot-middleware@2.26.1)(webpack@5.93.0(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5))':
+  '@storybook/nextjs@8.2.8(@jest/globals@29.7.0)(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5)(jest@29.7.0(@types/node@20.14.13))(next@15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(type-fest@2.19.0)(typescript@5.5.4)(webpack-hot-middleware@2.26.1)(webpack@5.93.0(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5))':
     dependencies:
       '@babel/core': 7.24.9
       '@babel/plugin-syntax-bigint': 7.8.3(@babel/core@7.24.9)
@@ -11466,8 +11509,8 @@ snapshots:
       '@babel/runtime': 7.25.0
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.15(react-refresh@0.14.2)(type-fest@2.19.0)(webpack-hot-middleware@2.26.1)(webpack@5.93.0(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5))
       '@storybook/builder-webpack5': 8.2.8(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)
-      '@storybook/preset-react-webpack': 8.2.8(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)
-      '@storybook/react': 8.2.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)
+      '@storybook/preset-react-webpack': 8.2.8(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)
+      '@storybook/react': 8.2.8(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)
       '@storybook/test': 8.2.8(@jest/globals@29.7.0)(jest@29.7.0(@types/node@20.14.13))(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@types/node': 18.19.42
       '@types/semver': 7.5.8
@@ -11477,20 +11520,20 @@ snapshots:
       fs-extra: 11.2.0
       image-size: 1.1.1
       loader-utils: 3.3.1
-      next: 14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      next: 15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
       node-polyfill-webpack-plugin: 2.0.1(webpack@5.93.0(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5))
       pnp-webpack-plugin: 1.7.0(typescript@5.5.4)
       postcss: 8.4.40
       postcss-loader: 8.1.1(postcss@8.4.40)(typescript@5.5.4)(webpack@5.93.0(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5))
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
       react-refresh: 0.14.2
       resolve-url-loader: 5.0.0
       sass-loader: 12.6.0(webpack@5.93.0(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5))
       semver: 7.6.3
       storybook: 8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4)
       style-loader: 3.3.4(webpack@5.93.0(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5))
-      styled-jsx: 5.1.1(@babel/core@7.24.9)(react@18.3.1)
+      styled-jsx: 5.1.1(@babel/core@7.24.9)(react@19.0.0-rc-a03254bc-20240905)
       ts-dedent: 2.2.0
       tsconfig-paths: 4.2.0
       tsconfig-paths-webpack-plugin: 4.1.0
@@ -11522,19 +11565,19 @@ snapshots:
       - webpack-hot-middleware
       - webpack-plugin-serve
 
-  '@storybook/preset-react-webpack@8.2.8(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)':
+  '@storybook/preset-react-webpack@8.2.8(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)':
     dependencies:
       '@storybook/core-webpack': 8.2.8(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
-      '@storybook/react': 8.2.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)
+      '@storybook/react': 8.2.8(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)
       '@storybook/react-docgen-typescript-plugin': 1.0.6--canary.9.0c3f3b7.0(typescript@5.5.4)(webpack@5.93.0(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5))
       '@types/node': 18.19.42
       '@types/semver': 7.5.8
       find-up: 5.0.0
       fs-extra: 11.2.0
       magic-string: 0.30.10
-      react: 18.3.1
+      react: 19.0.0-rc-a03254bc-20240905
       react-docgen: 7.0.3
-      react-dom: 18.3.1(react@18.3.1)
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
       resolve: 1.22.8
       semver: 7.6.3
       storybook: 8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4)
@@ -11577,19 +11620,25 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       storybook: 8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4)
 
-  '@storybook/react-dom-shim@8.2.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))':
+  '@storybook/react-dom-shim@8.2.6(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))':
     dependencies:
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
       storybook: 8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4)
 
-  '@storybook/react@8.2.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)':
+  '@storybook/react-dom-shim@8.2.8(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))':
+    dependencies:
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
+      storybook: 8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+
+  '@storybook/react@8.2.6(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)':
     dependencies:
       '@storybook/components': 8.2.6(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@storybook/global': 5.0.0
       '@storybook/manager-api': 8.2.6(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@storybook/preview-api': 8.2.6(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
-      '@storybook/react-dom-shim': 8.2.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
+      '@storybook/react-dom-shim': 8.2.6(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@storybook/theming': 8.2.6(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@types/escodegen': 0.0.6
       '@types/estree': 0.0.51
@@ -11601,9 +11650,9 @@ snapshots:
       html-tags: 3.3.1
       lodash: 4.17.21
       prop-types: 15.8.1
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-element-to-jsx-string: 15.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
+      react-element-to-jsx-string: 15.0.0(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
       semver: 7.6.3
       storybook: 8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4)
       ts-dedent: 2.2.0
@@ -11612,13 +11661,13 @@ snapshots:
     optionalDependencies:
       typescript: 5.5.4
 
-  '@storybook/react@8.2.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)':
+  '@storybook/react@8.2.8(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))(typescript@5.5.4)':
     dependencies:
       '@storybook/components': 8.2.8(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@storybook/global': 5.0.0
       '@storybook/manager-api': 8.2.8(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@storybook/preview-api': 8.2.8(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
-      '@storybook/react-dom-shim': 8.2.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
+      '@storybook/react-dom-shim': 8.2.8(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@storybook/theming': 8.2.8(storybook@8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@types/escodegen': 0.0.6
       '@types/estree': 0.0.51
@@ -11630,9 +11679,9 @@ snapshots:
       html-tags: 3.3.1
       lodash: 4.17.21
       prop-types: 15.8.1
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-element-to-jsx-string: 15.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
+      react-element-to-jsx-string: 15.0.0(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
       semver: 7.6.3
       storybook: 8.2.6(@babel/preset-env@7.25.0(@babel/core@7.24.9))(bufferutil@4.0.8)(utf-8-validate@6.0.4)
       ts-dedent: 2.2.0
@@ -16252,6 +16301,10 @@ snapshots:
     dependencies:
       react: 18.3.1
 
+  markdown-to-jsx@7.4.7(react@19.0.0-rc-a03254bc-20240905):
+    dependencies:
+      react: 19.0.0-rc-a03254bc-20240905
+
   md5.js@1.3.5:
     dependencies:
       hash-base: 3.1.0
@@ -16387,7 +16440,7 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@next/env': 14.2.5
       '@swc/helpers': 0.5.5
@@ -16397,7 +16450,7 @@ snapshots:
       postcss: 8.4.31
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      styled-jsx: 5.1.1(@babel/core@7.24.9)(react@18.3.1)
+      styled-jsx: 5.1.1(react@18.3.1)
     optionalDependencies:
       '@next/swc-darwin-arm64': 14.2.5
       '@next/swc-darwin-x64': 14.2.5
@@ -16412,7 +16465,7 @@ snapshots:
       - '@babel/core'
       - babel-plugin-macros
 
-  next@15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904))(react@19.0.0-rc-4c58fce7-20240904):
+  next@15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905):
     dependencies:
       '@next/env': 15.0.0-rc.0
       '@swc/helpers': 0.5.11
@@ -16420,9 +16473,9 @@ snapshots:
       caniuse-lite: 1.0.30001643
       graceful-fs: 4.2.11
       postcss: 8.4.31
-      react: 19.0.0-rc-4c58fce7-20240904
-      react-dom: 19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904)
-      styled-jsx: 5.1.3(@babel/core@7.24.9)(react@19.0.0-rc-4c58fce7-20240904)
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
+      styled-jsx: 5.1.3(@babel/core@7.24.9)(react@19.0.0-rc-a03254bc-20240905)
     optionalDependencies:
       '@next/swc-darwin-arm64': 15.0.0-rc.0
       '@next/swc-darwin-x64': 15.0.0-rc.0
@@ -16437,6 +16490,13 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+
+  nextjs-progressloader@1.2.0(next@15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905):
+    dependencies:
+      next: 15.0.0-rc.0(@babel/core@7.24.9)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
+      nprogress: 0.2.0
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
 
   no-case@3.0.4:
     dependencies:
@@ -16531,6 +16591,8 @@ snapshots:
       console-control-strings: 1.1.0
       gauge: 3.0.2
       set-blocking: 2.0.0
+
+  nprogress@0.2.0: {}
 
   nth-check@2.1.1:
     dependencies:
@@ -17119,9 +17181,14 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  react-confetti@6.1.0(react@18.3.1):
+  react-colorful@5.6.1(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905):
     dependencies:
-      react: 18.3.1
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
+
+  react-confetti@6.1.0(react@19.0.0-rc-a03254bc-20240905):
+    dependencies:
+      react: 19.0.0-rc-a03254bc-20240905
       tween-functions: 1.2.0
 
   react-docgen-typescript@2.2.2(typescript@5.5.4):
@@ -17149,22 +17216,22 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
-  react-dom@19.0.0-rc-4c58fce7-20240904(react@19.0.0-rc-4c58fce7-20240904):
+  react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905):
     dependencies:
-      react: 19.0.0-rc-4c58fce7-20240904
-      scheduler: 0.25.0-rc-4c58fce7-20240904
+      react: 19.0.0-rc-a03254bc-20240905
+      scheduler: 0.25.0-rc-a03254bc-20240905
 
-  react-element-to-jsx-string@15.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-element-to-jsx-string@15.0.0(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905):
     dependencies:
       '@base2/pretty-print-object': 1.0.1
       is-plain-object: 5.0.0
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
       react-is: 18.1.0
 
-  react-hook-form@7.52.1(react@19.0.0-rc-4c58fce7-20240904):
+  react-hook-form@7.52.1(react@19.0.0-rc-a03254bc-20240905):
     dependencies:
-      react: 19.0.0-rc-4c58fce7-20240904
+      react: 19.0.0-rc-a03254bc-20240905
 
   react-is@16.13.1: {}
 
@@ -17180,7 +17247,7 @@ snapshots:
     dependencies:
       loose-envify: 1.4.0
 
-  react@19.0.0-rc-4c58fce7-20240904: {}
+  react@19.0.0-rc-a03254bc-20240905: {}
 
   read-cache@1.0.0:
     dependencies:
@@ -17292,10 +17359,10 @@ snapshots:
     dependencies:
       jsesc: 0.5.0
 
-  rehackt@0.1.0(@types/react@18.3.3)(react@19.0.0-rc-4c58fce7-20240904):
+  rehackt@0.1.0(@types/react@18.3.3)(react@19.0.0-rc-a03254bc-20240905):
     optionalDependencies:
       '@types/react': 18.3.3
-      react: 19.0.0-rc-4c58fce7-20240904
+      react: 19.0.0-rc-a03254bc-20240905
 
   rehype-external-links@3.0.0:
     dependencies:
@@ -17463,7 +17530,7 @@ snapshots:
     dependencies:
       loose-envify: 1.4.0
 
-  scheduler@0.25.0-rc-4c58fce7-20240904: {}
+  scheduler@0.25.0-rc-a03254bc-20240905: {}
 
   schema-utils@2.7.1:
     dependencies:
@@ -17896,17 +17963,22 @@ snapshots:
     dependencies:
       webpack: 5.93.0(@swc/core@1.7.9(@swc/helpers@0.5.11))(esbuild@0.21.5)
 
-  styled-jsx@5.1.1(@babel/core@7.24.9)(react@18.3.1):
+  styled-jsx@5.1.1(@babel/core@7.24.9)(react@19.0.0-rc-a03254bc-20240905):
     dependencies:
       client-only: 0.0.1
-      react: 18.3.1
+      react: 19.0.0-rc-a03254bc-20240905
     optionalDependencies:
       '@babel/core': 7.24.9
 
-  styled-jsx@5.1.3(@babel/core@7.24.9)(react@19.0.0-rc-4c58fce7-20240904):
+  styled-jsx@5.1.1(react@18.3.1):
     dependencies:
       client-only: 0.0.1
-      react: 19.0.0-rc-4c58fce7-20240904
+      react: 18.3.1
+
+  styled-jsx@5.1.3(@babel/core@7.24.9)(react@19.0.0-rc-a03254bc-20240905):
+    dependencies:
+      client-only: 0.0.1
+      react: 19.0.0-rc-a03254bc-20240905
     optionalDependencies:
       '@babel/core': 7.24.9
 

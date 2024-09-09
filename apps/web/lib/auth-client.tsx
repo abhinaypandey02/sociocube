@@ -32,6 +32,7 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
   }, []);
   return (
     <GlobalState.Provider value={{ token, setToken }}>
+      {/*<ProgressLoader showSpinner={false} />*/}
       {children}
     </GlobalState.Provider>
   );

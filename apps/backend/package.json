@@ -8,7 +8,7 @@
     "start": "next start -p 3001",
     "lint": "next lint",
     "tsc": "tsc",
-    "push-schema": "drizzle-kit push",
+    "push-schema": "dotenv -e ../../.env -- drizzle-kit push",
     "db-studio": "drizzle-kit studio"
   },
   "dependencies": {

@@ -29,3 +29,13 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
     }
   }
 `);
+
+export const GET_FEATURED_SELLERS = gql(`
+  #graphql
+  query GetFeaturedSellers {
+    getFeaturedSellers {
+      name
+      photo
+    }
+  }
+`);

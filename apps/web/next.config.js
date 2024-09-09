@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true
+  reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        hostname: "picsum.photos",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

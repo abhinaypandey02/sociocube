@@ -247,6 +247,7 @@ type OnboardingData {
 
 type Query {
   getCurrentUser: User!
+  getFeaturedSellers: [User!]!
   __schema: __Schema!
   __type(name: String!): __Type
 }

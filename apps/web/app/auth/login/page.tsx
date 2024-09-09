@@ -18,6 +18,7 @@ const defaultValues = {
 declare global {
   interface Window {
     onTurnstileLoad: () => void;
+    turnstile: typeof turnstile;
   }
 }
 
@@ -52,6 +53,15 @@ export default function LoginPage() {
         },
       });
     };
+
+    if (typeof window.turnstile !== "undefined") {
+      turnstile.execute("#captcha-container", {
+        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "",
+        callback(token: string) {
+          setTurnstileToken(token);
+        },
+      });
+    }
   }, []);
 
   return (
@@ -69,10 +79,12 @@ export default function LoginPage() {
           {...register("password")}
         />
         <div id="captcha-container" />
-        <Button disabled={!turnstileToken || isLoading} type="submit">
+        <Button loading={!turnstileToken || isLoading} type="submit">
           Login
         </Button>
       </form>
     </>
   );
 }
+
+export const dynamic = "force-dynamic";
