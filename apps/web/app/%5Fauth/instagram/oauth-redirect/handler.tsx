@@ -15,7 +15,7 @@ function InstagramRedirectHandler({ refresh }: { refresh?: string }) {
     const expiresIn = hashParams.get("expires_in");
     if (!error && accessToken && expiresIn)
       router.push(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram?${params}&redirectURL=${redirectURL}&refresh=${refresh}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram?${params}&refresh=${refresh}&redirectURL=${redirectURL}`,
       );
     else if (redirectURL) router.push(redirectURL);
     else router.push(Route.SignUp);
