@@ -12,12 +12,12 @@ export async function handleCompleteOnboarding(ctx: Context) {
     const [res] = await db
       .select({
         onboardingData: {
-          id: OnboardingDataTable.id,
           name: OnboardingDataTable.name,
           photo: OnboardingDataTable.photo,
         },
         user: {
           roles: UserTable.roles,
+          onboardingDataId: OnboardingDataTable.id,
         },
       })
       .from(UserTable)
@@ -33,7 +33,7 @@ export async function handleCompleteOnboarding(ctx: Context) {
         OnboardingDataTable,
         eq(UserTable.onboardingData, OnboardingDataTable.id),
       );
-    if (!res?.onboardingData)
+    if (!res?.onboardingData || !res.user.onboardingDataId)
       throw GQLError(400, "Already onboarded or onboarding not started");
     const [updateResult] = await tx
       .update(UserTable)
@@ -51,7 +51,7 @@ export async function handleCompleteOnboarding(ctx: Context) {
     }
     await tx
       .delete(OnboardingDataTable)
-      .where(eq(OnboardingDataTable.id, res.onboardingData.id));
+      .where(eq(OnboardingDataTable.id, res.user.onboardingDataId));
   });
   return true;
 }

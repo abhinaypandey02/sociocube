@@ -1,10 +1,9 @@
 import { syncPrices } from "./lib/payment/price";
 
 export async function register() {
-  console.warn("SYNCING PRICES");
-  if (!process.env.STRIPE_SECRET_KEY) {
-    console.warn("STRIPE_SECRET_KEY not found, skipping");
+  if (!process.env.STRIPE_SECRET_KEY || process.env.NEXT_PUBLIC_DEVELOPMENT) {
     return;
   }
+  console.warn("SYNCING PRICES");
   await syncPrices();
 }

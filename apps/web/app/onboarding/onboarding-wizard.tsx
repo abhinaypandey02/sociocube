@@ -13,7 +13,7 @@ function getStep(
 ) {
   if (!currentUser.onboardingData?.name) return 0;
   if (
-    completedOnboardingScopes(currentUser.scopes).length ===
+    completedOnboardingScopes(currentUser.scopes).length !==
     ONBOARDING_SCOPES.length
   )
     return 2;
