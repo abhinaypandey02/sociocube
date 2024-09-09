@@ -39,6 +39,7 @@ export const GET = async (req: NextRequest) => {
     const existingUser = await getUser(
       eq(UserTable.instagramBusinessId, instagramBusinessId),
     );
+    console.warn(loggedInUserID, existingUser);
     let refreshToken;
     if (existingUser && loggedInUserID) {
       return NextResponse.redirect(
@@ -52,6 +53,7 @@ export const GET = async (req: NextRequest) => {
       );
     } else if (loggedInUserID) {
       const loggedInUser = await getUser(eq(UserTable.id, loggedInUserID));
+      console.warn(loggedInUser);
       if (loggedInUser) {
         refreshToken = await updateRefreshTokenAndScope(
           loggedInUser.id,
