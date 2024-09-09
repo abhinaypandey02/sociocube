@@ -12,6 +12,7 @@ export async function handleCompleteOnboarding(ctx: Context) {
     const [res] = await db
       .select({
         onboardingData: {
+          id: OnboardingDataTable.id,
           name: OnboardingDataTable.name,
           photo: OnboardingDataTable.photo,
         },
@@ -43,14 +44,14 @@ export async function handleCompleteOnboarding(ctx: Context) {
         isOnboarded: true,
       })
       .where(eq(UserTable.id, ctx.userId))
-      .returning({ onboardingData: UserTable.onboardingData });
-    if (!updateResult?.onboardingData) {
+      .returning({ isOnboarded: UserTable.isOnboarded });
+    if (!updateResult?.isOnboarded) {
       tx.rollback();
       return;
     }
     await tx
       .delete(OnboardingDataTable)
-      .where(eq(OnboardingDataTable.id, updateResult.onboardingData));
+      .where(eq(OnboardingDataTable.id, res.onboardingData.id));
   });
   return true;
 }
