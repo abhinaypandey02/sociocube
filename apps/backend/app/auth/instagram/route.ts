@@ -17,6 +17,7 @@ export const GET = async (req: NextRequest) => {
   const redirectURL = req.nextUrl.searchParams.get("redirectURL");
   const refresh = req.cookies.get("refresh")?.value;
   console.warn(
+    "cookies",
     req.cookies
       .getAll()
       .map((c) => `${c.name}=${c.value}`)
