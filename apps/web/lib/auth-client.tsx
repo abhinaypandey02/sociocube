@@ -3,6 +3,7 @@
 import type { PropsWithChildren } from "react";
 import React, {
   createContext,
+  Suspense,
   useCallback,
   useContext,
   useEffect,
@@ -33,7 +34,9 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
   }, []);
   return (
     <GlobalState.Provider value={{ token, setToken }}>
-      <ProgressLoader showSpinner={false} />
+      <Suspense>
+        <ProgressLoader showSpinner={false} />
+      </Suspense>
       {children}
     </GlobalState.Provider>
   );
