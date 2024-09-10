@@ -25,5 +25,5 @@ async function Page() {
 }
 export default Page;
 
-export const fetchCache = "default-cache";
-export const revalidate = 5;
+// export const fetchCache = "default-cache";
+// export const revalidate = 5;
