@@ -5,7 +5,12 @@ import { GET_FEATURED_SELLERS } from "../lib/queries";
 export const revalidate = 1;
 
 async function Page() {
-  const sellers = await queryGQL(GET_FEATURED_SELLERS, undefined, undefined);
+  const sellers = await queryGQL(
+    GET_FEATURED_SELLERS,
+    undefined,
+    undefined,
+    60,
+  );
   return (
     <main>
       {sellers.getFeaturedSellers.map(
