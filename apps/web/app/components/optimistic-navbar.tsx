@@ -1,20 +1,20 @@
 import React, { Suspense } from "react";
 import { Navbar } from "ui/navbar";
-import { getServerToken } from "../../lib/auth-server";
+import { cookies } from "next/headers";
 import {
   AUTHORISED_USER_NAVBAR_SECTIONS,
   UNAUTHORISED_NAVBAR_SECTIONS,
 } from "../constants";
-import OnboardedNavbar from "./onboarded-navbar";
+import AuthorisedNavbar from "./authorised-navbar";
 
-export default async function AuthorisedNavbar() {
-  const token = await getServerToken();
+export default function OptimisticNavbar() {
+  const token = cookies().get("refresh")?.value;
   if (!token) return <Navbar sections={UNAUTHORISED_NAVBAR_SECTIONS} />;
   return (
     <Suspense
       fallback={<Navbar disabled sections={AUTHORISED_USER_NAVBAR_SECTIONS} />}
     >
-      <OnboardedNavbar />
+      <AuthorisedNavbar />
     </Suspense>
   );
 }

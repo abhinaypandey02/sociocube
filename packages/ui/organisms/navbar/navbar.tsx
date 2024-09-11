@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { Button } from "../../atoms/button";
 import type { NavbarProps } from "./types";
 
-function Navbar({ sections, activeHref }: NavbarProps) {
+function Navbar({ sections, activeHref, disabled }: NavbarProps) {
   const linksList = useMemo(
     () =>
       sections.map((section, i) => (
@@ -12,7 +12,7 @@ function Navbar({ sections, activeHref }: NavbarProps) {
           {section.map((link) => {
             const children =
               typeof link.label !== "string" ? (
-                <Button {...link.label} />
+                <Button {...link.label} disabled={disabled} />
               ) : (
                 link.label
               );
@@ -23,7 +23,7 @@ function Navbar({ sections, activeHref }: NavbarProps) {
                     "transition-colors hover:text-accent",
                     activeHref === link.href && "font-bold text-accent",
                   )}
-                  href={link.href}
+                  href={disabled ? "/" : link.href}
                   key={link.href}
                 >
                   {children}

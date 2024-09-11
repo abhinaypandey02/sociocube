@@ -4,12 +4,10 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import type { PropsWithChildren } from "react";
 import { Suspense } from "react";
-import { Navbar } from "ui/navbar";
 import { Footer } from "ui/footer";
 import { ApolloWrapper } from "../lib/apollo-client";
 import { GlobalStateWrapper } from "../lib/auth-client";
-import AuthorisedNavbar from "./components/authorised-navbar";
-import { UNAUTHORISED_NAVBAR_SECTIONS } from "./constants";
+import OptimisticNavbar from "./components/optimistic-navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,10 +22,8 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body className={`${inter.className} flex min-h-screen flex-col`}>
         <ApolloWrapper>
           <GlobalStateWrapper>
-            <Suspense
-              fallback={<Navbar sections={UNAUTHORISED_NAVBAR_SECTIONS} />}
-            >
-              <AuthorisedNavbar />
+            <Suspense>
+              <OptimisticNavbar />
             </Suspense>
             <main className="grow">{children}</main>
             <Footer />
