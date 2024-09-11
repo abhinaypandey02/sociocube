@@ -26,6 +26,7 @@ export async function queryGQL<T, V extends OperationVariables>(
   _query: TypedDocumentNode<T, V>,
   variables?: V,
   token?: string | null,
+  revalidate?: number,
 ): Promise<T> {
   const res = await query({
     query: _query,
@@ -33,6 +34,12 @@ export async function queryGQL<T, V extends OperationVariables>(
     context: {
       headers: {
         authorization: `Bearer ${token || null}`,
+      },
+      fetchOptions: {
+        cache: !revalidate ? "force-cache" : undefined,
+        next: {
+          revalidate,
+        },
       },
     },
   });
