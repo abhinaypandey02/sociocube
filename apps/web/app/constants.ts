@@ -1,7 +1,9 @@
 import { Route } from "../constants/routes";
 
+export const NAVBAR_COMMON_ROUTES = [[{ label: "Home", href: Route.Home }]];
+
 export const UNAUTHORISED_NAVBAR_SECTIONS = [
-  [{ label: "Home", href: Route.Home }],
+  ...NAVBAR_COMMON_ROUTES,
   [
     {
       label: {
@@ -19,7 +21,7 @@ export const UNAUTHORISED_NAVBAR_SECTIONS = [
   ],
 ];
 export const AUTHORISED_USER_NAVBAR_SECTIONS = [
-  [{ label: "Home", href: Route.Home }],
+  ...NAVBAR_COMMON_ROUTES,
   [
     {
       label: {
@@ -37,7 +39,7 @@ export const AUTHORISED_USER_NAVBAR_SECTIONS = [
   ],
 ];
 export const AUTHORISED_SELLER_NAVBAR_SECTIONS = [
-  [{ label: "Home", href: Route.Home }],
+  ...NAVBAR_COMMON_ROUTES,
   [
     {
       label: {
