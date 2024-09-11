@@ -249,6 +249,7 @@ type OnboardingData {
 type Query {
   getCurrentUser: User!
   getFeaturedSellers: [User!]!
+  getSeller(id: Int!): User
   __schema: __Schema!
   __type(name: String!): __Type
 }
@@ -272,6 +273,7 @@ type User {
   bio: String
   companyName: String
   email: String
+  id: Float!
   isOnboarded: Boolean
   name: String
   onboardingData: OnboardingData

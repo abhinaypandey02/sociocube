@@ -1,9 +1,9 @@
-import {Field, InputType} from "type-graphql";
-import {eq} from "drizzle-orm";
-import {Context} from "../../../../../context";
-import {db} from "../../../../../../../lib/db";
-import {OnboardingDataTable, UserTable} from "../../../db/schema";
-import {getCurrentUser} from "../../../utils";
+import { Field, InputType } from "type-graphql";
+import { eq } from "drizzle-orm";
+import { Context } from "../../../../../context";
+import { db } from "../../../../../../../lib/db";
+import { OnboardingDataTable, UserTable } from "../../../db/schema";
+import { getCurrentUser } from "../../../utils";
 
 @InputType("UpdateBasicDetailsArgs")
 export class UpdateBasicDetailsArgs {

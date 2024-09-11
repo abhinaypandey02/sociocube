@@ -40,6 +40,18 @@ export const GET_FEATURED_SELLERS = gql(`
   #graphql
   query GetFeaturedSellers {
     getFeaturedSellers {
+      id
+      name
+      photo
+      bio
+    }
+  }
+`);
+
+export const GET_SELLER = gql(`
+  #graphql
+  query GetSeller($id: Int!) {
+    getSeller(id: $id) {
       name
       photo
       bio

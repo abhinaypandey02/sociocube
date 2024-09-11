@@ -4,7 +4,5 @@ export enum Route {
   SignUp = "/auth/sign-up",
   Account = "/account",
   Onboarding = "/onboarding",
-  OnboardingBasicDetails = "/onboarding/basic-details",
-  OnboardingSocials = "/onboarding/socials",
-  OnboardingComplete = "/onboarding/complete",
+  Profile = "/profile",
 }

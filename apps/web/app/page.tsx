@@ -1,6 +1,8 @@
 import { UserCard } from "ui/user-card";
+import Link from "next/link";
 import { queryGQL } from "../lib/apollo-server";
 import { GET_FEATURED_SELLERS } from "../lib/queries";
+import { Route } from "../constants/routes";
 
 export const revalidate = 1;
 
@@ -17,12 +19,13 @@ async function Page() {
         (seller) =>
           seller.photo &&
           seller.bio && (
-            <UserCard
-              bio={seller.bio}
-              imageURL={seller.photo}
-              key={seller.name}
-              name={seller.name || ""}
-            />
+            <Link href={`${Route.Profile}/${seller.id}`} key={seller.id}>
+              <UserCard
+                bio={seller.bio}
+                imageURL={seller.photo}
+                name={seller.name || ""}
+              />
+            </Link>
           ),
       )}
     </main>
