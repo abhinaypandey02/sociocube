@@ -1,5 +1,5 @@
-import {sign, verify} from "jsonwebtoken";
-import {NextResponse} from "next/server";
+import { sign, verify } from "jsonwebtoken";
+import { NextResponse } from "next/server";
 
 export function generateAccessToken(id: number) {
   if (process.env.SIGNING_KEY)
