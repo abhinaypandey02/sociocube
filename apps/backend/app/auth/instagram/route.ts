@@ -57,6 +57,7 @@ export const GET = async (req: NextRequest) => {
             "profile_picture_url",
             "followers_count",
             "username",
+            "biography",
           ]),
         );
         const personalInfo = (await personalInfoResponse.json()) as {
@@ -64,6 +65,7 @@ export const GET = async (req: NextRequest) => {
           profile_picture_url?: string;
           followers_count: number;
           username: string;
+          biography?: string;
         };
         if (!personalInfo.username) return ErrorResponses.internalServerError;
         await db.insert(InstagramDetails).values({
@@ -85,6 +87,8 @@ export const GET = async (req: NextRequest) => {
               {
                 instagramDetails: userId,
                 photo: loggedInUser.photo || personalInfo.profile_picture_url,
+                name: loggedInUser.name || personalInfo.name,
+                bio: loggedInUser.bio || personalInfo.biography,
               },
             );
           }
@@ -94,6 +98,7 @@ export const GET = async (req: NextRequest) => {
             refreshTokens: [],
             instagramDetails: userId,
             photo: personalInfo.profile_picture_url,
+            bio: personalInfo.biography,
             scopes: [AuthScopes.INSTAGRAM],
             roles: [],
           });

@@ -11,12 +11,12 @@ import { completedOnboardingScopes } from "./utils";
 function getStep(
   currentUser: NonNullable<GetDefaultOnboardingDetailsQuery["getCurrentUser"]>,
 ) {
-  if (!currentUser.onboardingData?.name) return 0;
   if (
     completedOnboardingScopes(currentUser.scopes).length !==
     ONBOARDING_SCOPES.length
   )
-    return 2;
+    return 0;
+  if (!currentUser.onboardingData?.name) return 2;
   if (!currentUser.isOnboarded) return 3;
   return 0;
 }
@@ -38,7 +38,10 @@ function OnboardingWizard({
       </>
     );
   }
+
   if (step === 1)
+    return <SocialsStatus nextStep={nextStep} scopes={currentUser.scopes} />;
+  if (step === 2)
     return (
       <OnboardingBasicDetailsForm
         defaultValues={{
@@ -50,8 +53,6 @@ function OnboardingWizard({
         photoUpload={currentUser.pictureUploadURL}
       />
     );
-  if (step === 2)
-    return <SocialsStatus nextStep={nextStep} scopes={currentUser.scopes} />;
   if (step === 3) return <OnboardingCompleteForm />;
 }
 
