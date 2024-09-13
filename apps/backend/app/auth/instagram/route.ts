@@ -8,6 +8,7 @@ import {
 } from "../../graphql/types/User/db/utils";
 import { AuthScopes } from "../../graphql/constants/scopes";
 import {
+  BASE_REDIRECT_URI,
   createState,
   getState,
   getUserIdFromRefreshToken,
@@ -24,14 +25,14 @@ import {
 } from "./utils";
 
 export const GET = async (req: NextRequest) => {
-  const code = req.nextUrl.searchParams.get("code");
+  const accessCode = req.nextUrl.searchParams.get("code");
   const error = req.nextUrl.searchParams.get("error");
   const stateParam = req.nextUrl.searchParams.get("state");
   if (stateParam) {
-    const { redirectURL, refresh } = getState(stateParam);
-    if (error) NextResponse.redirect(redirectURL);
-    if (code) {
-      const instagramData = await getLongLivedToken(code);
+    const { refresh, csrfToken } = getState(stateParam);
+    if (error) NextResponse.redirect(BASE_REDIRECT_URI);
+    if (accessCode) {
+      const instagramData = await getLongLivedToken(accessCode);
       if (!instagramData) return ErrorResponses.internalServerError;
       const { accessToken, userId } = instagramData;
       const loggedInUserID = getUserIdFromRefreshToken(refresh);
@@ -41,7 +42,7 @@ export const GET = async (req: NextRequest) => {
       let refreshToken;
       if (existingUser && loggedInUserID) {
         return NextResponse.redirect(
-          `${redirectURL}?error=Can't merge account, as it's already being used`,
+          `${BASE_REDIRECT_URI}?error=Can't merge account, as it's already being used`,
         );
       } else if (existingUser) {
         refreshToken = await updateRefreshTokenAndScope(
@@ -101,17 +102,17 @@ export const GET = async (req: NextRequest) => {
         }
       }
       return NextResponse.redirect(
-        `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/_auth/token?refresh=${refreshToken}&redirectURL=${redirectURL}`,
+        `${BASE_REDIRECT_URI}?refresh=${refreshToken}&csrf_token=${csrfToken}`,
       );
     }
   }
-  const redirectURL = req.nextUrl.searchParams.get("redirectURL");
   const refresh = req.nextUrl.searchParams.get("refresh") || "";
-  if (!redirectURL) return ErrorResponses.missingBodyFields;
+  const csrfToken = req.nextUrl.searchParams.get("csrf_token") || "";
+  if (!csrfToken) return ErrorResponses.missingBodyFields;
   return NextResponse.redirect(
     getInstagramAuthorizationUrl(
       createState({
-        redirectURL,
+        csrfToken,
         refresh,
       }),
     ),

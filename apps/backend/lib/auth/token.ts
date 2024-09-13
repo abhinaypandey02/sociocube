@@ -1,5 +1,5 @@
-import { sign, verify } from "jsonwebtoken";
-import { NextResponse } from "next/server";
+import {sign, verify} from "jsonwebtoken";
+import {NextResponse} from "next/server";
 
 export function generateAccessToken(id: number) {
   if (process.env.SIGNING_KEY)
@@ -47,9 +47,11 @@ export function getUserIdFromRefreshToken(
   return null;
 }
 
+export const BASE_REDIRECT_URI = `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/_auth/token`;
+
 interface ParamState {
   refresh: string;
-  redirectURL: string;
+  csrfToken: string;
 }
 
 export function createState(data: ParamState) {

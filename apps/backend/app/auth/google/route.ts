@@ -8,7 +8,12 @@ import {
   updateRefreshTokenAndScope,
 } from "../../graphql/types/User/db/utils";
 import { AuthScopes } from "../../graphql/constants/scopes";
-import { getUserIdFromRefreshToken } from "../../../lib/auth/token";
+import {
+  BASE_REDIRECT_URI,
+  createState,
+  getState,
+  getUserIdFromRefreshToken,
+} from "../../../lib/auth/token";
 import { UserTable } from "../../graphql/types/User/db/schema";
 import { oauth2Client } from "./google-oauth";
 
@@ -20,25 +25,31 @@ function errorResponse(redirectURL: string | null) {
 export const GET = async (req: NextRequest) => {
   const code = req.nextUrl.searchParams.get("code");
   const error = req.nextUrl.searchParams.get("error");
+  const initialCsrfToken =
+    req.nextUrl.searchParams.get("csrf_token") || undefined;
   const state = req.nextUrl.searchParams.get("state") || undefined;
   const redirectURL = req.nextUrl.searchParams.get("redirectURL");
-  const refresh = req.cookies.get("refresh")?.value;
+  const initialRefresh = req.nextUrl.searchParams.get("refresh");
 
-  if (!code && !error) {
+  if (!code && !error && initialRefresh && initialCsrfToken) {
     const authorizationUrl = oauth2Client.generateAuthUrl({
       scope: [
         "https://www.googleapis.com/auth/userinfo.profile",
         "https://www.googleapis.com/auth/userinfo.email",
       ],
-      state,
+      state: createState({
+        csrfToken: initialCsrfToken,
+        refresh: initialRefresh,
+      }),
       include_granted_scopes: true,
       prompt: "consent",
-      redirect_uri: redirectURL || undefined,
+      redirect_uri: `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/google`,
     });
     return NextResponse.redirect(authorizationUrl);
   } else if (error) {
     return errorResponse(redirectURL);
-  } else if (code) {
+  } else if (code && state) {
+    const { refresh, csrfToken } = getState(state);
     const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
 
@@ -86,7 +97,7 @@ export const GET = async (req: NextRequest) => {
         }
       }
       return NextResponse.redirect(
-        `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/token?refresh=${refreshToken}&redirectURL=${redirectURL}&state=${state}`,
+        `${BASE_REDIRECT_URI}?refresh=${refreshToken}&csrf_token=${csrfToken}`,
       );
     }
   }
