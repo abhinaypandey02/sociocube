@@ -25,7 +25,7 @@ export const GET = async (req: NextRequest) => {
     const accountsResult = (await accountsResponse.json()) as {
       data?: { id?: string }[];
     };
-    console.warn(JSON.stringify(accountsResult));
+    console.warn(accessToken);
 
     const id = accountsResult.data?.[0]?.id;
     const userResponse = await fetch(
