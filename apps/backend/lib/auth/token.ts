@@ -46,3 +46,16 @@ export function getUserIdFromRefreshToken(
     }
   return null;
 }
+
+interface ParamState {
+  refresh: string;
+  redirectURL: string;
+}
+
+export function createState(data: ParamState) {
+  return JSON.stringify(data);
+}
+
+export function getState(data: string) {
+  return JSON.parse(data) as ParamState;
+}

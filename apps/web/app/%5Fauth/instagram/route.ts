@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 
 export const GET = (req: NextRequest) => {
   const redirectURL = req.nextUrl.searchParams.get("redirectURL");
+  const refresh = req.cookies.get("refresh")?.value;
   return NextResponse.redirect(
-    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram?redirectURL=${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL + (redirectURL || "")}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram?refresh=${refresh}&redirectURL=${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL + (redirectURL || "")}`,
   );
 };

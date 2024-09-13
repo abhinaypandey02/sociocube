@@ -23,7 +23,9 @@ export const UserTable = pgTable("user", {
   name: text("name"),
   bio: text("bio"),
   email: text("email").unique(),
-  instagramBusinessId: text("instagramBusinessId"),
+  instagramDetails: text("instagram_details").references(
+    () => InstagramDetails.id,
+  ),
   password: text("password"),
   phone: text("phone"),
   photo: text("photo"),
@@ -49,6 +51,14 @@ export const OnboardingDataTable = pgTable("onboarding_data", {
   name: text("name"),
   bio: text("bio"),
   photo: text("photo"),
+});
+
+export const InstagramDetails = pgTable("instagram_data", {
+  id: text("id").primaryKey().notNull(),
+  username: text("username").notNull(),
+  followers: integer("followers").notNull(),
+  accessToken: text("access_token").notNull(),
+  picture: text("picture"),
 });
 
 export type UserDBInsert = typeof UserTable.$inferInsert;
