@@ -1,6 +1,6 @@
 /* eslint-disable */
 import * as types from './graphql';
-import {TypedDocumentNode as DocumentNode} from '@graphql-typed-document-node/core';
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
 /**
  * Map of all GraphQL operations in the project.
@@ -18,7 +18,7 @@ const documents = {
     "\n  #graphql\n  query GetCurrentUser {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n    }\n  }\n": types.GetCurrentUserDocument,
     "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      bio\n      onboardingData {\n        name\n        photo\n        bio\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n": types.GetDefaultOnboardingDetailsDocument,
     "\n  #graphql\n  query GetFeaturedSellers {\n    getFeaturedSellers {\n      id\n      name\n      photo\n      bio\n    }\n  }\n": types.GetFeaturedSellersDocument,
-    "\n  #graphql\n  query GetSeller($id: Int!) {\n    getSeller(id: $id) {\n      name\n      photo\n      bio\n    }\n  }\n": types.GetSellerDocument,
+    "\n  #graphql\n  query GetSeller($id: Int!) {\n    getSeller(id: $id) {\n      name\n      photo\n      bio\n      instagramMedia {\n        thumbnail\n        caption\n        link\n      }\n      instagramStats {\n        followers\n        mediaCount\n        username\n      }\n    }\n  }\n": types.GetSellerDocument,
 };
 
 /**
@@ -58,7 +58,7 @@ export function gql(source: "\n  #graphql\n  query GetFeaturedSellers {\n    get
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  query GetSeller($id: Int!) {\n    getSeller(id: $id) {\n      name\n      photo\n      bio\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetSeller($id: Int!) {\n    getSeller(id: $id) {\n      name\n      photo\n      bio\n    }\n  }\n"];
+export function gql(source: "\n  #graphql\n  query GetSeller($id: Int!) {\n    getSeller(id: $id) {\n      name\n      photo\n      bio\n      instagramMedia {\n        thumbnail\n        caption\n        link\n      }\n      instagramStats {\n        followers\n        mediaCount\n        username\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetSeller($id: Int!) {\n    getSeller(id: $id) {\n      name\n      photo\n      bio\n      instagramMedia {\n        thumbnail\n        caption\n        link\n      }\n      instagramStats {\n        followers\n        mediaCount\n        username\n      }\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

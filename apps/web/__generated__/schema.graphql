@@ -235,6 +235,26 @@ enum AuthScopes {
   PHONE
 }
 
+type InstagramMedia {
+  caption: String!
+  comments: Int!
+  likes: Int!
+  link: String!
+  thumbnail: String!
+  type: InstagramMediaType!
+}
+
+enum InstagramMediaType {
+  FEED
+  REEL
+}
+
+type InstagramStats {
+  followers: Int!
+  mediaCount: Int!
+  username: String!
+}
+
 type Mutation {
   completeOnboarding: Boolean!
   updateOnboardingBasicDetails(data: UpdateBasicDetailsArgs!): Boolean!
@@ -274,6 +294,8 @@ type User {
   companyName: String
   email: String
   id: Float!
+  instagramMedia: [InstagramMedia!]
+  instagramStats: InstagramStats
   isOnboarded: Boolean
   name: String
   onboardingData: OnboardingData

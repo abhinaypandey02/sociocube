@@ -9,6 +9,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { Roles } from "../../../constants/roles";
 import { AuthScopes } from "../../../constants/scopes";
+import { InstagramDetails } from "../../Instagram/db/schema";
 
 export const rolesEnum = pgEnum("role", [Roles.SELLER]);
 export const authScopesEnum = pgEnum("scope", [
@@ -51,14 +52,6 @@ export const OnboardingDataTable = pgTable("onboarding_data", {
   name: text("name"),
   bio: text("bio"),
   photo: text("photo"),
-});
-
-export const InstagramDetails = pgTable("instagram_data", {
-  id: text("id").primaryKey().notNull(),
-  username: text("username").notNull(),
-  followers: integer("followers").notNull(),
-  accessToken: text("access_token").notNull(),
-  picture: text("picture"),
 });
 
 export type UserDBInsert = typeof UserTable.$inferInsert;

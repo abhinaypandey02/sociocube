@@ -55,6 +55,16 @@ export const GET_SELLER = gql(`
       name
       photo
       bio
+      instagramMedia {
+        thumbnail
+        caption
+        link
+      }
+      instagramStats {
+        followers
+        mediaCount
+        username
+      }
     }
   }
 `);

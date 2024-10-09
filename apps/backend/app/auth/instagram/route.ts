@@ -13,11 +13,9 @@ import {
   getState,
   getUserIdFromRefreshToken,
 } from "../../../lib/auth/token";
-import {
-  InstagramDetails,
-  UserTable,
-} from "../../graphql/types/User/db/schema";
+import { UserTable } from "../../graphql/types/User/db/schema";
 import { db } from "../../../lib/db";
+import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
 import {
   getGraphUrl,
   getInstagramAuthorizationUrl,
@@ -71,9 +69,6 @@ export const GET = async (req: NextRequest) => {
         await db.insert(InstagramDetails).values({
           id: userId,
           accessToken,
-          username: personalInfo.username,
-          followers: personalInfo.followers_count,
-          picture: personalInfo.profile_picture_url,
         });
         if (loggedInUserID) {
           const loggedInUser = await getUser(eq(UserTable.id, loggedInUserID));
