@@ -28,8 +28,8 @@ export async function generateMetadata({
   const seller = data.getSeller;
   if (!seller?.name) return {};
   return getSEO(
-    data.getSeller?.name || "",
-    data.getSeller?.bio || "",
+    `${data.getSeller?.name} | Seller at Freeluence`,
+    `${data.getSeller?.name} is a freelancing influencer at Freeluence. His instagram account, @${data.getSeller?.instagramStats?.username}, has ${data.getSeller?.instagramStats?.followers} followers. Here's what he has to say: ${data.getSeller?.bio}`,
     [
       data.getSeller?.photo || "",
       ...(data.getSeller?.instagramMedia?.map((media) => media.thumbnail) ||

@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 export const SEO = {
   title: `Freeluence - Freelancing Influencers`,
   description: "Freelancing Influencers",
-  suffix: " | Freeluence",
   companyName: "Tall Breeze",
   themeColor: "#F45B69",
 };
@@ -13,20 +12,20 @@ export const getSEO = (
   description?: string,
   images?: string[],
 ): Metadata => ({
-  title: title ? title + SEO.suffix : SEO.title,
+  title: title ? title : SEO.title,
   description: description || SEO.description,
   openGraph: {
-    title: title ? title + SEO.suffix : SEO.title,
+    title: title ? title : SEO.title,
     description: description || SEO.description,
     type: "website",
-    siteName: title ? title + SEO.suffix : SEO.title,
+    siteName: title ? title : SEO.title,
     images: images || [
       `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image.png`,
     ],
   },
 
   twitter: {
-    title: title ? title + SEO.suffix : SEO.title,
+    title: title ? title : SEO.title,
     description: description || SEO.description,
     images: images || [
       `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image.png`,
@@ -34,7 +33,7 @@ export const getSEO = (
     card: "summary_large_image",
   },
   appleWebApp: {
-    title: title ? title + SEO.suffix : SEO.title,
+    title: title ? title : SEO.title,
     capable: true,
     startupImage: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image.png`,
   },
