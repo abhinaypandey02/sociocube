@@ -1,5 +1,5 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Viewport } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
 import type { PropsWithChildren } from "react";
@@ -8,14 +8,16 @@ import { Footer } from "ui/footer";
 import { Navbar } from "ui/navbar";
 import { ApolloWrapper } from "../lib/apollo-client";
 import { GlobalStateWrapper } from "../lib/auth-client";
+import { getSEO, SEO } from "../constants/seo";
 import OptimisticNavbar from "./components/optimistic-navbar";
 import { NAVBAR_COMMON_ROUTES } from "./constants";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Freeluence | Freelancing Influencers",
-  description: "Freelancing Influencers",
+export const metadata = getSEO();
+export const viewport: Viewport = {
+  themeColor: SEO.themeColor,
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {

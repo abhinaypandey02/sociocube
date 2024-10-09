@@ -2,14 +2,42 @@ import React from "react";
 import { UserCard } from "ui/user-card";
 import Image from "next/image";
 import { Button } from "ui/button";
+import type { Metadata } from "next";
 import { queryGQL } from "../../../lib/apollo-server";
 import { GET_SELLER } from "../../../lib/queries";
+import { getSEO } from "../../../constants/seo";
 
-export default async function ProfilePage({
-  params,
-}: {
+interface ProfilePage {
   params: { id: string };
-}) {
+}
+
+export async function generateMetadata({
+  params,
+}: ProfilePage): Promise<Metadata> {
+  const id = parseInt(params.id);
+  if (isNaN(id)) return {};
+  const data = await queryGQL(
+    GET_SELLER,
+    {
+      id,
+    },
+    undefined,
+    60,
+  );
+
+  const seller = data.getSeller;
+  if (!seller?.name) return {};
+  return getSEO(
+    data.getSeller?.name || "",
+    data.getSeller?.bio || "",
+    [
+      data.getSeller?.photo || "",
+      ...(data.getSeller?.instagramMedia?.map((media) => media.thumbnail) ||
+        []),
+    ].filter(Boolean),
+  );
+}
+export default async function ProfilePage({ params }: ProfilePage) {
   const id = parseInt(params.id);
   if (isNaN(id)) return null;
   const data = await queryGQL(
