@@ -19,6 +19,7 @@
     "@phosphor-icons/react": "^2.1.7",
     "next": "rc",
     "nextjs-progressloader": "^1.2.0",
+    "pusher-js": "8.4.0-rc2",
     "react": "rc",
     "react-dom": "rc",
     "react-hook-form": "^7.52.1",

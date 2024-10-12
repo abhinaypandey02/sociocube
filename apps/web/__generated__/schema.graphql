@@ -235,6 +235,19 @@ enum AuthScopes {
   PHONE
 }
 
+type Chat {
+  conversation: Int!
+  hasRead: Boolean!
+  messages(page: Float): [Message!]!
+  preview: String!
+  with: User!
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
+"""
+scalar DateTimeISO
+
 type InstagramMedia {
   caption: String!
   comments: Int!
@@ -255,8 +268,16 @@ type InstagramStats {
   username: String!
 }
 
+type Message {
+  body: String!
+  sender: Int!
+  sentAt: DateTimeISO!
+}
+
 type Mutation {
   completeOnboarding: Boolean!
+  readMessage(conversation: Int!): Boolean!
+  sendMessage(data: SendMessage!): Boolean!
   updateOnboardingBasicDetails(data: UpdateBasicDetailsArgs!): Boolean!
 }
 
@@ -267,6 +288,8 @@ type OnboardingData {
 }
 
 type Query {
+  getChat(user: Int!): Chat
+  getChats: [Chat!]!
   getCurrentUser: User!
   getFeaturedSellers: [User!]!
   getSeller(id: Int!): User
@@ -276,6 +299,11 @@ type Query {
 
 enum ROLES {
   SELLER
+}
+
+input SendMessage {
+  body: String!
+  conversation: Int!
 }
 
 type StorageFile {

@@ -5,4 +5,5 @@ export enum Route {
   Account = "/account",
   Onboarding = "/onboarding",
   Profile = "/profile",
+  Chat = "/chat",
 }

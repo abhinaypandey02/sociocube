@@ -13,3 +13,17 @@ export const COMPLETE_ONBOARDING = gql(`
     completeOnboarding
   }
 `);
+
+export const READ_MESSAGE = gql(`
+  #graphql
+  mutation ReadMessage($id:Int!) {
+    readMessage(conversation: $id)
+  }
+`);
+
+export const SEND_CHAT = gql(`
+  #graphql
+  mutation SendChat($data: SendMessage!) {
+    sendMessage(data: $data)
+  }
+`);

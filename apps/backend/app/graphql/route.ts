@@ -9,9 +9,10 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { buildTypeDefsAndResolvers } from "type-graphql";
 import { authChecker, context } from "./context";
 import { UserResolvers } from "./types/User/resolvers";
+import { ChatResolvers } from "./types/Chat/resolvers";
 
 const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
-  resolvers: [...UserResolvers],
+  resolvers: [...UserResolvers, ...ChatResolvers],
   authChecker,
 });
 

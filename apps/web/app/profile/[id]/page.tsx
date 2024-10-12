@@ -1,11 +1,12 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { UserCard } from "ui/user-card";
 import Image from "next/image";
-import { Button } from "ui/button";
 import type { Metadata } from "next";
 import { queryGQL } from "../../../lib/apollo-server";
 import { GET_SELLER } from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
+import ChatButtonInjector from "./components/chat-button-injector";
+import ChatButton from "./components/chat-button";
 
 interface ProfilePage {
   params: { id: string };
@@ -96,7 +97,9 @@ export default async function ProfilePage({ params }: ProfilePage) {
           <span>Followers</span>
           <span>{seller.instagramStats?.followers}</span>
         </div>
-        <Button>Chat with me!</Button>
+        <Suspense fallback={<ChatButton to={id} />}>
+          <ChatButtonInjector to={id} />
+        </Suspense>
       </div>
     </div>
   );

@@ -10,11 +10,11 @@ import { getServerToken } from "../../lib/auth-server";
 
 export default async function OnboardedNavbar() {
   const token = await getServerToken();
-  const data = await queryGQL(GET_CURRENT_USER, {}, token);
+  const { user } = await queryGQL(GET_CURRENT_USER, {}, token);
   return (
     <Navbar
       sections={
-        data.getCurrentUser.isOnboarded
+        user.isOnboarded
           ? AUTHORISED_SELLER_NAVBAR_SECTIONS
           : AUTHORISED_USER_NAVBAR_SECTIONS
       }

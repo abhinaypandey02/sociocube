@@ -3,7 +3,8 @@ import { gql } from "../__generated__";
 export const GET_CURRENT_USER = gql(`
   #graphql
   query GetCurrentUser {
-    getCurrentUser {
+    user: getCurrentUser {
+      id
       email
       name
       photo
@@ -64,6 +65,41 @@ export const GET_SELLER = gql(`
         followers
         mediaCount
         username
+      }
+    }
+  }
+`);
+
+export const GET_CHATS = gql(`
+  #graphql
+  query GetChats {
+    chats:getChats {
+      preview
+      conversation
+      with {
+        id
+        name
+        photo
+      }
+      hasRead
+    }
+  }
+`);
+export const GET_CHAT = gql(`
+  #graphql
+  query GetChat($userid: Int!) {
+    chat: getChat(user: $userid) {
+      with {
+        id
+        name
+        photo
+      }
+      conversation
+      hasRead
+      messages{
+        body
+        sentAt
+        sender
       }
     }
   }

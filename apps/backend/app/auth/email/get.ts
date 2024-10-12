@@ -1,5 +1,5 @@
-import { cookies } from "next/headers";
 import { eq } from "drizzle-orm";
+import { NextRequest } from "next/server";
 import {
   generateAccessToken,
   getTokenizedResponse,
@@ -9,8 +9,8 @@ import { ErrorResponses } from "../../../lib/auth/error-responses";
 import { UserTable } from "../../graphql/types/User/db/schema";
 import { getUser } from "../../graphql/types/User/db/utils";
 
-export const GET = async () => {
-  const refresh = cookies().get("refresh")?.value;
+export const GET = async (req: NextRequest) => {
+  const refresh = req.cookies.get("refresh")?.value;
 
   if (!process.env.REFRESH_KEY) return ErrorResponses.noRefreshKey;
 
