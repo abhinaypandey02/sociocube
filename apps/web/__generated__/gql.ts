@@ -19,7 +19,7 @@ const documents = {
     "\n  #graphql\n  mutation SendChat($data: SendMessage!) {\n    sendMessage(data: $data)\n  }\n": types.SendChatDocument,
     "\n  #graphql\n  query GetCurrentUser {\n    user: getCurrentUser {\n      id\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n    }\n  }\n": types.GetCurrentUserDocument,
     "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      bio\n      onboardingData {\n        name\n        photo\n        bio\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n": types.GetDefaultOnboardingDetailsDocument,
-    "\n  #graphql\n  query GetFeaturedSellers {\n    getFeaturedSellers {\n      id\n      name\n      photo\n      bio\n    }\n  }\n": types.GetFeaturedSellersDocument,
+    "\n  #graphql\n  query GetFeaturedSellers {\n    sellers: getFeaturedSellers {\n      id\n      name\n      photo\n      bio\n      instagramStats {\n        username\n        followers\n      }\n    }\n  }\n": types.GetFeaturedSellersDocument,
     "\n  #graphql\n  query GetSeller($id: Int!) {\n    getSeller(id: $id) {\n      name\n      photo\n      bio\n      instagramMedia {\n        thumbnail\n        caption\n        link\n      }\n      instagramStats {\n        followers\n        mediaCount\n        username\n      }\n    }\n  }\n": types.GetSellerDocument,
     "\n  #graphql\n  query GetChats {\n    chats:getChats {\n      preview\n      conversation\n      with {\n        id\n        name\n        photo\n      }\n      hasRead\n    }\n  }\n": types.GetChatsDocument,
     "\n  #graphql\n  query GetChat($userid: Int!) {\n    chat: getChat(user: $userid) {\n      with {\n        id\n        name\n        photo\n      }\n      conversation\n      hasRead\n      messages{\n        body\n        sentAt\n        sender\n      }\n    }\n  }\n": types.GetChatDocument,
@@ -66,7 +66,7 @@ export function gql(source: "\n  #graphql\n  query GetDefaultOnboardingDetails {
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  query GetFeaturedSellers {\n    getFeaturedSellers {\n      id\n      name\n      photo\n      bio\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetFeaturedSellers {\n    getFeaturedSellers {\n      id\n      name\n      photo\n      bio\n    }\n  }\n"];
+export function gql(source: "\n  #graphql\n  query GetFeaturedSellers {\n    sellers: getFeaturedSellers {\n      id\n      name\n      photo\n      bio\n      instagramStats {\n        username\n        followers\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetFeaturedSellers {\n    sellers: getFeaturedSellers {\n      id\n      name\n      photo\n      bio\n      instagramStats {\n        username\n        followers\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

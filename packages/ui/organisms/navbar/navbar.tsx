@@ -36,7 +36,7 @@ function Navbar({ sections, activeHref, disabled }: NavbarProps) {
     [sections],
   );
   return (
-    <nav className="flex items-center px-6 py-4">
+    <nav className="mx-auto flex w-full max-w-screen-2xl items-center px-6 py-4">
       <Link className="pr-14 text-3xl font-bold italic text-primary" href="/">
         freeluence
       </Link>
