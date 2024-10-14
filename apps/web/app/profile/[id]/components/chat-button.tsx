@@ -12,15 +12,15 @@ export default function ChatButton({
 }) {
   if (!from)
     return (
-      <Button className="cursor-wait" disabled>
-        Chat with me!
-      </Button>
+      <Link href={Route.SignUp} target="_blank">
+        <Button className="w-full">Register to chat!</Button>
+      </Link>
     );
   if (from === to)
     return <Button disabled>You can't chat with yourself!</Button>;
   return (
     <Link href={`${Route.Chat}/${to}`} target="_blank">
-      <Button>Chat with me!</Button>
+      <Button className="w-full">Chat with me!</Button>
     </Link>
   );
 }

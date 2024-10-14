@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Button } from "ui/button";
 import Link from "next/link";
 import React from "react";
+import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { queryGQL } from "../lib/apollo-server";
 import { GET_FEATURED_SELLERS } from "../lib/queries";
 import { Route } from "../constants/routes";
@@ -116,7 +117,9 @@ async function Page() {
                   </div>
                 </div>
                 <a href="#sellers">
-                  <Button>Find Sellers</Button>
+                  <Button className="flex items-center gap-2">
+                    Find Sellers <ArrowRight size={16} />
+                  </Button>
                 </a>
               </div>
             </div>

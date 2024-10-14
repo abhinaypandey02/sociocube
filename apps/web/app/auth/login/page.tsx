@@ -5,9 +5,11 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
+import Link from "next/link";
 import { useLoginWithEmail } from "../../../lib/auth-client";
 import { Route } from "../../../constants/routes";
 import useTurnstileToken from "../use-turnstile-token";
+import AuthLayout from "../components/auth-layout";
 
 const defaultValues = {
   email: "",
@@ -43,33 +45,77 @@ export default function LoginPage() {
   };
 
   return (
-    <>
-      <h2 className=" my-10 text-center text-4xl font-bold">Get back in!</h2>
-      <form
-        className="flex flex-col items-center gap-3"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Input
-          className="block"
-          placeholder="Email"
-          {...register("email", { required: true })}
-        />
-        <Input
-          className="block"
-          placeholder="Password"
-          type="password"
-          {...register("password", { required: true })}
-        />
+    <AuthLayout newUser={false}>
+      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <label
+            className="block text-sm font-medium leading-6 text-gray-900"
+            htmlFor="email"
+          >
+            Email address
+          </label>
+          <div className="mt-2">
+            <Input
+              className="block"
+              placeholder="Email"
+              {...register("email", { required: true })}
+            />
+          </div>
+        </div>
+
+        <div>
+          <label
+            className="block text-sm font-medium leading-6 text-gray-900"
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <div className="mt-2">
+            <Input
+              className="block"
+              placeholder="Password"
+              type="password"
+              {...register("password", { required: true })}
+            />
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <input
+              className="size-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+              id="remember-me"
+              name="remember-me"
+              type="checkbox"
+            />
+            <label
+              className="ml-3 block text-sm leading-6 text-gray-900"
+              htmlFor="remember-me"
+            >
+              Remember me
+            </label>
+          </div>
+
+          <div className="text-sm leading-6">
+            <Link className="link-accent font-semibold" href="#">
+              Forgot password?
+            </Link>
+          </div>
+        </div>
         <div id={CONTAINER_ID} />
-        <Button
-          loading={!turnstileToken || isLoading}
-          success={success}
-          type="submit"
-        >
-          Login
-        </Button>
+
+        <div>
+          <Button
+            className="w-full"
+            loading={!turnstileToken || isLoading}
+            success={success}
+            type="submit"
+          >
+            Login
+          </Button>
+        </div>
       </form>
-    </>
+    </AuthLayout>
   );
 }
 

@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.link-accent{
+   @apply text-accent hover:brightness-125;
+}

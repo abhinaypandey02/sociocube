@@ -5,7 +5,7 @@ import {
   DisclosureButton,
   DisclosurePanel,
 } from "@headlessui/react";
-import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
+import { Minus, Plus } from "@phosphor-icons/react/dist/ssr";
 
 const faqs = [
   {
@@ -58,15 +58,9 @@ export default function Faqs() {
                       </span>
                       <span className="ml-6 flex h-7 items-center">
                         {open ? (
-                          <MinusSmallIcon
-                            aria-hidden="true"
-                            className="size-6"
-                          />
+                          <Minus aria-hidden="true" className="size-6" />
                         ) : (
-                          <PlusSmallIcon
-                            aria-hidden="true"
-                            className="size-6"
-                          />
+                          <Plus aria-hidden="true" className="size-6" />
                         )}
                       </span>
                     </DisclosureButton>

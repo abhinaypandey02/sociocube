@@ -7,7 +7,7 @@ export const UNAUTHORISED_NAVBAR_SECTIONS = [
   [
     {
       label: {
-        children: "Login",
+        children: "Sign In",
         outline: true,
       },
       href: Route.Login,

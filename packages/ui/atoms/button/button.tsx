@@ -22,7 +22,7 @@ function Button({
   return (
     <button
       className={classNames(
-        "rounded-primary ring-0 border px-5 py-1 duration-200 shadow-elevation-2 disabled:brightness-90 active:brightness-90",
+        "ring-0 border duration-200 disabled:brightness-90 active:brightness-90 flex justify-center rounded-md px-5 py-1.5  font-semibold leading-6 shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
         !success && {
           "border-primary": variant === Variants.PRIMARY,
           "border-accent": variant === Variants.ACCENT,
@@ -36,7 +36,7 @@ function Button({
             "bg-dark": variant === Variants.DARK,
           },
         !outline && "hover:brightness-95 transition-[filter] text-white",
-        outline && "transition-colors",
+        outline && "transition-colors bg-white",
         outline && {
           "text-primary hover:bg-primary hover:text-white":
             variant === Variants.PRIMARY,

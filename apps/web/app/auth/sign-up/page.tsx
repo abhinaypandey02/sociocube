@@ -8,6 +8,7 @@ import { Button } from "ui/button";
 import { useSignUpWithEmail } from "../../../lib/auth-client";
 import { Route } from "../../../constants/routes";
 import useTurnstileToken from "../use-turnstile-token";
+import AuthLayout from "../components/auth-layout";
 
 const defaultValues = {
   email: "",
@@ -49,34 +50,75 @@ export default function Signup() {
   };
 
   return (
-    <>
-      <h2 className=" my-10 text-center text-4xl font-bold">
-        Join the largest community!
-      </h2>
-      <form
-        className="flex flex-col items-center gap-3"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Input className="block" placeholder="Name" {...register("name")} />
-        <Input className="block" placeholder="Email" {...register("email")} />
-        <Input
-          className="block"
-          placeholder="Password"
-          type="password"
-          {...register("password")}
-        />
-        <Input
-          className="block"
-          placeholder="Confirm Password"
-          type="password"
-          {...register("c_password", {
-            validate: {
-              match: (value, formValues) => value === formValues.password,
-            },
-          })}
-        />
+    <AuthLayout newUser>
+      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <label
+            className="block text-sm font-medium leading-6 text-gray-900"
+            htmlFor="email"
+          >
+            Email address
+          </label>
+          <div className="mt-2">
+            <Input className="block" placeholder="Name" {...register("name")} />
+          </div>
+        </div>
+
+        <div>
+          <label
+            className="block text-sm font-medium leading-6 text-gray-900"
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <div className="mt-2">
+            <Input
+              className="block"
+              placeholder="Email"
+              {...register("email")}
+            />
+          </div>
+        </div>
+        <div>
+          <label
+            className="block text-sm font-medium leading-6 text-gray-900"
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <div className="mt-2">
+            <Input
+              className="block"
+              placeholder="Password"
+              type="password"
+              {...register("password")}
+            />
+          </div>
+        </div>
+        <div>
+          <label
+            className="block text-sm font-medium leading-6 text-gray-900"
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <div className="mt-2">
+            <Input
+              className="block"
+              placeholder="Confirm Password"
+              type="password"
+              {...register("c_password", {
+                validate: {
+                  match: (value, formValues) => value === formValues.password,
+                },
+              })}
+            />
+          </div>
+        </div>
+
         <div id={CONTAINER_ID} />
         <Button
+          className="w-full"
           loading={!turnstileToken || isLoading}
           success={success}
           type="submit"
@@ -84,6 +126,6 @@ export default function Signup() {
           Sign up
         </Button>
       </form>
-    </>
+    </AuthLayout>
   );
 }

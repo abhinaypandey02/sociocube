@@ -23,7 +23,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex min-h-screen flex-col`}>
+      <body
+        className={`${inter.className} flex min-h-screen flex-col bg-[#fcfcfc]`}
+      >
         <ApolloWrapper>
           <GlobalStateWrapper>
             <Suspense fallback={<Navbar sections={NAVBAR_COMMON_ROUTES} />}>
