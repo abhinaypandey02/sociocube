@@ -279,6 +279,7 @@ type Mutation {
   readMessage(conversation: Int!): Boolean!
   sendMessage(data: SendMessage!): Boolean!
   updateOnboardingBasicDetails(data: UpdateBasicDetailsArgs!): Boolean!
+  updateUser(data: UpdateUserArgs!): Boolean!
 }
 
 type OnboardingData {
@@ -315,6 +316,12 @@ input UpdateBasicDetailsArgs {
   bio: String!
   imageURL: String
   name: String!
+}
+
+input UpdateUserArgs {
+  bio: String
+  name: String
+  photo: String
 }
 
 type User {

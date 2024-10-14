@@ -108,3 +108,18 @@ export const GET_CHAT = gql(`
     }
   }
 `);
+
+export const GET_ACCOUNT_DETAILS = gql(`
+  #graphql
+  query GetAccountDetails {
+    user: getCurrentUser {
+      name
+      bio
+      photo
+      pictureUploadURL {
+        uploadURL
+        url
+      }
+    }
+  }
+`);

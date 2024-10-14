@@ -5,6 +5,7 @@ import {
   UpdateBasicDetailsArgs,
 } from "./onboarding/update-onboarding-basic-details";
 import { handleCompleteOnboarding } from "./onboarding/complete-onboarding";
+import { handleUpdateUser, UpdateUserArgs } from "./update-user";
 
 @Resolver()
 export class UserMutationResolver {
@@ -20,5 +21,10 @@ export class UserMutationResolver {
   @Mutation(() => Boolean)
   completeOnboarding(@Ctx() ctx: Context) {
     return handleCompleteOnboarding(ctx);
+  }
+  @Authorized()
+  @Mutation(() => Boolean)
+  updateUser(@Ctx() ctx: Context, @Arg("data") args: UpdateUserArgs) {
+    return handleUpdateUser(ctx, args);
   }
 }

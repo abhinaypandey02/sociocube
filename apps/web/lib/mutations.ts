@@ -27,3 +27,10 @@ export const SEND_CHAT = gql(`
     sendMessage(data: $data)
   }
 `);
+
+export const UPDATE_USER = gql(`
+  #graphql
+  mutation UpdateUser($data: UpdateUserArgs!) {
+    updateUser(data: $data)
+  }
+`);

@@ -36,12 +36,14 @@ function Navbar({ sections, activeHref, disabled }: NavbarProps) {
     [sections],
   );
   return (
-    <nav className="mx-auto flex w-full max-w-screen-2xl items-center px-6 py-4">
-      <Link className="pr-14 text-3xl font-bold italic text-primary" href="/">
-        freeluence
-      </Link>
-      <div className="flex grow items-center justify-between gap-6">
-        {linksList}
+    <nav className="w-full px-6 py-4 shadow-md">
+      <div className=" mx-auto flex max-w-screen-2xl items-center">
+        <Link className="pr-14 text-3xl font-bold italic text-primary" href="/">
+          freeluence
+        </Link>
+        <div className="flex grow items-center justify-between gap-6">
+          {linksList}
+        </div>
       </div>
     </nav>
   );
