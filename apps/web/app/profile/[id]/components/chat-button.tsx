@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "ui/button";
+import { Button, Variants } from "ui/button";
 import Link from "next/link";
 import { Route } from "../../../../constants/routes";
 
@@ -13,14 +13,22 @@ export default function ChatButton({
   if (!from)
     return (
       <Link href={Route.SignUp} target="_blank">
-        <Button className="w-full">Register to chat!</Button>
+        <Button className="w-full" variant={Variants.ACCENT}>
+          Register to chat!
+        </Button>
       </Link>
     );
   if (from === to)
-    return <Button disabled>You can't chat with yourself!</Button>;
+    return (
+      <Button disabled variant={Variants.ACCENT}>
+        You can't chat with yourself!
+      </Button>
+    );
   return (
     <Link href={`${Route.Chat}/${to}`} target="_blank">
-      <Button className="w-full">Chat with me!</Button>
+      <Button className="w-full" variant={Variants.ACCENT}>
+        Chat with me!
+      </Button>
     </Link>
   );
 }

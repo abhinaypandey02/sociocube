@@ -1,6 +1,8 @@
 import React, { Suspense } from "react";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { Button, Variants } from "ui/button";
+import { Heart } from "@phosphor-icons/react/dist/ssr";
 import { queryGQL } from "../../../lib/apollo-server";
 import { GET_SELLER } from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
@@ -51,8 +53,8 @@ export default async function ProfilePage({ params }: ProfilePage) {
   const seller = data.getSeller;
   if (!seller?.name || !seller.photo) return null;
   return (
-    <div className="mx-auto mt-8 max-w-2xl px-4 pb-16 pt-6 sm:px-6 sm:pb-24 lg:grid lg:max-w-7xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
-      <div className="lg:col-span-5 lg:col-start-8">
+    <div className="mx-auto max-w-2xl px-4 pt-6 sm:mt-8 sm:px-6 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
+      <div className="lg:col-span-6 lg:col-start-7">
         <div className="flex justify-between">
           <h1 className="text-2xl font-semibold text-gray-900">
             {seller.name}
@@ -62,39 +64,48 @@ export default async function ProfilePage({ params }: ProfilePage) {
         {/* Reviews */}
       </div>
       {/* Image gallery */}
-      <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
+      <div className="mt-8 lg:col-span-6 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
         <h2 className="sr-only">Images</h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
-          <Image
-            alt={seller.name}
-            className="rounded-lg lg:col-span-2 lg:row-span-2"
-            height={1080}
-            src={seller.photo}
-            width={720}
-          />
-        </div>
+        <Image
+          alt={seller.name}
+          className="w-full rounded-lg lg:col-span-2 lg:row-span-2"
+          height={1080}
+          src={seller.photo}
+          width={720}
+        />
       </div>
 
-      <div className="mt-8 lg:col-span-5">
-        <form>
-          <Suspense fallback={<ChatButton to={id} />}>
-            <ChatButtonInjector to={id} />
-          </Suspense>
-        </form>
-
+      <div className="mt-6 lg:col-span-6">
         {/* Product details */}
-        <div className="mt-10">
+        <div className="">
           <h2 className="text-sm font-medium text-gray-900">About</h2>
 
           <div className="prose prose-sm mt-2 text-gray-500">{seller.bio}</div>
         </div>
+        <div className="mt-6 flex gap-4">
+          <div className="grow">
+            <Suspense fallback={<ChatButton to={id} />}>
+              <ChatButtonInjector to={id} />
+            </Suspense>
+          </div>
+          <Button
+            className="flex items-center gap-2"
+            outline
+            variant={Variants.ACCENT}
+          >
+            <Heart size={18} />
+          </Button>
+        </div>
+
         <div className="mt-10">
           <div className="flex justify-between">
             <h2 className="text-sm font-medium text-gray-900">Instagram</h2>
             <a
               className="link-accent text-sm font-medium text-gray-900"
               href={`https://instagram.com/${seller.instagramStats?.username}`}
+              rel="noopener"
+              target="_blank"
             >
               @{seller.instagramStats?.username}
             </a>
@@ -121,7 +132,13 @@ export default async function ProfilePage({ params }: ProfilePage) {
           </div>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 ">
             {seller.instagramMedia?.map((media) => (
-              <a className="relative" href={media.link} key={media.thumbnail}>
+              <a
+                className="relative"
+                href={media.link}
+                key={media.thumbnail}
+                rel="noopener"
+                target="_blank"
+              >
                 <Image
                   alt={media.caption}
                   className="size-full rounded-md object-cover"

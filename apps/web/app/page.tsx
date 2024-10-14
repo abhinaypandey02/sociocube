@@ -152,14 +152,13 @@ async function Page() {
                       src={person.photo || ""}
                       width={280}
                     />
-                    <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight ">
-                      {person.name}
-                    </h3>
-                    <p className="text-base leading-7 text-gray-600">
-                      @{person.instagramStats?.username} (
-                      {person.instagramStats?.followers} followers)
-                    </p>
-                    <p className="text-sm leading-6 text-gray-800">
+                    <div className="mt-2 flex flex-wrap items-center justify-between">
+                      <h3 className=" truncate text-xl font-semibold leading-9 tracking-tight ">
+                        {person.name}
+                      </h3>
+                      <p className="text-sm leading-9 text-gray-600">Travel</p>
+                    </div>
+                    <p className="truncate text-sm leading-6 text-gray-800">
                       {person.bio}
                     </p>
                   </Link>
