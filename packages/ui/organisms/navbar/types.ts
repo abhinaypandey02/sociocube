@@ -1,11 +1,15 @@
 import type { ButtonProps } from "../../atoms/button/types";
 
 export interface NavbarProps {
-  sections: NavbarLink[][];
-  activeHref?: string;
-  disabled?: boolean;
+  secondaryLinks: NavbarLink[];
+  primaryLinks: NavbarLink[];
+  cta?: {
+    button: ButtonProps;
+    href: string;
+  };
+  disableCTA?: boolean;
 }
 interface NavbarLink {
-  label: string | ButtonProps;
-  href?: string;
+  label: string;
+  href: string;
 }

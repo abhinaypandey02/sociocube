@@ -10,7 +10,7 @@ import { ApolloWrapper } from "../lib/apollo-client";
 import { GlobalStateWrapper } from "../lib/auth-client";
 import { getSEO, SEO } from "../constants/seo";
 import OptimisticNavbar from "./components/optimistic-navbar";
-import { NAVBAR_COMMON_ROUTES } from "./constants";
+import { UNAUTHORISED_NAVBAR_SECTIONS } from "./constants";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +28,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       >
         <ApolloWrapper>
           <GlobalStateWrapper>
-            <Suspense fallback={<Navbar sections={NAVBAR_COMMON_ROUTES} />}>
+            <Suspense fallback={<Navbar {...UNAUTHORISED_NAVBAR_SECTIONS} />}>
               <OptimisticNavbar />
             </Suspense>
             <main className="grow">{children}</main>

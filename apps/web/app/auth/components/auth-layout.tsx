@@ -9,7 +9,7 @@ export default function AuthLayout({
   children,
 }: PropsWithChildren<{ newUser?: boolean }>) {
   return (
-    <section className="mt-32  flex flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <section className="mt-5  flex flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <Link
           className="mx-auto block w-auto text-center text-5xl font-bold italic text-primary"

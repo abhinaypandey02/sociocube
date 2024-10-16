@@ -9,10 +9,10 @@ import OnboardedNavbar from "./onboarded-navbar";
 
 export default async function AuthorisedNavbar() {
   const token = await getServerToken();
-  if (!token) return <Navbar sections={UNAUTHORISED_NAVBAR_SECTIONS} />;
+  if (!token) return <Navbar {...UNAUTHORISED_NAVBAR_SECTIONS} />;
   return (
     <Suspense
-      fallback={<Navbar disabled sections={AUTHORISED_USER_NAVBAR_SECTIONS} />}
+      fallback={<Navbar disableCTA {...AUTHORISED_USER_NAVBAR_SECTIONS} />}
     >
       <OnboardedNavbar />
     </Suspense>

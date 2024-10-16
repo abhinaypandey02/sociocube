@@ -13,11 +13,9 @@ export default async function OnboardedNavbar() {
   const { user } = await queryGQL(GET_CURRENT_USER, {}, token);
   return (
     <Navbar
-      sections={
-        user.isOnboarded
-          ? AUTHORISED_SELLER_NAVBAR_SECTIONS
-          : AUTHORISED_USER_NAVBAR_SECTIONS
-      }
+      {...(user.isOnboarded
+        ? AUTHORISED_SELLER_NAVBAR_SECTIONS
+        : AUTHORISED_USER_NAVBAR_SECTIONS)}
     />
   );
 }
