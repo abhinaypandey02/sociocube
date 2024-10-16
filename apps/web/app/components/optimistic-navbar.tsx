@@ -7,8 +7,8 @@ import {
 } from "../constants";
 import AuthorisedNavbar from "./authorised-navbar";
 
-export default function OptimisticNavbar() {
-  const token = cookies().get("refresh")?.value;
+export default async function OptimisticNavbar() {
+  const token = (await cookies()).get("refresh")?.value;
   if (!token) return <Navbar {...UNAUTHORISED_NAVBAR_SECTIONS} />;
   return (
     <Suspense

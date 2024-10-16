@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { Route } from "../constants/routes";
 
 export const getServerToken = cache(async () => {
-  const token = cookies().get("refresh")?.value;
+  const token = (await cookies()).get("refresh")?.value;
   if (!token) return null;
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/email`,
