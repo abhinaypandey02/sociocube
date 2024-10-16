@@ -7,9 +7,9 @@ import { getServerToken, handleUnauthorized } from "../../../lib/auth-server";
 import ChatWindow from "./components/chat-window";
 
 interface ChatPage {
-  params: { userid: string };
+  params: Promise<{ userid: string }>;
 }
-export default async function Page({ params: { userid } }: ChatPage) {
+export default async function Page({ params }: ChatPage) {
   const token = await getServerToken();
   if (!token) {
     handleUnauthorized();
@@ -19,7 +19,7 @@ export default async function Page({ params: { userid } }: ChatPage) {
   const { chat } = await queryGQL(
     GET_CHAT,
     {
-      userid: parseInt(userid),
+      userid: parseInt((await params).userid),
     },
     token,
   );

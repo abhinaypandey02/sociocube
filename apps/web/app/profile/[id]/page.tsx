@@ -10,13 +10,13 @@ import ChatButtonInjector from "./components/chat-button-injector";
 import ChatButton from "./components/chat-button";
 
 interface ProfilePage {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: ProfilePage): Promise<Metadata> {
-  const id = parseInt(params.id);
+  const id = parseInt((await params).id);
   if (isNaN(id)) return {};
   const data = await queryGQL(
     GET_SELLER,
@@ -40,7 +40,7 @@ export async function generateMetadata({
   );
 }
 export default async function ProfilePage({ params }: ProfilePage) {
-  const id = parseInt(params.id);
+  const id = parseInt((await params).id);
   if (isNaN(id)) return null;
   const data = await queryGQL(
     GET_SELLER,
