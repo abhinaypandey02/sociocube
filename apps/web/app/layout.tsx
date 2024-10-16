@@ -28,7 +28,15 @@ export default function RootLayout({ children }: PropsWithChildren) {
       >
         <ApolloWrapper>
           <GlobalStateWrapper>
-            <Suspense fallback={<Navbar {...UNAUTHORISED_NAVBAR_SECTIONS} />}>
+            <Suspense
+              fallback={
+                <Navbar
+                  {...UNAUTHORISED_NAVBAR_SECTIONS}
+                  cta={undefined}
+                  secondaryLinks={[]}
+                />
+              }
+            >
               <OptimisticNavbar />
             </Suspense>
             <main className="grow">{children}</main>
