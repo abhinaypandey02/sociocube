@@ -53,6 +53,10 @@ export const OnboardingDataTable = pgTable("onboarding_data", {
   bio: text("bio"),
   photo: text("photo"),
 });
+export const CategoryTable = pgTable("category", {
+  id: serial("id").primaryKey(),
+  title: text("title"),
+});
 
 export type UserDBInsert = typeof UserTable.$inferInsert;
 export type UserDB = typeof UserTable.$inferSelect;
