@@ -6,10 +6,14 @@ import {
   serial,
   text,
   timestamp,
+  date,
 } from "drizzle-orm/pg-core";
+import categories from "commons/categories";
+import genders from "commons/genders";
 import { Roles } from "../../../constants/roles";
 import { AuthScopes } from "../../../constants/scopes";
 import { InstagramDetails } from "../../Instagram/db/schema";
+import { CityTable } from "../../Map/db/schema";
 
 export const rolesEnum = pgEnum("role", [Roles.SELLER]);
 export const authScopesEnum = pgEnum("scope", [
@@ -18,6 +22,11 @@ export const authScopesEnum = pgEnum("scope", [
   AuthScopes.EMAIL,
   AuthScopes.PHONE,
 ]);
+export const gendersEnum = pgEnum("genders", genders as [string, ...string[]]);
+export const categoriesEnum = pgEnum(
+  "categories",
+  categories.map((category) => category.title) as [string, ...string[]],
+);
 
 export const UserTable = pgTable("user", {
   id: serial("id").primaryKey(),
@@ -40,6 +49,10 @@ export const UserTable = pgTable("user", {
   isOnboarded: boolean("is_onboarded").default(false),
   stripeConnectedAccountID: text("stripe_connected_account_id"),
   stripeSubscriptionID: text("stripe_subscription_id"),
+  city: integer("city").references(() => CityTable.id),
+  category: categoriesEnum("category"),
+  dob: date("dob"),
+  gender: gendersEnum("gender"),
 });
 
 export const OTPTable = pgTable("otp", {
@@ -52,10 +65,10 @@ export const OnboardingDataTable = pgTable("onboarding_data", {
   name: text("name"),
   bio: text("bio"),
   photo: text("photo"),
-});
-export const CategoryTable = pgTable("category", {
-  id: serial("id").primaryKey(),
-  title: text("title"),
+  city: integer("city").references(() => CityTable.id),
+  category: categoriesEnum("category"),
+  dob: date("dob"),
+  gender: gendersEnum("gender"),
 });
 
 export type UserDBInsert = typeof UserTable.$inferInsert;

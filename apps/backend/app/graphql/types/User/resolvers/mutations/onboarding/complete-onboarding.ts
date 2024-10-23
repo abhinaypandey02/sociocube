@@ -9,17 +9,8 @@ import { Roles } from "../../../../../constants/roles";
 export async function handleCompleteOnboarding(ctx: Context) {
   await db.transaction(async (tx) => {
     if (!ctx.userId) return false;
-    const [res] = await db
-      .select({
-        onboardingData: {
-          name: OnboardingDataTable.name,
-          photo: OnboardingDataTable.photo,
-        },
-        user: {
-          roles: UserTable.roles,
-          onboardingDataId: OnboardingDataTable.id,
-        },
-      })
+    const [res] = await tx
+      .select()
       .from(UserTable)
       .where(
         and(
@@ -33,12 +24,21 @@ export async function handleCompleteOnboarding(ctx: Context) {
         OnboardingDataTable,
         eq(UserTable.onboardingData, OnboardingDataTable.id),
       );
-    if (!res?.onboardingData || !res.user.onboardingDataId)
+    if (!res?.onboarding_data || !res.user.onboardingData)
       throw GQLError(400, "Already onboarded or onboarding not started");
+    if (
+      !res.onboarding_data.name ||
+      !res.onboarding_data.bio ||
+      !res.onboarding_data.dob ||
+      !res.onboarding_data.gender ||
+      !res.onboarding_data.city ||
+      !res.onboarding_data.category
+    )
+      throw GQLError(400, "Missing required fields");
     const [updateResult] = await tx
       .update(UserTable)
       .set({
-        ...res.onboardingData,
+        ...res.onboarding_data,
         onboardingData: null,
         roles: [...res.user.roles, Roles.SELLER],
         isOnboarded: true,
@@ -51,7 +51,7 @@ export async function handleCompleteOnboarding(ctx: Context) {
     }
     await tx
       .delete(OnboardingDataTable)
-      .where(eq(OnboardingDataTable.id, res.user.onboardingDataId));
+      .where(eq(OnboardingDataTable.id, res.user.onboardingData));
   });
   return true;
 }

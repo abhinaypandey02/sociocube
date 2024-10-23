@@ -6,6 +6,10 @@ import {
 } from "./onboarding/update-onboarding-basic-details";
 import { handleCompleteOnboarding } from "./onboarding/complete-onboarding";
 import { handleUpdateUser, UpdateUserArgs } from "./update-user";
+import {
+  handleUpdateOnboardingLocation,
+  UpdateLocationArgs,
+} from "./onboarding/update-onboarding-location";
 
 @Resolver()
 export class UserMutationResolver {
@@ -16,6 +20,14 @@ export class UserMutationResolver {
     @Ctx() ctx: Context,
   ) {
     return handleUpdateOnboardingBasicDetails(args, ctx);
+  }
+  @Authorized()
+  @Mutation(() => Boolean)
+  updateOnboardingLocation(
+    @Arg("data") args: UpdateLocationArgs,
+    @Ctx() ctx: Context,
+  ) {
+    return handleUpdateOnboardingLocation(args, ctx);
   }
   @Authorized()
   @Mutation(() => Boolean)

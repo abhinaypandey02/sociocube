@@ -10,9 +10,10 @@ import { buildTypeDefsAndResolvers } from "type-graphql";
 import { authChecker, context } from "./context";
 import { UserResolvers } from "./types/User/resolvers";
 import { ChatResolvers } from "./types/Chat/resolvers";
+import { MapResolvers } from "./types/Map/resolvers";
 
 const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
-  resolvers: [...UserResolvers, ...ChatResolvers],
+  resolvers: [...UserResolvers, ...ChatResolvers, ...MapResolvers],
   authChecker,
 });
 

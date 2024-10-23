@@ -10,12 +10,12 @@ import {
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
-export const states = pgTable("states", {
+export const StateTable = pgTable("states", {
   id: bigint("id", { mode: "number" }).primaryKey().notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   countryId: bigint("country_id", { mode: "number" })
     .notNull()
-    .references(() => countries.id),
+    .references(() => CountryTable.id),
   countryCode: char("country_code", { length: 2 }).notNull(),
   fipsCode: varchar("fips_code", { length: 255 }),
   iso2: varchar("iso2", { length: 255 }),
@@ -30,7 +30,7 @@ export const states = pgTable("states", {
   wikiDataId: varchar("wikiDataId", { length: 255 }),
 });
 
-export const regions = pgTable("regions", {
+export const RegionTable = pgTable("regions", {
   id: bigint("id", { mode: "number" }).primaryKey().notNull(),
   name: varchar("name", { length: 100 }).notNull(),
   translations: text("translations"),
@@ -42,16 +42,16 @@ export const regions = pgTable("regions", {
   wikiDataId: varchar("wikiDataId", { length: 255 }),
 });
 
-export const cities = pgTable("cities", {
+export const CityTable = pgTable("cities", {
   id: bigint("id", { mode: "number" }).primaryKey().notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   stateId: bigint("state_id", { mode: "number" })
     .notNull()
-    .references(() => states.id),
+    .references(() => StateTable.id),
   stateCode: varchar("state_code", { length: 255 }).notNull(),
   countryId: bigint("country_id", { mode: "number" })
     .notNull()
-    .references(() => countries.id),
+    .references(() => CountryTable.id),
   countryCode: char("country_code", { length: 2 }).notNull(),
   latitude: numeric("latitude", { precision: 10, scale: 8 }).notNull(),
   longitude: numeric("longitude", { precision: 11, scale: 8 }).notNull(),
@@ -65,7 +65,7 @@ export const cities = pgTable("cities", {
   wikiDataId: varchar("wikiDataId", { length: 255 }),
 });
 
-export const countries = pgTable("countries", {
+export const CountryTable = pgTable("countries", {
   id: bigint("id", { mode: "number" }).primaryKey().notNull(),
   name: varchar("name", { length: 100 }).notNull(),
   iso3: char("iso3", { length: 3 }),
@@ -80,7 +80,7 @@ export const countries = pgTable("countries", {
   native: varchar("native", { length: 255 }),
   region: varchar("region", { length: 255 }),
   regionId: bigint("region_id", { mode: "number" }).references(
-    () => regions.id,
+    () => RegionTable.id,
   ),
   subregion: varchar("subregion", { length: 255 }),
   subregionId: bigint("subregion_id", { mode: "number" }),
