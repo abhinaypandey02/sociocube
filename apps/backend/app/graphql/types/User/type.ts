@@ -10,6 +10,14 @@ class OnboardingData {
   bio?: string;
   @Field({ nullable: true })
   photo?: string;
+  @Field()
+  category: string;
+  @Field()
+  gender: string;
+  @Field()
+  dob: string;
+  @Field()
+  city: number;
 }
 
 @ObjectType("User")

@@ -18,6 +18,7 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
   #graphql
   query GetDefaultOnboardingDetails {
     getCurrentUser {
+      id
       email
       name
       photo
@@ -28,6 +29,10 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
         name
         photo
         bio
+        category
+        city
+        dob
+        gender
       }
       pictureUploadURL {
         uploadURL
@@ -57,6 +62,7 @@ export const GET_SELLER = gql(`
   #graphql
   query GetSeller($id: Int!) {
     getSeller(id: $id) {
+      id
       name
       photo
       bio
@@ -79,7 +85,7 @@ export const GET_CHATS = gql(`
   query GetChats {
     chats:getChats {
       preview
-      conversation
+      id: conversation
       with {
         id
         name
@@ -98,7 +104,7 @@ export const GET_CHAT = gql(`
         name
         photo
       }
-      conversation
+      id: conversation
       hasRead
       messages{
         body
@@ -113,6 +119,7 @@ export const GET_ACCOUNT_DETAILS = gql(`
   #graphql
   query GetAccountDetails {
     user: getCurrentUser {
+      id
       name
       bio
       photo

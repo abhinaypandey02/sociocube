@@ -141,6 +141,9 @@ importers:
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
+      commons:
+        specifier: workspace:*
+        version: link:../../packages/commons
       next:
         specifier: 15.0.0-canary.195
         version: 15.0.0-canary.195(@babel/core@7.25.8)(react-dom@19.0.0-rc-83825814-20241015(react@19.0.0-rc-83825814-20241015))(react@19.0.0-rc-83825814-20241015)

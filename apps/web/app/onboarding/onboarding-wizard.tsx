@@ -48,6 +48,9 @@ function OnboardingWizard({
           name: currentUser.onboardingData?.name || currentUser.name || "",
           photo: currentUser.onboardingData?.photo || currentUser.photo || "",
           bio: currentUser.onboardingData?.bio || currentUser.bio || "",
+          category: currentUser.onboardingData?.category || "",
+          dob: currentUser.onboardingData?.dob || "",
+          gender: currentUser.onboardingData?.gender || "",
         }}
         nextStep={nextStep}
         photoUpload={currentUser.pictureUploadURL}

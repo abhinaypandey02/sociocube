@@ -279,11 +279,16 @@ type Mutation {
   readMessage(conversation: Int!): Boolean!
   sendMessage(data: SendMessage!): Boolean!
   updateOnboardingBasicDetails(data: UpdateBasicDetailsArgs!): Boolean!
+  updateOnboardingLocation(data: UpdateLocationArgs!): Boolean!
   updateUser(data: UpdateUserArgs!): Boolean!
 }
 
 type OnboardingData {
   bio: String
+  category: String!
+  city: Float!
+  dob: String!
+  gender: String!
   name: String
   photo: String
 }
@@ -291,15 +296,23 @@ type OnboardingData {
 type Query {
   getChat(user: Int!): Chat
   getChats: [Chat!]!
+  getCities(state: Float!): [SelectOption!]!
+  getCountries: [SelectOption!]!
   getCurrentUser: User!
   getFeaturedSellers: [User!]!
   getSeller(id: Int!): User
+  getStates(country: Float!): [SelectOption!]!
   __schema: __Schema!
   __type(name: String!): __Type
 }
 
 enum ROLES {
   SELLER
+}
+
+type SelectOption {
+  id: Int!
+  label: String!
 }
 
 input SendMessage {
@@ -314,8 +327,15 @@ type StorageFile {
 
 input UpdateBasicDetailsArgs {
   bio: String!
+  category: String!
+  dob: String!
+  gender: String!
   imageURL: String
   name: String!
+}
+
+input UpdateLocationArgs {
+  city: Float!
 }
 
 input UpdateUserArgs {

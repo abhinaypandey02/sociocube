@@ -11,6 +11,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * 3. It does not support dead code elimination, so it will add unused operations.
  *
  * Therefore it is highly recommended to use the babel or swc plugin for production.
+ * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
     "\n  #graphql\n  mutation UpdateOnboardingBasicDetails($data: UpdateBasicDetailsArgs!) {\n    updateOnboardingBasicDetails(data: $data)\n  }\n": types.UpdateOnboardingBasicDetailsDocument,
@@ -19,12 +20,12 @@ const documents = {
     "\n  #graphql\n  mutation SendChat($data: SendMessage!) {\n    sendMessage(data: $data)\n  }\n": types.SendChatDocument,
     "\n  #graphql\n  mutation UpdateUser($data: UpdateUserArgs!) {\n    updateUser(data: $data)\n  }\n": types.UpdateUserDocument,
     "\n  #graphql\n  query GetCurrentUser {\n    user: getCurrentUser {\n      id\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n    }\n  }\n": types.GetCurrentUserDocument,
-    "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      bio\n      onboardingData {\n        name\n        photo\n        bio\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n": types.GetDefaultOnboardingDetailsDocument,
+    "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      id\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      bio\n      onboardingData {\n        name\n        photo\n        bio\n        category\n        city\n        dob\n        gender\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n": types.GetDefaultOnboardingDetailsDocument,
     "\n  #graphql\n  query GetFeaturedSellers {\n    sellers: getFeaturedSellers {\n      id\n      name\n      photo\n      bio\n      instagramStats {\n        username\n        followers\n      }\n    }\n  }\n": types.GetFeaturedSellersDocument,
-    "\n  #graphql\n  query GetSeller($id: Int!) {\n    getSeller(id: $id) {\n      name\n      photo\n      bio\n      instagramMedia {\n        thumbnail\n        caption\n        link\n      }\n      instagramStats {\n        followers\n        mediaCount\n        username\n      }\n    }\n  }\n": types.GetSellerDocument,
-    "\n  #graphql\n  query GetChats {\n    chats:getChats {\n      preview\n      conversation\n      with {\n        id\n        name\n        photo\n      }\n      hasRead\n    }\n  }\n": types.GetChatsDocument,
-    "\n  #graphql\n  query GetChat($userid: Int!) {\n    chat: getChat(user: $userid) {\n      with {\n        id\n        name\n        photo\n      }\n      conversation\n      hasRead\n      messages{\n        body\n        sentAt\n        sender\n      }\n    }\n  }\n": types.GetChatDocument,
-    "\n  #graphql\n  query GetAccountDetails {\n    user: getCurrentUser {\n      name\n      bio\n      photo\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n": types.GetAccountDetailsDocument,
+    "\n  #graphql\n  query GetSeller($id: Int!) {\n    getSeller(id: $id) {\n      id\n      name\n      photo\n      bio\n      instagramMedia {\n        thumbnail\n        caption\n        link\n      }\n      instagramStats {\n        followers\n        mediaCount\n        username\n      }\n    }\n  }\n": types.GetSellerDocument,
+    "\n  #graphql\n  query GetChats {\n    chats:getChats {\n      preview\n      id: conversation\n      with {\n        id\n        name\n        photo\n      }\n      hasRead\n    }\n  }\n": types.GetChatsDocument,
+    "\n  #graphql\n  query GetChat($userid: Int!) {\n    chat: getChat(user: $userid) {\n      with {\n        id\n        name\n        photo\n      }\n      id: conversation\n      hasRead\n      messages{\n        body\n        sentAt\n        sender\n      }\n    }\n  }\n": types.GetChatDocument,
+    "\n  #graphql\n  query GetAccountDetails {\n    user: getCurrentUser {\n      id\n      name\n      bio\n      photo\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n": types.GetAccountDetailsDocument,
 };
 
 /**
@@ -68,7 +69,7 @@ export function gql(source: "\n  #graphql\n  query GetCurrentUser {\n    user: g
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      bio\n      onboardingData {\n        name\n        photo\n        bio\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      bio\n      onboardingData {\n        name\n        photo\n        bio\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n"];
+export function gql(source: "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      id\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      bio\n      onboardingData {\n        name\n        photo\n        bio\n        category\n        city\n        dob\n        gender\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      id\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n      bio\n      onboardingData {\n        name\n        photo\n        bio\n        category\n        city\n        dob\n        gender\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -76,19 +77,19 @@ export function gql(source: "\n  #graphql\n  query GetFeaturedSellers {\n    sel
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  query GetSeller($id: Int!) {\n    getSeller(id: $id) {\n      name\n      photo\n      bio\n      instagramMedia {\n        thumbnail\n        caption\n        link\n      }\n      instagramStats {\n        followers\n        mediaCount\n        username\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetSeller($id: Int!) {\n    getSeller(id: $id) {\n      name\n      photo\n      bio\n      instagramMedia {\n        thumbnail\n        caption\n        link\n      }\n      instagramStats {\n        followers\n        mediaCount\n        username\n      }\n    }\n  }\n"];
+export function gql(source: "\n  #graphql\n  query GetSeller($id: Int!) {\n    getSeller(id: $id) {\n      id\n      name\n      photo\n      bio\n      instagramMedia {\n        thumbnail\n        caption\n        link\n      }\n      instagramStats {\n        followers\n        mediaCount\n        username\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetSeller($id: Int!) {\n    getSeller(id: $id) {\n      id\n      name\n      photo\n      bio\n      instagramMedia {\n        thumbnail\n        caption\n        link\n      }\n      instagramStats {\n        followers\n        mediaCount\n        username\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  query GetChats {\n    chats:getChats {\n      preview\n      conversation\n      with {\n        id\n        name\n        photo\n      }\n      hasRead\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetChats {\n    chats:getChats {\n      preview\n      conversation\n      with {\n        id\n        name\n        photo\n      }\n      hasRead\n    }\n  }\n"];
+export function gql(source: "\n  #graphql\n  query GetChats {\n    chats:getChats {\n      preview\n      id: conversation\n      with {\n        id\n        name\n        photo\n      }\n      hasRead\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetChats {\n    chats:getChats {\n      preview\n      id: conversation\n      with {\n        id\n        name\n        photo\n      }\n      hasRead\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  query GetChat($userid: Int!) {\n    chat: getChat(user: $userid) {\n      with {\n        id\n        name\n        photo\n      }\n      conversation\n      hasRead\n      messages{\n        body\n        sentAt\n        sender\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetChat($userid: Int!) {\n    chat: getChat(user: $userid) {\n      with {\n        id\n        name\n        photo\n      }\n      conversation\n      hasRead\n      messages{\n        body\n        sentAt\n        sender\n      }\n    }\n  }\n"];
+export function gql(source: "\n  #graphql\n  query GetChat($userid: Int!) {\n    chat: getChat(user: $userid) {\n      with {\n        id\n        name\n        photo\n      }\n      id: conversation\n      hasRead\n      messages{\n        body\n        sentAt\n        sender\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetChat($userid: Int!) {\n    chat: getChat(user: $userid) {\n      with {\n        id\n        name\n        photo\n      }\n      id: conversation\n      hasRead\n      messages{\n        body\n        sentAt\n        sender\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  query GetAccountDetails {\n    user: getCurrentUser {\n      name\n      bio\n      photo\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetAccountDetails {\n    user: getCurrentUser {\n      name\n      bio\n      photo\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n"];
+export function gql(source: "\n  #graphql\n  query GetAccountDetails {\n    user: getCurrentUser {\n      id\n      name\n      bio\n      photo\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetAccountDetails {\n    user: getCurrentUser {\n      id\n      name\n      bio\n      photo\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

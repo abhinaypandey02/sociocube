@@ -26,6 +26,7 @@
     "react-dom": "rc",
     "react-hook-form": "^7.53.0",
     "ui": "workspace:*",
+    "commons": "workspace:*",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

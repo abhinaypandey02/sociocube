@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
 import Image from "next/image";
+import categories from "commons/categories";
+import genders from "commons/genders";
 import { useAuthMutation } from "../../lib/apollo-client";
 import { UPDATE_ONBOARDING_BASIC_DETAILS } from "../../lib/mutations";
 import type { StorageFile } from "../../__generated__/graphql";
@@ -19,6 +21,9 @@ export default function OnboardingBasicDetailsForm({
     name: string;
     photo: string;
     bio: string;
+    gender: string;
+    category: string;
+    dob: string;
   };
   nextStep: () => void;
   photoUpload: StorageFile;
@@ -49,6 +54,9 @@ export default function OnboardingBasicDetailsForm({
         name: data.name,
         imageURL: profilePicture ? photoUpload.url : null,
         bio: data.bio,
+        category: data.category,
+        gender: data.gender,
+        dob: data.dob,
       },
     });
     if (res.data?.updateOnboardingBasicDetails) {
@@ -70,6 +78,30 @@ export default function OnboardingBasicDetailsForm({
           placeholder="Bio"
           textarea
           {...register("bio")}
+        />
+        <Input
+          className="block"
+          options={categories.map(({ title }) => ({
+            label: title,
+            value: title,
+          }))}
+          placeholder="Category"
+          {...register("category")}
+        />
+        <Input
+          className="block"
+          options={genders.map((gender) => ({
+            label: gender,
+            value: gender,
+          }))}
+          placeholder="Gender"
+          {...register("gender")}
+        />
+        <Input
+          className="block"
+          placeholder="Date of birth"
+          type="date"
+          {...register("dob")}
         />
         <Input
           className="hidden"

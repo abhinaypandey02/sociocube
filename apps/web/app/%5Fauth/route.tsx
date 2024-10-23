@@ -27,4 +27,3 @@ export const PUT = handleAuth;
 export const POST = handleAuth;
 export const GET = handleAuth;
 export const DELETE = handleAuth;
-export const runtime = "edge";

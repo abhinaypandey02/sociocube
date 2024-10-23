@@ -52,7 +52,7 @@ export default function ChatWindow({
     sendMessage({
       data: {
         body: data.text,
-        conversation: chat.conversation,
+        conversation: chat.id,
       },
     })
       .then(() => {
@@ -78,13 +78,13 @@ export default function ChatWindow({
       },
     });
 
-    pusher.subscribe(getConversationChannelName(chat.conversation));
+    pusher.subscribe(getConversationChannelName(chat.id));
     pusher.bind(
       NEW_MESSAGE,
       (message: NonNullable<GetChatQuery["chat"]>["messages"][number]) => {
         if (message.sender !== user.id) {
           void readMessage({
-            id: chat.conversation,
+            id: chat.id,
           });
           setMessages((old) => [
             ...old,
@@ -99,9 +99,9 @@ export default function ChatWindow({
     );
     return () => {
       pusher.unbind();
-      pusher.unsubscribe(getConversationChannelName(chat.conversation));
+      pusher.unsubscribe(getConversationChannelName(chat.id));
     };
-  }, [chat.conversation, readMessage, token, user.id]);
+  }, [chat.id, readMessage, token, user.id]);
 
   return (
     <div>
