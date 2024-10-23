@@ -74,6 +74,7 @@ export type Mutation = {
   readMessage: Scalars['Boolean']['output'];
   sendMessage: Scalars['Boolean']['output'];
   updateOnboardingBasicDetails: Scalars['Boolean']['output'];
+  updateOnboardingLocation: Scalars['Boolean']['output'];
   updateUser: Scalars['Boolean']['output'];
 };
 
@@ -93,6 +94,11 @@ export type MutationUpdateOnboardingBasicDetailsArgs = {
 };
 
 
+export type MutationUpdateOnboardingLocationArgs = {
+  data: UpdateLocationArgs;
+};
+
+
 export type MutationUpdateUserArgs = {
   data: UpdateUserArgs;
 };
@@ -100,6 +106,10 @@ export type MutationUpdateUserArgs = {
 export type OnboardingData = {
   __typename?: 'OnboardingData';
   bio?: Maybe<Scalars['String']['output']>;
+  category: Scalars['String']['output'];
+  city: Scalars['Float']['output'];
+  dob: Scalars['String']['output'];
+  gender: Scalars['String']['output'];
   name?: Maybe<Scalars['String']['output']>;
   photo?: Maybe<Scalars['String']['output']>;
 };
@@ -108,9 +118,12 @@ export type Query = {
   __typename?: 'Query';
   getChat?: Maybe<Chat>;
   getChats: Array<Chat>;
+  getCities: Array<SelectOption>;
+  getCountries: Array<SelectOption>;
   getCurrentUser: User;
   getFeaturedSellers: Array<User>;
   getSeller?: Maybe<User>;
+  getStates: Array<SelectOption>;
 };
 
 
@@ -119,13 +132,29 @@ export type QueryGetChatArgs = {
 };
 
 
+export type QueryGetCitiesArgs = {
+  state: Scalars['Float']['input'];
+};
+
+
 export type QueryGetSellerArgs = {
   id: Scalars['Int']['input'];
+};
+
+
+export type QueryGetStatesArgs = {
+  country: Scalars['Float']['input'];
 };
 
 export enum Roles {
   Seller = 'SELLER'
 }
+
+export type SelectOption = {
+  __typename?: 'SelectOption';
+  id: Scalars['Int']['output'];
+  label: Scalars['String']['output'];
+};
 
 export type SendMessage = {
   body: Scalars['String']['input'];
