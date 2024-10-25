@@ -3,7 +3,7 @@ import { Field, Int, ObjectType } from "type-graphql";
 @ObjectType("SelectOption")
 export class SelectOption {
   @Field(() => Int)
-  id: number;
+  value: number;
   @Field()
   label: string;
 }

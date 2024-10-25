@@ -33,6 +33,8 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
         city
         dob
         gender
+        country
+        state
       }
       pictureUploadURL {
         uploadURL
@@ -127,6 +129,35 @@ export const GET_ACCOUNT_DETAILS = gql(`
         uploadURL
         url
       }
+    }
+  }
+`);
+
+export const GET_COUNTRIES = gql(`
+  #graphql
+  query GetCountries {
+    countries: getCountries {
+      value
+      label
+    }
+  }
+`);
+export const GET_STATES = gql(`
+  #graphql
+  query GetStates($country: Int!) {
+    states: getStates(country: $country) {
+      value
+      label
+    }
+  }
+`);
+
+export const GET_CITIES = gql(`
+  #graphql
+  query GetCities($state: Int!) {
+    cities: getCities(state: $state) {
+      value
+      label
     }
   }
 `);

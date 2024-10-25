@@ -39,6 +39,7 @@ export async function handleCompleteOnboarding(ctx: Context) {
       .update(UserTable)
       .set({
         ...res.onboarding_data,
+        id: ctx.userId,
         onboardingData: null,
         roles: [...res.user.roles, Roles.SELLER],
         isOnboarded: true,

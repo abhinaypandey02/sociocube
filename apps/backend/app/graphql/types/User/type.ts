@@ -18,6 +18,10 @@ class OnboardingData {
   dob?: string;
   @Field({ nullable: true })
   city?: number;
+  @Field({ nullable: true })
+  state?: number;
+  @Field({ nullable: true })
+  country?: number;
 }
 
 @ObjectType("User")

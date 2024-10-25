@@ -16,6 +16,7 @@ import {
   InstagramStats,
 } from "../../Instagram/type";
 import { InstagramDetails } from "../../Instagram/db/schema";
+import { CityTable } from "../../Map/db/schema";
 
 @Resolver(() => UserGQL)
 export class UserFieldResolver {
@@ -26,6 +27,19 @@ export class UserFieldResolver {
       .select()
       .from(OnboardingDataTable)
       .where(eq(OnboardingDataTable.id, user.onboardingData));
+    if (data?.city) {
+      const [city] = await db
+        .select()
+        .from(CityTable)
+        .where(eq(CityTable.id, data.city));
+      if (city) {
+        return {
+          ...data,
+          state: city.stateId,
+          country: city.countryId,
+        };
+      }
+    }
     return data;
   }
 

@@ -285,23 +285,25 @@ type Mutation {
 
 type OnboardingData {
   bio: String
-  category: String!
-  city: Float!
-  dob: String!
-  gender: String!
+  category: String
+  city: Float
+  country: Float
+  dob: String
+  gender: String
   name: String
   photo: String
+  state: Float
 }
 
 type Query {
   getChat(user: Int!): Chat
   getChats: [Chat!]!
-  getCities(state: Float!): [SelectOption!]!
+  getCities(state: Int!): [SelectOption!]!
   getCountries: [SelectOption!]!
   getCurrentUser: User!
   getFeaturedSellers: [User!]!
   getSeller(id: Int!): User
-  getStates(country: Float!): [SelectOption!]!
+  getStates(country: Int!): [SelectOption!]!
   __schema: __Schema!
   __type(name: String!): __Type
 }
@@ -311,8 +313,8 @@ enum ROLES {
 }
 
 type SelectOption {
-  id: Int!
   label: String!
+  value: Int!
 }
 
 input SendMessage {

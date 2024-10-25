@@ -7,6 +7,7 @@ import SocialsStatus from "./socials-status";
 import OnboardingCompleteForm from "./onboarding-complete-form";
 import { ONBOARDING_SCOPES } from "./constants";
 import { completedOnboardingScopes } from "./utils";
+import OnboardingLocationForm from "./onboarding-location";
 
 function getStep(
   currentUser: NonNullable<GetDefaultOnboardingDetailsQuery["getCurrentUser"]>,
@@ -24,7 +25,8 @@ function getStep(
     !currentUser.onboardingData.dob
   )
     return 2;
-  if (!currentUser.isOnboarded) return 3;
+  if (!currentUser.onboardingData.city) return 3;
+  if (!currentUser.isOnboarded) return 4;
   return 0;
 }
 
@@ -35,7 +37,7 @@ function OnboardingWizard({
 }) {
   const [step, setStep] = useState(getStep(currentUser));
   const nextStep = () => {
-    setStep((o) => Math.min(o + 1, 3));
+    setStep((o) => Math.min(o + 1, 4));
   };
   if (step === 0) {
     return (
@@ -63,7 +65,18 @@ function OnboardingWizard({
         photoUpload={currentUser.pictureUploadURL}
       />
     );
-  if (step === 3) return <OnboardingCompleteForm />;
+  if (step === 3)
+    return (
+      <OnboardingLocationForm
+        defaultValues={{
+          city: currentUser.onboardingData?.city,
+          country: currentUser.onboardingData?.country,
+          state: currentUser.onboardingData?.state,
+        }}
+        nextStep={nextStep}
+      />
+    );
+  if (step === 4) return <OnboardingCompleteForm />;
 }
 
 export default OnboardingWizard;

@@ -15,7 +15,7 @@ function Select({
   const className = classNames(getBaseClassName(variant), rest.className);
   const { register, setValue, getValues } = useFormContext();
   const [searchValue, setSearchValue] = useState(
-    getValues(rest.name) as string,
+    (getValues(rest.name) as string) || "",
   );
 
   const filteredOptions = useMemo(

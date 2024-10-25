@@ -1,4 +1,4 @@
-import { Arg, Query, Resolver } from "type-graphql";
+import { Arg, Int, Query, Resolver } from "type-graphql";
 import { eq } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { CityTable, CountryTable, StateTable } from "../../db/schema";
@@ -10,31 +10,35 @@ export class MapQueryResolver {
   async getCountries(): Promise<SelectOption[]> {
     const countries = await db.select().from(CountryTable);
     return countries.map((country) => ({
-      id: country.id,
+      value: country.id,
       label: country.name,
     }));
   }
 
   @Query(() => [SelectOption])
-  async getStates(@Arg("country") country: number): Promise<SelectOption[]> {
+  async getStates(
+    @Arg("country", () => Int) country: number,
+  ): Promise<SelectOption[]> {
     const states = await db
       .select()
       .from(StateTable)
       .where(eq(StateTable.countryId, country));
     return states.map((state) => ({
-      id: state.id,
+      value: state.id,
       label: state.name,
     }));
   }
 
   @Query(() => [SelectOption])
-  async getCities(@Arg("state") state: number): Promise<SelectOption[]> {
+  async getCities(
+    @Arg("state", () => Int) state: number,
+  ): Promise<SelectOption[]> {
     const citites = await db
       .select()
       .from(CityTable)
       .where(eq(CityTable.stateId, state));
     return citites.map((city) => ({
-      id: city.id,
+      value: city.id,
       label: city.name,
     }));
   }
