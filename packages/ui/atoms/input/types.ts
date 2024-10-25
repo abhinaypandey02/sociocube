@@ -4,7 +4,7 @@ import type { Variants } from "../../constants";
 
 interface SelectOption {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 export type InputProps = {
