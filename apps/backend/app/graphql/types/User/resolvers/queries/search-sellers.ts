@@ -16,11 +16,18 @@ import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { AuthScopes } from "../../../../constants/scopes";
+import { CityTable } from "../../../Map/db/schema";
 
 @InputType("SearchSellers")
 export class SearchSellersInput {
   @Field({ nullable: true })
   query?: string;
+  @Field(() => [Int], { nullable: true })
+  cities?: number[];
+  @Field(() => [Int], { nullable: true })
+  states?: number[];
+  @Field(() => [Int], { nullable: true })
+  countries?: number[];
   @Field(() => [String], { nullable: true })
   @IsIn(categories.map(({ title }) => title), { each: true })
   categories?: string[];
@@ -73,6 +80,15 @@ export function handleSearchSellers(input: SearchSellersInput) {
             to_tsvector('english', ${UserTable.bio})
         ) @@ to_tsquery('english', ${input.query})`
           : undefined,
+      ),
+    )
+    .innerJoin(
+      CityTable,
+      and(
+        eq(CityTable.id, UserTable.city),
+        input.cities && inArray(CityTable.id, input.cities),
+        input.states && inArray(CityTable.stateId, input.states),
+        input.countries && inArray(CityTable.countryId, input.countries),
       ),
     )
     .limit(10);

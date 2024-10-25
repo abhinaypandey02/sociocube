@@ -7,6 +7,7 @@ import {
   text,
   smallint,
   timestamp,
+  index,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
@@ -42,28 +43,37 @@ export const RegionTable = pgTable("regions", {
   wikiDataId: varchar("wikiDataId", { length: 255 }),
 });
 
-export const CityTable = pgTable("cities", {
-  id: bigint("id", { mode: "number" }).primaryKey().notNull(),
-  name: varchar("name", { length: 255 }).notNull(),
-  stateId: bigint("state_id", { mode: "number" })
-    .notNull()
-    .references(() => StateTable.id),
-  stateCode: varchar("state_code", { length: 255 }).notNull(),
-  countryId: bigint("country_id", { mode: "number" })
-    .notNull()
-    .references(() => CountryTable.id),
-  countryCode: char("country_code", { length: 2 }).notNull(),
-  latitude: numeric("latitude", { precision: 10, scale: 8 }).notNull(),
-  longitude: numeric("longitude", { precision: 11, scale: 8 }).notNull(),
-  createdAt: timestamp("created_at", { mode: "string" })
-    .default(sql`'2014-01-01 12:01:01'`)
-    .notNull(),
-  updatedAt: timestamp("updated_at", { mode: "string" }).defaultNow().notNull(),
-  flag: smallint("flag")
-    .default(sql`1`)
-    .notNull(),
-  wikiDataId: varchar("wikiDataId", { length: 255 }),
-});
+export const CityTable = pgTable(
+  "cities",
+  {
+    id: bigint("id", { mode: "number" }).primaryKey().notNull(),
+    name: varchar("name", { length: 255 }).notNull(),
+    stateId: bigint("state_id", { mode: "number" })
+      .notNull()
+      .references(() => StateTable.id),
+    stateCode: varchar("state_code", { length: 255 }).notNull(),
+    countryId: bigint("country_id", { mode: "number" })
+      .notNull()
+      .references(() => CountryTable.id),
+    countryCode: char("country_code", { length: 2 }).notNull(),
+    latitude: numeric("latitude", { precision: 10, scale: 8 }).notNull(),
+    longitude: numeric("longitude", { precision: 11, scale: 8 }).notNull(),
+    createdAt: timestamp("created_at", { mode: "string" })
+      .default(sql`'2014-01-01 12:01:01'`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { mode: "string" })
+      .defaultNow()
+      .notNull(),
+    flag: smallint("flag")
+      .default(sql`1`)
+      .notNull(),
+    wikiDataId: varchar("wikiDataId", { length: 255 }),
+  },
+  (table) => ({
+    countryIdx: index("country_idx").on(table.countryId),
+    stateIdx: index("state_idx").on(table.stateId),
+  }),
+);
 
 export const CountryTable = pgTable("countries", {
   id: bigint("id", { mode: "number" }).primaryKey().notNull(),

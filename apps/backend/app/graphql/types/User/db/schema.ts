@@ -66,6 +66,11 @@ export const UserTable = pgTable(
         to_tsvector('english', ${table.bio})
         )`,
     ),
+    categoryIdx: index("category_idx").on(table.category),
+    genderIdx: index("gender_idx").on(table.gender),
+    dobIdx: index("dob_idx").on(table.dob),
+    emailIdx: index("email_idx").on(table.email),
+    cityIdx: index("city_idx").on(table.city),
   }),
 );
 

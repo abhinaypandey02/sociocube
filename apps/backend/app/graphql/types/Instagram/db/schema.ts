@@ -14,5 +14,6 @@ export const InstagramDetails = pgTable(
       "gin",
       sql`to_tsvector('english', ${table.username})`,
     ),
+    followersIdx: index("followers_idx").on(table.followers),
   }),
 );
