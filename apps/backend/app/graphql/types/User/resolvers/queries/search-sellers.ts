@@ -13,7 +13,7 @@ import { IsIn } from "class-validator";
 import categories from "commons/categories";
 import genders from "commons/genders";
 import { db } from "../../../../../../lib/db";
-import { UserTable } from "../../db/schema";
+import { PricingTable, UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { AuthScopes } from "../../../../constants/scopes";
 import { CityTable } from "../../../Map/db/schema";
@@ -42,6 +42,10 @@ export class SearchSellersInput {
   followersFrom?: number;
   @Field(() => Int, { nullable: true })
   followersTo?: number;
+  @Field({ nullable: true })
+  generalPriceFrom?: number;
+  @Field({ nullable: true })
+  generalPriceTo?: number;
 }
 
 export function handleSearchSellers(input: SearchSellersInput) {
@@ -89,6 +93,17 @@ export function handleSearchSellers(input: SearchSellersInput) {
         input.cities && inArray(CityTable.id, input.cities),
         input.states && inArray(CityTable.stateId, input.states),
         input.countries && inArray(CityTable.countryId, input.countries),
+      ),
+    )
+    .leftJoin(PricingTable, and(eq(PricingTable.id, UserTable.pricing)))
+    .where(
+      and(
+        input.generalPriceFrom
+          ? gte(PricingTable.general, input.generalPriceFrom)
+          : undefined,
+        input.generalPriceTo
+          ? lte(PricingTable.general, input.generalPriceTo)
+          : undefined,
       ),
     )
     .limit(10);
