@@ -45,7 +45,7 @@ export default function OnboardingPricingForm({
           className="block"
           name="general"
           placeholder="General price"
-          rules={{ required: true }}
+          rules={{ required: true, valueAsNumber: true }}
         />
         <Button loading={loading} type="submit">
           Next
