@@ -5,6 +5,7 @@
   "exports": {
     "./button": "./atoms/button/index.ts",
     "./input": "./atoms/input/index.ts",
+    "./form": "./atoms/form/index.tsx",
     "./footer": "./organisms/footer/index.ts",
     "./user-card": "./molecules/user-card/index.ts",
     "./navbar": "./organisms/navbar/index.ts",
@@ -23,7 +24,8 @@
     "classnames": "^2.5.1",
     "next": "15.0.0-canary.195",
     "react": "rc",
-    "react-dom": "rc"
+    "react-dom": "rc",
+    "react-hook-form": "^7.53.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.9.0",

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
+import Form from "ui/form";
 import { useSignUpWithEmail } from "../../../lib/auth-client";
 import { Route } from "../../../constants/routes";
 import useTurnstileToken from "../use-turnstile-token";
@@ -20,7 +21,7 @@ const defaultValues = {
 const CONTAINER_ID = "captcha-container";
 
 export default function Signup() {
-  const { register, handleSubmit } = useForm({ defaultValues });
+  const form = useForm({ defaultValues });
   const router = useRouter();
   const { turnstileToken, resetTurnstileToken } =
     useTurnstileToken(CONTAINER_ID);
@@ -51,7 +52,11 @@ export default function Signup() {
 
   return (
     <AuthLayout newUser>
-      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+      <Form
+        className="space-y-4"
+        form={form}
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <div>
           <label
             className="block text-sm font-medium leading-6 text-gray-900"
@@ -60,7 +65,7 @@ export default function Signup() {
             Email address
           </label>
           <div className="mt-2">
-            <Input className="block" placeholder="Name" {...register("name")} />
+            <Input className="block" name="name" placeholder="Name" />
           </div>
         </div>
 
@@ -72,11 +77,7 @@ export default function Signup() {
             Password
           </label>
           <div className="mt-2">
-            <Input
-              className="block"
-              placeholder="Email"
-              {...register("email")}
-            />
+            <Input className="block" name="email" placeholder="Email" />
           </div>
         </div>
         <div>
@@ -89,9 +90,9 @@ export default function Signup() {
           <div className="mt-2">
             <Input
               className="block"
+              name="password"
               placeholder="Password"
               type="password"
-              {...register("password")}
             />
           </div>
         </div>
@@ -105,13 +106,14 @@ export default function Signup() {
           <div className="mt-2">
             <Input
               className="block"
+              name="c_password"
               placeholder="Confirm Password"
-              type="password"
-              {...register("c_password", {
+              rules={{
                 validate: {
                   match: (value, formValues) => value === formValues.password,
                 },
-              })}
+              }}
+              type="password"
             />
           </div>
         </div>
@@ -125,7 +127,7 @@ export default function Signup() {
         >
           Sign up
         </Button>
-      </form>
+      </Form>
     </AuthLayout>
   );
 }

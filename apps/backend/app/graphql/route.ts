@@ -15,6 +15,7 @@ import { MapResolvers } from "./types/Map/resolvers";
 const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
   resolvers: [...UserResolvers, ...ChatResolvers, ...MapResolvers],
   authChecker,
+  validate: true,
 });
 
 const server = new ApolloServer({

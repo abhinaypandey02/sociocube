@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
 import Link from "next/link";
+import Form from "ui/form";
 import { useLoginWithEmail } from "../../../lib/auth-client";
 import { Route } from "../../../constants/routes";
 import useTurnstileToken from "../use-turnstile-token";
@@ -21,7 +22,8 @@ const defaultValues = {
 const CONTAINER_ID = "captcha-container";
 
 export default function LoginPage() {
-  const { register, handleSubmit } = useForm({ defaultValues });
+  const form = useForm({ defaultValues });
+
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { turnstileToken, resetTurnstileToken } =
@@ -46,7 +48,11 @@ export default function LoginPage() {
 
   return (
     <AuthLayout newUser={false}>
-      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+      <Form
+        className="space-y-6"
+        form={form}
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <div>
           <label
             className="block text-sm font-medium leading-6 text-gray-900"
@@ -57,8 +63,9 @@ export default function LoginPage() {
           <div className="mt-2">
             <Input
               className="block"
+              name="email"
               placeholder="Email"
-              {...register("email", { required: true })}
+              rules={{ required: true }}
             />
           </div>
         </div>
@@ -73,9 +80,10 @@ export default function LoginPage() {
           <div className="mt-2">
             <Input
               className="block"
+              name="password"
               placeholder="Password"
+              rules={{ required: true }}
               type="password"
-              {...register("password", { required: true })}
             />
           </div>
         </div>
@@ -114,7 +122,7 @@ export default function LoginPage() {
             Login
           </Button>
         </div>
-      </form>
+      </Form>
     </AuthLayout>
   );
 }

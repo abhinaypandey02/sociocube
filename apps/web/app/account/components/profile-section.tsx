@@ -3,13 +3,14 @@ import { Input } from "ui/input";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { Button } from "ui/button";
+import Form from "ui/form";
 import { useAuthMutation } from "../../../lib/apollo-client";
 import { UPDATE_USER } from "../../../lib/mutations";
 import ContentTemplate from "./content-template";
 import type { AccountSectionData } from "./account-view";
 
 export default function ProfileSection({ data }: { data: AccountSectionData }) {
-  const { register, getValues, setValue, watch } = useForm({
+  const form = useForm({
     defaultValues: data,
   });
   const [localFile, setLocalFile] = useState<File | null>(null);
@@ -19,11 +20,11 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
     (field: keyof AccountSectionData) => async () => {
       await saveUserMutation({
         data: {
-          [field]: getValues(field),
+          [field]: form.getValues(field),
         },
       });
     },
-    [getValues, saveUserMutation],
+    [form.getValues, saveUserMutation],
   );
   const uploadPicture = () =>
     fetch(data.pictureUploadURL.uploadURL, {
@@ -32,7 +33,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
     }).then(() => {
       setLocalFile(null);
     });
-  const photoValue = watch("photo");
+  const photoValue = form.watch("photo");
   return (
     <main className="px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20">
       <input
@@ -42,26 +43,29 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
           const file = event.target.files?.[0];
           if (file) {
             setLocalFile(file);
-            setValue("photo", URL.createObjectURL(file));
+            form.setValue("photo", URL.createObjectURL(file));
           }
         }}
         ref={ref}
         type="file"
       />
-      <div className="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
+      <Form
+        className="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none"
+        form={form}
+      >
         <ContentTemplate
           description="Fill the basic details about yourself!"
           items={[
             {
               label: "Name",
               value: data.name || "",
-              editComponent: <Input {...register("name")} />,
+              editComponent: <Input name="name" />,
               onSubmit: handleSave("name"),
             },
             {
               label: "Bio",
               value: data.bio || "",
-              editComponent: <Input textarea {...register("bio")} />,
+              editComponent: <Input name="bio" textarea />,
               onSubmit: handleSave("bio"),
             },
             {
@@ -99,7 +103,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
                       <Button
                         className=" w-full"
                         onClick={() => {
-                          setValue("photo", "");
+                          form.setValue("photo", "");
                           setLocalFile(null);
                         }}
                         outline
@@ -113,9 +117,9 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
               onSubmit: async () => {
                 if (localFile) {
                   await uploadPicture();
-                  setValue("photo", data.pictureUploadURL.url);
+                  form.setValue("photo", data.pictureUploadURL.url);
                 } else {
-                  setValue("photo", "");
+                  form.setValue("photo", "");
                 }
                 await handleSave("photo")();
               },
@@ -123,7 +127,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
           ]}
           title="Basic Info"
         />
-      </div>
+      </Form>
     </main>
   );
 }

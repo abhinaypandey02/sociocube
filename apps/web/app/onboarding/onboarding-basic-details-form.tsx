@@ -8,6 +8,7 @@ import { Button } from "ui/button";
 import Image from "next/image";
 import categories from "commons/categories";
 import genders from "commons/genders";
+import Form from "ui/form";
 import { useAuthMutation } from "../../lib/apollo-client";
 import { UPDATE_ONBOARDING_BASIC_DETAILS } from "../../lib/mutations";
 import type { StorageFile } from "../../__generated__/graphql";
@@ -28,7 +29,7 @@ export default function OnboardingBasicDetailsForm({
   nextStep: () => void;
   photoUpload: StorageFile;
 }) {
-  const { register, handleSubmit } = useForm({ defaultValues });
+  const form = useForm({ defaultValues });
   const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
   const [profilePicture, setProfilePicture] = useState<File>();
   const [uploadingPicture, setUploadingPicture] = useState(false);
@@ -68,42 +69,38 @@ export default function OnboardingBasicDetailsForm({
       <h2 className=" my-10 text-center text-4xl font-bold">
         Some details about you!
       </h2>
-      <form
+      <Form
         className="flex flex-col items-center gap-3"
-        onSubmit={handleSubmit(onSubmit)}
+        form={form}
+        onSubmit={form.handleSubmit(onSubmit)}
       >
-        <Input className="block" placeholder="Name" {...register("name")} />
+        <Input className="block" name="name" placeholder="Name" />
+        <Input className="block" name="bio" placeholder="Bio" textarea />
         <Input
           className="block"
-          placeholder="Bio"
-          textarea
-          {...register("bio")}
-        />
-        <Input
-          className="block"
+          name="category"
           options={categories.map(({ title }) => ({
             label: title,
             value: title,
           }))}
           placeholder="Category"
-          {...register("category")}
         />
         <Input
           className="block"
+          name="gender"
           options={genders.map((gender) => ({
             label: gender,
             value: gender,
           }))}
           placeholder="Gender"
-          {...register("gender")}
         />
         <Input
           className="block"
+          name="dob"
           placeholder="Date of birth"
           type="date"
-          {...register("dob")}
         />
-        <Input
+        <input
           className="hidden"
           onChange={(e) => {
             const event = e as unknown as ChangeEvent<HTMLInputElement>;
@@ -130,7 +127,7 @@ export default function OnboardingBasicDetailsForm({
         <Button loading={loading || uploadingPicture} type="submit">
           Next
         </Button>
-      </form>
+      </Form>
     </>
   );
 }

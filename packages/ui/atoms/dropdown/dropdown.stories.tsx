@@ -3,7 +3,7 @@ import { Button } from "../button";
 import Dropdown from "./dropdown";
 
 export default {
-  title: "Atoms/Dropdown",
+  title: "Atoms/Form",
   component: Dropdown,
 } as Meta<typeof Dropdown>;
 

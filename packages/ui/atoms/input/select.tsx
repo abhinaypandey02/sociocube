@@ -1,14 +1,23 @@
 import React, { useMemo, useState } from "react";
 import classNames from "classnames";
+import { useFormContext } from "react-hook-form";
 import { Variants } from "../../constants";
 import Dropdown from "../dropdown/dropdown";
 import type { SelectProps } from "./types";
 import { getBaseClassName } from "./constants";
 
-function Select({ options, variant = Variants.PRIMARY, ...rest }: SelectProps) {
+function Select({
+  options,
+  variant = Variants.PRIMARY,
+  rules,
+  ...rest
+}: SelectProps) {
   const className = classNames(getBaseClassName(variant), rest.className);
-  const [searchValue, setSearchValue] = useState("");
-  const [value, setValue] = useState("");
+  const { register, setValue, getValues } = useFormContext();
+  const [searchValue, setSearchValue] = useState(
+    getValues(rest.name) as string,
+  );
+
   const filteredOptions = useMemo(
     () =>
       options.filter((option) =>
@@ -26,7 +35,7 @@ function Select({ options, variant = Variants.PRIMARY, ...rest }: SelectProps) {
       }}
       trigger={
         <>
-          <input {...rest} className="hidden" value={value} />
+          <input {...register(rest.name, rules)} {...rest} className="hidden" />
           <input
             className={className}
             onChange={(e) => {
@@ -56,7 +65,7 @@ function Select({ options, variant = Variants.PRIMARY, ...rest }: SelectProps) {
               )}
               key={option.value}
               onClick={() => {
-                setValue(option.value);
+                setValue(rest.name, option.value);
                 setSearchValue(option.label);
                 close();
               }}

@@ -16,7 +16,14 @@ function getStep(
     ONBOARDING_SCOPES.length
   )
     return 0;
-  if (!currentUser.onboardingData?.name) return 2;
+  if (
+    !currentUser.onboardingData?.name ||
+    !currentUser.onboardingData.bio ||
+    !currentUser.onboardingData.gender ||
+    !currentUser.onboardingData.category ||
+    !currentUser.onboardingData.dob
+  )
+    return 2;
   if (!currentUser.isOnboarded) return 3;
   return 0;
 }
