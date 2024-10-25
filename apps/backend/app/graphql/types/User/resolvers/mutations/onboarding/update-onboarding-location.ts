@@ -39,7 +39,7 @@ export async function handleUpdateOnboardingLocation(
     !res.onboarding_data.gender ||
     !res.onboarding_data.category
   )
-    throw GQLError(400, "Missing required fields");
+    throw GQLError(400, "Please add basic details to continue");
   await db
     .update(OnboardingDataTable)
     .set({

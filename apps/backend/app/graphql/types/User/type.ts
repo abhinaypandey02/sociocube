@@ -2,8 +2,14 @@ import { Field, ObjectType } from "type-graphql";
 import { AuthScopes } from "../../constants/scopes";
 import { Roles } from "../../constants/roles";
 
+@ObjectType("Pricing")
+export class Pricing {
+  @Field({ nullable: true })
+  general?: number;
+}
+
 @ObjectType("OnboardingData")
-class OnboardingData {
+export class OnboardingData {
   @Field({ nullable: true })
   name?: string;
   @Field({ nullable: true })
@@ -22,8 +28,9 @@ class OnboardingData {
   state?: number;
   @Field({ nullable: true })
   country?: number;
+  @Field(() => Pricing, { nullable: true })
+  pricing?: Pricing;
 }
-
 @ObjectType("User")
 export class UserGQL {
   @Field()

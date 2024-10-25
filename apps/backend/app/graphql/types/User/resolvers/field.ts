@@ -1,7 +1,7 @@
 import { FieldResolver, Resolver, Root } from "type-graphql";
 import { eq } from "drizzle-orm";
-import { UserGQL } from "../type";
-import { OnboardingDataTable } from "../db/schema";
+import { OnboardingData, Pricing, UserGQL } from "../type";
+import { OnboardingDataTable, PricingTable } from "../db/schema";
 import type { UserDB } from "../db/schema";
 import { db } from "../../../../../lib/db";
 import { FileGQL } from "../../File/type";
@@ -20,27 +20,37 @@ import { CityTable } from "../../Map/db/schema";
 
 @Resolver(() => UserGQL)
 export class UserFieldResolver {
-  @FieldResolver(() => UserGQL)
-  async onboardingData(@Root() user: UserDB) {
+  @FieldResolver(() => OnboardingData, { nullable: true })
+  async onboardingData(@Root() user: UserDB): Promise<OnboardingData | null> {
     if (!user.onboardingData) return null;
     const [data] = await db
       .select()
       .from(OnboardingDataTable)
       .where(eq(OnboardingDataTable.id, user.onboardingData));
+    const onboardingData: OnboardingData = {
+      ...data,
+      pricing: undefined,
+    } as OnboardingData;
     if (data?.city) {
       const [city] = await db
         .select()
         .from(CityTable)
         .where(eq(CityTable.id, data.city));
       if (city) {
-        return {
-          ...data,
-          state: city.stateId,
-          country: city.countryId,
-        };
+        onboardingData.state = city.stateId;
+        onboardingData.country = city.countryId;
       }
     }
-    return data;
+    if (data?.pricing) {
+      const [pricing] = await db
+        .select()
+        .from(PricingTable)
+        .where(eq(PricingTable.id, data.pricing));
+      if (pricing) {
+        onboardingData.pricing = pricing as Pricing;
+      }
+    }
+    return onboardingData;
   }
 
   @FieldResolver(() => FileGQL)

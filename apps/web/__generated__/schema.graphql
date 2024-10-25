@@ -280,6 +280,7 @@ type Mutation {
   sendMessage(data: SendMessage!): Boolean!
   updateOnboardingBasicDetails(data: UpdateBasicDetailsArgs!): Boolean!
   updateOnboardingLocation(data: UpdateLocationArgs!): Boolean!
+  updateOnboardingPricing(data: UpdatePricingArgs!): Boolean!
   updateUser(data: UpdateUserArgs!): Boolean!
 }
 
@@ -292,7 +293,12 @@ type OnboardingData {
   gender: String
   name: String
   photo: String
+  pricing: Pricing
   state: Float
+}
+
+type Pricing {
+  general: Float
 }
 
 type Query {
@@ -317,10 +323,13 @@ input SearchSellers {
   ageFrom: Int
   ageTo: Int
   categories: [String!]
+  cities: [Int!]
+  countries: [Int!]
   followersFrom: Int
   followersTo: Int
   genders: [String!]
   query: String
+  states: [Int!]
 }
 
 type SelectOption {
@@ -349,6 +358,10 @@ input UpdateBasicDetailsArgs {
 
 input UpdateLocationArgs {
   city: Float!
+}
+
+input UpdatePricingArgs {
+  general: Float!
 }
 
 input UpdateUserArgs {

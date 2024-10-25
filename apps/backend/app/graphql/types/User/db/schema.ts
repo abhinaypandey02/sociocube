@@ -8,6 +8,7 @@ import {
   timestamp,
   date,
   index,
+  real,
 } from "drizzle-orm/pg-core";
 import categories from "commons/categories";
 import genders from "commons/genders";
@@ -57,6 +58,7 @@ export const UserTable = pgTable(
     category: categoriesEnum("category"),
     dob: date("dob"),
     gender: gendersEnum("gender"),
+    pricing: integer("pricing").references(() => PricingTable.id),
   },
   (table) => ({
     userSearchIndex: index("user_search_index").using(
@@ -79,6 +81,10 @@ export const OTPTable = pgTable("otp", {
   code: text("code"),
   requestedAt: timestamp("requestedAt"),
 });
+export const PricingTable = pgTable("pricing", {
+  id: serial("id").primaryKey(),
+  general: real("general"),
+});
 export const OnboardingDataTable = pgTable("onboarding_data", {
   id: serial("id").primaryKey(),
   name: text("name"),
@@ -88,6 +94,7 @@ export const OnboardingDataTable = pgTable("onboarding_data", {
   category: categoriesEnum("category"),
   dob: date("dob"),
   gender: gendersEnum("gender"),
+  pricing: integer("pricing").references(() => PricingTable.id),
 });
 
 export type UserDBInsert = typeof UserTable.$inferInsert;

@@ -8,6 +8,7 @@ import OnboardingCompleteForm from "./onboarding-complete-form";
 import { ONBOARDING_SCOPES } from "./constants";
 import { completedOnboardingScopes } from "./utils";
 import OnboardingLocationForm from "./onboarding-location";
+import OnboardingPricingForm from "./onboarding-pricing";
 
 function getStep(
   currentUser: NonNullable<GetDefaultOnboardingDetailsQuery["getCurrentUser"]>,
@@ -26,7 +27,8 @@ function getStep(
   )
     return 2;
   if (!currentUser.onboardingData.city) return 3;
-  if (!currentUser.isOnboarded) return 4;
+  if (!currentUser.onboardingData.pricing) return 4;
+  if (!currentUser.isOnboarded) return 5;
   return 0;
 }
 
@@ -37,7 +39,7 @@ function OnboardingWizard({
 }) {
   const [step, setStep] = useState(getStep(currentUser));
   const nextStep = () => {
-    setStep((o) => Math.min(o + 1, 4));
+    setStep((o) => Math.min(o + 1, 5));
   };
   if (step === 0) {
     return (
@@ -76,7 +78,14 @@ function OnboardingWizard({
         nextStep={nextStep}
       />
     );
-  if (step === 4) return <OnboardingCompleteForm />;
+  if (step === 4)
+    return (
+      <OnboardingPricingForm
+        defaultValues={currentUser.onboardingData?.pricing || {}}
+        nextStep={nextStep}
+      />
+    );
+  if (step === 5) return <OnboardingCompleteForm />;
 }
 
 export default OnboardingWizard;

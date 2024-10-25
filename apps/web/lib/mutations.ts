@@ -14,6 +14,13 @@ export const UPDATE_ONBOARDING_LOCATION = gql(`
   }
 `);
 
+export const UPDATE_ONBOARDING_PRICING = gql(`
+  #graphql
+  mutation UpdateOnboardingPricing($data: UpdatePricingArgs!) {
+    updateOnboardingPricing(data: $data)
+  }
+`);
+
 export const COMPLETE_ONBOARDING = gql(`
   #graphql
   mutation CompleteOnboarding {

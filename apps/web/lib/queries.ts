@@ -35,6 +35,9 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
         gender
         country
         state
+        pricing{
+          general
+        }
       }
       pictureUploadURL {
         uploadURL
