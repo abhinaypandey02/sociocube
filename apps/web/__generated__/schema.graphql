@@ -304,12 +304,23 @@ type Query {
   getFeaturedSellers: [User!]!
   getSeller(id: Int!): User
   getStates(country: Int!): [SelectOption!]!
+  searchSellers(data: SearchSellers!): [User!]
   __schema: __Schema!
   __type(name: String!): __Type
 }
 
 enum ROLES {
   SELLER
+}
+
+input SearchSellers {
+  ageFrom: Int
+  ageTo: Int
+  categories: [String!]
+  followersFrom: Int
+  followersTo: Int
+  genders: [String!]
+  query: String
 }
 
 type SelectOption {

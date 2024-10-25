@@ -4,6 +4,12 @@ const nextConfig = {
   experimental: {
     instrumentationHook: true,
   },
+
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
 };
 
 module.exports = nextConfig;

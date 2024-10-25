@@ -126,6 +126,7 @@ export type Query = {
   getFeaturedSellers: Array<User>;
   getSeller?: Maybe<User>;
   getStates: Array<SelectOption>;
+  searchSellers?: Maybe<Array<User>>;
 };
 
 
@@ -148,9 +149,24 @@ export type QueryGetStatesArgs = {
   country: Scalars['Int']['input'];
 };
 
+
+export type QuerySearchSellersArgs = {
+  data: SearchSellers;
+};
+
 export enum Roles {
   Seller = 'SELLER'
 }
+
+export type SearchSellers = {
+  ageFrom?: InputMaybe<Scalars['Int']['input']>;
+  ageTo?: InputMaybe<Scalars['Int']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
+  followersFrom?: InputMaybe<Scalars['Int']['input']>;
+  followersTo?: InputMaybe<Scalars['Int']['input']>;
+  genders?: InputMaybe<Array<Scalars['String']['input']>>;
+  query?: InputMaybe<Scalars['String']['input']>;
+};
 
 export type SelectOption = {
   __typename?: 'SelectOption';

@@ -7,9 +7,11 @@ import {
   text,
   timestamp,
   date,
+  index,
 } from "drizzle-orm/pg-core";
 import categories from "commons/categories";
 import genders from "commons/genders";
+import { sql } from "drizzle-orm";
 import { Roles } from "../../../constants/roles";
 import { AuthScopes } from "../../../constants/scopes";
 import { InstagramDetails } from "../../Instagram/db/schema";
@@ -28,32 +30,44 @@ export const categoriesEnum = pgEnum(
   categories.map((category) => category.title) as [string, ...string[]],
 );
 
-export const UserTable = pgTable("user", {
-  id: serial("id").primaryKey(),
-  name: text("name"),
-  bio: text("bio"),
-  email: text("email").unique(),
-  instagramDetails: text("instagram_details").references(
-    () => InstagramDetails.id,
-  ),
-  password: text("password"),
-  phone: text("phone"),
-  photo: text("photo"),
-  refreshTokens: text("refresh_tokens").array(),
-  scopes: authScopesEnum("scope").array().notNull(),
-  roles: rolesEnum("role").array().notNull(),
-  otp: integer("otp_id").references(() => OTPTable.id),
-  onboardingData: integer("onboarding_data").references(
-    () => OnboardingDataTable.id,
-  ),
-  isOnboarded: boolean("is_onboarded").default(false),
-  stripeConnectedAccountID: text("stripe_connected_account_id"),
-  stripeSubscriptionID: text("stripe_subscription_id"),
-  city: integer("city").references(() => CityTable.id),
-  category: categoriesEnum("category"),
-  dob: date("dob"),
-  gender: gendersEnum("gender"),
-});
+export const UserTable = pgTable(
+  "user",
+  {
+    id: serial("id").primaryKey(),
+    name: text("name"),
+    bio: text("bio"),
+    email: text("email").unique(),
+    instagramDetails: text("instagram_details").references(
+      () => InstagramDetails.id,
+    ),
+    password: text("password"),
+    phone: text("phone"),
+    photo: text("photo"),
+    refreshTokens: text("refresh_tokens").array(),
+    scopes: authScopesEnum("scope").array().notNull(),
+    roles: rolesEnum("role").array().notNull(),
+    otp: integer("otp_id").references(() => OTPTable.id),
+    onboardingData: integer("onboarding_data").references(
+      () => OnboardingDataTable.id,
+    ),
+    isOnboarded: boolean("is_onboarded").default(false),
+    stripeConnectedAccountID: text("stripe_connected_account_id"),
+    stripeSubscriptionID: text("stripe_subscription_id"),
+    city: integer("city").references(() => CityTable.id),
+    category: categoriesEnum("category"),
+    dob: date("dob"),
+    gender: gendersEnum("gender"),
+  },
+  (table) => ({
+    userSearchIndex: index("user_search_index").using(
+      "gin",
+      sql`(
+        to_tsvector('english', ${table.name}) || 
+        to_tsvector('english', ${table.bio})
+        )`,
+    ),
+  }),
+);
 
 export const OTPTable = pgTable("otp", {
   id: serial("id").primaryKey(),

@@ -76,6 +76,13 @@ export class UserFieldResolver {
           username: string;
         } | null>,
     );
+    await db
+      .update(InstagramDetails)
+      .set({
+        followers: fetchReq?.followers_count,
+        username: fetchReq?.username,
+      })
+      .where(eq(InstagramDetails.id, user.instagramDetails));
     if (!fetchReq) return null;
     return {
       username: fetchReq.username,
