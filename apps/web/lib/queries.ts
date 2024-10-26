@@ -164,3 +164,14 @@ export const GET_CITIES = gql(`
     }
   }
 `);
+export const SEARCH_SELLERS = gql(`
+  #graphql
+  query SearchSellers($data: SearchSellers!) {
+    sellers: searchSellers(data: $data) {
+      name
+      id
+      photo
+      bio
+    }
+  }
+`);

@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import classNames from "classnames";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, type UseFormReturn } from "react-hook-form";
 import { Variants } from "../../constants";
 import Dropdown from "../dropdown/dropdown";
 import type { SelectProps } from "./types";
@@ -13,11 +13,11 @@ function Select({
   ...rest
 }: SelectProps) {
   const className = classNames(getBaseClassName(variant), rest.className);
-  const { register, setValue, getValues } = useFormContext();
+  const formContext = useFormContext() as UseFormReturn | undefined;
+  const ref = useRef<HTMLInputElement | null>(null);
   const [searchValue, setSearchValue] = useState(
-    (getValues(rest.name) as string) || "",
+    (formContext?.getValues(rest.name) as string) || "",
   );
-
   const filteredOptions = useMemo(
     () =>
       options.filter((option) =>
@@ -35,7 +35,13 @@ function Select({
       }}
       trigger={
         <>
-          <input {...register(rest.name, rules)} {...rest} className="hidden" />
+          <input
+            {...(formContext?.register
+              ? formContext.register(rest.name, rules)
+              : { ref })}
+            {...rest}
+            className="hidden"
+          />
           <input
             className={className}
             onChange={(e) => {
@@ -65,7 +71,17 @@ function Select({
               )}
               key={option.value}
               onClick={() => {
-                setValue(rest.name, option.value);
+                if (!formContext) {
+                  const nativeInputValueSetter =
+                    Object.getOwnPropertyDescriptor(
+                      window.HTMLInputElement.prototype,
+                      "value",
+                    );
+                  nativeInputValueSetter?.set?.call(ref.current, option.value);
+                  const event = new Event("input", { bubbles: true });
+                  ref.current?.dispatchEvent(event);
+                }
+                formContext?.setValue(rest.name, option.value);
                 setSearchValue(option.label);
                 close();
               }}

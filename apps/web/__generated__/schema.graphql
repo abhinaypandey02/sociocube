@@ -328,6 +328,8 @@ input SearchSellers {
   followersFrom: Int
   followersTo: Int
   genders: [String!]
+  generalPriceFrom: Float
+  generalPriceTo: Float
   query: String
   states: [Int!]
 }

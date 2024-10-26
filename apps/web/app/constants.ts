@@ -1,6 +1,9 @@
 import { Route } from "../constants/routes";
 
-export const NAVBAR_COMMON_ROUTES = [{ label: "Home", href: Route.Home }];
+export const NAVBAR_COMMON_ROUTES = [
+  { label: "Home", href: Route.Home },
+  { label: "Search", href: Route.Search },
+];
 
 export const UNAUTHORISED_NAVBAR_SECTIONS = {
   primaryLinks: NAVBAR_COMMON_ROUTES,

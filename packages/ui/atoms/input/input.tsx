@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import type { UseFormReturn } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
 import { Variants } from "../../constants";
 import type { InputProps } from "./types";
@@ -13,7 +14,8 @@ function Input({
   rules,
   ...rest
 }: InputProps) {
-  const { register } = useFormContext();
+  const formContext = useFormContext() as UseFormReturn | undefined;
+
   const className = classNames(getBaseClassName(variant), rest.className);
   if (options)
     return (
@@ -22,13 +24,19 @@ function Input({
   if (textarea)
     return (
       <textarea
-        {...register(rest.name, rules)}
+        {...(formContext?.register
+          ? formContext.register(rest.name, rules)
+          : {})}
         {...rest}
         className={className}
       />
     );
   return (
-    <input {...register(rest.name, rules)} {...rest} className={className} />
+    <input
+      {...(formContext?.register ? formContext.register(rest.name, rules) : {})}
+      {...rest}
+      className={className}
+    />
   );
 }
 

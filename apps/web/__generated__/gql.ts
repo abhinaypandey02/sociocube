@@ -30,6 +30,7 @@ const documents = {
     "\n  #graphql\n  query GetCountries {\n    countries: getCountries {\n      value\n      label\n    }\n  }\n": types.GetCountriesDocument,
     "\n  #graphql\n  query GetStates($country: Int!) {\n    states: getStates(country: $country) {\n      value\n      label\n    }\n  }\n": types.GetStatesDocument,
     "\n  #graphql\n  query GetCities($state: Int!) {\n    cities: getCities(state: $state) {\n      value\n      label\n    }\n  }\n": types.GetCitiesDocument,
+    "\n  #graphql\n  query SearchSellers($data: SearchSellers!) {\n    sellers: searchSellers(data: $data) {\n      name\n      id\n      photo\n      bio\n    }\n  }\n": types.SearchSellersDocument,
 };
 
 /**
@@ -114,6 +115,10 @@ export function gql(source: "\n  #graphql\n  query GetStates($country: Int!) {\n
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  #graphql\n  query GetCities($state: Int!) {\n    cities: getCities(state: $state) {\n      value\n      label\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetCities($state: Int!) {\n    cities: getCities(state: $state) {\n      value\n      label\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  #graphql\n  query SearchSellers($data: SearchSellers!) {\n    sellers: searchSellers(data: $data) {\n      name\n      id\n      photo\n      bio\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query SearchSellers($data: SearchSellers!) {\n    sellers: searchSellers(data: $data) {\n      name\n      id\n      photo\n      bio\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
