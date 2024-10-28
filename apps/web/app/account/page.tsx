@@ -1,7 +1,9 @@
 import React from "react";
-import { getServerToken } from "../../lib/auth-server";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { queryGQL } from "../../lib/apollo-server";
 import { GET_ACCOUNT_DETAILS } from "../../lib/queries";
+import { Route } from "../../constants/routes";
 import AccountView from "./components/account-view";
 
 export default async function Page({
@@ -9,8 +11,12 @@ export default async function Page({
 }: {
   searchParams: Promise<{ section: string }>;
 }) {
-  const token = await getServerToken();
-  const { user } = await queryGQL(GET_ACCOUNT_DETAILS, undefined, token);
+  const { user } = await queryGQL(
+    GET_ACCOUNT_DETAILS,
+    undefined,
+    await cookies(),
+  );
   const paramSection = parseInt((await searchParams).section);
+  if (!user) return redirect(Route.Home);
   return <AccountView data={user} defaultSection={paramSection} />;
 }

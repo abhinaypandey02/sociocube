@@ -1,27 +1,28 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { cookies } from "next/headers";
 import { queryGQL } from "../../../lib/apollo-server";
 import { GET_CHAT, GET_CURRENT_USER } from "../../../lib/queries";
-import { getServerToken, handleUnauthorized } from "../../../lib/auth-server";
+import { handleUnauthorized } from "../../../lib/auth-server";
 import ChatWindow from "./components/chat-window";
 
 interface ChatPage {
   params: Promise<{ userid: string }>;
 }
 export default async function Page({ params }: ChatPage) {
-  const token = await getServerToken();
-  if (!token) {
+  const Cookie = await cookies();
+  const { user } = await queryGQL(GET_CURRENT_USER, undefined, Cookie);
+  if (!user) {
     handleUnauthorized();
     return;
   }
-  const { user } = await queryGQL(GET_CURRENT_USER, undefined, token);
   const { chat } = await queryGQL(
     GET_CHAT,
     {
       userid: parseInt((await params).userid),
     },
-    token,
+    Cookie,
   );
   if (!chat) return notFound();
 
@@ -38,7 +39,7 @@ export default async function Page({ params }: ChatPage) {
         ) : null}
         {chat.with.name}
       </div>
-      <ChatWindow chat={chat} token={token} user={user} />
+      <ChatWindow chat={chat} user={user} />
     </div>
   );
 }

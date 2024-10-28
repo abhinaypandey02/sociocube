@@ -140,7 +140,7 @@ export type Query = {
   getChats: Array<Chat>;
   getCities: Array<SelectOption>;
   getCountries: Array<SelectOption>;
-  getCurrentUser: User;
+  getCurrentUser?: Maybe<User>;
   getFeaturedSellers: Array<User>;
   getSeller?: Maybe<User>;
   getStates: Array<SelectOption>;
@@ -304,12 +304,12 @@ export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: boolean 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: number, email?: string | null, name?: string | null, photo?: string | null, isOnboarded?: boolean | null, scopes: Array<AuthScopes> } };
+export type GetCurrentUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: number, email?: string | null, name?: string | null, photo?: string | null, isOnboarded?: boolean | null, scopes: Array<AuthScopes> } | null };
 
 export type GetDefaultOnboardingDetailsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetDefaultOnboardingDetailsQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: number, email?: string | null, name?: string | null, photo?: string | null, isOnboarded?: boolean | null, scopes: Array<AuthScopes>, bio?: string | null, onboardingData?: { __typename?: 'OnboardingData', name?: string | null, photo?: string | null, bio?: string | null, category?: string | null, city?: number | null, dob?: string | null, gender?: string | null, country?: number | null, state?: number | null, pricing?: { __typename?: 'Pricing', general?: number | null } | null } | null, pictureUploadURL: { __typename?: 'StorageFile', uploadURL: string, url: string } } };
+export type GetDefaultOnboardingDetailsQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'User', id: number, email?: string | null, name?: string | null, photo?: string | null, isOnboarded?: boolean | null, scopes: Array<AuthScopes>, bio?: string | null, onboardingData?: { __typename?: 'OnboardingData', name?: string | null, photo?: string | null, bio?: string | null, category?: string | null, city?: number | null, dob?: string | null, gender?: string | null, country?: number | null, state?: number | null, pricing?: { __typename?: 'Pricing', general?: number | null } | null } | null, pictureUploadURL: { __typename?: 'StorageFile', uploadURL: string, url: string } } | null };
 
 export type GetFeaturedSellersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -338,7 +338,7 @@ export type GetChatQuery = { __typename?: 'Query', chat?: { __typename?: 'Chat',
 export type GetAccountDetailsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAccountDetailsQuery = { __typename?: 'Query', user: { __typename?: 'User', id: number, name?: string | null, bio?: string | null, photo?: string | null, pictureUploadURL: { __typename?: 'StorageFile', uploadURL: string, url: string } } };
+export type GetAccountDetailsQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: number, name?: string | null, bio?: string | null, photo?: string | null, pictureUploadURL: { __typename?: 'StorageFile', uploadURL: string, url: string } } | null };
 
 export type GetCountriesQueryVariables = Exact<{ [key: string]: never; }>;
 

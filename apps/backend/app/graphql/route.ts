@@ -7,7 +7,7 @@ import {
 } from "@apollo/server/plugin/landingPage/default";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { buildTypeDefsAndResolvers } from "type-graphql";
-import { authChecker, context } from "./context";
+import { authChecker, Context, context } from "./context";
 import { UserResolvers } from "./types/User/resolvers";
 import { ChatResolvers } from "./types/Chat/resolvers";
 import { MapResolvers } from "./types/Map/resolvers";
@@ -25,6 +25,16 @@ const server = new ApolloServer({
     process.env.NEXT_PUBLIC_DEVELOPMENT
       ? ApolloServerPluginLandingPageLocalDefault()
       : ApolloServerPluginLandingPageProductionDefault(),
+    {
+      // eslint-disable-next-line @typescript-eslint/require-await -- No async required
+      async requestDidStart({ request, contextValue }) {
+        if (
+          (contextValue as Context).onlyQuery &&
+          !request.query?.startsWith("query")
+        )
+          (contextValue as Context).userId = null;
+      },
+    },
   ],
   introspection: true,
   status400ForVariableCoercionErrors: true,

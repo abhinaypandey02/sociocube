@@ -311,7 +311,7 @@ type Query {
   getChats: [Chat!]!
   getCities(state: Int!): [SelectOption!]!
   getCountries: [SelectOption!]!
-  getCurrentUser: User!
+  getCurrentUser: User
   getFeaturedSellers: [User!]!
   getSeller(id: Int!): User
   getStates(country: Int!): [SelectOption!]!

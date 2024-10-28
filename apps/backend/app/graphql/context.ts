@@ -1,15 +1,20 @@
 import type { NextRequest } from "next/server";
-import { verify } from "jsonwebtoken";
 import { AuthChecker } from "type-graphql";
 import { eq } from "drizzle-orm";
+import { verify } from "jsonwebtoken";
+import { checkRefreshToken } from "../auth/email/get";
 import { getUser } from "./types/User/db/utils";
 import { UserTable } from "./types/User/db/schema";
 
 export interface Context {
   userId: number | null;
+  onlyQuery?: boolean;
 }
 
-export function context(req: NextRequest): Context {
+export async function context(req: NextRequest): Promise<Context> {
+  const refresh = req.cookies.get("refresh")?.value;
+  const userId = await checkRefreshToken(refresh);
+  if (userId) return { userId, onlyQuery: true };
   const bearer = req.headers.get("authorization");
   if (bearer && process.env.SIGNING_KEY) {
     const token = bearer.slice(7);

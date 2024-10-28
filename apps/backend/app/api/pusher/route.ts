@@ -10,7 +10,7 @@ export const POST = async (req: NextRequest) => {
   const params = new URLSearchParams(await req.text());
   const socketId = params.get("socket_id");
   const channel = params.get("channel_name");
-  const { userId } = context(req);
+  const { userId } = await context(req);
   if (userId && channel && socketId) {
     const [conversation] = await db
       .select()

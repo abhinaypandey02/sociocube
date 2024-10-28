@@ -11,6 +11,7 @@ import type {
 } from "../../../../__generated__/graphql";
 import { useAuthMutation } from "../../../../lib/apollo-client";
 import { READ_MESSAGE, SEND_CHAT } from "../../../../lib/mutations";
+import { useToken } from "../../../../lib/auth-client";
 
 interface FormValues {
   text: string;
@@ -19,12 +20,11 @@ interface FormValues {
 export default function ChatWindow({
   chat,
   user,
-  token,
 }: {
   chat: NonNullable<GetChatQuery["chat"]>;
   user: NonNullable<GetCurrentUserQuery["user"]>;
-  token: string;
 }) {
+  const token = useToken();
   const { register, handleSubmit, resetField } = useForm<FormValues>();
   const [sendMessage] = useAuthMutation(SEND_CHAT);
   const [readMessage] = useAuthMutation(READ_MESSAGE);

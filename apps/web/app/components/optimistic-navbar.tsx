@@ -5,7 +5,7 @@ import {
   AUTHORISED_USER_NAVBAR_SECTIONS,
   UNAUTHORISED_NAVBAR_SECTIONS,
 } from "../constants";
-import AuthorisedNavbar from "./authorised-navbar";
+import OnboardedNavbar from "./onboarded-navbar";
 
 export default async function OptimisticNavbar() {
   const token = (await cookies()).get("refresh")?.value;
@@ -14,7 +14,7 @@ export default async function OptimisticNavbar() {
     <Suspense
       fallback={<Navbar disableCTA {...AUTHORISED_USER_NAVBAR_SECTIONS} />}
     >
-      <AuthorisedNavbar />
+      <OnboardedNavbar />
     </Suspense>
   );
 }

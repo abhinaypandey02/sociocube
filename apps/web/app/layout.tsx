@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "../globals.css";
 import type { PropsWithChildren } from "react";
 import { Suspense } from "react";
@@ -12,7 +12,14 @@ import { getSEO, SEO } from "../constants/seo";
 import OptimisticNavbar from "./components/optimistic-navbar";
 import { UNAUTHORISED_NAVBAR_SECTIONS } from "./constants";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+});
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
+});
 
 export const metadata = getSEO();
 export const viewport: Viewport = {
@@ -24,7 +31,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex min-h-screen flex-col bg-[#fcfcfc]`}
+        className={`${inter.className} ${poppins.variable} flex min-h-screen flex-col bg-[#fcfcfc]`}
       >
         <ApolloWrapper>
           <GlobalStateWrapper>

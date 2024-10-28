@@ -1,17 +1,12 @@
 import React from "react";
 import Link from "next/link";
-import { getServerToken, handleUnauthorized } from "../../lib/auth-server";
+import { cookies } from "next/headers";
 import { queryGQL } from "../../lib/apollo-server";
 import { GET_CHATS } from "../../lib/queries";
 import { Route } from "../../constants/routes";
 
 export default async function AllChatPage() {
-  const token = await getServerToken();
-  if (!token) {
-    handleUnauthorized();
-    return;
-  }
-  const { chats } = await queryGQL(GET_CHATS, {}, token);
+  const { chats } = await queryGQL(GET_CHATS, {}, await cookies());
   return (
     <div>
       {chats.map((chat) => (

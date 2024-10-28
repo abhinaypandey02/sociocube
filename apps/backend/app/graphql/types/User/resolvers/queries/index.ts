@@ -1,4 +1,4 @@
-import { Arg, Args, Authorized, Ctx, Query, Resolver } from "type-graphql";
+import { Arg, Args, Ctx, Query, Resolver } from "type-graphql";
 import type { Context } from "../../../../context";
 import { UserGQL } from "../../type";
 import { handleGetCurrentUser } from "./get-current-user";
@@ -8,8 +8,7 @@ import { handleSearchSellers, SearchSellersInput } from "./search-sellers";
 
 @Resolver()
 export class UserQueryResolver {
-  @Query(() => UserGQL)
-  @Authorized()
+  @Query(() => UserGQL, { nullable: true })
   async getCurrentUser(@Ctx() ctx: Context) {
     return handleGetCurrentUser(ctx);
   }
