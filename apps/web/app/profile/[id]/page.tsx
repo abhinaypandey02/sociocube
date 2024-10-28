@@ -1,13 +1,11 @@
-import React, { Suspense } from "react";
+import React from "react";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { Button, Variants } from "ui/button";
-import { Heart } from "@phosphor-icons/react/dist/ssr";
+import { Heart, ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
 import { queryGQL } from "../../../lib/apollo-server";
 import { GET_SELLER } from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
-import ChatButtonInjector from "./components/chat-button-injector";
-import ChatButton from "./components/chat-button";
 
 interface ProfilePage {
   params: Promise<{ id: string }>;
@@ -52,6 +50,9 @@ export default async function ProfilePage({ params }: ProfilePage) {
   );
   const seller = data.getSeller;
   if (!seller?.name || !seller.photo) return null;
+  const age = Math.floor(
+    (Date.now() - new Date(seller.dob || Date.now()).getTime()) / 3.15576e10,
+  );
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6 sm:mt-8 sm:px-6 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
       <div className="lg:col-span-6 lg:col-start-7">
@@ -59,8 +60,14 @@ export default async function ProfilePage({ params }: ProfilePage) {
           <h1 className="text-2xl font-semibold text-gray-900">
             {seller.name}
           </h1>
-          <p className="text-lg  text-gray-900">Travel</p>
+          <p className="text-lg  text-gray-900">
+            From ${seller.pricing?.general}
+          </p>
         </div>
+        <div className="prose prose-sm mt-3 text-gray-500">
+          {age} yrs • {seller.gender} • {seller.category}
+        </div>
+
         {/* Reviews */}
       </div>
       {/* Image gallery */}
@@ -83,11 +90,25 @@ export default async function ProfilePage({ params }: ProfilePage) {
 
           <div className="prose prose-sm mt-2 text-gray-500">{seller.bio}</div>
         </div>
-        <div className="mt-6 flex gap-4">
+        <div className="mt-3">
+          <h2 className="text-sm font-medium text-gray-900">Location</h2>
+
+          <div className="prose prose-sm mt-2 flex gap-3 text-gray-500">
+            {seller.location?.city}, {seller.location?.country}{" "}
+            <a
+              href={`http://maps.google.com/?q=${seller.location?.city}+${seller.location?.country}`}
+              rel="noopener"
+              target="_blank"
+            >
+              <ArrowSquareOut color="black" size={20} />
+            </a>
+          </div>
+        </div>
+        <div className="mt-9 flex gap-4">
           <div className="grow">
-            <Suspense fallback={<ChatButton to={id} />}>
-              <ChatButtonInjector to={id} />
-            </Suspense>
+            <Button className="w-full" disabled variant={Variants.ACCENT}>
+              Chat coming soon!
+            </Button>
           </div>
           <Button
             className="flex items-center gap-2"

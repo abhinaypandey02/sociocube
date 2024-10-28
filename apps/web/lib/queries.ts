@@ -71,6 +71,16 @@ export const GET_SELLER = gql(`
       name
       photo
       bio
+      gender
+      location {
+          city
+          country
+      }
+      category
+      dob
+      pricing {
+        general
+      }
       instagramMedia {
         thumbnail
         caption

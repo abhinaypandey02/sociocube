@@ -1,6 +1,6 @@
 import { FieldResolver, Resolver, Root } from "type-graphql";
 import { eq } from "drizzle-orm";
-import { OnboardingData, Pricing, UserGQL } from "../type";
+import { Location, OnboardingData, Pricing, UserGQL } from "../type";
 import { OnboardingDataTable, PricingTable } from "../db/schema";
 import type { UserDB } from "../db/schema";
 import { db } from "../../../../../lib/db";
@@ -16,7 +16,7 @@ import {
   InstagramStats,
 } from "../../Instagram/type";
 import { InstagramDetails } from "../../Instagram/db/schema";
-import { CityTable } from "../../Map/db/schema";
+import { CityTable, CountryTable } from "../../Map/db/schema";
 
 @Resolver(() => UserGQL)
 export class UserFieldResolver {
@@ -62,6 +62,34 @@ export class UserFieldResolver {
       ),
       url: getFileURL(["User", user.id.toString(), "photo"]),
     };
+  }
+
+  @FieldResolver(() => Pricing, { nullable: true })
+  async pricing(@Root() user: UserDB): Promise<Pricing | null> {
+    if (user.pricing) {
+      const [pricing] = await db
+        .select()
+        .from(PricingTable)
+        .where(eq(PricingTable.id, user.pricing));
+      if (pricing) return pricing as Pricing;
+    }
+    return null;
+  }
+  @FieldResolver(() => Location, { nullable: true })
+  async location(@Root() user: UserDB): Promise<Location | null> {
+    if (user.city) {
+      const [city] = await db
+        .select()
+        .from(CityTable)
+        .innerJoin(CountryTable, eq(CountryTable.id, CityTable.countryId))
+        .where(eq(CityTable.id, user.city));
+      if (city)
+        return {
+          city: city.cities.name,
+          country: city.countries.name,
+        };
+    }
+    return null;
   }
 
   @FieldResolver(() => InstagramStats, { nullable: true })

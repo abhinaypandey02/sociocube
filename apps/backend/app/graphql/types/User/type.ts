@@ -8,6 +8,14 @@ export class Pricing {
   general?: number;
 }
 
+@ObjectType("Location")
+export class Location {
+  @Field({ nullable: true })
+  city?: string;
+  @Field({ nullable: true })
+  country?: string;
+}
+
 @ObjectType("OnboardingData")
 export class OnboardingData {
   @Field({ nullable: true })
@@ -55,4 +63,14 @@ export class UserGQL {
   roles?: Roles[];
   @Field({ nullable: true })
   isOnboarded?: boolean;
+  @Field({ nullable: true })
+  category?: string;
+  @Field({ nullable: true })
+  gender?: string;
+  @Field({ nullable: true })
+  dob?: string;
+  @Field({ nullable: true })
+  location?: Location;
+  @Field(() => Pricing, { nullable: true })
+  pricing?: Pricing;
 }
