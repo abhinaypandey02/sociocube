@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Button, Variants } from "ui/button";
 import {
   ArrowRight,
@@ -59,129 +59,135 @@ function OnboardingWizard({
   const router = useRouter();
   const [step, setStep] = useState(getStep(currentUser));
   const [maxTouchedStep, setMaxTouchedStep] = useState(getStep(currentUser));
-  if (!currentUser) {
+
+  const nextStep = useCallback(() => {
+    setStep((o) => Math.min(o + 1, MAX_STEPS));
+    setMaxTouchedStep(step + 1);
+  }, [step]);
+  const steps = useMemo(
+    () => [
+      {
+        title: "",
+        heading: "",
+        description: "",
+        icon: FlagCheckered,
+        component: (
+          <div className="flex h-full flex-col justify-center pb-14" key={0}>
+            <Image
+              alt="Start for sales"
+              className="mx-auto"
+              height={400}
+              loading="eager"
+              src="/onboarding-start.svg"
+              width={200}
+            />
+            <h2 className="mt-5 text-center font-poppins text-3xl font-bold text-gray-800">
+              Let's get you onboarded
+            </h2>
+            <small className="mx-auto mt-2 max-w-96 text-center text-gray-500">
+              With some simple steps you can onboard to become a seller at
+              Freeluence!
+            </small>
+            <Button
+              className="mx-auto mt-5 flex items-center gap-2 !font-medium"
+              onClick={nextStep}
+              variant={Variants.ACCENT}
+            >
+              Start now <ArrowRight weight="bold" />
+            </Button>
+          </div>
+        ),
+      },
+      {
+        title: "Socials",
+        heading: "Let's connect your socials",
+        description: "Connect your socials.",
+        longDescription:
+          "Connect your instagram account to verify your identity.",
+        icon: ShareNetwork,
+        component: (
+          <SocialsStatus
+            key={1}
+            nextStep={nextStep}
+            scopes={currentUser?.scopes || []}
+          />
+        ),
+      },
+      {
+        title: "Basic details",
+        heading: "Let's know you better",
+        description: "Information about you",
+        longDescription:
+          "Provide information about you so we can help you be found!",
+        icon: PencilSimple,
+        component: currentUser ? (
+          <OnboardingBasicDetailsForm
+            defaultValues={{
+              name: currentUser.onboardingData?.name || currentUser.name || "",
+              photo:
+                currentUser.onboardingData?.photo || currentUser.photo || "",
+              bio: currentUser.onboardingData?.bio || currentUser.bio || "",
+              category: currentUser.onboardingData?.category || "",
+              dob: currentUser.onboardingData?.dob || "",
+              gender: currentUser.onboardingData?.gender || "",
+            }}
+            key={2}
+            nextStep={nextStep}
+            photoUpload={currentUser.pictureUploadURL}
+          />
+        ) : null,
+      },
+      {
+        title: "Location",
+        heading: "Where are you based?",
+        description: "Your current city",
+        longDescription:
+          "Enter the details about your current location to help people find you better",
+        icon: MapPin,
+        component: (
+          <OnboardingLocationForm
+            defaultValues={{
+              city: currentUser?.onboardingData?.city,
+              country: currentUser?.onboardingData?.country,
+              state: currentUser?.onboardingData?.state,
+            }}
+            key={3}
+            nextStep={nextStep}
+          />
+        ),
+      },
+      {
+        title: "Pricing",
+        heading: "Your price",
+        description: "Your average charges",
+        longDescription:
+          "Add an average price you would like to charge for collaborations. This can be an approximation for potential brands",
+        icon: MoneyWavy,
+        component: (
+          <OnboardingPricingForm
+            defaultValues={currentUser?.onboardingData?.pricing || {}}
+            key={4}
+            nextStep={nextStep}
+          />
+        ),
+      },
+      {
+        title: "Finish",
+        heading: "Complete onboarding",
+        description: "Complete onboarding",
+        longDescription:
+          "You have completed all the steps and are ready to go!",
+        icon: SealCheck,
+        component: <OnboardingCompleteForm />,
+      },
+    ],
+    [currentUser, nextStep],
+  );
+  if (!currentUser && !loading) {
     router.push(Route.Home);
     return null;
   }
-  const steps = [
-    {
-      title: "",
-      heading: "",
-      description: "",
-      icon: FlagCheckered,
-      component: (
-        <div className="flex h-full flex-col justify-center pb-14" key={0}>
-          <Image
-            alt="Start for sales"
-            className="mx-auto"
-            height={400}
-            src="/onboarding-start.svg"
-            width={200}
-          />
-          <h2 className="mt-5 text-center font-poppins text-3xl font-bold text-gray-800">
-            Let's get you onboarded
-          </h2>
-          <small className="mx-auto mt-2 max-w-96 text-center text-gray-500">
-            With some simple steps you can onboard to become a seller at
-            Freeluence!
-          </small>
-          <Button
-            className="mx-auto mt-5 flex items-center gap-2 !font-medium"
-            onClick={nextStep}
-            variant={Variants.ACCENT}
-          >
-            Start now <ArrowRight weight="bold" />
-          </Button>
-        </div>
-      ),
-    },
-    {
-      title: "Socials",
-      heading: "Let's connect your socials",
-      description: "Connect your socials.",
-      longDescription:
-        "Connect your instagram account to verify your identity.",
-      icon: ShareNetwork,
-      component: (
-        <SocialsStatus
-          key={1}
-          nextStep={nextStep}
-          scopes={currentUser.scopes}
-        />
-      ),
-    },
-    {
-      title: "Basic details",
-      heading: "Let's know you better",
-      description: "Information about you",
-      longDescription:
-        "Provide information about you so we can help you be found!",
-      icon: PencilSimple,
-      component: (
-        <OnboardingBasicDetailsForm
-          defaultValues={{
-            name: currentUser.onboardingData?.name || currentUser.name || "",
-            photo: currentUser.onboardingData?.photo || currentUser.photo || "",
-            bio: currentUser.onboardingData?.bio || currentUser.bio || "",
-            category: currentUser.onboardingData?.category || "",
-            dob: currentUser.onboardingData?.dob || "",
-            gender: currentUser.onboardingData?.gender || "",
-          }}
-          key={2}
-          nextStep={nextStep}
-          photoUpload={currentUser.pictureUploadURL}
-        />
-      ),
-    },
-    {
-      title: "Location",
-      heading: "Where are you based?",
-      description: "Your current city",
-      longDescription:
-        "Enter the details about your current location to help people find you better",
-      icon: MapPin,
-      component: (
-        <OnboardingLocationForm
-          defaultValues={{
-            city: currentUser.onboardingData?.city,
-            country: currentUser.onboardingData?.country,
-            state: currentUser.onboardingData?.state,
-          }}
-          key={3}
-          nextStep={nextStep}
-        />
-      ),
-    },
-    {
-      title: "Pricing",
-      heading: "Your price",
-      description: "Your average charges",
-      longDescription:
-        "Add an average price you would like to charge for collaborations. This can be an approximation for potential brands",
-      icon: MoneyWavy,
-      component: (
-        <OnboardingPricingForm
-          defaultValues={currentUser.onboardingData?.pricing || {}}
-          key={4}
-          nextStep={nextStep}
-        />
-      ),
-    },
-    {
-      title: "Finish",
-      heading: "Complete onboarding",
-      description: "Complete onboarding",
-      longDescription: "You have completed all the steps and are ready to go!",
-      icon: SealCheck,
-      component: <OnboardingCompleteForm />,
-    },
-  ];
   const MAX_STEPS = steps.length;
-
-  function nextStep() {
-    setStep((o) => Math.min(o + 1, MAX_STEPS));
-    setMaxTouchedStep(step + 1);
-  }
 
   function prevStep() {
     setStep((o) => Math.max(o - 1, 0));
@@ -223,7 +229,9 @@ function OnboardingWizard({
           </div>
         )}
         {loading ? (
-          <Spinner className="animate-spin fill-primary" size={40} />
+          <div className="flex h-full items-center justify-center">
+            <Spinner className="animate-spin fill-primary " size={60} />
+          </div>
         ) : null}
       </div>
       <div className="flex grow items-center justify-center px-4">
