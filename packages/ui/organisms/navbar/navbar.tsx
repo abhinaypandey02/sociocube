@@ -27,7 +27,7 @@ function Navbar({
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between px-3 py-6 sm:gap-x-6 sm:px-6 lg:px-8"
       >
-        <div className="flex lg:flex-1">
+        <div className="flex">
           <Link
             className="-m-1.5 p-1.5 text-3xl font-bold italic text-primary"
             href="/"
@@ -51,11 +51,11 @@ function Navbar({
             </Link>
           ))}
         </div>
-        <div className="hidden flex-1  items-center justify-end gap-x-6 lg:flex">
+        <div className="flex items-center gap-4 sm:gap-6">
           {secondaryLinks.map((item) => (
             <Link
               className={classNames(
-                "lg:text-base lg:font-medium lg:leading-6 hover:underline hover:underline-offset-8 ",
+                "max-lg:hidden lg:text-base lg:font-medium lg:leading-6 hover:underline hover:underline-offset-8 ",
                 activeHref === item.href
                   ? "pointer-events-none underline-offset-8 underline"
                   : "",
@@ -66,19 +66,17 @@ function Navbar({
               {item.label}
             </Link>
           ))}
-        </div>
-        <div className="flex gap-4 sm:gap-6 lg:hidden">
           {cta ? (
             <Link href={cta.href}>
               <Button
                 {...cta.button}
-                className={classNames(cta.button.className, " max-sm:text-sm")}
+                className={classNames(cta.button.className, "max-sm:text-sm")}
                 disabled={disableCTA}
               />
             </Link>
           ) : null}
           <button
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 lg:hidden"
             onClick={() => {
               setMobileMenuOpen(true);
             }}

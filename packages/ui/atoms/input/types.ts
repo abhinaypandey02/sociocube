@@ -2,7 +2,7 @@ import type { ComponentProps } from "react";
 import type { RegisterOptions } from "react-hook-form";
 import type { Variants } from "../../constants";
 
-interface SelectOption {
+export interface SelectOption {
   label: string;
   value: string | number;
 }

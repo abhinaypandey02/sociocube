@@ -1,9 +1,16 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import classNames from "classnames";
 import { useFormContext, type UseFormReturn } from "react-hook-form";
 import { Variants } from "../../constants";
 import Dropdown from "../dropdown/dropdown";
-import type { SelectProps } from "./types";
+import { isTouchDevice } from "../../utils";
+import type { SelectProps, SelectOption } from "./types";
 import { getBaseClassName } from "./constants";
 
 function Select({
@@ -22,6 +29,7 @@ function Select({
     )?.label;
     if (updatedValue) setSearchValue(updatedValue);
   }, [options]);
+  const IS_TOUCH = useMemo(() => isTouchDevice(), []);
   const filteredOptions = useMemo(
     () =>
       options.filter((option) =>
@@ -32,6 +40,19 @@ function Select({
       ),
     [searchValue, options],
   );
+  const handleChange = useCallback((option: SelectOption) => {
+    if (!formContext) {
+      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+        window.HTMLInputElement.prototype,
+        "value",
+      );
+      nativeInputValueSetter?.set?.call(ref.current, option.value);
+      const event = new Event("input", { bubbles: true });
+      ref.current?.dispatchEvent(event);
+    }
+    formContext?.setValue(rest.name, option.value);
+    setSearchValue(option.label);
+  }, []);
   return (
     <Dropdown
       onOpen={() => {
@@ -74,30 +95,16 @@ function Select({
                 },
               )}
               key={option.value}
-              onClick={(e) => {
-                e.stopPropagation();
-                // eslint-disable-next-line -- no-alert
-                window.alert(option.value);
-                try {
-                  if (!formContext) {
-                    const nativeInputValueSetter =
-                      Object.getOwnPropertyDescriptor(
-                        window.HTMLInputElement.prototype,
-                        "value",
-                      );
-                    nativeInputValueSetter?.set?.call(
-                      ref.current,
-                      option.value,
-                    );
-                    const event = new Event("input", { bubbles: true });
-                    ref.current?.dispatchEvent(event);
-                  }
-                  formContext?.setValue(rest.name, option.value);
-                  setSearchValue(option.label);
+              onClick={() => {
+                if (!IS_TOUCH) {
+                  handleChange(option);
                   close();
-                } catch (error: unknown) {
-                  // eslint-disable-next-line -- no-alert
-                  window.alert((error as Error).message);
+                }
+              }}
+              onMouseEnter={() => {
+                if (IS_TOUCH) {
+                  handleChange(option);
+                  close();
                 }
               }}
               type="button"
