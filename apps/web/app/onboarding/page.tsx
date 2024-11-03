@@ -6,7 +6,7 @@ import OnboardingWizard from "./onboarding-wizard";
 
 export default function AuthLayout() {
   return (
-    <div className="mx-auto flex min-h-[85vh] w-full max-w-7xl  px-8 pt-10">
+    <div className="mx-auto flex min-h-[85vh] w-full max-w-7xl  px-3 pt-10 sm:px-8">
       <Suspense
         fallback={<OnboardingWizard data={{ getCurrentUser: null }} loading />}
       >

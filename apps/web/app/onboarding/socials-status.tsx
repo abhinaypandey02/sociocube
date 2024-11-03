@@ -17,7 +17,7 @@ export default function SocialsStatus({
   return (
     <>
       {ONBOARDING_SCOPES.map((scope) => (
-        <div className="flex justify-between px-6" key={scope.id}>
+        <div className="flex justify-between sm:px-6" key={scope.id}>
           <div className="flex items-center gap-3">
             <scope.icon size={30} />
             <h4 className=" text-xl font-medium">{scope.title}</h4>

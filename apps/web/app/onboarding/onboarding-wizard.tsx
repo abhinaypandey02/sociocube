@@ -197,7 +197,7 @@ function OnboardingWizard({
   const currentStep = steps[step];
   return (
     <>
-      <div className="w-full max-w-lg rounded-xl bg-white p-5 shadow-elevation-1">
+      <div className="w-full max-w-lg rounded-xl bg-white sm:p-5 sm:shadow-elevation-1">
         {!loading && (
           <div className="h-full">
             <div className="flex items-center justify-between">
@@ -217,7 +217,7 @@ function OnboardingWizard({
                 </button>
               ) : null}
             </div>
-            <div className="h-full px-6">
+            <div className="h-full sm:px-6">
               <h2 className="mb-1 mt-14 text-center font-poppins text-3xl font-semibold">
                 {currentStep?.heading}
               </h2>
@@ -234,7 +234,7 @@ function OnboardingWizard({
           </div>
         ) : null}
       </div>
-      <div className="flex grow items-center justify-center px-4">
+      <div className="flex grow items-center justify-center px-4 max-sm:hidden">
         <OnboardingStepper currentStep={step - 1} steps={steps.slice(1)} />
       </div>
     </>

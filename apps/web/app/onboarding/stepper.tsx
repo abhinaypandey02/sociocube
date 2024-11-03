@@ -11,7 +11,7 @@ export default function OnboardingStepper({
   currentStep: number;
 }) {
   return (
-    <ol className="h-fit space-y-14 border-l-2">
+    <ol className="h-fit translate-x-[21px] space-y-14 border-l-2">
       {steps.map((step, i) => (
         <li className="flex translate-x-[-21px] gap-3 " key={step.title}>
           <div className="bg-white py-1">
@@ -26,7 +26,7 @@ export default function OnboardingStepper({
               {currentStep > i ? <Check color="green" /> : <step.icon />}
             </div>
           </div>
-          <div>
+          <div className="max-lg:hidden">
             <h4 className="font-poppins text-xl font-semibold">{step.title}</h4>
             <p className="font-poppins ">{step.description}</p>
           </div>
