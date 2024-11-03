@@ -21,7 +21,7 @@ export default function FollowersFilter({
         placeholder="Followers from"
         type="number"
       />
-      <div className="my-5">to</div>
+      <div className="my-3 text-center text-sm">to</div>
       <Input
         className="block"
         name="to"

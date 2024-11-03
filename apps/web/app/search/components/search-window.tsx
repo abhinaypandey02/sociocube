@@ -8,13 +8,8 @@ import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
 } from "@headlessui/react";
-import { ArrowDown, Funnel, Minus, Plus, X } from "@phosphor-icons/react";
-import classNames from "classnames";
+import { Funnel, MagnifyingGlass, Minus, Plus, X } from "@phosphor-icons/react";
 import { useLazyQuery } from "@apollo/client";
 import { Button } from "ui/button";
 import Link from "next/link";
@@ -32,14 +27,6 @@ import CategoryFilter from "./category-filter";
 import PriceFilter from "./price-filter";
 import FollowersFilter from "./followers-filter";
 import AgeFilter from "./age-filter";
-
-const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
-  { name: "Best Rating", href: "#", current: false },
-  { name: "Newest", href: "#", current: false },
-  { name: "Price: Low to High", href: "#", current: false },
-  { name: "Price: High to Low", href: "#", current: false },
-];
 
 const filters: {
   name: string;
@@ -82,11 +69,15 @@ export default function SearchWindow() {
     setVariables((prev) => ({ ...prev, ...changesData }));
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  function startSearch() {
     void searchSellers({
       variables: { data: variables },
     });
+  }
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    startSearch();
   }
 
   return (
@@ -102,9 +93,9 @@ export default function SearchWindow() {
           transition
         />
 
-        <div className="fixed inset-0 z-40 flex">
+        <div className=" fixed inset-0 z-40 flex">
           <DialogPanel
-            className="relative ml-auto flex size-full max-w-xs flex-col overflow-y-auto py-4 pb-12 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full"
+            className="relative ml-auto flex size-full max-w-xs flex-col overflow-y-auto bg-primary-bg py-4 pb-12 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full"
             transition
           >
             <div className="flex items-center justify-between px-4">
@@ -129,8 +120,8 @@ export default function SearchWindow() {
                   className="border-t border-gray-200 px-4 py-6"
                   key={section.name}
                 >
-                  <h3 className="-mx-2 -my-3 flow-root">
-                    <DisclosureButton className="group flex w-full items-center justify-between px-2 py-3 text-gray-400 hover:text-gray-500">
+                  <h3 className=" flow-root">
+                    <DisclosureButton className="group flex w-full items-center justify-between text-gray-400 hover:text-gray-500">
                       <span className="font-medium text-gray-900">
                         {section.name}
                       </span>
@@ -159,64 +150,38 @@ export default function SearchWindow() {
       </Dialog>
 
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+        <div className="flex flex-wrap items-baseline justify-between gap-5 border-b border-gray-200 pb-6 pt-24">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900">
             Find influencers
           </h1>
 
-          <div className="flex items-center">
+          <div className="flex w-72 items-center max-md:w-full">
             <Input
-              className="mr-5"
+              className="grow"
               name="query"
               onChange={(e) => {
                 setVariables((prev) => ({ ...prev, query: e.target.value }));
               }}
               placeholder="Search"
             />
-            <Menu as="div" className="relative inline-block text-left">
-              <div>
-                <MenuButton className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                  Sort
-                  <ArrowDown
-                    aria-hidden="true"
-                    className="-mr-1 ml-1 size-5 shrink-0 text-gray-400 group-hover:text-gray-500"
-                  />
-                </MenuButton>
-              </div>
-
-              <MenuItems
-                className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md  shadow-2xl ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-                transition
-              >
-                <div className="py-1">
-                  {sortOptions.map((option) => (
-                    <MenuItem key={option.name}>
-                      <a
-                        className={classNames(
-                          option.current
-                            ? "font-medium text-gray-900"
-                            : "text-gray-500",
-                          "block px-4 py-2 text-sm data-[focus]:bg-gray-100",
-                        )}
-                        href={option.href}
-                      >
-                        {option.name}
-                      </a>
-                    </MenuItem>
-                  ))}
-                </div>
-              </MenuItems>
-            </Menu>
 
             <button
-              className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
+              className=" ml-2  p-2 text-gray-400 hover:text-gray-500 lg:hidden"
+              onClick={startSearch}
+              type="button"
+            >
+              <span className="sr-only">Search</span>
+              <MagnifyingGlass size={22} weight="bold" />
+            </button>
+            <button
+              className=" p-2 text-gray-400 hover:text-gray-500 lg:hidden"
               onClick={() => {
                 setMobileFiltersOpen(true);
               }}
               type="button"
             >
               <span className="sr-only">Filters</span>
-              <Funnel aria-hidden="true" className="size-5" />
+              <Funnel aria-hidden="true" size={20} />
             </button>
           </div>
         </div>
@@ -263,7 +228,7 @@ export default function SearchWindow() {
               {!data && !loading && <StartSearch />}
               {loading ? <SearchLoading /> : null}
               {data?.sellers?.length === 0 && !loading && <NoResults />}
-              <ul className="grid grid-cols-4 gap-3">
+              <ul className=" grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {data?.sellers?.map((person) => (
                   <li key={person.name || ""}>
                     <Link href={`${Route.Profile}/${person.id}`}>

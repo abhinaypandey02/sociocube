@@ -54,7 +54,7 @@ export default function OnboardingBasicDetailsForm({
     const res = await updateBasicDetails({
       data: {
         name: data.name,
-        imageURL: profilePicture ? photoUpload.url : null,
+        imageURL: profilePicture ? photoUpload.url : data.photo,
         bio: data.bio,
         category: data.category,
         gender: data.gender,

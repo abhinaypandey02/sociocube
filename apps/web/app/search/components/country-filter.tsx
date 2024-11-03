@@ -39,7 +39,7 @@ export default function CountryFilter({
   const states = statesData?.states;
   const cities = citiesData?.cities;
   return (
-    <div>
+    <>
       <Input
         className="block"
         name="country"
@@ -92,6 +92,6 @@ export default function CountryFilter({
           value={city}
         />
       ) : null}
-    </div>
+    </>
   );
 }

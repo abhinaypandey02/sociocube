@@ -5,6 +5,7 @@ const theme: Config['theme'] = {
             primary:'#F45B69',
             accent:'#4f46e5',
             dark:'#011627',
+            "primary-bg":'#fcfcfc'
         },
         borderRadius:{
             primary:'4px'

@@ -11,10 +11,10 @@ export default function GenderFilter({
 }) {
   const [selected, setSelected] = useState<string[]>([]);
   return (
-    <div>
+    <div className="space-y-3">
       <Input
         className="block"
-        name="country"
+        name="gender"
         onChange={(e) => {
           const updated = Array.from(new Set([...selected, e.target.value]));
           setSelected(updated);
@@ -25,7 +25,7 @@ export default function GenderFilter({
         options={genders
           .filter((v) => !selected.includes(v))
           .map((v) => ({ value: v, label: v }))}
-        placeholder="Country"
+        placeholder="Gender"
       />
       <TagsDisplay
         onClick={(v) => {

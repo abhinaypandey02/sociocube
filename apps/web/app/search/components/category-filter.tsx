@@ -11,10 +11,10 @@ export default function CategoryFilter({
 }) {
   const [selected, setSelected] = useState<string[]>([]);
   return (
-    <div>
+    <div className="space-y-3">
       <Input
         className="block"
-        name="country"
+        name="category"
         onChange={(e) => {
           const updated = Array.from(new Set([...selected, e.target.value]));
           setSelected(updated);

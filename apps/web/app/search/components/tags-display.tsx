@@ -7,11 +7,12 @@ export default function TagsDisplay({
   tags: string[];
   onClick: (tag: string) => void;
 }) {
+  if (tags.length === 0) return null;
   return (
-    <div className="my-2 flex gap-2">
+    <div className="flex gap-2">
       {tags.map((tag) => (
         <button
-          className="rounded-full bg-accent px-2 py-1 text-white"
+          className="rounded-full bg-accent px-3 py-1 text-xs text-white"
           key={tag}
           onClick={() => {
             onClick(tag);
