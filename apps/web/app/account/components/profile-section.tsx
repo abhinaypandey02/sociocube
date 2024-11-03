@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { Button } from "ui/button";
 import Form from "ui/form";
+import categories from "commons/categories";
+import genders from "commons/genders";
 import { useAuthMutation } from "../../../lib/apollo-client";
 import { UPDATE_USER } from "../../../lib/mutations";
 import ContentTemplate from "./content-template";
@@ -56,18 +58,6 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
         <ContentTemplate
           description="Fill the basic details about yourself!"
           items={[
-            {
-              label: "Name",
-              value: data.name || "",
-              editComponent: <Input name="name" />,
-              onSubmit: handleSave("name"),
-            },
-            {
-              label: "Bio",
-              value: data.bio || "",
-              editComponent: <Input name="bio" textarea />,
-              onSubmit: handleSave("bio"),
-            },
             {
               label: "Picture",
               value: data.photo && (
@@ -123,6 +113,52 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
                 }
                 await handleSave("photo")();
               },
+            },
+            {
+              label: "Name",
+              value: data.name || "",
+              editComponent: <Input name="name" />,
+              onSubmit: handleSave("name"),
+            },
+            {
+              label: "Bio",
+              value: data.bio || "",
+              editComponent: <Input name="bio" textarea />,
+              onSubmit: handleSave("bio"),
+            },
+            {
+              label: "Category",
+              value: data.category || "",
+              editComponent: (
+                <Input
+                  name="category"
+                  options={categories.map(({ title }) => ({
+                    label: title,
+                    value: title,
+                  }))}
+                />
+              ),
+              onSubmit: handleSave("category"),
+            },
+            {
+              label: "Gender",
+              value: data.gender || "",
+              editComponent: (
+                <Input
+                  name="gender"
+                  options={genders.map((gender) => ({
+                    label: gender,
+                    value: gender,
+                  }))}
+                />
+              ),
+              onSubmit: handleSave("gender"),
+            },
+            {
+              label: "Date of birth",
+              value: data.dob || "",
+              editComponent: <Input name="dob" type="date" />,
+              onSubmit: handleSave("dob"),
             },
           ]}
           title="Basic Info"

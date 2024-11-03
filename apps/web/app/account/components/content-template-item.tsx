@@ -5,7 +5,7 @@ export interface ContentTemplateItemT {
   label: string;
   value: ReactNode;
   editComponent: ReactNode;
-  onSubmit: () => Promise<void>;
+  onSubmit?: () => Promise<void>;
 }
 
 export default function ContentTemplateItem({
@@ -25,38 +25,42 @@ export default function ContentTemplateItem({
         <div className="text-gray-900">
           {editing ? item.editComponent : item.value}
         </div>
-        <div className="flex gap-2">
-          <button
-            className="font-semibold text-indigo-600 hover:text-indigo-500"
-            disabled={loading}
-            onClick={async () => {
-              if (editing) {
-                setLoading(true);
-                await item.onSubmit();
-                setLoading(false);
-                router.refresh();
-              }
-              setEditing((val) => !val);
-            }}
-            type="button"
-          >
-            {loading ? "Saving..." : ""}
-            {editing && !loading ? "Save" : null}
-            {!editing && (item.value ? "Update" : "Add")}
-          </button>
-          {editing ? (
+        {item.onSubmit ? (
+          <div className="flex gap-2">
             <button
-              className="font-semibold text-red-600 hover:text-red-500"
+              className="font-semibold text-indigo-600 hover:text-indigo-500"
               disabled={loading}
-              onClick={() => {
-                setEditing(false);
+              onClick={async () => {
+                if (editing) {
+                  setLoading(true);
+                  await item.onSubmit?.();
+                  setLoading(false);
+                  router.refresh();
+                }
+                setEditing((val) => !val);
               }}
               type="button"
             >
-              Cancel
+              {loading ? "Saving..." : ""}
+              {editing && !loading ? "Save" : null}
+              {!editing && (item.value ? "Update" : "Add")}
             </button>
-          ) : null}
-        </div>
+            {editing ? (
+              <button
+                className="font-semibold text-red-600 hover:text-red-500"
+                disabled={loading}
+                onClick={() => {
+                  setEditing(false);
+                }}
+                type="button"
+              >
+                Cancel
+              </button>
+            ) : null}
+          </div>
+        ) : (
+          item.editComponent
+        )}
       </dd>
     </div>
   );

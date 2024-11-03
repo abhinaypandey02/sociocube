@@ -273,6 +273,12 @@ type Location {
   country: String
 }
 
+type LocationID {
+  city: Float
+  country: Float
+  state: Float
+}
+
 type Message {
   body: String!
   sender: Int!
@@ -303,6 +309,10 @@ type OnboardingData {
 }
 
 type Pricing {
+  starting: Float
+}
+
+input PricingInput {
   starting: Float
 }
 
@@ -373,8 +383,13 @@ input UpdatePricingArgs {
 
 input UpdateUserArgs {
   bio: String
+  category: String
+  city: Float
+  dob: String
+  gender: String
   name: String
   photo: String
+  pricing: PricingInput
 }
 
 type User {
@@ -389,6 +404,7 @@ type User {
   instagramStats: InstagramStats
   isOnboarded: Boolean
   location: Location
+  locationID: LocationID
   name: String
   onboardingData: OnboardingData
   phone: String

@@ -15,6 +15,7 @@ export default async function Page({
     GET_ACCOUNT_DETAILS,
     undefined,
     await cookies(),
+    0,
   );
   const paramSection = parseInt((await searchParams).section);
   if (!user) return redirect(Route.Home);

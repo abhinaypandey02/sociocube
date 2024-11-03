@@ -1,6 +1,12 @@
 import { FieldResolver, Resolver, Root } from "type-graphql";
 import { eq } from "drizzle-orm";
-import { Location, OnboardingData, Pricing, UserGQL } from "../type";
+import {
+  Location,
+  LocationID,
+  OnboardingData,
+  Pricing,
+  UserGQL,
+} from "../type";
 import { OnboardingDataTable, PricingTable } from "../db/schema";
 import type { UserDB } from "../db/schema";
 import { db } from "../../../../../lib/db";
@@ -91,6 +97,22 @@ export class UserFieldResolver {
     }
     return null;
   }
+  @FieldResolver(() => LocationID, { nullable: true })
+  async locationID(@Root() user: UserDB): Promise<LocationID | null> {
+    if (user.city) {
+      const [city] = await db
+        .select()
+        .from(CityTable)
+        .where(eq(CityTable.id, user.city));
+      if (city)
+        return {
+          city: city.id,
+          country: city.countryId,
+          state: city.stateId,
+        };
+    }
+    return null;
+  }
 
   @FieldResolver(() => InstagramStats, { nullable: true })
   async instagramStats(@Root() user: UserDB): Promise<InstagramStats | null> {
@@ -112,16 +134,17 @@ export class UserFieldResolver {
           followers_count: number;
           media_count: number;
           username: string;
+          error?: object;
         } | null>,
     );
+    if (!fetchReq || fetchReq.error) return null;
     await db
       .update(InstagramDetails)
       .set({
-        followers: fetchReq?.followers_count,
-        username: fetchReq?.username,
+        followers: fetchReq.followers_count || 0,
+        username: fetchReq.username || null,
       })
       .where(eq(InstagramDetails.id, user.instagramDetails));
-    if (!fetchReq) return null;
     return {
       username: fetchReq.username,
       followers: fetchReq.followers_count,
@@ -149,7 +172,7 @@ export class UserFieldResolver {
     ).then(
       (data) =>
         data.json() as Promise<{
-          data: {
+          data?: {
             thumbnail_url: string;
             like_count: number;
             comments_count: number;
@@ -158,9 +181,10 @@ export class UserFieldResolver {
             media_url: string;
             media_product_type: InstagramMediaType;
           }[];
+          error?: object;
         } | null>,
     );
-    if (!fetchReq) return null;
+    if (!fetchReq?.data || fetchReq.error) return null;
     return fetchReq.data.map((media) => ({
       comments: media.comments_count,
       likes: media.like_count,

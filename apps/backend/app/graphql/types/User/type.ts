@@ -1,8 +1,9 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, InputType, ObjectType } from "type-graphql";
 import { AuthScopes } from "../../constants/scopes";
 import { Roles } from "../../constants/roles";
 
 @ObjectType("Pricing")
+@InputType("PricingInput")
 export class Pricing {
   @Field({ nullable: true })
   starting?: number;
@@ -14,6 +15,15 @@ export class Location {
   city?: string;
   @Field({ nullable: true })
   country?: string;
+}
+@ObjectType("LocationID")
+export class LocationID {
+  @Field({ nullable: true })
+  city?: number;
+  @Field({ nullable: true })
+  country?: number;
+  @Field({ nullable: true })
+  state?: number;
 }
 
 @ObjectType("OnboardingData")

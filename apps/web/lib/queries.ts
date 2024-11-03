@@ -138,6 +138,18 @@ export const GET_ACCOUNT_DETAILS = gql(`
       name
       bio
       photo
+      category
+      gender
+      dob
+      scopes
+      locationID {
+        city
+        country
+        state
+      }
+      pricing {
+        starting
+      }
       pictureUploadURL {
         uploadURL
         url

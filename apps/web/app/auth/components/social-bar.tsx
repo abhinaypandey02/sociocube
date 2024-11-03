@@ -1,19 +1,24 @@
 import React from "react";
 import { GoogleLogo, InstagramLogo } from "@phosphor-icons/react/dist/ssr";
-import Link from "next/link";
 
 export default function SocialBar() {
   return (
-    <>
-      <hr className="mx-auto mt-8 w-40" />
-      <div className="my-6 flex items-center justify-center gap-5">
-        <Link href="/_auth/google" prefetch={false}>
-          <GoogleLogo size={40} />
-        </Link>
-        <Link href="/_auth/instagram" prefetch={false}>
-          <InstagramLogo size={40} />
-        </Link>
-      </div>
-    </>
+    <div className="mt-6 grid grid-cols-2 gap-4">
+      <a
+        className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
+        href="/_auth/google"
+      >
+        <GoogleLogo size={20} />
+        <span className="text-sm font-semibold leading-6">Google</span>
+      </a>
+
+      <a
+        className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
+        href="/_auth/instagram"
+      >
+        <InstagramLogo size={20} />
+        <span className="text-sm font-semibold leading-6">Instagram</span>
+      </a>
+    </div>
   );
 }
