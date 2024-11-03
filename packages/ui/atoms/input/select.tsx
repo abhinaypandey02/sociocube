@@ -76,19 +76,29 @@ function Select({
               key={option.value}
               onClick={(e) => {
                 e.stopPropagation();
-                if (!formContext) {
-                  const nativeInputValueSetter =
-                    Object.getOwnPropertyDescriptor(
-                      window.HTMLInputElement.prototype,
-                      "value",
+                // eslint-disable-next-line -- no-alert
+                window.alert(option.value);
+                try {
+                  if (!formContext) {
+                    const nativeInputValueSetter =
+                      Object.getOwnPropertyDescriptor(
+                        window.HTMLInputElement.prototype,
+                        "value",
+                      );
+                    nativeInputValueSetter?.set?.call(
+                      ref.current,
+                      option.value,
                     );
-                  nativeInputValueSetter?.set?.call(ref.current, option.value);
-                  const event = new Event("input", { bubbles: true });
-                  ref.current?.dispatchEvent(event);
+                    const event = new Event("input", { bubbles: true });
+                    ref.current?.dispatchEvent(event);
+                  }
+                  formContext?.setValue(rest.name, option.value);
+                  setSearchValue(option.label);
+                  close();
+                } catch (error: unknown) {
+                  // eslint-disable-next-line -- no-alert
+                  window.alert((error as Error).message);
                 }
-                formContext?.setValue(rest.name, option.value);
-                setSearchValue(option.label);
-                close();
               }}
               type="button"
             >

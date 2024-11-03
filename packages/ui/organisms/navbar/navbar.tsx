@@ -25,7 +25,7 @@ function Navbar({
     <header className="bg-primary-bg">
       <nav
         aria-label="Global"
-        className="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8"
+        className="mx-auto flex max-w-7xl items-center justify-between px-3 py-6 sm:gap-x-6 sm:px-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
           <Link
@@ -51,11 +51,11 @@ function Navbar({
             </Link>
           ))}
         </div>
-        <div className="flex flex-1 items-center justify-end gap-x-6">
+        <div className="hidden flex-1  items-center justify-end gap-x-6 lg:flex">
           {secondaryLinks.map((item) => (
             <Link
               className={classNames(
-                "hidden lg:block lg:text-base lg:font-medium lg:leading-6 hover:underline hover:underline-offset-8 ",
+                "lg:text-base lg:font-medium lg:leading-6 hover:underline hover:underline-offset-8 ",
                 activeHref === item.href
                   ? "pointer-events-none underline-offset-8 underline"
                   : "",
@@ -66,13 +66,17 @@ function Navbar({
               {item.label}
             </Link>
           ))}
+        </div>
+        <div className="flex gap-4 sm:gap-6 lg:hidden">
           {cta ? (
             <Link href={cta.href}>
-              <Button {...cta.button} disabled={disableCTA} />
+              <Button
+                {...cta.button}
+                className={classNames(cta.button.className, " max-sm:text-sm")}
+                disabled={disableCTA}
+              />
             </Link>
           ) : null}
-        </div>
-        <div className="flex lg:hidden">
           <button
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
             onClick={() => {
@@ -91,7 +95,7 @@ function Navbar({
         open={mobileMenuOpen}
       >
         <div className="fixed inset-0 z-10" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-3 py-6 sm:max-w-sm sm:px-6 sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between gap-x-6">
             <Link
               className="-m-1.5 p-1.5 text-3xl font-bold italic text-primary"
@@ -99,21 +103,30 @@ function Navbar({
             >
               freeluence
             </Link>
-            {cta ? (
-              <Link href={cta.href}>
-                <Button {...cta.button} disabled={disableCTA} />
-              </Link>
-            ) : null}
-            <button
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
-              onClick={handleClose}
-              type="button"
-            >
-              <span className="sr-only">Close menu</span>
-              <X aria-hidden="true" className="size-6" />
-            </button>
+            <div className="flex gap-4 sm:gap-6 lg:hidden">
+              {cta ? (
+                <Link href={cta.href}>
+                  <Button
+                    {...cta.button}
+                    className={classNames(
+                      cta.button.className,
+                      " max-sm:text-sm",
+                    )}
+                    disabled={disableCTA}
+                  />
+                </Link>
+              ) : null}
+              <button
+                className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                onClick={handleClose}
+                type="button"
+              >
+                <span className="sr-only">Close menu</span>
+                <X aria-hidden="true" className="size-6" />
+              </button>
+            </div>
           </div>
-          <div className="mt-6 flow-root">
+          <div className="mt-6 flow-root max-sm:px-3">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 {primaryLinks.map((item) => (
@@ -141,7 +154,7 @@ function Navbar({
                         ? "pointer-events-none underline-offset-8 underline"
                         : "",
                     )}
-                    href={item.label}
+                    href={item.href}
                     key={item.label}
                     onClick={handleClose}
                   >

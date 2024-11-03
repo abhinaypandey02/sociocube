@@ -150,7 +150,7 @@ export default function SearchWindow() {
       </Dialog>
 
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-baseline justify-between gap-5 border-b border-gray-200 pb-6 pt-24">
+        <div className="flex flex-wrap items-baseline justify-between gap-5 border-b border-gray-200 pb-6 pt-16">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900">
             Find influencers
           </h1>
