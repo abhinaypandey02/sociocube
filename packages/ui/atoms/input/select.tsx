@@ -74,7 +74,8 @@ function Select({
                 },
               )}
               key={option.value}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 if (!formContext) {
                   const nativeInputValueSetter =
                     Object.getOwnPropertyDescriptor(
