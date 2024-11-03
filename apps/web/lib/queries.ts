@@ -36,7 +36,7 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
         country
         state
         pricing{
-          general
+          starting
         }
       }
       pictureUploadURL {
@@ -79,7 +79,7 @@ export const GET_SELLER = gql(`
       category
       dob
       pricing {
-        general
+        starting
       }
       instagramMedia {
         thumbnail

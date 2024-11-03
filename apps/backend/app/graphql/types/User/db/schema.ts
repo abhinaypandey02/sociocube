@@ -83,7 +83,7 @@ export const OTPTable = pgTable("otp", {
 });
 export const PricingTable = pgTable("pricing", {
   id: serial("id").primaryKey(),
-  general: real("general"),
+  starting: real("starting"),
 });
 export const OnboardingDataTable = pgTable("onboarding_data", {
   id: serial("id").primaryKey(),

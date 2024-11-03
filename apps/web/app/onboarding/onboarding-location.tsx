@@ -33,7 +33,17 @@ export default function OnboardingLocationForm({
 
   useEffect(() => {
     void fetchCountries();
-  }, [fetchCountries]);
+    const country = form.getValues("country"),
+      state = form.getValues("state");
+    if (country)
+      void fetchStates({
+        country,
+      });
+    if (state)
+      void fetchCities({
+        state,
+      });
+  }, [fetchCountries, fetchStates, fetchCities]);
   useEffect(() => {
     const sub = form.watch((value, { name }) => {
       if (name === "country" && value[name])

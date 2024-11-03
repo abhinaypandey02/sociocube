@@ -19,7 +19,7 @@
     "@headlessui/react": "^2.1.10",
     "@phosphor-icons/react": "^2.1.7",
     "classnames": "^2.5.1",
-    "next": "15.0.0-canary.195",
+    "next": "15.0.0-canary.205",
     "nextjs-progressloader": "^1.2.0",
     "pusher-js": "8.4.0-rc2",
     "react": "rc",

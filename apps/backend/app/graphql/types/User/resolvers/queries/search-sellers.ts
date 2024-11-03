@@ -99,10 +99,10 @@ export function handleSearchSellers(input: SearchSellersInput) {
     .where(
       and(
         input.generalPriceFrom
-          ? gte(PricingTable.general, input.generalPriceFrom)
+          ? gte(PricingTable.starting, input.generalPriceFrom)
           : undefined,
         input.generalPriceTo
-          ? lte(PricingTable.general, input.generalPriceTo)
+          ? lte(PricingTable.starting, input.generalPriceTo)
           : undefined,
       ),
     )

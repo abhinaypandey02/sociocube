@@ -25,7 +25,7 @@ export default function SocialsStatus({
           {scopes.includes(scope.id) ? (
             <div className="flex items-center gap-3">
               <h4>Connected</h4>
-              <CheckCircle />
+              <CheckCircle size={20} />
             </div>
           ) : (
             <a href={`${scope.url}?redirectURL=${Route.Onboarding}`}>
@@ -36,7 +36,9 @@ export default function SocialsStatus({
       ))}
 
       {completedOnboardingScopes(scopes).length ? (
-        <Button onClick={nextStep}>Next</Button>
+        <Button className="!mb-5 !mt-8 ml-auto mr-6 block" onClick={nextStep}>
+          Next
+        </Button>
       ) : null}
     </>
   );

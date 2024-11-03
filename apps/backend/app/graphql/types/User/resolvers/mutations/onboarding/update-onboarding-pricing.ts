@@ -13,7 +13,7 @@ import GQLError from "../../../../../constants/errors";
 @InputType("UpdatePricingArgs")
 export class UpdatePricingArgs {
   @Field()
-  general: number;
+  starting: number;
 }
 export async function handleUpdateOnboardingPricing(
   args: UpdatePricingArgs,
@@ -37,17 +37,17 @@ export async function handleUpdateOnboardingPricing(
     );
   if (!res?.onboarding_data?.city || !res.user.onboardingData)
     throw GQLError(400, "Please add a city to continue");
-  if (res.user.pricing) {
+  if (res.onboarding_data.pricing) {
     await db
       .update(PricingTable)
       .set({
-        general: args.general,
+        starting: args.starting,
       })
-      .where(eq(PricingTable.id, res.user.pricing));
+      .where(eq(PricingTable.id, res.onboarding_data.pricing));
   } else {
     const [pricing] = await db
       .insert(PricingTable)
-      .values({ general: args.general })
+      .values({ starting: args.starting })
       .returning({ id: PricingTable.id });
     if (pricing?.id) {
       await db

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import classNames from "classnames";
 import { useFormContext, type UseFormReturn } from "react-hook-form";
 import { Variants } from "../../constants";
@@ -15,9 +15,13 @@ function Select({
   const className = classNames(getBaseClassName(variant), rest.className);
   const formContext = useFormContext() as UseFormReturn | undefined;
   const ref = useRef<HTMLInputElement | null>(null);
-  const [searchValue, setSearchValue] = useState(
-    (formContext?.getValues(rest.name) as string) || "",
-  );
+  const [searchValue, setSearchValue] = useState("");
+  useEffect(() => {
+    const updatedValue = options.find(
+      (option) => option.value === formContext?.getValues(rest.name),
+    )?.label;
+    if (updatedValue) setSearchValue(updatedValue);
+  }, [options]);
   const filteredOptions = useMemo(
     () =>
       options.filter((option) =>

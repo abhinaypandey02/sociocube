@@ -47,8 +47,12 @@ export default function Faqs() {
           Frequently asked questions
         </h2>
         <dl className="mt-10 space-y-6 divide-y divide-gray-900/10">
-          {faqs.map((faq) => (
-            <Disclosure as="div" className="pt-6" key={faq.question}>
+          {faqs.map((faq, i) => (
+            <Disclosure
+              as="div"
+              className="pt-6"
+              key={faq.question + i.toString()}
+            >
               {({ open }) => (
                 <>
                   <dt>

@@ -303,7 +303,7 @@ type OnboardingData {
 }
 
 type Pricing {
-  general: Float
+  starting: Float
 }
 
 type Query {
@@ -368,7 +368,7 @@ input UpdateLocationArgs {
 }
 
 input UpdatePricingArgs {
-  general: Float!
+  starting: Float!
 }
 
 input UpdateUserArgs {

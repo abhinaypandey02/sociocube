@@ -62,7 +62,7 @@ function OnboardingWizard({
 
   const nextStep = useCallback(() => {
     setStep((o) => Math.min(o + 1, MAX_STEPS));
-    setMaxTouchedStep(step + 1);
+    setMaxTouchedStep((o) => Math.max(o, step + 1));
   }, [step]);
   const steps = useMemo(
     () => [
@@ -158,10 +158,10 @@ function OnboardingWizard({
       },
       {
         title: "Pricing",
-        heading: "Your price",
-        description: "Your average charges",
+        heading: "Your base price",
+        description: "Your starting price",
         longDescription:
-          "Add an average price you would like to charge for collaborations. This can be an approximation for potential brands",
+          "Add a starting price you would like to charge for collaborations. This would be an approximation for potential brands",
         icon: MoneyWavy,
         component: (
           <OnboardingPricingForm

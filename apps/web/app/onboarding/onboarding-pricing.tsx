@@ -22,10 +22,10 @@ export default function OnboardingPricingForm({
   );
 
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
-    if (data.general) {
+    if (data.starting) {
       const res = await updatePricing({
         data: {
-          general: data.general,
+          starting: data.starting,
         },
       });
       if (res.data?.updateOnboardingPricing) nextStep();
@@ -39,13 +39,13 @@ export default function OnboardingPricingForm({
     >
       <Input
         className="block"
-        label="General price"
-        name="general"
-        placeholder="Enter your average prices for collaboration (In rupees)"
+        label="Starting price"
+        name="starting"
+        placeholder="Enter your starting price in rupees"
         rules={{ required: true, valueAsNumber: true }}
       />
       <div className="!mt-6 flex justify-between">
-        <Button loading={loading} onClick={nextStep} outline type="submit">
+        <Button onClick={nextStep} outline type="submit">
           Skip
         </Button>
 

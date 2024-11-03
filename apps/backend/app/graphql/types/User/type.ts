@@ -5,7 +5,7 @@ import { Roles } from "../../constants/roles";
 @ObjectType("Pricing")
 export class Pricing {
   @Field({ nullable: true })
-  general?: number;
+  starting?: number;
 }
 
 @ObjectType("Location")
