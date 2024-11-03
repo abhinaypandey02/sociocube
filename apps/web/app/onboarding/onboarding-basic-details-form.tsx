@@ -9,6 +9,7 @@ import Image from "next/image";
 import categories from "commons/categories";
 import genders from "commons/genders";
 import Form from "ui/form";
+import { User } from "@phosphor-icons/react";
 import { useAuthMutation } from "../../lib/apollo-client";
 import { UPDATE_ONBOARDING_BASIC_DETAILS } from "../../lib/mutations";
 import type { StorageFile } from "../../__generated__/graphql";
@@ -65,69 +66,85 @@ export default function OnboardingBasicDetailsForm({
     }
   };
   return (
-    <>
-      <h2 className=" my-10 text-center text-4xl font-bold">
-        Some details about you!
-      </h2>
-      <Form
-        className="flex flex-col items-center gap-3"
-        form={form}
-        onSubmit={form.handleSubmit(onSubmit)}
+    <Form
+      className=" space-y-3"
+      form={form}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
+      <button
+        className="mx-auto mb-3 flex size-28 cursor-pointer items-center justify-center overflow-hidden rounded-full border "
+        onClick={() => ref.current?.click()}
+        type="button"
       >
-        <Input className="block" name="name" placeholder="Name" />
-        <Input className="block" name="bio" placeholder="Bio" textarea />
-        <Input
-          className="block"
-          name="category"
-          options={categories.map(({ title }) => ({
-            label: title,
-            value: title,
-          }))}
-          placeholder="Category"
-        />
-        <Input
-          className="block"
-          name="gender"
-          options={genders.map((gender) => ({
-            label: gender,
-            value: gender,
-          }))}
-          placeholder="Gender"
-        />
-        <Input
-          className="block"
-          name="dob"
-          placeholder="Date of birth"
-          type="date"
-        />
-        <input
-          className="hidden"
-          onChange={(e) => {
-            const event = e as unknown as ChangeEvent<HTMLInputElement>;
-            const file = event.target.files?.[0];
-            if (file) setProfilePicture(file);
-          }}
-          ref={ref}
-          type="file"
-        />
         {displayURL ? (
           <Image
             alt={defaultValues.name}
+            className="size-full object-cover"
             height={300}
             src={displayURL}
             width={300}
           />
-        ) : null}
-        <Button
-          loading={loading || uploadingPicture}
-          onClick={() => ref.current?.click()}
-        >
-          Upload Image
-        </Button>
-        <Button loading={loading || uploadingPicture} type="submit">
-          Next
-        </Button>
-      </Form>
-    </>
+        ) : (
+          <User size={40} />
+        )}
+      </button>
+      <Input
+        className="block"
+        label="Full name"
+        name="name"
+        placeholder="Enter your name"
+      />
+      <Input
+        className="block"
+        label="About you"
+        name="bio"
+        placeholder="Write a brief about you"
+        textarea
+      />
+      <Input
+        className="block"
+        label="Category"
+        name="category"
+        options={categories.map(({ title }) => ({
+          label: title,
+          value: title,
+        }))}
+        placeholder="Select the category that best suits you"
+      />
+      <Input
+        className="block"
+        label="Gender"
+        name="gender"
+        options={genders.map((gender) => ({
+          label: gender,
+          value: gender,
+        }))}
+        placeholder="Select your gender"
+      />
+      <Input
+        className="block"
+        label="Date of birth"
+        name="dob"
+        placeholder="Date of birth"
+        type="date"
+      />
+      <input
+        className="hidden"
+        onChange={(e) => {
+          const event = e as unknown as ChangeEvent<HTMLInputElement>;
+          const file = event.target.files?.[0];
+          if (file) setProfilePicture(file);
+        }}
+        ref={ref}
+        type="file"
+      />
+      <Button
+        className="!mb-5 !mt-8 ml-auto block"
+        loading={loading || uploadingPicture}
+        type="submit"
+      >
+        Next
+      </Button>
+    </Form>
   );
 }

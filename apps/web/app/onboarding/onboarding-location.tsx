@@ -62,41 +62,42 @@ export default function OnboardingLocationForm({
     }
   };
   return (
-    <>
-      <h2 className=" my-10 text-center text-4xl font-bold">
-        Where do you belong!
-      </h2>
-      <Form
-        className="flex flex-col items-center gap-3"
-        form={form}
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
+    <Form
+      className="space-y-3"
+      form={form}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
+      <Input
+        className="block"
+        label="Country"
+        name="country"
+        options={countries || []}
+        placeholder="Select your country"
+        rules={{ required: true }}
+      />
+      {states ? (
         <Input
           className="block"
-          name="country"
-          options={countries || []}
-          placeholder="Country"
+          label="State"
+          name="state"
+          options={states}
+          placeholder="Select your state"
           rules={{ required: true }}
         />
-        {states ? (
-          <Input
-            className="block"
-            name="state"
-            options={states}
-            placeholder="State"
-            rules={{ required: true }}
-          />
-        ) : null}
-        {cities ? (
-          <Input
-            className="block"
-            name="city"
-            options={cities}
-            placeholder="City"
-            rules={{ required: true }}
-          />
-        ) : null}
+      ) : null}
+      {cities ? (
+        <Input
+          className="block"
+          label="City"
+          name="city"
+          options={cities}
+          placeholder="Select your city"
+          rules={{ required: true }}
+        />
+      ) : null}
+      {form.watch("city") && (
         <Button
+          className="ml-auto"
           loading={
             loading || loadingCountries || loadingCities || loadingStates
           }
@@ -104,7 +105,7 @@ export default function OnboardingLocationForm({
         >
           Next
         </Button>
-      </Form>
-    </>
+      )}
+    </Form>
   );
 }

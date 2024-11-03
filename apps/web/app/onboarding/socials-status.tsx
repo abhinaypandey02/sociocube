@@ -16,14 +16,11 @@ export default function SocialsStatus({
 }) {
   return (
     <>
-      <h2 className=" my-10 text-center text-4xl font-bold">
-        Let's connect your socials
-      </h2>
       {ONBOARDING_SCOPES.map((scope) => (
-        <div className="flex justify-between" key={scope.id}>
+        <div className="flex justify-between px-6" key={scope.id}>
           <div className="flex items-center gap-3">
-            <scope.icon />
-            <h4>{scope.title}</h4>
+            <scope.icon size={30} />
+            <h4 className=" text-xl font-medium">{scope.title}</h4>
           </div>
           {scopes.includes(scope.id) ? (
             <div className="flex items-center gap-3">

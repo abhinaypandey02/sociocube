@@ -32,29 +32,27 @@ export default function OnboardingPricingForm({
     }
   };
   return (
-    <>
-      <h2 className=" my-10 text-center text-4xl font-bold">
-        What would you like to charge on an average?
-      </h2>
-      <Form
-        className="flex flex-col items-center gap-3"
-        form={form}
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
-        <Input
-          className="block"
-          name="general"
-          placeholder="General price"
-          rules={{ required: true, valueAsNumber: true }}
-        />
+    <Form
+      className="space-y-3"
+      form={form}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
+      <Input
+        className="block"
+        label="General price"
+        name="general"
+        placeholder="Enter your average prices for collaboration (In rupees)"
+        rules={{ required: true, valueAsNumber: true }}
+      />
+      <div className="!mt-6 flex justify-between">
+        <Button loading={loading} onClick={nextStep} outline type="submit">
+          Skip
+        </Button>
+
         <Button loading={loading} type="submit">
           Next
         </Button>
-      </Form>
-
-      <Button loading={loading} onClick={nextStep} type="submit">
-        Skip
-      </Button>
-    </>
+      </div>
+    </Form>
   );
 }

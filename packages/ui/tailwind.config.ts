@@ -10,6 +10,9 @@ const config: Config = {
   theme: {
     extend: {
       ...defaultTheme,
+      fontFamily: {
+        poppins: ["var(--font-poppins)"],
+      },
     },
   },
 };

@@ -57,66 +57,38 @@ export default function Signup() {
         form={form}
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div>
-          <label
-            className="block text-sm font-medium leading-6 text-gray-900"
-            htmlFor="email"
-          >
-            Email address
-          </label>
-          <div className="mt-2">
-            <Input className="block" name="name" placeholder="Name" />
-          </div>
-        </div>
+        <Input
+          className="block"
+          label="Full name"
+          name="name"
+          placeholder="Name"
+        />
+        <Input
+          className="block"
+          label="Email"
+          name="email"
+          placeholder="Email"
+        />
 
-        <div>
-          <label
-            className="block text-sm font-medium leading-6 text-gray-900"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <div className="mt-2">
-            <Input className="block" name="email" placeholder="Email" />
-          </div>
-        </div>
-        <div>
-          <label
-            className="block text-sm font-medium leading-6 text-gray-900"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <div className="mt-2">
-            <Input
-              className="block"
-              name="password"
-              placeholder="Password"
-              type="password"
-            />
-          </div>
-        </div>
-        <div>
-          <label
-            className="block text-sm font-medium leading-6 text-gray-900"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <div className="mt-2">
-            <Input
-              className="block"
-              name="c_password"
-              placeholder="Confirm Password"
-              rules={{
-                validate: {
-                  match: (value, formValues) => value === formValues.password,
-                },
-              }}
-              type="password"
-            />
-          </div>
-        </div>
+        <Input
+          className="block"
+          label="Password"
+          name="password"
+          placeholder="Password"
+          type="password"
+        />
+        <Input
+          className="block"
+          label="Confirm password"
+          name="c_password"
+          placeholder="Confirm Password"
+          rules={{
+            validate: {
+              match: (value, formValues) => value === formValues.password,
+            },
+          }}
+          type="password"
+        />
 
         <div id={CONTAINER_ID} />
         <Button

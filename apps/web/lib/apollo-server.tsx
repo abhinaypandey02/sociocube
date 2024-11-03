@@ -85,7 +85,7 @@ export async function queryGQL<T, V extends OperationVariables>(
         Cookie,
       },
       fetchOptions: {
-        cache: !revalidate ? "force-cache" : undefined,
+        cache: revalidate === undefined ? "force-cache" : undefined,
         next: {
           revalidate,
         },

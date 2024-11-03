@@ -1,9 +1,20 @@
 "use client";
 import React, { useState } from "react";
 import { Button, Variants } from "ui/button";
-import { ArrowRight, CaretLeft, CaretRight } from "@phosphor-icons/react";
+import {
+  ArrowRight,
+  CaretLeft,
+  CaretRight,
+  FlagCheckered,
+  MapPin,
+  MoneyWavy,
+  PencilSimple,
+  SealCheck,
+  ShareNetwork,
+} from "@phosphor-icons/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Spinner } from "@phosphor-icons/react/dist/ssr";
 import type { GetDefaultOnboardingDetailsQuery } from "../../__generated__/graphql";
 import { Route } from "../../constants/routes";
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
@@ -12,6 +23,8 @@ import { ONBOARDING_SCOPES } from "./constants";
 import { completedOnboardingScopes } from "./utils";
 import OnboardingLocationForm from "./onboarding-location";
 import OnboardingPricingForm from "./onboarding-pricing";
+import OnboardingStepper from "./stepper";
+import OnboardingCompleteForm from "./onboarding-complete-form";
 
 export function getStep(
   currentUser: GetDefaultOnboardingDetailsQuery["getCurrentUser"],
@@ -38,8 +51,10 @@ export function getStep(
 
 function OnboardingWizard({
   data: { getCurrentUser: currentUser },
+  loading,
 }: {
   data: GetDefaultOnboardingDetailsQuery;
+  loading?: boolean;
 }) {
   const router = useRouter();
   const [step, setStep] = useState(getStep(currentUser));
@@ -49,56 +64,117 @@ function OnboardingWizard({
     return null;
   }
   const steps = [
-    <div className="flex h-full flex-col justify-center pb-14" key={0}>
-      <Image
-        alt="Start for sales"
-        className="mx-auto"
-        height={400}
-        src="/onboarding-start.svg"
-        width={200}
-      />
-      <h2 className="mt-5 text-center font-poppins text-3xl font-bold text-gray-800">
-        Let's get you onboarded
-      </h2>
-      <small className="mx-auto mt-2 max-w-96 text-center text-gray-500">
-        With some simple steps you can onboard to become a seller at Freeluence!
-      </small>
-      <Button
-        className="mx-auto mt-5 flex items-center gap-2 !font-medium"
-        onClick={nextStep}
-        variant={Variants.ACCENT}
-      >
-        Start now <ArrowRight weight="bold" />
-      </Button>
-    </div>,
-    <SocialsStatus key={1} nextStep={nextStep} scopes={currentUser.scopes} />,
-    <OnboardingBasicDetailsForm
-      defaultValues={{
-        name: currentUser.onboardingData?.name || currentUser.name || "",
-        photo: currentUser.onboardingData?.photo || currentUser.photo || "",
-        bio: currentUser.onboardingData?.bio || currentUser.bio || "",
-        category: currentUser.onboardingData?.category || "",
-        dob: currentUser.onboardingData?.dob || "",
-        gender: currentUser.onboardingData?.gender || "",
-      }}
-      key={2}
-      nextStep={nextStep}
-      photoUpload={currentUser.pictureUploadURL}
-    />,
-    <OnboardingLocationForm
-      defaultValues={{
-        city: currentUser.onboardingData?.city,
-        country: currentUser.onboardingData?.country,
-        state: currentUser.onboardingData?.state,
-      }}
-      key={3}
-      nextStep={nextStep}
-    />,
-    <OnboardingPricingForm
-      defaultValues={currentUser.onboardingData?.pricing || {}}
-      key={4}
-      nextStep={nextStep}
-    />,
+    {
+      title: "",
+      heading: "",
+      description: "",
+      icon: FlagCheckered,
+      component: (
+        <div className="flex h-full flex-col justify-center pb-14" key={0}>
+          <Image
+            alt="Start for sales"
+            className="mx-auto"
+            height={400}
+            src="/onboarding-start.svg"
+            width={200}
+          />
+          <h2 className="mt-5 text-center font-poppins text-3xl font-bold text-gray-800">
+            Let's get you onboarded
+          </h2>
+          <small className="mx-auto mt-2 max-w-96 text-center text-gray-500">
+            With some simple steps you can onboard to become a seller at
+            Freeluence!
+          </small>
+          <Button
+            className="mx-auto mt-5 flex items-center gap-2 !font-medium"
+            onClick={nextStep}
+            variant={Variants.ACCENT}
+          >
+            Start now <ArrowRight weight="bold" />
+          </Button>
+        </div>
+      ),
+    },
+    {
+      title: "Socials",
+      heading: "Let's connect your socials",
+      description: "Connect your socials.",
+      longDescription:
+        "Connect your instagram account to verify your identity.",
+      icon: ShareNetwork,
+      component: (
+        <SocialsStatus
+          key={1}
+          nextStep={nextStep}
+          scopes={currentUser.scopes}
+        />
+      ),
+    },
+    {
+      title: "Basic details",
+      heading: "Let's know you better",
+      description: "Information about you",
+      longDescription:
+        "Provide information about you so we can help you be found!",
+      icon: PencilSimple,
+      component: (
+        <OnboardingBasicDetailsForm
+          defaultValues={{
+            name: currentUser.onboardingData?.name || currentUser.name || "",
+            photo: currentUser.onboardingData?.photo || currentUser.photo || "",
+            bio: currentUser.onboardingData?.bio || currentUser.bio || "",
+            category: currentUser.onboardingData?.category || "",
+            dob: currentUser.onboardingData?.dob || "",
+            gender: currentUser.onboardingData?.gender || "",
+          }}
+          key={2}
+          nextStep={nextStep}
+          photoUpload={currentUser.pictureUploadURL}
+        />
+      ),
+    },
+    {
+      title: "Location",
+      heading: "Where are you based?",
+      description: "Your current city",
+      longDescription:
+        "Enter the details about your current location to help people find you better",
+      icon: MapPin,
+      component: (
+        <OnboardingLocationForm
+          defaultValues={{
+            city: currentUser.onboardingData?.city,
+            country: currentUser.onboardingData?.country,
+            state: currentUser.onboardingData?.state,
+          }}
+          key={3}
+          nextStep={nextStep}
+        />
+      ),
+    },
+    {
+      title: "Pricing",
+      heading: "Your price",
+      description: "Your average charges",
+      longDescription:
+        "Add an average price you would like to charge for collaborations. This can be an approximation for potential brands",
+      icon: MoneyWavy,
+      component: (
+        <OnboardingPricingForm
+          defaultValues={currentUser.onboardingData?.pricing || {}}
+          key={4}
+          nextStep={nextStep}
+        />
+      ),
+    },
+    {
+      title: "Finish",
+      heading: "Complete onboarding",
+      description: "Complete onboarding",
+      longDescription: "You have completed all the steps and are ready to go!",
+      icon: SealCheck,
+      component: <OnboardingCompleteForm />,
+    },
   ];
   const MAX_STEPS = steps.length;
 
@@ -112,24 +188,48 @@ function OnboardingWizard({
   }
 
   const allowForward = step < maxTouchedStep;
+  const currentStep = steps[step];
   return (
-    <div className="h-full">
-      <div className="flex items-center justify-between">
-        <div className="flex gap-4">
-          {step > 0 ? (
-            <button onClick={prevStep}>
-              <CaretLeft />
-            </button>
-          ) : null}
-        </div>
-        {allowForward ? (
-          <button onClick={nextStep}>
-            <CaretRight />
-          </button>
+    <>
+      <div className="w-full max-w-lg rounded-xl bg-white p-5 shadow-elevation-1">
+        {!loading && (
+          <div className="h-full">
+            <div className="flex items-center justify-between">
+              <div className="flex gap-4 font-poppins">
+                {step > 0 ? (
+                  <>
+                    <button onClick={prevStep}>
+                      <CaretLeft />
+                    </button>
+                    ({step}/{MAX_STEPS - 1}) {currentStep?.title}
+                  </>
+                ) : null}
+              </div>
+              {allowForward ? (
+                <button onClick={nextStep}>
+                  <CaretRight />
+                </button>
+              ) : null}
+            </div>
+            <div className="h-full px-6">
+              <h2 className="mb-1 mt-14 text-center font-poppins text-3xl font-semibold">
+                {currentStep?.heading}
+              </h2>
+              <p className="mb-14 text-center text-gray-600">
+                {currentStep?.longDescription}
+              </p>
+              {steps[step]?.component}
+            </div>
+          </div>
+        )}
+        {loading ? (
+          <Spinner className="animate-spin fill-primary" size={40} />
         ) : null}
       </div>
-      {steps[step]}
-    </div>
+      <div className="flex grow items-center justify-center px-4">
+        <OnboardingStepper currentStep={step - 1} steps={steps.slice(1)} />
+      </div>
+    </>
   );
 }
 

@@ -18,8 +18,9 @@ function Dropdown({ trigger, children, onOpen }: DropdownProps) {
     setOpenFresh(isOpen);
   }, [isOpen]);
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <div
+        className="w-full"
         onBlur={() => {
           if (!isHoveringOptions) handleClose();
         }}

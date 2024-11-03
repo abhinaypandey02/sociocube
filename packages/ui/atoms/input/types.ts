@@ -13,6 +13,8 @@ export type InputProps = {
   variant?: Variants;
   name: string;
   rules?: RegisterOptions;
+  label?: string;
+  error?: string;
 } & ComponentProps<"textarea"> &
   ComponentProps<"input">;
 
