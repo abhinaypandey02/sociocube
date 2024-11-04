@@ -69,23 +69,21 @@ async function Page() {
             <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
               <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
                 <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                  We’re changing the way people connect.
+                  Connecting Brands with Influencers, Seamlessly!
                 </h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
-                  Cupidatat minim id magna ipsum sint dolor qui. Sunt sit in
-                  quis cupidatat mollit aute velit. Et labore commodo nulla
-                  aliqua proident mollit ullamco exercitation tempor. Sint
-                  aliqua anim nulla sunt mollit id pariatur in voluptate cillum.
+                  Discover influencers, build collaborations, and grow your
+                  brand effortlessly.
                 </p>
                 <div className="mt-10 flex items-center gap-x-6">
-                  <Link href={Route.SignUp}>
-                    <Button variant={Variants.ACCENT}>Get started</Button>
+                  <Link href={Route.Search}>
+                    <Button variant={Variants.ACCENT}>Find Influencers</Button>
                   </Link>
                   <Link
                     className="text-sm font-semibold leading-6 text-gray-900"
-                    href={Route.Login}
+                    href={Route.SignUp}
                   >
-                    Login <span aria-hidden="true">→</span>
+                    Join us <span aria-hidden="true">→</span>
                   </Link>
                 </div>
               </div>
@@ -154,11 +152,12 @@ async function Page() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8" id="sellers">
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2 className="text-3xl font-bold tracking-tight  sm:text-4xl">
-            Our team
+            Our Top Creators
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-800">
-            Excepturi repudiandae alias ut. Totam aut facilis. Praesentium in
-            neque vel omnis. Eos error odio. Qui fugit voluptatibus eum culpa.
+            Discover the influencers leading the way in engagement and
+            creativity. Explore their profiles and see how they can elevate your
+            brand through authentic collaborations!
           </p>
         </div>
         <ul className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
