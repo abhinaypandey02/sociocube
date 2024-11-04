@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
 export const SEO = {
-  title: `Freeluence - Freelancing Influencers`,
-  description: "Freelancing Influencers",
-  companyName: "Tall Breeze",
+  title: `Freeluencer – Connect Brands with Influencers for Effective Collaborations`,
+  description:
+    "Freeluencer is your go-to platform for seamless influencer collaborations. Combine the flexibility of freelancing with the power of influencer marketing. Search and connect with influencers based on age, location, category, and follower count. Collaborate on engaging content like posts, stories, and reels to elevate your brand. Join Freeluencer today and discover authentic partnerships that drive results!",
+  companyName: "Freeluencer",
   themeColor: "#F45B69",
 };
 
