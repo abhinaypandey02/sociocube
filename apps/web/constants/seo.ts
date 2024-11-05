@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const SEO = {
-  title: `Freeluencers – Connect Brands with Influencers for Effective Collaborations`,
+  title: `Freeluencers – Connecting Brands with Influencers for Effective Collaborations`,
   description:
     "Freeluencers is your go-to platform for seamless influencer collaborations. Combine the flexibility of freelancing with the power of influencer marketing. Search and connect with influencers based on age, location, category, and follower count. Collaborate on engaging content like posts, stories, and reels to elevate your brand. Join Freeluencers today and discover authentic partnerships that drive results!",
   companyName: "Freeluencers",
