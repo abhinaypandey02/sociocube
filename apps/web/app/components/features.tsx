@@ -46,7 +46,7 @@ const features = [
   {
     name: "Intuitive & Easy-to-Use Interface",
     description:
-      "Freeluencer’s intuitive design makes it simple for brands and influencers to connect and collaborate effortlessly.",
+      "Freeluencers' intuitive design makes it simple for brands and influencers to connect and collaborate effortlessly.",
     href: "#",
     icon: Smiley,
   },

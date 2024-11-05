@@ -36,7 +36,7 @@ export default function HowItWorks() {
             Effortless Connections, Powerful Collaborations
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-800">
-            See how Freeluencer brings brands and influencers together for
+            See how Freeluencers brings brands and influencers together for
             authentic partnerships—from onboarding to seamless communication.
           </p>
         </div>
