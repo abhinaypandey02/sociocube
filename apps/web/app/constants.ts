@@ -3,6 +3,8 @@ import { Route } from "../constants/routes";
 export const NAVBAR_COMMON_ROUTES = [
   { label: "Home", href: Route.Home },
   { label: "Search", href: Route.Search },
+  { label: "About us", href: "/#about-us" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
 export const UNAUTHORISED_NAVBAR_SECTIONS = {

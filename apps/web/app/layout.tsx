@@ -30,9 +30,9 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
-    <html lang="en">
+    <html className="scroll-smooth" lang="en">
       <body
-        className={`${inter.className} ${poppins.variable} flex min-h-screen flex-col bg-primary-bg`}
+        className={`${inter.className} ${poppins.variable} flex min-h-screen flex-col  bg-primary-bg`}
       >
         <ApolloWrapper>
           <GlobalStateWrapper>

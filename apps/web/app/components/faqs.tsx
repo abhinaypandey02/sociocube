@@ -63,7 +63,7 @@ export default function Faqs() {
   return (
     <div className="mx-auto  max-w-7xl px-6  py-16 sm:my-16 lg:px-8" id="faq">
       <div className="mx-auto  divide-y divide-gray-900/10">
-        <h2 className="text-2xl font-bold leading-10 tracking-tight text-gray-900">
+        <h2 className="text-3xl font-bold leading-10 tracking-tight text-gray-900 sm:text-4xl">
           Frequently asked questions
         </h2>
         <dl className="mt-10 space-y-6 divide-y divide-gray-900/10">
@@ -77,7 +77,7 @@ export default function Faqs() {
                 <>
                   <dt>
                     <DisclosureButton className="flex w-full items-start justify-between text-left text-gray-900">
-                      <span className="text-base font-semibold leading-7">
+                      <span className="text-lg font-semibold leading-7">
                         {faq.question}
                       </span>
                       <span className="ml-6 flex h-7 items-center">

@@ -20,13 +20,14 @@ async function Page() {
   );
   const sellersToShow = sellers.filter((seller) => seller.photo && seller.bio);
   const heroSellers: GetFeaturedSellersQuery["sellers"] = [];
-  for (let i = 0; heroSellers.length < 5; i++) {
-    const seller = sellersToShow[i % sellersToShow.length];
-    if (seller) heroSellers.push(seller);
-  }
+  if (sellersToShow.length > 0)
+    for (let i = 0; heroSellers.length < 5; i++) {
+      const seller = sellersToShow[i % sellersToShow.length];
+      if (seller) heroSellers.push(seller);
+    }
 
   return (
-    <main className="scroll-smooth">
+    <main>
       <Hero images={heroSellers} />
       <TopCreators sellers={heroSellers} />
       <HowItWorks />
