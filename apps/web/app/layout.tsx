@@ -31,17 +31,13 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${poppins.variable} flex min-h-screen flex-col bg-[#fcfcfc]`}
+        className={`${inter.className} ${poppins.variable} flex min-h-screen flex-col bg-primary-bg`}
       >
         <ApolloWrapper>
           <GlobalStateWrapper>
             <Suspense
               fallback={
-                <Navbar
-                  {...UNAUTHORISED_NAVBAR_SECTIONS}
-                  cta={undefined}
-                  secondaryLinks={[]}
-                />
+                <Navbar {...UNAUTHORISED_NAVBAR_SECTIONS} secondaryLinks={[]} />
               }
             >
               <OptimisticNavbar />

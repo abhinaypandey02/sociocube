@@ -99,7 +99,7 @@ function Navbar({
               className="-m-1.5 p-1.5 text-3xl font-bold italic text-primary"
               href="/"
             >
-              freeluence
+              freeluencers
             </Link>
             <div className="flex gap-4 sm:gap-6 lg:hidden">
               {cta ? (

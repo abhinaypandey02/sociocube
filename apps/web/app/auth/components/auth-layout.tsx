@@ -15,7 +15,7 @@ export default function AuthLayout({
           className="mx-auto block w-auto text-center text-5xl font-bold italic text-primary"
           href="/"
         >
-          freeluence
+          freeluencers
         </Link>
         <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           {newUser ? "Create a new account" : "Get back to your account"}
