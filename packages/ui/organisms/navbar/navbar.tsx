@@ -32,7 +32,7 @@ function Navbar({
             className="-m-1.5 p-1.5 text-3xl font-bold italic text-primary"
             href="/"
           >
-            freeluence
+            freeluencers
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
