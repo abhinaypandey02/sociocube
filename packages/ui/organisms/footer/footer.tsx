@@ -1,17 +1,40 @@
-import React from "react";
+import Link from "next/link";
 
-function Footer() {
+export default function Footer({
+  links,
+}: {
+  links: { name: string; href: string }[];
+}) {
   return (
-    <footer className="mt-32 ">
-      <div className="mx-auto max-w-screen-2xl px-6 py-12 md:flex md:items-center md:justify-center lg:px-8">
-        <div className="mt-8 md:order-1 md:mt-0">
-          <p className="text-center text-xs leading-5 text-gray-500">
-            &copy; 2020 Your Company, Inc. All rights reserved.
-          </p>
-        </div>
+    <footer className="bg-white">
+      <div className="mx-auto max-w-7xl overflow-hidden px-6 pb-16 lg:px-8">
+        <nav
+          aria-label="Footer"
+          className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
+        >
+          {links.map((item) => (
+            <div className="pb-6" key={item.name}>
+              <Link
+                className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                href={item.href}
+              >
+                {item.name}
+              </Link>
+            </div>
+          ))}
+        </nav>
+        <p className="mt-10 text-center leading-5 text-gray-500">
+          Made with&nbsp; ❤️ &nbsp;by{" "}
+          <a
+            className="underline"
+            href="https://abhinaypandey.com"
+            rel="noopener"
+            target="_blank"
+          >
+            Abhinay Pandey
+          </a>
+        </p>
       </div>
     </footer>
   );
 }
-
-export default Footer;

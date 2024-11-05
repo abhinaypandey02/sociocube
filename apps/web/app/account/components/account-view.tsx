@@ -30,8 +30,8 @@ export default function AccountView({
                 <button
                   className={classNames(
                     selectedSection === i
-                      ? "bg-gray-50 text-indigo-600"
-                      : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
+                      ? "bg-gray-50 text-accent"
+                      : "text-gray-700 hover:text-accent hover:bg-gray-50",
                     "group cursor-pointer flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold",
                   )}
                   onClick={() => {
@@ -43,8 +43,8 @@ export default function AccountView({
                     aria-hidden="true"
                     className={classNames(
                       selectedSection === i
-                        ? "text-indigo-600"
-                        : "text-gray-400 group-hover:text-indigo-600",
+                        ? "text-accent"
+                        : "text-gray-400 group-hover:text-accent",
                       "h-6 w-6 shrink-0",
                     )}
                   />

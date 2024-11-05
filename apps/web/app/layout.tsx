@@ -9,6 +9,7 @@ import { Navbar } from "ui/navbar";
 import { ApolloWrapper } from "../lib/apollo-client";
 import { GlobalStateWrapper } from "../lib/auth-client";
 import { getSEO, SEO } from "../constants/seo";
+import { Route } from "../constants/routes";
 import OptimisticNavbar from "./components/optimistic-navbar";
 import { UNAUTHORISED_NAVBAR_SECTIONS } from "./constants";
 
@@ -43,7 +44,17 @@ export default function RootLayout({ children }: PropsWithChildren) {
               <OptimisticNavbar />
             </Suspense>
             <main className="grow">{children}</main>
-            <Footer />
+            <Footer
+              links={[
+                { name: "Search", href: Route.Search },
+                { name: "Sign up", href: Route.SignUp },
+                { name: "Login", href: Route.Login },
+                { name: "How it works", href: "#how-it-works" },
+                { name: "Features", href: "#features" },
+                { name: "About us", href: "#about-us" },
+                { name: "FAQ", href: "#faq" },
+              ]}
+            />
           </GlobalStateWrapper>
         </ApolloWrapper>
       </body>

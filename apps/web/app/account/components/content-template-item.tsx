@@ -28,7 +28,7 @@ export default function ContentTemplateItem({
         {item.onSubmit ? (
           <div className="flex gap-2">
             <button
-              className="font-semibold text-indigo-600 hover:text-indigo-500"
+              className="font-semibold text-accent hover:text-indigo-500"
               disabled={loading}
               onClick={async () => {
                 if (editing) {
