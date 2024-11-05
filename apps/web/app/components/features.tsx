@@ -72,7 +72,7 @@ export default function Features() {
           <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
             {features.map((feature) => (
               <div className="flex flex-col" key={feature.name}>
-                <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
+                <dt className="flex items-center gap-x-3 text-lg font-semibold leading-7 text-gray-900">
                   <feature.icon
                     aria-hidden="true"
                     className="size-5 flex-none text-accent"
