@@ -1,10 +1,22 @@
 export default [
-    {
-        title:'Travel',
-        id: 1
-    },
-    {
-        title:'Fashion',
-        id: 2
-    },
+    { "id": 1, "title": "Travel" },
+    { "id": 2, "title": "Fashion & Style" },
+    { "id": 3, "title": "Cooking & Food" },
+    { "id": 4, "title": "Health & Fitness" },
+    { "id": 5, "title": "Beauty & Makeup" },
+    { "id": 6, "title": "Tech & Gadgets" },
+    { "id": 7, "title": "Lifestyle" },
+    { "id": 8, "title": "Photography" },
+    { "id": 9, "title": "Parenting & Family" },
+    { "id": 10, "title": "Education & Learning" },
+    { "id": 11, "title": "Finance & Business" },
+    { "id": 12, "title": "Music & Dance" },
+    { "id": 13, "title": "Gaming" },
+    { "id": 14, "title": "Pets & Animals" },
+    { "id": 15, "title": "Art & Design" },
+    { "id": 16, "title": "Self-Improvement" },
+    { "id": 17, "title": "Sports & Outdoors" },
+    { "id": 18, "title": "Home & Decor" },
+    { "id": 19, "title": "Sustainable Living" },
+    { "id": 20, "title": "Automotive & Cars" }
 ]

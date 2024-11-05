@@ -61,7 +61,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
             {seller.name}
           </h1>
           <p className="text-lg  text-gray-900">
-            From ${seller.pricing?.starting}
+            From ₹{seller.pricing?.starting}
           </p>
         </div>
         <div className="prose prose-sm mt-3 text-gray-500">

@@ -32,7 +32,7 @@ export const AUTHORISED_USER_NAVBAR_SECTIONS = {
   ],
   cta: {
     button: {
-      children: "Start Selling",
+      children: "List yourself",
       outline: true,
     },
     href: Route.Onboarding,

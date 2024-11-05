@@ -105,17 +105,14 @@ export default function OnboardingLocationForm({
           rules={{ required: true }}
         />
       ) : null}
-      {form.watch("city") && (
-        <Button
-          className="ml-auto"
-          loading={
-            loading || loadingCountries || loadingCities || loadingStates
-          }
-          type="submit"
-        >
-          Next
-        </Button>
-      )}
+      <Button
+        className="ml-auto"
+        disabled={!form.watch("city")}
+        loading={loading || loadingCountries || loadingCities || loadingStates}
+        type="submit"
+      >
+        Next
+      </Button>
     </Form>
   );
 }

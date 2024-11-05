@@ -10,19 +10,13 @@ export default function AuthLayout({
 }: PropsWithChildren<{ newUser?: boolean }>) {
   return (
     <section className="mt-5  flex flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <Link
-          className="mx-auto block w-auto text-center text-5xl font-bold italic text-primary"
-          href="/"
-        >
-          freeluencers
-        </Link>
-        <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          {newUser ? "Create a new account" : "Get back to your account"}
+      <div className="sm:mx-auto sm:w-full ">
+        <h2 className="mt-6 text-center font-poppins text-5xl font-bold leading-9  text-gray-800">
+          {newUser ? "Create a new account" : "Login to your account"}
         </h2>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
+      <div className="mt-20 sm:mx-auto sm:w-full sm:max-w-[480px]">
         <div className=" px-6 py-12 sm:rounded-lg sm:bg-white sm:px-12 sm:shadow">
           {children}
           <div>

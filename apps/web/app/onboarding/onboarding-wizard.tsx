@@ -50,12 +50,13 @@ export function getStep(
 }
 
 function OnboardingWizard({
-  data: { getCurrentUser: currentUser },
+  data,
   loading,
 }: {
-  data: GetDefaultOnboardingDetailsQuery;
+  data?: GetDefaultOnboardingDetailsQuery;
   loading?: boolean;
 }) {
+  const currentUser = data?.getCurrentUser;
   const router = useRouter();
   const [step, setStep] = useState(getStep(currentUser));
   const [maxTouchedStep, setMaxTouchedStep] = useState(getStep(currentUser));
@@ -178,7 +179,7 @@ function OnboardingWizard({
         longDescription:
           "You have completed all the steps and are ready to go!",
         icon: SealCheck,
-        component: <OnboardingCompleteForm />,
+        component: <OnboardingCompleteForm userID={currentUser?.id} />,
       },
     ],
     [currentUser, nextStep],

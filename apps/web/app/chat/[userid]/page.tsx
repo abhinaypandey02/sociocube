@@ -2,8 +2,8 @@ import React from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { cookies } from "next/headers";
-import { queryGQL } from "../../../lib/apollo-server";
-import { GET_CHAT, GET_CURRENT_USER } from "../../../lib/queries";
+import { getCurrentUser, queryGQL } from "../../../lib/apollo-server";
+import { GET_CHAT } from "../../../lib/queries";
 import { handleUnauthorized } from "../../../lib/auth-server";
 import ChatWindow from "./components/chat-window";
 
@@ -12,7 +12,7 @@ interface ChatPage {
 }
 export default async function Page({ params }: ChatPage) {
   const Cookie = await cookies();
-  const { user } = await queryGQL(GET_CURRENT_USER, undefined, Cookie);
+  const { user } = await getCurrentUser();
   if (!user) {
     handleUnauthorized();
     return;

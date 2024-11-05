@@ -13,7 +13,7 @@ export const getSEO = (
   description?: string,
   images?: string[],
 ): Metadata => ({
-  title: title ? title : SEO.title,
+  title: title ? `${title} - Freeluencers` : SEO.title,
   description: description || SEO.description,
   openGraph: {
     title: title ? title : SEO.title,

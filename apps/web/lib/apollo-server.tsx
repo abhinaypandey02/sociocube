@@ -11,6 +11,8 @@ import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
 import type { FC } from "react";
+import { Suspense } from "react";
+import { GET_CURRENT_USER } from "./queries";
 
 export const { query, PreloadQuery: PreloadQueryInternal } =
   registerApolloClient(() => {
@@ -23,17 +25,36 @@ export const { query, PreloadQuery: PreloadQueryInternal } =
     });
   });
 
-export async function Injector<T, Y>({
+export function Injector<T, Y>({
   fetch,
   Component,
   props,
 }: {
   fetch: () => Promise<T>;
-  Component: FC<{ data: T }>;
+  Component: FC<{ data?: T; loading?: boolean }>;
+  props?: Y;
+}) {
+  return (
+    <Suspense fallback={<Component {...(props || {})} loading />}>
+      <InjectorSuspensed Component={Component} fetch={fetch} props={props} />
+    </Suspense>
+  );
+}
+export async function InjectorSuspensed<T, Y>({
+  fetch,
+  Component,
+  props,
+}: {
+  fetch: () => Promise<T>;
+  Component: FC<{ data?: T }>;
   props?: Y;
 }) {
   const data = await fetch();
-  return <Component {...(props || {})} data={data} />;
+  return (
+    <Suspense fallback={<Component {...(props || {})} />}>
+      <Component {...(props || {})} data={data} />
+    </Suspense>
+  );
 }
 
 export async function PreloadQuery<
@@ -94,4 +115,8 @@ export async function queryGQL<T, V extends OperationVariables>(
   });
   checkErrors(res.errors);
   return res.data;
+}
+
+export async function getCurrentUser() {
+  return queryGQL(GET_CURRENT_USER, undefined, await cookies());
 }

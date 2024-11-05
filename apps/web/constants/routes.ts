@@ -7,4 +7,6 @@ export enum Route {
   Profile = "/profile",
   Chat = "/chat",
   Search = "/search",
+  PrivacyPolicy = "/privacy-policy",
+  TermsConditions = "/terms-and-conditions",
 }

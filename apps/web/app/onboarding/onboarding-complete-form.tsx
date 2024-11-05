@@ -8,7 +8,11 @@ import { Route } from "../../constants/routes";
 import { useAuthMutation } from "../../lib/apollo-client";
 import { COMPLETE_ONBOARDING } from "../../lib/mutations";
 
-export default function OnboardingCompleteForm() {
+export default function OnboardingCompleteForm({
+  userID,
+}: {
+  userID?: number;
+}) {
   const { handleSubmit } = useForm();
   const router = useRouter();
   const [completeOnboarding, { loading }] =
@@ -19,7 +23,7 @@ export default function OnboardingCompleteForm() {
     const res = await completeOnboarding();
     if (res.data?.completeOnboarding) {
       setSuccess(true);
-      router.push(Route.Account);
+      router.push(`${Route.Profile}/${userID}`);
       router.refresh();
     }
   };

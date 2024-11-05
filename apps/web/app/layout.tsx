@@ -10,6 +10,8 @@ import { ApolloWrapper } from "../lib/apollo-client";
 import { GlobalStateWrapper } from "../lib/auth-client";
 import { getSEO, SEO } from "../constants/seo";
 import { Route } from "../constants/routes";
+import type { GetCurrentUserQuery } from "../__generated__/graphql";
+import { getCurrentUser, Injector } from "../lib/apollo-server";
 import OptimisticNavbar from "./components/optimistic-navbar";
 import { UNAUTHORISED_NAVBAR_SECTIONS } from "./constants";
 
@@ -28,6 +30,50 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
+function AuthFooter({ data }: { data?: GetCurrentUserQuery }) {
+  if (data?.user) {
+    if (data.user.isOnboarded) {
+      return (
+        <Footer
+          links={[
+            { name: "Search", href: Route.Search },
+            { name: "Account", href: Route.Account },
+            { name: "How it works", href: "/#how-it-works" },
+            { name: "Features", href: "/#features" },
+            { name: "Terms", href: Route.TermsConditions },
+            { name: "Privacy", href: Route.PrivacyPolicy },
+          ]}
+        />
+      );
+    }
+    return (
+      <Footer
+        links={[
+          { name: "Search", href: Route.Search },
+          { name: "Get listed", href: Route.Onboarding },
+          { name: "How it works", href: "/#how-it-works" },
+          { name: "Features", href: "/#features" },
+          { name: "Terms", href: Route.TermsConditions },
+          { name: "Privacy", href: Route.PrivacyPolicy },
+        ]}
+      />
+    );
+  }
+  return (
+    <Footer
+      links={[
+        { name: "Search", href: Route.Search },
+        { name: "Sign up", href: Route.SignUp },
+        { name: "Login", href: Route.Login },
+        { name: "How it works", href: "/#how-it-works" },
+        { name: "Features", href: "/#features" },
+        { name: "Terms", href: Route.TermsConditions },
+        { name: "Privacy", href: Route.PrivacyPolicy },
+      ]}
+    />
+  );
+}
+
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html className="scroll-smooth" lang="en">
@@ -44,17 +90,8 @@ export default function RootLayout({ children }: PropsWithChildren) {
               <OptimisticNavbar />
             </Suspense>
             <main className="grow">{children}</main>
-            <Footer
-              links={[
-                { name: "Search", href: Route.Search },
-                { name: "Sign up", href: Route.SignUp },
-                { name: "Login", href: Route.Login },
-                { name: "How it works", href: "#how-it-works" },
-                { name: "Features", href: "#features" },
-                { name: "About us", href: "#about-us" },
-                { name: "FAQ", href: "#faq" },
-              ]}
-            />
+
+            <Injector Component={AuthFooter} fetch={getCurrentUser} />
           </GlobalStateWrapper>
         </ApolloWrapper>
       </body>

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { queryGQL } from "../../lib/apollo-server";
 import { GET_ACCOUNT_DETAILS } from "../../lib/queries";
 import { Route } from "../../constants/routes";
+import { getSEO } from "../../constants/seo";
 import AccountView from "./components/account-view";
 
 export default async function Page({
@@ -21,3 +22,5 @@ export default async function Page({
   if (!user) return redirect(Route.Home);
   return <AccountView data={user} defaultSection={paramSection} />;
 }
+export const fetchCache = "force-no-store";
+export const metadata = getSEO("Manage your Account");

@@ -3,7 +3,42 @@ import Link from "next/link";
 import { Button, Variants } from "ui/button";
 import Image from "next/image";
 import { Route } from "../../constants/routes";
-import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
+import type {
+  GetCurrentUserQuery,
+  GetFeaturedSellersQuery,
+} from "../../__generated__/graphql";
+import { getCurrentUser, Injector } from "../../lib/apollo-server";
+
+function SecondaryLink({ data }: { data?: GetCurrentUserQuery }) {
+  if (data?.user) {
+    if (data.user.isOnboarded) {
+      return (
+        <Link
+          className="text-sm font-semibold leading-6 text-gray-900"
+          href={`${Route.Profile}/${data.user.id}`}
+        >
+          Your profile <span aria-hidden="true">→</span>
+        </Link>
+      );
+    }
+    return (
+      <Link
+        className="text-sm font-semibold leading-6 text-gray-900"
+        href={Route.Onboarding}
+      >
+        Get listed <span aria-hidden="true">→</span>
+      </Link>
+    );
+  }
+  return (
+    <Link
+      className="text-sm font-semibold leading-6 text-gray-900"
+      href={Route.SignUp}
+    >
+      Join Now <span aria-hidden="true">→</span>
+    </Link>
+  );
+}
 
 export default function Hero({
   images,
@@ -71,12 +106,7 @@ export default function Hero({
                 <Link href={Route.Search}>
                   <Button variant={Variants.ACCENT}>Find Influencers</Button>
                 </Link>
-                <Link
-                  className="text-sm font-semibold leading-6 text-gray-900"
-                  href={Route.SignUp}
-                >
-                  Join us <span aria-hidden="true">→</span>
-                </Link>
+                <Injector Component={SecondaryLink} fetch={getCurrentUser} />
               </div>
             </div>
             <div className="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">

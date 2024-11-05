@@ -1,7 +1,7 @@
 const stats = [
-  { label: "Hassle to search", value: "0%" },
-  { label: "Free of cost", value: "100%" },
-  { label: "Growth & Collaboration", value: "200%" },
+  { label: "Hassle", value: "0" },
+  { label: "Free", value: "100%" },
+  { label: "Growth", value: "200%" },
 ];
 
 export default function AboutUs() {
@@ -38,7 +38,7 @@ export default function AboutUs() {
                     className="flex flex-col-reverse gap-y-4"
                     key={stat.label}
                   >
-                    <dt className="text-base leading-7 text-gray-600">
+                    <dt className="text-xl leading-7 text-gray-600">
                       {stat.label}
                     </dt>
                     <dd className="text-5xl font-semibold tracking-tight text-gray-900">
