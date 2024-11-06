@@ -18,7 +18,9 @@ async function Page() {
     undefined,
     60,
   );
-  const sellersToShow = sellers.filter((seller) => seller.photo && seller.bio);
+  const sellersToShow = sellers.filter(
+    (seller) => seller.photo && seller.bio && seller.instagramStats,
+  );
   const heroSellers: GetFeaturedSellersQuery["sellers"] = [];
   if (sellersToShow.length > 0)
     for (let i = 0; heroSellers.length < 5; i++) {

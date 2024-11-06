@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Button, Variants } from "ui/button";
 import { Heart, ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
 import { getAge } from "commons/age";
+import { notFound } from "next/navigation";
 import { queryGQL } from "../../../lib/apollo-server";
 import { GET_SELLER } from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
@@ -50,7 +51,8 @@ export default async function ProfilePage({ params }: ProfilePage) {
     60,
   );
   const seller = data.getSeller;
-  if (!seller?.name || !seller.photo) return null;
+  if (!seller?.name || !seller.photo || !seller.instagramStats)
+    return notFound();
   const age = getAge(new Date(seller.dob || Date.now()));
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6 sm:mt-8 sm:px-6 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
@@ -123,17 +125,17 @@ export default async function ProfilePage({ params }: ProfilePage) {
             <h2 className="text-sm font-medium text-gray-900">Instagram</h2>
             <a
               className="link-accent text-sm font-medium text-gray-900"
-              href={`https://instagram.com/${seller.instagramStats?.username}`}
+              href={`https://instagram.com/${seller.instagramStats.username}`}
               rel="noopener"
               target="_blank"
             >
-              @{seller.instagramStats?.username}
+              @{seller.instagramStats.username}
             </a>
           </div>
           <div className="mt-6 grid grid-cols-3 gap-3 ">
             <div className="text-center ">
               <div className=" text-3xl font-medium text-gray-900">
-                {seller.instagramStats?.followers}
+                {seller.instagramStats.followers}
               </div>
               <span className="text-sm font-medium text-gray-900">
                 Followers
@@ -141,7 +143,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
             </div>
             <div className="text-center ">
               <div className=" text-3xl font-medium text-gray-900">
-                {seller.instagramStats?.mediaCount}
+                {seller.instagramStats.mediaCount}
               </div>
               <span className="text-sm font-medium text-gray-900">Posts</span>
             </div>
