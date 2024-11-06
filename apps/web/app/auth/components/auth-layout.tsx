@@ -2,7 +2,6 @@ import type { PropsWithChildren } from "react";
 import React from "react";
 import Link from "next/link";
 import { Route } from "../../../constants/routes";
-import SocialBar from "./social-bar";
 
 export default function AuthLayout({
   newUser,
@@ -34,7 +33,7 @@ export default function AuthLayout({
               </div>
             </div>
 
-            <SocialBar />
+            {/*<SocialBar />*/}
           </div>
         </div>
 
