@@ -52,7 +52,7 @@ export default function OnboardingBasicDetailsForm({
       });
       if (!res.ok) return;
     }
-    const res = await updateBasicDetails({
+    updateBasicDetails({
       data: {
         name: data.name,
         imageURL: profilePicture ? photoUpload.url : data.photo,
@@ -61,12 +61,13 @@ export default function OnboardingBasicDetailsForm({
         gender: data.gender,
         dob: data.dob,
       },
-    });
-    handleGQLErrors(res.errors);
-
-    if (res.data?.updateOnboardingBasicDetails) {
-      nextStep();
-    }
+    })
+      .then((res) => {
+        if (res.data?.updateOnboardingBasicDetails) {
+          nextStep();
+        }
+      })
+      .catch(handleGQLErrors);
   };
   return (
     <Form

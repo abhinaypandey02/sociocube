@@ -21,12 +21,11 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
   const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
   const handleSave = useCallback(
     (field: keyof AccountSectionData) => async () => {
-      const res = await saveUserMutation({
+      await saveUserMutation({
         data: {
           [field]: form.getValues(field),
         },
-      });
-      handleGQLErrors(res.errors);
+      }).catch(handleGQLErrors);
     },
     [form.getValues, saveUserMutation],
   );

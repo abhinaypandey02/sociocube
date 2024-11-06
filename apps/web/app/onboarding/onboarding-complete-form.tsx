@@ -20,9 +20,8 @@ export default function OnboardingCompleteForm({
   const [success, setSuccess] = useState(false);
 
   const onSubmit = async () => {
-    const res = await completeOnboarding();
-    handleGQLErrors(res.errors);
-    if (res.data?.completeOnboarding) {
+    const res = await completeOnboarding().catch(handleGQLErrors);
+    if (res?.data?.completeOnboarding) {
       setSuccess(true);
       router.push(`${Route.Profile}/${userID}`);
       router.refresh();

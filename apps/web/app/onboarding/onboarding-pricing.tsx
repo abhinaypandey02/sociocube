@@ -29,9 +29,8 @@ export default function OnboardingPricingForm({
         data: {
           starting: data.starting,
         },
-      });
-      handleGQLErrors(res.errors);
-      if (res.data?.updateOnboardingPricing) nextStep();
+      }).catch(handleGQLErrors);
+      if (res?.data?.updateOnboardingPricing) nextStep();
     }
   };
   return (

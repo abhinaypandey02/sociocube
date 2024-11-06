@@ -69,6 +69,7 @@ function OnboardingWizard({
   const nextStep = useCallback(() => {
     setStep((o) => Math.min(o + 1, MAX_STEPS));
     setMaxTouchedStep((o) => Math.max(o, step + 1));
+    router.refresh();
   }, [step]);
   const steps = useMemo(
     () => [

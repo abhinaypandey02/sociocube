@@ -74,9 +74,8 @@ export default function OnboardingLocationForm({
         data: {
           city: data.city,
         },
-      });
-      handleGQLErrors(res.errors);
-      if (res.data?.updateOnboardingLocation) {
+      }).catch(handleGQLErrors);
+      if (res?.data?.updateOnboardingLocation) {
         setCurrency(res.data.updateOnboardingLocation);
         nextStep();
       }

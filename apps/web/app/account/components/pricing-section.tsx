@@ -16,14 +16,13 @@ export default function PricingSection({ data }: { data: AccountSectionData }) {
   const router = useRouter();
   const handleSave = useCallback(
     (field: keyof NonNullable<AccountSectionData["pricing"]>) => async () => {
-      const res = await saveUserMutation({
+      await saveUserMutation({
         data: {
           pricing: {
             [field]: form.getValues(field),
           },
         },
-      });
-      handleGQLErrors(res.errors);
+      }).catch(handleGQLErrors);
       router.refresh();
     },
     [form.getValues, saveUserMutation],

@@ -52,12 +52,11 @@ export default function LocationSection({
     NonNullable<AccountSectionData["locationID"]>
   > = async ({ city }) => {
     if (city) {
-      const res = await saveUserMutation({
+      await saveUserMutation({
         data: {
           city,
         },
-      });
-      handleGQLErrors(res.errors);
+      }).catch(handleGQLErrors);
       router.refresh();
     }
   };

@@ -14,7 +14,7 @@ import {
 import type { PropsWithChildren } from "react";
 import React, { useCallback, useEffect } from "react";
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
-import type { GraphQLFormattedError } from "graphql/error";
+import type { GraphQLError } from "graphql/error";
 import { toast } from "react-hot-toast";
 import { useToken } from "./auth-client";
 
@@ -85,8 +85,6 @@ export function useAuthMutation<T, V extends OperationVariables>(
   return [method, result] as const;
 }
 
-export function handleGQLErrors(errors?: readonly GraphQLFormattedError[]) {
-  if (!errors || errors.length === 0) return;
-  const errorMessage = errors.map((error) => error.message).join(" | ");
-  toast.error(errorMessage);
+export function handleGQLErrors(error?: GraphQLError) {
+  if (error?.message) toast.error(error.message);
 }
