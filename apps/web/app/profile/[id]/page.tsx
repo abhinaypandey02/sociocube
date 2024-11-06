@@ -177,3 +177,4 @@ export default async function ProfilePage({ params }: ProfilePage) {
     </div>
   );
 }
+export const revalidate = 60;
