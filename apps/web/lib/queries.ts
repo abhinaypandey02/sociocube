@@ -59,6 +59,7 @@ export const GET_FEATURED_SELLERS = gql(`
       name
       photo
       bio
+      category
       instagramStats {
         username
         followers
