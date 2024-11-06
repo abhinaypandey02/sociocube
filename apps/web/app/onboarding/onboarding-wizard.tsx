@@ -15,7 +15,10 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
-import type { GetDefaultOnboardingDetailsQuery } from "../../__generated__/graphql";
+import type {
+  Currency,
+  GetDefaultOnboardingDetailsQuery,
+} from "../../__generated__/graphql";
 import { Route } from "../../constants/routes";
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
 import SocialsStatus from "./socials-status";
@@ -60,7 +63,9 @@ function OnboardingWizard({
   const router = useRouter();
   const [step, setStep] = useState(getStep(currentUser));
   const [maxTouchedStep, setMaxTouchedStep] = useState(getStep(currentUser));
-
+  const [currency, setCurrency] = useState<Currency | undefined | null>(
+    data?.getCurrentUser?.onboardingData?.currency,
+  );
   const nextStep = useCallback(() => {
     setStep((o) => Math.min(o + 1, MAX_STEPS));
     setMaxTouchedStep((o) => Math.max(o, step + 1));
@@ -154,6 +159,7 @@ function OnboardingWizard({
             }}
             key={3}
             nextStep={nextStep}
+            setCurrency={setCurrency}
           />
         ),
       },
@@ -166,6 +172,7 @@ function OnboardingWizard({
         icon: MoneyWavy,
         component: (
           <OnboardingPricingForm
+            currency={currency}
             defaultValues={currentUser?.onboardingData?.pricing || {}}
             key={4}
             nextStep={nextStep}

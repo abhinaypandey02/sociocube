@@ -3,10 +3,12 @@ import { Field, InputType } from "type-graphql";
 import { IsDateString, IsIn } from "class-validator";
 import categories from "commons/categories";
 import genders from "commons/genders";
+import { getAge, MAX_AGE, MIN_AGE } from "commons/age";
 import { db } from "../../../../../../lib/db";
 import { PricingTable, UserTable } from "../../db/schema";
 import type { Context } from "../../../../context";
 import { Pricing } from "../../type";
+import GQLError from "../../../../constants/errors";
 
 @InputType("UpdateUserArgs")
 export class UpdateUserArgs {
@@ -32,7 +34,12 @@ export class UpdateUserArgs {
 }
 
 export async function handleUpdateUser(ctx: Context, args: UpdateUserArgs) {
-  if (!ctx.userId) return false;
+  if (!ctx.userId) throw GQLError(403);
+  if (args.dob) {
+    const age = getAge(new Date(args.dob));
+    if (age < MIN_AGE || age > MAX_AGE)
+      throw GQLError(400, "Invalid date of birth");
+  }
   const [user] = await db
     .update(UserTable)
     .set({

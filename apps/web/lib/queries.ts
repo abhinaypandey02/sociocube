@@ -34,6 +34,10 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
         dob
         gender
         country
+        currency {
+          name
+          symbol
+        }
         state
         pricing{
           starting

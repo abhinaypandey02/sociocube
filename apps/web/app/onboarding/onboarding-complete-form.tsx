@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button, Variants } from "ui/button";
 import Image from "next/image";
 import { Route } from "../../constants/routes";
-import { useAuthMutation } from "../../lib/apollo-client";
+import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
 import { COMPLETE_ONBOARDING } from "../../lib/mutations";
 
 export default function OnboardingCompleteForm({
@@ -21,6 +21,7 @@ export default function OnboardingCompleteForm({
 
   const onSubmit = async () => {
     const res = await completeOnboarding();
+    handleGQLErrors(res.errors);
     if (res.data?.completeOnboarding) {
       setSuccess(true);
       router.push(`${Route.Profile}/${userID}`);

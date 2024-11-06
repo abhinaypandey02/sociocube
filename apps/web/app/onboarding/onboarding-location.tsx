@@ -5,13 +5,19 @@ import { useForm } from "react-hook-form";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
 import Form from "ui/form";
-import { useAuthMutation, useAuthQuery } from "../../lib/apollo-client";
+import {
+  handleGQLErrors,
+  useAuthMutation,
+  useAuthQuery,
+} from "../../lib/apollo-client";
 import { UPDATE_ONBOARDING_LOCATION } from "../../lib/mutations";
 import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "../../lib/queries";
+import type { Currency } from "../../__generated__/graphql";
 
 export default function OnboardingLocationForm({
   defaultValues,
   nextStep,
+  setCurrency,
 }: {
   defaultValues: {
     country?: number | null;
@@ -19,6 +25,7 @@ export default function OnboardingLocationForm({
     city?: number | null;
   };
   nextStep: () => void;
+  setCurrency: (currency: Currency) => void;
 }) {
   const form = useForm({ defaultValues });
   const [updateBasicDetails, { loading }] = useAuthMutation(
@@ -68,7 +75,11 @@ export default function OnboardingLocationForm({
           city: data.city,
         },
       });
-      if (res.data?.updateOnboardingLocation) nextStep();
+      handleGQLErrors(res.errors);
+      if (res.data?.updateOnboardingLocation) {
+        setCurrency(res.data.updateOnboardingLocation);
+        nextStep();
+      }
     }
   };
   return (

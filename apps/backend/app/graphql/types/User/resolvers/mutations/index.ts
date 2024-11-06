@@ -1,5 +1,6 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 import type { Context } from "../../../../context";
+import { Currency } from "../../type";
 import {
   handleUpdateOnboardingBasicDetails,
   UpdateBasicDetailsArgs,
@@ -26,7 +27,7 @@ export class UserMutationResolver {
     return handleUpdateOnboardingBasicDetails(args, ctx);
   }
   @Authorized()
-  @Mutation(() => Boolean)
+  @Mutation(() => Currency)
   updateOnboardingLocation(
     @Arg("data") args: UpdateLocationArgs,
     @Ctx() ctx: Context,

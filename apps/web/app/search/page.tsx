@@ -1,7 +1,15 @@
 import { getSEO } from "../../constants/seo";
+import { queryGQL } from "../../lib/apollo-server";
+import { SEARCH_SELLERS } from "../../lib/queries";
 import SearchWindow from "./components/search-window";
 
-export default function SearchPage() {
-  return <SearchWindow />;
+export default async function SearchPage() {
+  const defaultSearchResults = await queryGQL(
+    SEARCH_SELLERS,
+    { data: {} },
+    undefined,
+    120,
+  );
+  return <SearchWindow defaultData={defaultSearchResults} />;
 }
 export const metadata = getSEO("Find influencers");

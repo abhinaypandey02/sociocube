@@ -15,11 +15,13 @@ import { Button } from "ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { Input } from "ui/input";
-import type { SearchSellers } from "../../../__generated__/graphql";
+import type {
+  SearchSellers,
+  SearchSellersQuery,
+} from "../../../__generated__/graphql";
 import { SEARCH_SELLERS } from "../../../lib/queries";
 import { Route } from "../../../constants/routes";
 import CountryFilter from "./country-filter";
-import StartSearch from "./start-search";
 import SearchLoading from "./search-loading";
 import NoResults from "./no-results";
 import GenderFilter from "./gender-filter";
@@ -60,11 +62,16 @@ const filters: {
   },
 ];
 
-export default function SearchWindow() {
+export default function SearchWindow({
+  defaultData,
+}: {
+  defaultData: SearchSellersQuery;
+}) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [searchSellers, { data, loading }] = useLazyQuery(SEARCH_SELLERS);
+  const [searchSellers, { data: fetchedData, loading }] =
+    useLazyQuery(SEARCH_SELLERS);
   const [variables, setVariables] = useState<SearchSellers>({});
-
+  const data = fetchedData || defaultData;
   function handleChange(changesData: SearchSellers) {
     setVariables((prev) => ({ ...prev, ...changesData }));
   }
@@ -225,11 +232,10 @@ export default function SearchWindow() {
 
             {/* Product grid */}
             <div className=" lg:col-span-3">
-              {!data && !loading && <StartSearch />}
               {loading ? <SearchLoading /> : null}
-              {data?.sellers?.length === 0 && !loading && <NoResults />}
+              {data.sellers?.length === 0 && !loading && <NoResults />}
               <ul className=" grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {data?.sellers?.map((person) => (
+                {data.sellers?.map((person) => (
                   <li key={person.name || ""}>
                     <Link href={`${Route.Profile}/${person.id}`}>
                       <Image

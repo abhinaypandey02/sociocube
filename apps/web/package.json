@@ -19,14 +19,15 @@
     "@headlessui/react": "^2.1.10",
     "@phosphor-icons/react": "^2.1.7",
     "classnames": "^2.5.1",
+    "commons": "workspace:*",
     "next": "15.0.0-canary.205",
     "nextjs-progressloader": "^1.2.0",
     "pusher-js": "8.4.0-rc2",
     "react": "rc",
     "react-dom": "rc",
-    "react-hook-form": "^7.53.0",
+    "react-hook-form": "7.53.0",
+    "react-hot-toast": "^2.4.1",
     "ui": "workspace:*",
-    "commons": "workspace:*",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

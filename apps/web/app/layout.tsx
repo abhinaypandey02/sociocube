@@ -6,6 +6,7 @@ import type { PropsWithChildren } from "react";
 import { Suspense } from "react";
 import { Footer } from "ui/footer";
 import { Navbar } from "ui/navbar";
+import { Toaster } from "react-hot-toast";
 import { ApolloWrapper } from "../lib/apollo-client";
 import { GlobalStateWrapper } from "../lib/auth-client";
 import { getSEO, SEO } from "../constants/seo";
@@ -80,6 +81,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body
         className={`${inter.className} ${poppins.variable} flex min-h-screen flex-col  bg-primary-bg`}
       >
+        <Toaster />
         <ApolloWrapper>
           <GlobalStateWrapper>
             <Suspense

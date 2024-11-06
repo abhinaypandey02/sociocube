@@ -7,10 +7,12 @@ import { Input } from "ui/input";
 import { Button } from "ui/button";
 import Link from "next/link";
 import Form from "ui/form";
+import { toast } from "react-hot-toast";
 import { useLoginWithEmail } from "../../../lib/auth-client";
 import { Route } from "../../../constants/routes";
 import useTurnstileToken from "../use-turnstile-token";
 import AuthLayout from "../components/auth-layout";
+import { EMAIL_REGEX } from "../../../constants/validations";
 
 const defaultValues = {
   email: "",
@@ -36,11 +38,17 @@ export default function LoginForm() {
       return;
     }
     setIsLoading(true);
-    if (await loginWithEmail(data.email, data.password, turnstileToken)) {
+    const error = await loginWithEmail(
+      data.email,
+      data.password,
+      turnstileToken,
+    );
+    if (error === null) {
       setSuccess(true);
       router.push(Route.Home);
       router.refresh();
     } else {
+      toast.error(error || "Invalid credentials");
       setIsLoading(false);
       resetTurnstileToken();
     }
@@ -65,7 +73,10 @@ export default function LoginForm() {
               className="block"
               name="email"
               placeholder="Email"
-              rules={{ required: true }}
+              rules={{
+                required: true,
+                pattern: { value: EMAIL_REGEX, message: "Invalid email" },
+              }}
             />
           </div>
         </div>

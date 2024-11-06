@@ -10,3 +10,15 @@ export const getBaseClassName = (variant: Variants) =>
       "focus:ring-dark": variant === Variants.DARK,
     },
   );
+
+export const getInputErrorMessages = (type?: string) => {
+  if (!type) return undefined;
+  switch (type) {
+    case "required":
+      return "This field is required";
+    case "passwordMatch":
+      return "Password don't match";
+    default:
+      return "Invalid field";
+  }
+};

@@ -6,7 +6,7 @@ import { useFormContext } from "react-hook-form";
 import { Variants } from "../../constants";
 import type { InputProps } from "./types";
 import Select from "./select";
-import { getBaseClassName } from "./constants";
+import { getBaseClassName, getInputErrorMessages } from "./constants";
 
 function InputWrapper({
   label,
@@ -36,17 +36,21 @@ function Input({
   ...rest
 }: InputProps) {
   const formContext = useFormContext() as UseFormReturn | undefined;
-
+  const formError = formContext?.formState.errors[rest.name];
+  const errorMessage =
+    error ||
+    formError?.message?.toString() ||
+    getInputErrorMessages(formError?.type?.toString());
   const className = classNames(getBaseClassName(variant), rest.className);
   if (options)
     return (
-      <InputWrapper error={error} label={label}>
+      <InputWrapper error={errorMessage} label={label}>
         <Select options={options} rules={rules} variant={variant} {...rest} />
       </InputWrapper>
     );
   if (textarea)
     return (
-      <InputWrapper error={error} label={label}>
+      <InputWrapper error={errorMessage} label={label}>
         <textarea
           {...(formContext?.register
             ? formContext.register(rest.name, rules)
@@ -57,7 +61,7 @@ function Input({
       </InputWrapper>
     );
   return (
-    <InputWrapper error={error} label={label}>
+    <InputWrapper error={errorMessage} label={label}>
       <input
         {...(formContext?.register
           ? formContext.register(rest.name, rules)

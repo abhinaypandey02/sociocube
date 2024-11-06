@@ -19,7 +19,7 @@ export async function handleUpdateOnboardingPricing(
   args: UpdatePricingArgs,
   ctx: Context,
 ) {
-  if (!ctx.userId) return false;
+  if (!ctx.userId) throw GQLError(403);
   const [res] = await db
     .select()
     .from(UserTable)

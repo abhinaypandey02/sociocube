@@ -6,10 +6,12 @@ import { useRouter } from "next/navigation";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
 import Form from "ui/form";
+import { toast } from "react-hot-toast";
 import { useSignUpWithEmail } from "../../../lib/auth-client";
 import { Route } from "../../../constants/routes";
 import useTurnstileToken from "../use-turnstile-token";
 import AuthLayout from "../components/auth-layout";
+import { EMAIL_REGEX } from "../../../constants/validations";
 
 const defaultValues = {
   email: "",
@@ -33,18 +35,18 @@ export default function SignupForm() {
       return;
     }
     setIsLoading(true);
-    if (
-      await signupWithEmail(
-        data.email,
-        data.password,
-        data.name,
-        turnstileToken,
-      )
-    ) {
+    const error = await signupWithEmail(
+      data.email,
+      data.password,
+      data.name,
+      turnstileToken,
+    );
+    if (error === null) {
       setSuccess(true);
       router.push(Route.Home);
       router.refresh();
     } else {
+      toast.error(error || "Invalid data");
       setIsLoading(false);
       resetTurnstileToken();
     }
@@ -62,12 +64,18 @@ export default function SignupForm() {
           label="Full name"
           name="name"
           placeholder="Name"
+          rules={{ required: true }}
         />
         <Input
           className="block"
           label="Email"
           name="email"
           placeholder="Email"
+          rules={{
+            required: true,
+            pattern: { value: EMAIL_REGEX, message: "Invalid email" },
+          }}
+          type="email"
         />
 
         <Input
@@ -75,6 +83,7 @@ export default function SignupForm() {
           label="Password"
           name="password"
           placeholder="Password"
+          rules={{ required: true }}
           type="password"
         />
         <Input
@@ -83,8 +92,10 @@ export default function SignupForm() {
           name="c_password"
           placeholder="Confirm Password"
           rules={{
+            required: true,
             validate: {
-              match: (value, formValues) => value === formValues.password,
+              passwordMatch: (value, formValues) =>
+                value === formValues.password,
             },
           }}
           type="password"

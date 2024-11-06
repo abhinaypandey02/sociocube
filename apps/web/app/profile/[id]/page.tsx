@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { Button, Variants } from "ui/button";
 import { Heart, ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
+import { getAge } from "commons/age";
 import { queryGQL } from "../../../lib/apollo-server";
 import { GET_SELLER } from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
@@ -50,9 +51,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
   );
   const seller = data.getSeller;
   if (!seller?.name || !seller.photo) return null;
-  const age = Math.floor(
-    (Date.now() - new Date(seller.dob || Date.now()).getTime()) / 3.15576e10,
-  );
+  const age = getAge(new Date(seller.dob || Date.now()));
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6 sm:mt-8 sm:px-6 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
       <div className="lg:col-span-6 lg:col-start-7">

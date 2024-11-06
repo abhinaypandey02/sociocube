@@ -4,7 +4,11 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import Form from "ui/form";
 import { Button } from "ui/button";
 import { useRouter } from "next/navigation";
-import { useAuthMutation, useAuthQuery } from "../../../lib/apollo-client";
+import {
+  handleGQLErrors,
+  useAuthMutation,
+  useAuthQuery,
+} from "../../../lib/apollo-client";
 import { UPDATE_USER } from "../../../lib/mutations";
 import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "../../../lib/queries";
 import ContentTemplate from "./content-template";
@@ -48,11 +52,12 @@ export default function LocationSection({
     NonNullable<AccountSectionData["locationID"]>
   > = async ({ city }) => {
     if (city) {
-      await saveUserMutation({
+      const res = await saveUserMutation({
         data: {
           city,
         },
       });
+      handleGQLErrors(res.errors);
       router.refresh();
     }
   };

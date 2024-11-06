@@ -38,13 +38,18 @@ export class UserFieldResolver {
       pricing: undefined,
     } as OnboardingData;
     if (data?.city) {
-      const [city] = await db
+      const [res] = await db
         .select()
         .from(CityTable)
+        .innerJoin(CountryTable, eq(CountryTable.id, CityTable.countryId))
         .where(eq(CityTable.id, data.city));
-      if (city) {
-        onboardingData.state = city.stateId;
-        onboardingData.country = city.countryId;
+      if (res) {
+        onboardingData.state = res.cities.stateId;
+        onboardingData.country = res.cities.countryId;
+        onboardingData.currency = {
+          symbol: res.countries.currencySymbol || undefined,
+          name: res.countries.currencyName || undefined,
+        };
       }
     }
     if (data?.pricing) {
@@ -93,6 +98,10 @@ export class UserFieldResolver {
         return {
           city: city.cities.name,
           country: city.countries.name,
+          currency: {
+            symbol: city.countries.currencySymbol || undefined,
+            name: city.countries.currencyName || undefined,
+          },
         };
     }
     return null;

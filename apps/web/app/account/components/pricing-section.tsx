@@ -3,7 +3,7 @@ import { Input } from "ui/input";
 import { useForm } from "react-hook-form";
 import Form from "ui/form";
 import { useRouter } from "next/navigation";
-import { useAuthMutation } from "../../../lib/apollo-client";
+import { handleGQLErrors, useAuthMutation } from "../../../lib/apollo-client";
 import { UPDATE_USER } from "../../../lib/mutations";
 import ContentTemplate from "./content-template";
 import type { AccountSectionData } from "./account-view";
@@ -16,13 +16,14 @@ export default function PricingSection({ data }: { data: AccountSectionData }) {
   const router = useRouter();
   const handleSave = useCallback(
     (field: keyof NonNullable<AccountSectionData["pricing"]>) => async () => {
-      await saveUserMutation({
+      const res = await saveUserMutation({
         data: {
           pricing: {
             [field]: form.getValues(field),
           },
         },
       });
+      handleGQLErrors(res.errors);
       router.refresh();
     },
     [form.getValues, saveUserMutation],

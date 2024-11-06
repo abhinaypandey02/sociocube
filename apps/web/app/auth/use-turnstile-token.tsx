@@ -11,6 +11,7 @@ function useTurnstileToken(containerID: string) {
   const [turnstileToken, setTurnstileToken] = useState<string>();
 
   const resetTurnstileToken = () => {
+    setTurnstileToken(undefined);
     turnstile.reset();
   };
 

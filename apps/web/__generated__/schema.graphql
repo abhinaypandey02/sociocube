@@ -243,6 +243,11 @@ type Chat {
   with: User!
 }
 
+type Currency {
+  name: String
+  symbol: String
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
 """
@@ -271,6 +276,7 @@ type InstagramStats {
 type Location {
   city: String
   country: String
+  currency: Currency
 }
 
 type LocationID {
@@ -290,7 +296,7 @@ type Mutation {
   readMessage(conversation: Int!): Boolean!
   sendMessage(data: SendMessage!): Boolean!
   updateOnboardingBasicDetails(data: UpdateBasicDetailsArgs!): Boolean!
-  updateOnboardingLocation(data: UpdateLocationArgs!): Boolean!
+  updateOnboardingLocation(data: UpdateLocationArgs!): Currency!
   updateOnboardingPricing(data: UpdatePricingArgs!): Boolean!
   updateUser(data: UpdateUserArgs!): Boolean!
 }
@@ -300,6 +306,7 @@ type OnboardingData {
   category: String
   city: Float
   country: Float
+  currency: Currency
   dob: String
   gender: String
   name: String

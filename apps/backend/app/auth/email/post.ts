@@ -27,7 +27,6 @@ export const POST = async (req: Request) => {
   if (!(await verifyCaptcha(body.captchaToken)))
     return ErrorResponses.invalidCaptcha;
   const existingUser = await getUser(eq(UserTable.email, body.email));
-
   if (existingUser) return ErrorResponses.alreadyExists;
 
   const encryptedPassword = await hash(body.password, 10);

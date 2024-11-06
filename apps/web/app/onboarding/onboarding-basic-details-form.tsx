@@ -10,9 +10,10 @@ import categories from "commons/categories";
 import genders from "commons/genders";
 import Form from "ui/form";
 import { User } from "@phosphor-icons/react";
-import { useAuthMutation } from "../../lib/apollo-client";
+import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
 import { UPDATE_ONBOARDING_BASIC_DETAILS } from "../../lib/mutations";
 import type { StorageFile } from "../../__generated__/graphql";
+import { ageValidation } from "../../constants/validations";
 
 export default function OnboardingBasicDetailsForm({
   defaultValues,
@@ -61,6 +62,8 @@ export default function OnboardingBasicDetailsForm({
         dob: data.dob,
       },
     });
+    handleGQLErrors(res.errors);
+
     if (res.data?.updateOnboardingBasicDetails) {
       nextStep();
     }
@@ -93,6 +96,7 @@ export default function OnboardingBasicDetailsForm({
         label="Full name"
         name="name"
         placeholder="Enter your name"
+        rules={{ required: true }}
       />
       <Input
         className="block"
@@ -110,6 +114,7 @@ export default function OnboardingBasicDetailsForm({
           value: title,
         }))}
         placeholder="Select the category that best suits you"
+        rules={{ required: true }}
       />
       <Input
         className="block"
@@ -120,12 +125,17 @@ export default function OnboardingBasicDetailsForm({
           value: gender,
         }))}
         placeholder="Select your gender"
+        rules={{ required: true }}
       />
       <Input
         className="block"
         label="Date of birth"
         name="dob"
         placeholder="Date of birth"
+        rules={{
+          required: true,
+          validate: ageValidation,
+        }}
         type="date"
       />
       <input

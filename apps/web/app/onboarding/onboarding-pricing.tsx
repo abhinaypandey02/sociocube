@@ -5,16 +5,18 @@ import { useForm } from "react-hook-form";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
 import Form from "ui/form";
-import { useAuthMutation } from "../../lib/apollo-client";
+import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
 import { UPDATE_ONBOARDING_PRICING } from "../../lib/mutations";
-import type { Pricing } from "../../__generated__/graphql";
+import type { Currency, Pricing } from "../../__generated__/graphql";
 
 export default function OnboardingPricingForm({
   defaultValues,
   nextStep,
+  currency,
 }: {
   defaultValues: Pricing;
   nextStep: () => void;
+  currency?: Currency | null;
 }) {
   const form = useForm({ defaultValues });
   const [updatePricing, { loading }] = useAuthMutation(
@@ -28,6 +30,7 @@ export default function OnboardingPricingForm({
           starting: data.starting,
         },
       });
+      handleGQLErrors(res.errors);
       if (res.data?.updateOnboardingPricing) nextStep();
     }
   };
@@ -39,9 +42,17 @@ export default function OnboardingPricingForm({
     >
       <Input
         className="block"
+        disabled
+        label="Currency"
+        name="currency"
+        placeholder="Currency"
+        value={`${currency?.name} (${currency?.symbol})`}
+      />
+      <Input
+        className="block"
         label="Starting price"
         name="starting"
-        placeholder="Enter your starting price in rupees"
+        placeholder={`Enter your starting price in ${currency?.name}`}
         rules={{ required: true, valueAsNumber: true }}
       />
       <div className="!mt-6 flex justify-between">

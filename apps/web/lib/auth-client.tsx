@@ -63,8 +63,9 @@ export function useSignUpWithEmail() {
       });
       if (res.ok) {
         setToken(await res.text());
+        return null;
       }
-      return res.ok;
+      return res.text();
     },
     [setToken],
   );
@@ -84,8 +85,9 @@ export function useLoginWithEmail() {
       });
       if (res.ok) {
         setToken(await res.text());
+        return null;
       }
-      return res.ok;
+      return res.text();
     },
     [setToken],
   );

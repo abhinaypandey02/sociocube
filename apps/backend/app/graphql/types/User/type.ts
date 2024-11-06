@@ -8,6 +8,13 @@ export class Pricing {
   @Field({ nullable: true })
   starting?: number;
 }
+@ObjectType("Currency")
+export class Currency {
+  @Field({ nullable: true })
+  symbol?: string;
+  @Field({ nullable: true })
+  name?: string;
+}
 
 @ObjectType("Location")
 export class Location {
@@ -15,6 +22,8 @@ export class Location {
   city?: string;
   @Field({ nullable: true })
   country?: string;
+  @Field(() => Currency, { nullable: true })
+  currency?: Currency;
 }
 @ObjectType("LocationID")
 export class LocationID {
@@ -48,6 +57,8 @@ export class OnboardingData {
   country?: number;
   @Field(() => Pricing, { nullable: true })
   pricing?: Pricing;
+  @Field(() => Currency, { nullable: true })
+  currency?: Currency;
 }
 @ObjectType("User")
 export class UserGQL {

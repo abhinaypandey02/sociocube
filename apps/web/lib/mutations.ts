@@ -10,7 +10,10 @@ export const UPDATE_ONBOARDING_BASIC_DETAILS = gql(`
 export const UPDATE_ONBOARDING_LOCATION = gql(`
   #graphql
   mutation UpdateOnboardingLocation($data: UpdateLocationArgs!) {
-    updateOnboardingLocation(data: $data)
+    updateOnboardingLocation(data: $data){
+      name
+      symbol
+    }
   }
 `);
 

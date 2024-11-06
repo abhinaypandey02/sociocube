@@ -6,8 +6,9 @@ import { Button } from "ui/button";
 import Form from "ui/form";
 import categories from "commons/categories";
 import genders from "commons/genders";
-import { useAuthMutation } from "../../../lib/apollo-client";
+import { handleGQLErrors, useAuthMutation } from "../../../lib/apollo-client";
 import { UPDATE_USER } from "../../../lib/mutations";
+import { ageValidation } from "../../../constants/validations";
 import ContentTemplate from "./content-template";
 import type { AccountSectionData } from "./account-view";
 
@@ -20,11 +21,12 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
   const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
   const handleSave = useCallback(
     (field: keyof AccountSectionData) => async () => {
-      await saveUserMutation({
+      const res = await saveUserMutation({
         data: {
           [field]: form.getValues(field),
         },
       });
+      handleGQLErrors(res.errors);
     },
     [form.getValues, saveUserMutation],
   );
@@ -157,7 +159,15 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
             {
               label: "Date of birth",
               value: data.dob || "",
-              editComponent: <Input name="dob" type="date" />,
+              editComponent: (
+                <Input
+                  name="dob"
+                  rules={{
+                    validate: ageValidation,
+                  }}
+                  type="date"
+                />
+              ),
               onSubmit: handleSave("dob"),
             },
           ]}
