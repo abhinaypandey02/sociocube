@@ -67,7 +67,7 @@ function OnboardingWizard({
     data?.getCurrentUser?.onboardingData?.currency,
   );
   const nextStep = useCallback(() => {
-    setStep((o) => Math.min(o + 1, MAX_STEPS));
+    setStep((o) => Math.min(o + 1, MAX_STEPS - 1));
     setMaxTouchedStep((o) => Math.max(o, step + 1));
     router.refresh();
   }, [step]);
@@ -206,7 +206,7 @@ function OnboardingWizard({
   const currentStep = steps[step];
   return (
     <>
-      <div className="w-full max-w-lg rounded-xl bg-white sm:p-5 sm:shadow-elevation-1">
+      <div className="w-full max-w-lg rounded-xl sm:p-5 sm:shadow-elevation-1">
         {!loading && (
           <div className="h-full">
             <div className="flex items-center justify-between">

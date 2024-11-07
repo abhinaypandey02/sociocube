@@ -29,7 +29,7 @@ function Navbar({
       >
         <div className="flex">
           <Link
-            className="-m-1.5 p-1.5 text-3xl font-bold italic text-primary"
+            className="-m-1.5 p-1.5 text-2xl font-bold italic text-primary sm:text-3xl"
             href="/"
           >
             freeluencers

@@ -14,7 +14,7 @@ export default function OnboardingStepper({
     <ol className="h-fit translate-x-[21px] space-y-14 border-l-2">
       {steps.map((step, i) => (
         <li className="flex translate-x-[-21px] gap-3 " key={step.title}>
-          <div className="bg-white py-1">
+          <div className="bg-primary-bg py-1">
             <div
               className={classNames(
                 "flex size-10 items-center justify-center rounded-full border-2  bg-white",

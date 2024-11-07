@@ -13,7 +13,7 @@ export default function Footer({
           className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
         >
           {links.map((item) => (
-            <div className="pb-6" key={item.name}>
+            <div className="pb-6 text-center" key={item.name}>
               <Link
                 className="text-sm leading-6 text-gray-600 hover:text-gray-900"
                 href={item.href}
@@ -23,7 +23,7 @@ export default function Footer({
             </div>
           ))}
         </nav>
-        <p className="mt-10 text-center leading-5 text-gray-500">
+        <p className="mt-16 text-center text-xs leading-5 text-gray-500">
           A website by{" "}
           <a
             className="underline underline-offset-2"
