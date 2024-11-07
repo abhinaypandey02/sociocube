@@ -293,6 +293,8 @@ type Message {
 
 type Mutation {
   completeOnboarding: Boolean!
+  disconnectGoogle: Boolean!
+  disconnectInstagram: Boolean!
   readMessage(conversation: Int!): Boolean!
   sendMessage(data: SendMessage!): Boolean!
   updateOnboardingBasicDetails(data: UpdateBasicDetailsArgs!): Boolean!

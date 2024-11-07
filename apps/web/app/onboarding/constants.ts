@@ -1,5 +1,6 @@
 import { GoogleLogo, InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import { AuthScopes } from "../../__generated__/graphql";
+import { DISCONNECT_GOOGLE, DISCONNECT_INSTAGRAM } from "../../lib/mutations";
 
 export const ONBOARDING_SCOPES = [
   {
@@ -7,6 +8,7 @@ export const ONBOARDING_SCOPES = [
     icon: InstagramLogo,
     id: AuthScopes.Instagram,
     url: "/_auth/instagram",
+    query: DISCONNECT_INSTAGRAM,
   },
 ];
 
@@ -17,5 +19,6 @@ export const ALL_SCOPES = [
     icon: GoogleLogo,
     id: AuthScopes.Google,
     url: "/_auth/google",
+    query: DISCONNECT_GOOGLE,
   },
 ];

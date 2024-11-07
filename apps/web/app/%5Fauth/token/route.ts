@@ -7,12 +7,12 @@ export const GET = (req: NextRequest) => {
   const error = req.nextUrl.searchParams.get("error");
   const oldState = req.cookies.get("csrf_token")?.value;
   const redirectURL = req.cookies.get("redirectURL")?.value;
+  const res = NextResponse.redirect(
+    redirectURL ||
+      process.env.NEXT_PUBLIC_FRONTEND_BASE_URL +
+        (error ? `?error=${error}` : ""),
+  );
   if (refresh && process.env.NEXT_PUBLIC_FRONTEND_BASE_URL) {
-    const res = NextResponse.redirect(
-      redirectURL ||
-        process.env.NEXT_PUBLIC_FRONTEND_BASE_URL +
-          (error ? `?error=${error}` : ""),
-    );
     res.cookies.set("redirectURL", "", {
       httpOnly: true,
       secure: true,
@@ -29,6 +29,6 @@ export const GET = (req: NextRequest) => {
         secure: true,
       });
     }
-    return res;
   }
+  return res;
 };

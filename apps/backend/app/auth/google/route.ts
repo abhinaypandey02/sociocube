@@ -67,7 +67,7 @@ export const GET = async (req: NextRequest) => {
       let refreshToken;
       if (existingUser && loggedInUserID) {
         return NextResponse.redirect(
-          `${redirectURL}?error=Can't merge account, as it's already being used`,
+          `${BASE_REDIRECT_URI}?error=Can't merge account, as it's already being used`,
         );
       } else if (existingUser) {
         refreshToken = await updateRefreshTokenAndScope(

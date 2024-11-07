@@ -51,3 +51,17 @@ export const UPDATE_USER = gql(`
     updateUser(data: $data)
   }
 `);
+
+export const DISCONNECT_INSTAGRAM = gql(`
+  #graphql
+  mutation DisconnectInstagram {
+    disconnectInstagram
+  }
+`);
+
+export const DISCONNECT_GOOGLE = gql(`
+  #graphql
+  mutation DisconnectGoogle {
+    disconnectGoogle
+  }
+`);

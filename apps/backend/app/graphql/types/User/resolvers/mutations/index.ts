@@ -15,6 +15,8 @@ import {
   handleUpdateOnboardingPricing,
   UpdatePricingArgs,
 } from "./onboarding/update-onboarding-pricing";
+import { handleDisconnectInstagram } from "./disconnect-instagram";
+import { handleDisconnectGoogle } from "./disconnect-google";
 
 @Resolver()
 export class UserMutationResolver {
@@ -51,5 +53,15 @@ export class UserMutationResolver {
   @Mutation(() => Boolean)
   updateUser(@Ctx() ctx: Context, @Arg("data") args: UpdateUserArgs) {
     return handleUpdateUser(ctx, args);
+  }
+  @Authorized()
+  @Mutation(() => Boolean)
+  disconnectInstagram(@Ctx() ctx: Context) {
+    return handleDisconnectInstagram(ctx);
+  }
+  @Authorized()
+  @Mutation(() => Boolean)
+  disconnectGoogle(@Ctx() ctx: Context) {
+    return handleDisconnectGoogle(ctx);
   }
 }
