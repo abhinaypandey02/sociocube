@@ -96,7 +96,7 @@ function Navbar({
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-3 py-6 sm:max-w-sm sm:px-6 sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between gap-x-6">
             <Link
-              className="-m-1.5 p-1.5 text-3xl font-bold italic text-primary"
+              className="-m-1.5 p-1.5 text-2xl font-bold italic text-primary sm:text-3xl"
               href="/"
             >
               freeluencers

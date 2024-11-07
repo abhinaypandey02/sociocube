@@ -9,14 +9,14 @@ export default function AuthLayout({
   children,
 }: PropsWithChildren<{ newUser?: boolean }>) {
   return (
-    <section className="mt-5  flex flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <section className="mt-5  flex flex-1 flex-col justify-center pb-12 sm:px-6 sm:py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full ">
-        <h2 className="mt-6 text-center font-poppins text-5xl font-bold leading-9  text-gray-800">
+        <h2 className="mt-6 text-center font-poppins text-3xl font-bold leading-9 text-gray-800 sm:text-5xl ">
           {newUser ? "Create a new account" : "Login to your account"}
         </h2>
       </div>
 
-      <div className="mt-20 sm:mx-auto sm:w-full sm:max-w-[480px]">
+      <div className="sm:mx-auto sm:mt-20 sm:w-full sm:max-w-[480px]">
         <div className=" px-6 py-12 sm:rounded-lg sm:bg-white sm:px-12 sm:shadow">
           {children}
           <div>
