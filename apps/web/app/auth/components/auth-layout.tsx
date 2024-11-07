@@ -2,6 +2,7 @@ import type { PropsWithChildren } from "react";
 import React from "react";
 import Link from "next/link";
 import { Route } from "../../../constants/routes";
+import SocialBar from "./social-bar";
 
 export default function AuthLayout({
   newUser,
@@ -19,21 +20,21 @@ export default function AuthLayout({
         <div className=" px-6 py-12 sm:rounded-lg sm:bg-white sm:px-12 sm:shadow">
           {children}
           <div>
-            {/*<div className="relative mt-10">*/}
-            {/*  <div*/}
-            {/*    aria-hidden="true"*/}
-            {/*    className="absolute inset-0 flex items-center"*/}
-            {/*  >*/}
-            {/*    <div className="w-full border-t border-gray-200" />*/}
-            {/*  </div>*/}
-            {/*  <div className="relative flex justify-center text-sm font-medium leading-6">*/}
-            {/*    <span className="bg-white px-6 text-gray-900">*/}
-            {/*      Or continue with*/}
-            {/*    </span>*/}
-            {/*  </div>*/}
-            {/*</div>*/}
+            <div className="relative mt-10">
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 flex items-center"
+              >
+                <div className="w-full border-t border-gray-200" />
+              </div>
+              <div className="relative flex justify-center text-sm font-medium leading-6">
+                <span className="bg-white px-6 text-gray-900">
+                  Or continue with
+                </span>
+              </div>
+            </div>
 
-            {/*<SocialBar />*/}
+            <SocialBar />
           </div>
         </div>
 
