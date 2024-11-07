@@ -22,6 +22,13 @@ export function getTokenizedResponse(
   const response = new NextResponse(body, {
     status: 200,
   });
+  if (!accessToken) {
+    response.cookies.set("refresh", "", {
+      secure: true,
+      httpOnly: true,
+      expires: 0,
+    });
+  }
   if (refreshToken !== undefined) {
     response.cookies.set("refresh", refreshToken, {
       secure: true,
