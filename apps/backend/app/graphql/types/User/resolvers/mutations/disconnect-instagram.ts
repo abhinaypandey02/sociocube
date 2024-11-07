@@ -19,6 +19,7 @@ export async function handleDisconnectInstagram(ctx: Context) {
     .set({
       instagramDetails: null,
       scopes: user.scopes.filter((scope) => scope !== AuthScopes.INSTAGRAM),
+      isOnboarded: false,
     })
     .where(eq(UserTable.id, ctx.userId));
   if (user.instagramDetails)
