@@ -11,10 +11,6 @@ export async function handleDisconnectInstagram(ctx: Context) {
   if (!ctx.userId) throw GQLError(403);
   const user = await getCurrentUser(ctx);
   if (!user) throw GQLError(403);
-  if (user.instagramDetails)
-    await db
-      .delete(InstagramDetails)
-      .where(eq(InstagramDetails.id, user.instagramDetails));
 
   if (user.scopes.length === 0)
     throw GQLError(400, "This is the only way to login");
@@ -25,6 +21,10 @@ export async function handleDisconnectInstagram(ctx: Context) {
       scopes: user.scopes.filter((scope) => scope !== AuthScopes.INSTAGRAM),
     })
     .where(eq(UserTable.id, ctx.userId));
+  if (user.instagramDetails)
+    await db
+      .delete(InstagramDetails)
+      .where(eq(InstagramDetails.id, user.instagramDetails));
   if (!user.scopes.includes(AuthScopes.INSTAGRAM) || !user.instagramDetails)
     throw GQLError(400, "Instagram not connected");
   return true;
