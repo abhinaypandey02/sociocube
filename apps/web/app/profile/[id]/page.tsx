@@ -51,8 +51,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
     60,
   );
   const seller = data.getSeller;
-  if (!seller?.name || !seller.photo || !seller.instagramStats)
-    return notFound();
+  if (!seller?.name || !seller.instagramStats) return notFound();
   const age = getAge(new Date(seller.dob || Date.now()));
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6 sm:mt-8 sm:px-6 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
@@ -73,15 +72,17 @@ export default async function ProfilePage({ params }: ProfilePage) {
       </div>
       {/* Image gallery */}
       <div className="mt-8 lg:col-span-6 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
-        <h2 className="sr-only">Images</h2>
+        <h2 className="sr-only">Image</h2>
 
-        <Image
-          alt={seller.name}
-          className="w-full rounded-lg lg:col-span-2 lg:row-span-2"
-          height={1080}
-          src={seller.photo}
-          width={720}
-        />
+        {seller.photo ? (
+          <Image
+            alt={seller.name}
+            className="w-full rounded-lg lg:col-span-2 lg:row-span-2"
+            height={1080}
+            src={seller.photo}
+            width={720}
+          />
+        ) : null}
       </div>
 
       <div className="mt-6 lg:col-span-6">
