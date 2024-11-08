@@ -118,5 +118,5 @@ export async function queryGQL<T, V extends OperationVariables>(
 }
 
 export async function getCurrentUser() {
-  return queryGQL(GET_CURRENT_USER, undefined, await cookies());
+  return queryGQL(GET_CURRENT_USER, undefined, await cookies(), 0);
 }

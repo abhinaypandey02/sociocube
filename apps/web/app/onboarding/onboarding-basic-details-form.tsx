@@ -35,6 +35,7 @@ export default function OnboardingBasicDetailsForm({
   const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
   const [profilePicture, setProfilePicture] = useState<File>();
   const [uploadingPicture, setUploadingPicture] = useState(false);
+  const [missingPhoto, setMissingPhoto] = useState(false);
   const [updateBasicDetails, { loading }] = useAuthMutation(
     UPDATE_ONBOARDING_BASIC_DETAILS,
   );
@@ -44,6 +45,10 @@ export default function OnboardingBasicDetailsForm({
     : defaultValues.photo;
 
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
+    if (!data.photo && !profilePicture) {
+      setMissingPhoto(true);
+      return;
+    }
     if (profilePicture) {
       setUploadingPicture(true);
       const res = await fetch(photoUpload.uploadURL, {
@@ -92,6 +97,11 @@ export default function OnboardingBasicDetailsForm({
           <User size={40} />
         )}
       </button>
+      {missingPhoto ? (
+        <div className="text-center text-xs text-red-500">
+          Image is required to continue
+        </div>
+      ) : null}
       <Input
         className="block"
         label="Full name"
@@ -144,7 +154,10 @@ export default function OnboardingBasicDetailsForm({
         onChange={(e) => {
           const event = e as unknown as ChangeEvent<HTMLInputElement>;
           const file = event.target.files?.[0];
-          if (file) setProfilePicture(file);
+          if (file) {
+            setProfilePicture(file);
+            setMissingPhoto(false);
+          }
         }}
         ref={ref}
         type="file"
