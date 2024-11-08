@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import { Route } from "../../constants/routes";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 
@@ -32,17 +33,24 @@ export default function TopCreators({
                 src={person.photo || ""}
                 width={280}
               />
-              <div className="mt-2 flex flex-wrap items-center justify-between">
-                <h3 className=" truncate text-xl font-semibold leading-9 tracking-tight ">
-                  {person.name || ""}
-                </h3>
-                <p className="text-sm leading-9 text-gray-600">
-                  {person.category}
-                </p>
+              <div className="mt-2 flex justify-between">
+                <div>
+                  <h3 className=" truncate text-xl font-semibold  ">
+                    {person.name || ""}
+                  </h3>
+                  <p className="mb-0.5 text-xs font-medium text-gray-500">
+                    {person.category}
+                  </p>
+
+                  <p className="truncate text-sm leading-6 text-gray-800">
+                    {person.bio}
+                  </p>
+                </div>
+                <div className="flex gap-1 pr-0.5 pt-1 text-xs">
+                  <InstagramLogo size={16} />
+                  {((person.instagramStats?.followers || 0) / 1000).toFixed(1)}k
+                </div>
               </div>
-              <p className="truncate text-sm leading-6 text-gray-800">
-                {person.bio}
-              </p>
             </Link>
           </li>
         ))}
