@@ -35,15 +35,11 @@ export default function TopCreators({
               />
               <div className="mt-2 flex justify-between">
                 <div>
-                  <h3 className=" truncate text-xl font-semibold  ">
+                  <h3 className=" truncate font-poppins text-xl font-semibold  ">
                     {person.name || ""}
                   </h3>
-                  <p className="mb-0.5 text-xs font-medium text-gray-500">
+                  <p className="my-0.5 text-xs font-medium text-gray-500">
                     {person.category}
-                  </p>
-
-                  <p className="truncate text-sm leading-6 text-gray-800">
-                    {person.bio}
                   </p>
                 </div>
                 <div className="flex gap-1 pr-0.5 pt-1 text-xs">
