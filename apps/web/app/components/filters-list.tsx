@@ -55,7 +55,7 @@ export default function FiltersList() {
           <dl className="col-span-2 grid grid-cols-1 gap-x-8 gap-y-10 text-base leading-7 text-gray-600 sm:grid-cols-2 lg:gap-y-16">
             {features.map((feature) => (
               <div className="relative pl-9" key={feature.name}>
-                <dt className="font-semibold text-gray-900">
+                <dt className="font-poppins font-semibold text-gray-900">
                   <Check
                     aria-hidden="true"
                     className="absolute left-0 top-1 size-5 text-indigo-500"

@@ -41,7 +41,7 @@ export default function AboutUs() {
                     <dt className="text-xl leading-7 text-gray-600">
                       {stat.label}
                     </dt>
-                    <dd className="text-5xl font-semibold tracking-tight text-gray-900">
+                    <dd className="font-poppins text-5xl font-semibold text-gray-900">
                       {stat.value}
                     </dd>
                   </div>
