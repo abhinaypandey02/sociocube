@@ -9,17 +9,17 @@ const features = [
   {
     name: "Gender",
     description:
-      "Filter by gender to ensure your campaigns resonate with the right demographics.",
+      "Filter by gender to ensure your campaigns resonate with the right demographics. We are inclusive of all genders <3",
   },
   {
     name: "Categories",
     description:
-      "Choose from various categories such as Fashion, Travel, and Cooking to find influencers who specialize in your brand’s niche.",
+      "Choose from various categories like Fashion, Travel, etc to find influencers who specialize in your brand’s niche.",
   },
   {
     name: "Price",
     description:
-      "Adjust your search by collaboration cost to find influencers within your budget range.",
+      "Adjust your search by starting price to collaborate with influencers at a price within your budget range.",
   },
   {
     name: "Followers & Reach",
@@ -29,7 +29,7 @@ const features = [
   {
     name: "Age",
     description:
-      "Find influencers in specific age ranges to appeal to your target audience effectively.",
+      "Find influencers with minimum and maximum age ranges to appeal to your target audience effectively.",
   },
 ];
 
