@@ -22,25 +22,14 @@ const features = [
       "Adjust your search by collaboration cost to find influencers within your budget range.",
   },
   {
-    name: "Followers",
+    name: "Followers & Reach",
     description:
-      "Select influencers based on follower count to match your brand’s desired reach and engagement.",
+      "Select influencers based on follower count and reach to match your brand’s desired reach and engagement.",
   },
   {
     name: "Age",
     description:
       "Find influencers in specific age ranges to appeal to your target audience effectively.",
-  },
-  {
-    name: "Reach",
-    description:
-      "Search by reach metrics to discover influencers with substantial engagement and audience impact.",
-  },
-
-  {
-    name: "Search",
-    description:
-      "Quickly locate a specific influencer by searching for their name, bio, username, etc. Streamlining your experience.",
   },
 ];
 
