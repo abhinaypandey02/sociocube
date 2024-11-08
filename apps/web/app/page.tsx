@@ -11,7 +11,7 @@ import Hero from "./components/hero";
 import TopCreators from "./components/top-creators";
 import FiltersList from "./components/filters-list";
 
-export const revalidate = 120;
+export const revalidate = 0;
 async function Page() {
   const { sellers } = await queryGQL(
     GET_FEATURED_SELLERS,
