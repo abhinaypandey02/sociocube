@@ -9,7 +9,7 @@ export default function AboutUs() {
     <div className=" py-16 sm:my-16" id="about-us">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <h2 className="font-poppins text-3xl font-bold text-gray-900 sm:text-4xl">
             About Us
           </h2>
           <div className="mt-6 flex flex-col gap-x-8 gap-y-20 lg:flex-row">

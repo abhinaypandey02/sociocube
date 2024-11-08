@@ -92,7 +92,7 @@ export default function Hero({
         <div className="mx-auto max-w-7xl px-6 py-16 sm:my-16 lg:px-8">
           <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
             <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
-              <h1 className="text-4xl font-bold  text-gray-900 sm:text-7xl">
+              <h1 className="font-poppins text-4xl font-bold text-gray-900 sm:text-7xl">
                 Connect. <br />
                 Collaborate. <br />
                 Create.

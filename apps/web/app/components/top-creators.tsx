@@ -13,7 +13,7 @@ export default function TopCreators({
   return (
     <div className="mx-auto max-w-7xl px-6 py-16 sm:my-16 lg:px-8" id="sellers">
       <div className="mx-auto max-w-2xl lg:mx-0">
-        <h2 className="text-3xl font-bold tracking-tight  sm:text-4xl">
+        <h2 className="font-poppins text-3xl font-bold  sm:text-4xl">
           Our Top Creators
         </h2>
         <p className="mt-6 text-lg leading-8 text-gray-800">

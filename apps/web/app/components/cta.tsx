@@ -31,7 +31,7 @@ export default function Cta() {
   return (
     <div className="my-16 bg-accent  px-6 py-32 sm:px-6  lg:px-8">
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl">
+        <h2 className="font-poppins text-3xl font-bold text-white sm:text-5xl">
           Ready to Grow Together?
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-100">

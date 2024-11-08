@@ -60,7 +60,7 @@ export default function Features() {
           <h2 className="text-base font-semibold leading-7 text-accent">
             Key Features
           </h2>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <p className="mt-2 font-poppins text-3xl font-bold text-gray-900 sm:text-4xl">
             Everything You Need for Successful Collaborations
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">

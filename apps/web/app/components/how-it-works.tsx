@@ -31,11 +31,11 @@ export default function HowItWorks() {
   return (
     <div className=" py-16 sm:my-16" id="how-it-works">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="text-3xl font-bold tracking-tight  sm:text-4xl">
+        <div className="mx-auto  lg:mx-0">
+          <h2 className="font-poppins text-3xl font-bold  sm:text-4xl">
             Effortless Connections, Powerful Collaborations
           </h2>
-          <p className="mt-6 text-lg leading-8 text-gray-800">
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-gray-800">
             See how Freeluencers brings brands and influencers together for
             authentic partnerships—from onboarding to seamless communication.
           </p>
