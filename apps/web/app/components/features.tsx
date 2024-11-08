@@ -75,7 +75,7 @@ export default function Features() {
                 <dt className="flex items-center gap-x-3 text-lg font-semibold leading-7 text-gray-900">
                   <feature.icon
                     aria-hidden="true"
-                    className="size-5 flex-none text-accent"
+                    className="size-7 flex-none text-accent"
                   />
                   {feature.name}
                 </dt>

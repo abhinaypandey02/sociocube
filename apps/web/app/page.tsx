@@ -9,6 +9,7 @@ import Features from "./components/features";
 import AboutUs from "./components/about-us";
 import Hero from "./components/hero";
 import TopCreators from "./components/top-creators";
+import FiltersList from "./components/filters-list";
 
 export const revalidate = 120;
 async function Page() {
@@ -33,6 +34,7 @@ async function Page() {
       <Hero images={heroSellers} />
       <TopCreators sellers={heroSellers} />
       <HowItWorks />
+      <FiltersList />
       <Features />
       <AboutUs />
       <Faqs />
