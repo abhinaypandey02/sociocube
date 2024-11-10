@@ -249,9 +249,6 @@ export default function SearchWindow({
                         <h3 className=" truncate text-xl font-semibold leading-9 tracking-tight ">
                           {person.name || ""}
                         </h3>
-                        <p className="text-sm leading-9 text-gray-600">
-                          Travel
-                        </p>
                       </div>
                       <p className="truncate text-sm leading-6 text-gray-800">
                         {person.bio}
