@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from "ui/button";
 import { useApolloClient } from "@apollo/client";
 import { useRouter } from "next/navigation";
-import { ALL_SCOPES } from "../../onboarding/constants";
+import { ONBOARDING_SCOPES } from "../../onboarding/constants";
 import { handleGQLErrors, tokenContext } from "../../../lib/apollo-client";
 import { useToken } from "../../../lib/auth-client";
 import ContentTemplate from "./content-template";
@@ -23,7 +23,7 @@ export default function ConnectionsSection({
       <div className="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
         <ContentTemplate
           description="Manage your connected accounts"
-          items={ALL_SCOPES.map((scope) => ({
+          items={ONBOARDING_SCOPES.map((scope) => ({
             label: scope.title,
             value: data.scopes.includes(scope.id)
               ? "Connected"

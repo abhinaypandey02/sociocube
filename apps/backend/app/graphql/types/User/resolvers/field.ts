@@ -123,6 +123,20 @@ export class UserFieldResolver {
     return null;
   }
 
+  @FieldResolver(() => Boolean)
+  isOnboarded(@Root() user: UserDB): boolean {
+    return Boolean(
+      user.photo &&
+        user.name &&
+        user.category &&
+        user.gender &&
+        user.dob &&
+        user.instagramDetails &&
+        user.city &&
+        user.isOnboarded,
+    );
+  }
+
   @FieldResolver(() => InstagramStats, { nullable: true })
   async instagramStats(@Root() user: UserDB): Promise<InstagramStats | null> {
     if (!user.instagramDetails) return null;
@@ -140,24 +154,28 @@ export class UserFieldResolver {
     ).then(
       (data) =>
         data.json() as Promise<{
-          followers_count: number;
-          media_count: number;
-          username: string;
+          followers_count?: number;
+          media_count?: number;
+          username?: string;
           error?: object;
         } | null>,
     );
     if (!fetchReq || fetchReq.error) return null;
-    await db
+    const [fallback] = await db
       .update(InstagramDetails)
       .set({
-        followers: fetchReq.followers_count || 0,
-        username: fetchReq.username || null,
+        followers: fetchReq.followers_count || undefined,
+        username: fetchReq.username || undefined,
       })
-      .where(eq(InstagramDetails.id, user.instagramDetails));
+      .where(eq(InstagramDetails.id, user.instagramDetails))
+      .returning();
+
+    const returnedUsername = fetchReq.username || fallback?.username;
+    if (!returnedUsername) return null;
     return {
-      username: fetchReq.username,
-      followers: fetchReq.followers_count,
-      mediaCount: fetchReq.media_count,
+      username: returnedUsername,
+      followers: fetchReq.followers_count || fallback?.followers || 0,
+      mediaCount: fetchReq.media_count || 0,
     };
   }
   @FieldResolver(() => [InstagramMedia], { nullable: true })

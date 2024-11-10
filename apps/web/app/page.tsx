@@ -11,8 +11,7 @@ import Hero from "./components/hero";
 import TopCreators from "./components/top-creators";
 import FiltersList from "./components/filters-list";
 
-export const revalidate = 0;
-async function Page() {
+async function HomePage() {
   const { sellers } = await queryGQL(
     GET_FEATURED_SELLERS,
     undefined,
@@ -32,7 +31,7 @@ async function Page() {
   return (
     <main>
       <Hero images={heroSellers} />
-      <TopCreators sellers={heroSellers} />
+      <TopCreators sellers={sellersToShow} />
       <HowItWorks />
       <FiltersList />
       <Features />
@@ -43,4 +42,4 @@ async function Page() {
   );
 }
 
-export default Page;
+export default HomePage;

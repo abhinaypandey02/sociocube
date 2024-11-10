@@ -16,6 +16,7 @@ export async function handleCompleteOnboarding(ctx: Context) {
         and(
           eq(UserTable.id, ctx.userId),
           isNotNull(UserTable.onboardingData),
+          isNotNull(UserTable.instagramDetails),
           eq(UserTable.isOnboarded, false),
           arrayContains(UserTable.scopes, [AuthScopes.INSTAGRAM]),
         ),
