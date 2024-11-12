@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sql } from "drizzle-orm";
 import { db } from "../../../lib/db";
 import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
 import { LocationTable, UserTable } from "../../graphql/types/User/db/schema";
