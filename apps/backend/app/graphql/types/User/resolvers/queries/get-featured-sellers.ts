@@ -11,7 +11,6 @@ export async function handleGetFeaturedSellers() {
         eq(UserTable.isOnboarded, true),
         isNotNull(UserTable.bio),
         isNotNull(UserTable.photo),
-        isNotNull(UserTable.pricing),
         isNotNull(UserTable.instagramDetails),
         isNotNull(UserTable.city),
         isNotNull(UserTable.name),
