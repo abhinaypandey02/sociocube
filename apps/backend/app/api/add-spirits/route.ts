@@ -45,10 +45,7 @@ export async function POST(req: NextRequest) {
             instagramDetails: instaDetails.id,
             name: user.full_name,
             photo: user.photo,
-            bio: sql.join(
-              user.biography.split("\n").map((line) => sql.raw(`'${line}'`)),
-              sql`||chr(10)||`,
-            ),
+            bio: user.biography,
             scopes: [],
             roles: [],
             isSpirit: true,
