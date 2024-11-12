@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { sql } from "drizzle-orm";
 import { db } from "../../../lib/db";
 import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
 import { LocationTable, UserTable } from "../../graphql/types/User/db/schema";
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
       .insert(InstagramDetails)
       .values({
         followers: user.followers,
-        username: user.username,
+        username: user.username.trim(),
       })
       .returning();
     if (instaDetails?.id) {
@@ -44,7 +45,10 @@ export async function POST(req: NextRequest) {
             instagramDetails: instaDetails.id,
             name: user.full_name,
             photo: user.photo,
-            bio: user.biography,
+            bio: sql.join(
+              user.biography.split("\n").map((line) => sql.raw(`'${line}'`)),
+              sql`||chr(10)||`,
+            ),
             scopes: [],
             roles: [],
             isSpirit: true,

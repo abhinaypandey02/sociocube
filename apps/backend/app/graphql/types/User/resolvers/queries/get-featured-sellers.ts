@@ -1,10 +1,11 @@
-import { and, or, eq, isNotNull } from "drizzle-orm";
+import { and, or, eq, isNotNull, getTableColumns, desc } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../db/schema";
+import { InstagramDetails } from "../../../Instagram/db/schema";
 
 export async function handleGetFeaturedSellers() {
   return db
-    .select()
+    .select(getTableColumns(UserTable))
     .from(UserTable)
     .where(
       and(
@@ -14,5 +15,10 @@ export async function handleGetFeaturedSellers() {
         isNotNull(UserTable.name),
       ),
     )
+    .innerJoin(
+      InstagramDetails,
+      eq(InstagramDetails.id, UserTable.instagramDetails),
+    )
+    .orderBy(desc(InstagramDetails.followers))
     .limit(8);
 }

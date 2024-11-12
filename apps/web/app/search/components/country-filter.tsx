@@ -49,8 +49,8 @@ export default function CountryFilter({
           setCity(undefined);
           onChange({
             countries: [parseInt(e.target.value)],
-            states: [],
-            cities: [],
+            states: undefined,
+            cities: undefined,
           });
         }}
         options={countries || []}
@@ -66,8 +66,8 @@ export default function CountryFilter({
             setCity(undefined);
             onChange({
               states: [parseInt(e.target.value)],
-              countries: [],
-              cities: [],
+              countries: undefined,
+              cities: undefined,
             });
           }}
           options={states}
@@ -83,8 +83,8 @@ export default function CountryFilter({
             setCity(parseInt(e.target.value));
             onChange({
               cities: [parseInt(e.target.value)],
-              states: [],
-              countries: [],
+              states: undefined,
+              countries: undefined,
             });
           }}
           options={cities}

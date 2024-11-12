@@ -92,16 +92,24 @@ export default async function ProfilePage({ params }: ProfilePage) {
         <div className="">
           <h2 className="text-sm font-medium text-gray-900">About</h2>
 
-          <div className="prose prose-sm mt-2 text-gray-500">{seller.bio}</div>
+          <div className="prose prose-sm mt-2 text-gray-500">
+            {seller.bio?.split("\n").map((line) => (
+              <>
+                {line}
+                <br />
+              </>
+            ))}
+          </div>
         </div>
         {seller.location ? (
           <div className="mt-3">
             <h2 className="text-sm font-medium text-gray-900">Location</h2>
 
             <div className="prose prose-sm mt-2 flex gap-3 text-gray-500">
-              {seller.location.city}, {seller.location.country}{" "}
+              {seller.location.city ? `${seller.location.city}, ` : ""}
+              {seller.location.country}{" "}
               <a
-                href={`http://maps.google.com/?q=${seller.location.city}+${seller.location.country}`}
+                href={`http://maps.google.com/?q=${seller.location.city || ""}+${seller.location.country}`}
                 rel="noopener"
                 target="_blank"
               >

@@ -114,12 +114,12 @@ export default function Hero({
                 <div className="relative">
                   <Image
                     alt={images[0]?.name || ""}
-                    className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+                    className=" aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                     height={264}
                     src={images[0]?.photo || ""}
                     width={176}
                   />
-                  <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
+                  <div className="pointer-events-none absolute inset-0 rounded-xl bg-primary opacity-10 ring-1 ring-inset ring-gray-900/10" />
                 </div>
               </div>
               <div className="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
@@ -131,7 +131,7 @@ export default function Hero({
                     src={images[1]?.photo || ""}
                     width={176}
                   />
-                  <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
+                  <div className="pointer-events-none absolute inset-0 rounded-xl bg-primary opacity-10 ring-1 ring-inset ring-gray-900/10" />
                 </div>
                 <div className="relative">
                   <Image
@@ -141,7 +141,7 @@ export default function Hero({
                     src={images[2]?.photo || ""}
                     width={176}
                   />
-                  <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
+                  <div className="pointer-events-none absolute inset-0 rounded-xl bg-primary opacity-10 ring-1 ring-inset ring-gray-900/10" />
                 </div>
               </div>
               <div className="w-44 flex-none space-y-8 pt-32 sm:pt-0">
@@ -153,7 +153,7 @@ export default function Hero({
                     src={images[3]?.photo || ""}
                     width={176}
                   />
-                  <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
+                  <div className="pointer-events-none absolute inset-0 rounded-xl bg-primary opacity-10 ring-1 ring-inset ring-gray-900/10" />
                 </div>
                 <div className="relative">
                   <Image
@@ -163,7 +163,7 @@ export default function Hero({
                     src={images[4]?.photo || ""}
                     width={176}
                   />
-                  <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
+                  <div className="pointer-events-none absolute inset-0 rounded-xl bg-primary opacity-10 ring-1 ring-inset ring-gray-900/10" />
                 </div>
               </div>
             </div>
