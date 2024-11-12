@@ -60,12 +60,14 @@ export default async function ProfilePage({ params }: ProfilePage) {
           <h1 className="text-2xl font-semibold text-gray-900">
             {seller.name}
           </h1>
-          <p className="text-lg  text-gray-900">
-            From ₹{seller.pricing?.starting}
-          </p>
+          {seller.pricing?.starting ? (
+            <p className="text-lg  text-gray-900">
+              From ₹{seller.pricing.starting}
+            </p>
+          ) : null}
         </div>
         <div className="prose prose-sm mt-3 text-gray-500">
-          {age} yrs • {seller.gender} • {seller.category}
+          {age ? `${age} yrs •` : null} {seller.gender} • {seller.category}
         </div>
 
         {/* Reviews */}
@@ -92,20 +94,22 @@ export default async function ProfilePage({ params }: ProfilePage) {
 
           <div className="prose prose-sm mt-2 text-gray-500">{seller.bio}</div>
         </div>
-        <div className="mt-3">
-          <h2 className="text-sm font-medium text-gray-900">Location</h2>
+        {seller.location ? (
+          <div className="mt-3">
+            <h2 className="text-sm font-medium text-gray-900">Location</h2>
 
-          <div className="prose prose-sm mt-2 flex gap-3 text-gray-500">
-            {seller.location?.city}, {seller.location?.country}{" "}
-            <a
-              href={`http://maps.google.com/?q=${seller.location?.city}+${seller.location?.country}`}
-              rel="noopener"
-              target="_blank"
-            >
-              <ArrowSquareOut color="black" size={20} />
-            </a>
+            <div className="prose prose-sm mt-2 flex gap-3 text-gray-500">
+              {seller.location.city}, {seller.location.country}{" "}
+              <a
+                href={`http://maps.google.com/?q=${seller.location.city}+${seller.location.country}`}
+                rel="noopener"
+                target="_blank"
+              >
+                <ArrowSquareOut color="black" size={20} />
+              </a>
+            </div>
           </div>
-        </div>
+        ) : null}
         <div className="mt-9 flex gap-4">
           <div className="grow">
             <Button className="w-full" disabled variant={Variants.ACCENT}>

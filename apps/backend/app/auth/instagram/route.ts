@@ -34,9 +34,15 @@ export const GET = async (req: NextRequest) => {
       if (!instagramData) return ErrorResponses.internalServerError;
       const { accessToken, userId } = instagramData;
       const loggedInUserID = getUserIdFromRefreshToken(refresh);
-      const existingUser = await getUser(
-        eq(UserTable.instagramDetails, userId),
-      );
+      const [existingUserJoin] = await db
+        .select()
+        .from(InstagramDetails)
+        .where(eq(InstagramDetails.appID, userId))
+        .innerJoin(
+          UserTable,
+          eq(UserTable.instagramDetails, InstagramDetails.id),
+        );
+      const existingUser = existingUserJoin?.user;
       let refreshToken;
       if (existingUser && loggedInUserID) {
         return NextResponse.redirect(
@@ -66,10 +72,30 @@ export const GET = async (req: NextRequest) => {
           biography?: string;
         };
         if (!personalInfo.username) return ErrorResponses.internalServerError;
-        await db.insert(InstagramDetails).values({
-          id: userId,
-          accessToken,
-        });
+        const [spirit] = await db
+          .select()
+          .from(InstagramDetails)
+          .where(eq(InstagramDetails.username, personalInfo.username))
+          .innerJoin(
+            UserTable,
+            eq(UserTable.instagramDetails, InstagramDetails.id),
+          );
+        if (spirit) {
+          await db.delete(UserTable).where(eq(UserTable.id, spirit.user.id));
+          await db
+            .delete(InstagramDetails)
+            .where(eq(InstagramDetails.id, spirit.instagram_data.id));
+        }
+        const [inserted] = await db
+          .insert(InstagramDetails)
+          .values({
+            appID: userId,
+            username: personalInfo.username,
+            followers: personalInfo.followers_count,
+            accessToken,
+          })
+          .returning();
+        if (!inserted) return ErrorResponses.internalServerError;
         if (loggedInUserID) {
           const loggedInUser = await getUser(eq(UserTable.id, loggedInUserID));
           if (loggedInUser) {
@@ -80,7 +106,7 @@ export const GET = async (req: NextRequest) => {
                 new Set(loggedInUser.scopes).add(AuthScopes.INSTAGRAM),
               ),
               {
-                instagramDetails: userId,
+                instagramDetails: inserted.id,
                 photo: loggedInUser.photo || personalInfo.profile_picture_url,
                 name: loggedInUser.name || personalInfo.name,
                 bio: loggedInUser.bio || personalInfo.biography,
@@ -91,7 +117,7 @@ export const GET = async (req: NextRequest) => {
           const newUser = await createUser({
             name: personalInfo.name,
             refreshTokens: [],
-            instagramDetails: userId,
+            instagramDetails: inserted.id,
             photo: personalInfo.profile_picture_url,
             bio: personalInfo.biography,
             scopes: [AuthScopes.INSTAGRAM],

@@ -145,6 +145,12 @@ export class UserFieldResolver {
       .from(InstagramDetails)
       .where(eq(InstagramDetails.id, user.instagramDetails));
     if (!instagramDetails) return null;
+    if (!instagramDetails.accessToken)
+      return {
+        username: instagramDetails.username,
+        followers: instagramDetails.followers,
+        mediaCount: 0,
+      };
     const fetchReq = await fetch(
       getGraphUrl("me", instagramDetails.accessToken, [
         "followers_count",
@@ -185,7 +191,7 @@ export class UserFieldResolver {
       .select()
       .from(InstagramDetails)
       .where(eq(InstagramDetails.id, user.instagramDetails));
-    if (!instagramDetails) return null;
+    if (!instagramDetails?.accessToken) return null;
     const fetchReq = await fetch(
       `${getGraphUrl("me/media", instagramDetails.accessToken, [
         "thumbnail_url",

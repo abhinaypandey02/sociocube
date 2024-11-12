@@ -1,12 +1,13 @@
 import {
   and,
-  arrayOverlaps,
+  or,
   eq,
   getTableColumns,
   gte,
   inArray,
   lte,
   sql,
+  isNotNull,
 } from "drizzle-orm";
 import { Field, InputType, Int } from "type-graphql";
 import { IsIn } from "class-validator";
@@ -15,7 +16,6 @@ import genders from "commons/genders";
 import { db } from "../../../../../../lib/db";
 import { PricingTable, UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
-import { AuthScopes } from "../../../../constants/scopes";
 import { CityTable } from "../../../Map/db/schema";
 
 @InputType("SearchSellers")
@@ -61,8 +61,10 @@ export function handleSearchSellers(input: SearchSellersInput) {
       InstagramDetails,
       and(
         eq(InstagramDetails.id, UserTable.instagramDetails),
-        eq(UserTable.isOnboarded, true),
-        arrayOverlaps(UserTable.scopes, [AuthScopes.INSTAGRAM]),
+        or(eq(UserTable.isOnboarded, true), eq(UserTable.isSpirit, true)),
+        isNotNull(UserTable.photo),
+        isNotNull(UserTable.instagramDetails),
+        isNotNull(UserTable.name),
         input.categories && inArray(UserTable.category, input.categories),
         input.genders && inArray(UserTable.gender, input.genders),
         input.followersFrom

@@ -38,7 +38,7 @@ export const UserTable = pgTable(
     name: text("name"),
     bio: text("bio"),
     email: text("email").unique(),
-    instagramDetails: text("instagram_details").references(
+    instagramDetails: integer("instagram_details").references(
       () => InstagramDetails.id,
     ),
     password: text("password"),
@@ -52,6 +52,7 @@ export const UserTable = pgTable(
       () => OnboardingDataTable.id,
     ),
     isOnboarded: boolean("is_onboarded").default(false),
+    isSpirit: boolean("is_spirit").default(false),
     stripeConnectedAccountID: text("stripe_connected_account_id"),
     stripeSubscriptionID: text("stripe_subscription_id"),
     city: integer("city").references(() => CityTable.id),
