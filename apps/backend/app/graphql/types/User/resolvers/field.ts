@@ -7,7 +7,7 @@ import {
   Pricing,
   UserGQL,
 } from "../type";
-import { OnboardingDataTable, PricingTable } from "../db/schema";
+import { LocationTable, OnboardingDataTable, PricingTable } from "../db/schema";
 import type { UserDB } from "../db/schema";
 import { db } from "../../../../../lib/db";
 import { FileGQL } from "../../File/type";
@@ -88,15 +88,16 @@ export class UserFieldResolver {
   }
   @FieldResolver(() => Location, { nullable: true })
   async location(@Root() user: UserDB): Promise<Location | null> {
-    if (user.city) {
+    if (user.location) {
       const [city] = await db
         .select()
-        .from(CityTable)
-        .innerJoin(CountryTable, eq(CountryTable.id, CityTable.countryId))
-        .where(eq(CityTable.id, user.city));
+        .from(LocationTable)
+        .where(eq(LocationTable.id, user.location))
+        .innerJoin(CountryTable, eq(CountryTable.id, LocationTable.country))
+        .leftJoin(CityTable, eq(CityTable.id, LocationTable.city));
       if (city)
         return {
-          city: city.cities.name,
+          city: city.cities?.name,
           country: city.countries.name,
           currency: {
             symbol: city.countries.currencySymbol || undefined,
@@ -108,17 +109,16 @@ export class UserFieldResolver {
   }
   @FieldResolver(() => LocationID, { nullable: true })
   async locationID(@Root() user: UserDB): Promise<LocationID | null> {
-    if (user.city) {
-      const [city] = await db
+    if (user.location) {
+      const [location] = await db
         .select()
-        .from(CityTable)
-        .where(eq(CityTable.id, user.city));
-      if (city)
-        return {
-          city: city.id,
-          country: city.countryId,
-          state: city.stateId,
-        };
+        .from(LocationTable)
+        .where(eq(LocationTable.id, user.location));
+      return {
+        ...location,
+        city: location?.city || undefined,
+        state: location?.state || undefined,
+      };
     }
     return null;
   }
@@ -132,7 +132,7 @@ export class UserFieldResolver {
         user.gender &&
         user.dob &&
         user.instagramDetails &&
-        user.city &&
+        user.location &&
         user.isOnboarded,
     );
   }

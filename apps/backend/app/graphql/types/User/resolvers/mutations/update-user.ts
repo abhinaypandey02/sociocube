@@ -25,8 +25,6 @@ export class UpdateUserArgs {
   @IsIn(genders)
   gender?: string;
   @Field({ nullable: true })
-  city?: number;
-  @Field({ nullable: true })
   pricing?: Pricing;
   @Field({ nullable: true })
   @IsDateString()
@@ -49,7 +47,6 @@ export async function handleUpdateUser(ctx: Context, args: UpdateUserArgs) {
       photo: args.photo,
       category: args.category,
       gender: args.gender,
-      city: args.city,
       dob: args.dob,
     })
     .where(eq(UserTable.id, ctx.userId))

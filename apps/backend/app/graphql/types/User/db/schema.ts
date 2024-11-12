@@ -16,9 +16,9 @@ import { sql } from "drizzle-orm";
 import { Roles } from "../../../constants/roles";
 import { AuthScopes } from "../../../constants/scopes";
 import { InstagramDetails } from "../../Instagram/db/schema";
-import { CityTable } from "../../Map/db/schema";
+import { CityTable, CountryTable, StateTable } from "../../Map/db/schema";
 
-export const rolesEnum = pgEnum("role", [Roles.SELLER]);
+export const rolesEnum = pgEnum("role", [Roles.SELLER, Roles.ADMIN]);
 export const authScopesEnum = pgEnum("scope", [
   AuthScopes.GOOGLE,
   AuthScopes.INSTAGRAM,
@@ -55,7 +55,7 @@ export const UserTable = pgTable(
     isSpirit: boolean("is_spirit").default(false),
     stripeConnectedAccountID: text("stripe_connected_account_id"),
     stripeSubscriptionID: text("stripe_subscription_id"),
-    city: integer("city").references(() => CityTable.id),
+    location: integer("location").references(() => LocationTable.id),
     category: categoriesEnum("category"),
     dob: date("dob"),
     gender: gendersEnum("gender"),
@@ -73,7 +73,6 @@ export const UserTable = pgTable(
     genderIdx: index("gender_idx").on(table.gender),
     dobIdx: index("dob_idx").on(table.dob),
     emailIdx: index("email_idx").on(table.email),
-    cityIdx: index("city_idx").on(table.city),
   }),
 );
 
@@ -81,6 +80,15 @@ export const OTPTable = pgTable("otp", {
   id: serial("id").primaryKey(),
   code: text("code"),
   requestedAt: timestamp("requestedAt"),
+});
+export const LocationTable = pgTable("location", {
+  id: serial("id").primaryKey(),
+
+  city: integer("city").references(() => CityTable.id),
+  state: integer("state").references(() => StateTable.id),
+  country: integer("country")
+    .notNull()
+    .references(() => CountryTable.id),
 });
 export const PricingTable = pgTable("pricing", {
   id: serial("id").primaryKey(),
@@ -92,6 +100,8 @@ export const OnboardingDataTable = pgTable("onboarding_data", {
   bio: text("bio"),
   photo: text("photo"),
   city: integer("city").references(() => CityTable.id),
+  state: integer("state").references(() => StateTable.id),
+  country: integer("country").references(() => CountryTable.id),
   category: categoriesEnum("category"),
   dob: date("dob"),
   gender: gendersEnum("gender"),

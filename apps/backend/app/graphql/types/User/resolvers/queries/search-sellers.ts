@@ -14,9 +14,8 @@ import { IsIn } from "class-validator";
 import categories from "commons/categories";
 import genders from "commons/genders";
 import { db } from "../../../../../../lib/db";
-import { PricingTable, UserTable } from "../../db/schema";
+import { LocationTable, PricingTable, UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
-import { CityTable } from "../../../Map/db/schema";
 
 @InputType("SearchSellers")
 export class SearchSellersInput {
@@ -89,12 +88,12 @@ export function handleSearchSellers(input: SearchSellersInput) {
       ),
     )
     .innerJoin(
-      CityTable,
+      LocationTable,
       and(
-        eq(CityTable.id, UserTable.city),
-        input.cities && inArray(CityTable.id, input.cities),
-        input.states && inArray(CityTable.stateId, input.states),
-        input.countries && inArray(CityTable.countryId, input.countries),
+        eq(LocationTable.id, UserTable.location),
+        input.cities && inArray(LocationTable.city, input.cities),
+        input.states && inArray(LocationTable.state, input.states),
+        input.countries && inArray(LocationTable.country, input.countries),
       ),
     )
     .leftJoin(PricingTable, and(eq(PricingTable.id, UserTable.pricing)))

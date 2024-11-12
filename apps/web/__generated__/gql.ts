@@ -20,6 +20,7 @@ const documents = {
     "\n  #graphql\n  mutation ReadMessage($id:Int!) {\n    readMessage(conversation: $id)\n  }\n": types.ReadMessageDocument,
     "\n  #graphql\n  mutation SendChat($data: SendMessage!) {\n    sendMessage(data: $data)\n  }\n": types.SendChatDocument,
     "\n  #graphql\n  mutation UpdateUser($data: UpdateUserArgs!) {\n    updateUser(data: $data)\n  }\n": types.UpdateUserDocument,
+    "\n  #graphql\n  mutation UpdateUserLocation($data: UpdateLocation!) {\n    updateUserLocation(data: $data)\n  }\n": types.UpdateUserLocationDocument,
     "\n  #graphql\n  mutation DisconnectInstagram {\n    disconnectInstagram\n  }\n": types.DisconnectInstagramDocument,
     "\n  #graphql\n  mutation DisconnectGoogle {\n    disconnectGoogle\n  }\n": types.DisconnectGoogleDocument,
     "\n  #graphql\n  query GetCurrentUser {\n    user: getCurrentUser {\n      id\n      email\n      name\n      photo\n      isOnboarded\n      scopes\n    }\n  }\n": types.GetCurrentUserDocument,
@@ -33,6 +34,7 @@ const documents = {
     "\n  #graphql\n  query GetStates($country: Int!) {\n    states: getStates(country: $country) {\n      value\n      label\n    }\n  }\n": types.GetStatesDocument,
     "\n  #graphql\n  query GetCities($state: Int!) {\n    cities: getCities(state: $state) {\n      value\n      label\n    }\n  }\n": types.GetCitiesDocument,
     "\n  #graphql\n  query SearchSellers($data: SearchSellers!) {\n    sellers: searchSellers(data: $data) {\n      name\n      id\n      photo\n      bio\n    }\n  }\n": types.SearchSellersDocument,
+    "\n  #graphql\n  query GetSpiritUploadURL($data: String!) {\n    spiritPhotoURL(username: $data) {\n      url\n      uploadURL\n    }\n  }\n": types.GetSpiritUploadUrlDocument,
 };
 
 /**
@@ -77,6 +79,10 @@ export function gql(source: "\n  #graphql\n  mutation SendChat($data: SendMessag
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  #graphql\n  mutation UpdateUser($data: UpdateUserArgs!) {\n    updateUser(data: $data)\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdateUser($data: UpdateUserArgs!) {\n    updateUser(data: $data)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  #graphql\n  mutation UpdateUserLocation($data: UpdateLocation!) {\n    updateUserLocation(data: $data)\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdateUserLocation($data: UpdateLocation!) {\n    updateUserLocation(data: $data)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -129,6 +135,10 @@ export function gql(source: "\n  #graphql\n  query GetCities($state: Int!) {\n  
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  #graphql\n  query SearchSellers($data: SearchSellers!) {\n    sellers: searchSellers(data: $data) {\n      name\n      id\n      photo\n      bio\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query SearchSellers($data: SearchSellers!) {\n    sellers: searchSellers(data: $data) {\n      name\n      id\n      photo\n      bio\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  #graphql\n  query GetSpiritUploadURL($data: String!) {\n    spiritPhotoURL(username: $data) {\n      url\n      uploadURL\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetSpiritUploadURL($data: String!) {\n    spiritPhotoURL(username: $data) {\n      url\n      uploadURL\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

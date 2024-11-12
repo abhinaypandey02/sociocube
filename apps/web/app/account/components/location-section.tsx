@@ -9,7 +9,7 @@ import {
   useAuthMutation,
   useAuthQuery,
 } from "../../../lib/apollo-client";
-import { UPDATE_USER } from "../../../lib/mutations";
+import { UPDATE_USER_LOCATION } from "../../../lib/mutations";
 import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "../../../lib/queries";
 import ContentTemplate from "./content-template";
 import type { AccountSectionData } from "./account-view";
@@ -26,7 +26,7 @@ export default function LocationSection({
       city: null,
     },
   });
-  const [saveUserMutation, { loading }] = useAuthMutation(UPDATE_USER);
+  const [saveUserMutation, { loading }] = useAuthMutation(UPDATE_USER_LOCATION);
   const router = useRouter();
   const [fetchCountries, { data: countriesData, loading: loadingCountries }] =
     useAuthQuery(GET_COUNTRIES);
@@ -50,11 +50,13 @@ export default function LocationSection({
   }, [fetchCountries, fetchStates, fetchCities]);
   const onSubmit: SubmitHandler<
     NonNullable<AccountSectionData["locationID"]>
-  > = async ({ city }) => {
-    if (city) {
+  > = async ({ city, state, country }) => {
+    if (state && country) {
       await saveUserMutation({
         data: {
           city,
+          state,
+          country,
         },
       }).catch(handleGQLErrors);
       router.refresh();
@@ -113,7 +115,6 @@ export default function LocationSection({
                 name="city"
                 options={cities}
                 placeholder="Select your city"
-                rules={{ required: true }}
               />
             ) : null}
             {form.watch("city") && (

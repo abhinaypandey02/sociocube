@@ -17,6 +17,10 @@ import {
 } from "./onboarding/update-onboarding-pricing";
 import { handleDisconnectInstagram } from "./disconnect-instagram";
 import { handleDisconnectGoogle } from "./disconnect-google";
+import {
+  handleUpdateLocation,
+  UpdateLocationInput,
+} from "./update-user-location";
 
 @Resolver()
 export class UserMutationResolver {
@@ -53,6 +57,14 @@ export class UserMutationResolver {
   @Mutation(() => Boolean)
   updateUser(@Ctx() ctx: Context, @Arg("data") args: UpdateUserArgs) {
     return handleUpdateUser(ctx, args);
+  }
+  @Authorized()
+  @Mutation(() => Boolean)
+  updateUserLocation(
+    @Ctx() ctx: Context,
+    @Arg("data") args: UpdateLocationInput,
+  ) {
+    return handleUpdateLocation(ctx, args);
   }
   @Authorized()
   @Mutation(() => Boolean)

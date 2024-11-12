@@ -52,6 +52,13 @@ export const UPDATE_USER = gql(`
   }
 `);
 
+export const UPDATE_USER_LOCATION = gql(`
+  #graphql
+  mutation UpdateUserLocation($data: UpdateLocation!) {
+    updateUserLocation(data: $data)
+  }
+`);
+
 export const DISCONNECT_INSTAGRAM = gql(`
   #graphql
   mutation DisconnectInstagram {

@@ -202,3 +202,13 @@ export const SEARCH_SELLERS = gql(`
     }
   }
 `);
+
+export const GET_SPIRIT_UPLOAD_URL = gql(`
+  #graphql
+  query GetSpiritUploadURL($data: String!) {
+    spiritPhotoURL(username: $data) {
+      url
+      uploadURL
+    }
+  }
+`);

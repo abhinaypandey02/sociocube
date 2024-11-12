@@ -69,10 +69,12 @@ export default function OnboardingLocationForm({
   const states = statesData?.states;
   const cities = citiesData?.cities;
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
-    if (data.city) {
+    if (data.state && data.country) {
       const res = await updateBasicDetails({
         data: {
           city: data.city,
+          state: data.state,
+          country: data.country,
         },
       }).catch(handleGQLErrors);
       if (res?.data?.updateOnboardingLocation) {
@@ -112,7 +114,6 @@ export default function OnboardingLocationForm({
           name="city"
           options={cities}
           placeholder="Select your city"
-          rules={{ required: true }}
         />
       ) : null}
       <Button

@@ -301,6 +301,7 @@ type Mutation {
   updateOnboardingLocation(data: UpdateLocationArgs!): Currency!
   updateOnboardingPricing(data: UpdatePricingArgs!): Boolean!
   updateUser(data: UpdateUserArgs!): Boolean!
+  updateUserLocation(data: UpdateLocation!): Boolean!
 }
 
 type OnboardingData {
@@ -335,11 +336,13 @@ type Query {
   getSeller(id: Int!): User
   getStates(country: Int!): [SelectOption!]!
   searchSellers(data: SearchSellers!): [User!]
+  spiritPhotoURL(username: String!): StorageFile!
   __schema: __Schema!
   __type(name: String!): __Type
 }
 
 enum ROLES {
+  ADMIN
   SELLER
 }
 
@@ -382,8 +385,16 @@ input UpdateBasicDetailsArgs {
   name: String!
 }
 
+input UpdateLocation {
+  city: Float
+  country: Float!
+  state: Float!
+}
+
 input UpdateLocationArgs {
-  city: Float!
+  city: Float
+  country: Float!
+  state: Float!
 }
 
 input UpdatePricingArgs {
@@ -393,7 +404,6 @@ input UpdatePricingArgs {
 input UpdateUserArgs {
   bio: String
   category: String
-  city: Float
   dob: String
   gender: String
   name: String

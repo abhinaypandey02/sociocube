@@ -1,7 +1,11 @@
 import { and, arrayContains, eq, isNotNull } from "drizzle-orm";
 import { Context } from "../../../../../context";
 import { db } from "../../../../../../../lib/db";
-import { OnboardingDataTable, UserTable } from "../../../db/schema";
+import {
+  LocationTable,
+  OnboardingDataTable,
+  UserTable,
+} from "../../../db/schema";
 import GQLError from "../../../../../constants/errors";
 import { AuthScopes } from "../../../../../constants/scopes";
 import { Roles } from "../../../../../constants/roles";
@@ -33,9 +37,24 @@ export async function handleCompleteOnboarding(ctx: Context) {
       !res.onboarding_data.dob ||
       !res.onboarding_data.gender ||
       !res.onboarding_data.city ||
+      !res.onboarding_data.country ||
+      !res.onboarding_data.state ||
       !res.onboarding_data.category
     )
       throw GQLError(400, "Missing required fields");
+    const { city, state, country } = res.onboarding_data;
+    const [location] = await tx
+      .insert(LocationTable)
+      .values({
+        state,
+        city,
+        country,
+      })
+      .returning();
+    if (!location?.id) {
+      tx.rollback();
+      throw GQLError(500, "Failed to create location");
+    }
     const [updateResult] = await tx
       .update(UserTable)
       .set({
@@ -44,6 +63,7 @@ export async function handleCompleteOnboarding(ctx: Context) {
         onboardingData: null,
         roles: [...res.user.roles, Roles.SELLER],
         isOnboarded: true,
+        location: location.id,
       })
       .where(eq(UserTable.id, ctx.userId))
       .returning({ isOnboarded: UserTable.isOnboarded });

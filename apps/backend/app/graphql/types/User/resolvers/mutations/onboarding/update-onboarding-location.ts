@@ -6,12 +6,16 @@ import { OnboardingDataTable, UserTable } from "../../../db/schema";
 import { AuthScopes } from "../../../../../constants/scopes";
 import GQLError from "../../../../../constants/errors";
 import { Currency } from "../../../type";
-import { CityTable, CountryTable } from "../../../../Map/db/schema";
+import { CountryTable } from "../../../../Map/db/schema";
 
 @InputType("UpdateLocationArgs")
 export class UpdateLocationArgs {
+  @Field({ nullable: true })
+  city?: number;
   @Field()
-  city: number;
+  state: number;
+  @Field()
+  country: number;
 }
 export async function handleUpdateOnboardingLocation(
   args: UpdateLocationArgs,
@@ -46,17 +50,18 @@ export async function handleUpdateOnboardingLocation(
     .update(OnboardingDataTable)
     .set({
       city: args.city,
+      country: args.country,
+      state: args.state,
     })
     .where(eq(OnboardingDataTable.id, res.user.onboardingData));
   const [cityData] = await db
     .select()
-    .from(CityTable)
-    .innerJoin(CountryTable, eq(CountryTable.id, CityTable.countryId))
-    .where(eq(CityTable.id, args.city));
+    .from(CountryTable)
+    .where(eq(CountryTable.id, args.country));
   if (cityData)
     return {
-      name: cityData.countries.currencyName || undefined,
-      symbol: cityData.countries.currencySymbol || undefined,
+      name: cityData.currencyName || undefined,
+      symbol: cityData.currencySymbol || undefined,
     };
   throw GQLError(500, "Can't update DB");
 }
