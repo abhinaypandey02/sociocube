@@ -7,8 +7,13 @@ import {
   Pricing,
   UserGQL,
 } from "../type";
-import { LocationTable, OnboardingDataTable, PricingTable } from "../db/schema";
 import type { UserDB } from "../db/schema";
+import {
+  InstagramMediaTable,
+  LocationTable,
+  OnboardingDataTable,
+  PricingTable,
+} from "../db/schema";
 import { db } from "../../../../../lib/db";
 import { FileGQL } from "../../File/type";
 import {
@@ -16,13 +21,10 @@ import {
   getUploadFileURL,
 } from "../../../../../lib/storage/aws-s3";
 import { getGraphUrl } from "../../../../auth/instagram/utils";
-import {
-  InstagramMedia,
-  InstagramMediaType,
-  InstagramStats,
-} from "../../Instagram/type";
+import { InstagramMedia, InstagramStats } from "../../Instagram/type";
 import { InstagramDetails } from "../../Instagram/db/schema";
 import { CityTable, CountryTable } from "../../Map/db/schema";
+import { InstagramMediaType } from "../../../constants/instagram-media-type";
 
 @Resolver(() => UserGQL)
 export class UserFieldResolver {
@@ -145,43 +147,46 @@ export class UserFieldResolver {
       .from(InstagramDetails)
       .where(eq(InstagramDetails.id, user.instagramDetails));
     if (!instagramDetails) return null;
-    if (!instagramDetails.accessToken)
-      return {
-        username: instagramDetails.username,
-        followers: instagramDetails.followers,
-        mediaCount: 0,
-      };
-    const fetchReq = await fetch(
-      getGraphUrl("me", instagramDetails.accessToken, [
-        "followers_count",
-        "media_count",
-        "username",
-      ]),
-    ).then(
-      (data) =>
-        data.json() as Promise<{
-          followers_count?: number;
-          media_count?: number;
-          username?: string;
-          error?: object;
-        } | null>,
-    );
-    if (!fetchReq || fetchReq.error) return null;
-    const [fallback] = await db
-      .update(InstagramDetails)
-      .set({
-        followers: fetchReq.followers_count || undefined,
-        username: fetchReq.username || undefined,
-      })
-      .where(eq(InstagramDetails.id, user.instagramDetails))
-      .returning();
+    if (instagramDetails.accessToken) {
+      const fetchReq = await fetch(
+        getGraphUrl("me", instagramDetails.accessToken, [
+          "followers_count",
+          "media_count",
+          "username",
+        ]),
+      ).then(
+        (data) =>
+          data.json() as Promise<{
+            followers_count?: number;
+            media_count?: number;
+            username?: string;
+            error?: object;
+          } | null>,
+      );
+      if (fetchReq && !fetchReq.error) {
+        const [fallback] = await db
+          .update(InstagramDetails)
+          .set({
+            followers: fetchReq.followers_count || undefined,
+            username: fetchReq.username || undefined,
+            mediaCount: fetchReq.media_count || undefined,
+          })
+          .where(eq(InstagramDetails.id, user.instagramDetails))
+          .returning();
 
-    const returnedUsername = fetchReq.username || fallback?.username;
-    if (!returnedUsername) return null;
+        const returnedUsername = fetchReq.username || fallback?.username;
+        if (!returnedUsername) return null;
+        return {
+          username: returnedUsername,
+          followers: fetchReq.followers_count || fallback?.followers || 0,
+          mediaCount: fetchReq.media_count || 0,
+        };
+      }
+    }
     return {
-      username: returnedUsername,
-      followers: fetchReq.followers_count || fallback?.followers || 0,
-      mediaCount: fetchReq.media_count || 0,
+      username: instagramDetails.username,
+      followers: instagramDetails.followers,
+      mediaCount: instagramDetails.mediaCount,
     };
   }
   @FieldResolver(() => [InstagramMedia], { nullable: true })
@@ -191,40 +196,60 @@ export class UserFieldResolver {
       .select()
       .from(InstagramDetails)
       .where(eq(InstagramDetails.id, user.instagramDetails));
-    if (!instagramDetails?.accessToken) return null;
-    const fetchReq = await fetch(
-      `${getGraphUrl("me/media", instagramDetails.accessToken, [
-        "thumbnail_url",
-        "media_url",
-        "like_count",
-        "comments_count",
-        "media_product_type",
-        "permalink",
-        "caption",
-      ])}&limit=6`,
-    ).then(
-      (data) =>
-        data.json() as Promise<{
-          data?: {
-            thumbnail_url: string;
-            like_count: number;
-            comments_count: number;
-            permalink: string;
-            caption: string;
-            media_url: string;
-            media_product_type: InstagramMediaType;
-          }[];
-          error?: object;
-        } | null>,
-    );
-    if (!fetchReq?.data || fetchReq.error) return null;
-    return fetchReq.data.map((media) => ({
-      comments: media.comments_count,
-      likes: media.like_count,
-      link: media.permalink,
-      thumbnail: media.thumbnail_url || media.media_url,
-      type: media.media_product_type,
-      caption: media.caption,
-    }));
+    if (instagramDetails?.accessToken) {
+      const fetchReq = await fetch(
+        `${getGraphUrl("me/media", instagramDetails.accessToken, [
+          "thumbnail_url",
+          "media_url",
+          "like_count",
+          "comments_count",
+          "media_product_type",
+          "permalink",
+          "caption",
+        ])}&limit=12`,
+      ).then(
+        (data) =>
+          data.json() as Promise<{
+            data?: {
+              thumbnail_url: string;
+              like_count: number;
+              comments_count: number;
+              permalink: string;
+              caption: string;
+              media_url: string;
+              media_type: InstagramMediaType;
+            }[];
+            error?: object;
+          } | null>,
+      );
+      if (fetchReq?.data) {
+        await db
+          .delete(InstagramMediaTable)
+          .where(eq(InstagramMediaTable.user, user.id));
+        await db.insert(InstagramMediaTable).values(
+          fetchReq.data.map((media) => ({
+            comments: media.comments_count,
+            likes: media.like_count,
+            link: media.permalink,
+            thumbnail: media.thumbnail_url || media.media_url,
+            type: media.media_type,
+            caption: media.caption,
+            user: user.id,
+          })),
+        );
+        return fetchReq.data.map((media) => ({
+          comments: media.comments_count,
+          likes: media.like_count,
+          link: media.permalink,
+          thumbnail: media.thumbnail_url || media.media_url,
+          type: media.media_type,
+          caption: media.caption,
+        }));
+      }
+    }
+    return db
+      .select()
+      .from(InstagramMediaTable)
+      .where(eq(InstagramMediaTable.user, user.id));
   }
 }

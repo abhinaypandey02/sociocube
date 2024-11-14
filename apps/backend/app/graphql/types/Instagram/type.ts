@@ -1,4 +1,5 @@
-import { Field, Int, ObjectType, registerEnumType } from "type-graphql";
+import { Field, Int, ObjectType } from "type-graphql";
+import { InstagramMediaType } from "../../constants/instagram-media-type";
 
 @ObjectType("InstagramStats")
 export class InstagramStats {
@@ -22,15 +23,6 @@ export class InstagramMedia {
   type: InstagramMediaType;
   @Field()
   link: string;
-  @Field()
-  caption: string;
+  @Field(() => String, { nullable: true })
+  caption: string | null;
 }
-
-export enum InstagramMediaType {
-  REEL = "REEL",
-  FEED = "FEED",
-}
-
-registerEnumType(InstagramMediaType, {
-  name: "InstagramMediaType",
-});

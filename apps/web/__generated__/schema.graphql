@@ -254,7 +254,7 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTimeISO
 
 type InstagramMedia {
-  caption: String!
+  caption: String
   comments: Int!
   likes: Int!
   link: String!
@@ -263,8 +263,9 @@ type InstagramMedia {
 }
 
 enum InstagramMediaType {
-  FEED
-  REEL
+  CarouselAlbum
+  Image
+  Video
 }
 
 type InstagramStats {
@@ -336,7 +337,6 @@ type Query {
   getSeller(id: Int!): User
   getStates(country: Int!): [SelectOption!]!
   searchSellers(data: SearchSellers!): [User!]
-  spiritPhotoURL(username: String!): StorageFile!
   __schema: __Schema!
   __type(name: String!): __Type
 }

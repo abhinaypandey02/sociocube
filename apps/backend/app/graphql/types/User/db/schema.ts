@@ -17,7 +17,13 @@ import { Roles } from "../../../constants/roles";
 import { AuthScopes } from "../../../constants/scopes";
 import { InstagramDetails } from "../../Instagram/db/schema";
 import { CityTable, CountryTable, StateTable } from "../../Map/db/schema";
+import { InstagramMediaType } from "../../../constants/instagram-media-type";
 
+export const mediaType = pgEnum("media_type", [
+  InstagramMediaType.Image,
+  InstagramMediaType.Video,
+  InstagramMediaType.CarouselAlbum,
+]);
 export const rolesEnum = pgEnum("role", [Roles.SELLER, Roles.ADMIN]);
 export const authScopesEnum = pgEnum("scope", [
   AuthScopes.GOOGLE,
@@ -107,6 +113,25 @@ export const OnboardingDataTable = pgTable("onboarding_data", {
   gender: gendersEnum("gender"),
   pricing: integer("pricing").references(() => PricingTable.id),
 });
+
+export const InstagramMediaTable = pgTable(
+  "instagram_post",
+  {
+    id: serial("id").primaryKey(),
+    thumbnail: text("thumbnail").notNull(),
+    link: text("url").notNull(),
+    caption: text("caption"),
+    type: mediaType("type").notNull(),
+    comments: integer("comments").notNull(),
+    likes: integer("likes").notNull(),
+    user: integer("user")
+      .references(() => UserTable.id)
+      .notNull(),
+  },
+  (table) => ({
+    userIdx: index("post_user_idx").on(table.user),
+  }),
+);
 
 export type UserDBInsert = typeof UserTable.$inferInsert;
 export type UserDB = typeof UserTable.$inferSelect;

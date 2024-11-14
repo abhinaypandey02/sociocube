@@ -90,6 +90,7 @@ export const GET_SELLER = gql(`
         thumbnail
         caption
         link
+        likes
       }
       instagramStats {
         followers
@@ -199,16 +200,6 @@ export const SEARCH_SELLERS = gql(`
       id
       photo
       bio
-    }
-  }
-`);
-
-export const GET_SPIRIT_UPLOAD_URL = gql(`
-  #graphql
-  query GetSpiritUploadURL($data: String!) {
-    spiritPhotoURL(username: $data) {
-      url
-      uploadURL
     }
   }
 `);

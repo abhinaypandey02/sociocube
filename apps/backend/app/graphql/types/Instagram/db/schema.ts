@@ -7,7 +7,9 @@ export const InstagramDetails = pgTable(
     id: serial("id").primaryKey(),
     username: text("username").unique().notNull(),
     appID: text("app_id").unique(),
+    igID: text("ig_id").unique(),
     followers: integer("followers").notNull(),
+    mediaCount: integer("media_count").notNull().default(0),
     accessToken: text("access_token"),
   },
   (table) => ({

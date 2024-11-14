@@ -4,6 +4,7 @@ import Image from "next/image";
 import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import { Route } from "../../constants/routes";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
+import { convertToAbbreviation } from "../../lib/utils";
 
 export default function TopCreators({
   sellers,
@@ -44,7 +45,7 @@ export default function TopCreators({
                 </div>
                 <div className="flex gap-1 pr-0.5 pt-1 text-xs">
                   <InstagramLogo size={16} />
-                  {((person.instagramStats?.followers || 0) / 1000).toFixed(1)}k
+                  {convertToAbbreviation(person.instagramStats?.followers || 0)}
                 </div>
               </div>
             </Link>

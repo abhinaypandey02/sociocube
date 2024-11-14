@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { queryGQL } from "../../../lib/apollo-server";
 import { GET_SELLER } from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
+import { convertToAbbreviation } from "../../../lib/utils";
 
 interface ProfilePage {
   params: Promise<{ id: string }>;
@@ -53,6 +54,12 @@ export default async function ProfilePage({ params }: ProfilePage) {
   const seller = data.getSeller;
   if (!seller?.name || !seller.instagramStats) return notFound();
   const age = getAge(new Date(seller.dob || Date.now()));
+  const averageLikes = Math.round(
+    seller.instagramMedia?.reduce(
+      (acc, curr) => acc + curr.likes / (seller.instagramMedia?.length || 1),
+      0,
+    ) || 0,
+  );
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6 sm:mt-8 sm:px-6 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
       <div className="lg:col-span-6 lg:col-start-7">
@@ -148,7 +155,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
           <div className="mt-6 grid grid-cols-3 gap-3 ">
             <div className="text-center ">
               <div className=" text-3xl font-medium text-gray-900">
-                {seller.instagramStats.followers}
+                {convertToAbbreviation(seller.instagramStats.followers)}
               </div>
               <span className="text-sm font-medium text-gray-900">
                 Followers
@@ -156,17 +163,21 @@ export default async function ProfilePage({ params }: ProfilePage) {
             </div>
             <div className="text-center ">
               <div className=" text-3xl font-medium text-gray-900">
-                {seller.instagramStats.mediaCount}
+                {convertToAbbreviation(seller.instagramStats.mediaCount)}
               </div>
               <span className="text-sm font-medium text-gray-900">Posts</span>
             </div>
             <div className="text-center ">
-              <div className=" text-3xl font-medium text-gray-900">0</div>
-              <span className="text-sm font-medium text-gray-900">Reach</span>
+              <div className=" text-3xl font-medium text-gray-900">
+                {convertToAbbreviation(averageLikes)}
+              </div>
+              <span className="text-sm font-medium text-gray-900">
+                Avg. likes
+              </span>
             </div>
           </div>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 ">
-            {seller.instagramMedia?.map((media) => (
+            {seller.instagramMedia?.slice(0, 6).map((media) => (
               <a
                 className="relative"
                 href={media.link}
@@ -175,7 +186,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
                 target="_blank"
               >
                 <Image
-                  alt={media.caption}
+                  alt={media.caption || `Post by ${seller.name}`}
                   className="size-full rounded-md object-cover"
                   height={500}
                   src={media.thumbnail}
