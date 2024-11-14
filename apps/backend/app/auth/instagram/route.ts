@@ -13,7 +13,10 @@ import {
   getState,
   getUserIdFromRefreshToken,
 } from "../../../lib/auth/token";
-import { UserTable } from "../../graphql/types/User/db/schema";
+import {
+  InstagramMediaTable,
+  UserTable,
+} from "../../graphql/types/User/db/schema";
 import { db } from "../../../lib/db";
 import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
 import {
@@ -81,6 +84,9 @@ export const GET = async (req: NextRequest) => {
             eq(UserTable.instagramDetails, InstagramDetails.id),
           );
         if (spirit) {
+          await db
+            .delete(InstagramMediaTable)
+            .where(eq(InstagramMediaTable.user, spirit.user.id));
           await db.delete(UserTable).where(eq(UserTable.id, spirit.user.id));
           await db
             .delete(InstagramDetails)
