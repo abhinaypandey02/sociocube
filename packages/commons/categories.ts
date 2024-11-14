@@ -19,5 +19,7 @@ export default [
     { "id": 18, "title": "Home & Decor" },
     { "id": 19, "title": "Sustainable Living" },
     { "id": 20, "title": "Automotive & Cars" },
-    { "id": 21, "title": "Marketplace / Store" }
+    { "id": 21, "title": "Marketplace / Store" },
+    { "id": 22, "title": "Entertainment" },
+    { "id": 23, "title": "Digital Creator" }
 ]

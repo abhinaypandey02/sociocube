@@ -107,5 +107,5 @@ export function handleSearchSellers(input: SearchSellersInput) {
           : undefined,
       ),
     )
-    .limit(10);
+    .limit(12);
 }

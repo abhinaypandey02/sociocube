@@ -27,7 +27,8 @@
     "NEXT_PUBLIC_PUSHER_APP_KEY",
     "PUSHER_SECRET",
     "NEXT_PUBLIC_PUSHER_CLUSTER",
-    "GROQ_API_KEY"
+    "GROQ_API_KEY",
+    "HF_API_KEY"
   ],
   "tasks": {
     "db-studio": {
