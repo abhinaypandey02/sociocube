@@ -30,9 +30,15 @@ export async function generateMetadata({
 
   const seller = data.getSeller;
   if (!seller?.name) return {};
+  const averageLikes = Math.round(
+    seller.instagramMedia?.reduce(
+      (acc, curr) => acc + curr.likes / (seller.instagramMedia?.length || 1),
+      0,
+    ) || 0,
+  );
   return getSEO(
-    `${data.getSeller?.name} | Seller at Freeluencers`,
-    `${data.getSeller?.name} is a freelancing influencer at Freeluencers. His instagram account, @${data.getSeller?.instagramStats?.username}, has ${data.getSeller?.instagramStats?.followers} followers. Here's what he has to say: ${data.getSeller?.bio}`,
+    `${data.getSeller?.name} • Freeluencers`,
+    `${convertToAbbreviation(seller.instagramStats?.followers || 0)} Followers, ${convertToAbbreviation(averageLikes)} Avg likes, ${convertToAbbreviation(seller.instagramStats?.mediaCount || 0)} posts on their Instagram account @${seller.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
     [
       data.getSeller?.photo || "",
       ...(data.getSeller?.instagramMedia?.map((media) => media.thumbnail) ||
