@@ -116,6 +116,7 @@ export default function Hero({
                     alt={images[0]?.name || ""}
                     className=" aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                     height={264}
+                    priority
                     src={images[0]?.photo || ""}
                     width={176}
                   />
@@ -128,6 +129,7 @@ export default function Hero({
                     alt={images[1]?.name || ""}
                     className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                     height={264}
+                    priority
                     src={images[1]?.photo || ""}
                     width={176}
                   />
@@ -138,6 +140,7 @@ export default function Hero({
                     alt={images[2]?.name || ""}
                     className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                     height={264}
+                    priority
                     src={images[2]?.photo || ""}
                     width={176}
                   />
@@ -150,6 +153,7 @@ export default function Hero({
                     alt={images[3]?.name || ""}
                     className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                     height={264}
+                    priority
                     src={images[3]?.photo || ""}
                     width={176}
                   />
@@ -160,6 +164,7 @@ export default function Hero({
                     alt={images[4]?.name || ""}
                     className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                     height={264}
+                    priority
                     src={images[4]?.photo || ""}
                     width={176}
                   />

@@ -1,15 +1,17 @@
 import React from "react";
+import dynamic from "next/dynamic";
 import { queryGQL } from "../lib/apollo-server";
 import { GET_FEATURED_SELLERS } from "../lib/queries";
 import type { GetFeaturedSellersQuery } from "../__generated__/graphql";
-import Faqs from "./components/faqs";
-import HowItWorks from "./components/how-it-works";
-import Cta from "./components/cta";
-import Features from "./components/features";
-import AboutUs from "./components/about-us";
 import Hero from "./components/hero";
 import TopCreators from "./components/top-creators";
-import FiltersList from "./components/filters-list";
+
+const HowItWorks = dynamic(() => import("./components/how-it-works"));
+const Cta = dynamic(() => import("./components/cta"));
+const Features = dynamic(() => import("./components/features"), { ssr: false });
+const AboutUs = dynamic(() => import("./components/about-us"));
+const FiltersList = dynamic(() => import("./components/filters-list"));
+const Faqs = dynamic(() => import("./components/faqs"));
 
 async function HomePage() {
   const { sellers } = await queryGQL(
