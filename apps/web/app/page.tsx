@@ -8,10 +8,10 @@ import TopCreators from "./components/top-creators";
 
 const HowItWorks = dynamic(() => import("./components/how-it-works"));
 const Cta = dynamic(() => import("./components/cta"));
-const Features = dynamic(() => import("./components/features"), { ssr: false });
+const Features = dynamic(() => import("./components/features"));
 const AboutUs = dynamic(() => import("./components/about-us"));
 const FiltersList = dynamic(() => import("./components/filters-list"));
-const Faqs = dynamic(() => import("./components/faqs"));
+const Faqs = dynamic(() => import("./components/faqs"), { ssr: false });
 
 async function HomePage() {
   const { sellers } = await queryGQL(
