@@ -11,7 +11,7 @@ const Cta = dynamic(() => import("./components/cta"));
 const Features = dynamic(() => import("./components/features"));
 const AboutUs = dynamic(() => import("./components/about-us"));
 const FiltersList = dynamic(() => import("./components/filters-list"));
-const Faqs = dynamic(() => import("./components/faqs"), { ssr: false });
+const Faqs = dynamic(() => import("./components/faqs"));
 
 async function HomePage() {
   const { sellers } = await queryGQL(
