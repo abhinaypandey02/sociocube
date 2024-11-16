@@ -23,8 +23,8 @@
     "@phosphor-icons/react": "^2.1.7",
     "classnames": "^2.5.1",
     "next": "15.0.0-canary.195",
-    "react": "rc",
-    "react-dom": "rc",
+    "react": "19.0.0-rc-1631855f-20241023",
+    "react-dom": "19.0.0-rc-1631855f-20241023",
     "react-hook-form": "^7.53.0"
   },
   "devDependencies": {

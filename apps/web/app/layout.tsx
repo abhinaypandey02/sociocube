@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import { Footer } from "ui/footer";
 import { Navbar } from "ui/navbar";
 import { Toaster } from "react-hot-toast";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { ApolloWrapper } from "../lib/apollo-client";
 import { GlobalStateWrapper } from "../lib/auth-client";
 import { getSEO, SEO } from "../constants/seo";
@@ -97,6 +98,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           </GlobalStateWrapper>
         </ApolloWrapper>
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
     </html>
   );
 }

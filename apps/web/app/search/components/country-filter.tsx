@@ -7,9 +7,9 @@ export default function CountryFilter({
   onChange,
 }: {
   onChange: (data: {
-    countries?: number[];
-    states?: number[];
-    cities?: number[];
+    countries?: number[] | null;
+    states?: number[] | null;
+    cities?: number[] | null;
   }) => void;
 }) {
   const [country, setCountry] = useState<number>();
