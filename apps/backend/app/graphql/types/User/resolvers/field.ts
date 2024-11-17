@@ -203,7 +203,7 @@ export class UserFieldResolver {
           "media_url",
           "like_count",
           "comments_count",
-          "media_product_type",
+          "media_type",
           "permalink",
           "caption",
         ])}&limit=12`,
