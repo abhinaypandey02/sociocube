@@ -16,6 +16,7 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 import type {
   Currency,
   GetDefaultOnboardingDetailsQuery,
@@ -105,6 +106,12 @@ function OnboardingWizard({
             >
               Start now <ArrowRight weight="bold" />
             </Button>
+            <Link
+              className="mt-10 text-center text-sm underline underline-offset-2"
+              href={Route.Home}
+            >
+              No thanks!, I am just looking around
+            </Link>
           </div>
         ),
       },
@@ -213,7 +220,7 @@ function OnboardingWizard({
     [currentUser, nextStep],
   );
   if (!currentUser && !loading) {
-    router.push(Route.Home);
+    router.push(`${Route.SignUp}?redirect=${Route.Onboarding}`);
     return null;
   }
   const MAX_STEPS = steps.length;

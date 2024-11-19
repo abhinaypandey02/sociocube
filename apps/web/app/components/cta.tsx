@@ -21,7 +21,7 @@ function PrimaryButton({ data }: { data?: GetCurrentUserQuery }) {
     );
   }
   return (
-    <Link href={Route.SignUp}>
+    <Link href={`${Route.SignUp}?redirect=${Route.Onboarding}`}>
       <Button>Register now</Button>
     </Link>
   );

@@ -19,7 +19,7 @@ export const UNAUTHORISED_NAVBAR_SECTIONS = {
     button: {
       children: "Join Us",
     },
-    href: Route.SignUp,
+    href: `${Route.SignUp}?redirect=${Route.Onboarding}`,
   },
 };
 export const AUTHORISED_USER_NAVBAR_SECTIONS = {

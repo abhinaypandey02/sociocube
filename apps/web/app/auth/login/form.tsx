@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
 import Link from "next/link";
@@ -25,7 +25,7 @@ const CONTAINER_ID = "captcha-container";
 
 export default function LoginForm() {
   const form = useForm({ defaultValues });
-
+  const params = useSearchParams();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { turnstileToken, resetTurnstileToken } =
@@ -45,7 +45,7 @@ export default function LoginForm() {
     );
     if (error === null) {
       setSuccess(true);
-      router.push(Route.Home);
+      router.push(params.get("redirect") || Route.Home);
       router.refresh();
     } else {
       toast.error(error || "Invalid credentials");
