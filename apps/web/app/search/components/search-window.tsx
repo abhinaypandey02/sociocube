@@ -8,7 +8,6 @@ import {
 } from "@headlessui/react";
 import { Funnel, MagnifyingGlass, Minus, Plus } from "@phosphor-icons/react";
 import { useLazyQuery } from "@apollo/client";
-import { Button } from "ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { Input } from "ui/input";
@@ -60,7 +59,10 @@ export default function SearchWindow({
         handleChange={handleChange}
         isOpen={mobileFiltersOpen}
       />
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <form
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+        onSubmit={handleSubmit}
+      >
         <div className="flex flex-wrap items-baseline justify-between gap-5 border-b border-gray-200 pb-6 pt-16">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900">
             Find influencers
@@ -77,9 +79,8 @@ export default function SearchWindow({
             />
 
             <button
-              className=" ml-2  p-2 text-gray-400 hover:text-gray-500 lg:hidden"
-              onClick={startSearch}
-              type="button"
+              className=" ml-2  p-2 text-gray-400 hover:text-gray-500 "
+              type="submit"
             >
               <span className="sr-only">Search</span>
               <MagnifyingGlass size={22} weight="bold" />
@@ -100,10 +101,7 @@ export default function SearchWindow({
         <section aria-labelledby="products-heading" className="pb-24 pt-6">
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
             {/* Filters */}
-            <form className="hidden lg:block" onSubmit={handleSubmit}>
-              <Button className="mb-4 w-full" type="submit">
-                Search
-              </Button>
+            <div className="-mt-4 hidden lg:block">
               {SEARCH_FILTERS.map((section) => (
                 <Disclosure
                   as="div"
@@ -132,7 +130,7 @@ export default function SearchWindow({
                   </DisclosurePanel>
                 </Disclosure>
               ))}
-            </form>
+            </div>
 
             {/* Product grid */}
             <div className=" lg:col-span-3">
@@ -164,7 +162,7 @@ export default function SearchWindow({
             </div>
           </div>
         </section>
-      </main>
+      </form>
     </>
   );
 }

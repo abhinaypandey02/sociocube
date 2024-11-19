@@ -2,7 +2,11 @@ import React from "react";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { Button, Variants } from "ui/button";
-import { Heart, ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
+import {
+  Heart,
+  ArrowSquareOut,
+  InstagramLogo,
+} from "@phosphor-icons/react/dist/ssr";
 import { notFound } from "next/navigation";
 import { queryGQL } from "../../../lib/apollo-server";
 import { GET_SELLER } from "../../../lib/queries";
@@ -131,9 +135,18 @@ export default async function ProfilePage({ params }: ProfilePage) {
         ) : null}
         <div className="mt-9 flex gap-4">
           <div className="grow">
-            <Button className="w-full" disabled variant={Variants.ACCENT}>
-              Chat coming soon!
-            </Button>
+            <a
+              href={`https://ig.me/m/${seller.instagramStats.username}`}
+              rel="noopener"
+              target="_blank"
+            >
+              <Button
+                className="flex w-full items-center gap-2"
+                variant={Variants.ACCENT}
+              >
+                Message now <InstagramLogo size={18} />
+              </Button>
+            </a>
           </div>
           <Button
             className="flex items-center gap-2"
