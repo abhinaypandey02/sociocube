@@ -7,6 +7,13 @@ export const UPDATE_ONBOARDING_BASIC_DETAILS = gql(`
   }
 `);
 
+export const UPDATE_ONBOARDING_DOB = gql(`
+  #graphql
+  mutation UpdateOnboardingDOB($data: UpdateDateOfBirthArgs!) {
+    updateOnboardingDOB(data: $data)
+  }
+`);
+
 export const UPDATE_ONBOARDING_LOCATION = gql(`
   #graphql
   mutation UpdateOnboardingLocation($data: UpdateLocationArgs!) {

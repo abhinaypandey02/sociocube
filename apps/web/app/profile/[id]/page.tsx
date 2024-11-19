@@ -3,7 +3,6 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { Button, Variants } from "ui/button";
 import { Heart, ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
-import { getAge } from "commons/age";
 import { notFound } from "next/navigation";
 import { queryGQL } from "../../../lib/apollo-server";
 import { GET_SELLER } from "../../../lib/queries";
@@ -59,7 +58,6 @@ export default async function ProfilePage({ params }: ProfilePage) {
   );
   const seller = data.getSeller;
   if (!seller?.name || !seller.instagramStats) return notFound();
-  const age = getAge(new Date(seller.dob || Date.now()));
   const averageLikes = Math.round(
     seller.instagramMedia?.reduce(
       (acc, curr) => acc + curr.likes / (seller.instagramMedia?.length || 1),
@@ -80,7 +78,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
           ) : null}
         </div>
         <div className="prose prose-sm mt-3 text-gray-500">
-          {age ? `${age} yrs •` : null} {seller.gender} • {seller.category}
+          {seller.gender} • {seller.category}
         </div>
 
         {/* Reviews */}

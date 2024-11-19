@@ -10,9 +10,10 @@ import {
   isNotNull,
 } from "drizzle-orm";
 import { Field, InputType, Int } from "type-graphql";
-import { IsIn } from "class-validator";
+import { IsIn, Max, Min } from "class-validator";
 import categories from "commons/categories";
 import genders from "commons/genders";
+import { AGE_RANGES } from "commons/age";
 import { db } from "../../../../../../lib/db";
 import { LocationTable, PricingTable, UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
@@ -34,9 +35,9 @@ export class SearchSellersInput {
   @IsIn(genders, { each: true })
   genders?: string[];
   @Field(() => Int, { nullable: true })
-  ageFrom?: number;
-  @Field(() => Int, { nullable: true })
-  ageTo?: number;
+  @Min(0)
+  @Max(AGE_RANGES.length - 1)
+  ageRange?: number;
   @Field(() => Int, { nullable: true })
   followersFrom?: number;
   @Field(() => Int, { nullable: true })
@@ -49,10 +50,16 @@ export class SearchSellersInput {
 
 export function handleSearchSellers(input: SearchSellersInput) {
   const ageFromDate = new Date();
-  ageFromDate.setFullYear(ageFromDate.getFullYear() - (input.ageTo || 0) - 1);
   const ageToDate = new Date();
-  ageToDate.setFullYear(ageToDate.getFullYear() - (input.ageFrom || 0));
-
+  if (input.ageRange) {
+    const range = AGE_RANGES[input.ageRange];
+    if (range) {
+      ageFromDate.setFullYear(
+        ageFromDate.getFullYear() - (range.maximum || 0) - 1,
+      );
+      ageToDate.setFullYear(ageToDate.getFullYear() - (range.minimum || 0));
+    }
+  }
   return db
     .select(getTableColumns(UserTable))
     .from(UserTable)
@@ -72,11 +79,11 @@ export function handleSearchSellers(input: SearchSellersInput) {
         input.followersTo
           ? lte(InstagramDetails.followers, input.followersTo)
           : undefined,
-        input.ageTo
-          ? gte(UserTable.dob, ageFromDate.toDateString())
-          : undefined,
-        input.ageFrom
-          ? lte(UserTable.dob, ageToDate.toDateString())
+        input.ageRange || input.ageRange === 0
+          ? and(
+              gte(UserTable.dob, ageFromDate.toDateString()),
+              lte(UserTable.dob, ageToDate.toDateString()),
+            )
           : undefined,
         input.query
           ? sql`(

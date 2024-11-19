@@ -299,6 +299,7 @@ type Mutation {
   readMessage(conversation: Int!): Boolean!
   sendMessage(data: SendMessage!): Boolean!
   updateOnboardingBasicDetails(data: UpdateBasicDetailsArgs!): Boolean!
+  updateOnboardingDOB(data: UpdateDateOfBirthArgs!): Boolean!
   updateOnboardingLocation(data: UpdateLocationArgs!): Currency!
   updateOnboardingPricing(data: UpdatePricingArgs!): Boolean!
   updateUser(data: UpdateUserArgs!): Boolean!
@@ -347,8 +348,7 @@ enum ROLES {
 }
 
 input SearchSellers {
-  ageFrom: Int
-  ageTo: Int
+  ageRange: Int
   categories: [String!]
   cities: [Int!]
   countries: [Int!]
@@ -379,10 +379,14 @@ type StorageFile {
 input UpdateBasicDetailsArgs {
   bio: String!
   category: String!
-  dob: String!
+  dob: String
   gender: String!
   imageURL: String
   name: String!
+}
+
+input UpdateDateOfBirthArgs {
+  dob: String!
 }
 
 input UpdateLocation {

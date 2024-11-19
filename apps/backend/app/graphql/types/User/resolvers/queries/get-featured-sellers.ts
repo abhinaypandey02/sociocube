@@ -1,4 +1,12 @@
-import { and, or, eq, isNotNull, getTableColumns, desc } from "drizzle-orm";
+import {
+  and,
+  or,
+  eq,
+  isNotNull,
+  getTableColumns,
+  desc,
+  asc,
+} from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
@@ -19,6 +27,6 @@ export async function handleGetFeaturedSellers() {
       InstagramDetails,
       eq(InstagramDetails.id, UserTable.instagramDetails),
     )
-    .orderBy(desc(InstagramDetails.followers))
+    .orderBy(asc(UserTable.isSpirit), desc(InstagramDetails.followers))
     .limit(8);
 }

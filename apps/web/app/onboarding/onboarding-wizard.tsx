@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import { Button, Variants } from "ui/button";
 import {
   ArrowRight,
+  Calendar,
   CaretLeft,
   CaretRight,
   FlagCheckered,
@@ -28,6 +29,7 @@ import OnboardingLocationForm from "./onboarding-location";
 import OnboardingPricingForm from "./onboarding-pricing";
 import OnboardingStepper from "./stepper";
 import OnboardingCompleteForm from "./onboarding-complete-form";
+import OnboardingDOB from "./onboarding-dob";
 
 export function getStep(
   currentUser: GetDefaultOnboardingDetailsQuery["getCurrentUser"],
@@ -42,13 +44,14 @@ export function getStep(
     !currentUser.onboardingData?.name ||
     !currentUser.onboardingData.bio ||
     !currentUser.onboardingData.gender ||
-    !currentUser.onboardingData.category ||
-    !currentUser.onboardingData.dob
+    !currentUser.onboardingData.category
   )
     return 2;
-  if (!currentUser.onboardingData.city) return 3;
-  if (!currentUser.onboardingData.pricing) return 4;
-  if (!currentUser.isOnboarded) return 5;
+  if (!currentUser.onboardingData.dob && !currentUser.onboardingData.city)
+    return 3;
+  if (!currentUser.onboardingData.city) return 4;
+  if (!currentUser.onboardingData.pricing) return 5;
+  if (!currentUser.isOnboarded) return 6;
   return 0;
 }
 
@@ -135,7 +138,6 @@ function OnboardingWizard({
                 currentUser.onboardingData?.photo || currentUser.photo || "",
               bio: currentUser.onboardingData?.bio || currentUser.bio || "",
               category: currentUser.onboardingData?.category || "",
-              dob: currentUser.onboardingData?.dob || "",
               gender: currentUser.onboardingData?.gender || "",
             }}
             key={2}
@@ -143,6 +145,24 @@ function OnboardingWizard({
             photoUpload={currentUser.pictureUploadURL}
           />
         ) : null,
+      },
+
+      {
+        title: "Date of birth",
+        heading: "(Highly Recommended)",
+        description: "Add details about your age.",
+        longDescription:
+          "We don't display your age anywhere in the platform. Your date of birth is used by brands to find influencers of a particular age range. Not providing this would leave you out of age based discoveries.",
+        icon: Calendar,
+        component: (
+          <OnboardingDOB
+            defaultValues={{
+              dob: currentUser?.onboardingData?.dob || undefined,
+            }}
+            key={3}
+            nextStep={nextStep}
+          />
+        ),
       },
       {
         title: "Location",
@@ -158,7 +178,7 @@ function OnboardingWizard({
               country: currentUser?.onboardingData?.country,
               state: currentUser?.onboardingData?.state,
             }}
-            key={3}
+            key={4}
             nextStep={nextStep}
             setCurrency={setCurrency}
           />
@@ -175,7 +195,7 @@ function OnboardingWizard({
           <OnboardingPricingForm
             currency={currency}
             defaultValues={currentUser?.onboardingData?.pricing || {}}
-            key={4}
+            key={5}
             nextStep={nextStep}
           />
         ),
@@ -187,7 +207,7 @@ function OnboardingWizard({
         longDescription:
           "You have completed all the steps and are ready to go!",
         icon: SealCheck,
-        component: <OnboardingCompleteForm userID={currentUser?.id} />,
+        component: <OnboardingCompleteForm key={6} userID={currentUser?.id} />,
       },
     ],
     [currentUser, nextStep],

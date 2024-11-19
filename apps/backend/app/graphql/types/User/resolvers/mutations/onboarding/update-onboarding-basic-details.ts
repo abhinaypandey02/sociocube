@@ -22,9 +22,9 @@ export class UpdateBasicDetailsArgs {
   @Field()
   @IsIn(genders)
   gender: string;
-  @Field()
+  @Field({ nullable: true })
   @IsDateString()
-  dob: string;
+  dob?: string;
   @Field({ nullable: true })
   imageURL: string;
 }
@@ -32,9 +32,11 @@ export async function handleUpdateOnboardingBasicDetails(
   args: UpdateBasicDetailsArgs,
   ctx: Context,
 ) {
-  const age = getAge(new Date(args.dob));
-  if (age < MIN_AGE || age > MAX_AGE)
-    throw GQLError(400, "Invalid date of birth");
+  if (args.dob) {
+    const age = getAge(new Date(args.dob));
+    if (age < MIN_AGE || age > MAX_AGE)
+      throw GQLError(400, "Invalid date of birth");
+  }
   return db.transaction(async (tx) => {
     const user = await getCurrentUser(ctx);
     if (!user) throw GQLError(403, "User not logged in");

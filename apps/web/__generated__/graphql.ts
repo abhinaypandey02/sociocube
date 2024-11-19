@@ -97,6 +97,7 @@ export type Mutation = {
   readMessage: Scalars['Boolean']['output'];
   sendMessage: Scalars['Boolean']['output'];
   updateOnboardingBasicDetails: Scalars['Boolean']['output'];
+  updateOnboardingDOB: Scalars['Boolean']['output'];
   updateOnboardingLocation: Currency;
   updateOnboardingPricing: Scalars['Boolean']['output'];
   updateUser: Scalars['Boolean']['output'];
@@ -116,6 +117,11 @@ export type MutationSendMessageArgs = {
 
 export type MutationUpdateOnboardingBasicDetailsArgs = {
   data: UpdateBasicDetailsArgs;
+};
+
+
+export type MutationUpdateOnboardingDobArgs = {
+  data: UpdateDateOfBirthArgs;
 };
 
 
@@ -206,8 +212,7 @@ export enum Roles {
 }
 
 export type SearchSellers = {
-  ageFrom?: InputMaybe<Scalars['Int']['input']>;
-  ageTo?: InputMaybe<Scalars['Int']['input']>;
+  ageRange?: InputMaybe<Scalars['Int']['input']>;
   categories?: InputMaybe<Array<Scalars['String']['input']>>;
   cities?: InputMaybe<Array<Scalars['Int']['input']>>;
   countries?: InputMaybe<Array<Scalars['Int']['input']>>;
@@ -240,10 +245,14 @@ export type StorageFile = {
 export type UpdateBasicDetailsArgs = {
   bio: Scalars['String']['input'];
   category: Scalars['String']['input'];
-  dob: Scalars['String']['input'];
+  dob?: InputMaybe<Scalars['String']['input']>;
   gender: Scalars['String']['input'];
   imageURL?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
+};
+
+export type UpdateDateOfBirthArgs = {
+  dob: Scalars['String']['input'];
 };
 
 export type UpdateLocation = {
@@ -302,6 +311,13 @@ export type UpdateOnboardingBasicDetailsMutationVariables = Exact<{
 
 
 export type UpdateOnboardingBasicDetailsMutation = { __typename?: 'Mutation', updateOnboardingBasicDetails: boolean };
+
+export type UpdateOnboardingDobMutationVariables = Exact<{
+  data: UpdateDateOfBirthArgs;
+}>;
+
+
+export type UpdateOnboardingDobMutation = { __typename?: 'Mutation', updateOnboardingDOB: boolean };
 
 export type UpdateOnboardingLocationMutationVariables = Exact<{
   data: UpdateLocationArgs;
@@ -427,6 +443,7 @@ export type SearchSellersQuery = { __typename?: 'Query', sellers?: Array<{ __typ
 
 
 export const UpdateOnboardingBasicDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOnboardingBasicDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateBasicDetailsArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOnboardingBasicDetails"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}]}]}}]} as unknown as DocumentNode<UpdateOnboardingBasicDetailsMutation, UpdateOnboardingBasicDetailsMutationVariables>;
+export const UpdateOnboardingDobDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOnboardingDOB"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateDateOfBirthArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOnboardingDOB"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}]}]}}]} as unknown as DocumentNode<UpdateOnboardingDobMutation, UpdateOnboardingDobMutationVariables>;
 export const UpdateOnboardingLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOnboardingLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateLocationArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOnboardingLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}}]}}]}}]} as unknown as DocumentNode<UpdateOnboardingLocationMutation, UpdateOnboardingLocationMutationVariables>;
 export const UpdateOnboardingPricingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOnboardingPricing"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdatePricingArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOnboardingPricing"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}]}]}}]} as unknown as DocumentNode<UpdateOnboardingPricingMutation, UpdateOnboardingPricingMutationVariables>;
 export const CompleteOnboardingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CompleteOnboarding"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"completeOnboarding"}}]}}]} as unknown as DocumentNode<CompleteOnboardingMutation, CompleteOnboardingMutationVariables>;

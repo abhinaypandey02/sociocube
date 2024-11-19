@@ -17,7 +17,7 @@ export const UNAUTHORISED_NAVBAR_SECTIONS = {
   ],
   cta: {
     button: {
-      children: "Register",
+      children: "Join Us",
     },
     href: Route.SignUp,
   },
