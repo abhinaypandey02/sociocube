@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { queryGQL } from "../lib/apollo-server";
 import { GET_FEATURED_SELLERS } from "../lib/queries";
 import type { GetFeaturedSellersQuery } from "../__generated__/graphql";
+import { SEO } from "../constants/seo";
 import Hero from "./components/hero";
 import TopCreators from "./components/top-creators";
 import Schema from "./components/schema";
@@ -41,6 +42,20 @@ async function HomePage() {
           url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL,
         }}
         id="title"
+      />
+      <Schema
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          image: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image.png`,
+          url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL,
+          sameAs: ["https://instagram.com/freeluencers"],
+          logo: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/icon.png`,
+          name: SEO.companyName,
+          description: SEO.description,
+          email: "abhinaypandey02@gmail.com",
+        }}
+        id="org"
       />
       <Hero images={heroSellers} />
       <TopCreators sellers={sellersToShow} />
