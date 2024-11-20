@@ -34,7 +34,6 @@ export async function handleCompleteOnboarding(ctx: Context) {
     if (
       !res.onboarding_data.name ||
       !res.onboarding_data.bio ||
-      !res.onboarding_data.dob ||
       !res.onboarding_data.gender ||
       !res.onboarding_data.city ||
       !res.onboarding_data.country ||
