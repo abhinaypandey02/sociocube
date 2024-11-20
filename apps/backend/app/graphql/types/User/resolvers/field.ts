@@ -223,20 +223,22 @@ export class UserFieldResolver {
           } | null>,
       );
       if (fetchReq?.data) {
-        await db
-          .delete(InstagramMediaTable)
-          .where(eq(InstagramMediaTable.user, user.id));
-        await db.insert(InstagramMediaTable).values(
-          fetchReq.data.map((media) => ({
-            comments: media.comments_count,
-            likes: media.like_count,
-            link: media.permalink,
-            thumbnail: media.thumbnail_url || media.media_url,
-            type: media.media_type,
-            caption: media.caption,
-            user: user.id,
-          })),
-        );
+        if (fetchReq.data.length) {
+          await db
+            .delete(InstagramMediaTable)
+            .where(eq(InstagramMediaTable.user, user.id));
+          await db.insert(InstagramMediaTable).values(
+            fetchReq.data.map((media) => ({
+              comments: media.comments_count,
+              likes: media.like_count,
+              link: media.permalink,
+              thumbnail: media.thumbnail_url || media.media_url,
+              type: media.media_type,
+              caption: media.caption,
+              user: user.id,
+            })),
+          );
+        }
         return fetchReq.data.map((media) => ({
           comments: media.comments_count,
           likes: media.like_count,
