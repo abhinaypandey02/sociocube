@@ -6,6 +6,7 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { Minus, Plus } from "@phosphor-icons/react/dist/ssr";
+import Schema from "./schema";
 
 const faqs = [
   {
@@ -66,6 +67,21 @@ export default function Faqs() {
         <h2 className="font-poppins text-3xl font-bold leading-10 text-gray-900 sm:text-4xl">
           Frequently asked questions
         </h2>
+        <Schema
+          data={{
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.question,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: faq.answer,
+              },
+            })),
+          }}
+          id="faqs"
+        />
         <dl className="mt-10 space-y-6 divide-y divide-gray-900/10">
           {faqs.map((faq, i) => (
             <Disclosure

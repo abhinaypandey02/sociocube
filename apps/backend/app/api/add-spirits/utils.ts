@@ -1,4 +1,5 @@
 import categories from "commons/categories";
+import { getFileURL, getUploadFileURL } from "../../../lib/storage/aws-s3";
 
 export async function getCategory(userCategory?: string) {
   if (!userCategory) return "Lifestyle";
@@ -70,5 +71,19 @@ export async function getGender(name: string, bio: string, username: string) {
     return data.choices?.[0]?.message?.content || "Other";
   } catch (e) {
     return "Other";
+  }
+}
+
+export async function uploadImage(url: string, key: string[]) {
+  const photoBlob = await fetch(url).then((file) => file.blob());
+  const uploadURL = await getUploadFileURL(key, true);
+  try {
+    const res = await fetch(uploadURL, {
+      method: "PUT",
+      body: photoBlob,
+    });
+    if (res.ok) return getFileURL(key);
+  } catch (e) {
+    return null;
   }
 }

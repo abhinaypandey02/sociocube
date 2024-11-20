@@ -12,6 +12,8 @@ import { queryGQL } from "../../../lib/apollo-server";
 import { GET_SELLER } from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
 import { convertToAbbreviation } from "../../../lib/utils";
+import Schema from "../../components/schema";
+import { Route } from "../../../constants/routes";
 
 interface ProfilePage {
   params: Promise<{ id: string }>;
@@ -70,6 +72,37 @@ export default async function ProfilePage({ params }: ProfilePage) {
   );
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6 sm:mt-8 sm:px-6 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
+      <Schema
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ProfilePage",
+          mainEntity: {
+            "@type": "Person",
+            name: seller.name,
+            alternateName: seller.instagramStats.username,
+            identifier: seller.instagramStats.username,
+            interactionStatistic: [
+              {
+                "@type": "InteractionCounter",
+                interactionType: "https://schema.org/FollowAction",
+                userInteractionCount: seller.instagramStats.followers,
+              },
+              {
+                "@type": "InteractionCounter",
+                interactionType: "https://schema.org/LikeAction",
+                userInteractionCount: averageLikes,
+              },
+            ],
+            description: seller.bio,
+            image: seller.photo,
+            sameAs: [
+              `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/${Route.Profile}/${id}`,
+              `https://instagram.com/${seller.instagramStats.username}`,
+            ],
+          },
+        }}
+        id="main-profile"
+      />
       <div className="lg:col-span-6 lg:col-start-7">
         <div className="flex justify-between">
           <h1 className="text-2xl font-semibold text-gray-900">
@@ -92,13 +125,29 @@ export default async function ProfilePage({ params }: ProfilePage) {
         <h2 className="sr-only">Image</h2>
 
         {seller.photo ? (
-          <Image
-            alt={seller.name}
-            className="w-full rounded-lg lg:col-span-2 lg:row-span-2"
-            height={1080}
-            src={seller.photo}
-            width={720}
-          />
+          <>
+            <Schema
+              data={{
+                "@context": "https://schema.org/",
+                "@type": "ImageObject",
+                contentUrl: seller.photo,
+                creditText: seller.name,
+                creator: {
+                  "@type": "Person",
+                  name: seller.name,
+                },
+                copyrightNotice: seller.name,
+              }}
+              id="profile-image"
+            />
+            <Image
+              alt={seller.name}
+              className="w-full rounded-lg lg:col-span-2 lg:row-span-2"
+              height={1080}
+              src={seller.photo}
+              width={720}
+            />
+          </>
         ) : null}
       </div>
 
@@ -194,7 +243,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
             </div>
           </div>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 ">
-            {seller.instagramMedia?.slice(0, 6).map((media) => (
+            {seller.instagramMedia?.slice(0, 6).map((media, i) => (
               <a
                 className="relative"
                 href={media.link}
@@ -202,6 +251,20 @@ export default async function ProfilePage({ params }: ProfilePage) {
                 rel="noopener"
                 target="_blank"
               >
+                <Schema
+                  data={{
+                    "@context": "https://schema.org/",
+                    "@type": "ImageObject",
+                    contentUrl: media.thumbnail,
+                    creditText: seller.name,
+                    creator: {
+                      "@type": "Person",
+                      name: seller.name,
+                    },
+                    copyrightNotice: seller.name,
+                  }}
+                  id={`post-image-${i}`}
+                />
                 <Image
                   alt={media.caption || `Post by ${seller.name}`}
                   className="size-full rounded-md object-cover"

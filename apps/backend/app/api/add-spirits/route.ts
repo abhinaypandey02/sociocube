@@ -7,9 +7,8 @@ import {
   UserTable,
   InstagramMediaTable,
 } from "../../graphql/types/User/db/schema";
-import { getFileURL, getUploadFileURL } from "../../../lib/storage/aws-s3";
 import { InstagramMediaType } from "../../graphql/constants/instagram-media-type";
-import { getCategory, getGender } from "./utils";
+import { getCategory, getGender, uploadImage } from "./utils";
 
 export async function POST(req: NextRequest) {
   if (!process.env.GROQ_API_KEY) return new NextResponse(null, { status: 403 });
@@ -52,21 +51,11 @@ export async function POST(req: NextRequest) {
     .innerJoin(UserTable, eq(UserTable.instagramDetails, InstagramDetails.id));
   if (existingUser?.user && !existingUser.user.isSpirit)
     return new NextResponse(null, { status: 400 });
-  const photoBlob = await fetch(user.photo).then((file) => file.blob());
-  const uploadURL = await getUploadFileURL(
-    ["Spirit", user.username, "photo"],
-    true,
-  );
-  const photo = getFileURL(["Spirit", user.username, "photo"]);
-  try {
-    const res = await fetch(uploadURL, {
-      method: "PUT",
-      body: photoBlob,
-    });
-    if (!res.ok) return new NextResponse(null, { status: 500 });
-  } catch (e) {
-    return new NextResponse(null, { status: 500 });
-  }
+  const photo = await uploadImage(user.photo, [
+    "Spirit",
+    user.username,
+    "photo",
+  ]);
   const id = await db.transaction(async (tx) => {
     let instaDetailsID = 0;
     try {
@@ -171,23 +160,35 @@ export async function POST(req: NextRequest) {
     }
   });
   if (id) {
-    await db.insert(InstagramMediaTable).values(
-      user.media.map(({ node }) => ({
-        caption: node.edge_media_to_caption.edges[0]?.node.text,
-        likes: node.edge_liked_by.count,
-        comments: node.edge_media_to_comment.count,
-        type:
-          // eslint-disable-next-line no-nested-ternary -- please
-          node.__typename === "GraphVideo"
-            ? InstagramMediaType.Video
-            : node.__typename === "GraphSidecar"
-              ? InstagramMediaType.CarouselAlbum
-              : InstagramMediaType.Image,
-        thumbnail: node.thumbnail_src,
-        link: `https://instagram.com/p/${node.shortcode}`,
-        user: id,
-      })),
-    );
+    const mediaValues = (
+      await Promise.all(
+        user.media.map(async ({ node }, i) => ({
+          caption: node.edge_media_to_caption.edges[0]?.node.text,
+          likes: node.edge_liked_by.count,
+          comments: node.edge_media_to_comment.count,
+          type:
+            // eslint-disable-next-line no-nested-ternary -- please
+            node.__typename === "GraphVideo"
+              ? InstagramMediaType.Video
+              : node.__typename === "GraphSidecar"
+                ? InstagramMediaType.CarouselAlbum
+                : InstagramMediaType.Image,
+          thumbnail:
+            (await uploadImage(node.thumbnail_src, [
+              "Spirit",
+              user.username,
+              "posts",
+              i.toString(),
+            ])) || "",
+          link: `https://instagram.com/p/${node.shortcode}`,
+          user: id,
+        })),
+      )
+    ).filter((posts) => posts.thumbnail !== "");
+    if (mediaValues.length !== user.media.length)
+      return new NextResponse(null, { status: 400 });
+    if (mediaValues.length > 0)
+      await db.insert(InstagramMediaTable).values(mediaValues);
   }
   return new NextResponse(id ? id.toString() : undefined);
 }
