@@ -29,14 +29,16 @@ export const getSEO = (
     title: title ? title : SEO.title,
     description: description || SEO.description,
     images: images || [
-      `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image.png`,
+      `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/twitter-image.png`,
     ],
     card: "summary_large_image",
   },
   appleWebApp: {
     title: title ? title : SEO.title,
     capable: true,
-    startupImage: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image.png`,
+    startupImage:
+      images?.[0] ||
+      `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image.png`,
   },
   applicationName: SEO.companyName,
   creator: SEO.companyName,
