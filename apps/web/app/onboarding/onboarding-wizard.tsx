@@ -223,6 +223,10 @@ function OnboardingWizard({
     router.push(`${Route.SignUp}?redirect=${Route.Onboarding}`);
     return null;
   }
+  if (currentUser?.isOnboarded) {
+    router.push(`${Route.Profile}/${currentUser.id}`);
+    return null;
+  }
   const MAX_STEPS = steps.length;
 
   function prevStep() {
