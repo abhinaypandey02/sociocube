@@ -41,7 +41,6 @@ export async function handleUpdateOnboardingLocation(
     !res?.user.onboardingData ||
     !res.onboarding_data?.name ||
     !res.onboarding_data.bio ||
-    !res.onboarding_data.dob ||
     !res.onboarding_data.gender ||
     !res.onboarding_data.category
   )
