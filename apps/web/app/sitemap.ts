@@ -40,5 +40,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     })),
   );
-  return routes;
+  return routes.map((route) => ({
+    ...route,
+    url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL + route.url,
+  }));
 }
