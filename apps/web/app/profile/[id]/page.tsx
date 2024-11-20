@@ -96,7 +96,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
             description: seller.bio,
             image: seller.photo,
             sameAs: [
-              `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/${Route.Profile}/${id}`,
+              `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}${Route.Profile}/${id}`,
               `https://instagram.com/${seller.instagramStats.username}`,
             ],
           },
