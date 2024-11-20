@@ -5,6 +5,7 @@ import { GET_FEATURED_SELLERS } from "../lib/queries";
 import type { GetFeaturedSellersQuery } from "../__generated__/graphql";
 import Hero from "./components/hero";
 import TopCreators from "./components/top-creators";
+import Schema from "./components/schema";
 
 const HowItWorks = dynamic(() => import("./components/how-it-works"));
 const Cta = dynamic(() => import("./components/cta"));
@@ -32,6 +33,15 @@ async function HomePage() {
 
   return (
     <main>
+      <Schema
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Freeluencers",
+          url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL,
+        }}
+        id="title"
+      />
       <Hero images={heroSellers} />
       <TopCreators sellers={sellersToShow} />
       <HowItWorks />
