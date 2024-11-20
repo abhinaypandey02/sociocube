@@ -10,12 +10,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: Route.SignUp,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.3,
-    },
-    {
       url: Route.Search,
       lastModified: new Date(),
       changeFrequency: "monthly",
@@ -29,12 +23,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: Route.TermsConditions,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.3,
-    },
-    {
-      url: Route.Login,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.3,
