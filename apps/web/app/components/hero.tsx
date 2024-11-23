@@ -33,7 +33,7 @@ function SecondaryLink({ data }: { data?: GetCurrentUserQuery }) {
   return (
     <Link
       className="text-sm font-semibold leading-6 text-gray-900"
-      href={`${Route.SignUp}?redirect=${Route.Onboarding}`}
+      href={Route.SignUp}
     >
       Join Now <span aria-hidden="true">→</span>
     </Link>

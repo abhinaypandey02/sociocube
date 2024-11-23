@@ -220,7 +220,7 @@ function OnboardingWizard({
     [currentUser, nextStep],
   );
   if (!currentUser && !loading) {
-    router.push(`${Route.SignUp}?redirect=${Route.Onboarding}`);
+    router.push(Route.SignUp);
     return null;
   }
   if (currentUser?.isOnboarded) {

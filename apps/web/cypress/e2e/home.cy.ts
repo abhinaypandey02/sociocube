@@ -7,6 +7,6 @@ describe("Navigation", () => {
     cy.get('a[href*="sign-up"]').click();
 
     // The new url should include "/about"
-    cy.url().should("include", "/sign-up");
+    cy.url().should("include", "/register");
   });
 });
