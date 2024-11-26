@@ -64,10 +64,12 @@ export default async function ProfilePage({ params }: ProfilePage) {
   const seller = data.getSeller;
   if (!seller?.name || !seller.instagramStats) return notFound();
   const averageLikes = Math.round(
-    seller.instagramMedia?.reduce(
-      (acc, curr) => acc + curr.likes / (seller.instagramMedia?.length || 1),
-      0,
-    ) || 0,
+    seller.instagramMedia
+      ?.filter((media) => media.likes)
+      .reduce(
+        (acc, curr) => acc + curr.likes / (seller.instagramMedia?.length || 1),
+        0,
+      ) || 0,
   );
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6 sm:mt-8 sm:px-6 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
