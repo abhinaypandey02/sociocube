@@ -7,13 +7,13 @@ import { SEO } from "../constants/seo";
 import Hero from "./components/hero";
 import TopCreators from "./components/top-creators";
 import Schema from "./components/schema";
+import Faqs from "./components/faqs";
 
 const HowItWorks = dynamic(() => import("./components/how-it-works"));
 const Cta = dynamic(() => import("./components/cta"));
 const Features = dynamic(() => import("./components/features"));
 const AboutUs = dynamic(() => import("./components/about-us"));
 const FiltersList = dynamic(() => import("./components/filters-list"));
-const Faqs = dynamic(() => import("./components/faqs"));
 
 async function HomePage() {
   const { sellers } = await queryGQL(
