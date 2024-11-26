@@ -1,6 +1,5 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { cookies } from "next/headers";
 import { getCurrentUser, queryGQL } from "../../../lib/apollo-server";
 import { GET_CHAT } from "../../../lib/queries";
@@ -30,7 +29,7 @@ export default async function Page({ params }: ChatPage) {
     <div>
       <div className="flex gap-2">
         {chat.with.photo ? (
-          <Image
+          <img
             alt={chat.with.name || ""}
             height={50}
             src={chat.with.photo}

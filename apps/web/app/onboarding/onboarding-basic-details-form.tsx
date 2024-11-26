@@ -5,7 +5,6 @@ import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
-import Image from "next/image";
 import categories from "commons/categories";
 import genders from "commons/genders";
 import Form from "ui/form";
@@ -83,7 +82,7 @@ export default function OnboardingBasicDetailsForm({
         type="button"
       >
         {displayURL ? (
-          <Image
+          <img
             alt={defaultValues.name}
             className="size-full object-cover"
             height={300}

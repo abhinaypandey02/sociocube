@@ -1,7 +1,6 @@
 import React, { type ChangeEvent, useCallback, useRef, useState } from "react";
 import { Input } from "ui/input";
 import { useForm } from "react-hook-form";
-import Image from "next/image";
 import { Button } from "ui/button";
 import Form from "ui/form";
 import categories from "commons/categories";
@@ -62,7 +61,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
             {
               label: "Picture",
               value: data.photo && (
-                <Image
+                <img
                   alt={data.name || ""}
                   className="mt-6 rounded-md"
                   height={200}
@@ -73,7 +72,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
               editComponent: (
                 <div>
                   {photoValue ? (
-                    <Image
+                    <img
                       alt={data.name || ""}
                       className="mt-6 rounded-md"
                       height={200}

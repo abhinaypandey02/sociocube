@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import {
   InstagramLogo,
   ArrowRight,
@@ -44,7 +43,7 @@ export default function TopCreators({
         {sellers.map((person) => (
           <li key={person.name || ""}>
             <Link href={`${Route.Profile}/${person.id}`}>
-              <Image
+              <img
                 alt={person.name || ""}
                 className="aspect-[14/13] w-full rounded-2xl object-cover"
                 height={260}

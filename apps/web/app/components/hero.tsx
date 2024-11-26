@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { Button, Variants } from "ui/button";
-import Image from "next/image";
 import { Route } from "../../constants/routes";
 import type {
   GetCurrentUserQuery,
@@ -112,11 +111,10 @@ export default function Hero({
             <div className="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
               <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
                 <div className="relative">
-                  <Image
+                  <img
                     alt={images[0]?.name || ""}
                     className=" aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                     height={264}
-                    priority
                     src={images[0]?.photo || ""}
                     width={176}
                   />
@@ -125,22 +123,20 @@ export default function Hero({
               </div>
               <div className="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
                 <div className="relative">
-                  <Image
+                  <img
                     alt={images[1]?.name || ""}
                     className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                     height={264}
-                    priority
                     src={images[1]?.photo || ""}
                     width={176}
                   />
                   <div className="pointer-events-none absolute inset-0 rounded-xl bg-primary opacity-10 ring-1 ring-inset ring-gray-900/10" />
                 </div>
                 <div className="relative">
-                  <Image
+                  <img
                     alt={images[2]?.name || ""}
                     className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                     height={264}
-                    priority
                     src={images[2]?.photo || ""}
                     width={176}
                   />
@@ -149,22 +145,20 @@ export default function Hero({
               </div>
               <div className="w-44 flex-none space-y-8 pt-32 sm:pt-0">
                 <div className="relative">
-                  <Image
+                  <img
                     alt={images[3]?.name || ""}
                     className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                     height={264}
-                    priority
                     src={images[3]?.photo || ""}
                     width={176}
                   />
                   <div className="pointer-events-none absolute inset-0 rounded-xl bg-primary opacity-10 ring-1 ring-inset ring-gray-900/10" />
                 </div>
                 <div className="relative">
-                  <Image
+                  <img
                     alt={images[4]?.name || ""}
                     className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                     height={264}
-                    priority
                     src={images[4]?.photo || ""}
                     width={176}
                   />

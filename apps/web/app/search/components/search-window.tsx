@@ -9,7 +9,6 @@ import {
 import { Funnel, MagnifyingGlass, Minus, Plus } from "@phosphor-icons/react";
 import { useLazyQuery } from "@apollo/client";
 import Link from "next/link";
-import Image from "next/image";
 import { Input } from "ui/input";
 import dynamic from "next/dynamic";
 import type {
@@ -140,7 +139,7 @@ export default function SearchWindow({
                 {data.sellers?.map((person) => (
                   <li key={person.name || ""}>
                     <Link href={`${Route.Profile}/${person.id}`}>
-                      <Image
+                      <img
                         alt={person.name || ""}
                         className="aspect-[14/13] w-full rounded-2xl object-cover"
                         height={260}

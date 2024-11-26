@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import type { Metadata } from "next";
 import { Button, Variants } from "ui/button";
 import {
@@ -140,7 +139,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
               }}
               id="profile-image"
             />
-            <Image
+            <img
               alt={seller.name}
               className="w-full rounded-lg lg:col-span-2 lg:row-span-2"
               height={1080}
@@ -265,7 +264,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
                   }}
                   id={`post-image-${i}`}
                 />
-                <Image
+                <img
                   alt={media.caption || `Post by ${seller.name}`}
                   className="size-full rounded-md object-cover"
                   height={500}
@@ -283,4 +282,3 @@ export default async function ProfilePage({ params }: ProfilePage) {
     </div>
   );
 }
-export const revalidate = 60;
