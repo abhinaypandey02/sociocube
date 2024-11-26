@@ -3,7 +3,7 @@ import type { Viewport } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "../globals.css";
 import type { PropsWithChildren } from "react";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import { Footer } from "ui/footer";
 import { Navbar } from "ui/navbar";
 import { Toaster } from "react-hot-toast";
@@ -16,6 +16,7 @@ import type { GetCurrentUserQuery } from "../__generated__/graphql";
 import { getCurrentUser, Injector } from "../lib/apollo-server";
 import OptimisticNavbar from "./components/optimistic-navbar";
 import { UNAUTHORISED_NAVBAR_SECTIONS } from "./constants";
+import Schema from "./components/schema";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -82,6 +83,16 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body
         className={`${inter.className} ${poppins.variable} flex min-h-screen flex-col  bg-primary-bg`}
       >
+        <Schema
+          data={{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Freeluencers",
+            url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL,
+            alternateName: ["freeluencers", "freelancing influencers"],
+          }}
+          id="title"
+        />
         <Toaster />
         <ApolloWrapper>
           <GlobalStateWrapper>

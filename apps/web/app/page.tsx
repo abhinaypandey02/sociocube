@@ -37,15 +37,6 @@ async function HomePage() {
       <Schema
         data={{
           "@context": "https://schema.org",
-          "@type": "WebSite",
-          name: "Freeluencers",
-          url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL,
-        }}
-        id="title"
-      />
-      <Schema
-        data={{
-          "@context": "https://schema.org",
           "@type": "Organization",
           image: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image.png`,
           url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL,
