@@ -44,7 +44,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   getBlogPosts().forEach((post) => {
     routes.push({
       url: `${Route.Blogs}/${post?.id}`,
-      lastModified: new Date(post?.date || ""),
+      lastModified: post?.date || new Date(),
       changeFrequency:
         "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
       priority: 1,

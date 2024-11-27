@@ -23,7 +23,7 @@ export function getBlogPost(id: string) {
     return {
       id,
       title: matterResult.data.title as string,
-      date: matterResult.data.date as string,
+      date: matterResult.data.date as Date,
       description: matterResult.data.description as string,
       content: matterResult.content,
     };
