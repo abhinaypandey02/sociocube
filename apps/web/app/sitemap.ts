@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { Route } from "../constants/routes";
+import { getBlogPosts } from "./blogs/utils";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routes: MetadataRoute.Sitemap = [
@@ -37,9 +38,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency:
         "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
-      priority: 1,
+      priority: 0.9,
     })),
   );
+  getBlogPosts().forEach((post) => {
+    routes.push({
+      url: `${Route.Blogs}/${post?.id}`,
+      lastModified: new Date(post?.date || ""),
+      changeFrequency:
+        "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
+      priority: 1,
+    });
+  });
   return routes.map((route) => ({
     ...route,
     url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL + route.url,

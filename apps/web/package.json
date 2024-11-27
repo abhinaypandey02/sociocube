@@ -21,6 +21,7 @@
     "@phosphor-icons/react": "^2.1.7",
     "classnames": "^2.5.1",
     "commons": "workspace:*",
+    "gray-matter": "^4.0.3",
     "next": "15.0.0-canary.205",
     "nextjs-progressloader": "^1.2.0",
     "pusher-js": "8.4.0-rc2",
@@ -28,6 +29,7 @@
     "react-dom": "19.0.0-rc-1631855f-20241023",
     "react-hook-form": "7.53.0",
     "react-hot-toast": "^2.4.1",
+    "react-markdown": "^9.0.1",
     "ui": "workspace:*",
     "uuid": "^9.0.1"
   },
