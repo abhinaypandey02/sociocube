@@ -1,6 +1,6 @@
 const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram`;
 export const getInstagramAuthorizationUrl = (state: string) =>
-  `https://www.instagram.com/oauth/authorize?client_id=${process.env.INSTAGRAM_CLIENT_ID}&state=${state}&response_type=code&enable_fb_login=0&force_authentication=1&scope=instagram_business_basic,instagram_manage_insights&redirect_uri=${REDIRECT_URI}`;
+  `https://www.instagram.com/oauth/authorize?client_id=${process.env.INSTAGRAM_CLIENT_ID}&state=${state}&response_type=code&enable_fb_login=0&force_authentication=1&scope=instagram_business_basic,instagram_business_manage_insights&redirect_uri=${REDIRECT_URI}`;
 
 export const getGraphUrl = (
   path: string,

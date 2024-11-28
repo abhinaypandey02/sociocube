@@ -30,9 +30,9 @@ export const GET = async (req: NextRequest) => {
   const accessCode = req.nextUrl.searchParams.get("code");
   const error = req.nextUrl.searchParams.get("error");
   const stateParam = req.nextUrl.searchParams.get("state");
+  if (error) NextResponse.redirect(BASE_REDIRECT_URI);
   if (stateParam) {
     const { refresh, csrfToken } = getState(stateParam);
-    if (error) NextResponse.redirect(BASE_REDIRECT_URI);
     if (accessCode) {
       const instagramData = await getLongLivedToken(accessCode);
       if (!instagramData) return ErrorResponses.internalServerError;
