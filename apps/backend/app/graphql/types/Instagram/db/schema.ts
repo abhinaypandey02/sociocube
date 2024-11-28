@@ -1,4 +1,11 @@
-import { pgTable, text, integer, index, serial } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  integer,
+  index,
+  serial,
+  real,
+} from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
 export const InstagramDetails = pgTable(
@@ -11,6 +18,9 @@ export const InstagramDetails = pgTable(
     followers: integer("followers").notNull(),
     mediaCount: integer("media_count").notNull().default(0),
     accessToken: text("access_token"),
+    averageLikes: integer("average_likes"),
+    averageComments: integer("average_comments"),
+    er: real("er"),
   },
   (table) => ({
     instagramSearchIndex: index("instagram_search_index").using(

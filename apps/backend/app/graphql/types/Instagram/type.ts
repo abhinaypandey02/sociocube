@@ -9,6 +9,12 @@ export class InstagramStats {
   username: string;
   @Field(() => Int)
   mediaCount: number;
+  @Field(() => Int)
+  averageLikes: number;
+  @Field(() => Int)
+  averageComments: number;
+  @Field()
+  er: number;
 }
 
 @ObjectType("InstagramMedia")
@@ -23,6 +29,8 @@ export class InstagramMedia {
   type: InstagramMediaType;
   @Field()
   link: string;
+  @Field()
+  er: number;
   @Field(() => String, { nullable: true })
   caption: string | null;
 }

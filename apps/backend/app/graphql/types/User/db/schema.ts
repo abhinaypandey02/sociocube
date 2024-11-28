@@ -124,6 +124,7 @@ export const InstagramMediaTable = pgTable(
     type: mediaType("type").notNull(),
     comments: integer("comments").notNull(),
     likes: integer("likes").notNull(),
+    er: real("er"),
     user: integer("user")
       .references(() => UserTable.id)
       .notNull(),

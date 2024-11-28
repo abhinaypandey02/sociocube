@@ -5,10 +5,11 @@ import {
   Heart,
   ArrowSquareOut,
   InstagramLogo,
+  TrendUp,
 } from "@phosphor-icons/react/dist/ssr";
 import { notFound } from "next/navigation";
 import { queryGQL } from "../../../lib/apollo-server";
-import { GET_SELLER } from "../../../lib/queries";
+import { GET_FEATURED_SELLERS, GET_SELLER } from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
 import { convertToAbbreviation } from "../../../lib/utils";
 import Schema from "../../components/schema";
@@ -16,6 +17,15 @@ import { Route } from "../../../constants/routes";
 
 interface ProfilePage {
   params: Promise<{ id: string }>;
+}
+
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const { sellers } = await queryGQL(GET_FEATURED_SELLERS);
+  return sellers.map(({ id }) => ({
+    id,
+  }));
 }
 
 export async function generateMetadata({
@@ -34,15 +44,9 @@ export async function generateMetadata({
 
   const seller = data.getSeller;
   if (!seller?.name) return {};
-  const averageLikes = Math.round(
-    seller.instagramMedia?.reduce(
-      (acc, curr) => acc + curr.likes / (seller.instagramMedia?.length || 1),
-      0,
-    ) || 0,
-  );
   return getSEO(
     `${data.getSeller?.name} • Freeluencers`,
-    `${convertToAbbreviation(seller.instagramStats?.followers || 0)} Followers, ${convertToAbbreviation(averageLikes)} Avg likes, ${convertToAbbreviation(seller.instagramStats?.mediaCount || 0)} posts on their Instagram account @${seller.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
+    `${convertToAbbreviation(seller.instagramStats?.followers || 0)} Followers, ${seller.instagramStats?.er}% Engagement, ${convertToAbbreviation(seller.instagramStats?.mediaCount || 0)} posts on their Instagram account @${seller.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
     [
       data.getSeller?.photo || "",
       ...(data.getSeller?.instagramMedia?.map((media) => media.thumbnail) ||
@@ -50,6 +54,7 @@ export async function generateMetadata({
     ].filter(Boolean),
   );
 }
+
 export default async function ProfilePage({ params }: ProfilePage) {
   const id = parseInt((await params).id);
   if (isNaN(id)) return null;
@@ -63,14 +68,6 @@ export default async function ProfilePage({ params }: ProfilePage) {
   );
   const seller = data.getSeller;
   if (!seller?.name || !seller.instagramStats) return notFound();
-  const averageLikes = Math.round(
-    seller.instagramMedia
-      ?.filter((media) => media.likes)
-      .reduce(
-        (acc, curr) => acc + curr.likes / (seller.instagramMedia?.length || 1),
-        0,
-      ) || 0,
-  );
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6 sm:mt-8 sm:px-6 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
       <Schema
@@ -91,7 +88,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
               {
                 "@type": "InteractionCounter",
                 interactionType: "https://schema.org/LikeAction",
-                userInteractionCount: averageLikes,
+                userInteractionCount: seller.instagramStats.averageLikes,
               },
             ],
             description: seller.bio,
@@ -234,17 +231,19 @@ export default async function ProfilePage({ params }: ProfilePage) {
               </div>
               <span className="text-sm font-medium text-gray-900">Posts</span>
             </div>
-            <div className="text-center ">
-              <div className=" text-3xl font-medium text-gray-900">
-                {convertToAbbreviation(averageLikes)}
+            {seller.instagramStats.er ? (
+              <div className="text-center ">
+                <div className=" text-3xl font-medium text-gray-900">
+                  {seller.instagramStats.er}%
+                </div>
+                <span className="text-sm font-medium text-gray-900">
+                  Engagement
+                </span>
               </div>
-              <span className="text-sm font-medium text-gray-900">
-                Avg. likes
-              </span>
-            </div>
+            ) : null}
           </div>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 ">
-            {seller.instagramMedia?.slice(0, 6).map((media, i) => (
+            {seller.instagramMedia?.map((media, i) => (
               <a
                 className="relative"
                 href={media.link}
@@ -276,6 +275,12 @@ export default async function ProfilePage({ params }: ProfilePage) {
                 <small className="absolute bottom-0  w-full truncate rounded-b-md bg-[rgba(0,0,0,0.15)] p-2 text-center text-[10px] italic text-white backdrop-blur-sm">
                   {media.caption}
                 </small>
+                {media.er ? (
+                  <div className="absolute left-0 top-0 flex items-center gap-2 p-2 text-center text-[10px] font-bold text-white backdrop-blur-sm">
+                    <TrendUp />
+                    {media.er}%
+                  </div>
+                ) : null}
               </a>
             ))}
           </div>

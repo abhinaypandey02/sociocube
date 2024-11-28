@@ -22,8 +22,8 @@ async function HomePage() {
     undefined,
     60,
   );
-  const sellersToShow = sellers.filter(
-    (seller) => seller.photo && seller.bio && seller.instagramStats,
+  const sellersToShow = Array.from(sellers).sort(
+    (a, b) => (b.instagramStats?.er || 0) - (a.instagramStats?.er || 0),
   );
   const heroSellers: GetFeaturedSellersQuery["sellers"] = [];
   if (sellersToShow.length > 0)

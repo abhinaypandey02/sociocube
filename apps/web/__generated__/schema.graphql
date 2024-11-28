@@ -256,6 +256,7 @@ scalar DateTimeISO
 type InstagramMedia {
   caption: String
   comments: Int!
+  er: Float!
   likes: Int!
   link: String!
   thumbnail: String!
@@ -269,6 +270,9 @@ enum InstagramMediaType {
 }
 
 type InstagramStats {
+  averageComments: Int!
+  averageLikes: Int!
+  er: Float!
   followers: Int!
   mediaCount: Int!
   username: String!

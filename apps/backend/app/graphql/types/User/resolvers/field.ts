@@ -180,6 +180,9 @@ export class UserFieldResolver {
           username: returnedUsername,
           followers: fetchReq.followers_count || fallback?.followers || 0,
           mediaCount: fetchReq.media_count || 0,
+          averageComments: instagramDetails.averageComments || 0,
+          averageLikes: instagramDetails.averageLikes || 0,
+          er: normaliseDigits(instagramDetails.er || 0),
         };
       }
     }
@@ -187,6 +190,9 @@ export class UserFieldResolver {
       username: instagramDetails.username,
       followers: instagramDetails.followers,
       mediaCount: instagramDetails.mediaCount,
+      averageComments: instagramDetails.averageComments || 0,
+      averageLikes: instagramDetails.averageLikes || 0,
+      er: normaliseDigits(instagramDetails.er || 0),
     };
   }
   @FieldResolver(() => [InstagramMedia], { nullable: true })
@@ -206,52 +212,91 @@ export class UserFieldResolver {
           "media_type",
           "permalink",
           "caption",
+          "is_comment_enabled",
         ])}&limit=12`,
       ).then(
         (data) =>
           data.json() as Promise<{
             data?: {
               thumbnail_url: string;
-              like_count: number;
+              like_count?: number;
               comments_count: number;
               permalink: string;
               caption: string;
               media_url: string;
+              is_comment_enabled: boolean;
               media_type: InstagramMediaType;
             }[];
             error?: object;
           } | null>,
       );
+
       if (fetchReq?.data) {
-        if (fetchReq.data.length) {
+        const posts = fetchReq.data
+          .map((media) => ({
+            comments: media.is_comment_enabled ? media.comments_count : -1,
+            likes: media.like_count || 0,
+            link: media.permalink,
+            thumbnail: media.thumbnail_url || media.media_url,
+            type: media.media_type,
+            caption: media.caption,
+            user: user.id,
+            er: getER(
+              instagramDetails.followers,
+              media.like_count || 0,
+              media.is_comment_enabled ? media.comments_count : -1,
+            ),
+          }))
+          .sort((a, b) => b.er - a.er);
+        if (posts.length) {
           await db
             .delete(InstagramMediaTable)
             .where(eq(InstagramMediaTable.user, user.id));
-          await db.insert(InstagramMediaTable).values(
-            fetchReq.data.map((media) => ({
-              comments: media.comments_count,
-              likes: media.like_count,
-              link: media.permalink,
-              thumbnail: media.thumbnail_url || media.media_url,
-              type: media.media_type,
-              caption: media.caption,
-              user: user.id,
-            })),
-          );
+          await db.insert(InstagramMediaTable).values(posts);
+          const { averageLikes, averageComments, er } = posts
+            .filter((post) => post.likes)
+            .reduce(
+              (acc, curr) => ({
+                averageLikes:
+                  acc.averageLikes + (curr.likes || 0) / posts.length,
+                averageComments:
+                  acc.averageComments + curr.comments / posts.length,
+                er: acc.er + curr.er / posts.length,
+              }),
+              {
+                averageLikes: 0,
+                averageComments: 0,
+                er: 0,
+              },
+            );
+          await db
+            .update(InstagramDetails)
+            .set({
+              averageLikes: Math.round(averageLikes),
+              averageComments: Math.round(averageComments),
+              er,
+            })
+            .where(eq(InstagramDetails.id, user.instagramDetails));
         }
-        return fetchReq.data.map((media) => ({
-          comments: media.comments_count,
-          likes: media.like_count,
-          link: media.permalink,
-          thumbnail: media.thumbnail_url || media.media_url,
-          type: media.media_type,
-          caption: media.caption,
-        }));
+        return posts.slice(0, 6);
       }
     }
-    return db
+    const defaultPosts = await db
       .select()
       .from(InstagramMediaTable)
-      .where(eq(InstagramMediaTable.user, user.id));
+      .where(eq(InstagramMediaTable.user, user.id))
+      .limit(6);
+    return defaultPosts.map((post) => ({ ...post, er: post.er || 0 }));
   }
+}
+
+function normaliseDigits(val: number) {
+  return Math.round(val * 100) / 100;
+}
+
+function getER(followers: number, likes: number, comments: number) {
+  if (followers === 0 || likes === 0) return 0;
+  return normaliseDigits(
+    ((likes + (comments === -1 ? likes / 40 : comments) * 2) / followers) * 100,
+  );
 }

@@ -19,6 +19,7 @@ export async function handleGetFeaturedSellers() {
       and(
         or(eq(UserTable.isOnboarded, true), eq(UserTable.isSpirit, true)),
         isNotNull(UserTable.photo),
+        isNotNull(UserTable.bio),
         isNotNull(UserTable.instagramDetails),
         isNotNull(UserTable.name),
       ),
@@ -28,5 +29,5 @@ export async function handleGetFeaturedSellers() {
       eq(InstagramDetails.id, UserTable.instagramDetails),
     )
     .orderBy(asc(UserTable.isSpirit), desc(InstagramDetails.followers))
-    .limit(8);
+    .limit(9);
 }

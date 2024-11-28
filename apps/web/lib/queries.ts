@@ -63,6 +63,7 @@ export const GET_FEATURED_SELLERS = gql(`
       instagramStats {
         username
         followers
+        er
       }
     }
   }
@@ -92,11 +93,14 @@ export const GET_SELLER = gql(`
         link
         likes
         comments
+        er
       }
       instagramStats {
         followers
         mediaCount
         username
+        er
+        averageLikes
       }
     }
   }

@@ -4,6 +4,7 @@ import {
   InstagramLogo,
   ArrowRight,
   MagnifyingGlass,
+  TrendUp,
 } from "@phosphor-icons/react/dist/ssr";
 import { Route } from "../../constants/routes";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
@@ -40,8 +41,11 @@ export default function TopCreators({
       </div>
 
       <ul className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
-        {sellers.map((person) => (
-          <li key={person.name || ""}>
+        {sellers.map((person, i) => (
+          <li
+            className={i >= 8 ? "hidden lg:block xl:hidden" : ""}
+            key={person.name || ""}
+          >
             <Link href={`${Route.Profile}/${person.id}`}>
               <img
                 alt={person.name || ""}
@@ -59,9 +63,19 @@ export default function TopCreators({
                     {person.category}
                   </p>
                 </div>
-                <div className="flex gap-1 pr-0.5 pt-1 text-xs">
-                  <InstagramLogo size={16} />
-                  {convertToAbbreviation(person.instagramStats?.followers || 0)}
+                <div>
+                  <div className="flex gap-1 pr-0.5 pt-1 text-xs">
+                    <InstagramLogo size={16} />
+                    {convertToAbbreviation(
+                      person.instagramStats?.followers || 0,
+                    )}
+                  </div>
+                  {person.instagramStats?.er ? (
+                    <div className="flex gap-1 pr-0.5 pt-1 text-xs">
+                      <TrendUp size={16} />
+                      {person.instagramStats.er}%
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </Link>
