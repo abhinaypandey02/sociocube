@@ -118,12 +118,15 @@ export const InstagramMediaTable = pgTable(
   "instagram_post",
   {
     id: serial("id").primaryKey(),
+    appID: text("app_id").unique(),
     thumbnail: text("thumbnail").notNull(),
+    mediaURL: text("media_url"),
     link: text("url").notNull(),
     caption: text("caption"),
     type: mediaType("type").notNull(),
     comments: integer("comments").notNull(),
     likes: integer("likes").notNull(),
+    timestamp: date("timestamp"),
     er: real("er"),
     user: integer("user")
       .references(() => UserTable.id)

@@ -9,7 +9,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { notFound } from "next/navigation";
 import { queryGQL } from "../../../lib/apollo-server";
-import { GET_FEATURED_SELLERS, GET_SELLER } from "../../../lib/queries";
+import { GET_SELLER, GET_FEATURED_SELLERS } from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
 import { convertToAbbreviation } from "../../../lib/utils";
 import Schema from "../../components/schema";

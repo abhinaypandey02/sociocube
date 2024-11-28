@@ -17,7 +17,7 @@ export default function TopCreators({
 }) {
   return (
     <div
-      className="mx-auto max-w-7xl px-6 pb-5 pt-16 sm:my-16 lg:px-8"
+      className="mx-auto max-w-7xl px-6 pb-5 pt-16 sm:my-16 lg:px-8 "
       id="sellers"
     >
       <div className="flex items-start justify-between">
@@ -25,7 +25,6 @@ export default function TopCreators({
           <h2 className="grow font-poppins text-3xl font-bold  sm:text-4xl">
             Our Top Creators
           </h2>
-
           <p className="mt-6 text-lg leading-8 text-gray-800">
             Discover the influencers leading the way in engagement and
             creativity. Explore their profiles and see how they can elevate your

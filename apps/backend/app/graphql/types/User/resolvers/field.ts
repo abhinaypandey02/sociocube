@@ -205,6 +205,7 @@ export class UserFieldResolver {
     if (instagramDetails?.accessToken) {
       const fetchReq = await fetch(
         `${getGraphUrl("me/media", instagramDetails.accessToken, [
+          "id",
           "thumbnail_url",
           "media_url",
           "like_count",
@@ -213,12 +214,14 @@ export class UserFieldResolver {
           "permalink",
           "caption",
           "is_comment_enabled",
+          "timestamp",
         ])}&limit=12`,
       ).then(
         (data) =>
           data.json() as Promise<{
             data?: {
               thumbnail_url: string;
+              id: string;
               like_count?: number;
               comments_count: number;
               permalink: string;
@@ -226,6 +229,7 @@ export class UserFieldResolver {
               media_url: string;
               is_comment_enabled: boolean;
               media_type: InstagramMediaType;
+              timestamp: string;
             }[];
             error?: object;
           } | null>,
@@ -238,8 +242,11 @@ export class UserFieldResolver {
             likes: media.like_count || 0,
             link: media.permalink,
             thumbnail: media.thumbnail_url || media.media_url,
+            mediaURL: media.media_url,
+            timestamp: media.timestamp,
             type: media.media_type,
             caption: media.caption,
+            appID: media.id,
             user: user.id,
             er: getER(
               instagramDetails.followers,
