@@ -91,6 +91,7 @@ export const GET_SELLER = gql(`
         caption
         link
         likes
+        comments
       }
       instagramStats {
         followers

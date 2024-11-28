@@ -1,6 +1,6 @@
 const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram`;
 export const getInstagramAuthorizationUrl = (state: string) =>
-  `https://www.instagram.com/oauth/authorize?client_id=${process.env.INSTAGRAM_CLIENT_ID}&state=${state}&response_type=code&enable_fb_login=0&force_authentication=1&scope=instagram_business_basic,instagram_business_manage_insights&redirect_uri=${REDIRECT_URI}`;
+  `https://www.instagram.com/oauth/authorize?client_id=${process.env.INSTAGRAM_CLIENT_ID}&state=${state}&response_type=code&enable_fb_login=0&force_authentication=1&scope=instagram_business_basic,instagram_manage_insights&redirect_uri=${REDIRECT_URI}`;
 
 export const getGraphUrl = (
   path: string,
@@ -44,4 +44,22 @@ export async function getLongLivedToken(code: string) {
       }
     }
   }
+}
+
+export async function getHDProfilePicture(username: string) {
+  const result = (await fetch(
+    `https://smapi.clanconnect.ai/instagram/public_profile?instagram_handle_name=${
+      username
+    }`,
+    {
+      headers: {
+        Authorization: "HellowncdgudEkjncinUnjnjcOnc83hnU",
+      },
+    },
+  ).then((res) => res.json())) as {
+    data?: {
+      profile_picture_url?: string;
+    };
+  };
+  return result.data?.profile_picture_url;
 }

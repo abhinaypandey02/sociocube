@@ -8,7 +8,8 @@ import {
   InstagramMediaTable,
 } from "../../graphql/types/User/db/schema";
 import { InstagramMediaType } from "../../graphql/constants/instagram-media-type";
-import { getCategory, getGender, uploadImage } from "./utils";
+import { uploadImage } from "../../../lib/storage/aws-s3";
+import { getCategory, getGender } from "./utils";
 
 export async function POST(req: NextRequest) {
   if (!process.env.GROQ_API_KEY) return new NextResponse(null, { status: 403 });

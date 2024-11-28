@@ -38,3 +38,17 @@ export async function getSignedFileURL(keys: string[]) {
   });
   return getSignedUrl(client, command, { expiresIn: 3600 });
 }
+
+export async function uploadImage(url: string, key: string[]) {
+  const photoBlob = await fetch(url).then((file) => file.blob());
+  const uploadURL = await getUploadFileURL(key, true);
+  try {
+    const res = await fetch(uploadURL, {
+      method: "PUT",
+      body: photoBlob,
+    });
+    if (res.ok) return getFileURL(key);
+  } catch (e) {
+    return null;
+  }
+}

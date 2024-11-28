@@ -21,6 +21,7 @@ import { db } from "../../../lib/db";
 import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
 import {
   getGraphUrl,
+  getHDProfilePicture,
   getInstagramAuthorizationUrl,
   getLongLivedToken,
 } from "./utils";
@@ -102,6 +103,7 @@ export const GET = async (req: NextRequest) => {
           })
           .returning();
         if (!inserted) return ErrorResponses.internalServerError;
+        const hdPhoto = await getHDProfilePicture(personalInfo.username);
         if (loggedInUserID) {
           const loggedInUser = await getUser(eq(UserTable.id, loggedInUserID));
           if (loggedInUser) {
@@ -113,7 +115,10 @@ export const GET = async (req: NextRequest) => {
               ),
               {
                 instagramDetails: inserted.id,
-                photo: loggedInUser.photo || personalInfo.profile_picture_url,
+                photo:
+                  loggedInUser.photo ||
+                  hdPhoto ||
+                  personalInfo.profile_picture_url,
                 name: loggedInUser.name || personalInfo.name,
                 bio: loggedInUser.bio || personalInfo.biography,
               },
@@ -124,7 +129,7 @@ export const GET = async (req: NextRequest) => {
             name: personalInfo.name,
             refreshTokens: [],
             instagramDetails: inserted.id,
-            photo: personalInfo.profile_picture_url,
+            photo: hdPhoto || personalInfo.profile_picture_url,
             bio: personalInfo.biography,
             scopes: [AuthScopes.INSTAGRAM],
             roles: [],
