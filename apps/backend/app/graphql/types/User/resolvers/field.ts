@@ -1,5 +1,5 @@
 import { FieldResolver, Resolver, Root } from "type-graphql";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import {
   Location,
   LocationID,
@@ -292,7 +292,8 @@ export class UserFieldResolver {
       .select()
       .from(InstagramMediaTable)
       .where(eq(InstagramMediaTable.user, user.id))
-      .limit(6);
+      .limit(6)
+      .orderBy(desc(InstagramMediaTable.er));
     return defaultPosts.map((post) => ({ ...post, er: post.er || 0 }));
   }
 }
