@@ -4,10 +4,12 @@ import { queryGQL } from "../lib/apollo-server";
 import { GET_FEATURED_SELLERS } from "../lib/queries";
 import type { GetFeaturedSellersQuery } from "../__generated__/graphql";
 import { SEO } from "../constants/seo";
+import { getOrganizationDomain } from "../lib/utils-server";
 import Hero from "./components/hero";
 import TopCreators from "./components/top-creators";
 import Schema from "./components/schema";
 import Faqs from "./components/faqs";
+import ProfilePage from "./profile/[id]/page";
 
 const HowItWorks = dynamic(() => import("./components/how-it-works"));
 const Cta = dynamic(() => import("./components/cta"));
@@ -16,6 +18,22 @@ const AboutUs = dynamic(() => import("./components/about-us"));
 const FiltersList = dynamic(() => import("./components/filters-list"));
 
 async function HomePage() {
+  const domain = await getOrganizationDomain();
+  if (domain) {
+    const id = domain.split(".")[0];
+    if (id)
+      return (
+        <ProfilePage
+          params={
+            new Promise((res) => {
+              res({
+                id,
+              });
+            })
+          }
+        />
+      );
+  }
   const { sellers } = await queryGQL(
     GET_FEATURED_SELLERS,
     undefined,
