@@ -1,21 +1,31 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import type { Metadata } from "next";
 import { queryGQL } from "../lib/apollo-server";
 import { GET_FEATURED_SELLERS } from "../lib/queries";
 import type { GetFeaturedSellersQuery } from "../__generated__/graphql";
-import { SEO } from "../constants/seo";
+import { getSEO, SEO } from "../constants/seo";
 import { getOrganizationDomain } from "../lib/utils-server";
 import Hero from "./components/hero";
 import TopCreators from "./components/top-creators";
 import Schema from "./components/schema";
 import Faqs from "./components/faqs";
-import ProfilePage from "./profile/[id]/page";
+import ProfilePage, {
+  generateMetadata as profileGenerateMetadata,
+} from "./profile/[id]/page";
 
 const HowItWorks = dynamic(() => import("./components/how-it-works"));
 const Cta = dynamic(() => import("./components/cta"));
 const Features = dynamic(() => import("./components/features"));
 const AboutUs = dynamic(() => import("./components/about-us"));
 const FiltersList = dynamic(() => import("./components/filters-list"));
+
+export async function generateMetadata(): Promise<Metadata> {
+  const domain = await getOrganizationDomain();
+  const username = domain?.split(".")[0];
+  if (domain) return profileGenerateMetadata({ username });
+  return getSEO();
+}
 
 async function HomePage() {
   const domain = await getOrganizationDomain();
