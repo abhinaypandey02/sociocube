@@ -23,7 +23,12 @@ const FiltersList = dynamic(() => import("./components/filters-list"));
 export async function generateMetadata(): Promise<Metadata> {
   const domain = await getOrganizationDomain();
   const username = domain?.split(".")[0];
-  if (domain) return profileGenerateMetadata({ username });
+  if (domain)
+    return profileGenerateMetadata({
+      params: new Promise((res) => {
+        res({ username });
+      }),
+    });
   return getSEO();
 }
 
@@ -31,7 +36,16 @@ async function HomePage() {
   const domain = await getOrganizationDomain();
   if (domain) {
     const username = domain.split(".")[0];
-    if (username) return <ProfilePage username={username} />;
+    if (username)
+      return (
+        <ProfilePage
+          params={
+            new Promise((res) => {
+              res({ username });
+            })
+          }
+        />
+      );
   }
   const { sellers } = await queryGQL(
     GET_FEATURED_SELLERS,
