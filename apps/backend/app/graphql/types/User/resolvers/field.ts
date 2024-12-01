@@ -288,13 +288,16 @@ export class UserFieldResolver {
         return posts.slice(0, 6);
       }
     }
-    const defaultPosts = await db
-      .select()
-      .from(InstagramMediaTable)
-      .where(eq(InstagramMediaTable.user, user.id))
-      .limit(6)
-      .orderBy(desc(InstagramMediaTable.er));
-    return defaultPosts.map((post) => ({ ...post, er: post.er || 0 }));
+    if (user.isSpirit) {
+      const defaultPosts = await db
+        .select()
+        .from(InstagramMediaTable)
+        .where(eq(InstagramMediaTable.user, user.id))
+        .limit(6)
+        .orderBy(desc(InstagramMediaTable.er));
+      return defaultPosts.map((post) => ({ ...post, er: post.er || 0 }));
+    }
+    return [];
   }
 }
 
