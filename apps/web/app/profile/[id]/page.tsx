@@ -13,7 +13,7 @@ import { GET_SELLER, GET_FEATURED_SELLERS } from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
 import { convertToAbbreviation } from "../../../lib/utils";
 import Schema from "../../components/schema";
-import { Route } from "../../../constants/routes";
+import { getRoute } from "../../../constants/routes";
 
 interface ProfilePage {
   params?: Promise<{ id: string }>;
@@ -98,7 +98,7 @@ export default async function ProfilePage({ params, username }: ProfilePage) {
             description: seller.bio,
             image: seller.photo,
             sameAs: [
-              `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}${Route.Profile}/${id}`,
+              `${getRoute("Profile")}/${id}`,
               `https://instagram.com/${seller.instagramStats.username}`,
             ],
           },

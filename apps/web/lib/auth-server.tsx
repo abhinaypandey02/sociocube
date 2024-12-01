@@ -1,7 +1,7 @@
 import { cache, Suspense } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { Route } from "../constants/routes";
+import { getRoute } from "../constants/routes";
 
 export const getServerToken = cache(async () => {
   const token = (await cookies()).get("refresh")?.value;
@@ -35,9 +35,9 @@ async function AuthorizerBase() {
 }
 
 export function handleUnauthorized() {
-  redirect(Route.SignUp);
+  redirect(getRoute("SignUp"));
 }
 
 export function handleAuthorized() {
-  redirect(Route.Home);
+  redirect(getRoute("Home"));
 }

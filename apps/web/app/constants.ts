@@ -1,8 +1,8 @@
-import { Route } from "../constants/routes";
+import { getRoute } from "../constants/routes";
 
 export const NAVBAR_COMMON_ROUTES = [
-  { label: "Home", href: Route.Home },
-  { label: "Search", href: Route.Search },
+  { label: "Home", href: getRoute("Home") },
+  { label: "Search", href: getRoute("Search") },
   { label: "About us", href: "/#about-us" },
   { label: "FAQ", href: "/#faq" },
 ];
@@ -12,14 +12,14 @@ export const UNAUTHORISED_NAVBAR_SECTIONS = {
   secondaryLinks: [
     {
       label: "Sign In",
-      href: Route.Login,
+      href: getRoute("Login"),
     },
   ],
   cta: {
     button: {
       children: "Join Us",
     },
-    href: Route.SignUp,
+    href: getRoute("SignUp"),
   },
 };
 export const AUTHORISED_USER_NAVBAR_SECTIONS = {
@@ -27,7 +27,7 @@ export const AUTHORISED_USER_NAVBAR_SECTIONS = {
   secondaryLinks: [
     {
       label: "Account",
-      href: Route.Account,
+      href: getRoute("Account"),
     },
   ],
   cta: {
@@ -35,7 +35,7 @@ export const AUTHORISED_USER_NAVBAR_SECTIONS = {
       children: "List yourself",
       outline: true,
     },
-    href: Route.Onboarding,
+    href: getRoute("Onboarding"),
   },
 };
 export const AUTHORISED_SELLER_NAVBAR_SECTIONS = {

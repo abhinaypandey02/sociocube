@@ -9,7 +9,7 @@ import Link from "next/link";
 import Form from "ui/form";
 import { toast } from "react-hot-toast";
 import { useLoginWithEmail } from "../../../lib/auth-client";
-import { Route } from "../../../constants/routes";
+import { getRoute } from "../../../constants/routes";
 import useTurnstileToken from "../use-turnstile-token";
 import AuthLayout from "../components/auth-layout";
 import { EMAIL_REGEX } from "../../../constants/validations";
@@ -45,7 +45,7 @@ export default function LoginForm() {
     );
     if (error === null) {
       setSuccess(true);
-      router.push(params.get("redirect") || Route.Home);
+      router.push(params.get("redirect") || getRoute("Home"));
       router.refresh();
     } else {
       toast.error(error || "Invalid credentials");

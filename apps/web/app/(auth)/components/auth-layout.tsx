@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 import React from "react";
 import Link from "next/link";
-import { Route } from "../../../constants/routes";
+import { getRoute } from "../../../constants/routes";
 import SocialBar from "./social-bar";
 
 export default function AuthLayout({
@@ -42,7 +42,7 @@ export default function AuthLayout({
           {newUser ? "Already have an account? " : "New here? "}
           <Link
             className="link-accent font-semibold leading-6"
-            href={newUser ? Route.Login : Route.SignUp}
+            href={newUser ? getRoute("Login") : getRoute("SignUp")}
           >
             {newUser
               ? "Sign in to your account!"

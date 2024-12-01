@@ -21,7 +21,7 @@ import type {
   Currency,
   GetDefaultOnboardingDetailsQuery,
 } from "../../__generated__/graphql";
-import { Route } from "../../constants/routes";
+import { getRoute } from "../../constants/routes";
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
 import SocialsStatus from "./socials-status";
 import { ONBOARDING_SCOPES } from "./constants";
@@ -100,17 +100,17 @@ function OnboardingWizard({
               Freeluencers!
             </small>
             <Button
-              className="mx-auto mt-5 flex items-center gap-2 !font-medium"
+              className="mx-auto mt-3 flex items-center gap-2 !font-medium"
               onClick={nextStep}
               variant={Variants.ACCENT}
             >
               Start now <ArrowRight weight="bold" />
             </Button>
             <Link
-              className="mt-10 text-center text-sm underline underline-offset-2"
-              href={Route.Home}
+              className="mt-5 text-center text-sm underline underline-offset-2"
+              href={getRoute("Home")}
             >
-              No thanks!, I am just looking around
+              No thanks!, I am not an influencer.
             </Link>
           </div>
         ),
@@ -220,11 +220,11 @@ function OnboardingWizard({
     [currentUser, nextStep],
   );
   if (!currentUser && !loading) {
-    router.push(Route.SignUp);
+    router.push(getRoute("SignUp"));
     return null;
   }
   if (currentUser?.isOnboarded) {
-    router.push(`${Route.Profile}/${currentUser.id}`);
+    router.push(`${getRoute("Profile")}/${currentUser.id}`);
     return null;
   }
   const MAX_STEPS = steps.length;

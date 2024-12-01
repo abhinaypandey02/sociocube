@@ -11,3 +11,7 @@ export enum Route {
   PrivacyPolicy = "/privacy-policy",
   TermsConditions = "/terms-and-conditions",
 }
+
+export function getRoute(route: keyof typeof Route) {
+  return process.env.NEXT_PUBLIC_FRONTEND_BASE_URL + Route[route];
+}

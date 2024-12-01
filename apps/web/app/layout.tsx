@@ -11,7 +11,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { ApolloWrapper } from "../lib/apollo-client";
 import { GlobalStateWrapper } from "../lib/auth-client";
 import { getSEO, SEO } from "../constants/seo";
-import { Route } from "../constants/routes";
+import { getRoute } from "../constants/routes";
 import type { GetCurrentUserQuery } from "../__generated__/graphql";
 import { getCurrentUser, Injector } from "../lib/apollo-server";
 import OptimisticNavbar from "./components/optimistic-navbar";
@@ -39,12 +39,12 @@ function AuthFooter({ data }: { data?: GetCurrentUserQuery }) {
       return (
         <Footer
           links={[
-            { name: "Search", href: Route.Search },
-            { name: "Account", href: Route.Account },
+            { name: "Search", href: getRoute("Search") },
+            { name: "Account", href: getRoute("Account") },
             { name: "How it works", href: "/#how-it-works" },
             { name: "Features", href: "/#features" },
-            { name: "Terms", href: Route.TermsConditions },
-            { name: "Privacy", href: Route.PrivacyPolicy },
+            { name: "Terms", href: getRoute("TermsConditions") },
+            { name: "Privacy", href: getRoute("PrivacyPolicy") },
           ]}
         />
       );
@@ -52,12 +52,12 @@ function AuthFooter({ data }: { data?: GetCurrentUserQuery }) {
     return (
       <Footer
         links={[
-          { name: "Search", href: Route.Search },
-          { name: "Get listed", href: Route.Onboarding },
+          { name: "Search", href: getRoute("Search") },
+          { name: "Get listed", href: getRoute("Onboarding") },
           { name: "How it works", href: "/#how-it-works" },
           { name: "Features", href: "/#features" },
-          { name: "Terms", href: Route.TermsConditions },
-          { name: "Privacy", href: Route.PrivacyPolicy },
+          { name: "Terms", href: getRoute("TermsConditions") },
+          { name: "Privacy", href: getRoute("PrivacyPolicy") },
         ]}
       />
     );
@@ -65,13 +65,13 @@ function AuthFooter({ data }: { data?: GetCurrentUserQuery }) {
   return (
     <Footer
       links={[
-        { name: "Search", href: Route.Search },
-        { name: "Sign up", href: Route.SignUp },
-        { name: "Login", href: Route.Login },
+        { name: "Search", href: getRoute("Search") },
+        { name: "Sign up", href: getRoute("SignUp") },
+        { name: "Login", href: getRoute("Login") },
         { name: "How it works", href: "/#how-it-works" },
         { name: "Features", href: "/#features" },
-        { name: "Terms", href: Route.TermsConditions },
-        { name: "Privacy", href: Route.PrivacyPolicy },
+        { name: "Terms", href: getRoute("TermsConditions") },
+        { name: "Privacy", href: getRoute("PrivacyPolicy") },
       ]}
     />
   );

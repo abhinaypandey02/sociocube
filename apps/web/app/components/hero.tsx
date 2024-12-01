@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Button, Variants } from "ui/button";
-import { Route } from "../../constants/routes";
+import { getRoute } from "../../constants/routes";
 import type {
   GetCurrentUserQuery,
   GetFeaturedSellersQuery,
@@ -14,7 +14,7 @@ function SecondaryLink({ data }: { data?: GetCurrentUserQuery }) {
       return (
         <Link
           className="text-sm font-semibold leading-6 text-gray-900"
-          href={`${Route.Profile}/${data.user.id}`}
+          href={`${getRoute("Profile")}/${data.user.id}`}
         >
           Your profile <span aria-hidden="true">→</span>
         </Link>
@@ -23,7 +23,7 @@ function SecondaryLink({ data }: { data?: GetCurrentUserQuery }) {
     return (
       <Link
         className="text-sm font-semibold leading-6 text-gray-900"
-        href={Route.Onboarding}
+        href={getRoute("Onboarding")}
       >
         Get listed <span aria-hidden="true">→</span>
       </Link>
@@ -32,7 +32,7 @@ function SecondaryLink({ data }: { data?: GetCurrentUserQuery }) {
   return (
     <Link
       className="text-sm font-semibold leading-6 text-gray-900"
-      href={Route.SignUp}
+      href={getRoute("SignUp")}
     >
       Join Now <span aria-hidden="true">→</span>
     </Link>
@@ -102,7 +102,7 @@ export default function Hero({
                 us today and take your collaborations to the next level!
               </p>
               <div className="mt-10 flex items-center gap-x-6">
-                <Link href={Route.Search}>
+                <Link href={getRoute("Search")}>
                   <Button variant={Variants.ACCENT}>Find Influencers</Button>
                 </Link>
                 <Injector Component={SecondaryLink} fetch={getCurrentUser} />

@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "ui/button";
-import { Route } from "../../constants/routes";
+import { getRoute } from "../../constants/routes";
 import { getCurrentUser, Injector } from "../../lib/apollo-server";
 import type { GetCurrentUserQuery } from "../../__generated__/graphql";
 
@@ -9,19 +9,19 @@ function PrimaryButton({ data }: { data?: GetCurrentUserQuery }) {
   if (data?.user) {
     if (data.user.isOnboarded) {
       return (
-        <Link href={`${Route.Profile}/${data.user.id}`}>
+        <Link href={`${getRoute("Profile")}/${data.user.id}`}>
           <Button>Your profile</Button>
         </Link>
       );
     }
     return (
-      <Link href={Route.Onboarding}>
+      <Link href={getRoute("Onboarding")}>
         <Button>Join as an Influencer</Button>
       </Link>
     );
   }
   return (
-    <Link href={Route.SignUp}>
+    <Link href={getRoute("SignUp")}>
       <Button>Register now</Button>
     </Link>
   );
@@ -42,7 +42,7 @@ export default function Cta() {
           <Injector Component={PrimaryButton} fetch={getCurrentUser} />
           <Link
             className="text-sm font-semibold leading-6 text-gray-100"
-            href={Route.Search}
+            href={getRoute("Search")}
           >
             Start Your Search <span aria-hidden="true">→</span>
           </Link>

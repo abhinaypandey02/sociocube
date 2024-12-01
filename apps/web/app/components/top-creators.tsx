@@ -6,7 +6,7 @@ import {
   MagnifyingGlass,
   TrendUp,
 } from "@phosphor-icons/react/dist/ssr";
-import { Route } from "../../constants/routes";
+import { getRoute } from "../../constants/routes";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 import { convertToAbbreviation } from "../../lib/utils";
 
@@ -33,7 +33,7 @@ export default function TopCreators({
         </div>
         <Link
           className="flex items-center gap-2 pt-2 text-lg font-medium text-accent max-md:hidden"
-          href={Route.Search}
+          href={getRoute("Search")}
         >
           Search all <ArrowRight />
         </Link>
@@ -45,7 +45,7 @@ export default function TopCreators({
             className={i >= 8 ? "hidden lg:block xl:hidden" : ""}
             key={person.name || ""}
           >
-            <Link href={`${Route.Profile}/${person.id}`}>
+            <Link href={`${getRoute("Profile")}/${person.id}`}>
               <img
                 alt={person.name || ""}
                 className="aspect-[14/13] w-full rounded-2xl object-cover"
@@ -85,7 +85,7 @@ export default function TopCreators({
         <MagnifyingGlass weight="bold" /> Need something specific?
         <Link
           className="flex items-center gap-2  font-medium text-accent "
-          href={Route.Search}
+          href={getRoute("Search")}
         >
           Find more <ArrowRight />
         </Link>

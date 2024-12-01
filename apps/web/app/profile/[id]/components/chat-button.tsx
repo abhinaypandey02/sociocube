@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Variants } from "ui/button";
 import Link from "next/link";
-import { Route } from "../../../../constants/routes";
+import { getRoute } from "../../../../constants/routes";
 
 export default function ChatButton({
   to,
@@ -12,7 +12,7 @@ export default function ChatButton({
 }) {
   if (!from)
     return (
-      <Link href={Route.SignUp} target="_blank">
+      <Link href={getRoute("SignUp")} target="_blank">
         <Button className="w-full" variant={Variants.ACCENT}>
           Register to chat!
         </Button>
@@ -25,7 +25,7 @@ export default function ChatButton({
       </Button>
     );
   return (
-    <Link href={`${Route.Chat}/${to}`} target="_blank">
+    <Link href={`${getRoute("Chat")}/${to}`} target="_blank">
       <Button className="w-full" variant={Variants.ACCENT}>
         Chat with me!
       </Button>
