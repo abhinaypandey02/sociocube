@@ -29,7 +29,9 @@
     "NEXT_PUBLIC_PUSHER_CLUSTER",
     "GROQ_API_KEY",
     "HF_API_KEY",
-    "NEXT_PUBLIC_GA_ID"
+    "NEXT_PUBLIC_GA_ID",
+    "NODEMAILER_EMAIL",
+    "NODEMAILER_PASSWORD"
   ],
   "tasks": {
     "db-studio": {

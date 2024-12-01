@@ -12,6 +12,7 @@ import {
   getUser,
   updateRefreshTokenAndScope,
 } from "../../graphql/types/User/db/utils";
+import { sendTemplateEmail } from "../../../lib/email/template";
 import { verifyCaptcha } from "./utils";
 
 export const POST = async (req: Request) => {
@@ -22,7 +23,7 @@ export const POST = async (req: Request) => {
     captchaToken?: string;
   };
 
-  if (!body.email || !body.password || !body.captchaToken)
+  if (!body.email || !body.password || !body.name || !body.captchaToken)
     return ErrorResponses.missingBodyFields;
   if (!(await verifyCaptcha(body.captchaToken)))
     return ErrorResponses.invalidCaptcha;
@@ -39,6 +40,9 @@ export const POST = async (req: Request) => {
   });
 
   if (newUser) {
+    await sendTemplateEmail(body.email, "WelcomeUser", {
+      firstName: body.name.split(" ")[0] || "",
+    });
     const refreshToken = await updateRefreshTokenAndScope(newUser.id, []);
     return getTokenizedResponse(generateAccessToken(newUser.id), refreshToken);
   }
