@@ -4,6 +4,15 @@ const nextConfig = {
   experimental: {
     ppr: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/register",
+        destination: "/join",
+        permanent: true,
+      },
+    ];
+  },
   logging: {
     fetches: {
       fullUrl: true,
