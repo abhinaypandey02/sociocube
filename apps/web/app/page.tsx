@@ -20,19 +20,8 @@ const FiltersList = dynamic(() => import("./components/filters-list"));
 async function HomePage() {
   const domain = await getOrganizationDomain();
   if (domain) {
-    const id = domain.split(".")[0];
-    if (id)
-      return (
-        <ProfilePage
-          params={
-            new Promise((res) => {
-              res({
-                id,
-              });
-            })
-          }
-        />
-      );
+    const username = domain.split(".")[0];
+    if (username) return <ProfilePage username={username} />;
   }
   const { sellers } = await queryGQL(
     GET_FEATURED_SELLERS,

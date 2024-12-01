@@ -16,7 +16,8 @@ import Schema from "../../components/schema";
 import { Route } from "../../../constants/routes";
 
 interface ProfilePage {
-  params: Promise<{ id: string }>;
+  params?: Promise<{ id: string }>;
+  username?: string;
 }
 
 export const dynamicParams = true;
@@ -30,13 +31,15 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
+  username,
 }: ProfilePage): Promise<Metadata> {
-  const id = parseInt((await params).id);
-  if (isNaN(id)) return {};
+  const id = params && parseInt((await params).id);
+  if ((!id || isNaN(id)) && !username) return {};
   const data = await queryGQL(
     GET_SELLER,
     {
       id,
+      username,
     },
     undefined,
     60,
@@ -55,13 +58,14 @@ export async function generateMetadata({
   );
 }
 
-export default async function ProfilePage({ params }: ProfilePage) {
-  const id = parseInt((await params).id);
-  if (isNaN(id)) return null;
+export default async function ProfilePage({ params, username }: ProfilePage) {
+  const id = params && parseInt((await params).id);
+  if ((!id || isNaN(id)) && !username) return null;
   const data = await queryGQL(
     GET_SELLER,
     {
       id,
+      username,
     },
     undefined,
     60,

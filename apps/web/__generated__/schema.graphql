@@ -339,7 +339,7 @@ type Query {
   getCountries: [SelectOption!]!
   getCurrentUser: User
   getFeaturedSellers: [User!]!
-  getSeller(id: Int!): User
+  getSeller(id: Int, username: String): User
   getStates(country: Int!): [SelectOption!]!
   searchSellers(data: SearchSellers!): [User!]
   __schema: __Schema!

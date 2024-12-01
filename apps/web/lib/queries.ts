@@ -71,8 +71,8 @@ export const GET_FEATURED_SELLERS = gql(`
 
 export const GET_SELLER = gql(`
   #graphql
-  query GetSeller($id: Int!) {
-    getSeller(id: $id) {
+  query GetSeller($id: Int, $username:String) {
+    getSeller(id: $id, username: $username) {
       id
       name
       photo
