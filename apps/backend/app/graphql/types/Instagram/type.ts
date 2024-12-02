@@ -29,8 +29,8 @@ export class InstagramMedia {
   type: InstagramMediaType;
   @Field()
   link: string;
-  @Field()
-  er: number;
+  @Field(() => Number, { nullable: true })
+  er?: number | null;
   @Field(() => String, { nullable: true })
   caption: string | null;
 }
