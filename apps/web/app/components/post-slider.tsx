@@ -21,7 +21,7 @@ function PostSlide({
       <div>
         <video
           autoPlay
-          className={canPlay ? "" : "size-0"}
+          className={canPlay ? "" : "opacity-0"}
           controlsList="nodownload"
           height={568}
           loop
