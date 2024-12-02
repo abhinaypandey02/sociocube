@@ -48,7 +48,7 @@ export async function handleGetFeaturedPosts(): Promise<
       ),
     )
     .orderBy(desc(InstagramMediaTable.likes))
-    .limit(20);
+    .limit(10);
   return data.map((post) => ({
     mediaURL: post.instagram_post.mediaURL || "",
     postURL: post.instagram_post.link,
