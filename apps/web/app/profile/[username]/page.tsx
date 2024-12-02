@@ -2,7 +2,6 @@ import React from "react";
 import type { Metadata } from "next";
 import { Button, Variants } from "ui/button";
 import {
-  Heart,
   ArrowSquareOut,
   InstagramLogo,
   TrendUp,
@@ -13,10 +12,12 @@ import { GET_SELLER, GET_FEATURED_SELLERS } from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
 import { convertToAbbreviation } from "../../../lib/utils";
 import Schema from "../../components/schema";
-import { getRoute } from "../../../constants/routes";
+import { getMeURL, getRoute } from "../../../constants/routes";
+import CopyLinkButton from "./components/copy-link-button";
+import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 
 interface ProfilePage {
-  params: Promise<{ id?: string; username?: string }>;
+  params: Promise<{ username?: string }>;
 }
 
 export const dynamicParams = true;
@@ -31,13 +32,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: ProfilePage): Promise<Metadata> {
-  const { id: idString, username } = await params;
-  const id = parseInt(idString || "");
-  if ((!id || isNaN(id)) && !username) return {};
+  const { username } = await params;
+  if (!username) return {};
   const data = await queryGQL(
     GET_SELLER,
     {
-      id,
       username,
     },
     undefined,
@@ -58,13 +57,11 @@ export async function generateMetadata({
 }
 
 export default async function ProfilePage({ params }: ProfilePage) {
-  const { id: idString, username } = await params;
-  const id = parseInt(idString || "");
-  if ((!id || isNaN(id)) && !username) return null;
+  const { username } = await params;
+  if (!username) return null;
   const data = await queryGQL(
     GET_SELLER,
     {
-      id,
       username,
     },
     undefined,
@@ -74,6 +71,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
   if (!seller?.name || !seller.instagramStats) return notFound();
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6 sm:mt-8 sm:px-6 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
+      <OnboardingCompletedModal url={getMeURL(username)} />
       <Schema
         data={{
           "@context": "https://schema.org",
@@ -98,7 +96,8 @@ export default async function ProfilePage({ params }: ProfilePage) {
             description: seller.bio,
             image: seller.photo,
             sameAs: [
-              `${getRoute("Profile")}/${id}`,
+              `${getRoute("Profile")}/${username}`,
+              getMeURL(username),
               `https://instagram.com/${seller.instagramStats.username}`,
             ],
           },
@@ -199,13 +198,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
               </Button>
             </a>
           </div>
-          <Button
-            className="flex items-center gap-2"
-            outline
-            variant={Variants.ACCENT}
-          >
-            <Heart size={18} />
-          </Button>
+          <CopyLinkButton url={getMeURL(username)} />
         </div>
 
         <div className="mt-10">

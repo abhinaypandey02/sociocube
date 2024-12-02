@@ -42,6 +42,7 @@ export async function handleUpdateOnboardingLocation(
     !res.onboarding_data?.name ||
     !res.onboarding_data.bio ||
     !res.onboarding_data.gender ||
+    !res.onboarding_data.username ||
     !res.onboarding_data.category
   )
     throw GQLError(400, "Please add basic details to continue");

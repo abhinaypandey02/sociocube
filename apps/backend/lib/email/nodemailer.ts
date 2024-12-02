@@ -1,6 +1,6 @@
-import nodemailer from "nodemailer";
+import { createTransport } from "nodemailer";
 
-const transporter = nodemailer.createTransport({
+const transporter = createTransport({
   host: "smtp.hostinger.com",
   tls: {
     ciphers: "SSLv3",

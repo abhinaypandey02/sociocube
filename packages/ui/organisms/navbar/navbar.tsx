@@ -30,7 +30,7 @@ function Navbar({
         <div className="flex">
           <Link
             className="-m-1.5 p-1.5 text-2xl font-bold italic text-primary sm:text-3xl"
-            href="/"
+            href={process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "/"}
           >
             <h2>freeluencers</h2>
           </Link>

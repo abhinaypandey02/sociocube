@@ -11,7 +11,6 @@ import { Variants } from "../../constants";
 import Dropdown from "../dropdown/dropdown";
 import { isTouchDevice } from "../../utils";
 import type { SelectProps, SelectOption } from "./types";
-import { getBaseClassName } from "./constants";
 
 function Select({
   options,
@@ -19,7 +18,6 @@ function Select({
   rules,
   ...rest
 }: SelectProps) {
-  const className = classNames(getBaseClassName(variant), rest.className);
   const formContext = useFormContext() as UseFormReturn | undefined;
   const ref = useRef<HTMLInputElement | null>(null);
   const [searchValue, setSearchValue] = useState("");
@@ -68,7 +66,7 @@ function Select({
             className="hidden"
           />
           <input
-            className={className}
+            className={rest.className}
             onChange={(e) => {
               setSearchValue(e.target.value);
             }}

@@ -36,5 +36,10 @@ export async function createUser(data: UserDBInsert) {
     .insert(UserTable)
     .values(data)
     .returning({ id: UserTable.id });
+  if (user)
+    await db
+      .update(UserTable)
+      .set({ username: user.id.toString() })
+      .where(eq(UserTable.id, user.id));
   return user;
 }

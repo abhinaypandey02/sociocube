@@ -12,7 +12,8 @@ function InputWrapper({
   label,
   error,
   children,
-}: PropsWithChildren<{ label?: string; error?: string }>) {
+  suffix,
+}: PropsWithChildren<{ label?: string; error?: string; suffix?: string }>) {
   return (
     <div className="w-full">
       {label ? (
@@ -20,7 +21,14 @@ function InputWrapper({
           {label}
         </label>
       ) : null}
-      {children}
+      <div className="flex items-stretch">
+        {children}
+        {suffix ? (
+          <div className="flex items-center rounded-r-md bg-accent px-5 font-medium text-white">
+            {suffix}
+          </div>
+        ) : null}
+      </div>
       <small className="text-red-600">{error}</small>
     </div>
   );
@@ -33,6 +41,7 @@ function Input({
   rules,
   label,
   error,
+  suffix,
   ...rest
 }: InputProps) {
   const formContext = useFormContext() as UseFormReturn | undefined;
@@ -41,16 +50,25 @@ function Input({
     error ||
     formError?.message?.toString() ||
     getInputErrorMessages(formError?.type?.toString());
-  const className = classNames(getBaseClassName(variant), rest.className);
+  const className = classNames(
+    getBaseClassName(variant, Boolean(suffix)),
+    rest.className,
+  );
   if (options)
     return (
-      <InputWrapper error={errorMessage} label={label}>
-        <Select options={options} rules={rules} variant={variant} {...rest} />
+      <InputWrapper error={errorMessage} label={label} suffix={suffix}>
+        <Select
+          options={options}
+          rules={rules}
+          variant={variant}
+          {...rest}
+          className={className}
+        />
       </InputWrapper>
     );
   if (textarea)
     return (
-      <InputWrapper error={errorMessage} label={label}>
+      <InputWrapper error={errorMessage} label={label} suffix={suffix}>
         <textarea
           {...(formContext?.register
             ? formContext.register(rest.name, rules)
@@ -61,7 +79,7 @@ function Input({
       </InputWrapper>
     );
   return (
-    <InputWrapper error={errorMessage} label={label}>
+    <InputWrapper error={errorMessage} label={label} suffix={suffix}>
       <input
         {...(formContext?.register
           ? formContext.register(rest.name, rules)

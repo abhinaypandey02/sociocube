@@ -1,10 +1,14 @@
-import { Arg, Args, Ctx, Query, Resolver } from "type-graphql";
+import { Arg, Args, Authorized, Ctx, Query, Resolver } from "type-graphql";
 import type { Context } from "../../../../context";
 import { UserGQL } from "../../type";
 import { handleGetCurrentUser } from "./get-current-user";
 import { handleGetFeaturedSellers } from "./get-featured-sellers";
 import { GetSellerInput, handleGetSeller } from "./get-seller";
 import { handleSearchSellers, SearchSellersInput } from "./search-sellers";
+import {
+  handleIsUsernameAvailable,
+  IsUsernameAvailableArgs,
+} from "./is-username-available";
 
 @Resolver()
 export class UserQueryResolver {
@@ -23,5 +27,10 @@ export class UserQueryResolver {
   @Query(() => [UserGQL], { nullable: true })
   async searchSellers(@Arg("data") args: SearchSellersInput) {
     return handleSearchSellers(args);
+  }
+  @Authorized()
+  @Query(() => Boolean)
+  async isUsernameAvailable(@Args() args: IsUsernameAvailableArgs) {
+    return handleIsUsernameAvailable(args);
   }
 }

@@ -12,6 +12,7 @@ import {
   PencilSimple,
   SealCheck,
   ShareNetwork,
+  Link as LinkIcon,
 } from "@phosphor-icons/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -21,7 +22,7 @@ import type {
   Currency,
   GetDefaultOnboardingDetailsQuery,
 } from "../../__generated__/graphql";
-import { getRoute } from "../../constants/routes";
+import { getMeURL, getRoute } from "../../constants/routes";
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
 import SocialsStatus from "./socials-status";
 import { ONBOARDING_SCOPES } from "./constants";
@@ -31,6 +32,7 @@ import OnboardingPricingForm from "./onboarding-pricing";
 import OnboardingStepper from "./stepper";
 import OnboardingCompleteForm from "./onboarding-complete-form";
 import OnboardingDOB from "./onboarding-dob";
+import OnboardingUsername from "./onboarding-username";
 
 export function getStep(
   currentUser: GetDefaultOnboardingDetailsQuery["getCurrentUser"],
@@ -48,11 +50,12 @@ export function getStep(
     !currentUser.onboardingData.category
   )
     return 2;
-  if (!currentUser.onboardingData.dob && !currentUser.onboardingData.city)
+  if (!currentUser.onboardingData.dob && !currentUser.onboardingData.username)
     return 3;
-  if (!currentUser.onboardingData.city) return 4;
-  if (!currentUser.onboardingData.pricing) return 5;
-  if (!currentUser.isOnboarded) return 6;
+  if (!currentUser.onboardingData.username) return 4;
+  if (!currentUser.onboardingData.city) return 5;
+  if (!currentUser.onboardingData.pricing) return 6;
+  if (!currentUser.isOnboarded) return 7;
   return 0;
 }
 
@@ -172,6 +175,23 @@ function OnboardingWizard({
         ),
       },
       {
+        title: "Username",
+        heading: "Personalised link",
+        description: "Get a personalized link",
+        longDescription:
+          "Get a personalised sharing link. Select a unique username and get your own custom link that you can share easily!",
+        icon: LinkIcon,
+        component: (
+          <OnboardingUsername
+            defaultValues={{
+              username: currentUser?.onboardingData?.username || undefined,
+            }}
+            key={4}
+            nextStep={nextStep}
+          />
+        ),
+      },
+      {
         title: "Location",
         heading: "Where are you based?",
         description: "Your current city",
@@ -185,7 +205,7 @@ function OnboardingWizard({
               country: currentUser?.onboardingData?.country,
               state: currentUser?.onboardingData?.state,
             }}
-            key={4}
+            key={5}
             nextStep={nextStep}
             setCurrency={setCurrency}
           />
@@ -202,7 +222,7 @@ function OnboardingWizard({
           <OnboardingPricingForm
             currency={currency}
             defaultValues={currentUser?.onboardingData?.pricing || {}}
-            key={5}
+            key={6}
             nextStep={nextStep}
           />
         ),
@@ -214,7 +234,12 @@ function OnboardingWizard({
         longDescription:
           "You have completed all the steps and are ready to go!",
         icon: SealCheck,
-        component: <OnboardingCompleteForm key={6} userID={currentUser?.id} />,
+        component: (
+          <OnboardingCompleteForm
+            key={7}
+            username={currentUser?.onboardingData?.username}
+          />
+        ),
       },
     ],
     [currentUser, nextStep],
@@ -224,7 +249,8 @@ function OnboardingWizard({
     return null;
   }
   if (currentUser?.isOnboarded) {
-    router.push(`${getRoute("Profile")}/${currentUser.id}`);
+    if (currentUser.username) router.push(getMeURL(currentUser.username));
+    else router.push(getRoute("Home"));
     return null;
   }
   const MAX_STEPS = steps.length;

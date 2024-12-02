@@ -25,7 +25,9 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
       isOnboarded
       scopes
       bio
+      username
       onboardingData {
+        username
         name
         photo
         bio
@@ -71,8 +73,8 @@ export const GET_FEATURED_SELLERS = gql(`
 
 export const GET_SELLER = gql(`
   #graphql
-  query GetSeller($id: Int, $username:String) {
-    getSeller(id: $id, username: $username) {
+  query GetSeller($username:String!) {
+    getSeller(username: $username) {
       id
       name
       photo
@@ -206,5 +208,11 @@ export const SEARCH_SELLERS = gql(`
       photo
       bio
     }
+  }
+`);
+export const IS_USERNAME_AVAILABLE = gql(`
+  #graphql
+  query IsUsernameAvailable($username: String!) {
+    isUsernameAvailable(username:$username)
   }
 `);

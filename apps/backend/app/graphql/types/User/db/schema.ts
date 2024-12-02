@@ -43,7 +43,7 @@ export const UserTable = pgTable(
     id: serial("id").primaryKey(),
     name: text("name"),
     bio: text("bio"),
-    username: text("username"),
+    username: text("username").unique(),
     email: text("email").unique(),
     instagramDetails: integer("instagram_details").references(
       () => InstagramDetails.id,
@@ -80,6 +80,7 @@ export const UserTable = pgTable(
     genderIdx: index("gender_idx").on(table.gender),
     dobIdx: index("dob_idx").on(table.dob),
     emailIdx: index("email_idx").on(table.email),
+    usernameIdx: index("username_idx").on(table.username),
   }),
 );
 
@@ -104,6 +105,7 @@ export const PricingTable = pgTable("pricing", {
 export const OnboardingDataTable = pgTable("onboarding_data", {
   id: serial("id").primaryKey(),
   name: text("name"),
+  username: text("username").unique(),
   bio: text("bio"),
   photo: text("photo"),
   city: integer("city").references(() => CityTable.id),

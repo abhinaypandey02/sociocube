@@ -38,6 +38,7 @@ export async function handleCompleteOnboarding(ctx: Context) {
       !res.onboarding_data.city ||
       !res.onboarding_data.country ||
       !res.onboarding_data.state ||
+      !res.onboarding_data.username ||
       !res.onboarding_data.category
     )
       throw GQLError(400, "Missing required fields");

@@ -4,14 +4,14 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Button, Variants } from "ui/button";
 import Image from "next/image";
-import { getRoute } from "../../constants/routes";
+import { getMeURL, getRoute } from "../../constants/routes";
 import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
 import { COMPLETE_ONBOARDING } from "../../lib/mutations";
 
 export default function OnboardingCompleteForm({
-  userID,
+  username,
 }: {
-  userID?: number;
+  username?: string | null;
 }) {
   const { handleSubmit } = useForm();
   const router = useRouter();
@@ -23,7 +23,9 @@ export default function OnboardingCompleteForm({
     const res = await completeOnboarding().catch(handleGQLErrors);
     if (res?.data?.completeOnboarding) {
       setSuccess(true);
-      router.push(`${getRoute("Profile")}/${userID}`);
+      if (username)
+        router.push(`${getMeURL(username)}?onboarding_completed=yes`);
+      else router.push(getRoute("Home"));
       router.refresh();
     }
   };

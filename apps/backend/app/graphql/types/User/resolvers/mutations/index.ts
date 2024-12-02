@@ -25,6 +25,10 @@ import {
   handleUpdateOnboardingDOB,
   UpdateDateOfBirthArgs,
 } from "./onboarding/update-onboarding-dob";
+import {
+  handleUpdateOnboardingUsername,
+  UpdateOnboardingUsernameArgs,
+} from "./onboarding/update-onboarding-username";
 
 @Resolver()
 export class UserMutationResolver {
@@ -43,6 +47,14 @@ export class UserMutationResolver {
     @Ctx() ctx: Context,
   ) {
     return handleUpdateOnboardingDOB(args, ctx);
+  }
+  @Authorized()
+  @Mutation(() => Boolean)
+  updateOnboardingUsername(
+    @Arg("data") args: UpdateOnboardingUsernameArgs,
+    @Ctx() ctx: Context,
+  ) {
+    return handleUpdateOnboardingUsername(args, ctx);
   }
   @Authorized()
   @Mutation(() => Currency)

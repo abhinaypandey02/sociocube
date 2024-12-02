@@ -28,8 +28,8 @@ export const POST = async (req: NextRequest) => {
         })
         .returning({ id: OTPTable.id });
       if (otp)
-        if (!user)
-          await tx
+        if (!user) {
+          const [newUser] = await tx
             .insert(UserTable)
             .values({
               phone: body.phone,
@@ -39,7 +39,15 @@ export const POST = async (req: NextRequest) => {
               roles: [],
             })
             .returning({ id: UserTable.id });
-        else
+          if (!newUser) {
+            tx.rollback();
+            return;
+          }
+          await tx
+            .update(UserTable)
+            .set({ username: newUser.id.toString() })
+            .where(eq(UserTable.id, newUser.id));
+        } else
           await tx
             .update(UserTable)
             .set({ otp: otp.id })

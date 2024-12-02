@@ -15,6 +15,7 @@ export type InputProps = {
   rules?: RegisterOptions;
   label?: string;
   error?: string;
+  suffix?: string;
 } & ComponentProps<"textarea"> &
   ComponentProps<"input">;
 

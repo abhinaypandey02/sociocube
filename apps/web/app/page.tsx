@@ -12,7 +12,7 @@ import Schema from "./components/schema";
 import Faqs from "./components/faqs";
 import ProfilePage, {
   generateMetadata as profileGenerateMetadata,
-} from "./profile/[id]/page";
+} from "./profile/[username]/page";
 
 const HowItWorks = dynamic(() => import("./components/how-it-works"));
 const Cta = dynamic(() => import("./components/cta"));

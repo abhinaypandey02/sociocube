@@ -50,6 +50,8 @@ export class OnboardingData {
   @Field({ nullable: true })
   dob?: string;
   @Field({ nullable: true })
+  username?: string;
+  @Field({ nullable: true })
   city?: number;
   @Field({ nullable: true })
   state?: number;
@@ -90,6 +92,8 @@ export class UserGQL {
   gender?: string;
   @Field({ nullable: true })
   dob?: string;
+  @Field({ nullable: true })
+  username?: string;
   @Field({ nullable: true })
   location?: Location;
   @Field(() => Pricing, { nullable: true })

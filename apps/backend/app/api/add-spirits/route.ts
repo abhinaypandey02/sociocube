@@ -152,7 +152,15 @@ export async function POST(req: NextRequest) {
             location: locationID || undefined,
           })
           .returning();
-        return res?.id;
+        if (!res) {
+          tx.rollback();
+          return null;
+        }
+        await tx
+          .update(UserTable)
+          .set({ username: res.id.toString() })
+          .where(eq(UserTable.id, res.id));
+        return res.id;
       }
       tx.rollback();
     } catch (e) {
