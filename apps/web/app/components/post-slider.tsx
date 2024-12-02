@@ -17,7 +17,7 @@ export default function PostSlider({
   return (
     <Swiper
       autoplay={{
-        delay: 2000,
+        delay: 3000,
         disableOnInteraction: true,
       }}
       className="w-3/4 max-w-[320px] sm:w-80"
