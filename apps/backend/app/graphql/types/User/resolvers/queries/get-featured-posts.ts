@@ -11,6 +11,8 @@ export class GetFeaturedPostsResponse {
   @Field()
   postURL: string;
   @Field()
+  thumbnailURL: string;
+  @Field()
   likes: number;
   @Field()
   er: number;
@@ -50,6 +52,7 @@ export async function handleGetFeaturedPosts(): Promise<
   return data.map((post) => ({
     mediaURL: post.instagram_post.mediaURL || "",
     postURL: post.instagram_post.link,
+    thumbnailURL: post.instagram_post.thumbnail,
     likes: post.instagram_post.likes,
     er: post.instagram_post.er || 0,
     creatorName: post.user.name || "",

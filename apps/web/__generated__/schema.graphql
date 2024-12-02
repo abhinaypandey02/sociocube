@@ -261,6 +261,7 @@ type GetFeaturedPostsResponse {
   likes: Float!
   mediaURL: String!
   postURL: String!
+  thumbnailURL: String!
 }
 
 type InstagramMedia {

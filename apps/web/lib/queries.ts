@@ -72,6 +72,7 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
     }
     posts:getFeaturedPosts {
       mediaURL
+      thumbnailURL
       creatorImage
       creatorName
       creatorUsername
