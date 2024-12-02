@@ -1,5 +1,5 @@
 import { desc, eq } from "drizzle-orm";
-import { InstagramMediaTable, UserDB } from "../../db/schema";
+import { InstagramMediaTable, UserDB, UserTable } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { getGraphUrl } from "../../../../../auth/instagram/utils";
@@ -69,9 +69,18 @@ export async function getInstagramStats(user: UserDB) {
         er: normaliseDigits(instagramDetails.er || 0),
       };
     }
-    await db.update(InstagramDetails).set({
-      failedTries: (instagramDetails.failedTries || 0) + 1,
-    });
+    if (instagramDetails.failedTries >= 2) {
+      await db
+        .update(UserTable)
+        .set({ isOnboarded: false })
+        .where(eq(UserTable.id, user.id));
+    }
+    await db
+      .update(InstagramDetails)
+      .set({
+        failedTries: (instagramDetails.failedTries || 0) + 1,
+      })
+      .where(eq(InstagramDetails.id, user.instagramDetails));
   }
   return {
     username: instagramDetails.username,

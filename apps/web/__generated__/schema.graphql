@@ -256,7 +256,7 @@ scalar DateTimeISO
 type InstagramMedia {
   caption: String
   comments: Int!
-  er: Float!
+  er: Float
   likes: Int!
   link: String!
   thumbnail: String!

@@ -23,7 +23,9 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
       name
       photo
       isOnboarded
-      scopes
+      instagramStats {
+        username
+      }
       bio
       username
       onboardingData {

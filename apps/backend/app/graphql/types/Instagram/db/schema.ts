@@ -20,7 +20,7 @@ export const InstagramDetails = pgTable(
     accessToken: text("access_token"),
     averageLikes: integer("average_likes"),
     averageComments: integer("average_comments"),
-    failedTries: integer("failed_tries").default(0),
+    failedTries: integer("failed_tries").default(0).notNull(),
     er: real("er"),
   },
   (table) => ({

@@ -22,11 +22,10 @@ import type {
   Currency,
   GetDefaultOnboardingDetailsQuery,
 } from "../../__generated__/graphql";
+import { AuthScopes } from "../../__generated__/graphql";
 import { getMeURL, getRoute } from "../../constants/routes";
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
 import SocialsStatus from "./socials-status";
-import { ONBOARDING_SCOPES } from "./constants";
-import { completedOnboardingScopes } from "./utils";
 import OnboardingLocationForm from "./onboarding-location";
 import OnboardingPricingForm from "./onboarding-pricing";
 import OnboardingStepper from "./stepper";
@@ -38,11 +37,7 @@ export function getStep(
   currentUser: GetDefaultOnboardingDetailsQuery["getCurrentUser"],
 ) {
   if (!currentUser) return 0;
-  if (
-    completedOnboardingScopes(currentUser.scopes).length !==
-    ONBOARDING_SCOPES.length
-  )
-    return 0;
+  if (!currentUser.instagramStats?.username) return 0;
   if (
     !currentUser.onboardingData?.name ||
     !currentUser.onboardingData.bio ||
@@ -129,7 +124,11 @@ function OnboardingWizard({
           <SocialsStatus
             key={1}
             nextStep={nextStep}
-            scopes={currentUser?.scopes || []}
+            scopes={
+              currentUser?.instagramStats?.username
+                ? [AuthScopes.Instagram]
+                : []
+            }
           />
         ),
       },
