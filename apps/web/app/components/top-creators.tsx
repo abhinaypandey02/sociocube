@@ -54,7 +54,7 @@ export default function TopCreators({
                 width={280}
               />
               <div className="mt-2 flex justify-between gap-2">
-                <div>
+                <div className="overflow-hidden">
                   <h3 className=" truncate font-poppins text-xl font-semibold  ">
                     {person.name || ""}
                   </h3>
