@@ -14,6 +14,7 @@ export default function PostSlider({
 }: {
   posts: GetFeaturedSellersQuery["posts"];
 }) {
+  const [ready, setReady] = React.useState<Set<number>>(new Set());
   return (
     <Swiper
       autoplay={{
@@ -27,11 +28,28 @@ export default function PostSlider({
       modules={[EffectCards, Autoplay, Navigation]}
       navigation
     >
-      {posts.map((post) => (
-        <SwiperSlide key={post.mediaURL}>
+      {posts.map((post, i) => (
+        <SwiperSlide
+          className={ready.has(i) ? "" : "hidden"}
+          key={post.mediaURL}
+        >
           <li className="relative overflow-hidden rounded-lg">
             <div rel="noopener">
-              <video autoPlay loop muted src={post.mediaURL || ""} />
+              <video
+                autoPlay
+                height={568}
+                loop
+                muted
+                onCanPlay={() => {
+                  setReady((prev) => {
+                    prev.add(i);
+                    return prev;
+                  });
+                }}
+                playsInline
+                src={post.mediaURL || ""}
+                width={320}
+              />
             </div>
             <div className="absolute bottom-0 h-20 w-full bg-black/30 blur" />
             <a
