@@ -53,7 +53,7 @@ export default function TopCreators({
                 src={person.photo || ""}
                 width={280}
               />
-              <div className="mt-2 flex justify-between">
+              <div className="mt-2 flex justify-between gap-2">
                 <div>
                   <h3 className=" truncate font-poppins text-xl font-semibold  ">
                     {person.name || ""}

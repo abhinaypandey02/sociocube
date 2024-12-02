@@ -91,7 +91,7 @@ export default function Hero({
       <div className="mx-auto max-w-7xl px-6 py-16 sm:my-16 lg:px-8">
         <div className="mx-auto max-w-2xl grid-cols-2 gap-x-14 lg:mx-0 lg:grid lg:max-w-none lg:items-center">
           <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
-            <h1 className="font-poppins text-4xl font-bold text-gray-900 sm:text-7xl">
+            <h1 className="font-poppins text-5xl font-bold text-gray-900 sm:text-7xl">
               Connect. <br />
               Collaborate. <br />
               Create.
@@ -108,7 +108,7 @@ export default function Hero({
               <Injector Component={SecondaryLink} fetch={getCurrentUser} />
             </div>
           </div>
-          <div className="mt-20 sm:mt-0">
+          <div className="mt-20 lg:mt-0">
             <PostSlider posts={posts} />
           </div>
         </div>

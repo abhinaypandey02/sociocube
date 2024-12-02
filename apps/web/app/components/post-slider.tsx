@@ -20,7 +20,7 @@ export default function PostSlider({
         delay: 2000,
         disableOnInteraction: true,
       }}
-      className="w-64 sm:w-80"
+      className="w-3/4 max-w-[320px] sm:w-80"
       effect="cards"
       grabCursor
       loop
