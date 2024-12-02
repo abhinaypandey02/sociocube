@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
 import Form from "ui/form";
-import { USERNAME_REGEX } from "commons/regex";
 import {
   handleGQLErrors,
   useAuthMutation,
@@ -13,6 +12,7 @@ import {
 } from "../../lib/apollo-client";
 import { UPDATE_ONBOARDING_USERNAME } from "../../lib/mutations";
 import { IS_USERNAME_AVAILABLE } from "../../lib/queries";
+import { getUsernameInputRules } from "../../lib/utils";
 
 export default function OnboardingUsername({
   defaultValues,
@@ -53,25 +53,10 @@ export default function OnboardingUsername({
           form.clearErrors();
         }}
         placeholder="Enter your desired username"
-        rules={{
-          required: true,
-          pattern: {
-            value: USERNAME_REGEX,
-            message: "Username can only contain alphabets, numbers and '-'",
-          },
-          maxLength: {
-            value: 16,
-            message: "Username can only contain maximum 16 characters",
-          },
-          validate: {
-            availability: async (username: string) => {
-              const result = await isUsernameAvailable({ username });
-              return (
-                result.data?.isUsernameAvailable || "Username already taken!"
-              );
-            },
-          },
-        }}
+        rules={getUsernameInputRules(async (username: string) => {
+          const result = await isUsernameAvailable({ username });
+          return Boolean(result.data?.isUsernameAvailable);
+        })}
         suffix=".freeluencers.me"
       />
 

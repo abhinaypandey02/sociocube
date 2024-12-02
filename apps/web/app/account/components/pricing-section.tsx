@@ -24,6 +24,7 @@ export default function PricingSection({ data }: { data: AccountSectionData }) {
         },
       }).catch(handleGQLErrors);
       router.refresh();
+      return true;
     },
     [form.getValues, saveUserMutation],
   );

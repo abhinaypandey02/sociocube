@@ -1,14 +1,16 @@
 import { eq } from "drizzle-orm";
 import { Field, InputType } from "type-graphql";
-import { IsDateString, IsIn } from "class-validator";
+import { IsDateString, IsIn, Matches } from "class-validator";
 import categories from "commons/categories";
 import genders from "commons/genders";
 import { getAge, MAX_AGE, MIN_AGE } from "commons/age";
+import { USERNAME_REGEX } from "commons/regex";
 import { db } from "../../../../../../lib/db";
 import { PricingTable, UserTable } from "../../db/schema";
 import type { Context } from "../../../../context";
 import { Pricing } from "../../type";
 import GQLError from "../../../../constants/errors";
+import { isUserNameAvailable } from "../../utils";
 
 @InputType("UpdateUserArgs")
 export class UpdateUserArgs {
@@ -27,6 +29,9 @@ export class UpdateUserArgs {
   @Field({ nullable: true })
   pricing?: Pricing;
   @Field({ nullable: true })
+  @Matches(USERNAME_REGEX)
+  username?: string;
+  @Field({ nullable: true })
   @IsDateString()
   dob?: string;
 }
@@ -38,6 +43,10 @@ export async function handleUpdateUser(ctx: Context, args: UpdateUserArgs) {
     if (age < MIN_AGE || age > MAX_AGE)
       throw GQLError(400, "Invalid date of birth");
   }
+  if (args.username) {
+    if (!(await isUserNameAvailable(args.username)))
+      throw GQLError(400, "Invalid username");
+  }
   const [user] = await db
     .update(UserTable)
     .set({
@@ -48,6 +57,7 @@ export async function handleUpdateUser(ctx: Context, args: UpdateUserArgs) {
       category: args.category,
       gender: args.gender,
       dob: args.dob,
+      username: args.username,
     })
     .where(eq(UserTable.id, ctx.userId))
     .returning();

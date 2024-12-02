@@ -5,9 +5,16 @@ import { Button } from "ui/button";
 import Form from "ui/form";
 import categories from "commons/categories";
 import genders from "commons/genders";
-import { handleGQLErrors, useAuthMutation } from "../../../lib/apollo-client";
+import {
+  handleGQLErrors,
+  useAuthMutation,
+  useAuthQuery,
+} from "../../../lib/apollo-client";
 import { UPDATE_USER } from "../../../lib/mutations";
 import { ageValidation } from "../../../constants/validations";
+import { getUsernameInputRules } from "../../../lib/utils";
+import { IS_USERNAME_AVAILABLE } from "../../../lib/queries";
+import { getMeURL } from "../../../constants/routes";
 import ContentTemplate from "./content-template";
 import type { AccountSectionData } from "./account-view";
 
@@ -20,11 +27,13 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
   const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
   const handleSave = useCallback(
     (field: keyof AccountSectionData) => async () => {
+      if (!(await form.trigger())) return false;
       await saveUserMutation({
         data: {
           [field]: form.getValues(field),
         },
       }).catch(handleGQLErrors);
+      return true;
     },
     [form.getValues, saveUserMutation],
   );
@@ -35,6 +44,8 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
     }).then(() => {
       setLocalFile(null);
     });
+
+  const [isUsernameAvailable] = useAuthQuery(IS_USERNAME_AVAILABLE);
   const photoValue = form.watch("photo");
   return (
     <main className="px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20">
@@ -112,6 +123,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
                   form.setValue("photo", "");
                 }
                 await handleSave("photo")();
+                return true;
               },
             },
             {
@@ -119,6 +131,25 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
               value: data.name || "",
               editComponent: <Input name="name" />,
               onSubmit: handleSave("name"),
+            },
+            {
+              label: "Username",
+              value: data.username ? getMeURL(data.username) : "",
+              editComponent: (
+                <Input
+                  error={form.formState.errors.username?.message}
+                  name="username"
+                  onChange={() => {
+                    form.clearErrors();
+                  }}
+                  rules={getUsernameInputRules(async (username: string) => {
+                    const result = await isUsernameAvailable({ username });
+                    return Boolean(result.data?.isUsernameAvailable);
+                  })}
+                  suffix=".freeluencers.me"
+                />
+              ),
+              onSubmit: handleSave("username"),
             },
             {
               label: "Bio",

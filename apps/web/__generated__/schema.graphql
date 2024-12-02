@@ -424,6 +424,7 @@ input UpdateUserArgs {
   name: String
   photo: String
   pricing: PricingInput
+  username: String
 }
 
 type User {

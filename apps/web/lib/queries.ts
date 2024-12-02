@@ -155,6 +155,7 @@ export const GET_ACCOUNT_DETAILS = gql(`
       gender
       dob
       scopes
+      username
       locationID {
         city
         country

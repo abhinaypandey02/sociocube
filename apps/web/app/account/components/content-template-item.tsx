@@ -5,7 +5,7 @@ export interface ContentTemplateItemT {
   label: string;
   value: ReactNode;
   editComponent: ReactNode;
-  onSubmit?: () => Promise<void>;
+  onSubmit?: () => Promise<boolean>;
 }
 
 export default function ContentTemplateItem({
@@ -33,8 +33,9 @@ export default function ContentTemplateItem({
               onClick={async () => {
                 if (editing) {
                   setLoading(true);
-                  await item.onSubmit?.();
+                  const result = await item.onSubmit?.();
                   setLoading(false);
+                  if (!result) return;
                   router.refresh();
                 }
                 setEditing((val) => !val);
