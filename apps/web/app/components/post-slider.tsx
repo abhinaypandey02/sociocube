@@ -17,16 +17,7 @@ function PostSlide({
   return (
     <li className="relative overflow-hidden rounded-lg">
       <div>
-        <Suspense
-          fallback={
-            <img
-              alt={post.creatorName}
-              height={568}
-              src={post.thumbnailURL}
-              width={320}
-            />
-          }
-        >
+        <Suspense fallback={<div>REDDDD</div>}>
           <video
             autoPlay
             controlsList="nodownload"
@@ -79,7 +70,6 @@ export default function PostSlider({
       autoplay={{
         delay: 3000,
         disableOnInteraction: true,
-        reverseDirection: true,
       }}
       className="w-3/4 max-w-[320px] sm:w-80"
       effect="cards"
