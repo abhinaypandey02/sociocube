@@ -180,6 +180,9 @@ importers:
       react-markdown:
         specifier: ^9.0.1
         version: 9.0.1(@types/react@18.3.11)(react@19.0.0-rc-1631855f-20241023)
+      swiper:
+        specifier: ^11.1.15
+        version: 11.1.15
       ui:
         specifier: workspace:*
         version: link:../../packages/ui
@@ -8579,6 +8582,10 @@ packages:
 
   swap-case@2.0.2:
     resolution: {integrity: sha512-kc6S2YS/2yXbtkSMunBtKdah4VFETZ8Oh6ONSmSd9bRxhqTrtARUCBUiWXH3xVPpvR7tz2CSnkuXVE42EcGnMw==}
+
+  swiper@11.1.15:
+    resolution: {integrity: sha512-IzWeU34WwC7gbhjKsjkImTuCRf+lRbO6cnxMGs88iVNKDwV+xQpBCJxZ4bNH6gSrIbbyVJ1kuGzo3JTtz//CBw==}
+    engines: {node: '>= 4.7.0'}
 
   symbol-observable@4.0.0:
     resolution: {integrity: sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ==}
@@ -19747,6 +19754,8 @@ snapshots:
   swap-case@2.0.2:
     dependencies:
       tslib: 2.8.0
+
+  swiper@11.1.15: {}
 
   symbol-observable@4.0.0: {}
 

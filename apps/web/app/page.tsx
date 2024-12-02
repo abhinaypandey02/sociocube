@@ -2,7 +2,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import type { Metadata } from "next";
 import { queryGQL } from "../lib/apollo-server";
-import { GET_FEATURED_SELLERS } from "../lib/queries";
+import { GET_FEATURED_SELLERS_AND_POSTS } from "../lib/queries";
 import type { GetFeaturedSellersQuery } from "../__generated__/graphql";
 import { getSEO, SEO } from "../constants/seo";
 import { getOrganizationDomain } from "../lib/utils-server";
@@ -47,8 +47,8 @@ async function HomePage() {
         />
       );
   }
-  const { sellers } = await queryGQL(
-    GET_FEATURED_SELLERS,
+  const { sellers, posts } = await queryGQL(
+    GET_FEATURED_SELLERS_AND_POSTS,
     undefined,
     undefined,
     60,
@@ -79,7 +79,7 @@ async function HomePage() {
         }}
         id="org"
       />
-      <Hero images={heroSellers} />
+      <Hero posts={posts} />
       <TopCreators sellers={sellersToShow} />
       <HowItWorks />
       <FiltersList />

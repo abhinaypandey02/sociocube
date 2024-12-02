@@ -55,7 +55,7 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
   }
 `);
 
-export const GET_FEATURED_SELLERS = gql(`
+export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
   #graphql
   query GetFeaturedSellers {
     sellers: getFeaturedSellers {
@@ -69,6 +69,15 @@ export const GET_FEATURED_SELLERS = gql(`
         followers
         er
       }
+    }
+    posts:getFeaturedPosts {
+      mediaURL
+      creatorImage
+      creatorName
+      creatorUsername
+      postURL
+      likes
+      er
     }
   }
 `);

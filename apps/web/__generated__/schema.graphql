@@ -253,6 +253,16 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTimeISO
 
+type GetFeaturedPostsResponse {
+  creatorImage: String!
+  creatorName: String!
+  creatorUsername: String!
+  er: Float!
+  likes: Float!
+  mediaURL: String!
+  postURL: String!
+}
+
 type InstagramMedia {
   caption: String
   comments: Int!
@@ -340,6 +350,7 @@ type Query {
   getCities(state: Int!): [SelectOption!]!
   getCountries: [SelectOption!]!
   getCurrentUser: User
+  getFeaturedPosts: [GetFeaturedPostsResponse!]!
   getFeaturedSellers: [User!]!
   getSeller(username: String!): User
   getStates(country: Int!): [SelectOption!]!

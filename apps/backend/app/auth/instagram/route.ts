@@ -49,8 +49,14 @@ export const GET = async (req: NextRequest) => {
       const existingUser = existingUserJoin?.user;
       let refreshToken;
       if (existingUser && loggedInUserID) {
-        return NextResponse.redirect(
-          `${BASE_REDIRECT_URI}?error=Can't merge account, as it's already being used`,
+        await db
+          .update(InstagramDetails)
+          .set({ accessToken })
+          .where(eq(InstagramDetails.appID, userId));
+        refreshToken = await updateRefreshTokenAndScope(
+          existingUser.id,
+          existingUser.refreshTokens,
+          Array.from(new Set(existingUser.scopes).add(AuthScopes.INSTAGRAM)),
         );
       } else if (existingUser) {
         refreshToken = await updateRefreshTokenAndScope(

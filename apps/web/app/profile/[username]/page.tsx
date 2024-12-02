@@ -8,7 +8,10 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { notFound } from "next/navigation";
 import { queryGQL } from "../../../lib/apollo-server";
-import { GET_SELLER, GET_FEATURED_SELLERS } from "../../../lib/queries";
+import {
+  GET_SELLER,
+  GET_FEATURED_SELLERS_AND_POSTS,
+} from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
 import { convertToAbbreviation } from "../../../lib/utils";
 import Schema from "../../components/schema";
@@ -23,7 +26,7 @@ interface ProfilePage {
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const { sellers } = await queryGQL(GET_FEATURED_SELLERS);
+  const { sellers } = await queryGQL(GET_FEATURED_SELLERS_AND_POSTS);
   return sellers.map(({ id }) => ({
     id: id.toString(),
   }));

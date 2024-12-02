@@ -7,6 +7,7 @@ import type {
   GetFeaturedSellersQuery,
 } from "../../__generated__/graphql";
 import { getCurrentUser, Injector } from "../../lib/apollo-server";
+import PostSlider from "./post-slider";
 
 function SecondaryLink({ data }: { data?: GetCurrentUserQuery }) {
   if (data?.user) {
@@ -40,9 +41,9 @@ function SecondaryLink({ data }: { data?: GetCurrentUserQuery }) {
 }
 
 export default function Hero({
-  images,
+  posts,
 }: {
-  images: GetFeaturedSellersQuery["sellers"];
+  posts: GetFeaturedSellersQuery["posts"];
 }) {
   return (
     <div className="relative isolate">
@@ -87,85 +88,28 @@ export default function Hero({
           }}
         />
       </div>
-      <div className="overflow-hidden">
-        <div className="mx-auto max-w-7xl px-6 py-16 sm:my-16 lg:px-8">
-          <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
-            <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
-              <h1 className="font-poppins text-4xl font-bold text-gray-900 sm:text-7xl">
-                Connect. <br />
-                Collaborate. <br />
-                Create.
-              </h1>
-              <p className="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
-                Freeluencers bridges the gap between brands and influencers,
-                providing a seamless platform for authentic partnerships. Join
-                us today and take your collaborations to the next level!
-              </p>
-              <div className="mt-10 flex items-center gap-x-6">
-                <Link href={getRoute("Search")}>
-                  <Button variant={Variants.ACCENT}>Find Influencers</Button>
-                </Link>
-                <Injector Component={SecondaryLink} fetch={getCurrentUser} />
-              </div>
+      <div className="mx-auto max-w-7xl px-6 py-16 sm:my-16 lg:px-8">
+        <div className="mx-auto max-w-2xl grid-cols-2 gap-x-14 lg:mx-0 lg:grid lg:max-w-none lg:items-center">
+          <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
+            <h1 className="font-poppins text-4xl font-bold text-gray-900 sm:text-7xl">
+              Connect. <br />
+              Collaborate. <br />
+              Create.
+            </h1>
+            <p className="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
+              Freeluencers bridges the gap between brands and influencers,
+              providing a seamless platform for authentic partnerships. Join us
+              today and take your collaborations to the next level!
+            </p>
+            <div className="mt-10 flex items-center gap-x-6">
+              <Link href={getRoute("Search")}>
+                <Button variant={Variants.ACCENT}>Find Influencers</Button>
+              </Link>
+              <Injector Component={SecondaryLink} fetch={getCurrentUser} />
             </div>
-            <div className="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
-              <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
-                <div className="relative">
-                  <img
-                    alt={images[0]?.name || ""}
-                    className=" aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                    height={264}
-                    src={images[0]?.photo || ""}
-                    width={176}
-                  />
-                  <div className="pointer-events-none absolute inset-0 rounded-xl bg-primary opacity-10 ring-1 ring-inset ring-gray-900/10" />
-                </div>
-              </div>
-              <div className="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
-                <div className="relative">
-                  <img
-                    alt={images[1]?.name || ""}
-                    className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                    height={264}
-                    src={images[1]?.photo || ""}
-                    width={176}
-                  />
-                  <div className="pointer-events-none absolute inset-0 rounded-xl bg-primary opacity-10 ring-1 ring-inset ring-gray-900/10" />
-                </div>
-                <div className="relative">
-                  <img
-                    alt={images[2]?.name || ""}
-                    className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                    height={264}
-                    src={images[2]?.photo || ""}
-                    width={176}
-                  />
-                  <div className="pointer-events-none absolute inset-0 rounded-xl bg-primary opacity-10 ring-1 ring-inset ring-gray-900/10" />
-                </div>
-              </div>
-              <div className="w-44 flex-none space-y-8 pt-32 sm:pt-0">
-                <div className="relative">
-                  <img
-                    alt={images[3]?.name || ""}
-                    className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                    height={264}
-                    src={images[3]?.photo || ""}
-                    width={176}
-                  />
-                  <div className="pointer-events-none absolute inset-0 rounded-xl bg-primary opacity-10 ring-1 ring-inset ring-gray-900/10" />
-                </div>
-                <div className="relative">
-                  <img
-                    alt={images[4]?.name || ""}
-                    className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                    height={264}
-                    src={images[4]?.photo || ""}
-                    width={176}
-                  />
-                  <div className="pointer-events-none absolute inset-0 rounded-xl bg-primary opacity-10 ring-1 ring-inset ring-gray-900/10" />
-                </div>
-              </div>
-            </div>
+          </div>
+          <div className="mt-20 sm:mt-0">
+            <PostSlider posts={posts} />
           </div>
         </div>
       </div>

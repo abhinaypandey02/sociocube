@@ -64,6 +64,7 @@ export async function handleCompleteOnboarding(ctx: Context) {
         roles: [...res.user.roles, Roles.SELLER],
         isOnboarded: true,
         location: location.id,
+        username: res.onboarding_data.username,
       })
       .where(eq(UserTable.id, ctx.userId))
       .returning({ isOnboarded: UserTable.isOnboarded });

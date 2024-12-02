@@ -9,6 +9,10 @@ import {
   handleIsUsernameAvailable,
   IsUsernameAvailableArgs,
 } from "./is-username-available";
+import {
+  GetFeaturedPostsResponse,
+  handleGetFeaturedPosts,
+} from "./get-featured-posts";
 
 @Resolver()
 export class UserQueryResolver {
@@ -19,6 +23,10 @@ export class UserQueryResolver {
   @Query(() => [UserGQL])
   async getFeaturedSellers() {
     return handleGetFeaturedSellers();
+  }
+  @Query(() => [GetFeaturedPostsResponse])
+  async getFeaturedPosts() {
+    return handleGetFeaturedPosts();
   }
   @Query(() => UserGQL, { nullable: true })
   async getSeller(@Args() args: GetSellerInput) {

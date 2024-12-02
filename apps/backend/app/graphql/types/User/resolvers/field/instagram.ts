@@ -74,6 +74,10 @@ export async function getInstagramStats(user: UserDB) {
         .update(UserTable)
         .set({ isOnboarded: false })
         .where(eq(UserTable.id, user.id));
+      await db
+        .update(InstagramDetails)
+        .set({ failedTries: 0 })
+        .where(eq(InstagramDetails.id, user.instagramDetails));
     }
     await db
       .update(InstagramDetails)
