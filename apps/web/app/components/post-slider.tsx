@@ -37,6 +37,7 @@ export default function PostSlider({
             <div rel="noopener">
               <video
                 autoPlay
+                controlsList="nodownload"
                 height={568}
                 loop
                 muted
