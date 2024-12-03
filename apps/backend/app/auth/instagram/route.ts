@@ -33,10 +33,28 @@ export const GET = async (req: NextRequest) => {
   if (error) NextResponse.redirect(BASE_REDIRECT_URI);
   if (stateParam) {
     const { refresh, csrfToken } = getState(stateParam);
+    if (!refresh || !csrfToken)
+      return new NextResponse("Refresh or csrftoken not found", {
+        status: 400,
+      });
     if (accessCode) {
       const instagramData = await getLongLivedToken(accessCode);
-      if (!instagramData) return ErrorResponses.internalServerError;
+      if (!instagramData)
+        return new NextResponse(
+          "Can't exchange access code with instagram api",
+          {
+            status: 400,
+          },
+        );
       const { accessToken, userId } = instagramData;
+
+      if (!accessToken || !userId)
+        return new NextResponse(
+          "Can't fetch accessToken or userId from instagram api",
+          {
+            status: 400,
+          },
+        );
       const loggedInUserID = getUserIdFromRefreshToken(refresh);
       const [existingUserJoin] = await db
         .select()
@@ -81,68 +99,84 @@ export const GET = async (req: NextRequest) => {
           username: string;
           biography?: string;
         };
-        if (!personalInfo.username) return ErrorResponses.internalServerError;
+        if (!personalInfo.username)
+          return new NextResponse("Can't fetch username for the current user", {
+            status: 400,
+          });
         const [spirit] = await db
           .select()
           .from(InstagramDetails)
           .where(eq(InstagramDetails.username, personalInfo.username))
-          .innerJoin(
+          .leftJoin(
             UserTable,
             eq(UserTable.instagramDetails, InstagramDetails.id),
           );
         if (spirit) {
-          await db
-            .delete(InstagramMediaTable)
-            .where(eq(InstagramMediaTable.user, spirit.user.id));
-          await db.delete(UserTable).where(eq(UserTable.id, spirit.user.id));
+          if (spirit.user) {
+            await db
+              .delete(InstagramMediaTable)
+              .where(eq(InstagramMediaTable.user, spirit.user.id));
+            await db.delete(UserTable).where(eq(UserTable.id, spirit.user.id));
+          }
           await db
             .delete(InstagramDetails)
             .where(eq(InstagramDetails.id, spirit.instagram_data.id));
         }
-        const [inserted] = await db
-          .insert(InstagramDetails)
-          .values({
-            appID: userId,
-            username: personalInfo.username,
-            followers: personalInfo.followers_count,
-            accessToken,
-          })
-          .returning();
-        if (!inserted) return ErrorResponses.internalServerError;
-        const hdPhoto = await getHDProfilePicture(personalInfo.username);
-        if (loggedInUserID) {
-          const loggedInUser = await getUser(eq(UserTable.id, loggedInUserID));
-          if (loggedInUser) {
-            refreshToken = await updateRefreshTokenAndScope(
-              loggedInUser.id,
-              loggedInUser.refreshTokens,
-              Array.from(
-                new Set(loggedInUser.scopes).add(AuthScopes.INSTAGRAM),
-              ),
-              {
-                instagramDetails: inserted.id,
-                photo:
-                  loggedInUser.photo ||
-                  hdPhoto ||
-                  personalInfo.profile_picture_url,
-                name: loggedInUser.name || personalInfo.name,
-                bio: loggedInUser.bio || personalInfo.biography,
-              },
+        const id = await db.transaction(async (tx) => {
+          const [inserted] = await tx
+            .insert(InstagramDetails)
+            .values({
+              appID: userId,
+              username: personalInfo.username,
+              followers: personalInfo.followers_count,
+              accessToken,
+            })
+            .returning();
+          if (!inserted) return tx.rollback();
+          const hdPhoto = await getHDProfilePicture(personalInfo.username);
+
+          if (loggedInUserID) {
+            const loggedInUser = await getUser(
+              eq(UserTable.id, loggedInUserID),
             );
+            if (loggedInUser) {
+              refreshToken = await updateRefreshTokenAndScope(
+                loggedInUser.id,
+                loggedInUser.refreshTokens,
+                Array.from(
+                  new Set(loggedInUser.scopes).add(AuthScopes.INSTAGRAM),
+                ),
+                {
+                  instagramDetails: inserted.id,
+                  photo:
+                    loggedInUser.photo ||
+                    hdPhoto ||
+                    personalInfo.profile_picture_url,
+                  name: loggedInUser.name || personalInfo.name,
+                  bio: loggedInUser.bio || personalInfo.biography,
+                },
+              );
+            } else tx.rollback();
+          } else {
+            const newUser = await createUser({
+              name: personalInfo.name,
+              refreshTokens: [],
+              instagramDetails: inserted.id,
+              photo: hdPhoto || personalInfo.profile_picture_url,
+              bio: personalInfo.biography,
+              scopes: [AuthScopes.INSTAGRAM],
+              roles: [],
+            });
+            if (newUser) {
+              refreshToken = await updateRefreshTokenAndScope(newUser.id, []);
+            } else tx.rollback();
           }
-        } else {
-          const newUser = await createUser({
-            name: personalInfo.name,
-            refreshTokens: [],
-            instagramDetails: inserted.id,
-            photo: hdPhoto || personalInfo.profile_picture_url,
-            bio: personalInfo.biography,
-            scopes: [AuthScopes.INSTAGRAM],
-            roles: [],
+          return inserted.id;
+        });
+        if (!id)
+          return new NextResponse("Error creating new user", {
+            status: 400,
           });
-          if (newUser)
-            refreshToken = await updateRefreshTokenAndScope(newUser.id, []);
-        }
       }
       return NextResponse.redirect(
         `${BASE_REDIRECT_URI}?refresh=${refreshToken}&csrf_token=${csrfToken}`,
