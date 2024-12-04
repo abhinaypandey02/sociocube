@@ -9,6 +9,9 @@ import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 import "swiper/css";
 import "swiper/css/effect-cards";
 
+function getRandomColor() {
+  return `rgb(${Math.floor(Math.random() * 175)},${Math.floor(Math.random() * 175)},${Math.floor(Math.random() * 175)})`;
+}
 function PostSlide({
   post,
 }: {
@@ -20,6 +23,7 @@ function PostSlide({
         <Suspense fallback={<div>REDDDD</div>}>
           <video
             autoPlay
+            className="h-[568px] w-[320px]"
             controlsList="nodownload"
             height={568}
             loop
@@ -27,6 +31,7 @@ function PostSlide({
             playsInline
             poster={post.thumbnailURL}
             preload="none"
+            style={{ background: getRandomColor() }}
             width={320}
           >
             <source src={post.mediaURL || ""} />
