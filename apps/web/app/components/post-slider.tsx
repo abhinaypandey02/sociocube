@@ -23,7 +23,7 @@ function PostSlide({
         <Suspense fallback={<div>REDDDD</div>}>
           <video
             autoPlay
-            className="h-[568px] w-[320px]"
+            className="size-full sm:h-[568px] sm:w-[320px]"
             controlsList="nodownload"
             height={568}
             loop
