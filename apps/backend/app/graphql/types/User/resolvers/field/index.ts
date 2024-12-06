@@ -5,15 +5,15 @@ import {
   OnboardingData,
   Pricing,
   UserGQL,
-} from "../type";
-import type { UserDB } from "../db/schema";
-import { FileGQL } from "../../File/type";
-import { InstagramMedia, InstagramStats } from "../../Instagram/type";
-import { getIsOnboarded, getOnboardingData } from "./field/onboarding-data";
-import { getPictureUploadURL } from "./field/picture-upload-url";
-import { getPricing } from "./field/pricing";
-import { getLocation, getLocationID } from "./field/location";
-import { getInstagramMedia, getInstagramStats } from "./field/instagram";
+} from "../../type";
+import type { UserDB } from "../../db/schema";
+import { FileGQL } from "../../../File/type";
+import { InstagramMedia, InstagramStats } from "../../../Instagram/type";
+import { getIsOnboarded, getOnboardingData } from "./onboarding-data";
+import { getPictureUploadURL } from "./picture-upload-url";
+import { getPricing } from "./pricing";
+import { getLocation, getLocationID } from "./location";
+import { getInstagramMedia, getInstagramStats } from "./instagram";
 
 @Resolver(() => UserGQL)
 export class UserFieldResolver {
