@@ -17,7 +17,7 @@ export default function PricingSection({ data }: { data: AccountSectionData }) {
   const handleSave = useCallback(
     (field: keyof NonNullable<AccountSectionData["pricing"]>) => async () => {
       await saveUserMutation({
-        data: {
+        updatedUser: {
           pricing: {
             [field]: form.getValues(field),
           },

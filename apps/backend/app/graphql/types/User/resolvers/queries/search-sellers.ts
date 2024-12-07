@@ -18,8 +18,8 @@ import { db } from "../../../../../../lib/db";
 import { LocationTable, PricingTable, UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 
-@InputType("SearchSellers")
-export class SearchSellersInput {
+@InputType("SearchSellersFilters")
+export class SearchSellersFiltersInput {
   @Field({ nullable: true })
   query?: string;
   @Field(() => [Int], { nullable: true })
@@ -48,11 +48,11 @@ export class SearchSellersInput {
   generalPriceTo?: number;
 }
 
-export function handleSearchSellers(input: SearchSellersInput) {
+export function handleSearchSellers(filters: SearchSellersFiltersInput) {
   const ageFromDate = new Date();
   const ageToDate = new Date();
-  if (input.ageRange) {
-    const range = AGE_RANGES[input.ageRange];
+  if (filters.ageRange) {
+    const range = AGE_RANGES[filters.ageRange];
     if (range) {
       ageFromDate.setFullYear(
         ageFromDate.getFullYear() - (range.maximum || 0) - 1,
@@ -71,26 +71,26 @@ export function handleSearchSellers(input: SearchSellersInput) {
         isNotNull(UserTable.photo),
         isNotNull(UserTable.instagramDetails),
         isNotNull(UserTable.name),
-        input.categories && inArray(UserTable.category, input.categories),
-        input.genders && inArray(UserTable.gender, input.genders),
-        input.followersFrom
-          ? gte(InstagramDetails.followers, input.followersFrom)
+        filters.categories && inArray(UserTable.category, filters.categories),
+        filters.genders && inArray(UserTable.gender, filters.genders),
+        filters.followersFrom
+          ? gte(InstagramDetails.followers, filters.followersFrom)
           : undefined,
-        input.followersTo
-          ? lte(InstagramDetails.followers, input.followersTo)
+        filters.followersTo
+          ? lte(InstagramDetails.followers, filters.followersTo)
           : undefined,
-        input.ageRange || input.ageRange === 0
+        filters.ageRange || filters.ageRange === 0
           ? and(
               gte(UserTable.dob, ageFromDate.toDateString()),
               lte(UserTable.dob, ageToDate.toDateString()),
             )
           : undefined,
-        input.query
+        filters.query
           ? sql`(
             to_tsvector('english', ${InstagramDetails.username}) || 
             to_tsvector('english', ${UserTable.name}) || 
             to_tsvector('english', ${UserTable.bio})
-        ) @@ to_tsquery('english', ${input.query})`
+        ) @@ to_tsquery('english', ${filters.query})`
           : undefined,
       ),
     )
@@ -98,19 +98,19 @@ export function handleSearchSellers(input: SearchSellersInput) {
       LocationTable,
       and(
         eq(LocationTable.id, UserTable.location),
-        input.cities && inArray(LocationTable.city, input.cities),
-        input.states && inArray(LocationTable.state, input.states),
-        input.countries && inArray(LocationTable.country, input.countries),
+        filters.cities && inArray(LocationTable.city, filters.cities),
+        filters.states && inArray(LocationTable.state, filters.states),
+        filters.countries && inArray(LocationTable.country, filters.countries),
       ),
     )
     .leftJoin(PricingTable, and(eq(PricingTable.id, UserTable.pricing)))
     .where(
       and(
-        input.generalPriceFrom
-          ? gte(PricingTable.starting, input.generalPriceFrom)
+        filters.generalPriceFrom
+          ? gte(PricingTable.starting, filters.generalPriceFrom)
           : undefined,
-        input.generalPriceTo
-          ? lte(PricingTable.starting, input.generalPriceTo)
+        filters.generalPriceTo
+          ? lte(PricingTable.starting, filters.generalPriceTo)
           : undefined,
       ),
     )

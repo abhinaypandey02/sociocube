@@ -1,12 +1,12 @@
 import React from "react";
 import { Input } from "ui/input";
 import { AGE_RANGES } from "commons/age";
-import type { SearchSellers } from "../../../__generated__/graphql";
+import type { SearchSellersFilters } from "../../../__generated__/graphql";
 
 export default function AgeFilter({
   onChange,
 }: {
-  onChange: (data: SearchSellers) => void;
+  onChange: (data: SearchSellersFilters) => void;
 }) {
   return (
     <Input

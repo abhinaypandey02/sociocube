@@ -1,14 +1,13 @@
 import { eq } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../db/schema";
-import type { Context } from "../../../../context";
+import type { AuthorizedContext } from "../../../../context";
 import GQLError from "../../../../constants/errors";
 import { getCurrentUser } from "../../utils";
 import { AuthScopes } from "../../../../constants/scopes";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 
-export async function handleDisconnectInstagram(ctx: Context) {
-  if (!ctx.userId) throw GQLError(403);
+export async function handleDisconnectInstagram(ctx: AuthorizedContext) {
   const user = await getCurrentUser(ctx);
   if (!user) throw GQLError(403);
 

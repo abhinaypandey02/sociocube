@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Input } from "ui/input";
 import categories from "commons/categories";
-import type { SearchSellers } from "../../../__generated__/graphql";
+import type { SearchSellersFilters } from "../../../__generated__/graphql";
 import TagsDisplay from "./tags-display";
 
 export default function CategoryFilter({
   onChange,
 }: {
-  onChange: (data: SearchSellers) => void;
+  onChange: (data: SearchSellersFilters) => void;
 }) {
   const [selected, setSelected] = useState<string[]>([]);
   return (

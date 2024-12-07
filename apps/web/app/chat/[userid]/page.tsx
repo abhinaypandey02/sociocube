@@ -19,7 +19,7 @@ export default async function Page({ params }: ChatPage) {
   const { chat } = await queryGQL(
     GET_CHAT,
     {
-      userid: parseInt((await params).userid),
+      userID: parseInt((await params).userid),
     },
     Cookie,
   );

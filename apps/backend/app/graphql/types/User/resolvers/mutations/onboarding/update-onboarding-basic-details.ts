@@ -4,14 +4,14 @@ import { IsIn, IsDateString } from "class-validator";
 import categories from "commons/categories";
 import genders from "commons/genders";
 import { getAge, MAX_AGE, MIN_AGE } from "commons/age";
-import { Context } from "../../../../../context";
+import { AuthorizedContext } from "../../../../../context";
 import { db } from "../../../../../../../lib/db";
 import { OnboardingDataTable, UserTable } from "../../../db/schema";
 import { getCurrentUser } from "../../../utils";
 import GQLError from "../../../../../constants/errors";
 
-@InputType("UpdateBasicDetailsArgs")
-export class UpdateBasicDetailsArgs {
+@InputType("OnboardingBasicDetailsInput")
+export class OnboardingBasicDetailsInput {
   @Field()
   name: string;
   @Field()
@@ -29,11 +29,11 @@ export class UpdateBasicDetailsArgs {
   imageURL: string;
 }
 export async function handleUpdateOnboardingBasicDetails(
-  args: UpdateBasicDetailsArgs,
-  ctx: Context,
+  ctx: AuthorizedContext,
+  basicDetails: OnboardingBasicDetailsInput,
 ) {
-  if (args.dob) {
-    const age = getAge(new Date(args.dob));
+  if (basicDetails.dob) {
+    const age = getAge(new Date(basicDetails.dob));
     if (age < MIN_AGE || age > MAX_AGE)
       throw GQLError(400, "Invalid date of birth");
   }
@@ -44,12 +44,12 @@ export async function handleUpdateOnboardingBasicDetails(
       await tx
         .update(OnboardingDataTable)
         .set({
-          name: args.name,
-          photo: args.imageURL,
-          bio: args.bio,
-          gender: args.gender,
-          category: args.category,
-          dob: args.dob,
+          name: basicDetails.name,
+          photo: basicDetails.imageURL,
+          bio: basicDetails.bio,
+          gender: basicDetails.gender,
+          category: basicDetails.category,
+          dob: basicDetails.dob,
         })
         .where(eq(OnboardingDataTable.id, user.onboardingData));
       return true;
@@ -57,12 +57,12 @@ export async function handleUpdateOnboardingBasicDetails(
     const [data] = await tx
       .insert(OnboardingDataTable)
       .values({
-        name: args.name,
-        photo: args.imageURL,
-        bio: args.bio,
-        gender: args.gender,
-        category: args.category,
-        dob: args.dob,
+        name: basicDetails.name,
+        photo: basicDetails.imageURL,
+        bio: basicDetails.bio,
+        gender: basicDetails.gender,
+        category: basicDetails.category,
+        dob: basicDetails.dob,
       })
       .returning({ id: OnboardingDataTable.id });
     if (!data?.id) {

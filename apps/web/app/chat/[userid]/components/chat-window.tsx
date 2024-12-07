@@ -50,10 +50,8 @@ export default function ChatWindow({
       },
     ]);
     sendMessage({
-      data: {
-        body: data.text,
-        conversation: chat.id,
-      },
+      body: data.text,
+      conversationID: chat.id,
     })
       .then(() => {
         setMessages((old) => {
@@ -84,7 +82,7 @@ export default function ChatWindow({
       (message: NonNullable<GetChatQuery["chat"]>["messages"][number]) => {
         if (message.sender !== user.id) {
           void readMessage({
-            id: chat.id,
+            conversationID: chat.id,
           });
           setMessages((old) => [
             ...old,

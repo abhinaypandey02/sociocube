@@ -25,7 +25,7 @@ export default function OnboardingDOB({
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (data.dob) {
       const res = await updateDOB({
-        data: {
+        dobDetails: {
           dob: data.dob,
         },
       }).catch(handleGQLErrors);

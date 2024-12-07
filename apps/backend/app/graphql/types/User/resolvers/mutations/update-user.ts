@@ -7,13 +7,13 @@ import { getAge, MAX_AGE, MIN_AGE } from "commons/age";
 import { USERNAME_REGEX } from "commons/regex";
 import { db } from "../../../../../../lib/db";
 import { PricingTable, UserTable } from "../../db/schema";
-import type { Context } from "../../../../context";
+import type { AuthorizedContext } from "../../../../context";
 import { Pricing } from "../../type";
 import GQLError from "../../../../constants/errors";
 import { isUserNameAvailable } from "../../utils";
 
-@InputType("UpdateUserArgs")
-export class UpdateUserArgs {
+@InputType("UpdateUserInput")
+export class UpdateUserInput {
   @Field({ nullable: true })
   name?: string;
   @Field({ nullable: true })
@@ -36,41 +36,43 @@ export class UpdateUserArgs {
   dob?: string;
 }
 
-export async function handleUpdateUser(ctx: Context, args: UpdateUserArgs) {
-  if (!ctx.userId) throw GQLError(403);
-  if (args.dob) {
-    const age = getAge(new Date(args.dob));
+export async function handleUpdateUser(
+  ctx: AuthorizedContext,
+  updatedUser: UpdateUserInput,
+) {
+  if (updatedUser.dob) {
+    const age = getAge(new Date(updatedUser.dob));
     if (age < MIN_AGE || age > MAX_AGE)
       throw GQLError(400, "Invalid date of birth");
   }
-  if (args.username) {
-    if (!(await isUserNameAvailable(args.username)))
+  if (updatedUser.username) {
+    if (!(await isUserNameAvailable(updatedUser.username)))
       throw GQLError(400, "Invalid username");
   }
   const [user] = await db
     .update(UserTable)
     .set({
       id: ctx.userId,
-      name: args.name,
-      bio: args.bio,
-      photo: args.photo,
-      category: args.category,
-      gender: args.gender,
-      dob: args.dob,
-      username: args.username,
+      name: updatedUser.name,
+      bio: updatedUser.bio,
+      photo: updatedUser.photo,
+      category: updatedUser.category,
+      gender: updatedUser.gender,
+      dob: updatedUser.dob,
+      username: updatedUser.username,
     })
     .where(eq(UserTable.id, ctx.userId))
     .returning();
-  if (args.pricing) {
+  if (updatedUser.pricing) {
     if (user?.pricing) {
       await db
         .update(PricingTable)
-        .set(args.pricing)
+        .set(updatedUser.pricing)
         .where(eq(PricingTable.id, user.pricing));
     } else {
       const [pricing] = await db
         .insert(PricingTable)
-        .values(args.pricing)
+        .values(updatedUser.pricing)
         .returning({ id: PricingTable.id });
       if (pricing?.id) {
         await db

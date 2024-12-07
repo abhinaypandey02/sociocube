@@ -8,7 +8,7 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { Minus, Plus, X } from "@phosphor-icons/react";
-import type { SearchSellers } from "../../../__generated__/graphql";
+import type { SearchSellersFilters } from "../../../__generated__/graphql";
 import { SEARCH_FILTERS } from "../constants";
 
 export default function MobileFilterPanel({
@@ -18,12 +18,12 @@ export default function MobileFilterPanel({
 }: {
   isOpen: boolean;
   close: () => void;
-  handleChange: (data: SearchSellers) => void;
+  handleChange: (data: SearchSellersFilters) => void;
 }) {
   return (
     <Dialog className="relative z-40 lg:hidden" onClose={close} open={isOpen}>
       <DialogBackdrop
-        className="fixed inset-0 bg-black bg-opacity-25 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
+        className="fixed inset-0 bg-black/25 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
         transition
       />
 

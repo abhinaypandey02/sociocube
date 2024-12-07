@@ -32,7 +32,7 @@ export default function OnboardingUsername({
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (data.username) {
       const res = await updateUsername({
-        data: {
+        usernameDetails: {
           username: data.username,
         },
       }).catch(handleGQLErrors);

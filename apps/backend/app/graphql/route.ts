@@ -7,7 +7,7 @@ import {
 } from "@apollo/server/plugin/landingPage/default";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { buildTypeDefsAndResolvers } from "type-graphql";
-import { authChecker, Context, context } from "./context";
+import { authChecker, AuthorizedContext, Context, context } from "./context";
 import { UserResolvers } from "./types/User/resolvers";
 import { ChatResolvers } from "./types/Chat/resolvers";
 import { MapResolvers } from "./types/Map/resolvers";
@@ -35,7 +35,7 @@ const server = new ApolloServer({
       // eslint-disable-next-line @typescript-eslint/require-await -- No async required
       async requestDidStart({ request, contextValue }) {
         if (
-          (contextValue as Context).onlyQuery &&
+          (contextValue as AuthorizedContext).onlyQuery &&
           !request.query?.startsWith("query")
         )
           (contextValue as Context).userId = null;

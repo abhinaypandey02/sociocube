@@ -4,7 +4,9 @@ import { CountryTable } from "../../Map/db/schema";
 
 export const PostingTable = pgTable("posting", {
   id: serial("id").primaryKey(),
-  user: integer("user").references(() => UserTable.id),
+  user: integer("user")
+    .references(() => UserTable.id)
+    .notNull(),
   title: text("title").notNull(),
   description: text("description").notNull(),
   currency: text("currency").references(() => CountryTable.currency),
@@ -18,16 +20,4 @@ export const PostingTable = pgTable("posting", {
   open: boolean("open").default(true).notNull(),
 });
 
-export const ApplicationTable = pgTable("application", {
-  id: serial("id").primaryKey(),
-  user: integer("user")
-    .references(() => UserTable.id)
-    .notNull(),
-  posting: integer("posting")
-    .references(() => PostingTable.id)
-    .notNull(),
-  comment: text("comment"),
-});
-
-export type ApplicationDB = typeof ApplicationTable.$inferSelect;
 export type PostingDB = typeof PostingTable.$inferSelect;

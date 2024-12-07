@@ -2,28 +2,28 @@ import { gql } from "../__generated__";
 
 export const UPDATE_ONBOARDING_BASIC_DETAILS = gql(`
   #graphql
-  mutation UpdateOnboardingBasicDetails($data: UpdateBasicDetailsArgs!) {
-    updateOnboardingBasicDetails(data: $data)
+  mutation UpdateOnboardingBasicDetails($basicDetails: OnboardingBasicDetailsInput!) {
+    updateOnboardingBasicDetails(basicDetails: $basicDetails)
   }
 `);
 
 export const UPDATE_ONBOARDING_DOB = gql(`
   #graphql
-  mutation UpdateOnboardingDOB($data: UpdateDateOfBirthArgs!) {
-    updateOnboardingDOB(data: $data)
+  mutation UpdateOnboardingDOB($dobDetails: OnboardingDOBInput!) {
+    updateOnboardingDOB(dobDetails: $dobDetails)
   }
 `);
 export const UPDATE_ONBOARDING_USERNAME = gql(`
   #graphql
-  mutation UpdateOnboardingUsername($data: UpdateOnboardingUsernameArgs!) {
-    updateOnboardingUsername(data: $data)
+  mutation UpdateOnboardingUsername($usernameDetails: OnboardingUsernameInput!) {
+    updateOnboardingUsername(usernameDetails: $usernameDetails)
   }
 `);
 
 export const UPDATE_ONBOARDING_LOCATION = gql(`
   #graphql
-  mutation UpdateOnboardingLocation($data: UpdateLocationArgs!) {
-    updateOnboardingLocation(data: $data){
+  mutation UpdateOnboardingLocation($locationDetails: OnboardingLocationInput!) {
+    updateOnboardingLocation(locationDetails: $locationDetails){
       name
       symbol
     }
@@ -32,8 +32,8 @@ export const UPDATE_ONBOARDING_LOCATION = gql(`
 
 export const UPDATE_ONBOARDING_PRICING = gql(`
   #graphql
-  mutation UpdateOnboardingPricing($data: UpdatePricingArgs!) {
-    updateOnboardingPricing(data: $data)
+  mutation UpdateOnboardingPricing($pricingDetails: OnboardingPriceInput!) {
+    updateOnboardingPricing(pricingDetails: $pricingDetails)
   }
 `);
 
@@ -46,29 +46,29 @@ export const COMPLETE_ONBOARDING = gql(`
 
 export const READ_MESSAGE = gql(`
   #graphql
-  mutation ReadMessage($id:Int!) {
-    readMessage(conversation: $id)
+  mutation ReadMessage($conversationID:Int!) {
+    readMessage(conversationID: $conversationID)
   }
 `);
 
 export const SEND_CHAT = gql(`
   #graphql
-  mutation SendChat($data: SendMessage!) {
-    sendMessage(data: $data)
+  mutation SendChat($conversationID: Int!, $body:String!) {
+    sendMessage(conversationID: $conversationID, body: $body)
   }
 `);
 
 export const UPDATE_USER = gql(`
   #graphql
-  mutation UpdateUser($data: UpdateUserArgs!) {
-    updateUser(data: $data)
+  mutation UpdateUser($updatedUser: UpdateUserInput!) {
+    updateUser(updatedUser: $updatedUser)
   }
 `);
 
 export const UPDATE_USER_LOCATION = gql(`
   #graphql
-  mutation UpdateUserLocation($data: UpdateLocation!) {
-    updateUserLocation(data: $data)
+  mutation UpdateUserLocation($updatedLocation: UpdateLocation!) {
+    updateUserLocation(updatedLocation: $updatedLocation)
   }
 `);
 

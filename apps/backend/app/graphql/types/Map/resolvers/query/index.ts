@@ -5,7 +5,7 @@ import { CityTable, CountryTable, StateTable } from "../../db/schema";
 import { SelectOption } from "../../../../utils/select-options";
 
 @Resolver()
-export class MapQueryResolver {
+export class MapQueryResolvers {
   @Query(() => [SelectOption])
   async getCountries(): Promise<SelectOption[]> {
     const countries = await db.select().from(CountryTable);
@@ -17,12 +17,12 @@ export class MapQueryResolver {
 
   @Query(() => [SelectOption])
   async getStates(
-    @Arg("country", () => Int) country: number,
+    @Arg("countryID", () => Int) countryID: number,
   ): Promise<SelectOption[]> {
     const states = await db
       .select()
       .from(StateTable)
-      .where(eq(StateTable.countryId, country));
+      .where(eq(StateTable.countryId, countryID));
     return states.map((state) => ({
       value: state.id,
       label: state.name,
@@ -31,13 +31,13 @@ export class MapQueryResolver {
 
   @Query(() => [SelectOption])
   async getCities(
-    @Arg("state", () => Int) state: number,
+    @Arg("stateID", () => Int) stateID: number,
   ): Promise<SelectOption[]> {
-    const citites = await db
+    const cities = await db
       .select()
       .from(CityTable)
-      .where(eq(CityTable.stateId, state));
-    return citites.map((city) => ({
+      .where(eq(CityTable.stateId, stateID));
+    return cities.map((city) => ({
       value: city.id,
       label: city.name,
     }));

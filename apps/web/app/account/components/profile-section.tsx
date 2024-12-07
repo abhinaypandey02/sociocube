@@ -29,7 +29,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
     (field: keyof AccountSectionData) => async () => {
       if (!(await form.trigger())) return false;
       await saveUserMutation({
-        data: {
+        updatedUser: {
           [field]: form.getValues(field),
         },
       }).catch(handleGQLErrors);

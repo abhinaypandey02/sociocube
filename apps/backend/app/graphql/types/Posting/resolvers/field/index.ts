@@ -6,7 +6,7 @@ import { getCurrentUser } from "../../../User/utils";
 import { UserDB } from "../../../User/db/schema";
 
 @Resolver(() => PostingGQL)
-export class PostingFieldResolver {
+export class PostingFieldResolvers {
   @FieldResolver(() => UserGQL, { nullable: true })
   async user(@Root() posting: PostingDB): Promise<UserDB | undefined | null> {
     return getCurrentUser({

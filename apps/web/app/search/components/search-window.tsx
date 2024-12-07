@@ -12,7 +12,7 @@ import Link from "next/link";
 import { Input } from "ui/input";
 import dynamic from "next/dynamic";
 import type {
-  SearchSellers,
+  SearchSellersFilters,
   SearchSellersQuery,
 } from "../../../__generated__/graphql";
 import { SEARCH_SELLERS } from "../../../lib/queries";
@@ -31,15 +31,15 @@ export default function SearchWindow({
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [searchSellers, { data: fetchedData, loading }] =
     useLazyQuery(SEARCH_SELLERS);
-  const [variables, setVariables] = useState<SearchSellers>({});
+  const [variables, setVariables] = useState<SearchSellersFilters>({});
   const data = fetchedData || defaultData;
-  function handleChange(changesData: SearchSellers) {
+  function handleChange(changesData: SearchSellersFilters) {
     setVariables((prev) => ({ ...prev, ...changesData }));
   }
 
   function startSearch() {
     void searchSellers({
-      variables: { data: variables },
+      variables: { filters: variables },
     });
   }
 

@@ -269,7 +269,7 @@ function OnboardingWizard({
               <div className="flex gap-4 font-poppins">
                 {step > 0 ? (
                   <>
-                    <button onClick={prevStep}>
+                    <button onClick={prevStep} type="button">
                       <CaretLeft />
                     </button>
                     ({step}/{MAX_STEPS - 1}) {currentStep?.title}
@@ -277,7 +277,7 @@ function OnboardingWizard({
                 ) : null}
               </div>
               {allowForward ? (
-                <button onClick={nextStep}>
+                <button onClick={nextStep} type="button">
                   <CaretRight />
                 </button>
               ) : null}

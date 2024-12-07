@@ -1,11 +1,11 @@
 import React from "react";
 import { Input } from "ui/input";
-import type { SearchSellers } from "../../../__generated__/graphql";
+import type { SearchSellersFilters } from "../../../__generated__/graphql";
 
 export default function FollowersFilter({
   onChange,
 }: {
-  onChange: (data: SearchSellers) => void;
+  onChange: (data: SearchSellersFilters) => void;
 }) {
   return (
     <div>

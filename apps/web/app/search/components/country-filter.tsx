@@ -12,9 +12,9 @@ export default function CountryFilter({
     cities?: number[] | null;
   }) => void;
 }) {
-  const [country, setCountry] = useState<number>();
-  const [state, setState] = useState<number>();
-  const [city, setCity] = useState<number>();
+  const [countryID, setCountryID] = useState<number>();
+  const [stateID, setStateID] = useState<number>();
+  const [cityID, setCityID] = useState<number>();
   const [fetchCountries, { data: countriesData }] = useAuthQuery(GET_COUNTRIES);
   const [fetchStates, { data: statesData }] = useAuthQuery(GET_STATES);
   const [fetchCities, { data: citiesData }] = useAuthQuery(GET_CITIES);
@@ -23,17 +23,17 @@ export default function CountryFilter({
     void fetchCountries();
   }, [fetchCountries]);
   useEffect(() => {
-    if (country)
+    if (countryID)
       void fetchStates({
-        country,
+        countryID,
       });
-  }, [country]);
+  }, [countryID]);
   useEffect(() => {
-    if (state)
+    if (stateID)
       void fetchCities({
-        state,
+        stateID,
       });
-  }, [state]);
+  }, [stateID]);
 
   const countries = countriesData?.countries;
   const states = statesData?.states;
@@ -44,9 +44,9 @@ export default function CountryFilter({
         className="block"
         name="country"
         onChange={(e) => {
-          setCountry(parseInt(e.target.value));
-          setState(undefined);
-          setCity(undefined);
+          setCountryID(parseInt(e.target.value));
+          setStateID(undefined);
+          setCityID(undefined);
           onChange({
             countries: [parseInt(e.target.value)],
             states: undefined,
@@ -55,15 +55,15 @@ export default function CountryFilter({
         }}
         options={countries || []}
         placeholder="Country"
-        value={country}
+        value={countryID}
       />
       {states ? (
         <Input
           className="block"
           name="state"
           onChange={(e) => {
-            setState(parseInt(e.target.value));
-            setCity(undefined);
+            setStateID(parseInt(e.target.value));
+            setCityID(undefined);
             onChange({
               states: [parseInt(e.target.value)],
               countries: undefined,
@@ -72,7 +72,7 @@ export default function CountryFilter({
           }}
           options={states}
           placeholder="State"
-          value={state}
+          value={stateID}
         />
       ) : null}
       {cities ? (
@@ -80,7 +80,7 @@ export default function CountryFilter({
           className="block"
           name="city"
           onChange={(e) => {
-            setCity(parseInt(e.target.value));
+            setCityID(parseInt(e.target.value));
             onChange({
               cities: [parseInt(e.target.value)],
               states: undefined,
@@ -89,7 +89,7 @@ export default function CountryFilter({
           }}
           options={cities}
           placeholder="City"
-          value={city}
+          value={cityID}
         />
       ) : null}
     </>

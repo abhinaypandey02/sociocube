@@ -40,26 +40,26 @@ export default function OnboardingLocationForm({
 
   useEffect(() => {
     void fetchCountries();
-    const country = form.getValues("country"),
-      state = form.getValues("state");
-    if (country)
+    const countryID = form.getValues("country"),
+      stateID = form.getValues("state");
+    if (countryID)
       void fetchStates({
-        country,
+        countryID,
       });
-    if (state)
+    if (stateID)
       void fetchCities({
-        state,
+        stateID,
       });
   }, [fetchCountries, fetchStates, fetchCities]);
   useEffect(() => {
     const sub = form.watch((value, { name }) => {
       if (name === "country" && value[name])
         void fetchStates({
-          country: value[name],
+          countryID: value[name],
         });
       if (name === "state" && value[name])
         void fetchCities({
-          state: value[name],
+          stateID: value[name],
         });
     });
     return sub.unsubscribe;
@@ -71,7 +71,7 @@ export default function OnboardingLocationForm({
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (data.state && data.country) {
       const res = await updateBasicDetails({
-        data: {
+        locationDetails: {
           city: data.city,
           state: data.state,
           country: data.country,

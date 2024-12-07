@@ -10,6 +10,10 @@ export interface Context {
   userId: number | null;
   onlyQuery?: boolean;
 }
+export interface AuthorizedContext {
+  userId: number;
+  onlyQuery?: boolean;
+}
 
 export async function context(req: NextRequest): Promise<Context> {
   const refresh = req.cookies.get("refresh")?.value;

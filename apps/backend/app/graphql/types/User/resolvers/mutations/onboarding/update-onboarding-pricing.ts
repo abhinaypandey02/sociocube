@@ -1,6 +1,6 @@
 import { Field, InputType } from "type-graphql";
 import { and, arrayContains, eq, isNotNull } from "drizzle-orm";
-import { Context } from "../../../../../context";
+import { AuthorizedContext } from "../../../../../context";
 import { db } from "../../../../../../../lib/db";
 import {
   OnboardingDataTable,
@@ -10,16 +10,15 @@ import {
 import { AuthScopes } from "../../../../../constants/scopes";
 import GQLError from "../../../../../constants/errors";
 
-@InputType("UpdatePricingArgs")
-export class UpdatePricingArgs {
+@InputType("OnboardingPriceInput")
+export class OnboardingPriceInput {
   @Field()
   starting: number;
 }
 export async function handleUpdateOnboardingPricing(
-  args: UpdatePricingArgs,
-  ctx: Context,
+  ctx: AuthorizedContext,
+  { starting }: OnboardingPriceInput,
 ) {
-  if (!ctx.userId) throw GQLError(403);
   const [res] = await db
     .select()
     .from(UserTable)
@@ -41,13 +40,13 @@ export async function handleUpdateOnboardingPricing(
     await db
       .update(PricingTable)
       .set({
-        starting: args.starting,
+        starting,
       })
       .where(eq(PricingTable.id, res.onboarding_data.pricing));
   } else {
     const [pricing] = await db
       .insert(PricingTable)
-      .values({ starting: args.starting })
+      .values({ starting })
       .returning({ id: PricingTable.id });
     if (pricing?.id) {
       await db

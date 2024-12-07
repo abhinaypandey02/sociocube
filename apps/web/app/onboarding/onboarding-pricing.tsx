@@ -26,7 +26,7 @@ export default function OnboardingPricingForm({
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (data.starting) {
       const res = await updatePricing({
-        data: {
+        pricingDetails: {
           starting: data.starting,
         },
       }).catch(handleGQLErrors);

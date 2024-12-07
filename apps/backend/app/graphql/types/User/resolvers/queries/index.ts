@@ -1,14 +1,14 @@
-import { Arg, Args, Authorized, Ctx, Query, Resolver } from "type-graphql";
-import type { Context } from "../../../../context";
+import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
+import type { AuthorizedContext } from "../../../../context";
 import { UserGQL } from "../../type";
 import { handleGetCurrentUser } from "./get-current-user";
 import { handleGetFeaturedSellers } from "./get-featured-sellers";
-import { GetSellerInput, handleGetSeller } from "./get-seller";
-import { handleSearchSellers, SearchSellersInput } from "./search-sellers";
+import { handleGetSeller } from "./get-seller";
 import {
-  handleIsUsernameAvailable,
-  IsUsernameAvailableArgs,
-} from "./is-username-available";
+  handleSearchSellers,
+  SearchSellersFiltersInput,
+} from "./search-sellers";
+import { handleIsUsernameAvailable } from "./is-username-available";
 import {
   GetFeaturedPostsResponse,
   handleGetFeaturedPosts,
@@ -17,7 +17,7 @@ import {
 @Resolver()
 export class UserQueryResolver {
   @Query(() => UserGQL, { nullable: true })
-  async getCurrentUser(@Ctx() ctx: Context) {
+  async getCurrentUser(@Ctx() ctx: AuthorizedContext) {
     return handleGetCurrentUser(ctx);
   }
   @Query(() => [UserGQL])
@@ -29,16 +29,16 @@ export class UserQueryResolver {
     return handleGetFeaturedPosts();
   }
   @Query(() => UserGQL, { nullable: true })
-  async getSeller(@Args() args: GetSellerInput) {
-    return handleGetSeller(args);
+  async getSeller(@Arg("username") username: string) {
+    return handleGetSeller(username);
   }
   @Query(() => [UserGQL], { nullable: true })
-  async searchSellers(@Arg("data") args: SearchSellersInput) {
-    return handleSearchSellers(args);
+  async searchSellers(@Arg("filters") filters: SearchSellersFiltersInput) {
+    return handleSearchSellers(filters);
   }
   @Authorized()
   @Query(() => Boolean)
-  async isUsernameAvailable(@Args() args: IsUsernameAvailableArgs) {
-    return handleIsUsernameAvailable(args);
+  async isUsernameAvailable(@Arg("username") username: string) {
+    return handleIsUsernameAvailable(username);
   }
 }

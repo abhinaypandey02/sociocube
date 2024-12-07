@@ -1,6 +1,6 @@
 import type { ComponentType } from "react";
 import dynamic from "next/dynamic";
-import type { SearchSellers } from "../../__generated__/graphql";
+import type { SearchSellersFilters } from "../../__generated__/graphql";
 
 const CountryFilter = dynamic(() => import("./components/country-filter"));
 const GenderFilter = dynamic(() => import("./components/gender-filter"));
@@ -12,7 +12,7 @@ const AgeFilter = dynamic(() => import("./components/age-filter"));
 export const SEARCH_FILTERS: {
   name: string;
   component: ComponentType<{
-    onChange: (data: SearchSellers) => void;
+    onChange: (data: SearchSellersFilters) => void;
   }>;
 }[] = [
   {

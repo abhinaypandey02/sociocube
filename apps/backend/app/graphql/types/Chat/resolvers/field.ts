@@ -10,7 +10,7 @@ import { UserTable } from "../../User/db/schema";
 const CHAT_PAGE_SIZE = 20;
 
 @Resolver(() => ChatGQL)
-export class ChatFieldResolver {
+export class ChatFieldResolvers {
   @FieldResolver(() => [MessageGQL])
   @Authorized()
   async messages(

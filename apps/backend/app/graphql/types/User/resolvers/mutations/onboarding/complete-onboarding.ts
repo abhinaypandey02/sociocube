@@ -1,5 +1,5 @@
 import { and, arrayContains, eq, isNotNull } from "drizzle-orm";
-import { Context } from "../../../../../context";
+import { AuthorizedContext } from "../../../../../context";
 import { db } from "../../../../../../../lib/db";
 import {
   LocationTable,
@@ -10,9 +10,8 @@ import GQLError from "../../../../../constants/errors";
 import { AuthScopes } from "../../../../../constants/scopes";
 import { Roles } from "../../../../../constants/roles";
 
-export async function handleCompleteOnboarding(ctx: Context) {
+export async function handleCompleteOnboarding(ctx: AuthorizedContext) {
   await db.transaction(async (tx) => {
-    if (!ctx.userId) return false;
     const [res] = await tx
       .select()
       .from(UserTable)

@@ -37,15 +37,15 @@ export default function LocationSection({
 
   useEffect(() => {
     void fetchCountries();
-    const country = form.getValues("country"),
-      state = form.getValues("state");
-    if (country)
+    const countryID = form.getValues("country"),
+      stateID = form.getValues("state");
+    if (countryID)
       void fetchStates({
-        country,
+        countryID,
       });
-    if (state)
+    if (stateID)
       void fetchCities({
-        state,
+        stateID,
       });
   }, [fetchCountries, fetchStates, fetchCities]);
   const onSubmit: SubmitHandler<
@@ -53,7 +53,7 @@ export default function LocationSection({
   > = async ({ city, state, country }) => {
     if (state && country) {
       await saveUserMutation({
-        data: {
+        updatedLocation: {
           city,
           state,
           country,
@@ -66,11 +66,11 @@ export default function LocationSection({
     const sub = form.watch((value, { name }) => {
       if (name === "country" && value[name])
         void fetchStates({
-          country: value[name],
+          countryID: value[name],
         });
       if (name === "state" && value[name])
         void fetchCities({
-          state: value[name],
+          stateID: value[name],
         });
     });
     return sub.unsubscribe;

@@ -137,8 +137,8 @@ export const GET_CHATS = gql(`
 `);
 export const GET_CHAT = gql(`
   #graphql
-  query GetChat($userid: Int!) {
-    chat: getChat(user: $userid) {
+  query GetChat($userID: Int!) {
+    chat: getChat(userID: $userID) {
       with {
         id
         name
@@ -195,8 +195,8 @@ export const GET_COUNTRIES = gql(`
 `);
 export const GET_STATES = gql(`
   #graphql
-  query GetStates($country: Int!) {
-    states: getStates(country: $country) {
+  query GetStates($countryID: Int!) {
+    states: getStates(countryID: $countryID) {
       value
       label
     }
@@ -205,8 +205,8 @@ export const GET_STATES = gql(`
 
 export const GET_CITIES = gql(`
   #graphql
-  query GetCities($state: Int!) {
-    cities: getCities(state: $state) {
+  query GetCities($stateID: Int!) {
+    cities: getCities(stateID: $stateID) {
       value
       label
     }
@@ -214,8 +214,8 @@ export const GET_CITIES = gql(`
 `);
 export const SEARCH_SELLERS = gql(`
   #graphql
-  query SearchSellers($data: SearchSellers!) {
-    sellers: searchSellers(data: $data) {
+  query SearchSellers($filters: SearchSellersFilters!) {
+    sellers: searchSellers(filters: $filters) {
       name
       id
       photo

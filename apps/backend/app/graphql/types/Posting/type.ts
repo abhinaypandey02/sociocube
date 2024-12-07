@@ -21,8 +21,3 @@ export class PostingGQL {
   @Field()
   open: boolean;
 }
-@ObjectType("Application")
-export class ApplicationGQL {
-  @Field()
-  comment: string;
-}

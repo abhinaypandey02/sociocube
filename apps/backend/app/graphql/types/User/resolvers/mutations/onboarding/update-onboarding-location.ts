@@ -1,6 +1,6 @@
 import { Field, InputType } from "type-graphql";
 import { and, arrayContains, eq, isNotNull } from "drizzle-orm";
-import { Context } from "../../../../../context";
+import { AuthorizedContext } from "../../../../../context";
 import { db } from "../../../../../../../lib/db";
 import { OnboardingDataTable, UserTable } from "../../../db/schema";
 import { AuthScopes } from "../../../../../constants/scopes";
@@ -8,8 +8,8 @@ import GQLError from "../../../../../constants/errors";
 import { Currency } from "../../../type";
 import { CountryTable } from "../../../../Map/db/schema";
 
-@InputType("UpdateLocationArgs")
-export class UpdateLocationArgs {
+@InputType("OnboardingLocationInput")
+export class OnboardingLocationInput {
   @Field({ nullable: true })
   city?: number;
   @Field()
@@ -18,10 +18,9 @@ export class UpdateLocationArgs {
   country: number;
 }
 export async function handleUpdateOnboardingLocation(
-  args: UpdateLocationArgs,
-  ctx: Context,
+  ctx: AuthorizedContext,
+  { city, country, state }: OnboardingLocationInput,
 ): Promise<Currency> {
-  if (!ctx.userId) throw GQLError(403);
   const [res] = await db
     .select()
     .from(UserTable)
@@ -49,15 +48,15 @@ export async function handleUpdateOnboardingLocation(
   await db
     .update(OnboardingDataTable)
     .set({
-      city: args.city,
-      country: args.country,
-      state: args.state,
+      city,
+      country,
+      state,
     })
     .where(eq(OnboardingDataTable.id, res.user.onboardingData));
   const [cityData] = await db
     .select()
     .from(CountryTable)
-    .where(eq(CountryTable.id, args.country));
+    .where(eq(CountryTable.id, country));
   if (cityData)
     return {
       name: cityData.currencyName || undefined,

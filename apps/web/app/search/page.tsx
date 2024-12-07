@@ -6,7 +6,7 @@ import SearchWindow from "./components/search-window";
 export default async function SearchPage() {
   const defaultSearchResults = await queryGQL(
     SEARCH_SELLERS,
-    { data: {} },
+    { filters: {} },
     undefined,
     120,
   );

@@ -55,7 +55,7 @@ export default function OnboardingBasicDetailsForm({
       if (!res.ok) return;
     }
     updateBasicDetails({
-      data: {
+      basicDetails: {
         name: data.name,
         imageURL: profilePicture ? photoUpload.url : data.photo,
         bio: data.bio,
