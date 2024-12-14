@@ -56,7 +56,9 @@ export async function getHDProfilePicture(username: string) {
         Authorization: "HellowncdgudEkjncinUnjnjcOnc83hnU",
       },
     },
-  ).then((res) => res.json())) as {
+  )
+    .then((res) => res.json())
+    .catch(() => ({}))) as {
     data?: {
       profile_picture_url?: string;
     };
