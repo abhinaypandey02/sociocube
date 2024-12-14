@@ -11,7 +11,7 @@ import { PostingTable } from "../../Posting/db/schema";
 export const ApplicationTable = pgTable(
   "application",
   {
-    id: serial("id").primaryKey(),
+    id: serial("id").unique(),
     user: integer("user")
       .references(() => UserTable.id)
       .notNull(),

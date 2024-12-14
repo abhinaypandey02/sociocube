@@ -33,7 +33,7 @@ export const GET = async (req: NextRequest) => {
   if (error) NextResponse.redirect(BASE_REDIRECT_URI);
   if (stateParam) {
     const { refresh, csrfToken } = getState(stateParam);
-    if (!refresh || !csrfToken)
+    if (!csrfToken)
       return new NextResponse("Refresh or csrftoken not found", {
         status: 400,
       });

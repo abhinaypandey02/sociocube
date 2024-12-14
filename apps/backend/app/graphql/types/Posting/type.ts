@@ -6,8 +6,6 @@ export class PostingGQL {
   title: string;
   @Field()
   description: string;
-  @Field(() => String, { nullable: true })
-  currency: string | null;
   @Field(() => Int, { nullable: true })
   price: number | null;
   @Field()
@@ -20,4 +18,6 @@ export class PostingGQL {
   maximumAge: number;
   @Field()
   open: boolean;
+  @Field()
+  id: number;
 }

@@ -80,6 +80,20 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
       likes
       er
     }
+    postings: getAllPostings {
+      id
+      price
+      currency
+      title
+      open
+      minimumAge
+      barter
+      applicationsCount
+      user {
+        photo
+        companyName
+      }
+    }
   }
 `);
 

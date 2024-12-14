@@ -373,9 +373,11 @@ input OnboardingUsernameInput {
 }
 
 type Posting {
+  applicationsCount: Int!
   barter: Boolean!
   currency: String
   description: String!
+  id: Float!
   maximumAge: Float!
   minimumAge: Float!
   minimumInstagramFollower: Float!

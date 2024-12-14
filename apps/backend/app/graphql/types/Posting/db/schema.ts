@@ -9,7 +9,9 @@ export const PostingTable = pgTable("posting", {
     .notNull(),
   title: text("title").notNull(),
   description: text("description").notNull(),
-  currency: text("currency").references(() => CountryTable.currency),
+  currencyCountry: integer("currency_country").references(
+    () => CountryTable.id,
+  ),
   price: integer("price"),
   barter: boolean("barter").default(false).notNull(),
   minimumInstagramFollower: integer("minimum_instagram_follower")
