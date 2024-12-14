@@ -1,4 +1,11 @@
-import { pgTable, text, integer, serial, boolean } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  integer,
+  serial,
+  boolean,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import { UserTable } from "../../User/db/schema";
 import { CountryTable } from "../../Map/db/schema";
 
@@ -20,6 +27,8 @@ export const PostingTable = pgTable("posting", {
   minimumAge: integer("minimum_age").default(0).notNull(),
   maximumAge: integer("maximum_age").default(1000).notNull(),
   open: boolean("open").default(true).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
 export type PostingDB = typeof PostingTable.$inferSelect;

@@ -87,8 +87,10 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
       title
       open
       minimumAge
+      maximumAge
       barter
       applicationsCount
+      minimumInstagramFollower
       user {
         photo
         companyName
@@ -241,5 +243,31 @@ export const IS_USERNAME_AVAILABLE = gql(`
   #graphql
   query IsUsernameAvailable($username: String!) {
     isUsernameAvailable(username:$username)
+  }
+`);
+
+export const GET_POSTING = gql(`
+  #graphql
+  query GetPosting($id: Int!) {
+    posting:getPosting(id: $id){
+      id
+      maximumAge
+      minimumInstagramFollower
+      user {
+        name
+        photo
+        companyName
+      }
+      applicationsCount
+      description
+      barter
+      minimumAge
+      open
+      title
+      currency
+      price
+      createdAt
+      updatedAt
+    }
   }
 `);

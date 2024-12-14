@@ -375,6 +375,7 @@ input OnboardingUsernameInput {
 type Posting {
   applicationsCount: Int!
   barter: Boolean!
+  createdAt: Float!
   currency: String
   description: String!
   id: Float!
@@ -384,6 +385,7 @@ type Posting {
   open: Boolean!
   price: Int
   title: String!
+  updatedAt: Float!
   user: User
 }
 
@@ -404,6 +406,7 @@ type Query {
   getCurrentUser: User
   getFeaturedPosts: [GetFeaturedPostsResponse!]!
   getFeaturedSellers: [User!]!
+  getPosting(id: Int!): Posting
   getSeller(username: String!): User
   getStates(countryID: Int!): [SelectOption!]!
   getUserPostings: [Posting!]!

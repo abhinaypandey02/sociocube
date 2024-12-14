@@ -20,4 +20,8 @@ export class PostingGQL {
   open: boolean;
   @Field()
   id: number;
+  @Field(() => Number)
+  createdAt: Date;
+  @Field(() => Number)
+  updatedAt: Date;
 }

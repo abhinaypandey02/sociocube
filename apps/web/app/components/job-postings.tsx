@@ -1,7 +1,9 @@
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
+import React from "react";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 import { Route } from "../../constants/routes";
+import { convertToAbbreviation } from "../../lib/utils";
 
 export default function JobPostings({
   postings,
@@ -11,10 +13,18 @@ export default function JobPostings({
   return (
     <div className=" py-16 sm:my-16" id="how-it-works">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <ul className="divide-y divide-gray-100">
+        <div className="mx-auto mb-20 lg:mx-0">
+          <h2 className="font-poppins text-3xl font-bold  sm:text-4xl">
+            Collaboration Opportunities
+          </h2>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-gray-800">
+            Find out who is looking for YOU to collab!
+          </p>
+        </div>
+        <ul className="mx-auto max-w-5xl divide-y divide-gray-100 ">
           {postings.map((posting) => (
             <li
-              className="relative flex justify-between gap-x-6 py-5"
+              className="relative flex justify-between gap-x-6 rounded-xl p-5 transition-all duration-300 hover:bg-white hover:shadow"
               key={posting.id}
             >
               <div className="flex min-w-0 gap-x-4">
@@ -22,19 +32,22 @@ export default function JobPostings({
                   <Image
                     alt={posting.user.companyName || ""}
                     className="size-12 flex-none rounded-full bg-gray-50"
+                    height={48}
                     src={posting.user.photo}
+                    width={48}
                   />
                 ) : null}
                 <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-900">
+                  <p className=" font-semibold leading-6 text-gray-900">
                     <a href={`${Route.Postings}/${posting.id}`}>
                       <span className="absolute inset-x-0 -top-px bottom-0" />
                       {posting.title}
                     </a>
                   </p>
                   <p className="mt-1 line-clamp-1 flex text-xs leading-5 text-gray-500">
-                    {posting.user?.companyName} •
-                    {` > ${posting.minimumAge} yrs`}
+                    {posting.user?.companyName} • Age group:{" "}
+                    {posting.minimumAge} - {posting.maximumAge} • Min followers:{" "}
+                    {convertToAbbreviation(posting.minimumInstagramFollower)}
                   </p>
                 </div>
               </div>

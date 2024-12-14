@@ -43,6 +43,7 @@ export const UserTable = pgTable(
     id: serial("id").primaryKey(),
     name: text("name"),
     bio: text("bio"),
+    companyName: text("companyName"),
     username: text("username").unique(),
     email: text("email").unique(),
     instagramDetails: integer("instagram_details").references(
