@@ -55,7 +55,6 @@ export const GET = async (req: NextRequest) => {
             status: 400,
           },
         );
-      console.warn("refresh", refresh);
       const loggedInUserID = getUserIdFromRefreshToken(refresh);
       const [existingUserJoin] = await db
         .select()
@@ -66,7 +65,6 @@ export const GET = async (req: NextRequest) => {
           eq(UserTable.instagramDetails, InstagramDetails.id),
         );
       const existingUser = existingUserJoin?.user;
-      console.warn("existingUser", existingUser, loggedInUserID);
 
       let refreshToken;
       if (existingUser && loggedInUserID) {
@@ -158,20 +156,30 @@ export const GET = async (req: NextRequest) => {
                   name: loggedInUser.name || personalInfo.name,
                   bio: loggedInUser.bio || personalInfo.biography,
                 },
+                tx,
               );
             } else tx.rollback();
           } else {
-            const newUser = await createUser({
-              name: personalInfo.name,
-              refreshTokens: [],
-              instagramDetails: inserted.id,
-              photo: hdPhoto || personalInfo.profile_picture_url,
-              bio: personalInfo.biography,
-              scopes: [AuthScopes.INSTAGRAM],
-              roles: [],
-            });
+            const newUser = await createUser(
+              {
+                name: personalInfo.name,
+                refreshTokens: [],
+                instagramDetails: inserted.id,
+                photo: hdPhoto || personalInfo.profile_picture_url,
+                bio: personalInfo.biography,
+                scopes: [AuthScopes.INSTAGRAM],
+                roles: [],
+              },
+              tx,
+            );
             if (newUser) {
-              refreshToken = await updateRefreshTokenAndScope(newUser.id, []);
+              refreshToken = await updateRefreshTokenAndScope(
+                newUser.id,
+                [],
+                undefined,
+                undefined,
+                tx,
+              );
             } else tx.rollback();
           }
           return inserted.id;
