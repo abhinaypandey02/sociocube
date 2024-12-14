@@ -13,6 +13,7 @@ import Faqs from "./components/faqs";
 import ProfilePage, {
   generateMetadata as profileGenerateMetadata,
 } from "./profile/[username]/page";
+import JobPostings from "./components/job-postings";
 
 const HowItWorks = dynamic(() => import("./components/how-it-works"));
 const Cta = dynamic(() => import("./components/cta"));
@@ -47,7 +48,7 @@ async function HomePage() {
         />
       );
   }
-  const { sellers, posts } = await queryGQL(
+  const { sellers, posts, postings } = await queryGQL(
     GET_FEATURED_SELLERS_AND_POSTS,
     undefined,
     undefined,
@@ -80,6 +81,7 @@ async function HomePage() {
         id="org"
       />
       <Hero posts={posts} />
+      <JobPostings postings={postings} />
       <TopCreators sellers={sellersToShow} />
       <HowItWorks />
       <FiltersList />

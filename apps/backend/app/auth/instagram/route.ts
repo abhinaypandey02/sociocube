@@ -55,6 +55,7 @@ export const GET = async (req: NextRequest) => {
             status: 400,
           },
         );
+      console.warn("refresh", refresh);
       const loggedInUserID = getUserIdFromRefreshToken(refresh);
       const [existingUserJoin] = await db
         .select()
@@ -65,6 +66,8 @@ export const GET = async (req: NextRequest) => {
           eq(UserTable.instagramDetails, InstagramDetails.id),
         );
       const existingUser = existingUserJoin?.user;
+      console.warn("existingUser", existingUser, loggedInUserID);
+
       let refreshToken;
       if (existingUser && loggedInUserID) {
         await db
