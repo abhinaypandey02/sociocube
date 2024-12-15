@@ -1,10 +1,10 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import { Button, Variants } from "ui/button";
 import Image from "next/image";
-import { queryGQL } from "../../../lib/apollo-server";
+import { getCurrentUser, Injector, queryGQL } from "../../../lib/apollo-server";
 import { GET_POSTING } from "../../../lib/queries";
 import { convertToAbbreviation } from "../../../lib/utils";
+import ApplyNowButton from "./apply-now-button";
 
 export default async function JobPostingPage({
   params,
@@ -42,13 +42,11 @@ export default async function JobPostingPage({
             </div>
           </div>
           <div className="flex flex-col gap-3 max-sm:w-full max-sm:flex-col-reverse max-sm:gap-5">
-            <Button
-              className="max-sm:w-full sm:ml-auto"
-              disabled={!posting.open}
-              variant={Variants.ACCENT}
-            >
-              {posting.open ? "Apply now" : "Closed"}
-            </Button>
+            <Injector
+              Component={ApplyNowButton}
+              fetch={getCurrentUser}
+              props={{ isOpen: posting.open }}
+            />
             <div className=" flex items-center gap-2">
               {posting.open ? (
                 <div className="flex-none rounded-full bg-emerald-500/20 p-1">

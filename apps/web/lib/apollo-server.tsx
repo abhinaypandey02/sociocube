@@ -25,34 +25,40 @@ export const { query, PreloadQuery: PreloadQueryInternal } =
     });
   });
 
+type OmittedProps<Y> = Omit<Omit<Y, "loading">, "data">;
+
+type ComponentProps<Y> =
+  OmittedProps<Y> extends Record<string, never>
+    ? { props?: object }
+    : { props: OmittedProps<Y> };
+
 export function Injector<T, Y>({
   fetch,
   Component,
   props,
 }: {
   fetch: () => Promise<T>;
-  Component: FC<{ data?: T; loading?: boolean }>;
-  props?: Y;
-}) {
+  Component: FC<{ data?: T; loading: boolean } & Y>;
+} & ComponentProps<Y>) {
   return (
-    <Suspense fallback={<Component {...(props || {})} loading />}>
+    <Suspense fallback={<Component {...((props || {}) as Y)} loading />}>
+      {/*@ts-expect-error -- to allow dynamic props*/}
       <InjectorSuspensed Component={Component} fetch={fetch} props={props} />
     </Suspense>
   );
 }
-export async function InjectorSuspensed<T, Y>({
+async function InjectorSuspensed<T, Y>({
   fetch,
   Component,
   props,
 }: {
   fetch: () => Promise<T>;
-  Component: FC<{ data?: T }>;
-  props?: Y;
-}) {
+  Component: FC<{ data?: T; loading: boolean } & Y>;
+} & ComponentProps<Y>) {
   const data = await fetch();
   return (
-    <Suspense fallback={<Component {...(props || {})} />}>
-      <Component {...(props || {})} data={data} />
+    <Suspense fallback={<Component loading {...((props || {}) as Y)} />}>
+      <Component loading={false} {...((props || {}) as Y)} data={data} />
     </Suspense>
   );
 }
