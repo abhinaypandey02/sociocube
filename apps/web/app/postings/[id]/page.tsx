@@ -58,7 +58,7 @@ export default async function JobPostingPage({
               }
               props={{ isOpen: posting.open, posting }}
             />
-            <div className="flex items-center justify-end gap-2">
+            <div className="flex items-center gap-2 sm:justify-end">
               {posting.open ? (
                 <div className="flex-none rounded-full bg-emerald-500/20 p-1">
                   <div className="size-1.5 rounded-full bg-emerald-500" />

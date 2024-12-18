@@ -39,10 +39,17 @@ export default function ApplyNowButton({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRouteLoading, setIsRouteLoading] = useState(false);
   const message = useMemo(() => {
-    if (!isOpen) return ["Closed", null];
+    if (appliedSuccess) return ["Applied!", null, "true"];
+    if (!isOpen) return ["Closed", null, "true"];
     if (!data?.user) return ["Sign in to apply", getRoute("SignUp")];
     if (!data.user.isOnboarded)
       return ["Onboard to apply", getRoute("Onboarding")];
+
+    if (
+      (data.user.instagramStats?.followers || 0) <
+      (posting?.minimumInstagramFollower || 0)
+    )
+      return ["Not enough followers", null, "true"];
     return ["Apply Now", null];
   }, [data?.user, isOpen, appliedSuccess]);
 
@@ -72,7 +79,6 @@ export default function ApplyNowButton({
   };
 
   const loading = isRouteLoading || dataLoading || applyNowLoading;
-
   return (
     <>
       <Modal close={handleClose} open={isModalOpen}>
@@ -109,13 +115,13 @@ export default function ApplyNowButton({
       </Modal>
       <Button
         className="max-sm:w-full sm:ml-auto"
-        disabled={!isOpen || appliedSuccess}
+        disabled={Boolean(message[2])}
         loading={loading}
         onClick={handleClick}
-        outline={appliedSuccess}
+        outline={Boolean(message[2])}
         variant={Variants.ACCENT}
       >
-        {appliedSuccess ? "Applied!" : message[0]}
+        {message[0]}
       </Button>
     </>
   );

@@ -280,6 +280,9 @@ export const GET_CURRENT_USER_APPLICATION_STATUS = gql(`
       email
       name
       isOnboarded
+      instagramStats {
+        followers
+      }
     }
     hasApplied: getHasUserApplied(postingID: $postingID)
   }

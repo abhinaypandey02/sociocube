@@ -39,7 +39,7 @@ const documents = {
     "\n  #graphql\n  query SearchSellers($filters: SearchSellersFilters!) {\n    sellers: searchSellers(filters: $filters) {\n      name\n      username\n      photo\n      bio\n    }\n  }\n": types.SearchSellersDocument,
     "\n  #graphql\n  query IsUsernameAvailable($username: String!) {\n    isUsernameAvailable(username:$username)\n  }\n": types.IsUsernameAvailableDocument,
     "\n  #graphql\n  query GetPosting($id: Int!) {\n    posting:getPosting(id: $id){\n      id\n      maximumAge\n      minimumInstagramFollower\n      user {\n        name\n        photo\n        companyName\n      }\n      applicationsCount\n      description\n      barter\n      minimumAge\n      open\n      title\n      currency\n      price\n      createdAt\n      updatedAt\n    }\n  }\n": types.GetPostingDocument,
-    "\n  #graphql\n  query GetCurrentUserApplicationStatus($postingID:Float!) {\n    user: getCurrentUser {\n      id\n      email\n      name\n      isOnboarded\n    }\n    hasApplied: getHasUserApplied(postingID: $postingID)\n  }\n": types.GetCurrentUserApplicationStatusDocument,
+    "\n  #graphql\n  query GetCurrentUserApplicationStatus($postingID:Float!) {\n    user: getCurrentUser {\n      id\n      email\n      name\n      isOnboarded\n      instagramStats {\n        followers\n      }\n    }\n    hasApplied: getHasUserApplied(postingID: $postingID)\n  }\n": types.GetCurrentUserApplicationStatusDocument,
 };
 
 /**
@@ -163,7 +163,7 @@ export function gql(source: "\n  #graphql\n  query GetPosting($id: Int!) {\n    
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  query GetCurrentUserApplicationStatus($postingID:Float!) {\n    user: getCurrentUser {\n      id\n      email\n      name\n      isOnboarded\n    }\n    hasApplied: getHasUserApplied(postingID: $postingID)\n  }\n"): (typeof documents)["\n  #graphql\n  query GetCurrentUserApplicationStatus($postingID:Float!) {\n    user: getCurrentUser {\n      id\n      email\n      name\n      isOnboarded\n    }\n    hasApplied: getHasUserApplied(postingID: $postingID)\n  }\n"];
+export function gql(source: "\n  #graphql\n  query GetCurrentUserApplicationStatus($postingID:Float!) {\n    user: getCurrentUser {\n      id\n      email\n      name\n      isOnboarded\n      instagramStats {\n        followers\n      }\n    }\n    hasApplied: getHasUserApplied(postingID: $postingID)\n  }\n"): (typeof documents)["\n  #graphql\n  query GetCurrentUserApplicationStatus($postingID:Float!) {\n    user: getCurrentUser {\n      id\n      email\n      name\n      isOnboarded\n      instagramStats {\n        followers\n      }\n    }\n    hasApplied: getHasUserApplied(postingID: $postingID)\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
