@@ -1,6 +1,7 @@
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import React from "react";
+import Link from "next/link";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 import { getRoute } from "../../constants/routes";
 import { convertToAbbreviation } from "../../lib/utils";
@@ -39,10 +40,10 @@ export default function JobPostings({
                 ) : null}
                 <div className="min-w-0 flex-auto">
                   <p className=" font-semibold leading-6 text-gray-900">
-                    <a href={`${getRoute("Postings")}/${posting.id}`}>
+                    <Link href={`${getRoute("Postings")}/${posting.id}`}>
                       <span className="absolute inset-x-0 -top-px bottom-0" />
                       {posting.title}
-                    </a>
+                    </Link>
                   </p>
                   <p className="mt-1 line-clamp-1 flex text-xs leading-5 text-gray-500">
                     {posting.user?.companyName} • Age group:{" "}
