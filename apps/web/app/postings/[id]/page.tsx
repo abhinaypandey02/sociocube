@@ -53,6 +53,7 @@ export default async function JobPostingPage({
                   GET_CURRENT_USER_APPLICATION_STATUS,
                   { postingID: id },
                   await cookies(),
+                  0,
                 )
               }
               props={{ isOpen: posting.open, posting }}
