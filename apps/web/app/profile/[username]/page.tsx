@@ -7,6 +7,7 @@ import {
   TrendUp,
 } from "@phosphor-icons/react/dist/ssr";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { queryGQL } from "../../../lib/apollo-server";
 import {
   GET_SELLER,
@@ -144,7 +145,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
               }}
               id="profile-image"
             />
-            <img
+            <Image
               alt={seller.name}
               className="w-full rounded-lg lg:col-span-2 lg:row-span-2"
               height={1080}
@@ -265,7 +266,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
                   }}
                   id={`post-image-${i}`}
                 />
-                <img
+                <Image
                   alt={media.caption || `Post by ${seller.name}`}
                   className="size-full rounded-md object-cover"
                   height={500}
