@@ -47,7 +47,9 @@ function PostSlide({
         <Image
           alt={post.creatorName}
           className="size-10 rounded-full"
+          height={40}
           src={post.creatorImage}
+          width={40}
         />
         <p className="grow font-bold text-white">{post.creatorName}</p>
         <div className="text-xs font-semibold text-white">
