@@ -59,7 +59,7 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
   #graphql
   query GetFeaturedSellers {
     sellers: getFeaturedSellers {
-      id
+      username
       name
       photo
       bio
@@ -233,7 +233,7 @@ export const SEARCH_SELLERS = gql(`
   query SearchSellers($filters: SearchSellersFilters!) {
     sellers: searchSellers(filters: $filters) {
       name
-      id
+      username
       photo
       bio
     }

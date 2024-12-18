@@ -7,6 +7,7 @@ export async function getHasUserApplied(
   ctx: AuthorizedContext,
   postingID: number,
 ) {
+  if (!ctx.userId) return false;
   const data = await db
     .select()
     .from(ApplicationTable)

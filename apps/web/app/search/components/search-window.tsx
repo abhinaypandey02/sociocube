@@ -139,7 +139,7 @@ export default function SearchWindow({
               <ul className=" grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {data.sellers?.map((person) => (
                   <li key={person.name || ""}>
-                    <Link href={`${getRoute("Profile")}/${person.id}`}>
+                    <Link href={`${getRoute("Profile")}/${person.username}`}>
                       <Image
                         alt={person.name || ""}
                         className="aspect-[14/13] w-full rounded-2xl object-cover"

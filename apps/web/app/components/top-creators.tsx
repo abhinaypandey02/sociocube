@@ -46,7 +46,7 @@ export default function TopCreators({
             className={i >= 8 ? "hidden lg:block xl:hidden" : ""}
             key={person.name || ""}
           >
-            <Link href={`${getRoute("Profile")}/${person.id}`}>
+            <Link href={`${getRoute("Profile")}/${person.username}`}>
               <Image
                 alt={person.name || ""}
                 className="aspect-[14/13] w-full rounded-2xl object-cover"

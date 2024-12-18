@@ -13,7 +13,6 @@ export class ApplicationQueryResolver {
     return getUserApplications(ctx);
   }
 
-  @Authorized()
   @Query(() => Boolean)
   getHasUserApplied(
     @Ctx() ctx: AuthorizedContext,

@@ -28,8 +28,8 @@ export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const { sellers } = await queryGQL(GET_FEATURED_SELLERS_AND_POSTS);
-  return sellers.map(({ id }) => ({
-    id: id.toString(),
+  return sellers.map(({ username }) => ({
+    username,
   }));
 }
 
