@@ -18,5 +18,5 @@ export function getRoute(route: keyof typeof Route) {
 }
 
 export function getMeURL(username: string) {
-  return `https://${username}.freeluencers.me`;
+  return `${username}.freeluencers.me`;
 }

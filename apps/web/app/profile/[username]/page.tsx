@@ -103,7 +103,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
             image: seller.photo,
             sameAs: [
               `${getRoute("Profile")}/${username}`,
-              getMeURL(username),
+              `https://${getMeURL(username)}`,
               `https://instagram.com/${seller.instagramStats.username}`,
             ],
           },
