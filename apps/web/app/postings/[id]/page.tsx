@@ -1,8 +1,12 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getCurrentUser, Injector, queryGQL } from "../../../lib/apollo-server";
-import { GET_POSTING } from "../../../lib/queries";
+import { cookies } from "next/headers";
+import { Injector, queryGQL } from "../../../lib/apollo-server";
+import {
+  GET_CURRENT_USER_APPLICATION_STATUS,
+  GET_POSTING,
+} from "../../../lib/queries";
 import { convertToAbbreviation } from "../../../lib/utils";
 import ApplyNowButton from "./apply-now-button";
 
@@ -44,10 +48,16 @@ export default async function JobPostingPage({
           <div className="flex flex-col gap-3 max-sm:w-full max-sm:flex-col-reverse max-sm:gap-5">
             <Injector
               Component={ApplyNowButton}
-              fetch={getCurrentUser}
-              props={{ isOpen: posting.open }}
+              fetch={async () =>
+                queryGQL(
+                  GET_CURRENT_USER_APPLICATION_STATUS,
+                  { postingID: id },
+                  await cookies(),
+                )
+              }
+              props={{ isOpen: posting.open, posting }}
             />
-            <div className=" flex items-center gap-2">
+            <div className="flex items-center justify-end gap-2">
               {posting.open ? (
                 <div className="flex-none rounded-full bg-emerald-500/20 p-1">
                   <div className="size-1.5 rounded-full bg-emerald-500" />

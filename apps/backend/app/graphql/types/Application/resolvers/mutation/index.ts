@@ -9,8 +9,9 @@ export class ApplicationMutationResolver {
   applyToPosting(
     @Ctx() ctx: AuthorizedContext,
     @Arg("postingID") postingID: number,
-    @Arg("comment", { nullable: true }) comment: string | null,
+    @Arg("email") email: string,
+    @Arg("comment", () => String, { nullable: true }) comment: string | null,
   ) {
-    return applyToPosting(ctx, postingID, comment);
+    return applyToPosting(ctx, postingID, email, comment);
   }
 }

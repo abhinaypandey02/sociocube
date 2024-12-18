@@ -85,3 +85,10 @@ export const DISCONNECT_GOOGLE = gql(`
     disconnectGoogle
   }
 `);
+
+export const APPLY_NOW = gql(`
+  #graphql
+  mutation ApplyNow($postingID:Float!, $email:String!, $comment:String) {
+    applyToPosting(postingID: $postingID, email: $email, comment: $comment)  
+  }
+`);

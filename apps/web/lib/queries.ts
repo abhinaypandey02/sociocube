@@ -271,3 +271,16 @@ export const GET_POSTING = gql(`
     }
   }
 `);
+
+export const GET_CURRENT_USER_APPLICATION_STATUS = gql(`
+  #graphql
+  query GetCurrentUserApplicationStatus($postingID:Float!) {
+    user: getCurrentUser {
+      id
+      email
+      name
+      isOnboarded
+    }
+    hasApplied: getHasUserApplied(postingID: $postingID)
+  }
+`);

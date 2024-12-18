@@ -18,6 +18,7 @@ export const ApplicationTable = pgTable(
     posting: integer("posting")
       .references(() => PostingTable.id)
       .notNull(),
+    email: text("email").notNull(),
     comment: text("comment"),
   },
   (table) => ({

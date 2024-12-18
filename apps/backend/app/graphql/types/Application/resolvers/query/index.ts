@@ -3,6 +3,7 @@ import { ApplicationGQL } from "../../type";
 import type { AuthorizedContext } from "../../../../context";
 import { getUserApplications } from "./get-user-applications";
 import { getPostingApplications } from "./get-posting-applications";
+import { getHasUserApplied } from "./get-has-user-applied";
 
 @Resolver()
 export class ApplicationQueryResolver {
@@ -10,6 +11,15 @@ export class ApplicationQueryResolver {
   @Query(() => [ApplicationGQL])
   getUserApplications(@Ctx() ctx: AuthorizedContext) {
     return getUserApplications(ctx);
+  }
+
+  @Authorized()
+  @Query(() => Boolean)
+  getHasUserApplied(
+    @Ctx() ctx: AuthorizedContext,
+    @Arg("postingID") postingID: number,
+  ) {
+    return getHasUserApplied(ctx, postingID);
   }
 
   @Authorized()
