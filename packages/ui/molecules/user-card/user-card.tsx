@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import type { UserCardProps } from "./types";
 
 function UserCard({ name, bio, imageURL }: UserCardProps) {
@@ -8,7 +9,7 @@ function UserCard({ name, bio, imageURL }: UserCardProps) {
       type="button"
     >
       <div className="h-[270px] w-[230px]">
-        <img
+        <Image
           alt={name}
           className="size-full rounded-primary object-cover shadow-elevation-2"
           height={270}

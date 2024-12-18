@@ -8,6 +8,7 @@ import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 
 import "swiper/css";
 import "swiper/css/effect-cards";
+import Image from "next/image";
 
 function getRandomColor() {
   return `rgb(${Math.floor(Math.random() * 175)},${Math.floor(Math.random() * 175)},${Math.floor(Math.random() * 175)})`;
@@ -43,7 +44,7 @@ function PostSlide({
         className="absolute bottom-4 flex w-full items-center gap-3 pl-4 pr-3 "
         href={`${getRoute("Profile")}/${post.creatorUsername}`}
       >
-        <img
+        <Image
           alt={post.creatorName}
           className="size-10 rounded-full"
           src={post.creatorImage}

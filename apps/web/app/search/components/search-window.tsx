@@ -11,6 +11,7 @@ import { useLazyQuery } from "@apollo/client";
 import Link from "next/link";
 import { Input } from "ui/input";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import type {
   SearchSellersFilters,
   SearchSellersQuery,
@@ -139,7 +140,7 @@ export default function SearchWindow({
                 {data.sellers?.map((person) => (
                   <li key={person.name || ""}>
                     <Link href={`${getRoute("Profile")}/${person.id}`}>
-                      <img
+                      <Image
                         alt={person.name || ""}
                         className="aspect-[14/13] w-full rounded-2xl object-cover"
                         height={260}

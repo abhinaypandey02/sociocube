@@ -6,6 +6,7 @@ import {
   MagnifyingGlass,
   TrendUp,
 } from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
 import { getRoute } from "../../constants/routes";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 import { convertToAbbreviation } from "../../lib/utils";
@@ -46,7 +47,7 @@ export default function TopCreators({
             key={person.name || ""}
           >
             <Link href={`${getRoute("Profile")}/${person.id}`}>
-              <img
+              <Image
                 alt={person.name || ""}
                 className="aspect-[14/13] w-full rounded-2xl object-cover"
                 height={260}

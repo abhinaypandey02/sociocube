@@ -9,6 +9,7 @@ import categories from "commons/categories";
 import genders from "commons/genders";
 import Form from "ui/form";
 import { User } from "@phosphor-icons/react";
+import Image from "next/image";
 import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
 import { UPDATE_ONBOARDING_BASIC_DETAILS } from "../../lib/mutations";
 import type { StorageFile } from "../../__generated__/graphql";
@@ -82,7 +83,7 @@ export default function OnboardingBasicDetailsForm({
         type="button"
       >
         {displayURL ? (
-          <img
+          <Image
             alt={defaultValues.name}
             className="size-full object-cover"
             height={300}
