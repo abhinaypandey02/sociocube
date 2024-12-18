@@ -50,7 +50,7 @@ export async function generateMetadata({
   const seller = data.getSeller;
   if (!seller?.name) return {};
   return getSEO(
-    `${data.getSeller?.name} • Freeluencers`,
+    `${data.getSeller?.name}`,
     `${convertToAbbreviation(seller.instagramStats?.followers || 0)} Followers, ${seller.instagramStats?.er}% Engagement, ${convertToAbbreviation(seller.instagramStats?.mediaCount || 0)} posts on their Instagram account @${seller.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
     [
       data.getSeller?.photo || "",
