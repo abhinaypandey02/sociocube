@@ -3,12 +3,13 @@ import React, { Suspense } from "react";
 import { EffectCards, Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Heart, TrendUp } from "@phosphor-icons/react/dist/ssr";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import { getRoute } from "../../constants/routes";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 
 import "swiper/css";
 import "swiper/css/effect-cards";
-import Image from "next/image";
 
 function getRandomColor() {
   return `rgb(${Math.floor(Math.random() * 175)},${Math.floor(Math.random() * 175)},${Math.floor(Math.random() * 175)})`;
@@ -68,11 +69,7 @@ function PostSlide({
   );
 }
 
-export default function PostSlider({
-  posts,
-}: {
-  posts: GetFeaturedSellersQuery["posts"];
-}) {
+function PostSlider({ posts }: { posts: GetFeaturedSellersQuery["posts"] }) {
   return (
     <Swiper
       autoplay={{
@@ -93,3 +90,5 @@ export default function PostSlider({
     </Swiper>
   );
 }
+
+export default dynamic(() => Promise.resolve(PostSlider), { ssr: false });
