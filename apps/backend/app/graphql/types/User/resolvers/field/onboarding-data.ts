@@ -47,7 +47,6 @@ export function getIsOnboarded(user: UserDB) {
       user.name &&
       user.category &&
       user.gender &&
-      user.dob &&
       user.instagramDetails &&
       user.location &&
       user.isOnboarded,
