@@ -97,7 +97,7 @@ export default function ApplyNowButton({
         <Form form={form} onSubmit={form.handleSubmit(handleApply)}>
           <Input
             className="mb-4 placeholder:text-xs"
-            label="Contact email"
+            label="Contact email *"
             name="email"
             placeholder="Email for the recruiter to reach out to you"
             required
@@ -105,9 +105,9 @@ export default function ApplyNowButton({
           />
           <Input
             className="mb-4 placeholder:text-xs"
-            label="Add comment (Optional)"
+            label="Add comment"
             name="comment"
-            placeholder="Add a comment to add more information for the recruiter"
+            placeholder="(Optional) Add a comment to add more information for the recruiter"
             textarea
           />
           <Button
