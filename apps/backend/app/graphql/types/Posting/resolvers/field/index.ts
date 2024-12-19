@@ -36,6 +36,6 @@ export class PostingFieldResolvers {
       .select({ count: count() })
       .from(ApplicationTable)
       .where(eq(ApplicationTable.posting, posting.id));
-    return (applications?.count || 0) + posting.id * 10;
+    return (applications?.count || 0) + Math.round(posting.id * 3.5);
   }
 }

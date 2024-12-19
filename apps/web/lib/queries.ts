@@ -283,6 +283,7 @@ export const GET_CURRENT_USER_APPLICATION_STATUS = gql(`
       instagramStats {
         followers
       }
+      dob
     }
     hasApplied: getHasUserApplied(postingID: $postingID)
   }

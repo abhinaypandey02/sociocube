@@ -14,18 +14,19 @@ export default function JobPostings({
   return (
     <div className=" py-16 sm:my-16" id="how-it-works">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto mb-20 lg:mx-0">
+        <div className="mx-auto mb-16 lg:mx-0">
           <h2 className="font-poppins text-3xl font-bold  sm:text-4xl">
-            Collaboration Opportunities
+            Exciting Opportunities
           </h2>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-gray-800">
-            Find out who is looking for YOU to collab!
+            Discover gigs and freelance jobs tailored for influencers. Apply now
+            and start collaborating with top brands today!
           </p>
         </div>
-        <ul className="mx-auto max-w-5xl divide-y divide-gray-100 ">
+        <ul className="mx-auto max-w-6xl divide-y divide-gray-100 ">
           {postings.map((posting) => (
             <li
-              className="relative flex justify-between gap-x-6 rounded-xl p-5 transition-all duration-300 hover:bg-white hover:shadow"
+              className="relative flex justify-between gap-x-6 rounded-xl px-5 py-7 transition-all duration-300 hover:bg-white hover:shadow"
               key={posting.id}
             >
               <div className="flex min-w-0 gap-x-4">
@@ -39,7 +40,7 @@ export default function JobPostings({
                   />
                 ) : null}
                 <div className="min-w-0 flex-auto">
-                  <p className=" font-semibold leading-6 text-gray-900">
+                  <p className="text-lg font-semibold leading-6 text-gray-900">
                     <Link href={`${getRoute("Postings")}/${posting.id}`}>
                       <span className="absolute inset-x-0 -top-px bottom-0" />
                       {posting.title}

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "ui/input";
 import Form from "ui/form";
 import { useForm } from "react-hook-form";
+import { getAge } from "commons/age";
 import type {
   GetCurrentUserApplicationStatusQuery,
   GetPostingQuery,
@@ -50,8 +51,12 @@ export default function ApplyNowButton({
       (posting?.minimumInstagramFollower || 0)
     )
       return ["Not enough followers", null, "true"];
+    if (!data.user.dob) return ["Add your DOB to apply", null, "true"];
+    const age = getAge(new Date(data.user.dob));
+    if (age < (posting?.minimumAge || 0) || age > (posting?.maximumAge || 1000))
+      return ["Not your age group", null];
     return ["Apply Now", null];
-  }, [data?.user, isOpen, appliedSuccess]);
+  }, [appliedSuccess, isOpen, data?.user, posting?.minimumInstagramFollower]);
 
   const handleClose = () => {
     setIsModalOpen(false);
