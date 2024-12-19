@@ -43,13 +43,12 @@ export default function SocialsStatus({
       </div>
 
       {!connected && (
-        <ul className="mt-24 space-y-2 text-justify text-xs text-gray-600">
+        <ul className="mt-36 space-y-2 text-justify text-xs text-gray-600">
           <li>
             <strong>Secure and Trusted:</strong>{" "}
             <em>
-              You are redirected to Instagram’s official login page. The URL
-              will have "https://instagram.com" ensuring a secure end-to-end
-              encrypted connection.
+              The URL will have "https://instagram.com" ensuring a secure
+              end-to-end encrypted connection.
             </em>
           </li>
           <li>
@@ -72,14 +71,6 @@ export default function SocialsStatus({
             <em>
               This process is powered by Instagram’s official API, ensuring your
               data is handled securely and transparently.
-            </em>
-          </li>
-          <li>
-            <strong>Your Privacy Matters:</strong>{" "}
-            <em>
-              We prioritize your security and privacy. We use this information
-              to help you build a professional profile and never share your data
-              with third parties.
             </em>
           </li>
         </ul>
