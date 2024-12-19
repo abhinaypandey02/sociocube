@@ -105,7 +105,7 @@ export default function ApplyNowButton({
           />
           <Input
             className="mb-4 placeholder:text-xs"
-            label="Add comment"
+            label="Add comments"
             name="comment"
             placeholder="(Optional) Add a comment to add more information for the recruiter"
             textarea
