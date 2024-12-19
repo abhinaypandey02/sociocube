@@ -17,6 +17,6 @@ export function getRoute(route: keyof typeof Route) {
   return process.env.NEXT_PUBLIC_FRONTEND_BASE_URL + Route[route];
 }
 
-export function getMeURL(username: string) {
-  return `${username}.freeluencers.me`;
+export function getMeURL(username: string, clean?: boolean) {
+  return `${clean ? "" : "https://"}${username}.freeluencers.me`;
 }

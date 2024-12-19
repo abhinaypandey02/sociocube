@@ -134,7 +134,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
             },
             {
               label: "Username",
-              value: data.username ? getMeURL(data.username) : "",
+              value: data.username ? getMeURL(data.username, true) : "",
               editComponent: (
                 <Input
                   error={form.formState.errors.username?.message}

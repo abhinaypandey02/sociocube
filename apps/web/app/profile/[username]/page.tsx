@@ -76,7 +76,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6 sm:mt-8 sm:px-6 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
       <Suspense>
-        <OnboardingCompletedModal url={getMeURL(username)} />
+        <OnboardingCompletedModal url={getMeURL(username, true)} />
       </Suspense>
       <Schema
         data={{
@@ -103,7 +103,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
             image: seller.photo,
             sameAs: [
               `${getRoute("Profile")}/${username}`,
-              `https://${getMeURL(username)}`,
+              getMeURL(username),
               `https://instagram.com/${seller.instagramStats.username}`,
             ],
           },
@@ -204,7 +204,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
               </Button>
             </a>
           </div>
-          <CopyLinkButton url={getMeURL(username)} />
+          <CopyLinkButton url={getMeURL(username, true)} />
         </div>
 
         <div className="mt-10">
