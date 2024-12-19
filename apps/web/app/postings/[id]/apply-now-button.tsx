@@ -92,7 +92,7 @@ export default function ApplyNowButton({
     <>
       <Modal close={handleClose} open={isModalOpen}>
         <h3 className="mb-6 text-2xl font-bold text-gray-700">Apply now</h3>
-        <h4 className="mb-1 font-poppins font-medium">Posting</h4>
+        <h4 className="mb-1 font-poppins font-medium">Posting title</h4>
         <p className="mb-4 text-sm">{posting?.title}</p>
         <Form form={form} onSubmit={form.handleSubmit(handleApply)}>
           <Input
