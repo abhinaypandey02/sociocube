@@ -31,7 +31,11 @@ export default function ApplyNowButton({
   isOpen: boolean;
   posting: GetPostingQuery["posting"];
 }) {
-  const form = useForm<FormType>();
+  const form = useForm<FormType>({
+    defaultValues: {
+      email: data?.user?.email || "",
+    },
+  });
   const [appliedSuccess, setAppliedSuccess] = useState(
     Boolean(data?.hasApplied),
   );
@@ -87,14 +91,12 @@ export default function ApplyNowButton({
   return (
     <>
       <Modal close={handleClose} open={isModalOpen}>
-        <h3 className="mb-6 font-poppins text-xl font-semibold">Apply now</h3>
-        <h4 className="mb-1 font-poppins font-medium">Applying for</h4>
+        <h3 className="mb-6 text-2xl font-bold text-gray-700">Apply now</h3>
+        <h4 className="mb-1 font-poppins font-medium">Posting</h4>
         <p className="mb-4 text-sm">{posting?.title}</p>
-        <h4 className="mb-1 font-poppins font-medium">Applying as</h4>
-        <p className="mb-4 text-sm">{data?.user?.name}</p>
         <Form form={form} onSubmit={form.handleSubmit(handleApply)}>
           <Input
-            className="mb-4"
+            className="mb-4 placeholder:text-xs"
             label="Contact email"
             name="email"
             placeholder="Email for the recruiter to reach out to you"
@@ -102,19 +104,19 @@ export default function ApplyNowButton({
             type="email"
           />
           <Input
-            className="mb-4"
+            className="mb-4 placeholder:text-xs"
             label="Add comment (Optional)"
             name="comment"
             placeholder="Add a comment to add more information for the recruiter"
             textarea
           />
           <Button
-            className="mt-3 !px-3 py-1 text-sm"
+            className="ml-auto mt-3 !px-3 py-1 text-sm"
             loading={loading}
             success={appliedSuccess}
             type="submit"
           >
-            Send application
+            Send Application
           </Button>
         </Form>
       </Modal>
