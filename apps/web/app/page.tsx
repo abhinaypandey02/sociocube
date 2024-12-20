@@ -1,13 +1,10 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import type { Metadata } from "next";
-import { redirect, RedirectType } from "next/navigation";
 import { queryGQL } from "../lib/apollo-server";
 import { GET_FEATURED_SELLERS_AND_POSTS } from "../lib/queries";
 import type { GetFeaturedSellersQuery } from "../__generated__/graphql";
 import { getSEO, SEO } from "../constants/seo";
-import { getOrganizationDomain } from "../lib/utils-server";
-import { getRoute } from "../constants/routes";
 import Hero from "./components/hero";
 import TopCreators from "./components/top-creators";
 import Schema from "./components/schema";
@@ -25,12 +22,6 @@ export function generateMetadata(): Metadata {
 }
 
 async function HomePage() {
-  const domain = await getOrganizationDomain();
-  if (domain) {
-    const username = domain.split(".")[0];
-    if (username)
-      redirect(`${getRoute("Profile")}/${username}`, RedirectType.replace);
-  }
   const { sellers, posts, postings } = await queryGQL(
     GET_FEATURED_SELLERS_AND_POSTS,
     undefined,

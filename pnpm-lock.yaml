@@ -130,6 +130,8 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
 
+  apps/me-redirect: {}
+
   apps/web:
     dependencies:
       '@apollo/client':
