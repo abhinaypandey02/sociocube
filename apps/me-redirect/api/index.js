@@ -1,12 +1,12 @@
 
-export function GET(req, res) {
-    const domain = req.headers?.host
+export function GET(req) {
+    const domain = req.headers.get('host')
     if (
         !domain
     )
         return Response.redirect(process.env.NEXT_PUBLIC_FRONTEND_BASE_URL||"https://freeluencers.com");
     const username = domain.split(".")[0];
-    return res.redirect(process.env.NEXT_PUBLIC_FRONTEND_BASE_URL+'/profile/'+username)
+    return Response.redirect(process.env.NEXT_PUBLIC_FRONTEND_BASE_URL+'/profile/'+username)
 }
 
 export const config = {
