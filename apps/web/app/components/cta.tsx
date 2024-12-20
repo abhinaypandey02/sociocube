@@ -9,7 +9,7 @@ function PrimaryButton({ data }: { data?: GetCurrentUserQuery }) {
   if (data?.user) {
     if (data.user.isOnboarded) {
       return (
-        <Link href={`${getRoute("Profile")}/${data.user.id}`}>
+        <Link href={`${getRoute("Profile")}/${data.user.username}`}>
           <Button>Your profile</Button>
         </Link>
       );

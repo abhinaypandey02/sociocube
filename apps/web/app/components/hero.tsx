@@ -15,7 +15,7 @@ function SecondaryLink({ data }: { data?: GetCurrentUserQuery }) {
       return (
         <Link
           className="text-sm font-semibold leading-6 text-gray-900"
-          href={`${getRoute("Profile")}/${data.user.id}`}
+          href={`${getRoute("Profile")}/${data.user.username}`}
         >
           Your profile <span aria-hidden="true">→</span>
         </Link>

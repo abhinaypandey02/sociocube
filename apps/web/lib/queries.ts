@@ -6,6 +6,7 @@ export const GET_CURRENT_USER = gql(`
     user: getCurrentUser {
       id
       email
+      username
       name
       photo
       isOnboarded
