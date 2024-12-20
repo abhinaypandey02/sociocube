@@ -51,6 +51,11 @@ export default function JobPostings({
                     {posting.minimumAge} - {posting.maximumAge} • Min followers:{" "}
                     {convertToAbbreviation(posting.minimumInstagramFollower)}
                   </p>
+                  <p className="mt-1 text-sm font-medium leading-6 text-gray-900 sm:hidden">
+                    {posting.barter
+                      ? "Barter"
+                      : `${posting.currency} ${posting.price}`}
+                  </p>
                 </div>
               </div>
               <div className="flex shrink-0 items-center gap-x-4">

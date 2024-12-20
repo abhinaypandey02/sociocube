@@ -54,6 +54,7 @@ export async function getInstagramStats(user: UserDB) {
           followers: fetchReq.followers_count || undefined,
           username: fetchReq.username || undefined,
           mediaCount: fetchReq.media_count || undefined,
+          failedTries: 0,
         })
         .where(eq(InstagramDetails.id, user.instagramDetails))
         .returning();
