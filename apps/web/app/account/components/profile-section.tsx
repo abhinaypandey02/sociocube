@@ -76,7 +76,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
                   alt={data.name || ""}
                   className="mt-6 rounded-md"
                   height={200}
-                  src={`${data.photo}${data.photo.includes("amazonaws.com") ? `?${new Date().toISOString()}` : ""}`}
+                  src={`${data.photo}?${new Date().toISOString()}`}
                   width={200}
                 />
               ),
@@ -87,7 +87,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
                       alt={data.name || ""}
                       className="mt-6 rounded-md"
                       height={200}
-                      src={`${photoValue}${photoValue.includes("amazonaws.com") ? `?${new Date().toISOString()}` : ""}\``}
+                      src={`${photoValue}?${new Date().toISOString()}`}
                       width={200}
                     />
                   ) : null}
