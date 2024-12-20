@@ -1,7 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { queryGQL } from "../lib/apollo-server";
 import { GET_FEATURED_SELLERS_AND_POSTS } from "../lib/queries";
 import type { GetFeaturedSellersQuery } from "../__generated__/graphql";
@@ -28,7 +28,8 @@ async function HomePage() {
   const domain = await getOrganizationDomain();
   if (domain) {
     const username = domain.split(".")[0];
-    if (username) redirect(`${getRoute("Profile")}/${username}`);
+    if (username)
+      redirect(`${getRoute("Profile")}/${username}`, RedirectType.replace);
   }
   const { sellers, posts, postings } = await queryGQL(
     GET_FEATURED_SELLERS_AND_POSTS,
