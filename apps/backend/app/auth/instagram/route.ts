@@ -19,6 +19,7 @@ import {
 } from "../../graphql/types/User/db/schema";
 import { db } from "../../../lib/db";
 import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
+import { uploadImage } from "../../../lib/storage/aws-s3";
 import {
   getGraphUrl,
   getHDProfilePicture,
@@ -135,7 +136,7 @@ export const GET = async (req: NextRequest) => {
             .returning();
           if (!inserted) return tx.rollback();
           const hdPhoto = await getHDProfilePicture(personalInfo.username);
-
+          const instagramPhotoURL = hdPhoto || personalInfo.profile_picture_url;
           if (loggedInUserID) {
             const loggedInUser = await getUser(
               eq(UserTable.id, loggedInUserID),
@@ -151,8 +152,12 @@ export const GET = async (req: NextRequest) => {
                   instagramDetails: inserted.id,
                   photo:
                     loggedInUser.photo ||
-                    hdPhoto ||
-                    personalInfo.profile_picture_url,
+                    (instagramPhotoURL &&
+                      (await uploadImage(instagramPhotoURL, [
+                        "User",
+                        loggedInUserID.toString(),
+                        "photo",
+                      ]))),
                   name: loggedInUser.name || personalInfo.name,
                   bio: loggedInUser.bio || personalInfo.biography,
                 },
@@ -165,7 +170,6 @@ export const GET = async (req: NextRequest) => {
                 name: personalInfo.name,
                 refreshTokens: [],
                 instagramDetails: inserted.id,
-                photo: hdPhoto || personalInfo.profile_picture_url,
                 bio: personalInfo.biography,
                 scopes: [AuthScopes.INSTAGRAM],
                 roles: [],
@@ -177,7 +181,15 @@ export const GET = async (req: NextRequest) => {
                 newUser.id,
                 [],
                 undefined,
-                undefined,
+                {
+                  photo:
+                    instagramPhotoURL &&
+                    (await uploadImage(instagramPhotoURL, [
+                      "User",
+                      newUser.id.toString(),
+                      "photo",
+                    ])),
+                },
                 tx,
               );
             } else tx.rollback();
