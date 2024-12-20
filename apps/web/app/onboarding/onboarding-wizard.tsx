@@ -56,7 +56,7 @@ export function getStep(
 
 function OnboardingWizard({
   data,
-  loading,
+  loading: dataLoading,
 }: {
   data?: GetDefaultOnboardingDetailsQuery;
   loading?: boolean;
@@ -243,14 +243,15 @@ function OnboardingWizard({
     ],
     [currentUser, nextStep],
   );
-  if (!currentUser && !loading) {
+  let routeLoading = false;
+  if (!currentUser && !dataLoading) {
+    routeLoading = true;
     router.push(getRoute("SignUp"));
-    return null;
   }
   if (currentUser?.isOnboarded) {
+    routeLoading = true;
     if (currentUser.username) router.push(getMeURL(currentUser.username));
     else router.push(getRoute("Home"));
-    return null;
   }
   const MAX_STEPS = steps.length;
 
@@ -260,6 +261,7 @@ function OnboardingWizard({
 
   const allowForward = step < maxTouchedStep;
   const currentStep = steps[step];
+  const loading = dataLoading || routeLoading;
   return (
     <>
       <div className="w-full max-w-lg rounded-xl sm:p-5 sm:shadow-elevation-1">
