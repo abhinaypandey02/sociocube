@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Heart, TrendUp } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import Link from "next/link";
 import { getRoute } from "../../constants/routes";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 
@@ -41,7 +42,7 @@ function PostSlide({
         </Suspense>
       </div>
       <div className="absolute bottom-0 h-20 w-full bg-black/30 blur" />
-      <a
+      <Link
         className="absolute bottom-4 flex w-full items-center gap-3 pl-4 pr-3 "
         href={`${getRoute("Profile")}/${post.creatorUsername}`}
       >
@@ -64,7 +65,7 @@ function PostSlide({
             {post.likes}
           </div>
         </div>
-      </a>
+      </Link>
     </li>
   );
 }
