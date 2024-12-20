@@ -138,9 +138,6 @@ importers:
       '@vercel/node':
         specifier: ^5.0.0
         version: 5.0.0(@swc/core@1.7.36(@swc/helpers@0.5.13))
-      config:
-        specifier: workspace:*
-        version: link:../../packages/config
       typescript:
         specifier: ^5.7.2
         version: 5.7.2
