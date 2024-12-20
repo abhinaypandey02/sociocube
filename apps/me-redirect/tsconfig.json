@@ -1,9 +1,21 @@
 {
-  "extends": "config/tsconfig.json",
-  "include": [
-    "**/*.ts",
-  ],
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Default",
   "compilerOptions": {
-    "jsx": "preserve",
-  }
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "noEmit": true,
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "allowJs": true
+  },
+  "exclude": ["node_modules"]
 }
