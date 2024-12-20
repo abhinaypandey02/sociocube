@@ -24,15 +24,7 @@ export default function Footer({
           ))}
         </nav>
         <p className="mt-16 text-center text-xs leading-5 text-gray-500">
-          A website by{" "}
-          <a
-            className="underline underline-offset-2"
-            href="https://abhinaypandey.com"
-            rel="noopener"
-            target="_blank"
-          >
-            Abhinay Pandey
-          </a>
+          A website made in India
         </p>
       </div>
     </footer>
