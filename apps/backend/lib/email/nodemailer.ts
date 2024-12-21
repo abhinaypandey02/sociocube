@@ -1,12 +1,8 @@
 import { createTransport } from "nodemailer";
 
 const transporter = createTransport({
-  host: "smtp.hostinger.com",
-  tls: {
-    ciphers: "SSLv3",
-  },
-  requireTLS: true,
-  port: 465,
+  host: "smtp-relay.brevo.com",
+  port: 587,
   auth: {
     user: process.env.NODEMAILER_EMAIL,
     pass: process.env.NODEMAILER_PASSWORD,
@@ -20,7 +16,10 @@ export function sendEmail(
   html?: string,
 ) {
   return transporter.sendMail({
-    from: { name: "Freeluencers", address: process.env.NODEMAILER_EMAIL || "" },
+    from: {
+      name: "Freeluencers",
+      address: "info@mail.freeluencers.com",
+    },
     subject,
     to,
     html,
