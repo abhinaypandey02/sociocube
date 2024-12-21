@@ -160,7 +160,10 @@ export async function getInstagramMedia(user: UserDB) {
         await db
           .delete(InstagramMediaTable)
           .where(eq(InstagramMediaTable.user, user.id));
-        await db.insert(InstagramMediaTable).values(posts);
+        await db
+          .insert(InstagramMediaTable)
+          .values(posts)
+          .onConflictDoNothing();
         await db
           .update(InstagramDetails)
           .set({
