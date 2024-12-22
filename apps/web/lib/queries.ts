@@ -112,6 +112,11 @@ export const GET_SELLER = gql(`
       location {
           city
           country
+          currency {
+            name
+            symbol
+            code
+          }
       }
       category
       dob

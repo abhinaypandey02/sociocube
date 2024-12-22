@@ -1,6 +1,5 @@
 import {
   and,
-  or,
   eq,
   getTableColumns,
   gte,
@@ -67,7 +66,6 @@ export function handleSearchSellers(filters: SearchSellersFiltersInput) {
       InstagramDetails,
       and(
         eq(InstagramDetails.id, UserTable.instagramDetails),
-        or(eq(UserTable.isOnboarded, true), eq(UserTable.isSpirit, true)),
         isNotNull(UserTable.photo),
         isNotNull(UserTable.instagramDetails),
         isNotNull(UserTable.name),
@@ -89,6 +87,7 @@ export function handleSearchSellers(filters: SearchSellersFiltersInput) {
           ? sql`(
             to_tsvector('english', ${InstagramDetails.username}) || 
             to_tsvector('english', ${UserTable.name}) || 
+            to_tsvector('english', ${UserTable.username}) || 
             to_tsvector('english', ${UserTable.bio})
         ) @@ to_tsquery('english', ${filters.query})`
           : undefined,

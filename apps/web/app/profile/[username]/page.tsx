@@ -117,7 +117,8 @@ export default async function ProfilePage({ params }: ProfilePage) {
           </h1>
           {seller.pricing?.starting ? (
             <p className="text-lg  text-gray-900">
-              From ₹{seller.pricing.starting}
+              From {seller.location?.currency?.symbol}
+              {seller.pricing.starting} {seller.location?.currency?.code}
             </p>
           ) : null}
         </div>

@@ -1,4 +1,4 @@
-import { and, eq, or } from "drizzle-orm";
+import { and, eq, isNotNull, or } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../db/schema";
 
@@ -8,7 +8,7 @@ export async function handleGetSeller(username: string) {
     .from(UserTable)
     .where(
       and(
-        or(eq(UserTable.isOnboarded, true), eq(UserTable.isSpirit, true)),
+        or(isNotNull(UserTable.instagramDetails)),
         eq(UserTable.username, username),
       ),
     )

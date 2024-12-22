@@ -18,6 +18,7 @@ export async function getLocation(user: UserDB) {
         currency: {
           symbol: city.countries.currencySymbol || undefined,
           name: city.countries.currencyName || undefined,
+          code: city.countries.currency || undefined,
         },
       };
   }

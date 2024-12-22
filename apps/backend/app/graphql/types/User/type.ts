@@ -13,6 +13,8 @@ export class Currency {
   @Field({ nullable: true })
   symbol?: string;
   @Field({ nullable: true })
+  code?: string;
+  @Field({ nullable: true })
   name?: string;
 }
 

@@ -4,6 +4,7 @@ import { db } from "../../../../../../lib/db";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { getGraphUrl } from "../../../../../auth/instagram/utils";
 import { InstagramMediaType } from "../../../../constants/instagram-media-type";
+import { AuthScopes } from "../../../../constants/scopes";
 
 function normaliseDigits(val: number) {
   return Math.round(val * 100) / 100;
@@ -70,22 +71,26 @@ export async function getInstagramStats(user: UserDB) {
         er: normaliseDigits(instagramDetails.er || 0),
       };
     }
-    if (instagramDetails.failedTries >= 2) {
+    if (instagramDetails.failedTries >= 5) {
       await db
         .update(UserTable)
-        .set({ isOnboarded: false })
+        .set({
+          isOnboarded: false,
+          scopes: user.scopes.filter((scope) => scope !== AuthScopes.INSTAGRAM),
+        })
         .where(eq(UserTable.id, user.id));
       await db
         .update(InstagramDetails)
-        .set({ failedTries: 0 })
+        .set({ accessToken: null })
+        .where(eq(InstagramDetails.id, user.instagramDetails));
+    } else {
+      await db
+        .update(InstagramDetails)
+        .set({
+          failedTries: (instagramDetails.failedTries || 0) + 1,
+        })
         .where(eq(InstagramDetails.id, user.instagramDetails));
     }
-    await db
-      .update(InstagramDetails)
-      .set({
-        failedTries: (instagramDetails.failedTries || 0) + 1,
-      })
-      .where(eq(InstagramDetails.id, user.instagramDetails));
   }
   return {
     username: instagramDetails.username,

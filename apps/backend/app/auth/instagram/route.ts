@@ -79,6 +79,10 @@ export const GET = async (req: NextRequest) => {
           Array.from(new Set(existingUser.scopes).add(AuthScopes.INSTAGRAM)),
         );
       } else if (existingUser) {
+        await db
+          .update(InstagramDetails)
+          .set({ accessToken })
+          .where(eq(InstagramDetails.appID, userId));
         refreshToken = await updateRefreshTokenAndScope(
           existingUser.id,
           existingUser.refreshTokens,

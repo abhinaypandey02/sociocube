@@ -250,6 +250,7 @@ type Chat {
 }
 
 type Currency {
+  code: String
   name: String
   symbol: String
 }
