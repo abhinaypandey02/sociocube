@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import {
   GetObjectCommand,
   PutObjectCommand,
+  DeleteObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -16,6 +17,8 @@ const client = new S3Client({
   },
 });
 
+const URL_PREFIX = `https://${BUCKET_NAME}.s3.${REGION_NAME}.amazonaws.com/`;
+
 function getHash(keys: string[]) {
   return createHash("sha256").update(keys.join("/")).digest("hex");
 }
@@ -29,7 +32,7 @@ export async function getUploadFileURL(keys: string[], isPublic?: boolean) {
   return getSignedUrl(client, command, { expiresIn: 300 });
 }
 export function getFileURL(keys: string[]) {
-  return `https://${BUCKET_NAME}.s3.${REGION_NAME}.amazonaws.com/${getHash(keys)}`;
+  return `${URL_PREFIX}${getHash(keys)}`;
 }
 export async function getSignedFileURL(keys: string[]) {
   const command = new GetObjectCommand({
@@ -51,4 +54,22 @@ export async function uploadImage(url: string, key: string[]) {
   } catch (e) {
     return null;
   }
+}
+
+export async function deleteImage(url: string) {
+  const key = url.split(URL_PREFIX)[1];
+  if (key) {
+    try {
+      await client.send(
+        new DeleteObjectCommand({
+          Bucket: BUCKET_NAME,
+          Key: key,
+        }),
+      );
+      return true;
+    } catch (e) {
+      console.error("ERROR", url, e);
+    }
+  }
+  return false;
 }

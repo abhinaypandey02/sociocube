@@ -5,6 +5,7 @@ import {
   index,
   serial,
   real,
+  timestamp,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
@@ -22,6 +23,9 @@ export const InstagramDetails = pgTable(
     averageComments: integer("average_comments"),
     failedTries: integer("failed_tries").default(0).notNull(),
     er: real("er"),
+    accessTokenUpdatedAt: timestamp("access_token_updated_at")
+      .notNull()
+      .defaultNow(),
   },
   (table) => ({
     instagramSearchIndex: index("instagram_search_index").using(

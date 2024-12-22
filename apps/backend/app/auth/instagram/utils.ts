@@ -9,6 +9,14 @@ export const getGraphUrl = (
 ) =>
   `https://graph.instagram.com/v20.0/${path}?access_token=${accessToken}&fields=${fields?.join(",")}`;
 
+export async function getRefreshedAccessToken(token: string) {
+  const request = await fetch(
+    `https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${token}`,
+  );
+  const response = (await request.json()) as { access_token?: string };
+  return response.access_token;
+}
+
 export async function getLongLivedToken(code: string) {
   const formData = new FormData();
   formData.set("client_id", process.env.INSTAGRAM_CLIENT_ID || "");
