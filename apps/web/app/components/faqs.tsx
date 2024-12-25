@@ -6,6 +6,7 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { Minus, Plus } from "@phosphor-icons/react/dist/ssr";
+import dynamic from "next/dynamic";
 import Schema from "./schema";
 
 const faqs = [
@@ -60,7 +61,7 @@ const faqs = [
       "We encourage brands to communicate clearly with influencers and discuss their expectations in detail before starting any collaboration. Our platform also provides insights into each influencer's engagement and content style to help you choose the best fit for your brand.",
   },
 ];
-export default function Faqs() {
+function Faqs() {
   return (
     <div className="mx-auto  max-w-7xl px-6  py-16 sm:my-16 lg:px-8" id="faq">
       <div className="mx-auto  divide-y divide-gray-900/10">
@@ -119,3 +120,23 @@ export default function Faqs() {
     </div>
   );
 }
+
+export default dynamic(() => Promise.resolve(Faqs), {
+  loading: () => (
+    <Schema
+      data={{
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      }}
+      id="faqs"
+    />
+  ),
+});

@@ -2,7 +2,7 @@
 import React, { Suspense } from "react";
 import { EffectCards, Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Heart, TrendUp } from "@phosphor-icons/react/dist/ssr";
+import { Heart, Spinner, TrendUp } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,7 +13,7 @@ import "swiper/css";
 import "swiper/css/effect-cards";
 
 function getRandomColor() {
-  return `rgb(${Math.floor(Math.random() * 175)},${Math.floor(Math.random() * 175)},${Math.floor(Math.random() * 175)})`;
+  return `rgb(${Math.floor(Math.random() * 175) + 25},${Math.floor(Math.random() * 175) + 25},${Math.floor(Math.random() * 175) + 25})`;
 }
 function PostSlide({
   post,
@@ -92,4 +92,11 @@ function PostSlider({ posts }: { posts: GetFeaturedSellersQuery["posts"] }) {
   );
 }
 
-export default dynamic(() => Promise.resolve(PostSlider), { ssr: false });
+export default dynamic(() => Promise.resolve(PostSlider), {
+  ssr: false,
+  loading: () => (
+    <div className="mx-auto flex aspect-[9/16] w-3/4 max-w-[320px] items-center justify-center rounded-lg bg-red-50 sm:w-80">
+      <Spinner className="animate-spin fill-primary " size={30} />
+    </div>
+  ),
+});
