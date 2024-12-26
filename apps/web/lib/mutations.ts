@@ -13,6 +13,13 @@ export const UPDATE_ONBOARDING_DOB = gql(`
     updateOnboardingDOB(dobDetails: $dobDetails)
   }
 `);
+export const UPDATE_ONBOARDING_INSTAGRAM_USERNAME = gql(`
+  #graphql
+  mutation UpdateOnboardingInstagramUsername($username: String!) {
+    updateOnboardingInstagramUsername(username: $username)
+  }
+`);
+
 export const UPDATE_ONBOARDING_USERNAME = gql(`
   #graphql
   mutation UpdateOnboardingUsername($usernameDetails: OnboardingUsernameInput!) {

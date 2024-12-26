@@ -60,7 +60,6 @@ export const UserTable = pgTable(
       () => OnboardingDataTable.id,
     ),
     isOnboarded: boolean("is_onboarded").default(false),
-    isSpirit: boolean("is_spirit").default(false),
     stripeConnectedAccountID: text("stripe_connected_account_id"),
     stripeSubscriptionID: text("stripe_subscription_id"),
     location: integer("location").references(() => LocationTable.id),

@@ -183,7 +183,9 @@ function OnboardingWizard({
         component: (
           <OnboardingUsername
             defaultValues={{
-              username: currentUser?.onboardingData?.username || undefined,
+              username:
+                currentUser?.onboardingData?.username ||
+                currentUser?.instagramStats?.username,
             }}
             key={4}
             nextStep={nextStep}
@@ -288,7 +290,7 @@ function OnboardingWizard({
               <h2 className="mb-1 mt-14 text-center font-poppins text-3xl font-semibold">
                 {currentStep?.heading}
               </h2>
-              <p className="mb-14 text-center text-gray-600">
+              <p className="mb-10 text-center text-gray-600">
                 {currentStep?.longDescription}
               </p>
               {steps[step]?.component}

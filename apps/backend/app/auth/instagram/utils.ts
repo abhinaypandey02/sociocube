@@ -1,3 +1,5 @@
+import { InstagramMediaType } from "../../graphql/constants/instagram-media-type";
+
 const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram`;
 export const getInstagramAuthorizationUrl = (state: string) =>
   `https://www.instagram.com/oauth/authorize?client_id=${process.env.INSTAGRAM_CLIENT_ID}&state=${state}&response_type=code&enable_fb_login=0&force_authentication=1&scope=instagram_business_basic&redirect_uri=${REDIRECT_URI}`;
@@ -8,6 +10,17 @@ export const getGraphUrl = (
   fields?: string[],
 ) =>
   `https://graph.instagram.com/v20.0/${path}?access_token=${accessToken}&fields=${fields?.join(",")}`;
+
+export const getGraphData = async (
+  path: string,
+  accessToken: string,
+  fields?: string[],
+) => {
+  const personalInfoResponse = await fetch(
+    getGraphUrl(path, accessToken, fields),
+  );
+  return personalInfoResponse.json();
+};
 
 export async function getRefreshedAccessToken(token: string) {
   const request = await fetch(
@@ -54,7 +67,7 @@ export async function getLongLivedToken(code: string) {
   }
 }
 
-export async function getHDProfilePicture(username: string) {
+export async function getInstagramDataExternalAPI(username: string) {
   const result = (await fetch(
     `https://smapi.clanconnect.ai/instagram/public_profile?instagram_handle_name=${
       username
@@ -69,7 +82,34 @@ export async function getHDProfilePicture(username: string) {
     .catch(() => ({}))) as {
     data?: {
       profile_picture_url?: string;
+      logging_page_id: number;
+      instagram_id: string;
+      insta_username: string;
+      biography: string;
+      name: string;
+      followers_count: number;
+      follows: number;
+      total_media: number;
+      total_likes: number;
+      total_comments: number;
+      median_likes: number;
+      median_comments: number;
+      total_media_public_profile: number;
+      total_video_counts_public_profile: number;
+      er: string;
+      media_data: {
+        caption: string;
+        comments_count: number;
+        like_count: number;
+        media_product_type: string;
+        media_type: InstagramMediaType;
+        media_url: string;
+        permalink: string;
+        thumbnail_url: string;
+        timestamp: string;
+        id: string;
+      }[];
     };
   };
-  return result.data?.profile_picture_url;
+  return result.data;
 }

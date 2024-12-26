@@ -19,12 +19,12 @@ import {
 } from "../../graphql/types/User/db/schema";
 import { db } from "../../../lib/db";
 import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
-import { uploadImage } from "../../../lib/storage/aws-s3";
+import { deleteImage, uploadImage } from "../../../lib/storage/aws-s3";
 import {
-  getGraphUrl,
-  getHDProfilePicture,
+  getInstagramDataExternalAPI,
   getInstagramAuthorizationUrl,
   getLongLivedToken,
+  getGraphData,
 } from "./utils";
 
 export const GET = async (req: NextRequest) => {
@@ -68,17 +68,12 @@ export const GET = async (req: NextRequest) => {
       const existingUser = existingUserJoin?.user;
 
       let refreshToken;
-      if (existingUser && loggedInUserID) {
-        await db
-          .update(InstagramDetails)
-          .set({ accessToken })
-          .where(eq(InstagramDetails.appID, userId));
-        refreshToken = await updateRefreshTokenAndScope(
-          existingUser.id,
-          existingUser.refreshTokens,
-          Array.from(new Set(existingUser.scopes).add(AuthScopes.INSTAGRAM)),
-        );
-      } else if (existingUser) {
+      if (existingUser) {
+        if (loggedInUserID && existingUser.id !== loggedInUserID) {
+          return new NextResponse("This instagram account is already in use", {
+            status: 400,
+          });
+        }
         await db
           .update(InstagramDetails)
           .set({ accessToken })
@@ -89,16 +84,13 @@ export const GET = async (req: NextRequest) => {
           Array.from(new Set(existingUser.scopes).add(AuthScopes.INSTAGRAM)),
         );
       } else {
-        const personalInfoResponse = await fetch(
-          getGraphUrl(`me`, accessToken, [
-            "name",
-            "profile_picture_url",
-            "followers_count",
-            "username",
-            "biography",
-          ]),
-        );
-        const personalInfo = (await personalInfoResponse.json()) as {
+        const personalInfo = (await getGraphData(`me`, accessToken, [
+          "name",
+          "profile_picture_url",
+          "followers_count",
+          "username",
+          "biography",
+        ])) as {
           name: string;
           profile_picture_url?: string;
           followers_count: number;
@@ -109,7 +101,7 @@ export const GET = async (req: NextRequest) => {
           return new NextResponse("Can't fetch username for the current user", {
             status: 400,
           });
-        const [spirit] = await db
+        const [existingUnverifiedInstagram] = await db
           .select()
           .from(InstagramDetails)
           .where(eq(InstagramDetails.username, personalInfo.username))
@@ -117,16 +109,38 @@ export const GET = async (req: NextRequest) => {
             UserTable,
             eq(UserTable.instagramDetails, InstagramDetails.id),
           );
-        if (spirit) {
-          if (spirit.user) {
-            await db
+        if (existingUnverifiedInstagram) {
+          if (existingUnverifiedInstagram.user) {
+            const deletedImages = await db
               .delete(InstagramMediaTable)
-              .where(eq(InstagramMediaTable.user, spirit.user.id));
-            await db.delete(UserTable).where(eq(UserTable.id, spirit.user.id));
+              .where(
+                eq(
+                  InstagramMediaTable.user,
+                  existingUnverifiedInstagram.user.id,
+                ),
+              )
+              .returning();
+            await Promise.all(
+              deletedImages.map(
+                (image) => image.mediaURL && deleteImage(image.mediaURL),
+              ),
+            );
+            await db
+              .update(UserTable)
+              .set({
+                instagramDetails: null,
+                isOnboarded: false,
+              })
+              .where(eq(UserTable.id, existingUnverifiedInstagram.user.id));
           }
           await db
             .delete(InstagramDetails)
-            .where(eq(InstagramDetails.id, spirit.instagram_data.id));
+            .where(
+              eq(
+                InstagramDetails.id,
+                existingUnverifiedInstagram.instagram_data.id,
+              ),
+            );
         }
         const id = await db.transaction(async (tx) => {
           const [inserted] = await tx
@@ -139,8 +153,12 @@ export const GET = async (req: NextRequest) => {
             })
             .returning();
           if (!inserted) return tx.rollback();
-          const hdPhoto = await getHDProfilePicture(personalInfo.username);
-          const instagramPhotoURL = hdPhoto || personalInfo.profile_picture_url;
+          const externalDetails = await getInstagramDataExternalAPI(
+            personalInfo.username,
+          );
+          const instagramPhotoURL =
+            externalDetails?.profile_picture_url ||
+            personalInfo.profile_picture_url;
           if (loggedInUserID) {
             const loggedInUser = await getUser(
               eq(UserTable.id, loggedInUserID),

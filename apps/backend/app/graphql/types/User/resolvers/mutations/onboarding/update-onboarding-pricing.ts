@@ -1,5 +1,5 @@
 import { Field, InputType } from "type-graphql";
-import { and, arrayContains, eq, isNotNull } from "drizzle-orm";
+import { and, eq, isNotNull } from "drizzle-orm";
 import { AuthorizedContext } from "../../../../../context";
 import { db } from "../../../../../../../lib/db";
 import {
@@ -7,7 +7,6 @@ import {
   PricingTable,
   UserTable,
 } from "../../../db/schema";
-import { AuthScopes } from "../../../../../constants/scopes";
 import GQLError from "../../../../../constants/errors";
 
 @InputType("OnboardingPriceInput")
@@ -27,7 +26,7 @@ export async function handleUpdateOnboardingPricing(
         eq(UserTable.id, ctx.userId),
         isNotNull(UserTable.onboardingData),
         eq(UserTable.isOnboarded, false),
-        arrayContains(UserTable.scopes, [AuthScopes.INSTAGRAM]),
+        isNotNull(UserTable.instagramDetails),
       ),
     )
     .leftJoin(

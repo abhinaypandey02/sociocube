@@ -1,8 +1,11 @@
-import { desc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { InstagramMediaTable, UserDB, UserTable } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
 import { InstagramDetails } from "../../../Instagram/db/schema";
-import { getGraphUrl } from "../../../../../auth/instagram/utils";
+import {
+  getGraphUrl,
+  getInstagramDataExternalAPI,
+} from "../../../../../auth/instagram/utils";
 import { InstagramMediaType } from "../../../../constants/instagram-media-type";
 import { AuthScopes } from "../../../../constants/scopes";
 
@@ -32,9 +35,42 @@ export async function getInstagramStats(user: UserDB) {
     .from(InstagramDetails)
     .where(eq(InstagramDetails.id, user.instagramDetails));
   if (!instagramDetails) return null;
-  if (instagramDetails.accessToken) {
-    const fetchReq = await fetch(
-      getGraphUrl("me", instagramDetails.accessToken, [
+  const stats = await getStats(
+    user,
+    instagramDetails.failedTries,
+    instagramDetails.accessToken,
+    instagramDetails.username,
+  );
+  if (stats) {
+    await db
+      .update(InstagramDetails)
+      .set({
+        followers: stats.followers_count || undefined,
+        username: stats.username || undefined,
+        mediaCount: stats.media_count || undefined,
+        failedTries: 0,
+      })
+      .where(eq(InstagramDetails.id, user.instagramDetails));
+  }
+  return {
+    username: stats?.username || instagramDetails.username,
+    followers: stats?.followers_count || instagramDetails.followers,
+    mediaCount: stats?.media_count || instagramDetails.mediaCount || 0,
+    averageComments: instagramDetails.averageComments || 0,
+    averageLikes: instagramDetails.averageLikes || 0,
+    er: normaliseDigits(instagramDetails.er || 0),
+  };
+}
+
+async function getStats(
+  user: UserDB,
+  failedTries: number,
+  accessToken?: string | null,
+  username?: string,
+) {
+  if (accessToken) {
+    const apiResult = await fetch(
+      getGraphUrl("me", accessToken, [
         "followers_count",
         "media_count",
         "username",
@@ -48,69 +84,47 @@ export async function getInstagramStats(user: UserDB) {
           error?: object;
         } | null>,
     );
-    if (fetchReq && !fetchReq.error) {
-      const [fallback] = await db
-        .update(InstagramDetails)
-        .set({
-          followers: fetchReq.followers_count || undefined,
-          username: fetchReq.username || undefined,
-          mediaCount: fetchReq.media_count || undefined,
-          failedTries: 0,
-        })
-        .where(eq(InstagramDetails.id, user.instagramDetails))
-        .returning();
-
-      const returnedUsername = fetchReq.username || fallback?.username;
-      if (!returnedUsername) return null;
-      return {
-        username: returnedUsername,
-        followers: fetchReq.followers_count || fallback?.followers || 0,
-        mediaCount: fetchReq.media_count || 0,
-        averageComments: instagramDetails.averageComments || 0,
-        averageLikes: instagramDetails.averageLikes || 0,
-        er: normaliseDigits(instagramDetails.er || 0),
-      };
-    }
-    if (instagramDetails.failedTries >= 5) {
-      await db
-        .update(UserTable)
-        .set({
-          isOnboarded: false,
-          scopes: user.scopes.filter((scope) => scope !== AuthScopes.INSTAGRAM),
-        })
-        .where(eq(UserTable.id, user.id));
-      await db
-        .update(InstagramDetails)
-        .set({ accessToken: null })
-        .where(eq(InstagramDetails.id, user.instagramDetails));
-    } else {
-      await db
-        .update(InstagramDetails)
-        .set({
-          failedTries: (instagramDetails.failedTries || 0) + 1,
-        })
-        .where(eq(InstagramDetails.id, user.instagramDetails));
+    if (apiResult?.username) return apiResult;
+    if (!apiResult && user.instagramDetails) {
+      if (failedTries >= 5) {
+        await db
+          .update(UserTable)
+          .set({
+            scopes: user.scopes.filter(
+              (scope) => scope !== AuthScopes.INSTAGRAM,
+            ),
+          })
+          .where(eq(UserTable.id, user.id));
+        await db
+          .update(InstagramDetails)
+          .set({ accessToken: null })
+          .where(eq(InstagramDetails.id, user.instagramDetails));
+      } else {
+        await db
+          .update(InstagramDetails)
+          .set({
+            failedTries: failedTries + 1,
+          })
+          .where(eq(InstagramDetails.id, user.instagramDetails));
+      }
     }
   }
-  return {
-    username: instagramDetails.username,
-    followers: instagramDetails.followers,
-    mediaCount: instagramDetails.mediaCount,
-    averageComments: instagramDetails.averageComments || 0,
-    averageLikes: instagramDetails.averageLikes || 0,
-    er: normaliseDigits(instagramDetails.er || 0),
-  };
+  if (username) {
+    const data = await getInstagramDataExternalAPI(username);
+    if (data) {
+      return {
+        followers_count: data.followers_count,
+        media_count: data.total_media || data.total_media_public_profile,
+        username: data.insta_username,
+      };
+    }
+  }
 }
 
-export async function getInstagramMedia(user: UserDB) {
-  if (!user.instagramDetails) return null;
-  const [instagramDetails] = await db
-    .select()
-    .from(InstagramDetails)
-    .where(eq(InstagramDetails.id, user.instagramDetails));
-  if (instagramDetails?.accessToken) {
+async function getPosts(accessToken?: string | null, username?: string) {
+  if (accessToken) {
     const fetchReq = await fetch(
-      `${getGraphUrl("me/media", instagramDetails.accessToken, [
+      `${getGraphUrl("me/media", accessToken, [
         "id",
         "thumbnail_url",
         "media_url",
@@ -140,58 +154,59 @@ export async function getInstagramMedia(user: UserDB) {
           error?: object;
         } | null>,
     );
-
-    if (fetchReq?.data) {
-      const posts = fetchReq.data
-        .map((media) => ({
-          comments: media.is_comment_enabled ? media.comments_count : -1,
-          likes: media.like_count || 0,
-          link: media.permalink,
-          thumbnail: media.thumbnail_url || media.media_url,
-          mediaURL: media.media_url,
-          timestamp: media.timestamp,
-          type: media.media_type,
-          caption: media.caption,
-          appID: media.id,
-          user: user.id,
-          er: getER(
-            instagramDetails.followers,
-            media.like_count || 0,
-            media.is_comment_enabled ? media.comments_count : -1,
-          ),
-        }))
-        .sort((a, b) => b.er - a.er);
-      if (posts.length) {
-        await db
-          .delete(InstagramMediaTable)
-          .where(eq(InstagramMediaTable.user, user.id));
-        await db
-          .insert(InstagramMediaTable)
-          .values(posts)
-          .onConflictDoNothing();
-        await db
-          .update(InstagramDetails)
-          .set({
-            averageLikes: median(
-              posts.map((post) => post.likes).filter(Boolean),
-            ),
-            averageComments: median(
-              posts.map((post) => post.comments).filter(Boolean),
-            ),
-            er: median(posts.map((post) => post.er).filter(Boolean)),
-          })
-          .where(eq(InstagramDetails.id, user.instagramDetails));
-      }
-      return posts.slice(0, 6);
-    }
+    if (fetchReq?.data) return fetchReq.data;
   }
-  if (user.isSpirit) {
-    return db
-      .select()
-      .from(InstagramMediaTable)
-      .where(eq(InstagramMediaTable.user, user.id))
-      .limit(6)
-      .orderBy(desc(InstagramMediaTable.er));
+  if (username) {
+    const data = await getInstagramDataExternalAPI(username);
+    if (data?.media_data) return data.media_data;
   }
   return [];
+}
+
+export async function getInstagramMedia(user: UserDB) {
+  if (!user.instagramDetails) return null;
+  const [instagramDetails] = await db
+    .select()
+    .from(InstagramDetails)
+    .where(eq(InstagramDetails.id, user.instagramDetails));
+  if (!instagramDetails) return [];
+  const postsData = await getPosts(
+    instagramDetails.accessToken,
+    instagramDetails.username,
+  );
+  if (postsData.length === 0) return [];
+  const posts = postsData
+    .map((media) => ({
+      comments: media.comments_count || -1,
+      likes: media.like_count || 0,
+      link: media.permalink,
+      thumbnail: media.thumbnail_url || media.media_url,
+      mediaURL: media.media_url,
+      timestamp: media.timestamp,
+      type: media.media_type,
+      caption: media.caption,
+      appID: media.id,
+      user: user.id,
+      er: getER(
+        instagramDetails.followers,
+        media.like_count || 0,
+        media.comments_count || -1,
+      ),
+    }))
+    .sort((a, b) => b.er - a.er);
+  await db
+    .delete(InstagramMediaTable)
+    .where(eq(InstagramMediaTable.user, user.id));
+  await db.insert(InstagramMediaTable).values(posts).onConflictDoNothing();
+  await db
+    .update(InstagramDetails)
+    .set({
+      averageLikes: median(posts.map((post) => post.likes).filter(Boolean)),
+      averageComments: median(
+        posts.map((post) => post.comments).filter(Boolean),
+      ),
+      er: median(posts.map((post) => post.er).filter(Boolean)),
+    })
+    .where(eq(InstagramDetails.id, user.instagramDetails));
+  return posts.slice(0, 6);
 }

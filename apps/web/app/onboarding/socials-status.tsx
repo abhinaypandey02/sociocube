@@ -4,7 +4,12 @@ import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "ui/button";
 import Image from "next/image";
 import { ShieldCheck } from "@phosphor-icons/react";
+import { Input } from "ui/input";
+import { useForm } from "react-hook-form";
+import Form from "ui/form";
 import type { AuthScopes } from "../../__generated__/graphql";
+import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
+import { UPDATE_ONBOARDING_INSTAGRAM_USERNAME } from "../../lib/mutations";
 import { completedOnboardingScopes } from "./utils";
 
 export default function SocialsStatus({
@@ -14,15 +19,30 @@ export default function SocialsStatus({
   scopes: AuthScopes[];
   nextStep: () => void;
 }) {
+  const form = useForm<{ username: string }>();
   const connected = completedOnboardingScopes(scopes).length > 0;
+  const [updateInstagramUsername, { loading }] = useAuthMutation(
+    UPDATE_ONBOARDING_INSTAGRAM_USERNAME,
+  );
+  const handleManualConnection = (data: { username: null | string }) => {
+    if (data.username) {
+      updateInstagramUsername({ username: data.username })
+        .then((res) => {
+          if (res.data?.updateOnboardingInstagramUsername) {
+            nextStep();
+          }
+        })
+        .catch(handleGQLErrors);
+    }
+  };
   return (
     <>
       <Image
         alt="instagram"
-        className="mx-auto"
-        height={150}
+        className="mx-auto mb-5"
+        height={103}
         src="/instagram-logo.png"
-        width={266}
+        width={173}
       />
       {connected ? (
         <Button className=" mx-auto" onClick={nextStep}>
@@ -31,21 +51,20 @@ export default function SocialsStatus({
       ) : (
         <a href="/_auth/instagram">
           <Button className="mx-auto flex items-center gap-2">
-            Connect now <ArrowSquareOut weight="bold" />
+            Link Account <ArrowSquareOut weight="bold" />
           </Button>
         </a>
       )}
       <div className="mt-3 flex items-center justify-center gap-2 text-center text-xs font-light italic leading-none">
-        <ShieldCheck size={16} weight="bold" />{" "}
+        {!connected && <ShieldCheck size={16} weight="bold" />}
         {connected
           ? "You have already linked Instagram"
-          : "100 % secure and safe."}
+          : "Get a verification badge on your profile."}
       </div>
-
       {!connected && (
-        <ul className="mt-36 space-y-2 text-justify text-xs text-gray-600">
+        <ul className="mt-16 space-y-2 text-justify text-xs text-gray-600">
           <li>
-            <strong>Secure and Trusted:</strong>{" "}
+            <strong>Official Instagram Integration:</strong>{" "}
             <em>
               The URL will have "https://instagram.com" ensuring a secure
               end-to-end encrypted connection.
@@ -66,14 +85,32 @@ export default function SocialsStatus({
               username, and follower count. Nothing private.
             </em>
           </li>
-          <li>
-            <strong>Official Instagram Integration:</strong>{" "}
-            <em>
-              This process is powered by Instagram’s official API, ensuring your
-              data is handled securely and transparently.
-            </em>
-          </li>
         </ul>
+      )}
+      {!connected && (
+        <div className="relative my-10">
+          <hr />
+          <small className="absolute -top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary-bg px-3">
+            or
+          </small>
+        </div>
+      )}
+      {!connected && (
+        <Form
+          className="flex items-end gap-3"
+          form={form}
+          onSubmit={form.handleSubmit(handleManualConnection)}
+        >
+          <Input
+            className="grow"
+            label="Manual connection (Unverified)"
+            name="username"
+            placeholder="Instagram Username"
+          />
+          <Button loading={loading} type="submit">
+            Connect
+          </Button>
+        </Form>
       )}
     </>
   );

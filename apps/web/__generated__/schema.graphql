@@ -326,6 +326,7 @@ type Mutation {
   sendMessage(body: String!, conversationID: Int!): Boolean!
   updateOnboardingBasicDetails(basicDetails: OnboardingBasicDetailsInput!): Boolean!
   updateOnboardingDOB(dobDetails: OnboardingDOBInput!): Boolean!
+  updateOnboardingInstagramUsername(username: String!): Boolean!
   updateOnboardingLocation(locationDetails: OnboardingLocationInput!): Currency!
   updateOnboardingPricing(pricingDetails: OnboardingPriceInput!): Boolean!
   updateOnboardingUsername(usernameDetails: OnboardingUsernameInput!): Boolean!

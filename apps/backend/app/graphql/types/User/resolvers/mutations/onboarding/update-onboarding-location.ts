@@ -1,9 +1,8 @@
 import { Field, InputType } from "type-graphql";
-import { and, arrayContains, eq, isNotNull } from "drizzle-orm";
+import { and, eq, isNotNull } from "drizzle-orm";
 import { AuthorizedContext } from "../../../../../context";
 import { db } from "../../../../../../../lib/db";
 import { OnboardingDataTable, UserTable } from "../../../db/schema";
-import { AuthScopes } from "../../../../../constants/scopes";
 import GQLError from "../../../../../constants/errors";
 import { Currency } from "../../../type";
 import { CountryTable } from "../../../../Map/db/schema";
@@ -29,7 +28,7 @@ export async function handleUpdateOnboardingLocation(
         eq(UserTable.id, ctx.userId),
         isNotNull(UserTable.onboardingData),
         eq(UserTable.isOnboarded, false),
-        arrayContains(UserTable.scopes, [AuthScopes.INSTAGRAM]),
+        isNotNull(UserTable.instagramDetails),
       ),
     )
     .leftJoin(

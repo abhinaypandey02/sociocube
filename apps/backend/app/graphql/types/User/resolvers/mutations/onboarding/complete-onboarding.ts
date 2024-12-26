@@ -1,4 +1,4 @@
-import { and, arrayContains, eq, isNotNull } from "drizzle-orm";
+import { and, eq, isNotNull } from "drizzle-orm";
 import { AuthorizedContext } from "../../../../../context";
 import { db } from "../../../../../../../lib/db";
 import {
@@ -7,7 +7,6 @@ import {
   UserTable,
 } from "../../../db/schema";
 import GQLError from "../../../../../constants/errors";
-import { AuthScopes } from "../../../../../constants/scopes";
 import { Roles } from "../../../../../constants/roles";
 
 export async function handleCompleteOnboarding(ctx: AuthorizedContext) {
@@ -21,7 +20,6 @@ export async function handleCompleteOnboarding(ctx: AuthorizedContext) {
           isNotNull(UserTable.onboardingData),
           isNotNull(UserTable.instagramDetails),
           eq(UserTable.isOnboarded, false),
-          arrayContains(UserTable.scopes, [AuthScopes.INSTAGRAM]),
         ),
       )
       .leftJoin(

@@ -29,9 +29,18 @@ import {
   handleUpdateOnboardingUsername,
   OnboardingUsernameInput,
 } from "./onboarding/update-onboarding-username";
+import { handleUpdateOnboardingInstagramUsername } from "./onboarding/update-onboarding-instagram-username";
 
 @Resolver()
 export class UserMutationResolver {
+  @Authorized()
+  @Mutation(() => Boolean)
+  updateOnboardingInstagramUsername(
+    @Arg("username") username: string,
+    @Ctx() ctx: AuthorizedContext,
+  ) {
+    return handleUpdateOnboardingInstagramUsername(ctx, username);
+  }
   @Authorized()
   @Mutation(() => Boolean)
   updateOnboardingBasicDetails(
