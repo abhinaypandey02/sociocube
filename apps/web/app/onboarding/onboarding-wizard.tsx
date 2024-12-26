@@ -149,7 +149,7 @@ function OnboardingWizard({
               category: currentUser.onboardingData?.category || "",
               gender: currentUser.onboardingData?.gender || "",
             }}
-            key={2}
+            key={currentUser.instagramStats?.username}
             nextStep={nextStep}
             photoUpload={currentUser.pictureUploadURL}
           />
@@ -243,7 +243,7 @@ function OnboardingWizard({
         ),
       },
     ],
-    [currentUser, nextStep],
+    [currentUser, currentUser?.instagramStats?.username, nextStep],
   );
   let routeLoading = false;
   if (!currentUser && !dataLoading) {

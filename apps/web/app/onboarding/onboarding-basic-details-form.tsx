@@ -10,6 +10,8 @@ import genders from "commons/genders";
 import Form from "ui/form";
 import { User } from "@phosphor-icons/react";
 import Image from "next/image";
+import { MAXIMUM_FILE_SIZE, ALLOWED_IMAGE_TYPES } from "commons/file";
+import { toast } from "react-hot-toast";
 import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
 import { UPDATE_ONBOARDING_BASIC_DETAILS } from "../../lib/mutations";
 import type { StorageFile } from "../../__generated__/graphql";
@@ -136,13 +138,22 @@ export default function OnboardingBasicDetailsForm({
         rules={{ required: true }}
       />
       <input
+        accept={ALLOWED_IMAGE_TYPES.join(", ")}
         className="hidden"
         onChange={(e) => {
           const event = e as unknown as ChangeEvent<HTMLInputElement>;
           const file = event.target.files?.[0];
           if (file) {
-            setProfilePicture(file);
-            setMissingPhoto(false);
+            if (file.size > MAXIMUM_FILE_SIZE) {
+              toast.error(
+                `Maximum file size is ${MAXIMUM_FILE_SIZE / 1024 / 1024}mb`,
+              );
+            } else if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+              toast.error(`Only png and jpeg image types are allowed`);
+            } else {
+              setProfilePicture(file);
+              setMissingPhoto(false);
+            }
           }
         }}
         ref={ref}
