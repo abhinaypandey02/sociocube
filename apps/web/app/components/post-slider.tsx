@@ -1,6 +1,7 @@
 "use client";
-import React, { Suspense } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { EffectCards, Autoplay, Navigation } from "swiper/modules";
+import type { SwiperRef } from "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Heart, Spinner, TrendUp } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
@@ -17,29 +18,38 @@ function getRandomColor() {
 }
 function PostSlide({
   post,
+  priority,
+  active,
 }: {
   post: GetFeaturedSellersQuery["posts"][number];
+  priority: boolean;
+  active: boolean;
 }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    if (active) {
+      void videoRef.current?.play();
+    } else {
+      videoRef.current?.pause();
+    }
+  }, [active]);
   return (
     <li className="relative overflow-hidden rounded-lg">
       <div>
-        <Suspense fallback={<div>REDDDD</div>}>
-          <video
-            autoPlay
-            className="size-full sm:h-[568px] sm:w-[320px]"
-            controlsList="nodownload"
-            height={568}
-            loop
-            muted
-            playsInline
-            poster={post.thumbnailURL}
-            preload="none"
-            style={{ background: getRandomColor() }}
-            width={320}
-          >
-            <source src={post.mediaURL || ""} />
-          </video>
-        </Suspense>
+        <video
+          className="size-full sm:h-[568px] sm:w-[320px]"
+          controlsList="nodownload"
+          height={568}
+          loop
+          muted
+          playsInline
+          preload="none"
+          ref={videoRef}
+          style={{ background: getRandomColor() }}
+          width={320}
+        >
+          <source src={post.mediaURL || ""} />
+        </video>
       </div>
       <div className="absolute bottom-0 h-20 w-full bg-black/30 blur" />
       <Link
@@ -50,6 +60,7 @@ function PostSlide({
           alt={post.creatorName}
           className="size-10 rounded-full"
           height={40}
+          priority={priority}
           src={post.creatorImage}
           width={40}
         />
@@ -71,6 +82,27 @@ function PostSlide({
 }
 
 function PostSlider({ posts }: { posts: GetFeaturedSellersQuery["posts"] }) {
+  const swiperRef = useRef<SwiperRef>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const updateIndex = useCallback(() => {
+    setCurrentSlide(swiperRef.current?.swiper.realIndex || 0);
+  }, []);
+
+  // Add eventlisteners for swiper after initializing
+  useEffect(() => {
+    const swiperInstance = swiperRef.current?.swiper;
+
+    if (swiperInstance) {
+      swiperInstance.on("slideChange", updateIndex);
+    }
+
+    return () => {
+      if (swiperInstance) {
+        swiperInstance.off("slideChange", updateIndex);
+      }
+    };
+  }, [updateIndex]);
   return (
     <Swiper
       autoplay={{
@@ -82,10 +114,15 @@ function PostSlider({ posts }: { posts: GetFeaturedSellersQuery["posts"] }) {
       grabCursor
       modules={[EffectCards, Autoplay, Navigation]}
       navigation
+      ref={swiperRef}
     >
-      {posts.map((post) => (
+      {posts.map((post, i) => (
         <SwiperSlide key={post.mediaURL}>
-          <PostSlide post={post} />
+          <PostSlide
+            active={currentSlide === i}
+            post={post}
+            priority={i === 0}
+          />
         </SwiperSlide>
       ))}
     </Swiper>
