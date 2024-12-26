@@ -29,10 +29,11 @@ function Navbar({
       >
         <div className="flex">
           <Link
-            className="-m-1.5 p-1.5 text-2xl font-bold italic text-primary sm:text-3xl"
+            className="-m-1.5 p-1.5 text-4xl font-bold italic text-primary sm:text-3xl"
             href={process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "/"}
           >
-            <h2>freeluencers</h2>
+            <h2 className="max-sm:hidden">freeluencers</h2>
+            <h2 className="pl-3 sm:hidden">f</h2>
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">

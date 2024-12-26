@@ -1,7 +1,6 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { EffectCards, Autoplay, Navigation } from "swiper/modules";
-import type { SwiperRef } from "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Heart, Spinner, TrendUp } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
@@ -37,7 +36,7 @@ function PostSlide({
     <li className="relative overflow-hidden rounded-lg">
       <div>
         <video
-          className="size-full sm:h-[568px] sm:w-[320px]"
+          className="aspect-[9/16] size-full sm:h-[568px] sm:w-[320px]"
           controlsList="nodownload"
           height={568}
           loop
@@ -48,7 +47,7 @@ function PostSlide({
           style={{ background: getRandomColor() }}
           width={320}
         >
-          <source src={post.mediaURL || ""} />
+          {active ? <source src={post.mediaURL || ""} /> : null}
         </video>
       </div>
       <div className="absolute bottom-0 h-20 w-full bg-black/30 blur" />
@@ -82,27 +81,8 @@ function PostSlide({
 }
 
 function PostSlider({ posts }: { posts: GetFeaturedSellersQuery["posts"] }) {
-  const swiperRef = useRef<SwiperRef>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const updateIndex = useCallback(() => {
-    setCurrentSlide(swiperRef.current?.swiper.realIndex || 0);
-  }, []);
-
-  // Add eventlisteners for swiper after initializing
-  useEffect(() => {
-    const swiperInstance = swiperRef.current?.swiper;
-
-    if (swiperInstance) {
-      swiperInstance.on("slideChange", updateIndex);
-    }
-
-    return () => {
-      if (swiperInstance) {
-        swiperInstance.off("slideChange", updateIndex);
-      }
-    };
-  }, [updateIndex]);
   return (
     <Swiper
       autoplay={{
@@ -114,7 +94,9 @@ function PostSlider({ posts }: { posts: GetFeaturedSellersQuery["posts"] }) {
       grabCursor
       modules={[EffectCards, Autoplay, Navigation]}
       navigation
-      ref={swiperRef}
+      onRealIndexChange={(swiper) => {
+        setCurrentSlide(swiper.realIndex);
+      }}
     >
       {posts.map((post, i) => (
         <SwiperSlide key={post.mediaURL}>
