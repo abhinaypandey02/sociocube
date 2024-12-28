@@ -24,7 +24,8 @@ export default async function JobPostingPage({
       id,
     },
     undefined,
-    60,
+    120,
+    ["posting"],
   );
   if (!posting) return notFound();
   return (

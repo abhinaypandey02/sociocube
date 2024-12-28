@@ -1,4 +1,8 @@
-import { ArrowRight, ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
+import {
+  ArrowRight,
+  ArrowSquareOut,
+  MagnifyingGlass,
+} from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
@@ -16,13 +20,24 @@ export default function JobPostings({
     <div className=" py-16 sm:my-16" id="how-it-works">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto mb-16 lg:mx-0">
-          <h2 className="font-poppins text-3xl font-bold  sm:text-4xl">
-            Exciting Opportunities
-          </h2>
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-gray-800">
-            Discover gigs and freelance jobs tailored for influencers. Apply now
-            and start collaborating with top brands today!
-          </p>
+          <div className="flex flex-wrap items-start justify-between">
+            <div>
+              <h2 className="font-poppins text-3xl font-bold  sm:text-4xl">
+                Exciting Opportunities
+              </h2>
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-gray-800">
+                Discover gigs and freelance jobs tailored for influencers. Apply
+                now and start collaborating with top brands today!
+              </p>
+            </div>
+            <Link
+              className="flex items-center gap-2 pt-2 text-lg font-medium text-accent max-md:hidden"
+              href={getRoute("Postings")}
+            >
+              See all postings
+              <ArrowRight />
+            </Link>
+          </div>
         </div>
         <ul className="mx-auto max-w-6xl divide-y divide-gray-100 ">
           {postings.map((posting) => (
@@ -94,6 +109,15 @@ export default function JobPostings({
             </li>
           ))}
         </ul>
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-2 md:hidden">
+          <MagnifyingGlass weight="bold" /> Looking for more?
+          <Link
+            className="flex items-center gap-2  font-medium text-accent "
+            href={getRoute("Search")}
+          >
+            See all postings <ArrowRight />
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Button, Variants } from "ui/button";
 import { Pause, Play, Trash } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
@@ -25,7 +25,6 @@ export default function ManagePostingButton({
   loading: boolean;
   posting: GetPostingQuery["posting"];
 }) {
-  const [success, setSuccess] = useState(false);
   const router = useRouter();
   const [pausePosting, { loading: pausingPosting }] =
     useAuthMutation(PAUSE_POSTING);
@@ -38,12 +37,11 @@ export default function ManagePostingButton({
   if (!editAccess || !posting?.id || dataLoading) return null;
   const loading = pausingPosting || deletingPosting || resumingPosting;
   const handleReload = () => {
-    setSuccess(true);
     toast.success("Successfully updated posting");
     void revalidateAllPostings();
     router.refresh();
   };
-  if (success) return null;
+  // if (success) return null;
   return (
     <div className="flex gap-1">
       {posting.open ? (

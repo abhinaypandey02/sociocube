@@ -6,9 +6,16 @@ import { GET_ALL_POSTINGS } from "../../lib/queries";
 import { convertToAbbreviation } from "../../lib/utils";
 import { getRoute } from "../../constants/routes";
 import AddPostingButton from "./components/add-posting-button";
+import { getCurrency } from "./utils";
 
 export default async function PostingsPage() {
-  const { postings } = await queryGQL(GET_ALL_POSTINGS);
+  const { postings } = await queryGQL(
+    GET_ALL_POSTINGS,
+    undefined,
+    undefined,
+    120,
+    ["posting", "all-postings"],
+  );
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between">
@@ -50,9 +57,7 @@ export default async function PostingsPage() {
               <div className="flex justify-between gap-x-4 py-3">
                 <dt className="text-gray-500">Payment</dt>
                 <dd className="text-gray-700">
-                  {posting.barter
-                    ? "Barter"
-                    : `${posting.currency} ${posting.price}`}
+                  {getCurrency(posting.barter, posting.currency, posting.price)}
                 </dd>
               </div>
               {posting.minimumInstagramFollower ? (
@@ -76,4 +81,3 @@ export default async function PostingsPage() {
     </div>
   );
 }
-export const revalidate = 1;

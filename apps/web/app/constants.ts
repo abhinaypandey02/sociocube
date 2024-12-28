@@ -4,7 +4,6 @@ export const NAVBAR_COMMON_ROUTES = [
   { label: "Home", href: getRoute("Home") },
   { label: "Search", href: getRoute("Search") },
   { label: "Collaborations", href: getRoute("Postings") },
-  { label: "FAQ", href: "/#faq" },
 ];
 
 export const UNAUTHORISED_NAVBAR_SECTIONS = {

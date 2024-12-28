@@ -103,6 +103,7 @@ export async function queryGQL<T, V extends OperationVariables>(
   variables?: V,
   Cookie?: ReadonlyRequestCookies,
   revalidate?: number,
+  tags?: string[],
 ): Promise<T> {
   const res = await query({
     query: _query,
@@ -115,6 +116,7 @@ export async function queryGQL<T, V extends OperationVariables>(
         cache: revalidate === undefined ? "force-cache" : undefined,
         next: {
           revalidate,
+          tags,
         },
       },
     },

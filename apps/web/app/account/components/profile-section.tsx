@@ -87,7 +87,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
                       alt={data.name || ""}
                       className="mt-6 rounded-md"
                       height={200}
-                      src={`${photoValue}?${new Date().toISOString()}`}
+                      src={photoValue}
                       width={200}
                     />
                   ) : null}

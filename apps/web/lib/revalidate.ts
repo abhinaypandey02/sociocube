@@ -1,15 +1,13 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { getRoute } from "../constants/routes";
+import { revalidateTag } from "next/cache";
 
 // eslint-disable-next-line -- @typescript-eslint/ require-await
 export async function revalidateAllPostings() {
-  revalidatePath(getRoute("Postings"));
-  revalidatePath(`${getRoute("Postings")}/[id]/page`, "page");
+  revalidateTag("posting");
 }
 
 // eslint-disable-next-line -- @typescript-eslint/ require-await
 export async function revalidateOnlyPostingsPage() {
-  revalidatePath(getRoute("Postings"));
+  revalidateTag("all-postings");
 }
