@@ -163,16 +163,18 @@ export default function AddPostingButton({
           </Button>
         </Form>
       </Modal>
-      <Button
-        loading={loading || creatingPost}
-        onClick={() => {
-          setIsModalOpen(true);
-          void fetchCountries({});
-        }}
-        variant={Variants.ACCENT}
-      >
-        {data?.user ? "+ Add posting" : "+ Login to add posting"}
-      </Button>
+      {!loading && (
+        <Button
+          loading={creatingPost}
+          onClick={() => {
+            setIsModalOpen(true);
+            void fetchCountries({});
+          }}
+          variant={Variants.ACCENT}
+        >
+          {data?.user ? "+ Add posting" : "+ Login to add posting"}
+        </Button>
+      )}
     </>
   );
 }
