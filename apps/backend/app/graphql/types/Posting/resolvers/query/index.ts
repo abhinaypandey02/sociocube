@@ -16,6 +16,10 @@ export class PostingQueryResolvers {
   getAllPostings(): Promise<PostingGQL[]> {
     return getAllPostings();
   }
+  @Query(() => [PostingGQL])
+  getFeaturedPostings(): Promise<PostingGQL[]> {
+    return getAllPostings();
+  }
   @Query(() => PostingGQL, { nullable: true })
   getPosting(
     @Arg("id", () => Int) id: number,

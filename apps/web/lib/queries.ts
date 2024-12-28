@@ -81,7 +81,7 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
       likes
       er
     }
-    postings: getAllPostings {
+    postings: getFeaturedPostings {
       id
       price
       currency
@@ -92,6 +92,7 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
       barter
       applicationsCount
       minimumInstagramFollower
+      externalLink
       user {
         photo
         companyName
@@ -256,6 +257,33 @@ export const GET_POSTING = gql(`
   #graphql
   query GetPosting($id: Int!) {
     posting:getPosting(id: $id){
+      id
+      maximumAge
+      minimumInstagramFollower
+      user {
+        name
+        photo
+        companyName
+      }
+      deliverables
+      externalLink
+      applicationsCount
+      description
+      barter
+      minimumAge
+      open
+      title
+      currency
+      price
+      createdAt
+      updatedAt
+    }
+  }
+`);
+export const GET_ALL_POSTINGS = gql(`
+  #graphql
+  query GetAllPostings {
+    postings:getAllPostings {
       id
       maximumAge
       minimumInstagramFollower

@@ -386,7 +386,9 @@ type Posting {
   barter: Boolean!
   createdAt: Float!
   currency: String
+  deliverables: [String!]
   description: String!
+  externalLink: String
   id: Float!
   maximumAge: Float!
   minimumAge: Float!
@@ -413,6 +415,7 @@ type Query {
   getCities(stateID: Int!): [SelectOption!]!
   getCountries: [SelectOption!]!
   getCurrentUser: User
+  getFeaturedPostings: [Posting!]!
   getFeaturedPosts: [GetFeaturedPostsResponse!]!
   getFeaturedSellers: [User!]!
   getHasUserApplied(postingID: Float!): Boolean!

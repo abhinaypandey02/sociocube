@@ -1,10 +1,11 @@
-import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 import { getRoute } from "../../constants/routes";
 import { convertToAbbreviation } from "../../lib/utils";
+import { getCurrency } from "../postings/utils";
 
 export default function JobPostings({
   postings,
@@ -48,8 +49,10 @@ export default function JobPostings({
                   </p>
                   <p className="mt-1 line-clamp-1 flex text-xs leading-5 text-gray-500">
                     {posting.user?.companyName} • Age group:{" "}
-                    {posting.minimumAge} - {posting.maximumAge} • Min followers:{" "}
-                    {convertToAbbreviation(posting.minimumInstagramFollower)}
+                    {posting.minimumAge} - {posting.maximumAge}
+                    {posting.minimumInstagramFollower
+                      ? ` • Min followers: ${convertToAbbreviation(posting.minimumInstagramFollower)}`
+                      : null}
                   </p>
                   <p className="mt-1 text-sm font-medium leading-6 text-gray-900 sm:hidden">
                     {posting.barter
@@ -61,18 +64,27 @@ export default function JobPostings({
               <div className="flex shrink-0 items-center gap-x-4">
                 <div className="hidden sm:flex sm:flex-col sm:items-end">
                   <p className="text-sm leading-6 text-gray-900">
-                    {posting.barter
-                      ? "Barter"
-                      : `${posting.currency} ${posting.price}`}
+                    {getCurrency(
+                      posting.barter,
+                      posting.currency,
+                      posting.price,
+                    )}
                   </p>
-                  <div className="mt-1 flex items-center gap-x-1.5">
-                    <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                      <div className="size-1.5 rounded-full bg-emerald-500" />
+                  {posting.externalLink ? (
+                    <div className="mt-1 flex items-center  gap-x-1.5 text-xs leading-5 text-gray-500">
+                      <ArrowSquareOut size={10} />
+                      External
                     </div>
-                    <p className="text-xs leading-5 text-gray-500">
-                      {`${posting.applicationsCount}+ applications`}
-                    </p>
-                  </div>
+                  ) : (
+                    <div className="mt-1 flex items-center gap-x-1.5">
+                      <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                        <div className="size-1.5 rounded-full bg-emerald-500" />
+                      </div>
+                      <p className="text-xs leading-5 text-gray-500">
+                        {`${posting.applicationsCount}+ applications`}
+                      </p>
+                    </div>
+                  )}
                 </div>
                 <ArrowRight
                   aria-hidden="true"

@@ -1,11 +1,13 @@
 "use client";
+import type { PropsWithChildren, ReactNode } from "react";
 import React, { useCallback, useMemo, useState } from "react";
 import { Button, Variants } from "ui/button";
-import { useRouter } from "next/navigation";
 import { Input } from "ui/input";
 import Form from "ui/form";
 import { useForm } from "react-hook-form";
 import { getAge } from "commons/age";
+import Link from "next/link";
+import { ArrowSquareOut } from "@phosphor-icons/react";
 import type {
   GetCurrentUserApplicationStatusQuery,
   GetPostingQuery,
@@ -20,15 +22,29 @@ interface FormType {
   comment?: string;
 }
 
+function LinkWrapper({
+  external,
+  url,
+  children,
+}: PropsWithChildren<{ external: boolean; url?: string | null }>) {
+  if (!url) return children;
+  if (external) {
+    return (
+      <a href={url} rel="noopener" target="_blank">
+        {children}
+      </a>
+    );
+  }
+  return <Link href={url}>{children}</Link>;
+}
+
 export default function ApplyNowButton({
   data,
   loading: dataLoading,
-  isOpen,
   posting,
 }: {
   data?: GetCurrentUserApplicationStatusQuery;
   loading: boolean;
-  isOpen: boolean;
   posting: GetPostingQuery["posting"];
 }) {
   const form = useForm<FormType>({
@@ -40,38 +56,45 @@ export default function ApplyNowButton({
     Boolean(data?.hasApplied),
   );
   const [applyNow, { loading: applyNowLoading }] = useAuthMutation(APPLY_NOW);
-  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRouteLoading, setIsRouteLoading] = useState(false);
-  const message = useMemo(() => {
-    if (appliedSuccess) return ["Applied!", null, "true"];
-    if (!isOpen) return ["Closed", null, "true"];
-    if (!data?.user) return ["Sign in to apply", getRoute("SignUp")];
+  const message: [ReactNode, string | null, boolean] = useMemo(() => {
+    if (appliedSuccess) return ["Applied!", null, true];
+    if (!posting?.open) return ["Closed", null, true];
+    if (!data?.user) return ["Sign in to apply", getRoute("SignUp"), false];
+    if (posting.externalLink)
+      return [
+        <div className="flex items-center gap-2" key={0}>
+          Apply now <ArrowSquareOut />{" "}
+        </div>,
+        posting.externalLink,
+        false,
+      ];
     if (!data.user.isOnboarded)
-      return ["Onboard to apply", getRoute("Onboarding")];
+      return ["Onboard to apply", getRoute("Onboarding"), false];
 
     if (
       (data.user.instagramStats?.followers || 0) <
-      (posting?.minimumInstagramFollower || 0)
+      (posting.minimumInstagramFollower || 0)
     )
-      return ["Not enough followers", null, "true"];
-    if (!data.user.dob) return ["Add your DOB to apply", null, "true"];
+      return ["Not enough followers", null, true];
+    if (!data.user.dob)
+      return ["Add your DOB to apply", getRoute("Account"), false];
     const age = getAge(new Date(data.user.dob));
-    if (age < (posting?.minimumAge || 0) || age > (posting?.maximumAge || 1000))
-      return ["Not your age group", null];
-    return ["Apply Now", null];
-  }, [appliedSuccess, isOpen, data?.user, posting?.minimumInstagramFollower]);
+    if (age < (posting.minimumAge || 0) || age > (posting.maximumAge || 1000))
+      return ["Not your age group", null, true];
+    return ["Apply Now", null, false];
+  }, [appliedSuccess, data?.user, posting]);
 
   const handleClose = () => {
     setIsModalOpen(false);
   };
 
   const handleClick = useCallback(() => {
-    if (message[1]) {
+    if (message[1] && !posting?.externalLink) {
       setIsRouteLoading(true);
-      router.push(message[1]);
     } else setIsModalOpen(true);
-  }, [message]);
+  }, [message, posting?.externalLink]);
 
   const handleApply = (values: FormType) => {
     if (posting?.id)
@@ -120,16 +143,18 @@ export default function ApplyNowButton({
           </Button>
         </Form>
       </Modal>
-      <Button
-        className="max-sm:w-full sm:ml-auto"
-        disabled={Boolean(message[2])}
-        loading={loading}
-        onClick={handleClick}
-        outline={Boolean(message[2])}
-        variant={Variants.ACCENT}
-      >
-        {message[0]}
-      </Button>
+      <LinkWrapper external={Boolean(posting?.externalLink)} url={message[1]}>
+        <Button
+          className="max-sm:w-full sm:ml-auto"
+          disabled={message[2]}
+          loading={loading}
+          onClick={handleClick}
+          outline={message[2]}
+          variant={Variants.ACCENT}
+        >
+          {message[0]}
+        </Button>
+      </LinkWrapper>
     </>
   );
 }

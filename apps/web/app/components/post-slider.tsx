@@ -47,7 +47,7 @@ function PostSlide({
           style={{ background: getRandomColor() }}
           width={320}
         >
-          {active ? <source src={post.mediaURL || ""} /> : null}
+          <source src={post.mediaURL || ""} />
         </video>
       </div>
       <div className="absolute bottom-0 h-20 w-full bg-black/30 blur" />

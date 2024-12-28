@@ -8,6 +8,7 @@ import {
   GET_POSTING,
 } from "../../../lib/queries";
 import { convertToAbbreviation } from "../../../lib/utils";
+import { getCurrency } from "../utils";
 import ApplyNowButton from "./apply-now-button";
 
 export default async function JobPostingPage({
@@ -56,18 +57,20 @@ export default async function JobPostingPage({
                   0,
                 )
               }
-              props={{ isOpen: posting.open, posting }}
+              props={{ posting }}
             />
-            <div className="flex items-center gap-2 sm:justify-end">
-              {posting.open ? (
-                <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                  <div className="size-1.5 rounded-full bg-emerald-500" />
-                </div>
-              ) : null}
-              <p className="text-sm text-gray-500">
-                {posting.applicationsCount}+ applications
-              </p>
-            </div>
+            {!posting.externalLink && (
+              <div className="flex items-center gap-2 sm:justify-end">
+                {posting.open ? (
+                  <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                    <div className="size-1.5 rounded-full bg-emerald-500" />
+                  </div>
+                ) : null}
+                <p className="text-sm text-gray-500">
+                  {posting.applicationsCount}+ applications
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -81,6 +84,20 @@ export default async function JobPostingPage({
               {posting.description}
             </dd>
           </div>
+          {posting.deliverables ? (
+            <div className="px-4 pb-6 sm:col-span-2 sm:px-0 ">
+              <dt className="text-sm font-medium leading-6 text-gray-900">
+                Deliverables
+              </dt>
+              <dd className="mt-1 max-w-4xl text-sm leading-6 text-gray-700 sm:mt-2">
+                <ul className="list-disc pl-3">
+                  {posting.deliverables.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          ) : null}
           <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">
               Updated at
@@ -94,9 +111,7 @@ export default async function JobPostingPage({
               Payment
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-              {posting.barter
-                ? "Barter"
-                : `${posting.currency} ${posting.price}`}
+              {getCurrency(posting.barter, posting.currency, posting.price)}
             </dd>
           </div>
           <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
@@ -104,7 +119,9 @@ export default async function JobPostingPage({
               Minimum Instagram followers
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-              {convertToAbbreviation(posting.minimumInstagramFollower)}
+              {posting.minimumInstagramFollower
+                ? convertToAbbreviation(posting.minimumInstagramFollower)
+                : "No limit"}
             </dd>
           </div>
           <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">

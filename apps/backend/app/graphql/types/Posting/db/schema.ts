@@ -15,6 +15,8 @@ export const PostingTable = pgTable("posting", {
     .references(() => UserTable.id)
     .notNull(),
   title: text("title").notNull(),
+  deliverables: text("deliverables").array(),
+  externalLink: text("external_link"),
   description: text("description").notNull(),
   currencyCountry: integer("currency_country").references(
     () => CountryTable.id,
