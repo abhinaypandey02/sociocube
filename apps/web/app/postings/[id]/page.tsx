@@ -8,7 +8,7 @@ import {
   GET_POSTING,
 } from "../../../lib/queries";
 import { convertToAbbreviation } from "../../../lib/utils";
-import { getCurrency } from "../utils";
+import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
 import ApplyNowButton from "./apply-now-button";
 import ManagePostingButton from "./manage-posting-button";
 
@@ -124,10 +124,10 @@ export default async function JobPostingPage({
           ) : null}
           <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">
-              Updated at
+              Platforms
             </dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-              {new Date(posting.updatedAt).toLocaleDateString()}
+            <dd className="mt-1 flex gap-2 text-sm leading-6 text-gray-700 sm:mt-2">
+              {getPlatforms(posting.platforms)}
             </dd>
           </div>
           <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
@@ -138,22 +138,34 @@ export default async function JobPostingPage({
               {getCurrency(posting.barter, posting.currency, posting.price)}
             </dd>
           </div>
+          {posting.minimumFollowers ? (
+            <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">
+                Minimum followers
+              </dt>
+              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+                {posting.minimumFollowers
+                  ? convertToAbbreviation(posting.minimumFollowers)
+                  : "No limit"}
+              </dd>
+            </div>
+          ) : null}
+          {posting.minimumAge || posting.maximumAge ? (
+            <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">
+                Age group
+              </dt>
+              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+                {getAgeGroup(posting.minimumAge, posting.maximumAge)}
+              </dd>
+            </div>
+          ) : null}
           <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">
-              Minimum Instagram followers
+              Updated at
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-              {posting.minimumInstagramFollower
-                ? convertToAbbreviation(posting.minimumInstagramFollower)
-                : "No limit"}
-            </dd>
-          </div>
-          <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              Age group
-            </dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-              {posting.minimumAge} - {posting.maximumAge} years
+              {new Date(posting.updatedAt).toLocaleDateString()}
             </dd>
           </div>
         </dl>

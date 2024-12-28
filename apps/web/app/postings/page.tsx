@@ -6,7 +6,7 @@ import { GET_ALL_POSTINGS } from "../../lib/queries";
 import { convertToAbbreviation } from "../../lib/utils";
 import { getRoute } from "../../constants/routes";
 import AddPostingButton from "./components/add-posting-button";
-import { getCurrency } from "./utils";
+import { getAgeGroup, getCurrency, getPlatforms } from "./utils";
 
 export default async function PostingsPage() {
   const { postings } = await queryGQL(
@@ -24,7 +24,7 @@ export default async function PostingsPage() {
         </h1>
         <Injector Component={AddPostingButton} fetch={getCurrentUser} />
       </div>
-      <ul className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
+      <ul className="mt-16 grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
         {postings.map((posting) => (
           <Link
             className="overflow-hidden rounded-xl border border-gray-200 shadow-lg transition-transform duration-300 hover:scale-105"
@@ -55,25 +55,33 @@ export default async function PostingsPage() {
             </div>
             <dl className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
               <div className="flex justify-between gap-x-4 py-3">
+                <dt className="text-gray-500">Platforms</dt>
+                <dd className="text-gray-700">
+                  {getPlatforms(posting.platforms)}
+                </dd>
+              </div>
+              <div className="flex justify-between gap-x-4 py-3">
                 <dt className="text-gray-500">Payment</dt>
                 <dd className="text-gray-700">
                   {getCurrency(posting.barter, posting.currency, posting.price)}
                 </dd>
               </div>
-              {posting.minimumInstagramFollower ? (
+              {posting.minimumFollowers ? (
                 <div className="flex justify-between gap-x-4 py-3">
                   <dt className="text-gray-500">Minimum followers</dt>
                   <dd className="text-gray-700">
-                    {convertToAbbreviation(posting.minimumInstagramFollower)}
+                    {convertToAbbreviation(posting.minimumFollowers)}
                   </dd>
                 </div>
               ) : null}
-              <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Updated at</dt>
-                <dd className="flex items-start gap-x-2">
-                  {new Date(posting.updatedAt).toDateString()}
-                </dd>
-              </div>
+              {posting.minimumAge || posting.maximumAge ? (
+                <div className="flex justify-between gap-x-4 py-3">
+                  <dt className="text-gray-500">Age group</dt>
+                  <dd className="flex items-start gap-x-2">
+                    {getAgeGroup(posting.minimumAge, posting.maximumAge)}
+                  </dd>
+                </div>
+              ) : null}
             </dl>
           </Link>
         ))}

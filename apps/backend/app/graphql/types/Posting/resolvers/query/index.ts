@@ -4,6 +4,7 @@ import { PostingGQL } from "../../type";
 import { getUserPostings } from "./get-user-postings";
 import { getAllPostings } from "./get-all-postings";
 import { getPosting } from "./get-posting";
+import { getFeaturedPostings } from "./get-featured-postings";
 
 @Resolver()
 export class PostingQueryResolvers {
@@ -18,7 +19,7 @@ export class PostingQueryResolvers {
   }
   @Query(() => [PostingGQL])
   getFeaturedPostings(): Promise<PostingGQL[]> {
-    return getAllPostings();
+    return getFeaturedPostings();
   }
   @Query(() => PostingGQL, { nullable: true })
   getPosting(

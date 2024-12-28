@@ -1,7 +1,9 @@
 import { Field, InputType, Int } from "type-graphql";
+import { IsEnum } from "class-validator";
 import { db } from "../../../../../../lib/db";
 import { PostingTable } from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";
+import { PostingPlatforms } from "../../../../constants/platforms";
 
 @InputType("NewPostingInput")
 export class NewPostingInput {
@@ -17,12 +19,15 @@ export class NewPostingInput {
   price: number | null;
   @Field()
   barter: boolean;
-  @Field()
+  @Field(() => [PostingPlatforms])
+  @IsEnum(PostingPlatforms)
+  platforms: PostingPlatforms[];
+  @Field({ nullable: true })
   minimumAge: number;
-  @Field()
+  @Field({ nullable: true })
   maximumAge: number;
-  @Field()
-  minimumInstagramFollower: number;
+  @Field({ nullable: true })
+  minimumFollowers: number;
   @Field(() => Int, { nullable: true })
   currencyCountry: number | null;
 }

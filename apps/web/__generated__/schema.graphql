@@ -341,9 +341,10 @@ input NewPostingInput {
   deliverables: [String!]
   description: String!
   externalLink: String
-  maximumAge: Float!
-  minimumAge: Float!
-  minimumInstagramFollower: Float!
+  maximumAge: Float
+  minimumAge: Float
+  minimumFollowers: Float
+  platforms: [PostingPlatforms!]!
   price: Int
   title: String!
 }
@@ -399,14 +400,20 @@ type Posting {
   description: String!
   externalLink: String
   id: Float!
-  maximumAge: Float!
-  minimumAge: Float!
-  minimumInstagramFollower: Float!
+  maximumAge: Float
+  minimumAge: Float
+  minimumFollowers: Int
   open: Boolean!
+  platforms: [PostingPlatforms!]!
   price: Int
   title: String!
   updatedAt: Float!
   user: User
+}
+
+enum PostingPlatforms {
+  INSTAGRAM
+  YOUTUBE
 }
 
 type Pricing {

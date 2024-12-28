@@ -9,7 +9,7 @@ import Link from "next/link";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 import { getRoute } from "../../constants/routes";
 import { convertToAbbreviation } from "../../lib/utils";
-import { getCurrency } from "../postings/utils";
+import { getAgeGroup, getCurrency } from "../postings/utils";
 
 export default function JobPostings({
   postings,
@@ -63,16 +63,19 @@ export default function JobPostings({
                     </Link>
                   </p>
                   <p className="mt-1 line-clamp-1 flex text-xs leading-5 text-gray-500">
-                    {posting.user?.companyName} • Age group:{" "}
-                    {posting.minimumAge} - {posting.maximumAge}
-                    {posting.minimumInstagramFollower
-                      ? ` • Min followers: ${convertToAbbreviation(posting.minimumInstagramFollower)}`
+                    {posting.user?.companyName || posting.user?.name}
+                    {posting.minimumAge || posting.maximumAge ? " • " : ""}
+                    {getAgeGroup(posting.minimumAge, posting.maximumAge)}
+                    {posting.minimumFollowers
+                      ? ` • Min followers: ${convertToAbbreviation(posting.minimumFollowers)}`
                       : null}
                   </p>
                   <p className="mt-1 text-sm font-medium leading-6 text-gray-900 sm:hidden">
-                    {posting.barter
-                      ? "Barter"
-                      : `${posting.currency} ${posting.price}`}
+                    {getCurrency(
+                      posting.barter,
+                      posting.currency,
+                      posting.price,
+                    )}
                   </p>
                 </div>
               </div>

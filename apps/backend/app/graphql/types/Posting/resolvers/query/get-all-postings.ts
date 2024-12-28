@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { PostingTable } from "../../db/schema";
 
@@ -7,5 +7,6 @@ export async function getAllPostings() {
     .select()
     .from(PostingTable)
     .where(eq(PostingTable.open, true))
+    .orderBy(desc(PostingTable.createdAt))
     .limit(20);
 }

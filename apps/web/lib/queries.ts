@@ -91,11 +91,12 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
       maximumAge
       barter
       applicationsCount
-      minimumInstagramFollower
+      minimumFollowers
       externalLink
       user {
         photo
         companyName
+        name
       }
     }
   }
@@ -260,7 +261,8 @@ export const GET_POSTING = gql(`
     posting:getPosting(id: $id){
       id
       maximumAge
-      minimumInstagramFollower
+      platforms
+      minimumFollowers
       user {
         name
         photo
@@ -288,7 +290,7 @@ export const GET_ALL_POSTINGS = gql(`
     postings:getAllPostings {
       id
       maximumAge
-      minimumInstagramFollower
+      minimumFollowers
       user {
         name
         photo
@@ -303,6 +305,7 @@ export const GET_ALL_POSTINGS = gql(`
       currency
       price
       createdAt
+      platforms
       updatedAt
     }
   }

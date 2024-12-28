@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from "type-graphql";
+import { PostingPlatforms } from "../../constants/platforms";
 
 @ObjectType("Posting")
 export class PostingGQL {
@@ -6,6 +7,8 @@ export class PostingGQL {
   title: string;
   @Field()
   description: string;
+  @Field(() => [PostingPlatforms])
+  platforms: string[];
   @Field(() => [String], { nullable: true })
   deliverables: string[] | null;
   @Field(() => String, { nullable: true })
@@ -14,12 +17,12 @@ export class PostingGQL {
   price: number | null;
   @Field()
   barter: boolean;
-  @Field()
-  minimumInstagramFollower: number;
-  @Field()
-  minimumAge: number;
-  @Field()
-  maximumAge: number;
+  @Field(() => Int, { nullable: true })
+  minimumFollowers: number | null;
+  @Field(() => Int, { nullable: true })
+  minimumAge: number | null;
+  @Field(() => Int, { nullable: true })
+  maximumAge: number | null;
   @Field()
   open: boolean;
   @Field()

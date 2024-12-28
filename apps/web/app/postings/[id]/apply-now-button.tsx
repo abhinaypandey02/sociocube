@@ -75,7 +75,7 @@ export default function ApplyNowButton({
 
     if (
       (data.user.instagramStats?.followers || 0) <
-      (posting.minimumInstagramFollower || 0)
+      (posting.minimumFollowers || 0)
     )
       return ["Not enough followers", null, true];
     if (!data.user.dob)

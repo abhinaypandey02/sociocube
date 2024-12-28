@@ -6,7 +6,10 @@ import { useForm } from "react-hook-form";
 import { Input } from "ui/input";
 import { useRouter } from "next/navigation";
 import Modal from "../../../components/modal";
-import type { GetCurrentUserQuery } from "../../../__generated__/graphql";
+import type {
+  GetCurrentUserQuery,
+  PostingPlatforms,
+} from "../../../__generated__/graphql";
 import {
   handleGQLErrors,
   useAuthMutation,
@@ -16,6 +19,7 @@ import { CREATE_POSTING } from "../../../lib/mutations";
 import { GET_COUNTRIES } from "../../../lib/queries";
 import { getRoute } from "../../../constants/routes";
 import { revalidateOnlyPostingsPage } from "../../../lib/revalidate";
+import { POSTING_PLATFORMS } from "../constants";
 
 interface FormFields {
   title: string;
@@ -24,9 +28,10 @@ interface FormFields {
   barter: boolean;
   maximumAge: number;
   minimumAge: number;
-  minimumInstagramFollower: number;
+  minimumFollowers: number;
   currencyCountry: number;
   price: number;
+  platform: PostingPlatforms;
 }
 
 export default function AddPostingButton({
@@ -48,6 +53,7 @@ export default function AddPostingButton({
       newPosting: {
         ...formData,
         deliverables: formData.deliverables.split(","),
+        platforms: [formData.platform],
       },
     })
       .then((res) => {
@@ -87,6 +93,12 @@ export default function AddPostingButton({
             name="deliverables"
             placeholder="Comma separated deliverables"
           />
+          <Input
+            label="Platform"
+            name="platforms"
+            options={POSTING_PLATFORMS}
+            placeholder="Select platform"
+          />
           <div className="grid grid-cols-2 gap-2">
             <Input
               label="Minumum Age"
@@ -123,7 +135,7 @@ export default function AddPostingButton({
           </div>
           <Input
             label="Minumum Followers"
-            name="minimumInstagramFollower"
+            name="minimumFollowers"
             placeholder="Required instagram followers"
             rules={{ valueAsNumber: true }}
             type="number"
