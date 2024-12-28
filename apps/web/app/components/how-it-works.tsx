@@ -33,7 +33,8 @@ export default function HowItWorks() {
     <SectionWrapper
       description="See how Freeluencers brings brands and influencers together for authentic partnerships—from onboarding to seamless communication."
       id="how-it-works"
-      title="How it works"
+      prefixTitle="How it works"
+      title="Easy onboarding, Smooth sailing"
     >
       <div className="mx-auto grid max-w-2xl grid-cols-1 gap-8 overflow-hidden lg:mx-0 lg:max-w-none lg:grid-cols-4">
         {timeline.map((item, i) => (

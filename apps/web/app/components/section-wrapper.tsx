@@ -48,14 +48,14 @@ export default function SectionWrapper({
             </p>
           ) : null}
           <h2
-            className={`grow font-poppins text-3xl font-bold  sm:text-4xl ${
+            className={`grow font-poppins text-3xl font-bold !leading-snug  sm:text-4xl ${
               center ? "sm:text-center" : ""
             }`}
           >
             {title}
           </h2>
           <p
-            className={`mt-3 leading-8 text-gray-700 sm:mt-6 sm:text-lg ${
+            className={`mt-3 leading-8 text-gray-600 sm:mt-6 sm:text-lg ${
               center ? "sm:text-center" : ""
             }`}
           >

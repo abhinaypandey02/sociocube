@@ -9,7 +9,7 @@ const stats = [
 export default function AboutUs() {
   return (
     <SectionWrapper headerClassName="!mb-6 " id="about-us" title="About Us">
-      <div className=" flex flex-col gap-x-8 gap-y-20 lg:flex-row">
+      <div className=" flex flex-col gap-x-8 gap-y-10 lg:flex-row">
         <div className="lg:w-full lg:max-w-2xl lg:flex-auto">
           <p className="text-justify text-xl leading-8 text-gray-600">
             At Freeluencers, we connect brands and influencers to create
@@ -28,13 +28,13 @@ export default function AboutUs() {
           </p>
         </div>
         <div className="lg:flex lg:flex-auto lg:justify-center">
-          <dl className="w-64 space-y-8 xl:w-80">
+          <dl className="space-y-8 sm:w-64 xl:w-80">
             {stats.map((stat) => (
               <div className="flex flex-col-reverse gap-y-4" key={stat.label}>
-                <dt className="text-xl leading-7 text-gray-600">
+                <dt className="text-xl leading-7 text-gray-600 max-sm:text-center">
                   {stat.label}
                 </dt>
-                <dd className="font-poppins text-5xl font-semibold text-gray-900">
+                <dd className="font-poppins text-5xl font-semibold text-gray-900 max-sm:text-center">
                   {stat.value}
                 </dd>
               </div>
