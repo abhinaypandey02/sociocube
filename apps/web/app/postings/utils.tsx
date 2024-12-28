@@ -7,6 +7,7 @@ export function getCurrency(
   currencyCode?: string | null,
   price?: number | null,
 ) {
+  if (!isBarter && !price) return "Not specified";
   const priceString = currencyCode && price && `${currencyCode}${price}`;
   const priceStringWithBarter = isBarter ? ` (${priceString})` : priceString;
   return `${isBarter ? "Barter" : ""}${priceString ? priceStringWithBarter : ""}`;

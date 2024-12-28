@@ -20,7 +20,7 @@ export class NewPostingInput {
   @Field()
   barter: boolean;
   @Field(() => [PostingPlatforms])
-  @IsEnum(PostingPlatforms)
+  @IsEnum(PostingPlatforms, { each: true })
   platforms: PostingPlatforms[];
   @Field({ nullable: true })
   minimumAge: number;

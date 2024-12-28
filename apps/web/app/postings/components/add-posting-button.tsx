@@ -31,7 +31,7 @@ interface FormFields {
   minimumFollowers: number;
   currencyCountry: number;
   price: number;
-  platform: PostingPlatforms;
+  platforms: PostingPlatforms;
 }
 
 export default function AddPostingButton({
@@ -52,8 +52,11 @@ export default function AddPostingButton({
     createPosting({
       newPosting: {
         ...formData,
-        deliverables: formData.deliverables.split(","),
-        platforms: [formData.platform],
+        deliverables:
+          formData.deliverables.trim() !== ""
+            ? formData.deliverables.trim().split(",")
+            : undefined,
+        platforms: [formData.platforms],
       },
     })
       .then((res) => {
@@ -89,7 +92,7 @@ export default function AddPostingButton({
             textarea
           />
           <Input
-            label="Deliverables"
+            label="Deliverables (Optional)"
             name="deliverables"
             placeholder="Comma separated deliverables"
           />
@@ -104,14 +107,14 @@ export default function AddPostingButton({
               label="Minumum Age"
               min={18}
               name="minimumAge"
-              placeholder="Minimum age"
+              placeholder="(Optional)"
               rules={{ valueAsNumber: true, min: 18 }}
               type="number"
             />
             <Input
               label="Maximum Age"
               name="maximumAge"
-              placeholder="Maximum allowed age"
+              placeholder="(Optional)"
               rules={{ valueAsNumber: true }}
               type="number"
             />
@@ -134,7 +137,7 @@ export default function AddPostingButton({
             />
           </div>
           <Input
-            label="Minumum Followers"
+            label="Minumum Followers (Optional)"
             name="minimumFollowers"
             placeholder="Required instagram followers"
             rules={{ valueAsNumber: true }}

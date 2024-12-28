@@ -9,6 +9,7 @@ import {
 } from "../../../lib/queries";
 import { convertToAbbreviation } from "../../../lib/utils";
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
+import { renderRichText } from "../../../lib/rich-text";
 import ApplyNowButton from "./apply-now-button";
 import ManagePostingButton from "./manage-posting-button";
 
@@ -100,12 +101,7 @@ export default async function JobPostingPage({
               About
             </dt>
             <dd className="mt-1 max-w-4xl text-sm leading-6 text-gray-700 sm:mt-2">
-              {posting.description.split("\n").map((line) => (
-                <>
-                  {line}
-                  <br />
-                </>
-              ))}
+              {renderRichText(posting.description)}
             </dd>
           </div>
           {posting.deliverables ? (
