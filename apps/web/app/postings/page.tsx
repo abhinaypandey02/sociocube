@@ -5,6 +5,7 @@ import { getCurrentUser, Injector, queryGQL } from "../../lib/apollo-server";
 import { GET_ALL_POSTINGS } from "../../lib/queries";
 import { convertToAbbreviation } from "../../lib/utils";
 import { getRoute } from "../../constants/routes";
+import { getSEO } from "../../constants/seo";
 import AddPostingButton from "./components/add-posting-button";
 import { getAgeGroup, getCurrency, getPlatforms } from "./utils";
 
@@ -89,3 +90,5 @@ export default async function PostingsPage() {
     </div>
   );
 }
+
+export const metadata = getSEO("Find collaboration opportunities");

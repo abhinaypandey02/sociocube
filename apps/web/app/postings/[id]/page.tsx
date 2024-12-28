@@ -2,6 +2,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
 import { Injector, queryGQL } from "../../../lib/apollo-server";
 import {
   GET_CURRENT_USER_APPLICATION_STATUS,
@@ -10,8 +11,27 @@ import {
 import { convertToAbbreviation } from "../../../lib/utils";
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
 import { renderRichText } from "../../../lib/rich-text";
+import { getSEO } from "../../../constants/seo";
 import ApplyNowButton from "./apply-now-button";
 import ManagePostingButton from "./manage-posting-button";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const id = parseInt((await params).id);
+  const { posting } = await queryGQL(
+    GET_POSTING,
+    {
+      id,
+    },
+    undefined,
+    120,
+    ["posting"],
+  );
+  return getSEO(`Apply for ${posting?.title || ""}`, posting?.description);
+}
 
 export default async function JobPostingPage({
   params,
