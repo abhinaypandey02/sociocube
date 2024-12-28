@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Button, Variants } from "ui/button";
 import Image from "next/image";
-import { getMeURL, getRoute } from "../../constants/routes";
+import { getRoute } from "../../constants/routes";
 import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
 import { COMPLETE_ONBOARDING } from "../../lib/mutations";
 
@@ -24,7 +24,9 @@ export default function OnboardingCompleteForm({
     if (res?.data?.completeOnboarding) {
       setSuccess(true);
       if (username)
-        router.push(`${getMeURL(username)}?onboarding_completed=yes`);
+        router.push(
+          `${getRoute("Profile")}/${username}?onboarding_completed=yes`,
+        );
       else router.push(getRoute("Home"));
       router.refresh();
     }
