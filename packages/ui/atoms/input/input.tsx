@@ -51,7 +51,11 @@ function Input({
     formError?.message?.toString() ||
     getInputErrorMessages(formError?.type?.toString());
   const className = classNames(
-    getBaseClassName(variant, Boolean(suffix)),
+    getBaseClassName(
+      variant,
+      Boolean(suffix),
+      rest.type === "checkbox" || rest.type === "radio",
+    ),
     rest.className,
   );
   if (options)

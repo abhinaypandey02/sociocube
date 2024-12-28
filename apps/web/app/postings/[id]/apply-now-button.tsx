@@ -111,6 +111,8 @@ export default function ApplyNowButton({
   };
 
   const loading = isRouteLoading || dataLoading || applyNowLoading;
+  const editable = posting?.user?.id === data?.user?.id;
+  if (editable) return null;
   return (
     <>
       <Modal close={handleClose} open={isModalOpen}>

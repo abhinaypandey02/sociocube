@@ -10,6 +10,7 @@ import {
 import { convertToAbbreviation } from "../../../lib/utils";
 import { getCurrency } from "../utils";
 import ApplyNowButton from "./apply-now-button";
+import ManagePostingButton from "./manage-posting-button";
 
 export default async function JobPostingPage({
   params,
@@ -17,9 +18,14 @@ export default async function JobPostingPage({
   params: Promise<{ id: string }>;
 }) {
   const id = parseInt((await params).id);
-  const { posting } = await queryGQL(GET_POSTING, {
-    id,
-  });
+  const { posting } = await queryGQL(
+    GET_POSTING,
+    {
+      id,
+    },
+    undefined,
+    60,
+  );
   if (!posting) return notFound();
   return (
     <div className="mx-auto mt-16 max-w-5xl px-4 sm:mt-28 sm:px-6 lg:px-8">
@@ -41,7 +47,7 @@ export default async function JobPostingPage({
               ) : null}
               <div>
                 <p className="text-sm font-medium text-gray-600 sm:text-base">
-                  {posting.user?.companyName}
+                  {posting.user?.companyName || posting.user?.name}
                 </p>
               </div>
             </div>
@@ -59,7 +65,19 @@ export default async function JobPostingPage({
               }
               props={{ posting }}
             />
-            {!posting.externalLink && (
+            <Injector
+              Component={ManagePostingButton}
+              fetch={async () =>
+                queryGQL(
+                  GET_CURRENT_USER_APPLICATION_STATUS,
+                  { postingID: id },
+                  await cookies(),
+                  0,
+                )
+              }
+              props={{ posting }}
+            />
+            {!posting.externalLink && posting.applicationsCount ? (
               <div className="flex items-center gap-2 sm:justify-end">
                 {posting.open ? (
                   <div className="flex-none rounded-full bg-emerald-500/20 p-1">
@@ -70,7 +88,7 @@ export default async function JobPostingPage({
                   {posting.applicationsCount}+ applications
                 </p>
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
@@ -81,7 +99,12 @@ export default async function JobPostingPage({
               About
             </dt>
             <dd className="mt-1 max-w-4xl text-sm leading-6 text-gray-700 sm:mt-2">
-              {posting.description}
+              {posting.description.split("\n").map((line) => (
+                <>
+                  {line}
+                  <br />
+                </>
+              ))}
             </dd>
           </div>
           {posting.deliverables ? (

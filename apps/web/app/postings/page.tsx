@@ -1,10 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { queryGQL } from "../../lib/apollo-server";
+import { getCurrentUser, Injector, queryGQL } from "../../lib/apollo-server";
 import { GET_ALL_POSTINGS } from "../../lib/queries";
 import { convertToAbbreviation } from "../../lib/utils";
 import { getRoute } from "../../constants/routes";
+import AddPostingButton from "./components/add-posting-button";
 
 export default async function PostingsPage() {
   const { postings } = await queryGQL(GET_ALL_POSTINGS);
@@ -14,7 +15,7 @@ export default async function PostingsPage() {
         <h1 className="my-16 font-poppins text-4xl font-semibold text-gray-800 ">
           Collaboration opportunities
         </h1>
-        {/*<Injector Component={AddPostingButton} fetch={getCurrentUser} />*/}
+        <Injector Component={AddPostingButton} fetch={getCurrentUser} />
       </div>
       <ul className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
         {postings.map((posting) => (
@@ -75,3 +76,4 @@ export default async function PostingsPage() {
     </div>
   );
 }
+export const revalidate = 1;

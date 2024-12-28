@@ -99,3 +99,29 @@ export const APPLY_NOW = gql(`
     applyToPosting(postingID: $postingID, email: $email, comment: $comment)  
   }
 `);
+
+export const DELETE_POSTING = gql(`
+  #graphql
+  mutation DeletePosting($postingID:Float!) {
+    deletePosting(postingID: $postingID)  
+  }
+`);
+export const PAUSE_POSTING = gql(`
+  #graphql
+  mutation PausePosting($postingID:Float!) {
+    pausePosting(postingID: $postingID)  
+  }
+`);
+export const RESUME_POSTING = gql(`
+  #graphql
+  mutation ResumePosting($postingID:Float!) {
+    resumePosting(postingID: $postingID)  
+  }
+`);
+
+export const CREATE_POSTING = gql(`
+  #graphql
+  mutation CreatePosting($newPosting:NewPostingInput!) {
+    createPosting(newPosting: $newPosting)  
+  }
+`);

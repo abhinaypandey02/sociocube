@@ -55,7 +55,19 @@ function Button({
       {...rest}
     >
       {!success && loading ? (
-        <CircleNotch className="animate-spin" color="white" size={20} />
+        <CircleNotch
+          className={classNames(
+            "animate-spin",
+            outline
+              ? {
+                  "text-primary": variant === Variants.PRIMARY,
+                  "text-accent ": variant === Variants.ACCENT,
+                  "text-dark": variant === Variants.DARK,
+                }
+              : "text-white",
+          )}
+          size={20}
+        />
       ) : null}
       {success ? <CheckCircle color="white" size={20} /> : null}
       {!loading && !success && children}

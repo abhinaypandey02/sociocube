@@ -184,6 +184,7 @@ export const GET_ACCOUNT_DETAILS = gql(`
     user: getCurrentUser {
       id
       name
+      companyName
       bio
       photo
       category
@@ -264,6 +265,7 @@ export const GET_POSTING = gql(`
         name
         photo
         companyName
+        id
       }
       deliverables
       externalLink

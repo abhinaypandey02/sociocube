@@ -17,6 +17,8 @@ export class UpdateUserInput {
   @Field({ nullable: true })
   name?: string;
   @Field({ nullable: true })
+  companyName?: string;
+  @Field({ nullable: true })
   bio?: string;
   @Field({ nullable: true })
   photo?: string;
@@ -60,6 +62,7 @@ export async function handleUpdateUser(
       gender: updatedUser.gender,
       dob: updatedUser.dob,
       username: updatedUser.username,
+      companyName: updatedUser.companyName,
     })
     .where(eq(UserTable.id, ctx.userId))
     .returning();

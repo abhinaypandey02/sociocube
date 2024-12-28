@@ -152,6 +152,12 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
               onSubmit: handleSave("username"),
             },
             {
+              label: "Company name",
+              value: data.companyName || "",
+              editComponent: <Input name="companyName" />,
+              onSubmit: handleSave("companyName"),
+            },
+            {
               label: "Bio",
               value: data.bio || "",
               editComponent: <Input name="bio" textarea />,

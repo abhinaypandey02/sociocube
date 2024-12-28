@@ -2,6 +2,7 @@ import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "../../../../context";
 import { createPosting, NewPostingInput } from "./create-posting";
 import { pausePosting } from "./pause-posting";
+import { deletePosting } from "./delete-posting";
 import { resumePosting } from "./resume-posting";
 
 @Resolver()
@@ -21,6 +22,14 @@ export class PostingMutationResolvers {
     @Arg("postingID") postingID: number,
   ): Promise<boolean> {
     return pausePosting(ctx, postingID);
+  }
+  @Authorized()
+  @Mutation(() => Boolean)
+  async deletePosting(
+    @Ctx() ctx: AuthorizedContext,
+    @Arg("postingID") postingID: number,
+  ): Promise<boolean> {
+    return deletePosting(ctx, postingID);
   }
   @Authorized()
   @Mutation(() => Boolean)

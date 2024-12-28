@@ -318,6 +318,7 @@ type Mutation {
   applyToPosting(comment: String, email: String!, postingID: Float!): Boolean!
   completeOnboarding: Boolean!
   createPosting(newPosting: NewPostingInput!): Float
+  deletePosting(postingID: Float!): Boolean!
   disconnectGoogle: Boolean!
   disconnectInstagram: Boolean!
   pausePosting(postingID: Float!): Boolean!
@@ -335,7 +336,15 @@ type Mutation {
 }
 
 input NewPostingInput {
+  barter: Boolean!
+  currencyCountry: Int
+  deliverables: [String!]
   description: String!
+  externalLink: String
+  maximumAge: Float!
+  minimumAge: Float!
+  minimumInstagramFollower: Float!
+  price: Int
   title: String!
 }
 
@@ -469,6 +478,7 @@ input UpdateLocation {
 input UpdateUserInput {
   bio: String
   category: String
+  companyName: String
   dob: String
   gender: String
   name: String

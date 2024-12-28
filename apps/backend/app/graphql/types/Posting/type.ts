@@ -8,7 +8,7 @@ export class PostingGQL {
   description: string;
   @Field(() => [String], { nullable: true })
   deliverables: string[] | null;
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   externalLink: string | null;
   @Field(() => Int, { nullable: true })
   price: number | null;
