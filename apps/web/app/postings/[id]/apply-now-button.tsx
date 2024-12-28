@@ -91,7 +91,7 @@ export default function ApplyNowButton({
   };
 
   const handleClick = useCallback(() => {
-    if (message[1] && !posting?.externalLink) {
+    if (message[1]) {
       setIsRouteLoading(true);
     } else setIsModalOpen(true);
   }, [message, posting?.externalLink]);
@@ -150,7 +150,7 @@ export default function ApplyNowButton({
           className="max-sm:w-full sm:ml-auto"
           disabled={message[2]}
           loading={loading}
-          onClick={handleClick}
+          onClick={!posting?.externalLink ? handleClick : undefined}
           outline={message[2]}
           variant={Variants.ACCENT}
         >
