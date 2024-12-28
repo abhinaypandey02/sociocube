@@ -31,7 +31,7 @@ export default function JobPostings({
               </p>
             </div>
             <Link
-              className="flex items-center gap-2 pt-2 text-lg font-medium text-accent max-md:hidden"
+              className="z-10 flex items-center gap-2 pt-2 text-lg font-medium text-accent max-md:hidden"
               href={getRoute("Postings")}
             >
               See all postings

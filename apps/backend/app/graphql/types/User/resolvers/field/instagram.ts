@@ -158,7 +158,10 @@ async function getPosts(accessToken?: string | null, username?: string) {
   }
   if (username) {
     const data = await getInstagramDataExternalAPI(username);
-    if (data?.media_data) return data.media_data;
+    if (data?.media_data)
+      return data.media_data
+        .filter((post) => post.media_type !== InstagramMediaType.CarouselAlbum)
+        .slice(0, 12);
   }
   return [];
 }
