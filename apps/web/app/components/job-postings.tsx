@@ -97,7 +97,7 @@ export default function JobPostings({
           </li>
         ))}
       </ul>
-      <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-sm md:hidden">
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-sm md:hidden">
         <MagnifyingGlass weight="bold" /> Looking for more?
         <Link
           className="flex items-center gap-2  font-medium text-accent "

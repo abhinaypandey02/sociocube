@@ -102,8 +102,8 @@ export default function Hero({
               today and take your collaborations to the next level!
             </p>
             <div className="mt-10 flex items-center gap-x-6">
-              <Link href={getRoute("Search")}>
-                <Button variant={Variants.ACCENT}>Find Influencers</Button>
+              <Link href={getRoute("Postings")}>
+                <Button variant={Variants.ACCENT}>Find Collaborations</Button>
               </Link>
               <Injector Component={SecondaryLink} fetch={getCurrentUser} />
             </div>
