@@ -8,6 +8,7 @@ import {
 import { Minus, Plus } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
 import Schema from "./schema";
+import SectionWrapper from "./section-wrapper";
 
 const faqs = [
   {
@@ -63,61 +64,60 @@ const faqs = [
 ];
 function Faqs() {
   return (
-    <div className="mx-auto  max-w-7xl px-6  py-16 sm:my-16 lg:px-8" id="faq">
-      <div className="mx-auto  divide-y divide-gray-900/10">
-        <h2 className="font-poppins text-3xl font-bold leading-10 text-gray-900 sm:text-4xl">
-          Frequently asked questions
-        </h2>
-        <Schema
-          data={{
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.question,
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: faq.answer,
-              },
-            })),
-          }}
-          id="faqs"
-        />
-        <dl className="mt-10 space-y-6 divide-y divide-gray-900/10">
-          {faqs.map((faq, i) => (
-            <Disclosure
-              as="div"
-              className="pt-6"
-              key={faq.question + i.toString()}
-            >
-              {({ open }) => (
-                <>
-                  <dt>
-                    <DisclosureButton className="flex w-full items-start justify-between text-left text-gray-900">
-                      <span className="text-lg font-semibold leading-7">
-                        {faq.question}
-                      </span>
-                      <span className="ml-6 flex h-7 items-center">
-                        {open ? (
-                          <Minus aria-hidden="true" className="size-6" />
-                        ) : (
-                          <Plus aria-hidden="true" className="size-6" />
-                        )}
-                      </span>
-                    </DisclosureButton>
-                  </dt>
-                  <DisclosurePanel as="dd" className="mt-2 pr-12">
-                    <p className="text-base leading-7 text-gray-600">
-                      {faq.answer}
-                    </p>
-                  </DisclosurePanel>
-                </>
-              )}
-            </Disclosure>
-          ))}
-        </dl>
-      </div>
-    </div>
+    <SectionWrapper
+      headerClassName="!mb-6"
+      id="faq"
+      title="Frequently asked questions"
+    >
+      <Schema
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer,
+            },
+          })),
+        }}
+        id="faqs"
+      />
+      <dl className="space-y-6 divide-y divide-gray-900/10">
+        {faqs.map((faq, i) => (
+          <Disclosure
+            as="div"
+            className="pt-6"
+            key={faq.question + i.toString()}
+          >
+            {({ open }) => (
+              <>
+                <dt>
+                  <DisclosureButton className="flex w-full items-start justify-between text-left text-gray-900">
+                    <span className="text-lg font-semibold leading-7">
+                      {faq.question}
+                    </span>
+                    <span className="ml-6 flex h-7 items-center">
+                      {open ? (
+                        <Minus aria-hidden="true" className="size-6" />
+                      ) : (
+                        <Plus aria-hidden="true" className="size-6" />
+                      )}
+                    </span>
+                  </DisclosureButton>
+                </dt>
+                <DisclosurePanel as="dd" className="mt-2 pr-12">
+                  <p className="text-base leading-7 text-gray-600">
+                    {faq.answer}
+                  </p>
+                </DisclosurePanel>
+              </>
+            )}
+          </Disclosure>
+        ))}
+      </dl>
+    </SectionWrapper>
   );
 }
 

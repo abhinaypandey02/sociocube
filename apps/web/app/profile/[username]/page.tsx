@@ -74,7 +74,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
   const seller = data.getSeller;
   if (!seller?.name || !seller.instagramStats) return notFound();
   return (
-    <div className="mx-auto max-w-2xl px-4 pt-6 sm:mt-8 sm:px-6 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
+    <div className="mx-auto max-w-2xl px-6 pt-6 sm:mt-8 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
       <Suspense>
         <OnboardingCompletedModal url={getMeURL(username, true)} />
       </Suspense>

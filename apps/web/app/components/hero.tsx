@@ -88,7 +88,7 @@ export default function Hero({
           }}
         />
       </div>
-      <div className="mx-auto max-w-7xl px-6 py-16 sm:my-16 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 pb-16 pt-8 sm:my-16 sm:pt-16 lg:px-8">
         <div className="mx-auto max-w-2xl grid-cols-2 gap-x-14 lg:mx-0 lg:grid lg:max-w-none lg:items-center">
           <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
             <h1 className="font-poppins text-5xl font-bold text-gray-900 sm:text-7xl">

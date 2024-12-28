@@ -25,15 +25,14 @@ function Navbar({
     <header className="bg-primary-bg">
       <nav
         aria-label="Global"
-        className="mx-auto flex max-w-7xl items-center justify-between px-3 py-6 sm:gap-x-6 sm:px-6 lg:px-8"
+        className="mx-auto flex max-w-7xl items-center justify-between py-6 pl-6 pr-3 sm:gap-x-6 sm:pr-6 lg:px-8"
       >
         <div className="flex">
           <Link
-            className="-m-1.5 p-1.5 text-4xl font-bold italic text-primary sm:text-3xl"
+            className="-m-1.5 p-1.5 text-xl font-bold italic text-primary sm:text-3xl"
             href={process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "/"}
           >
-            <h2 className="max-sm:hidden">freeluencers</h2>
-            <h2 className="pl-3 sm:hidden">f</h2>
+            <h2>freeluencers</h2>
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
@@ -94,17 +93,17 @@ function Navbar({
         open={mobileMenuOpen}
       >
         <div className="fixed inset-0 z-10" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-3 py-6 sm:max-w-sm sm:px-6 sm:ring-1 sm:ring-gray-900/10">
+        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white py-6 pl-6 pr-3 sm:max-w-sm sm:pr-6 sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between gap-x-6">
             <Link
-              className="-m-1.5 p-1.5 text-2xl font-bold italic text-primary sm:text-3xl"
+              className="-m-1.5 p-1.5 text-xl font-bold italic text-primary sm:text-3xl"
               href="/"
             >
               freeluencers
             </Link>
             <div className="flex gap-4 sm:gap-6 lg:hidden">
               {cta ? (
-                <Link href={cta.href}>
+                <Link href={cta.href} onClick={handleClose}>
                   <Button
                     {...cta.button}
                     className={classNames(

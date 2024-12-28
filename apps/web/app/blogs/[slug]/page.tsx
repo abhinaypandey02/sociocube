@@ -28,7 +28,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
   const blog = getBlogPost(slug);
   if (!blog) return notFound();
   return (
-    <div className="mx-auto max-w-6xl px-4 py-20 md:px-8">
+    <div className="mx-auto max-w-6xl px-6 py-8 sm:py-16 md:px-8">
       <Schema
         data={{
           "@context": "https://schema.org",

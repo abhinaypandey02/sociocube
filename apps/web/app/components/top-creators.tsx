@@ -10,6 +10,7 @@ import Image from "next/image";
 import { getRoute } from "../../constants/routes";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 import { convertToAbbreviation } from "../../lib/utils";
+import SectionWrapper from "./section-wrapper";
 
 export default function TopCreators({
   sellers,
@@ -17,30 +18,20 @@ export default function TopCreators({
   sellers: GetFeaturedSellersQuery["sellers"];
 }) {
   return (
-    <div
-      className="mx-auto max-w-7xl px-6 pb-5 pt-16 sm:my-16 lg:px-8 "
-      id="sellers"
-    >
-      <div className="flex items-start justify-between">
-        <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="grow font-poppins text-3xl font-bold  sm:text-4xl">
-            Our Top Creators
-          </h2>
-          <p className="mt-6 text-lg leading-8 text-gray-800">
-            Discover the influencers leading the way in engagement and
-            creativity. Explore their profiles and see how they can elevate your
-            brand through authentic collaborations!
-          </p>
-        </div>
+    <SectionWrapper
+      description="Discover the influencers leading the way in engagement and  creativity. Explore their profiles and see how they can elevate your brand through authentic collaborations!"
+      headerElements={
         <Link
           className="flex items-center gap-2 pt-2 text-lg font-medium text-accent max-md:hidden"
           href={getRoute("Search")}
         >
           Search all <ArrowRight />
         </Link>
-      </div>
-
-      <ul className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
+      }
+      id="sellers"
+      title="Our Top Creators"
+    >
+      <ul className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
         {sellers.map((person, i) => (
           <li
             className={i >= 8 ? "hidden lg:block xl:hidden" : ""}
@@ -82,7 +73,7 @@ export default function TopCreators({
           </li>
         ))}
       </ul>
-      <div className="mt-10 flex flex-wrap items-center justify-center gap-2 md:hidden">
+      <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-sm md:hidden">
         <MagnifyingGlass weight="bold" /> Need something specific?
         <Link
           className="flex items-center gap-2  font-medium text-accent "
@@ -91,6 +82,6 @@ export default function TopCreators({
           Find more <ArrowRight />
         </Link>
       </div>
-    </div>
+    </SectionWrapper>
   );
 }

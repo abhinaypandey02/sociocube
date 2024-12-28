@@ -81,7 +81,10 @@ function OnboardingWizard({
         description: "",
         icon: FlagCheckered,
         component: (
-          <div className="flex h-full flex-col justify-center pb-14" key={0}>
+          <div
+            className="flex h-full flex-col justify-center pb-14 pt-10"
+            key={0}
+          >
             <Image
               alt="Start for sales"
               className="mx-auto"
@@ -287,12 +290,16 @@ function OnboardingWizard({
               ) : null}
             </div>
             <div className="h-full sm:px-6">
-              <h2 className="mb-1 mt-14 text-center font-poppins text-3xl font-semibold">
-                {currentStep?.heading}
-              </h2>
-              <p className="mb-10 text-center text-gray-600">
-                {currentStep?.longDescription}
-              </p>
+              {currentStep?.heading ? (
+                <h2 className="mb-1 mt-6 text-center font-poppins text-3xl font-semibold sm:mt-14">
+                  {currentStep.heading}
+                </h2>
+              ) : null}
+              {currentStep?.longDescription ? (
+                <p className="mb-5 text-center text-gray-600 sm:mb-10">
+                  {currentStep.longDescription}
+                </p>
+              ) : null}
               {steps[step]?.component}
             </div>
           </div>

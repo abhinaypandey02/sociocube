@@ -5,6 +5,7 @@ import Form from "ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "ui/input";
 import { useRouter } from "next/navigation";
+import { Plus } from "@phosphor-icons/react";
 import Modal from "../../../components/modal";
 import type {
   GetCurrentUserQuery,
@@ -165,6 +166,7 @@ export default function AddPostingButton({
       </Modal>
       {!loading && (
         <Button
+          className="!max-sm:p-0 max-sm:flex max-sm:size-10 max-sm:shrink-0 max-sm:items-center max-sm:justify-center"
           loading={creatingPost}
           onClick={() => {
             setIsModalOpen(true);
@@ -172,7 +174,12 @@ export default function AddPostingButton({
           }}
           variant={Variants.ACCENT}
         >
-          {data?.user ? "+ Add posting" : "+ Login to add posting"}
+          <span className="max-sm:hidden">
+            {data?.user ? "+ Add posting" : "+ Login to add posting"}
+          </span>
+          <span className="sm:hidden">
+            <Plus />
+          </span>
         </Button>
       )}
     </>

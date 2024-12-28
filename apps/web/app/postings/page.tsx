@@ -17,14 +17,14 @@ export default async function PostingsPage() {
     ["posting", "all-postings"],
   );
   return (
-    <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="flex items-center justify-between">
-        <h1 className="font-poppins text-4xl font-semibold text-gray-800 ">
-          Collaboration opportunities
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-16 lg:px-8">
+      <div className="flex  items-center justify-between gap-2">
+        <h1 className="font-poppins text-3xl font-semibold text-gray-800 sm:text-4xl sm:font-bold ">
+          Collaborations
         </h1>
         <Injector Component={AddPostingButton} fetch={getCurrentUser} />
       </div>
-      <ul className="mt-16 grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
+      <ul className="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:mt-16 lg:grid-cols-3 xl:gap-x-8">
         {postings.map((posting) => (
           <Link
             className="overflow-hidden rounded-xl border border-gray-200 shadow-lg transition-transform duration-300 hover:scale-105"

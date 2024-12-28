@@ -39,7 +39,7 @@ export default function SocialsStatus({
     <>
       <Image
         alt="instagram"
-        className="mx-auto mb-5"
+        className="mx-auto "
         height={103}
         src="/instagram-logo.png"
         width={173}
@@ -61,6 +61,32 @@ export default function SocialsStatus({
           ? "You have already linked Instagram"
           : "Get a verification badge on your profile."}
       </div>
+
+      {!connected && (
+        <div className="relative my-10">
+          <hr />
+          <small className="absolute -top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary-bg px-3">
+            or
+          </small>
+        </div>
+      )}
+      {!connected && (
+        <Form
+          className="flex items-end gap-3"
+          form={form}
+          onSubmit={form.handleSubmit(handleManualConnection)}
+        >
+          <Input
+            className="grow"
+            label="Unverified connection"
+            name="username"
+            placeholder="Instagram Username"
+          />
+          <Button loading={loading} type="submit">
+            Connect
+          </Button>
+        </Form>
+      )}
       {!connected && (
         <ul className="mt-16 space-y-2 text-justify text-xs text-gray-600">
           <li>
@@ -86,31 +112,6 @@ export default function SocialsStatus({
             </em>
           </li>
         </ul>
-      )}
-      {!connected && (
-        <div className="relative my-10">
-          <hr />
-          <small className="absolute -top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary-bg px-3">
-            or
-          </small>
-        </div>
-      )}
-      {!connected && (
-        <Form
-          className="flex items-end gap-3"
-          form={form}
-          onSubmit={form.handleSubmit(handleManualConnection)}
-        >
-          <Input
-            className="grow"
-            label="Manual connection (Unverified)"
-            name="username"
-            placeholder="Instagram Username"
-          />
-          <Button loading={loading} type="submit">
-            Connect
-          </Button>
-        </Form>
       )}
     </>
   );

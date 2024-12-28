@@ -7,7 +7,7 @@ import OnboardingWizard from "./onboarding-wizard";
 
 export default function AuthLayout() {
   return (
-    <div className="mx-auto flex min-h-[83vh] w-full max-w-7xl  px-6 pt-10 sm:px-8">
+    <div className="mx-auto flex min-h-[83vh] w-full max-w-7xl  px-6 sm:px-8 sm:pt-10">
       <Injector
         Component={OnboardingWizard}
         fetch={async () =>

@@ -4,7 +4,7 @@ import { getSEO } from "../../constants/seo";
 
 function TermsAndConditions() {
   return (
-    <div className="mx-auto max-w-4xl p-6 py-28 text-gray-800 sm:p-10">
+    <div className="mx-auto max-w-4xl px-6 py-8 text-gray-800 sm:py-16 lg:px-8">
       <h1 className="mb-4 text-3xl font-bold">Terms and Conditions</h1>
       <p className="mb-8 text-sm text-gray-500">
         Last updated: 06 November 2024

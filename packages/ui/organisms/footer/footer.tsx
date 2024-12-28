@@ -23,9 +23,6 @@ export default function Footer({
             </div>
           ))}
         </nav>
-        <p className="mt-16 text-center text-xs leading-5 text-gray-500">
-          A website made in India
-        </p>
       </div>
     </footer>
   );

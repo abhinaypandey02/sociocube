@@ -30,14 +30,14 @@ export default async function JobPostingPage({
   );
   if (!posting) return notFound();
   return (
-    <div className="mx-auto mt-16 max-w-5xl px-4 sm:mt-28 sm:px-6 lg:px-8">
+    <div className="mx-auto mt-8 max-w-5xl px-4 sm:mt-16 sm:px-6 lg:px-8">
       <div className="px-4 sm:px-0">
-        <div className="flex flex-wrap items-start justify-between gap-3 sm:gap-5">
+        <div className="flex flex-wrap items-start justify-between gap-5">
           <div>
             <h3 className="text-2xl font-bold leading-7 text-gray-800 sm:text-3xl">
               {posting.title}
             </h3>
-            <div className="mt-3 flex items-center gap-2 sm:mt-5">
+            <div className="mt-5 flex items-center gap-2">
               {posting.user?.photo ? (
                 <Image
                   alt={posting.user.companyName || ""}
