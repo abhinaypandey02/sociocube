@@ -7,7 +7,8 @@ import SocialBar from "./social-bar";
 export default function AuthLayout({
   newUser,
   children,
-}: PropsWithChildren<{ newUser?: boolean }>) {
+  redirectURL,
+}: PropsWithChildren<{ newUser?: boolean; redirectURL: string }>) {
   return (
     <section className="mt-5  flex flex-1 flex-col justify-center pb-12 sm:px-6 sm:py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full ">
@@ -34,7 +35,7 @@ export default function AuthLayout({
               </div>
             </div>
 
-            <SocialBar />
+            <SocialBar redirectURL={redirectURL} />
           </div>
         </div>
 

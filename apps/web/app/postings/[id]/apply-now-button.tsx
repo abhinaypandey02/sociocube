@@ -12,7 +12,7 @@ import type {
   GetCurrentUserApplicationStatusQuery,
   GetPostingQuery,
 } from "../../../__generated__/graphql";
-import { getRoute } from "../../../constants/routes";
+import { getRoute, Route } from "../../../constants/routes";
 import Modal from "../../../components/modal";
 import { handleGQLErrors, useAuthMutation } from "../../../lib/apollo-client";
 import { APPLY_NOW } from "../../../lib/mutations";
@@ -61,7 +61,12 @@ export default function ApplyNowButton({
   const message: [ReactNode, string | null, boolean] = useMemo(() => {
     if (appliedSuccess) return ["Applied!", null, true];
     if (!posting?.open) return ["Closed", null, true];
-    if (!data?.user) return ["Sign in to apply", getRoute("SignUp"), false];
+    if (!data?.user)
+      return [
+        "Sign in to apply",
+        `${getRoute("SignUp")}?redirectURL=${Route.Postings}/${posting.id}`,
+        false,
+      ];
     if (posting.externalLink)
       return [
         <div className="flex items-center gap-2" key={0}>
@@ -71,7 +76,11 @@ export default function ApplyNowButton({
         false,
       ];
     if (!data.user.isOnboarded)
-      return ["Onboard to apply", getRoute("Onboarding"), false];
+      return [
+        "Onboard to apply",
+        `${getRoute("Onboarding")}?redirectURL=${Route.Postings}/${posting.id}`,
+        false,
+      ];
 
     if (
       (data.user.instagramStats?.followers || 0) <

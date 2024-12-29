@@ -33,6 +33,7 @@ export default function LoginForm() {
   const [success, setSuccess] = useState(false);
 
   const loginWithEmail = useLoginWithEmail();
+  const redirectURL = params.get("redirect") || getRoute("Home");
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (!turnstileToken) {
       return;
@@ -45,7 +46,7 @@ export default function LoginForm() {
     );
     if (error === null) {
       setSuccess(true);
-      router.push(params.get("redirect") || getRoute("Home"));
+      router.push(redirectURL);
       router.refresh();
     } else {
       toast.error(error || "Invalid credentials");
@@ -55,7 +56,7 @@ export default function LoginForm() {
   };
 
   return (
-    <AuthLayout newUser={false}>
+    <AuthLayout newUser={false} redirectURL={redirectURL}>
       <Form
         className="space-y-6"
         form={form}

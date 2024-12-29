@@ -15,7 +15,7 @@ import {
   Link as LinkIcon,
 } from "@phosphor-icons/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import type {
@@ -63,6 +63,7 @@ function OnboardingWizard({
 }) {
   const currentUser = data?.getCurrentUser;
   const router = useRouter();
+  const params = useSearchParams();
   const [step, setStep] = useState(getStep(currentUser));
   const [maxTouchedStep, setMaxTouchedStep] = useState(getStep(currentUser));
   const [currency, setCurrency] = useState<Currency | undefined | null>(
@@ -73,6 +74,8 @@ function OnboardingWizard({
     setMaxTouchedStep((o) => Math.max(o, step + 1));
     if (step !== 0) router.refresh();
   }, [step]);
+  const redirectURL = params.get("redirectURL");
+
   const steps = useMemo(
     () => [
       {
@@ -241,22 +244,23 @@ function OnboardingWizard({
         component: (
           <OnboardingCompleteForm
             key={7}
+            redirectURL={redirectURL}
             username={currentUser?.onboardingData?.username}
           />
         ),
       },
     ],
-    [currentUser, currentUser?.instagramStats?.username, nextStep],
+    [currentUser, currentUser?.instagramStats?.username, nextStep, redirectURL],
   );
   let routeLoading = false;
   if (!currentUser && !dataLoading) {
     routeLoading = true;
-    router.push(getRoute("SignUp"));
+    router.push(redirectURL || getRoute("SignUp"));
   }
   if (currentUser?.isOnboarded) {
     routeLoading = true;
     if (currentUser.username) router.push(getMeURL(currentUser.username));
-    else router.push(getRoute("Home"));
+    else router.push(redirectURL || getRoute("Home"));
   }
   const MAX_STEPS = steps.length;
 
@@ -267,6 +271,7 @@ function OnboardingWizard({
   const allowForward = step < maxTouchedStep;
   const currentStep = steps[step];
   const loading = dataLoading || routeLoading;
+
   return (
     <>
       <div className="w-full max-w-lg rounded-xl sm:p-5 sm:shadow-elevation-1">

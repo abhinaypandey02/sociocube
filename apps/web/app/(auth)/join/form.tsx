@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
 import Form from "ui/form";
@@ -27,9 +27,15 @@ export default function SignupForm() {
   const router = useRouter();
   const { turnstileToken, resetTurnstileToken } =
     useTurnstileToken(CONTAINER_ID);
+  const params = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const signupWithEmail = useSignUpWithEmail();
+  const paramsRedirectURL = params.get("redirectURL");
+  const redirectURL =
+    getRoute("Onboarding") +
+    (paramsRedirectURL ? `?redirectURL=${paramsRedirectURL}` : "");
+
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (!turnstileToken) {
       return;
@@ -43,7 +49,7 @@ export default function SignupForm() {
     );
     if (error === null) {
       setSuccess(true);
-      router.push(getRoute("Onboarding"));
+      router.push(redirectURL);
       router.refresh();
     } else {
       toast.error(error || "Invalid data");
@@ -53,7 +59,7 @@ export default function SignupForm() {
   };
 
   return (
-    <AuthLayout newUser>
+    <AuthLayout newUser redirectURL={redirectURL}>
       <Form
         className="space-y-4"
         form={form}

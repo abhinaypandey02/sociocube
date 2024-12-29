@@ -10,8 +10,10 @@ import { COMPLETE_ONBOARDING } from "../../lib/mutations";
 
 export default function OnboardingCompleteForm({
   username,
+  redirectURL,
 }: {
   username?: string | null;
+  redirectURL: string | null;
 }) {
   const { handleSubmit } = useForm();
   const router = useRouter();
@@ -25,9 +27,10 @@ export default function OnboardingCompleteForm({
       setSuccess(true);
       if (username)
         router.push(
-          `${getRoute("Profile")}/${username}?onboarding_completed=yes`,
+          redirectURL ||
+            `${getRoute("Profile")}/${username}?onboarding_completed=yes`,
         );
-      else router.push(getRoute("Home"));
+      else router.push(redirectURL || getRoute("Home"));
       router.refresh();
     }
   };
