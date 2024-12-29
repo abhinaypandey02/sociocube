@@ -29,13 +29,21 @@ export async function handleGetFeaturedPosts(): Promise<
 > {
   const data = await db
     .select()
-    .from(InstagramMediaTable)
-    .where(
-      and(
-        eq(InstagramMediaTable.type, InstagramMediaType.Video),
-        isNotNull(InstagramMediaTable.mediaURL),
-        isNotNull(InstagramMediaTable.er),
-      ),
+    .from(
+      db
+        .selectDistinctOn([InstagramMediaTable.user])
+        .from(InstagramMediaTable)
+        .where(
+          and(
+            eq(InstagramMediaTable.type, InstagramMediaType.Video),
+            isNotNull(InstagramMediaTable.mediaURL),
+          ),
+        )
+        .orderBy(
+          desc(InstagramMediaTable.user),
+          desc(InstagramMediaTable.likes),
+        )
+        .as("instagram_post"),
     )
     .innerJoin(
       UserTable,
