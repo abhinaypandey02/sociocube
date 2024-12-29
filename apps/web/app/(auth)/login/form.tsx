@@ -9,7 +9,7 @@ import Link from "next/link";
 import Form from "ui/form";
 import { toast } from "react-hot-toast";
 import { useLoginWithEmail } from "../../../lib/auth-client";
-import { getRoute } from "../../../constants/routes";
+import { Route } from "../../../constants/routes";
 import useTurnstileToken from "../use-turnstile-token";
 import AuthLayout from "../components/auth-layout";
 import { EMAIL_REGEX } from "../../../constants/validations";
@@ -33,7 +33,7 @@ export default function LoginForm() {
   const [success, setSuccess] = useState(false);
 
   const loginWithEmail = useLoginWithEmail();
-  const redirectURL = params.get("redirect") || getRoute("Home");
+  const redirectURL = params.get("redirect") || Route.Home;
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (!turnstileToken) {
       return;

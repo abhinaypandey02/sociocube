@@ -8,7 +8,7 @@ import { Button } from "ui/button";
 import Form from "ui/form";
 import { toast } from "react-hot-toast";
 import { useSignUpWithEmail } from "../../../lib/auth-client";
-import { getRoute } from "../../../constants/routes";
+import { Route } from "../../../constants/routes";
 import useTurnstileToken from "../use-turnstile-token";
 import AuthLayout from "../components/auth-layout";
 import { EMAIL_REGEX } from "../../../constants/validations";
@@ -33,7 +33,7 @@ export default function SignupForm() {
   const signupWithEmail = useSignUpWithEmail();
   const paramsRedirectURL = params.get("redirectURL");
   const redirectURL =
-    getRoute("Onboarding") +
+    Route.Onboarding +
     (paramsRedirectURL ? `?redirectURL=${paramsRedirectURL}` : "");
 
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
