@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { ONBOARDING_SCOPES } from "../../onboarding/constants";
 import { handleGQLErrors, tokenContext } from "../../../lib/apollo-client";
 import { useToken } from "../../../lib/auth-client";
+import { Route } from "../../../constants/routes";
 import ContentTemplate from "./content-template";
 import type { AccountSectionData } from "./account-view";
 
@@ -29,7 +30,7 @@ export default function ConnectionsSection({
               ? "Connected"
               : "Not connected",
             editComponent: !data.scopes.includes(scope.id) ? (
-              <a href={scope.url}>
+              <a href={`${scope.url}?redirectURL=${Route.Account}`}>
                 <Button>Connect</Button>
               </a>
             ) : (

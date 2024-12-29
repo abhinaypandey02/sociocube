@@ -130,6 +130,7 @@ function OnboardingWizard({
           <SocialsStatus
             key={1}
             nextStep={nextStep}
+            redirectURL={redirectURL}
             scopes={
               currentUser?.instagramStats?.username
                 ? [AuthScopes.Instagram]

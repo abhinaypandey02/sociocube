@@ -10,14 +10,17 @@ import Form from "ui/form";
 import type { AuthScopes } from "../../__generated__/graphql";
 import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
 import { UPDATE_ONBOARDING_INSTAGRAM_USERNAME } from "../../lib/mutations";
+import { Route } from "../../constants/routes";
 import { completedOnboardingScopes } from "./utils";
 
 export default function SocialsStatus({
   scopes,
   nextStep,
+  redirectURL,
 }: {
   scopes: AuthScopes[];
   nextStep: () => void;
+  redirectURL: string | null;
 }) {
   const form = useForm<{ username: string }>();
   const connected = completedOnboardingScopes(scopes).length > 0;
@@ -49,7 +52,11 @@ export default function SocialsStatus({
           Next
         </Button>
       ) : (
-        <a href="/_auth/instagram">
+        <a
+          href={`/_auth/instagram?redirectURL=${Route.Onboarding}${
+            redirectURL ? `%3FredirectURL%3D${redirectURL}` : ""
+          }`}
+        >
           <Button className="mx-auto flex items-center gap-2">
             Link Account <ArrowSquareOut weight="bold" />
           </Button>
