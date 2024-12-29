@@ -15,7 +15,7 @@ import {
   Link as LinkIcon,
 } from "@phosphor-icons/react";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import type {
@@ -57,13 +57,14 @@ export function getStep(
 function OnboardingWizard({
   data,
   loading: dataLoading,
+  redirectURL,
 }: {
   data?: GetDefaultOnboardingDetailsQuery;
   loading?: boolean;
+  redirectURL: string | null;
 }) {
   const currentUser = data?.getCurrentUser;
   const router = useRouter();
-  const params = useSearchParams();
   const [step, setStep] = useState(getStep(currentUser));
   const [maxTouchedStep, setMaxTouchedStep] = useState(getStep(currentUser));
   const [currency, setCurrency] = useState<Currency | undefined | null>(
@@ -74,7 +75,6 @@ function OnboardingWizard({
     setMaxTouchedStep((o) => Math.max(o, step + 1));
     if (step !== 0) router.refresh();
   }, [step]);
-  const redirectURL = params.get("redirectURL");
 
   const steps = useMemo(
     () => [
