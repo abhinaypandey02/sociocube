@@ -7,29 +7,29 @@ interface MarkdownProps {
 
 export const MARKDOWN_COMPONENTS = {
   h1: (props: MarkdownProps) => (
-    <h1 className="mb-10 font-poppins text-3xl font-bold sm:text-5xl ">
-      {props.children}
-    </h1>
-  ),
-  h2: (props: MarkdownProps) => (
-    <h2 className="my-5 font-poppins text-2xl font-bold sm:text-4xl">
+    <h2 className="mb-10 font-poppins text-3xl font-bold sm:text-5xl ">
       {props.children}
     </h2>
   ),
-  h3: (props: MarkdownProps) => (
-    <h3 className="my-5 font-poppins text-xl font-bold sm:text-2xl">
+  h2: (props: MarkdownProps) => (
+    <h3 className="my-5 font-poppins text-2xl font-bold sm:text-4xl">
       {props.children}
     </h3>
   ),
-  h4: (props: MarkdownProps) => (
-    <h4 className="my-5 font-poppins text-lg font-bold sm:text-xl">
+  h3: (props: MarkdownProps) => (
+    <h4 className="my-5 font-poppins text-xl font-bold sm:text-2xl">
       {props.children}
     </h4>
   ),
-  h5: (props: MarkdownProps) => (
-    <h5 className="my-5 font-poppins  font-bold sm:text-lg">
+  h4: (props: MarkdownProps) => (
+    <h5 className="my-5 font-poppins text-lg font-bold sm:text-xl">
       {props.children}
     </h5>
+  ),
+  h5: (props: MarkdownProps) => (
+    <h6 className="my-5 font-poppins  font-bold sm:text-lg">
+      {props.children}
+    </h6>
   ),
   h6: (props: MarkdownProps) => (
     <h6 className="my-5 font-poppins font-bold sm:text-lg">{props.children}</h6>

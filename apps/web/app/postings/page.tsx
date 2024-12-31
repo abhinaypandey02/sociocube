@@ -20,9 +20,9 @@ export default async function PostingsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-16 lg:px-8">
       <div className="flex  items-center justify-between gap-2">
-        <h1 className="font-poppins text-3xl font-semibold text-gray-800 sm:text-4xl sm:font-bold ">
+        <h2 className="font-poppins text-3xl font-semibold text-gray-800 sm:text-4xl sm:font-bold ">
           Collaborations
-        </h1>
+        </h2>
         <Injector
           Component={AddPostingButton}
           fetch={getCurrentUser}

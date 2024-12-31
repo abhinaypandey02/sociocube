@@ -112,9 +112,9 @@ export default async function ProfilePage({ params }: ProfilePage) {
       />
       <div className="lg:col-span-6 lg:col-start-7">
         <div className="flex justify-between">
-          <h1 className="text-2xl font-semibold text-gray-900">
+          <h2 className="text-2xl font-semibold text-gray-900">
             {seller.name}
-          </h1>
+          </h2>
           {seller.pricing?.starting ? (
             <p className="text-lg  text-gray-900">
               From {seller.location?.currency?.symbol}
