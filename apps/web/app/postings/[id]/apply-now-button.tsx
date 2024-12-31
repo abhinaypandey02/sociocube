@@ -35,7 +35,11 @@ function LinkWrapper({
       </a>
     );
   }
-  return <Link href={url}>{children}</Link>;
+  return (
+    <Link className="max-sm:w-full" href={url}>
+      {children}
+    </Link>
+  );
 }
 
 export default function ApplyNowButton({
