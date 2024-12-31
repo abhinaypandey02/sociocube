@@ -89,7 +89,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
             "@type": "WebSite",
             name: "Freeluencers",
             url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL,
-            alternateName: ["freeluencers", "freelancing influencers"],
+            alternateName: ["Freeluencer", "Freelancing Influencers"],
           }}
           id="title"
         />
