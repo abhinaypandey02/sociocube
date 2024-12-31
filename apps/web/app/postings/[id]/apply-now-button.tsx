@@ -30,7 +30,7 @@ function LinkWrapper({
   if (!url) return children;
   if (external) {
     return (
-      <a href={url} rel="noopener" target="_blank">
+      <a className="max-sm:w-full" href={url} rel="noopener" target="_blank">
         {children}
       </a>
     );
@@ -156,7 +156,7 @@ export default function ApplyNowButton({
       </Modal>
       <LinkWrapper external={Boolean(posting?.externalLink)} url={message[1]}>
         <Button
-          className="max-sm:w-full sm:ml-auto"
+          className="w-full"
           disabled={message[2]}
           loading={loading}
           onClick={!posting?.externalLink ? handleClick : undefined}
