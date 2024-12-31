@@ -263,6 +263,7 @@ export const GET_POSTING = gql(`
       maximumAge
       platforms
       minimumFollowers
+      currencyCountry
       user {
         name
         photo

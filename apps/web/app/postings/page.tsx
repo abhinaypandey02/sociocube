@@ -23,7 +23,11 @@ export default async function PostingsPage() {
         <h1 className="font-poppins text-3xl font-semibold text-gray-800 sm:text-4xl sm:font-bold ">
           Collaborations
         </h1>
-        <Injector Component={AddPostingButton} fetch={getCurrentUser} />
+        <Injector
+          Component={AddPostingButton}
+          fetch={getCurrentUser}
+          props={{}}
+        />
       </div>
       <ul className="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:mt-16 lg:grid-cols-3 xl:gap-x-8">
         {postings.map((posting) => (

@@ -331,6 +331,7 @@ type Mutation {
   updateOnboardingLocation(locationDetails: OnboardingLocationInput!): Currency!
   updateOnboardingPricing(pricingDetails: OnboardingPriceInput!): Boolean!
   updateOnboardingUsername(usernameDetails: OnboardingUsernameInput!): Boolean!
+  updatePosting(id: Float!, updatedPosting: UpdatePostingInput!): Boolean!
   updateUser(updatedUser: UpdateUserInput!): Boolean!
   updateUserLocation(updatedLocation: UpdateLocation!): Boolean!
 }
@@ -396,12 +397,13 @@ type Posting {
   barter: Boolean!
   createdAt: Float!
   currency: String
+  currencyCountry: Int!
   deliverables: [String!]
   description: String!
   externalLink: String
   id: Float!
-  maximumAge: Float
-  minimumAge: Float
+  maximumAge: Int
+  minimumAge: Int
   minimumFollowers: Int
   open: Boolean!
   platforms: [PostingPlatforms!]!
@@ -480,6 +482,19 @@ input UpdateLocation {
   city: Float
   country: Float!
   state: Float!
+}
+
+input UpdatePostingInput {
+  barter: Boolean!
+  currencyCountry: Int
+  deliverables: [String!]
+  description: String!
+  externalLink: String
+  maximumAge: Float
+  minimumAge: Float
+  minimumFollowers: Float
+  platforms: [PostingPlatforms!]!
+  price: Int
 }
 
 input UpdateUserInput {

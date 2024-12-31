@@ -31,4 +31,6 @@ export class PostingGQL {
   createdAt: Date;
   @Field(() => Number)
   updatedAt: Date;
+  @Field(() => Int, { nullable: true })
+  currencyCountry: number | null;
 }

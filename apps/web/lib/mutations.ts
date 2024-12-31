@@ -125,3 +125,9 @@ export const CREATE_POSTING = gql(`
     createPosting(newPosting: $newPosting)  
   }
 `);
+export const UPDATE_POSTING = gql(`
+  #graphql
+  mutation UpdatePosting($newPosting:UpdatePostingInput!, $id:Float!) {
+    updatePosting(id:$id,updatedPosting: $newPosting)  
+  }
+`);

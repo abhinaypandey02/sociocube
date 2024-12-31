@@ -43,7 +43,7 @@ export default function ManagePostingButton({
   };
   // if (success) return null;
   return (
-    <div className="flex gap-1">
+    <>
       {posting.open ? (
         <Button
           loading={loading}
@@ -85,6 +85,6 @@ export default function ManagePostingButton({
           <Trash color="red" />
         </Button>
       )}
-    </div>
+    </>
   );
 }

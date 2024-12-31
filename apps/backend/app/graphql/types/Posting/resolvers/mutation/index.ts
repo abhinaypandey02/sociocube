@@ -4,6 +4,7 @@ import { createPosting, NewPostingInput } from "./create-posting";
 import { pausePosting } from "./pause-posting";
 import { deletePosting } from "./delete-posting";
 import { resumePosting } from "./resume-posting";
+import { updatePosting, UpdatePostingInput } from "./update-posting";
 
 @Resolver()
 export class PostingMutationResolvers {
@@ -14,6 +15,15 @@ export class PostingMutationResolvers {
     @Arg("newPosting") newPosting: NewPostingInput,
   ): Promise<number | null> {
     return createPosting(ctx, newPosting);
+  }
+  @Authorized()
+  @Mutation(() => Boolean)
+  async updatePosting(
+    @Ctx() ctx: AuthorizedContext,
+    @Arg("id") id: number,
+    @Arg("updatedPosting") updatedPosting: UpdatePostingInput,
+  ): Promise<boolean> {
+    return updatePosting(ctx, id, updatedPosting);
   }
   @Authorized()
   @Mutation(() => Boolean)
