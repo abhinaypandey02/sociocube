@@ -114,6 +114,8 @@ export default function AddPostingButton({
         .catch(handleGQLErrors);
     }
   };
+  if (existingPosting && data?.user?.id !== existingPosting.user?.id)
+    return null;
   return (
     <>
       <Modal
