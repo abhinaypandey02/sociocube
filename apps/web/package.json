@@ -19,6 +19,7 @@
     "@headlessui/react": "^2.1.10",
     "@next/third-parties": "^15.0.3",
     "@phosphor-icons/react": "^2.1.7",
+    "@tanstack/react-table": "^8.20.6",
     "classnames": "^2.5.1",
     "commons": "workspace:*",
     "gray-matter": "^4.0.3",

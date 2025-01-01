@@ -1,12 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getCurrentUser, Injector, queryGQL } from "../../lib/apollo-server";
+import { queryGQL } from "../../lib/apollo-server";
 import { GET_ALL_POSTINGS } from "../../lib/queries";
 import { convertToAbbreviation } from "../../lib/utils";
 import { getRoute } from "../../constants/routes";
 import { getSEO } from "../../constants/seo";
-import AddPostingButton from "./components/add-posting-button";
 import { getAgeGroup, getCurrency, getPlatforms } from "./utils";
 
 export default async function PostingsPage() {
@@ -23,11 +22,6 @@ export default async function PostingsPage() {
         <h2 className="font-poppins text-3xl font-semibold text-gray-800 sm:text-4xl sm:font-bold ">
           Collaborations
         </h2>
-        <Injector
-          Component={AddPostingButton}
-          fetch={getCurrentUser}
-          props={{}}
-        />
       </div>
       <ul className="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:mt-16 lg:grid-cols-3 xl:gap-x-8">
         {postings.map((posting) => (

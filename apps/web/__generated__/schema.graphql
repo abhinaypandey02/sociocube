@@ -397,7 +397,7 @@ type Posting {
   barter: Boolean!
   createdAt: Float!
   currency: String
-  currencyCountry: Int!
+  currencyCountry: Int
   deliverables: [String!]
   description: String!
   externalLink: String
@@ -438,7 +438,7 @@ type Query {
   getFeaturedSellers: [User!]!
   getHasUserApplied(postingID: Float!): Boolean!
   getPosting(id: Int!): Posting
-  getPostingApplications(postingID: Float!): [Application!]!
+  getPostingApplications(postingID: Int!): [Application!]!
   getSeller(username: String!): User
   getStates(countryID: Int!): [SelectOption!]!
   getUserApplications: [Application!]!

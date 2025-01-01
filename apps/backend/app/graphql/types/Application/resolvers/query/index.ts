@@ -1,4 +1,4 @@
-import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
 import { ApplicationGQL } from "../../type";
 import type { AuthorizedContext } from "../../../../context";
 import { getUserApplications } from "./get-user-applications";
@@ -25,7 +25,7 @@ export class ApplicationQueryResolver {
   @Query(() => [ApplicationGQL])
   getPostingApplications(
     @Ctx() ctx: AuthorizedContext,
-    @Arg("postingID") postingID: number,
+    @Arg("postingID", () => Int) postingID: number,
   ) {
     return getPostingApplications(ctx, postingID);
   }

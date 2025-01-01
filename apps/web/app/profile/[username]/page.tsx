@@ -16,7 +16,7 @@ import {
 import { getSEO } from "../../../constants/seo";
 import { convertToAbbreviation } from "../../../lib/utils";
 import Schema from "../../components/schema";
-import { getMeURL, getRoute } from "../../../constants/routes";
+import { getMeURL, getRoute, Route } from "../../../constants/routes";
 import CopyLinkButton from "./components/copy-link-button";
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 
@@ -49,15 +49,22 @@ export async function generateMetadata({
 
   const seller = data.getSeller;
   if (!seller?.name) return {};
-  return getSEO(
-    `${data.getSeller?.name}`,
-    `${convertToAbbreviation(seller.instagramStats?.followers || 0)} Followers, ${seller.instagramStats?.er}% Engagement, ${convertToAbbreviation(seller.instagramStats?.mediaCount || 0)} posts on their Instagram account @${seller.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
-    [
-      data.getSeller?.photo || "",
-      ...(data.getSeller?.instagramMedia?.map((media) => media.thumbnail) ||
-        []),
-    ].filter(Boolean),
-  );
+  return {
+    alternates: {
+      canonical: `${
+        process.env.NEXT_PUBLIC_FRONTEND_BASE_URL + Route.Profile
+      }/${username}`,
+    },
+    ...getSEO(
+      `${data.getSeller?.name}`,
+      `${convertToAbbreviation(seller.instagramStats?.followers || 0)} Followers, ${seller.instagramStats?.er}% Engagement, ${convertToAbbreviation(seller.instagramStats?.mediaCount || 0)} posts on their Instagram account @${seller.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
+      [
+        data.getSeller?.photo || "",
+        ...(data.getSeller?.instagramMedia?.map((media) => media.thumbnail) ||
+          []),
+      ].filter(Boolean),
+    ),
+  };
 }
 
 export default async function ProfilePage({ params }: ProfilePage) {

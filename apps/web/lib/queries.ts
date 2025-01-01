@@ -328,3 +328,61 @@ export const GET_CURRENT_USER_APPLICATION_STATUS = gql(`
     hasApplied: getHasUserApplied(postingID: $postingID)
   }
 `);
+
+export const GET_USER_POSTINGS = gql(`
+  #graphql
+  query GetUserPostings {
+    postings:getUserPostings {
+      id
+      maximumAge
+      minimumFollowers
+      user {
+        name
+        photo
+        companyName
+      }
+      applicationsCount
+      description
+      barter
+      minimumAge
+      open
+      title
+      currency
+      price
+      createdAt
+      platforms
+      updatedAt
+      deliverables
+      currencyCountry
+    }
+  }
+`);
+
+export const GET_POSTING_APPLICATIONS = gql(`
+  #graphql
+  query GetPostingApplications($postingID:Int!) {
+    posting: getPosting(id: $postingID){
+      title
+    }
+    applications:getPostingApplications(postingID: $postingID) {
+      user {
+        name
+        photo
+        dob
+        email
+        gender
+        bio
+        username
+        instagramStats {
+          username
+          followers
+          averageLikes
+          averageComments
+          er
+          mediaCount
+        }
+      }
+      comment
+    }
+  }
+`);

@@ -11,6 +11,10 @@ export enum Route {
   PrivacyPolicy = "/privacy-policy",
   TermsConditions = "/terms-and-conditions",
   Postings = "/postings",
+  AccountPostings = `${Account}/postings`,
+  AccountPostingsEdit = `${AccountPostings}/edit`,
+  AccountPostingsNew = `${AccountPostings}/new`,
+  AccountPostingsApplications = `${AccountPostings}/applications`,
 }
 
 export function getRoute(route: keyof typeof Route) {

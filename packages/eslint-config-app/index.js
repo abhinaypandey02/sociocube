@@ -51,7 +51,8 @@ module.exports = {
     "@typescript-eslint/ban-types":"warn",
     "eslint-disable-next-line eslint-comments/require-description": "off",
     "tailwindcss/no-custom-classname": "error",
-    "tailwindcss/no-contradicting-classname": "error"
+    "tailwindcss/no-contradicting-classname": "error",
+    "@typescript-eslint/prefer-literal-enum-member": "off"
   },
   "plugins": ["tailwindcss","prettier",'react-hooks','react-refresh']
 };

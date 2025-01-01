@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { cookies } from "next/headers";
 import type { Metadata } from "next";
-import { getCurrentUser, Injector, queryGQL } from "../../../lib/apollo-server";
+import { Injector, queryGQL } from "../../../lib/apollo-server";
 import {
   GET_CURRENT_USER_APPLICATION_STATUS,
   GET_POSTING,
@@ -12,9 +12,7 @@ import { convertToAbbreviation } from "../../../lib/utils";
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
 import { renderRichText } from "../../../lib/rich-text";
 import { getSEO } from "../../../constants/seo";
-import AddPostingButton from "../components/add-posting-button";
 import ApplyNowButton from "./apply-now-button";
-import ManagePostingButton from "./manage-posting-button";
 
 export async function generateMetadata({
   params,
@@ -77,23 +75,6 @@ export default async function JobPostingPage({
           </div>
           <div className="flex flex-col gap-3 max-sm:w-full max-sm:flex-col-reverse max-sm:gap-5">
             <div className="flex items-center justify-end gap-1">
-              <Injector
-                Component={AddPostingButton}
-                fetch={getCurrentUser}
-                props={{ existingPosting: posting }}
-              />
-              <Injector
-                Component={ManagePostingButton}
-                fetch={async () =>
-                  queryGQL(
-                    GET_CURRENT_USER_APPLICATION_STATUS,
-                    { postingID: id },
-                    await cookies(),
-                    0,
-                  )
-                }
-                props={{ posting }}
-              />
               <Injector
                 Component={ApplyNowButton}
                 fetch={async () =>

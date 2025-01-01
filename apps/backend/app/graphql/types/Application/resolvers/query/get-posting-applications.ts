@@ -1,19 +1,22 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, getTableColumns } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { ApplicationTable } from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";
+import { PostingTable } from "../../../Posting/db/schema";
 
-export function getPostingApplications(
+export async function getPostingApplications(
   ctx: AuthorizedContext,
   postingID: number,
 ) {
   return db
-    .select()
+    .select(getTableColumns(ApplicationTable))
     .from(ApplicationTable)
-    .where(
+    .where(eq(ApplicationTable.posting, postingID))
+    .innerJoin(
+      PostingTable,
       and(
-        eq(ApplicationTable.posting, postingID),
-        eq(ApplicationTable.user, ctx.userId),
+        eq(ApplicationTable.posting, PostingTable.id),
+        eq(PostingTable.user, ctx.userId),
       ),
     );
 }
