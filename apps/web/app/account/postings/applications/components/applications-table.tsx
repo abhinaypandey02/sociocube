@@ -5,7 +5,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import { getAge } from "commons/age";
 import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
-import { EnvelopeSimple, User } from "@phosphor-icons/react";
+import { EnvelopeSimple } from "@phosphor-icons/react";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
 import type { GetPostingApplicationsQuery } from "../../../../../__generated__/graphql";
@@ -68,19 +68,13 @@ const columns = [
     header: "Links",
     cell: (val) => (
       <div className="flex items-center gap-2">
-        <Link
-          className="text-accent"
-          href={`${getRoute("Profile")}/${val.row.original.user?.username}`}
-        >
-          <User size={16} weight="bold" />
-        </Link>
         <a
           className="text-accent"
           href={`https://instagram.com/${val.getValue()}`}
           rel="noopener"
           target="_blank"
         >
-          <InstagramLogo size={16} weight="bold" />
+          <InstagramLogo size={19} />
         </a>
         {val.row.original.user?.email ? (
           <button
@@ -96,7 +90,7 @@ const columns = [
               }
             }}
           >
-            <EnvelopeSimple size={16} weight="bold" />
+            <EnvelopeSimple size={20} />
           </button>
         ) : null}
       </div>
