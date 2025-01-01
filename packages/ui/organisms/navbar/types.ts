@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import type { ButtonProps } from "../../atoms/button/types";
 
 export interface NavbarProps {
@@ -8,8 +9,10 @@ export interface NavbarProps {
     href: string;
   };
   disableCTA?: boolean;
+  userImage?: string;
 }
 interface NavbarLink {
   label: string;
   href: string;
+  render?: ReactElement;
 }

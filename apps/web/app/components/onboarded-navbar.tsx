@@ -12,6 +12,7 @@ export default async function OnboardedNavbar() {
   if (!user) return <Navbar {...UNAUTHORISED_NAVBAR_SECTIONS} />;
   return (
     <Navbar
+      userImage={user.photo || "loading"}
       {...(user.isOnboarded
         ? AUTHORISED_SELLER_NAVBAR_SECTIONS
         : AUTHORISED_USER_NAVBAR_SECTIONS)}

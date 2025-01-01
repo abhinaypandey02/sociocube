@@ -12,7 +12,13 @@ export default async function OptimisticNavbar() {
   if (!token) return <Navbar {...UNAUTHORISED_NAVBAR_SECTIONS} />;
   return (
     <Suspense
-      fallback={<Navbar disableCTA {...AUTHORISED_USER_NAVBAR_SECTIONS} />}
+      fallback={
+        <Navbar
+          disableCTA
+          userImage="loading"
+          {...AUTHORISED_USER_NAVBAR_SECTIONS}
+        />
+      }
     >
       <OnboardedNavbar />
     </Suspense>

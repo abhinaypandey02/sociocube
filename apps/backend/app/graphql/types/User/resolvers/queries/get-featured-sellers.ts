@@ -1,4 +1,4 @@
-import { and, or, eq, isNotNull, getTableColumns, desc } from "drizzle-orm";
+import { and, or, eq, isNotNull, getTableColumns, desc, gt } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
@@ -18,7 +18,10 @@ export async function handleGetFeaturedSellers() {
     )
     .innerJoin(
       InstagramDetails,
-      eq(InstagramDetails.id, UserTable.instagramDetails),
+      and(
+        eq(InstagramDetails.id, UserTable.instagramDetails),
+        gt(InstagramDetails.er, 1),
+      ),
     )
     .orderBy(desc(InstagramDetails.followers))
     .limit(9);

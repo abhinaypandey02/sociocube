@@ -1,4 +1,5 @@
 import { getRoute } from "../constants/routes";
+import Logout from "./components/logout";
 
 export const NAVBAR_COMMON_ROUTES = [
   { label: "Home", href: getRoute("Home") },
@@ -25,8 +26,17 @@ export const AUTHORISED_USER_NAVBAR_SECTIONS = {
   primaryLinks: NAVBAR_COMMON_ROUTES,
   secondaryLinks: [
     {
-      label: "Account",
+      label: "Your postings",
+      href: getRoute("AccountPostings"),
+    },
+    {
+      label: "Settings",
       href: getRoute("Account"),
+    },
+    {
+      label: "Logout",
+      href: getRoute("Account"),
+      render: <Logout />,
     },
   ],
   cta: {
