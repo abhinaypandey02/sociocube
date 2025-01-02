@@ -119,15 +119,15 @@ export default async function ProfilePage({ params }: ProfilePage) {
         id="main-profile"
       />
       <div className="lg:col-span-6 lg:col-start-7">
-        <h2 className="flex items-center gap-2 text-2xl font-semibold text-gray-900">
+        <h2 className="flex items-center gap-2 font-poppins text-2xl font-semibold text-gray-900">
           {seller.name}{" "}
           {seller.instagramStats.isVerified ? (
             <SealCheck className="text-accent" weight="fill" />
           ) : null}
         </h2>
         {seller.pricing?.starting ? (
-          <p className="mb-4 mt-3   text-gray-900">
-            <span className="mr-1 text-sm font-light italic">From</span>{" "}
+          <p className="mb-3 mt-1 text-gray-900">
+            <span className="mr-1 text-sm font-light italic">from</span>{" "}
             <span className=" ">
               {seller.location?.currency?.symbol}
               {seller.pricing.starting} {seller.location?.currency?.code}
@@ -186,7 +186,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
           </div>
         </div>
         {seller.location ? (
-          <div className="mt-3">
+          <div className="mt-5">
             <h2 className="text-sm font-medium text-gray-900">Location</h2>
 
             <div className="prose prose-sm mt-2 flex gap-3 text-gray-500">
@@ -202,7 +202,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
             </div>
           </div>
         ) : null}
-        <div className="mt-9 flex gap-4">
+        <div className="mt-7 flex gap-4">
           <div className="grow">
             <a
               href={`https://ig.me/m/${seller.instagramStats.username}`}
@@ -220,7 +220,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
           <CopyLinkButton url={getMeURL(username, true)} />
         </div>
 
-        <div className="mt-10">
+        <div className="mt-8">
           <div className="flex justify-between">
             <h2 className="text-sm font-medium text-gray-900">Instagram</h2>
             <a

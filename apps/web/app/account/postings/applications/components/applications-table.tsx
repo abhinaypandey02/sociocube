@@ -5,7 +5,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import { getAge } from "commons/age";
 import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
-import { EnvelopeSimple } from "@phosphor-icons/react";
+import { EnvelopeSimple, SealCheck } from "@phosphor-icons/react";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
 import type { GetPostingApplicationsQuery } from "../../../../../__generated__/graphql";
@@ -36,10 +36,13 @@ const columns = [
     header: "Name",
     cell: (val) => (
       <Link
-        className="font-medium text-accent hover:underline"
+        className="flex items-center gap-2 font-medium text-accent hover:underline"
         href={`${getRoute("Profile")}/${val.row.original.user?.username}`}
       >
-        {val.getValue()}
+        {val.getValue()}{" "}
+        {val.row.original.user?.instagramStats?.isVerified ? (
+          <SealCheck className="text-accent" weight="fill" />
+        ) : null}
       </Link>
     ),
   }),
@@ -54,11 +57,19 @@ const columns = [
   colHelper.accessor("user.instagramStats.averageLikes", {
     header: "Avg. Likes",
   }),
-  colHelper.accessor("user.instagramStats.averageComments", {
-    header: "Avg. Comments",
+  colHelper.accessor("user.instagramStats.er", {
+    header: "Reach",
+    cell: (val) =>
+      convertToAbbreviation(
+        Math.round(
+          (val.getValue() *
+            (val.row.original.user?.instagramStats?.followers || 0)) /
+            100,
+        ),
+      ),
   }),
   colHelper.accessor("user.instagramStats.er", {
-    header: "Engagement",
+    header: "ER",
   }),
 
   colHelper.accessor("user.instagramStats.mediaCount", {

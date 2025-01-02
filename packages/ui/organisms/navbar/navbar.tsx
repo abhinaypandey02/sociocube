@@ -77,7 +77,7 @@ function Navbar({
           {userImage ? (
             <Menu as="div" className="relative max-lg:hidden">
               <div>
-                <MenuButton className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
+                <MenuButton className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
                   {userImage === "loading" ? (
