@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { InstagramMediaTable, UserDB, UserTable } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
 import { InstagramDetails } from "../../../Instagram/db/schema";
@@ -35,6 +35,20 @@ export async function getInstagramStats(user: UserDB) {
     .from(InstagramDetails)
     .where(eq(InstagramDetails.id, user.instagramDetails));
   if (!instagramDetails) return null;
+  if (
+    instagramDetails.lastFetched &&
+    cacheAlive(instagramDetails.lastFetched)
+  ) {
+    return {
+      username: instagramDetails.username,
+      followers: instagramDetails.followers,
+      mediaCount: instagramDetails.mediaCount || 0,
+      averageComments: instagramDetails.averageComments || 0,
+      averageLikes: instagramDetails.averageLikes || 0,
+      er: normaliseDigits(instagramDetails.er || 0),
+      isVerified: Boolean(instagramDetails.accessToken),
+    };
+  }
   const stats = await getStats(
     user,
     instagramDetails.failedTries,
@@ -49,6 +63,7 @@ export async function getInstagramStats(user: UserDB) {
         username: stats.username || undefined,
         mediaCount: stats.media_count || undefined,
         failedTries: 0,
+        lastFetched: new Date(),
       })
       .where(eq(InstagramDetails.id, user.instagramDetails));
   }
@@ -167,6 +182,11 @@ export async function getPosts(accessToken?: string | null, username?: string) {
   return [];
 }
 
+function cacheAlive(d: Date) {
+  const time = (new Date().getTime() - d.getTime()) / (1000 * 60 * 60);
+  return time < 16;
+}
+
 export async function getInstagramMedia(user: UserDB) {
   if (!user.instagramDetails) return null;
   const [instagramDetails] = await db
@@ -174,6 +194,18 @@ export async function getInstagramMedia(user: UserDB) {
     .from(InstagramDetails)
     .where(eq(InstagramDetails.id, user.instagramDetails));
   if (!instagramDetails) return [];
+  if (
+    instagramDetails.lastFetched &&
+    cacheAlive(instagramDetails.lastFetched)
+  ) {
+    const posts = await db
+      .select()
+      .from(InstagramMediaTable)
+      .where(eq(InstagramMediaTable.user, user.id))
+      .orderBy(desc(InstagramMediaTable.er))
+      .limit(6);
+    if (posts.length > 0) return posts;
+  }
   const postsData = await getPosts(
     instagramDetails.accessToken,
     instagramDetails.username,
@@ -210,6 +242,7 @@ export async function getInstagramMedia(user: UserDB) {
         posts.map((post) => post.comments).filter(Boolean),
       ),
       er: median(posts.map((post) => post.er).filter(Boolean)),
+      lastFetched: new Date(),
     })
     .where(eq(InstagramDetails.id, user.instagramDetails));
   return posts.slice(0, 6);

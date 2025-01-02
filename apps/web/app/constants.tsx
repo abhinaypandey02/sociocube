@@ -1,4 +1,5 @@
 import { getRoute } from "../constants/routes";
+import type { GetCurrentUserQuery } from "../__generated__/graphql";
 import Logout from "./components/logout";
 
 export const NAVBAR_COMMON_ROUTES = [
@@ -47,7 +48,28 @@ export const AUTHORISED_USER_NAVBAR_SECTIONS = {
     href: getRoute("Onboarding"),
   },
 };
-export const AUTHORISED_SELLER_NAVBAR_SECTIONS = {
-  ...AUTHORISED_USER_NAVBAR_SECTIONS,
+export const getOnboardedUserNavbarSections = (
+  user: GetCurrentUserQuery["user"],
+) => ({
+  primaryLinks: NAVBAR_COMMON_ROUTES,
+  secondaryLinks: [
+    {
+      label: "Your profile",
+      href: `${getRoute("Profile")}/${user?.username}`,
+    },
+    {
+      label: "Postings",
+      href: getRoute("AccountPostings"),
+    },
+    {
+      label: "Settings",
+      href: getRoute("Account"),
+    },
+    {
+      label: "Logout",
+      href: getRoute("Account"),
+      render: <Logout />,
+    },
+  ],
   cta: undefined,
-};
+});

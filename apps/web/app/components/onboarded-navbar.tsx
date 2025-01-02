@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar } from "ui/navbar";
 import {
-  AUTHORISED_SELLER_NAVBAR_SECTIONS,
+  getOnboardedUserNavbarSections,
   AUTHORISED_USER_NAVBAR_SECTIONS,
   UNAUTHORISED_NAVBAR_SECTIONS,
 } from "../constants";
@@ -14,7 +14,7 @@ export default async function OnboardedNavbar() {
     <Navbar
       userImage={user.photo || "loading"}
       {...(user.isOnboarded
-        ? AUTHORISED_SELLER_NAVBAR_SECTIONS
+        ? getOnboardedUserNavbarSections(user)
         : AUTHORISED_USER_NAVBAR_SECTIONS)}
     />
   );
