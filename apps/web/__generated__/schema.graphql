@@ -292,6 +292,7 @@ type InstagramStats {
   averageLikes: Int!
   er: Float!
   followers: Int!
+  isVerified: Boolean!
   mediaCount: Int!
   username: String!
 }

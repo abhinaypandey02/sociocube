@@ -59,6 +59,7 @@ export async function getInstagramStats(user: UserDB) {
     averageComments: instagramDetails.averageComments || 0,
     averageLikes: instagramDetails.averageLikes || 0,
     er: normaliseDigits(instagramDetails.er || 0),
+    isVerified: Boolean(instagramDetails.accessToken),
   };
 }
 

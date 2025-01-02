@@ -69,6 +69,7 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
         username
         followers
         er
+        isVerified
       }
     }
     posts:getFeaturedPosts {
@@ -139,6 +140,7 @@ export const GET_SELLER = gql(`
         username
         er
         averageLikes
+        isVerified
       }
     }
   }
@@ -374,6 +376,7 @@ export const GET_POSTING_APPLICATIONS = gql(`
         bio
         username
         instagramStats {
+          isVerified
           username
           followers
           averageLikes

@@ -15,6 +15,8 @@ export class InstagramStats {
   averageComments: number;
   @Field()
   er: number;
+  @Field()
+  isVerified: boolean;
 }
 
 @ObjectType("InstagramMedia")

@@ -5,6 +5,8 @@ import {
   ArrowRight,
   MagnifyingGlass,
   TrendUp,
+  SealCheck,
+  Dot,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import { getRoute } from "../../constants/routes";
@@ -45,29 +47,24 @@ export default function TopCreators({
                 src={person.photo || ""}
                 width={280}
               />
-              <div className="mt-2 flex justify-between gap-2">
-                <div className="overflow-hidden">
-                  <h3 className=" truncate font-poppins text-xl font-semibold  ">
-                    {person.name || ""}
+              <div className="mt-2">
+                <div className="flex items-center gap-2 overflow-hidden text-xl">
+                  <h3 className=" truncate font-poppins  font-semibold  ">
+                    {person.name || ""}{" "}
                   </h3>
-                  <p className="my-0.5 text-xs font-medium text-gray-500">
-                    {person.category}
-                  </p>
-                </div>
-                <div>
-                  <div className="flex gap-1 pr-0.5 pt-1 text-xs">
-                    <InstagramLogo size={16} />
-                    {convertToAbbreviation(
-                      person.instagramStats?.followers || 0,
-                    )}
-                  </div>
-                  {person.instagramStats?.er ? (
-                    <div className="flex gap-1 pr-0.5 pt-1 text-xs">
-                      <TrendUp size={16} />
-                      {person.instagramStats.er}%
-                    </div>
+                  {person.instagramStats?.isVerified ? (
+                    <SealCheck className="shrink-0 text-accent" weight="fill" />
                   ) : null}
                 </div>
+                <p className="mt-1 flex items-center text-xs font-medium text-gray-500">
+                  {person.category}
+                  <Dot weight="bold" />
+                  <InstagramLogo className="mr-1" size={16} />
+                  {convertToAbbreviation(person.instagramStats?.followers || 0)}
+                  <Dot weight="bold" />
+                  <TrendUp className="mr-1" size={16} />
+                  {person.instagramStats?.er}%
+                </p>
               </div>
             </Link>
           </li>

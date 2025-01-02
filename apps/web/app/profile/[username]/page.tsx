@@ -5,6 +5,7 @@ import {
   ArrowSquareOut,
   InstagramLogo,
   TrendUp,
+  SealCheck,
 } from "@phosphor-icons/react/dist/ssr";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -118,18 +119,22 @@ export default async function ProfilePage({ params }: ProfilePage) {
         id="main-profile"
       />
       <div className="lg:col-span-6 lg:col-start-7">
-        <div className="flex justify-between">
-          <h2 className="text-2xl font-semibold text-gray-900">
-            {seller.name}
-          </h2>
-          {seller.pricing?.starting ? (
-            <p className="text-lg  text-gray-900">
-              From {seller.location?.currency?.symbol}
-              {seller.pricing.starting} {seller.location?.currency?.code}
-            </p>
+        <h2 className="flex items-center gap-2 text-2xl font-semibold text-gray-900">
+          {seller.name}{" "}
+          {seller.instagramStats.isVerified ? (
+            <SealCheck className="text-accent" weight="fill" />
           ) : null}
-        </div>
-        <div className="prose prose-sm mt-3 text-gray-500">
+        </h2>
+        {seller.pricing?.starting ? (
+          <p className="mb-4 mt-3   text-gray-900">
+            <span className="mr-1 text-sm font-light italic">From</span>{" "}
+            <span className=" ">
+              {seller.location?.currency?.symbol}
+              {seller.pricing.starting} {seller.location?.currency?.code}
+            </span>
+          </p>
+        ) : null}
+        <div className="prose prose-sm mt-2 text-gray-500">
           {seller.gender} • {seller.category}
         </div>
 
