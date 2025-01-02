@@ -31,7 +31,7 @@ export default async function AccountPostingApplicationsPage({
       }}
       title={`Applications for ${posting.title}`}
     >
-      <ApplicationsTable applications={applications} />
+      <ApplicationsTable applications={applications} posting={posting} />
     </AccountPageWrapper>
   );
 }

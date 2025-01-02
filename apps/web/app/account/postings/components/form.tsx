@@ -27,6 +27,8 @@ interface FormFields {
   title: string;
   description: string;
   deliverables: string;
+  extraDetails?: string;
+  externalLink?: string;
   barter: boolean;
   maximumAge: number;
   minimumAge: number;
@@ -55,6 +57,8 @@ export default function CreateNewPostingForm({
       price: existingPosting?.price || undefined,
       title: existingPosting?.title,
       currencyCountry: existingPosting?.currencyCountry || undefined,
+      externalLink: existingPosting?.externalLink || undefined,
+      extraDetails: existingPosting?.extraDetails || undefined,
     },
   });
   const [fetchCountries, { data: countriesData, loading: loadingCountries }] =
@@ -184,6 +188,11 @@ export default function CreateNewPostingForm({
         name="externalLink"
         placeholder="Link to an external application form"
         type="url"
+      />
+      <Input
+        label="Extra required details (Optional)"
+        name="extraDetails"
+        placeholder="Any extra details to request from user?"
       />
       <Input
         className="m-1.5 scale-125"

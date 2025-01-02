@@ -1,0 +1,4 @@
+export const USERNAME_MAX_LENGTH=30
+export const NAME_MAX_LENGTH=30
+export const BIO_MAX_LENGTH=200
+export const POSTING_BIO_MAX_LENGTH=1500

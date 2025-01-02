@@ -230,6 +230,7 @@ schema {
 
 type Application {
   comment: String!
+  email: String!
   posting: Posting
   user: User
 }
@@ -343,6 +344,7 @@ input NewPostingInput {
   deliverables: [String!]
   description: String!
   externalLink: String
+  extraDetails: String
   maximumAge: Float
   minimumAge: Float
   minimumFollowers: Float
@@ -402,6 +404,7 @@ type Posting {
   deliverables: [String!]
   description: String!
   externalLink: String
+  extraDetails: String
   id: Float!
   maximumAge: Int
   minimumAge: Int
@@ -491,6 +494,7 @@ input UpdatePostingInput {
   deliverables: [String!]
   description: String!
   externalLink: String
+  extraDetails: String
   maximumAge: Float
   minimumAge: Float
   minimumFollowers: Float

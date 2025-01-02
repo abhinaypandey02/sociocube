@@ -112,7 +112,7 @@ export default function ApplyNowButton({
   const handleApply = (values: FormType) => {
     if (posting?.id)
       applyNow({
-        email: values.email,
+        email: values.email.toLowerCase(),
         postingID: posting.id,
         comment: values.comment,
       })
@@ -139,13 +139,18 @@ export default function ApplyNowButton({
             name="email"
             placeholder="Email for the recruiter to reach out to you"
             required
-            type="email"
           />
           <Input
             className="mb-4 placeholder:text-xs"
-            label="Add comments"
+            label={
+              posting?.extraDetails
+                ? `${posting.extraDetails} *`
+                : "Add comments"
+            }
             name="comment"
-            placeholder="(Optional) Add a comment to add more information for the recruiter"
+            placeholder={`${posting?.extraDetails ? "" : "(Optional) "}Add a comment to add more information for the recruiter`}
+            required={Boolean(posting?.extraDetails)}
+            rules={{ required: Boolean(posting?.extraDetails) }}
             textarea
           />
           <Button

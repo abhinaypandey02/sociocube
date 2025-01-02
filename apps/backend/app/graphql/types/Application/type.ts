@@ -4,4 +4,6 @@ import { Field, ObjectType } from "type-graphql";
 export class ApplicationGQL {
   @Field()
   comment: string;
+  @Field()
+  email: string;
 }

@@ -1,7 +1,8 @@
 import { Field, InputType } from "type-graphql";
 import { eq } from "drizzle-orm";
-import { Matches } from "class-validator";
+import { Matches, MaxLength } from "class-validator";
 import { USERNAME_REGEX } from "commons/regex";
+import { NAME_MAX_LENGTH } from "commons/constraints";
 import { AuthorizedContext } from "../../../../../context";
 import { db } from "../../../../../../../lib/db";
 import { OnboardingDataTable, UserTable } from "../../../db/schema";
@@ -12,6 +13,7 @@ import GQLError from "../../../../../constants/errors";
 export class OnboardingUsernameInput {
   @Field()
   @Matches(USERNAME_REGEX)
+  @MaxLength(NAME_MAX_LENGTH)
   username: string;
 }
 export async function handleUpdateOnboardingUsername(

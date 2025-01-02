@@ -9,10 +9,11 @@ import {
   isNotNull,
 } from "drizzle-orm";
 import { Field, InputType, Int } from "type-graphql";
-import { IsIn, Max, Min } from "class-validator";
+import { IsIn, Max, MaxLength, Min } from "class-validator";
 import categories from "commons/categories";
 import genders from "commons/genders";
 import { AGE_RANGES } from "commons/age";
+import { NAME_MAX_LENGTH } from "commons/constraints";
 import { db } from "../../../../../../lib/db";
 import { LocationTable, PricingTable, UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
@@ -20,6 +21,7 @@ import { InstagramDetails } from "../../../Instagram/db/schema";
 @InputType("SearchSellersFilters")
 export class SearchSellersFiltersInput {
   @Field({ nullable: true })
+  @MaxLength(NAME_MAX_LENGTH)
   query?: string;
   @Field(() => [Int], { nullable: true })
   cities?: number[];

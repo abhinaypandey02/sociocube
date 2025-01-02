@@ -266,6 +266,7 @@ export const GET_POSTING = gql(`
       platforms
       minimumFollowers
       currencyCountry
+      extraDetails
       user {
         name
         photo
@@ -347,6 +348,7 @@ export const GET_USER_POSTINGS = gql(`
       description
       barter
       minimumAge
+      extraDetails
       open
       title
       currency
@@ -365,8 +367,10 @@ export const GET_POSTING_APPLICATIONS = gql(`
   query GetPostingApplications($postingID:Int!) {
     posting: getPosting(id: $postingID){
       title
+      extraDetails
     }
     applications:getPostingApplications(postingID: $postingID) {
+      email
       user {
         name
         photo

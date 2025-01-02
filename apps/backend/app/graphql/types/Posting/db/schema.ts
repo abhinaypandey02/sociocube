@@ -25,6 +25,7 @@ export const PostingTable = pgTable("posting", {
   platforms: platforms("platforms").array().notNull().default([]),
   deliverables: text("deliverables").array(),
   externalLink: text("external_link"),
+  extraDetails: text("extra_details"),
   description: text("description").notNull(),
   currencyCountry: integer("currency_country").references(
     () => CountryTable.id,

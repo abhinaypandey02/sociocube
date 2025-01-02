@@ -15,7 +15,34 @@ import { convertToAbbreviation } from "../../../../../lib/utils";
 type Application = GetPostingApplicationsQuery["applications"][number];
 const colHelper = createColumnHelper<Application>();
 
-const columns = [
+const DEFAULT_COLUMNS = [
+  colHelper.accessor("user.instagramStats.username", {
+    header: "Links",
+    cell: (val) => (
+      <div className="flex items-center gap-2">
+        <a
+          className="text-accent"
+          href={`https://instagram.com/${val.getValue()}`}
+          rel="noopener"
+          target="_blank"
+        >
+          <InstagramLogo size={19} />
+        </a>
+        <button
+          className="text-accent"
+          onClick={async () => {
+            if (val.row.original.user?.email) {
+              await navigator.clipboard.writeText(val.row.original.email);
+              toast.success(`Copied ${val.row.original.email} to clipboard`);
+            }
+          }}
+        >
+          <EnvelopeSimple size={20} />
+        </button>
+      </div>
+    ),
+  }),
+
   colHelper.accessor("user.photo", {
     header: "Photo",
     cell: (value) => {
@@ -75,44 +102,20 @@ const columns = [
   colHelper.accessor("user.instagramStats.mediaCount", {
     header: "Posts",
   }),
-  colHelper.accessor("user.instagramStats.username", {
-    header: "Links",
-    cell: (val) => (
-      <div className="flex items-center gap-2">
-        <a
-          className="text-accent"
-          href={`https://instagram.com/${val.getValue()}`}
-          rel="noopener"
-          target="_blank"
-        >
-          <InstagramLogo size={19} />
-        </a>
-        {val.row.original.user?.email ? (
-          <button
-            className="text-accent"
-            onClick={async () => {
-              if (val.row.original.user?.email) {
-                await navigator.clipboard.writeText(
-                  val.row.original.user.email,
-                );
-                toast.success(
-                  `Copied ${val.row.original.user.email} to clipboard`,
-                );
-              }
-            }}
-          >
-            <EnvelopeSimple size={20} />
-          </button>
-        ) : null}
-      </div>
-    ),
-  }),
 ];
 
 export default function ApplicationsTable({
   applications,
+  posting,
 }: {
   applications: Application[];
+  posting: GetPostingApplicationsQuery["posting"];
 }) {
+  const columns = [
+    ...DEFAULT_COLUMNS,
+    colHelper.accessor("comment", {
+      header: posting?.extraDetails || "Comment",
+    }),
+  ];
   return <Table columns={columns} data={applications} />;
 }

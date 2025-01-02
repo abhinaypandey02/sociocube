@@ -1,10 +1,15 @@
 import { eq } from "drizzle-orm";
 import { Field, InputType } from "type-graphql";
-import { IsDateString, IsIn, Matches } from "class-validator";
+import { IsDateString, IsIn, Matches, MaxLength } from "class-validator";
 import categories from "commons/categories";
 import genders from "commons/genders";
 import { getAge, MAX_AGE, MIN_AGE } from "commons/age";
 import { USERNAME_REGEX } from "commons/regex";
+import {
+  BIO_MAX_LENGTH,
+  NAME_MAX_LENGTH,
+  USERNAME_MAX_LENGTH,
+} from "commons/constraints";
 import { db } from "../../../../../../lib/db";
 import { PricingTable, UserTable } from "../../db/schema";
 import type { AuthorizedContext } from "../../../../context";
@@ -14,10 +19,13 @@ import { isUserNameAvailable } from "../../utils";
 
 @InputType("UpdateUserInput")
 export class UpdateUserInput {
+  @MaxLength(NAME_MAX_LENGTH)
   @Field({ nullable: true })
   name?: string;
+  @MaxLength(NAME_MAX_LENGTH)
   @Field({ nullable: true })
   companyName?: string;
+  @MaxLength(BIO_MAX_LENGTH)
   @Field({ nullable: true })
   bio?: string;
   @Field({ nullable: true })
@@ -32,6 +40,7 @@ export class UpdateUserInput {
   pricing?: Pricing;
   @Field({ nullable: true })
   @Matches(USERNAME_REGEX)
+  @MaxLength(USERNAME_MAX_LENGTH)
   username?: string;
   @Field({ nullable: true })
   @IsDateString()
