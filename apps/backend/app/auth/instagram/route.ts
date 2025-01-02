@@ -21,6 +21,11 @@ import { db } from "../../../lib/db";
 import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
 import { deleteImage, uploadImage } from "../../../lib/storage/aws-s3";
 import {
+  getER,
+  getPosts,
+  median,
+} from "../../graphql/types/User/resolvers/field/instagram";
+import {
   getInstagramDataExternalAPI,
   getInstagramAuthorizationUrl,
   getLongLivedToken,
@@ -143,12 +148,22 @@ export const GET = async (req: NextRequest) => {
             );
         }
         const id = await db.transaction(async (tx) => {
+          const posts = await getPosts(accessToken, personalInfo.username);
           const [inserted] = await tx
             .insert(InstagramDetails)
             .values({
               appID: userId,
               username: personalInfo.username,
               followers: personalInfo.followers_count,
+              er: median(
+                posts.map((post) =>
+                  getER(
+                    personalInfo.followers_count,
+                    post.like_count || 0,
+                    post.comments_count || -1,
+                  ),
+                ),
+              ),
               accessToken,
             })
             .returning();

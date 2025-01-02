@@ -13,13 +13,13 @@ function normaliseDigits(val: number) {
   return Math.round(val * 100) / 100;
 }
 
-function getER(followers: number, likes: number, comments: number) {
+export function getER(followers: number, likes: number, comments: number) {
   if (followers === 0 || likes === 0) return 0;
   return normaliseDigits(
     ((likes + (comments === -1 ? likes / 40 : comments) * 2) / followers) * 100,
   );
 }
-function median(values: number[]): number {
+export function median(values: number[]): number {
   if (values.length === 0) return 0;
   const half = Math.floor(values.length / 2);
   const newValues = [...values].sort((a, b) => b - a);
@@ -122,7 +122,7 @@ async function getStats(
   }
 }
 
-async function getPosts(accessToken?: string | null, username?: string) {
+export async function getPosts(accessToken?: string | null, username?: string) {
   if (accessToken) {
     const fetchReq = await fetch(
       `${getGraphUrl("me/media", accessToken, [

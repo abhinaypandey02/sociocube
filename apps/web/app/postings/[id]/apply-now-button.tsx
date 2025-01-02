@@ -71,21 +71,13 @@ export default function ApplyNowButton({
         `${getRoute("SignUp")}?redirectURL=${Route.Postings}/${posting.id}`,
         false,
       ];
-    if (posting.externalLink)
-      return [
-        <div className="flex items-center gap-2" key={0}>
-          Apply now <ArrowSquareOut />{" "}
-        </div>,
-        posting.externalLink,
-        false,
-      ];
+
     if (!data.user.isOnboarded)
       return [
         "Onboard to apply",
         `${getRoute("Onboarding")}?redirectURL=${Route.Postings}/${posting.id}`,
         false,
       ];
-
     if (
       (data.user.instagramStats?.followers || 0) <
       (posting.minimumFollowers || 0)
@@ -96,6 +88,14 @@ export default function ApplyNowButton({
     const age = getAge(new Date(data.user.dob));
     if (age < (posting.minimumAge || 0) || age > (posting.maximumAge || 1000))
       return ["Not your age group", null, true];
+    if (posting.externalLink)
+      return [
+        <div className="flex items-center gap-2" key={0}>
+          Apply now <ArrowSquareOut />
+        </div>,
+        posting.externalLink,
+        false,
+      ];
     return ["Apply Now", null, false];
   }, [appliedSuccess, data?.user, posting]);
 
