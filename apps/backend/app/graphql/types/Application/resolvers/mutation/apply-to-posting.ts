@@ -1,5 +1,7 @@
 import { eq } from "drizzle-orm";
 import { getAge } from "commons/age";
+import { ArgsType, Field } from "type-graphql";
+import { IsEmail } from "class-validator";
 import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { ApplicationTable } from "../../db/schema";
@@ -7,6 +9,17 @@ import { PostingTable } from "../../../Posting/db/schema";
 import GQLError from "../../../../constants/errors";
 import { UserTable } from "../../../User/db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
+
+@ArgsType()
+export class ApplyToPostingArgs {
+  @Field()
+  postingID: number;
+  @Field(() => String, { nullable: true })
+  comment: string | null;
+  @Field()
+  @IsEmail()
+  email: string;
+}
 
 export async function applyToPosting(
   ctx: AuthorizedContext,
