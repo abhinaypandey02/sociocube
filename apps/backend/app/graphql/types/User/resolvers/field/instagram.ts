@@ -36,8 +36,8 @@ export async function getInstagramStats(user: UserDB) {
     .where(eq(InstagramDetails.id, user.instagramDetails));
   if (!instagramDetails) return null;
   if (
-    instagramDetails.lastFetched &&
-    cacheAlive(instagramDetails.lastFetched)
+    instagramDetails.lastFetchedInstagramStats &&
+    cacheAlive(instagramDetails.lastFetchedInstagramStats)
   ) {
     return {
       username: instagramDetails.username,
@@ -63,7 +63,7 @@ export async function getInstagramStats(user: UserDB) {
         username: stats.username || undefined,
         mediaCount: stats.media_count || undefined,
         failedTries: 0,
-        lastFetched: new Date(),
+        lastFetchedInstagramStats: new Date(),
       })
       .where(eq(InstagramDetails.id, user.instagramDetails));
   }
@@ -195,8 +195,8 @@ export async function getInstagramMedia(user: UserDB) {
     .where(eq(InstagramDetails.id, user.instagramDetails));
   if (!instagramDetails) return [];
   if (
-    instagramDetails.lastFetched &&
-    cacheAlive(instagramDetails.lastFetched)
+    instagramDetails.lastFetchedInstagramMedia &&
+    cacheAlive(instagramDetails.lastFetchedInstagramMedia)
   ) {
     const posts = await db
       .select()
@@ -242,7 +242,7 @@ export async function getInstagramMedia(user: UserDB) {
         posts.map((post) => post.comments).filter(Boolean),
       ),
       er: median(posts.map((post) => post.er).filter(Boolean)),
-      lastFetched: new Date(),
+      lastFetchedInstagramMedia: new Date(),
     })
     .where(eq(InstagramDetails.id, user.instagramDetails));
   return posts.slice(0, 6);
