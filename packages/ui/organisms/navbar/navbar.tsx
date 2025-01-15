@@ -36,14 +36,12 @@ function Navbar({
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between py-6 pl-6 pr-3 sm:gap-x-6 sm:pr-6 lg:px-8"
       >
-        <div className="flex">
-          <Link
-            className="-m-1.5 p-1.5 text-xl font-bold italic text-primary sm:text-3xl"
-            href={process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "/"}
-          >
-            <h1 className="lowercase">SocioCube</h1>
-          </Link>
-        </div>
+        <Link
+          className="-m-1.5 p-1.5 font-madina text-5xl leading-none text-primary sm:text-6xl"
+          href={process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "/"}
+        >
+          <h1 className="lowercase">SocioCube</h1>
+        </Link>
         <div className="hidden lg:flex lg:gap-x-12">
           {primaryLinks.map(
             (item) =>
@@ -63,7 +61,7 @@ function Navbar({
               ),
           )}
         </div>
-        <div className="flex items-center gap-4 ">
+        <div className="flex items-center gap-4 max-sm:pb-2">
           {cta ? (
             <Link href={cta.href}>
               <Button
@@ -160,12 +158,12 @@ function Navbar({
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white py-6 pl-6 pr-3 sm:max-w-sm sm:pr-6 sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between gap-x-6">
             <Link
-              className="-m-1.5 p-1.5 text-xl font-bold italic text-primary sm:text-3xl"
+              className="-m-1.5 p-1.5 font-madina text-5xl text-primary sm:text-5xl"
               href="/"
             >
               sociocube
             </Link>
-            <div className="flex gap-4 sm:gap-6 lg:hidden">
+            <div className="flex gap-4 pb-2 sm:gap-6 lg:hidden">
               {cta ? (
                 <Link href={cta.href} onClick={handleClose}>
                   <Button

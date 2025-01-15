@@ -12,6 +12,7 @@ const config: Config = {
       ...defaultTheme,
       fontFamily: {
         poppins: ["var(--font-poppins)"],
+        madina: ["var(--font-madina)"],
       },
     },
   },

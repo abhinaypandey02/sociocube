@@ -8,6 +8,7 @@ import { Footer } from "ui/footer";
 import { Navbar } from "ui/navbar";
 import { Toaster } from "react-hot-toast";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import localFont from "next/font/local";
 import { ApolloWrapper } from "../lib/apollo-client";
 import { GlobalStateWrapper } from "../lib/auth-client";
 import { getSEO, SEO } from "../constants/seo";
@@ -18,6 +19,11 @@ import OptimisticNavbar from "./components/optimistic-navbar";
 import { UNAUTHORISED_NAVBAR_SECTIONS } from "./constants";
 import Schema from "./components/schema";
 
+const madina = localFont({
+  src: "./madina.woff2",
+  display: "swap",
+  variable: "--font-madina",
+});
 const inter = Inter({
   subsets: ["latin"],
 });
@@ -81,7 +87,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html className="scroll-smooth" lang="en">
       <body
-        className={`${inter.className} ${poppins.variable} flex min-h-screen flex-col  bg-primary-bg`}
+        className={`${inter.className} ${poppins.variable} ${madina.variable} flex min-h-screen flex-col  bg-primary-bg`}
       >
         <Schema
           data={{
