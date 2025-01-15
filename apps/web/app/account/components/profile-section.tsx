@@ -146,7 +146,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
                     const result = await isUsernameAvailable({ username });
                     return Boolean(result.data?.isUsernameAvailable);
                   })}
-                  suffix=".freeluencers.me"
+                  suffix=".sociocube.me"
                 />
               ),
               onSubmit: handleSave("username"),

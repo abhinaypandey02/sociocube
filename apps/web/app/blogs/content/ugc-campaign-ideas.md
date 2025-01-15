@@ -59,7 +59,7 @@ Tie your UGC campaigns to popular holidays or events. For example, a coffee bran
 
 ## 8. **Collaborations with UGC Creators**
 
-Collaborate with UGC creators who specialize in authentic content. Platforms like Freeluencers can connect you with creators who align with your brand values and target audience.
+Collaborate with UGC creators who specialize in authentic content. Platforms like SocioCube can connect you with creators who align with your brand values and target audience.
 
 ---
 
@@ -91,4 +91,4 @@ Turn your audience’s responses into content. For example, ask a fun question l
 
 UGC campaigns work because they’re built on trust and authenticity. Your audience wants to see real people engaging with your brand—not just polished marketing materials. By encouraging participation, you create a community of loyal advocates who amplify your message naturally.
 
-🌟 Ready to take your UGC campaigns to the next level? Sign up on [Freeluencers.com](https://freeluencers.com) to connect with UGC creators who can help you grow your brand.
+🌟 Ready to take your UGC campaigns to the next level? Sign up on [SocioCube.com](https://sociocube.com) to connect with UGC creators who can help you grow your brand.

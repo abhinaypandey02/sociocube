@@ -41,7 +41,7 @@ function Navbar({
             className="-m-1.5 p-1.5 text-xl font-bold italic text-primary sm:text-3xl"
             href={process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "/"}
           >
-            <h1 className="lowercase">Freeluencers</h1>
+            <h1 className="lowercase">SocioCube</h1>
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
@@ -163,7 +163,7 @@ function Navbar({
               className="-m-1.5 p-1.5 text-xl font-bold italic text-primary sm:text-3xl"
               href="/"
             >
-              freeluencers
+              sociocube
             </Link>
             <div className="flex gap-4 sm:gap-6 lg:hidden">
               {cta ? (

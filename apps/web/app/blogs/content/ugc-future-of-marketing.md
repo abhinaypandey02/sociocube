@@ -34,9 +34,9 @@ UGC campaigns, like branded hashtag challenges, make participation easy and exci
 
 Creating high-quality marketing content is expensive and time-consuming. 😵‍💫 Why not let your customers take the lead? UGC provides you with endless creative assets without draining your budget.
 
-Platforms like [Freeluencers](https://freeluencers.com) simplify this by connecting brands with content creators who generate stunning visuals, videos, and reviews tailored to your needs. 🎥✨
+Platforms like [SocioCube](https://sociocube.com) simplify this by connecting brands with content creators who generate stunning visuals, videos, and reviews tailored to your needs. 🎥✨
 
-Want to become a part of the action? [Register now](https://freeluencers.com/register) and start connecting with influencers! 💥
+Want to become a part of the action? [Register now](https://sociocube.com/register) and start connecting with influencers! 💥
 
 ---
 
@@ -59,9 +59,9 @@ UGC isn’t just about content—it’s about connection. 🌐 It encourages dia
 ## How to Start Your UGC Journey 🎬
 
 1. **Incentivize Your Customers:** Offer shoutouts, discounts, or giveaways for sharing their experiences. 🏷️🎁
-2. **Use the Right Tools:** Platforms like Freeluencers help you connect with UGC creators easily. Start exploring today! 🔍
+2. **Use the Right Tools:** Platforms like SocioCube help you connect with UGC creators easily. Start exploring today! 🔍
 3. **Showcase UGC Everywhere:** Incorporate user content into your ads, website, and social media. 💻📲
 
 ---
 
-🌟 **Ready to embrace the UGC revolution?** Join the movement and discover how creators on [Freeluencers](https://freeluencers.com) can take your brand to the next level. [Sign up today!](https://freeluencers.com/register) ✨
+🌟 **Ready to embrace the UGC revolution?** Join the movement and discover how creators on [SocioCube](https://sociocube.com) can take your brand to the next level. [Sign up today!](https://sociocube.com/register) ✨

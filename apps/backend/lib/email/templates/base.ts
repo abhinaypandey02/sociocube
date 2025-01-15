@@ -3,7 +3,7 @@ export const BASE_TEMPLATE = (content: string) => `
    <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%; background-color: #ffffff; margin: 0 auto; border: 1px solid #ddd;border-radius:8px;">
     <tr>
       <td style="padding: 15px;">
-<!--        <a href='https://freeluencers.com'><img alt="Freeluencers" src="https://freeluencers.com/icon.png" height="80" width="80" style="margin:10px auto 30px;display:block;"/></a>-->
+<!--        <a href='https://freeluencers.com'><img alt="SocioCube" src="https://freeluencers.com/icon.png" height="80" width="80" style="margin:10px auto 30px;display:block;"/></a>-->
         ${content}
       </td>
     </tr>

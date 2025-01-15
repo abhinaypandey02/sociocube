@@ -44,7 +44,7 @@ UGC fosters a sense of belonging. By sharing their experiences, your audience fe
 
 Brands aren’t the only ones benefiting from UGC. For creators, it’s a goldmine of opportunities.  
 
-- **Monetization**: With platforms like Freeluencers, creators can showcase their work and get paid for producing high-quality UGC.  
+- **Monetization**: With platforms like SocioCube, creators can showcase their work and get paid for producing high-quality UGC.  
 - **Exposure**: Collaborating with brands allows creators to expand their reach.  
 - **Credibility**: As creators build their portfolios, they establish themselves as trusted voices in their niches.  
 
@@ -65,7 +65,7 @@ Whether you’re a brand or a creator, here are some actionable steps:
 - **Start Small**: Encourage your audience to share photos or videos with your product.  
 - **Show Appreciation**: Feature user content on your official channels.  
 - **Collaborate with Creators**: Partner with micro-influencers and UGC creators for tailored campaigns.  
-- **List Yourself**: Creators can join platforms like Freeluencers to connect with brands that need fresh, authentic content.  
+- **List Yourself**: Creators can join platforms like SocioCube to connect with brands that need fresh, authentic content.  
 
 ---
 
@@ -78,5 +78,5 @@ Whether you’re a business looking to grow or a creator seeking to monetize you
 ---
 
 🚀 **Ready to step into the UGC revolution?**  
-Join Freeluencers today at [freeluencers.com](https://freeluencers.com) and discover how authentic connections can drive your success.  
+Join SocioCube today at [sociocube.com](https://sociocube.com) and discover how authentic connections can drive your success.  
 ```

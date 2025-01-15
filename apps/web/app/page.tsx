@@ -46,7 +46,7 @@ async function HomePage() {
           "@type": "Organization",
           image: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image.png`,
           url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL,
-          sameAs: ["https://instagram.com/freeluencers"],
+          sameAs: ["https://instagram.com/sociocube.official"],
           logo: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/icon.png`,
           name: SEO.companyName,
           description: SEO.description,

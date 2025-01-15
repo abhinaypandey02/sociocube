@@ -19,7 +19,7 @@ const features = [
   {
     name: "100% Free Access for All Users",
     description:
-      "Freeluencers offers full access to all features without any fees for both brands and influencers. Connect, collaborate, and grow without any costs.",
+      "SocioCube offers full access to all features without any fees for both brands and influencers. Connect, collaborate, and grow without any costs.",
     href: "#",
     icon: PiggyBank,
   },
@@ -47,7 +47,7 @@ const features = [
   {
     name: "Intuitive & Easy-to-Use Interface",
     description:
-      "Freeluencers' intuitive design makes it simple for brands and influencers to connect and collaborate effortlessly.",
+      "SocioCube' intuitive design makes it simple for brands and influencers to connect and collaborate effortlessly.",
     href: "#",
     icon: Smiley,
   },

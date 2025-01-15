@@ -97,7 +97,7 @@ export default function Hero({
               Create.
             </h2>
             <p className="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
-              Freeluencers bridges the gap between brands and influencers,
+              SocioCube bridges the gap between brands and influencers,
               providing a seamless platform for authentic partnerships. Join us
               today and take your collaborations to the next level!
             </p>

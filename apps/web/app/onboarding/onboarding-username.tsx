@@ -57,7 +57,7 @@ export default function OnboardingUsername({
           const result = await isUsernameAvailable({ username });
           return Boolean(result.data?.isUsernameAvailable);
         })}
-        suffix=".freeluencers.me"
+        suffix=".sociocube.me"
       />
 
       <div className="!mt-6 flex justify-end">

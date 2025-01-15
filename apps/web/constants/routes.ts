@@ -22,5 +22,5 @@ export function getRoute(route: keyof typeof Route) {
 }
 
 export function getMeURL(username: string, clean?: boolean) {
-  return `${clean ? "" : "https://"}${username}.freeluencers.me`;
+  return `${clean ? "" : "https://"}${username}.sociocube.me`;
 }
