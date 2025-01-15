@@ -93,7 +93,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           data={{
             "@context": "https://schema.org",
             "@type": "WebSite",
-            name: "SocioCube",
+            name: "Sociocube",
             url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL,
             alternateName: ["Freeluencer", "Freelancing Influencers"],
           }}

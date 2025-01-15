@@ -101,7 +101,7 @@ function OnboardingWizard({
             </h2>
             <small className="mx-auto mt-2 max-w-96 text-center text-gray-500">
               With some simple steps you can onboard to become a seller at
-              SocioCube!
+              Sociocube!
             </small>
             <Button
               className="mx-auto mt-3 flex items-center gap-2 !font-medium"

@@ -12,7 +12,7 @@ export default function AboutUs() {
       <div className=" flex flex-col gap-x-8 gap-y-10 lg:flex-row">
         <div className="lg:w-full lg:max-w-2xl lg:flex-auto">
           <p className="text-justify text-xl leading-8 text-gray-600">
-            At SocioCube, we connect brands and influencers to create authentic
+            At Sociocube, we connect brands and influencers to create authentic
             collaborations. Our platform simplifies influencer marketing, making
             it easy for brands to engage their audience and for influencers to
             find meaningful partnerships.
@@ -22,7 +22,7 @@ export default function AboutUs() {
             user-friendly platform for seamless connections and collaborations.
             We prioritize transparency and authenticity, allowing influencers to
             showcase their unique styles while helping brands find the perfect
-            voices to amplify their messages. Join us at SocioCube as we
+            voices to amplify their messages. Join us at Sociocube as we
             transform the way influencers and brands work together, creating a
             more collaborative future in the influencer economy.
           </p>

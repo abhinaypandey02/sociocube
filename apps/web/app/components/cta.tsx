@@ -35,7 +35,7 @@ export default function Cta() {
           Ready to Grow Together?
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-100">
-          Whether you're an influencer or a brand, SocioCube makes it easy to
+          Whether you're an influencer or a brand, Sociocube makes it easy to
           connect, collaborate, and create real impact. Join us today!
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-6">

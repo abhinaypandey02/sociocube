@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
 export const SEO = {
-  title: `SocioCube – Connecting Brands with Influencers`,
+  title: `Sociocube – Connecting Brands with Influencers`,
   description:
-    "SocioCube is your go-to platform for seamless influencer collaborations. Combine the flexibility of freelancing with the power of influencer marketing.",
-  companyName: "SocioCube",
+    "Sociocube is your go-to platform for seamless influencer collaborations. Combine the flexibility of freelancing with the power of influencer marketing.",
+  companyName: "Sociocube",
   themeColor: "#F45B69",
 };
 
@@ -13,7 +13,7 @@ export const getSEO = (
   description?: string,
   images?: string[],
 ): Metadata => ({
-  title: title ? `${title} • SocioCube` : SEO.title,
+  title: title ? `${title} • Sociocube` : SEO.title,
   description: description || SEO.description,
   openGraph: {
     title: title ? title : SEO.title,

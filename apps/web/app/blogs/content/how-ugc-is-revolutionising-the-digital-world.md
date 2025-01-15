@@ -42,7 +42,7 @@ Becoming a sought-after UGC creator isn’t about having a massive following—i
 1. **Understand Your Niche**: Whether it’s beauty, tech, or fitness, focus on topics you’re passionate about.
 2. **Invest in Presentation**: Even authentic content needs good lighting, sound, and composition.
 3. **Engage Regularly**: Build trust by responding to comments and engaging with your audience.
-4. **List Yourself on Platforms Like SocioCube**: Simplify your path to collaborations by letting brands find you effortlessly.
+4. **List Yourself on Platforms Like Sociocube**: Simplify your path to collaborations by letting brands find you effortlessly.
 
 ## Why UGC is the Future of Marketing
 
@@ -54,5 +54,5 @@ For creators, this means endless opportunities to connect with brands and moneti
 
 UGC is more than just a marketing tool—it’s a revolution. Creators have the chance to turn their passion into a career, while brands can build stronger, more authentic relationships with their audiences.
 
-If you’re ready to take the leap, platforms like SocioCube make it simple to start. Sign up, showcase your content, and let brands discover your talent.  
+If you’re ready to take the leap, platforms like Sociocube make it simple to start. Sign up, showcase your content, and let brands discover your talent.  
 🚀 **Join the UGC movement today at [sociocube.com](https://sociocube.com)!**

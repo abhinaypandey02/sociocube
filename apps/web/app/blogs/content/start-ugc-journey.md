@@ -35,9 +35,9 @@ No matter what strategy you choose, UGC allows you to tap into your audience’s
 
 ## Step 3: Build Relationships with Influencers 💥
 
-Influencers are the best at generating UGC because they’re experts at creating content that resonates with their audience. Connecting with influencers is easy when you’re using the right platform. At [SocioCube](https://sociocube.com), influencers can showcase their content and connect with brands in just a few clicks. 🌍
+Influencers are the best at generating UGC because they’re experts at creating content that resonates with their audience. Connecting with influencers is easy when you’re using the right platform. At [Sociocube](https://sociocube.com), influencers can showcase their content and connect with brands in just a few clicks. 🌍
 
-Want to partner with influencers for UGC? [Register now](https://sociocube.com/register) on SocioCube, and get started today! 🚀
+Want to partner with influencers for UGC? [Register now](https://sociocube.com/register) on Sociocube, and get started today! 🚀
 
 ---
 
@@ -57,9 +57,9 @@ Like any marketing strategy, it’s important to track the results of your UGC e
 
 ## Ready to Kickstart Your UGC Journey? 💥
 
-Starting with UGC might seem daunting at first, but it’s a powerful tool that’s worth the effort. With the right strategy and the help of platforms like SocioCube, you can easily connect with influencers and customers to generate high-quality content. 🌟
+Starting with UGC might seem daunting at first, but it’s a powerful tool that’s worth the effort. With the right strategy and the help of platforms like Sociocube, you can easily connect with influencers and customers to generate high-quality content. 🌟
 
-**Don’t wait!** [Join SocioCube](https://sociocube.com/register) and start collaborating with influencers to grow your brand! 💥
+**Don’t wait!** [Join Sociocube](https://sociocube.com/register) and start collaborating with influencers to grow your brand! 💥
 
 ---
 

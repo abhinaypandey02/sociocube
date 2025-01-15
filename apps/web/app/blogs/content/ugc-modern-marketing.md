@@ -42,7 +42,7 @@ UGC isn’t just a goldmine for brands—it’s a dream opportunity for creators
 
 1. Focus on storytelling: Highlight how a product fits into real life.
 2. Build a diverse portfolio: Showcase your skills across different content formats like reels, posts, and stories.
-3. List yourself on platforms like SocioCube: Get discovered by brands without the hassle of outreach.
+3. List yourself on platforms like Sociocube: Get discovered by brands without the hassle of outreach.
 
 ## The Future of UGC
 
@@ -52,4 +52,4 @@ So, whether you’re a brand looking for genuine content or a creator ready to e
 
 ---
 
-*Ready to dive into the world of UGC? Join platforms like [SocioCube](https://sociocube.com) today and unlock endless opportunities to grow your brand or career.*
+*Ready to dive into the world of UGC? Join platforms like [Sociocube](https://sociocube.com) today and unlock endless opportunities to grow your brand or career.*

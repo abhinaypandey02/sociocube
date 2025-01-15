@@ -43,7 +43,7 @@ While brands reap the benefits of UGC, creators are discovering new opportunitie
 - **Monetization opportunities:** Brands are actively seeking relatable content from real creators.
 - **Creative freedom:** Unlike traditional ads, UGC allows creators to be authentic and inventive.
 
-Platforms like SocioCube make it even easier for creators to connect with brands, showcase their skills, and get paid for creating content.
+Platforms like Sociocube make it even easier for creators to connect with brands, showcase their skills, and get paid for creating content.
 
 ---
 
@@ -63,7 +63,7 @@ UGC isn’t just a marketing strategy; it’s a bridge between brands and their 
 
 1. Choose products and services you genuinely believe in.
 2. Start small—capture moments, share stories, and engage your audience.
-3. Showcase your work on platforms like SocioCube to attract brand collaborations.
+3. Showcase your work on platforms like Sociocube to attract brand collaborations.
 
 Remember, UGC isn’t about perfection; it’s about creating content that resonates.
 
@@ -75,4 +75,4 @@ User-generated content is more than just a trend—it’s a revolution in creati
 
 Ready to dive into the world of UGC? Start today and unlock the potential of authentic storytelling.
 
-🚀 Explore opportunities at [SocioCube.com](https://sociocube.com) and take the first step in your UGC journey.
+🚀 Explore opportunities at [Sociocube.com](https://sociocube.com) and take the first step in your UGC journey.

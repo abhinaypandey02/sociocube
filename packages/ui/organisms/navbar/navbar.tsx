@@ -40,7 +40,7 @@ function Navbar({
           className="-m-1.5 p-1.5 font-madina text-5xl leading-none text-primary sm:text-6xl"
           href={process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "/"}
         >
-          <h1 className="lowercase">SocioCube</h1>
+          <h1 className="lowercase">Sociocube</h1>
         </Link>
         <div className="hidden lg:flex lg:gap-x-12">
           {primaryLinks.map(

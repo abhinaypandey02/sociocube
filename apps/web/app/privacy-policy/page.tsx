@@ -13,7 +13,7 @@ function PrivacyPolicy() {
       <section className="mb-8">
         <h2 className="mb-2 text-xl font-semibold">1. Introduction</h2>
         <p>
-          At SocioCube, accessible from{" "}
+          At Sociocube, accessible from{" "}
           <a
             className="text-blue-600 hover:underline"
             href="https://sociocube.com"
@@ -105,7 +105,7 @@ function PrivacyPolicy() {
           6. Cookies and Tracking Technologies
         </h2>
         <p>
-          SocioCube uses cookies and similar technologies to enhance your
+          Sociocube uses cookies and similar technologies to enhance your
           experience, analyze usage, and provide targeted content. You can
           manage cookie preferences through your browser settings.
         </p>
@@ -114,7 +114,7 @@ function PrivacyPolicy() {
       <section className="mb-8">
         <h2 className="mb-2 text-xl font-semibold">7. Children's Privacy</h2>
         <p>
-          SocioCube is not intended for users under the age of 13. We do not
+          Sociocube is not intended for users under the age of 13. We do not
           knowingly collect information from children under 13. If we discover
           that we have collected information from a child under 13, we will take
           steps to delete it.
@@ -128,7 +128,7 @@ function PrivacyPolicy() {
         <p>
           We may update our Privacy Policy from time to time. Any changes will
           be posted on this page, and we encourage you to review it
-          periodically. Your continued use of SocioCube after changes are posted
+          periodically. Your continued use of Sociocube after changes are posted
           signifies your acceptance of the revised policy.
         </p>
       </section>

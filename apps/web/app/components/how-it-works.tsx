@@ -31,7 +31,7 @@ const timeline = [
 export default function HowItWorks() {
   return (
     <SectionWrapper
-      description="See how SocioCube brings brands and influencers together for authentic partnerships—from onboarding to seamless communication."
+      description="See how Sociocube brings brands and influencers together for authentic partnerships—from onboarding to seamless communication."
       id="how-it-works"
       prefixTitle="How it works"
       title="Easy onboarding, Smooth sailing"

@@ -19,7 +19,7 @@ const features = [
   {
     name: "100% Free Access for All Users",
     description:
-      "SocioCube offers full access to all features without any fees for both brands and influencers. Connect, collaborate, and grow without any costs.",
+      "Sociocube offers full access to all features without any fees for both brands and influencers. Connect, collaborate, and grow without any costs.",
     href: "#",
     icon: PiggyBank,
   },
@@ -47,7 +47,7 @@ const features = [
   {
     name: "Intuitive & Easy-to-Use Interface",
     description:
-      "SocioCube' intuitive design makes it simple for brands and influencers to connect and collaborate effortlessly.",
+      "Sociocube' intuitive design makes it simple for brands and influencers to connect and collaborate effortlessly.",
     href: "#",
     icon: Smiley,
   },

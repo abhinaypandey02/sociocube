@@ -1,7 +1,7 @@
 export const WelcomeUser = ({ firstName }: { firstName: string }) => ({
-  subject: `Welcome to SocioCube  ${firstName}! Let’s Get You Started 🚀!`,
+  subject: `Welcome to Sociocube  ${firstName}! Let’s Get You Started 🚀!`,
   text: `Hi ${firstName}!,
-Welcome to SocioCube! 🎉 We’re thrilled to have you onboard as part of our growing community of influencers. 🌟
+Welcome to Sociocube! 🎉 We’re thrilled to have you onboard as part of our growing community of influencers. 🌟
 
 You’re just one step away from unlocking brand collaborations and showcasing your potential to the world. Here’s how to complete your onboarding:
 
@@ -19,11 +19,11 @@ Need help? We’re here for you! Reply to this email or check out our support pa
 Ready to shine? Start now and make the most of your influencer journey.
 
 Warm regards,
-The SocioCube Team
+The Sociocube Team
 sociocube.com`,
   html: `
   <p style="font-size: 16px; color: #555; margin-bottom: 20px;">Hi ${firstName},</p>
-        <p style="font-size: 16px; color: #555; margin-bottom: 20px;">Welcome to SocioCube! 🎉 We’re thrilled to have you onboard as part of our growing community of influencers. 🌟</p>
+        <p style="font-size: 16px; color: #555; margin-bottom: 20px;">Welcome to Sociocube! 🎉 We’re thrilled to have you onboard as part of our growing community of influencers. 🌟</p>
         <h2 style="font-size: 18px; color: #333; margin-top: 20px; margin-bottom: 10px;">Quick Steps to Finish Onboarding:</h2>
         <ol style="font-size: 16px; color: #555; padding-left: 25px; margin-bottom: 20px;">
           <li> 
@@ -43,7 +43,7 @@ sociocube.com`,
         </p>
         <p style="font-size: 16px; color: #555; margin-bottom: 20px;">Ready to shine? Start now and make the most of your influencer journey.</p>
         <p style="font-size: 16px; color: #555;">Warm regards,</p>
-        <p style="font-size: 16px; color: #555;"><strong>The SocioCube Team</strong></p>
+        <p style="font-size: 16px; color: #555;"><strong>The Sociocube Team</strong></p>
         <p style="font-size: 16px; color: #555;">
           <a href="https://sociocube.com" style="color: #007bff; text-decoration: none;">sociocube.com</a>
         </p>
