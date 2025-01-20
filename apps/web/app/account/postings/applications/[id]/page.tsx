@@ -31,7 +31,10 @@ export default async function AccountPostingApplicationsPage({
       }}
       title={`Applications for ${posting.title}`}
     >
-      <ApplicationsTable applications={applications} posting={posting} />
+      <ApplicationsTable
+        applications={applications.filter((app) => Boolean(app.user))}
+        posting={posting}
+      />
     </AccountPageWrapper>
   );
 }

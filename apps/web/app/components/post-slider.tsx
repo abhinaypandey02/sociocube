@@ -11,6 +11,7 @@ import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 
 import "swiper/css";
 import "swiper/css/effect-cards";
+import { convertToAbbreviation } from "../../lib/utils";
 
 function getRandomColor() {
   return `rgb(${Math.floor(Math.random() * 175) + 25},${Math.floor(Math.random() * 175) + 25},${Math.floor(Math.random() * 175) + 25})`;
@@ -54,6 +55,7 @@ function PostSlide({
       <Link
         className="absolute bottom-4 flex w-full items-center gap-3 pl-4 pr-3 "
         href={`${getRoute("Profile")}/${post.creatorUsername}`}
+        prefetch
       >
         <Image
           alt={post.creatorName}
@@ -72,7 +74,7 @@ function PostSlide({
 
           <div className=" mt-2 flex flex-col items-center gap-1.5">
             <Heart size={16} weight="bold" />
-            {post.likes}
+            {convertToAbbreviation(post.likes)}
           </div>
         </div>
       </Link>
