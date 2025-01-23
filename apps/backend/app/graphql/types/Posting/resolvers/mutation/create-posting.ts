@@ -13,7 +13,7 @@ import { PostingPlatforms } from "../../../../constants/platforms";
 @InputType("NewPostingInput")
 export class NewPostingInput {
   @Field()
-  @MaxLength(NAME_MAX_LENGTH)
+  @MaxLength(NAME_MAX_LENGTH * 2)
   title: string;
   @Field()
   @MaxLength(POSTING_BIO_MAX_LENGTH)

@@ -150,6 +150,9 @@ importers:
       '@apollo/experimental-nextjs-app-support':
         specifier: 0.11.5
         version: 0.11.5(@apollo/client@3.11.8(@types/react@18.3.11)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023))(next@15.0.0-canary.205(@babel/core@7.25.8)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)
+      '@flasd/whatsapp-formatting':
+        specifier: ^0.1.4
+        version: 0.1.4
       '@headlessui/react':
         specifier: ^2.1.10
         version: 2.1.10(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)
@@ -1934,6 +1937,9 @@ packages:
   '@fastify/busboy@2.1.1':
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
+
+  '@flasd/whatsapp-formatting@0.1.4':
+    resolution: {integrity: sha512-7kJMYpaU8FiR4age0vABy6djWJ+oLD8c+vylxdUWMZhO9tBUEk/1p4OVurdkMq+l8v+6gXJDoQLRY9nnOnukXg==}
 
   '@floating-ui/core@1.6.8':
     resolution: {integrity: sha512-7XJ9cPU+yI2QeLS+FCSlqNFZJq8arvswefkZrYI1yQBbftw6FyrZOxYSh+9S7z7TpeWlRt9zJ5IhM1WIL334jA==}
@@ -11628,6 +11634,8 @@ snapshots:
   '@eslint/object-schema@2.1.4': {}
 
   '@fastify/busboy@2.1.1': {}
+
+  '@flasd/whatsapp-formatting@0.1.4': {}
 
   '@floating-ui/core@1.6.8':
     dependencies:

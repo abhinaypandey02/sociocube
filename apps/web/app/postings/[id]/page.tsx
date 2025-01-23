@@ -109,9 +109,12 @@ export default async function JobPostingPage({
             <dt className="text-sm font-medium leading-6 text-gray-900">
               About
             </dt>
-            <dd className="mt-1 max-w-4xl text-sm leading-6 text-gray-700 sm:mt-2">
-              {renderRichText(posting.description)}
-            </dd>
+            <dd
+              className="mt-1 max-w-4xl text-sm leading-6 text-gray-700 sm:mt-2"
+              dangerouslySetInnerHTML={{
+                __html: renderRichText(posting.description),
+              }}
+            />
           </div>
           {posting.deliverables ? (
             <div className="px-4 pb-6 sm:col-span-2 sm:px-0 ">

@@ -16,6 +16,7 @@
   "dependencies": {
     "@apollo/client": "^3.11.8",
     "@apollo/experimental-nextjs-app-support": "0.11.5",
+    "@flasd/whatsapp-formatting": "^0.1.4",
     "@headlessui/react": "^2.1.10",
     "@next/third-parties": "^15.0.3",
     "@phosphor-icons/react": "^2.1.7",
