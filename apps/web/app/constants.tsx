@@ -1,6 +1,7 @@
 import { getRoute } from "../constants/routes";
 import type { GetCurrentUserQuery } from "../__generated__/graphql";
 import Logout from "./components/logout";
+import GetVerifiedModal from "./components/get-verified-modal";
 
 export const NAVBAR_COMMON_ROUTES = [
   { label: "Home", href: getRoute("Home") },
@@ -57,6 +58,15 @@ export const getOnboardedUserNavbarSections = (
       label: "Your profile",
       href: `${getRoute("Profile")}/${user?.username}`,
     },
+    ...(user?.instagramStats?.isVerified
+      ? []
+      : [
+          {
+            label: "Verify",
+            href: getRoute("Home"),
+            render: <GetVerifiedModal />,
+          },
+        ]),
     {
       label: "Postings",
       href: getRoute("AccountPostings"),

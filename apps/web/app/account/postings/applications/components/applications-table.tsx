@@ -5,9 +5,14 @@ import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import { getAge } from "commons/age";
 import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
-import { EnvelopeSimple, SealCheck } from "@phosphor-icons/react";
+import {
+  ChatCircleDots,
+  EnvelopeSimple,
+  SealCheck,
+} from "@phosphor-icons/react";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import type { GetPostingApplicationsQuery } from "../../../../../__generated__/graphql";
 import { getRoute } from "../../../../../constants/routes";
 import { convertToAbbreviation } from "../../../../../lib/utils";
@@ -86,6 +91,7 @@ const DEFAULT_COLUMNS = [
   }),
   colHelper.accessor("user.instagramStats.er", {
     header: "Reach",
+    id: "reach",
     cell: (val) =>
       convertToAbbreviation(
         Math.round(
@@ -115,6 +121,31 @@ export default function ApplicationsTable({
     ...DEFAULT_COLUMNS,
     colHelper.accessor("comment", {
       header: posting?.extraDetails || "Comment",
+      // eslint-disable-next-line react/no-unstable-nested-components -- needed
+      cell: (val) => {
+        const comment = val.getValue();
+        if (!comment) return null;
+        return (
+          <Popover className="relative">
+            <PopoverButton className="flex items-center font-poppins">
+              {comment.slice(0, 30)}
+              {comment.length > 30 ? (
+                <ChatCircleDots
+                  className="ml-1 text-primary"
+                  size={18}
+                  weight="duotone"
+                />
+              ) : null}
+            </PopoverButton>
+            <PopoverPanel
+              anchor="top"
+              className="flex w-80 -translate-y-2 flex-col rounded-xl border border-gray-200 bg-white px-5 py-3 text-center text-sm font-light shadow"
+            >
+              {val.getValue()}
+            </PopoverPanel>
+          </Popover>
+        );
+      },
     }),
   ];
   return <Table columns={columns} data={applications} />;

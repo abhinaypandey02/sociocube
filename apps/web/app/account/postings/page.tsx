@@ -20,8 +20,9 @@ export default async function PostingsPage() {
     <AccountPageWrapper
       cta={
         <Link href={Route.AccountPostingsNew}>
-          <Button className="flex items-center gap-1 !text-sm">
-            <Plus weight="bold" /> Create new
+          <Button className="flex items-center gap-1 !text-sm max-lg:size-9 max-lg:rounded-full max-lg:!p-0">
+            <Plus weight="bold" />{" "}
+            <span className="max-lg:hidden">Create new</span>
           </Button>
         </Link>
       }

@@ -11,6 +11,9 @@ export const GET_CURRENT_USER = gql(`
       photo
       isOnboarded
       scopes
+      instagramStats {
+        isVerified
+      }
     }
   }
 `);
@@ -211,6 +214,16 @@ export const GET_ACCOUNT_DETAILS = gql(`
   }
 `);
 
+export const GET_USER_CURRENCY = gql(`
+  #graphql
+  query GetUserCurrency {
+    user: getCurrentUser {
+      locationID {
+        country
+      }
+    }
+  }
+`);
 export const GET_COUNTRIES = gql(`
   #graphql
   query GetCountries {

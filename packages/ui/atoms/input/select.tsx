@@ -21,12 +21,13 @@ function Select({
   const formContext = useFormContext() as UseFormReturn | undefined;
   const ref = useRef<HTMLInputElement | null>(null);
   const [searchValue, setSearchValue] = useState("");
+  const value = formContext?.getValues(rest.name) as string;
   useEffect(() => {
     const updatedValue = options.find(
       (option) => option.value === formContext?.getValues(rest.name),
     )?.label;
     if (updatedValue) setSearchValue(updatedValue);
-  }, [options]);
+  }, [options, value]);
   const IS_TOUCH = useMemo(() => isTouchDevice(), []);
   const filteredOptions = useMemo(
     () =>

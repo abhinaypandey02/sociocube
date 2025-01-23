@@ -27,7 +27,7 @@ export default function AccountPageWrapper({
         </Link>
       ) : null}
       <div className="mb-8 flex items-center justify-between gap-2">
-        <h2 className="font-poppins text-4xl font-bold text-gray-800">
+        <h2 className="font-poppins text-2xl font-bold text-gray-800 lg:text-4xl">
           {title}
         </h2>
         {cta}

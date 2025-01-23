@@ -58,7 +58,7 @@ export default function SocialsStatus({
           }`}
         >
           <Button className="mx-auto flex items-center gap-2">
-            Link Account <ArrowSquareOut weight="bold" />
+            Connect Account <ArrowSquareOut weight="bold" />
           </Button>
         </a>
       )}
