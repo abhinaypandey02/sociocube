@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { getAge } from "commons/age";
 import { ArgsType, Field } from "type-graphql";
-import { IsEmail, MaxLength } from "class-validator";
+import { IsEmail, IsNumberString, MaxLength } from "class-validator";
 import { REFERRAL_RATES } from "commons/referral";
 import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
@@ -23,6 +23,7 @@ export class ApplyToPostingArgs {
   email: string;
   @Field(() => String, { nullable: true })
   @MaxLength(15)
+  @IsNumberString()
   phone: string | null;
 }
 
@@ -75,6 +76,7 @@ export async function applyToPosting(
     posting: postingID,
     comment,
     email,
+    phone,
     external: Boolean(posting.externalLink),
     user: ctx.userId,
     referralEarnings: owner.roles.includes(Roles.ReferralCreator)

@@ -144,12 +144,14 @@ export default function ApplyNowButton({
             name="email"
             placeholder="Email for the recruiter to reach out to you"
             required
+            type="email"
           />
           <Input
             className="mb-4 placeholder:text-xs"
             label="Contact phone (Whatsapp)"
             name="phone"
             placeholder="Your contact phone number, Whatsapp preferred"
+            type="tel"
           />
           {!posting?.externalLink ? (
             <Input

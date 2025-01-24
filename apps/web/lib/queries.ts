@@ -195,6 +195,7 @@ export const GET_ACCOUNT_DETAILS = gql(`
       contactEmail
       bio
       photo
+      phone
       category
       gender
       dob
@@ -399,6 +400,7 @@ export const GET_POSTING_APPLICATIONS = gql(`
     applications:getPostingApplications(postingID: $postingID) {
       email
       referralEarnings
+      phone
       user {
         name
         photo

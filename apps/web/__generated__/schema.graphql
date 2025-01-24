@@ -231,6 +231,7 @@ schema {
 type Application {
   comment: String
   email: String!
+  phone: String
   posting: Posting
   referralEarnings: Float!
   user: User
@@ -512,6 +513,7 @@ input UpdateUserInput {
   dob: String
   gender: String
   name: String
+  phone: String
   photo: String
   pricing: PricingInput
   username: String

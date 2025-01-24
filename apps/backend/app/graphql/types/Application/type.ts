@@ -6,6 +6,8 @@ export class ApplicationGQL {
   comment: string;
   @Field()
   email: string;
+  @Field({ nullable: true })
+  phone: string;
   @Field()
   referralEarnings: number;
 }

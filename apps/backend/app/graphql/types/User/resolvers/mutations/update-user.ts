@@ -4,6 +4,7 @@ import {
   IsDateString,
   IsEmail,
   IsIn,
+  IsNumberString,
   Matches,
   MaxLength,
 } from "class-validator";
@@ -31,6 +32,10 @@ export class UpdateUserInput {
   @IsEmail()
   @Field({ nullable: true })
   contactEmail?: string;
+  @MaxLength(15)
+  @IsNumberString()
+  @Field({ nullable: true })
+  phone?: string;
   @MaxLength(BIO_MAX_LENGTH)
   @Field({ nullable: true })
   bio?: string;
@@ -78,6 +83,7 @@ export async function handleUpdateUser(
       dob: updatedUser.dob,
       username: updatedUser.username,
       contactEmail: updatedUser.contactEmail,
+      phone: updatedUser.phone,
     })
     .where(eq(UserTable.id, ctx.userId))
     .returning();

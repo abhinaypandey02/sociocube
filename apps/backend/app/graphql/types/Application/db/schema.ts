@@ -20,6 +20,7 @@ export const ApplicationTable = pgTable(
       .references(() => PostingTable.id)
       .notNull(),
     email: text("email").notNull(),
+    phone: text("phone"),
     comment: text("comment"),
     external: boolean("external").default(false),
     referralEarnings: integer("referral_earnings").default(0),
