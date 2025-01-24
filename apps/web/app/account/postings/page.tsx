@@ -8,12 +8,17 @@ import { GET_USER_POSTINGS } from "../../../lib/queries";
 import { Route } from "../../../constants/routes";
 import AccountPageWrapper from "../components/account-page-wrapper";
 import PostingsTable from "./components/postings-table";
+import EarningsInfo from "./components/earnings-info";
 
 export default async function PostingsPage() {
   const { postings } = await queryGQL(
     GET_USER_POSTINGS,
     undefined,
     await cookies(),
+    0,
+  );
+  const totalEarnings = postings.reduce(
+    (acc, curr) => curr.referralEarnings + acc,
     0,
   );
   return (
@@ -28,7 +33,13 @@ export default async function PostingsPage() {
       }
       title="Your postings"
     >
-      <PostingsTable postings={postings} />
+      <PostingsTable
+        postings={postings}
+        showEarnings={Boolean(totalEarnings)}
+      />
+      {totalEarnings ? (
+        <EarningsInfo title="Total earnings" totalEarnings={totalEarnings} />
+      ) : null}
     </AccountPageWrapper>
   );
 }

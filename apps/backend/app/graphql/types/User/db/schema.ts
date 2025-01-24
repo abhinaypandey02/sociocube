@@ -24,7 +24,11 @@ export const mediaType = pgEnum("media_type", [
   InstagramMediaType.Video,
   InstagramMediaType.CarouselAlbum,
 ]);
-export const rolesEnum = pgEnum("role", [Roles.SELLER, Roles.ADMIN]);
+export const rolesEnum = pgEnum("role", [
+  Roles.SELLER,
+  Roles.ADMIN,
+  Roles.ReferralCreator,
+]);
 export const authScopesEnum = pgEnum("scope", [
   AuthScopes.GOOGLE,
   AuthScopes.INSTAGRAM,

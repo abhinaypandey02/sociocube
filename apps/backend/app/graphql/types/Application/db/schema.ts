@@ -22,6 +22,7 @@ export const ApplicationTable = pgTable(
     email: text("email").notNull(),
     comment: text("comment"),
     external: boolean("external").default(false),
+    referralEarnings: integer("referral_earnings").default(0),
   },
   (table) => ({
     userPostingPrimaryKey: primaryKey({ columns: [table.user, table.posting] }),

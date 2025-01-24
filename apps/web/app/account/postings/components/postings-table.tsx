@@ -65,8 +65,24 @@ const columns = [
 
 export default function PostingsTable({
   postings,
+  showEarnings,
 }: {
   postings: GetUserPostingsQuery["postings"];
+  showEarnings: boolean;
 }) {
-  return <Table columns={columns} data={postings} />;
+  return (
+    <Table
+      columns={[
+        ...columns,
+        ...(showEarnings
+          ? [
+              columnHelper.accessor("referralEarnings", {
+                header: "Earnings",
+              }),
+            ]
+          : []),
+      ]}
+      data={postings}
+    />
+  );
 }

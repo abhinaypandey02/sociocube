@@ -229,9 +229,10 @@ schema {
 }
 
 type Application {
-  comment: String!
+  comment: String
   email: String!
   posting: Posting
+  referralEarnings: Float!
   user: User
 }
 
@@ -412,6 +413,7 @@ type Posting {
   open: Boolean!
   platforms: [PostingPlatforms!]!
   price: Int
+  referralEarnings: Float!
   title: String!
   updatedAt: Float!
   user: User
@@ -455,6 +457,7 @@ type Query {
 
 enum ROLES {
   ADMIN
+  ReferralCreator
   SELLER
 }
 

@@ -113,40 +113,49 @@ const DEFAULT_COLUMNS = [
 export default function ApplicationsTable({
   applications,
   posting,
+  showEarnings,
 }: {
   applications: Application[];
   posting: GetPostingApplicationsQuery["posting"];
+  showEarnings: boolean;
 }) {
   const columns = [
     ...DEFAULT_COLUMNS,
-    colHelper.accessor("comment", {
-      header: posting?.extraDetails || "Comment",
-      // eslint-disable-next-line react/no-unstable-nested-components -- needed
-      cell: (val) => {
-        const comment = val.getValue();
-        if (!comment) return null;
-        return (
-          <Popover className="relative">
-            <PopoverButton className="flex items-center font-poppins">
-              {comment.slice(0, 30)}
-              {comment.length > 30 ? (
-                <ChatCircleDots
-                  className="ml-1 text-primary"
-                  size={18}
-                  weight="duotone"
-                />
-              ) : null}
-            </PopoverButton>
-            <PopoverPanel
-              anchor="top"
-              className="flex w-80 -translate-y-2 flex-col rounded-xl border border-gray-200 bg-white px-5 py-3 text-center text-sm font-light shadow"
-            >
-              {val.getValue()}
-            </PopoverPanel>
-          </Popover>
-        );
-      },
-    }),
+    ...(showEarnings
+      ? [colHelper.accessor("referralEarnings", { header: "Earnings" })]
+      : []),
+    ...(posting?.externalLink
+      ? []
+      : [
+          colHelper.accessor("comment", {
+            header: posting?.extraDetails || "Comment",
+            // eslint-disable-next-line react/no-unstable-nested-components -- needed
+            cell: (val) => {
+              const comment = val.getValue();
+              if (!comment) return null;
+              return (
+                <Popover className="relative">
+                  <PopoverButton className="flex items-center font-poppins">
+                    {comment.slice(0, 30)}
+                    {comment.length > 30 ? (
+                      <ChatCircleDots
+                        className="ml-1 text-primary"
+                        size={18}
+                        weight="duotone"
+                      />
+                    ) : null}
+                  </PopoverButton>
+                  <PopoverPanel
+                    anchor="top"
+                    className="flex w-80 -translate-y-2 flex-col rounded-xl border border-gray-200 bg-white px-5 py-3 text-center text-sm font-light shadow"
+                  >
+                    {val.getValue()}
+                  </PopoverPanel>
+                </Popover>
+              );
+            },
+          }),
+        ]),
   ];
   return <Table columns={columns} data={applications} />;
 }

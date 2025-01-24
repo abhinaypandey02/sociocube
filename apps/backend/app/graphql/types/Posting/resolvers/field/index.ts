@@ -1,5 +1,5 @@
-import { FieldResolver, Int, Resolver, Root } from "type-graphql";
-import { count, eq } from "drizzle-orm";
+import { FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
+import { count, eq, sum } from "drizzle-orm";
 import { UserGQL } from "../../../User/type";
 import { PostingGQL } from "../../type";
 import type { PostingDB } from "../../db/schema";
@@ -29,6 +29,14 @@ export class PostingFieldResolvers {
       .from(CountryTable)
       .where(eq(CountryTable.id, posting.currencyCountry));
     return country?.currency;
+  }
+  @FieldResolver(() => Float)
+  async referralEarnings(@Root() posting: PostingDB): Promise<number> {
+    const [applications] = await db
+      .select({ total: sum(ApplicationTable.referralEarnings) })
+      .from(ApplicationTable)
+      .where(eq(ApplicationTable.posting, posting.id));
+    return parseFloat(applications?.total || "0");
   }
   @FieldResolver(() => Int)
   async applicationsCount(@Root() posting: PostingDB): Promise<number> {

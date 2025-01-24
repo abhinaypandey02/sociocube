@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import { getAge } from "commons/age";
 import { ArgsType, Field } from "type-graphql";
 import { IsEmail } from "class-validator";
+import { REFERRAL_RATES } from "commons/referral";
 import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { ApplicationTable } from "../../db/schema";
@@ -9,6 +10,7 @@ import { PostingTable } from "../../../Posting/db/schema";
 import GQLError from "../../../../constants/errors";
 import { UserTable } from "../../../User/db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
+import { Roles } from "../../../../constants/roles";
 
 @ArgsType()
 export class ApplyToPostingArgs {
@@ -37,11 +39,13 @@ export async function applyToPosting(
     );
   if (!user) throw GQLError(404, "User details not found");
   if (!user.user.isOnboarded) throw GQLError(404, "User not onboarded");
-  const [posting] = await db
+  const [result] = await db
     .select()
     .from(PostingTable)
-    .where(eq(PostingTable.id, postingID));
-  if (!posting) throw GQLError(404, "Posting not found");
+    .where(eq(PostingTable.id, postingID))
+    .innerJoin(UserTable, eq(PostingTable.user, UserTable.id));
+  if (!result) throw GQLError(404, "Posting not found");
+  const { posting, user: owner } = result;
   if (!posting.open) throw GQLError(404, "Posting closed");
   if (
     posting.minimumFollowers &&
@@ -60,12 +64,18 @@ export async function applyToPosting(
     .update(UserTable)
     .set({ contactEmail: email })
     .where(eq(UserTable.id, ctx.userId));
+  const referralPrice = user.instagram_data.accessToken
+    ? REFERRAL_RATES.verified
+    : REFERRAL_RATES.others;
   await db.insert(ApplicationTable).values({
     posting: postingID,
     comment,
     email,
     external: Boolean(posting.externalLink),
     user: ctx.userId,
+    referralEarnings: owner.roles.includes(Roles.ReferralCreator)
+      ? referralPrice
+      : 0,
   });
   return true;
 }

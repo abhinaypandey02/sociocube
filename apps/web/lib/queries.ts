@@ -359,6 +359,7 @@ export const GET_USER_POSTINGS = gql(`
     postings:getUserPostings {
       id
       maximumAge
+      referralEarnings
       minimumFollowers
       user {
         name
@@ -388,9 +389,11 @@ export const GET_POSTING_APPLICATIONS = gql(`
     posting: getPosting(id: $postingID){
       title
       extraDetails
+      externalLink
     }
     applications:getPostingApplications(postingID: $postingID) {
       email
+      referralEarnings
       user {
         name
         photo
