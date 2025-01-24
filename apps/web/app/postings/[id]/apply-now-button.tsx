@@ -7,6 +7,8 @@ import Form from "ui/form";
 import { useForm } from "react-hook-form";
 import { getAge } from "commons/age";
 import Link from "next/link";
+import { Pencil, ShareNetwork } from "@phosphor-icons/react";
+import { IconButton } from "ui/icon-button";
 import type {
   GetCurrentUserApplicationStatusQuery,
   GetPostingQuery,
@@ -15,6 +17,7 @@ import { getRoute, Route } from "../../../constants/routes";
 import Modal from "../../../components/modal";
 import { handleGQLErrors, useAuthMutation } from "../../../lib/apollo-client";
 import { APPLY_NOW } from "../../../lib/mutations";
+import { getShareText } from "./utils";
 
 interface FormType {
   email: string;
@@ -120,7 +123,33 @@ export default function ApplyNowButton({
 
   const loading = isRouteLoading || dataLoading || applyNowLoading;
   const editable = posting?.user?.id === data?.user?.id;
-  if (editable) return null;
+  if (editable) {
+    const canShare =
+      posting &&
+      navigator.canShare({
+        text: getShareText(posting),
+      });
+    return (
+      <div className="flex items-center ">
+        <Link href={`${getRoute("AccountPostingsEdit")}/${posting?.id}`}>
+          <IconButton>
+            <Pencil className="text-accent" size={24} weight="duotone" />
+          </IconButton>
+        </Link>
+        {canShare ? (
+          <IconButton
+            onClick={() =>
+              navigator.share({
+                text: getShareText(posting),
+              })
+            }
+          >
+            <ShareNetwork className="text-accent" size={24} weight="duotone" />
+          </IconButton>
+        ) : null}
+      </div>
+    );
+  }
   return (
     <>
       <Modal close={handleClose} open={isModalOpen}>

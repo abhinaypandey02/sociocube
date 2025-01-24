@@ -4,6 +4,7 @@
   "description": "",
   "exports": {
     "./button": "./atoms/button/index.ts",
+    "./icon-button": "./atoms/icon-button/index.ts",
     "./input": "./atoms/input/index.ts",
     "./form": "./atoms/form/index.tsx",
     "./footer": "./organisms/footer/index.ts",
