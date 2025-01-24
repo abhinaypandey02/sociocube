@@ -6,25 +6,25 @@ import { getRoute } from "../../../constants/routes";
 export function getShareText(posting: NonNullable<GetPostingQuery["posting"]>) {
   return `*${posting.title}*
         
-*About*
+*About* 📝
 ${posting.description}
            
 ${
   posting.deliverables
-    ? `*Deliverables*
+    ? `*Deliverables* 📦
 ${posting.deliverables.map((deliverable) => `- ${deliverable}`).join("\n") || ""}`
     : ""
 }
         
-*Platform*
+*Platform* 📱
 ${posting.platforms.join(", ")}
         
-*Payment*
+*Payment* 💳
 ${getCurrency(posting.barter, posting.currency, posting.price)}
         
 ${
   posting.minimumFollowers
-    ? `*Minimum followers*
+    ? `*Minimum followers* 📈
 ${convertToAbbreviation(posting.minimumFollowers)}
 `
     : ""
@@ -32,10 +32,10 @@ ${convertToAbbreviation(posting.minimumFollowers)}
 ${
   posting.minimumAge || posting.maximumAge
     ? `
-*Age group*
+*Age group* 🎂
 
 ${getAgeGroup(posting.minimumAge, posting.maximumAge)}`
     : ""
 }
-Apply now at: ${getRoute("Postings")}/${posting.id}`;
+Apply now 🚀: ${getRoute("Postings")}/${posting.id}`;
 }
