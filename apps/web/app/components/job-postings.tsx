@@ -1,7 +1,7 @@
 import {
   ArrowRight,
-  ArrowSquareOut,
   MagnifyingGlass,
+  SealCheck,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import React from "react";
@@ -41,7 +41,7 @@ export default function JobPostings({
             <div className="flex min-w-0 gap-x-4">
               {posting.user?.photo ? (
                 <Image
-                  alt={posting.user.companyName || ""}
+                  alt={posting.user.name || ""}
                   className="size-12 flex-none rounded-full bg-gray-50"
                   height={48}
                   src={posting.user.photo}
@@ -55,8 +55,11 @@ export default function JobPostings({
                     {posting.title}
                   </Link>
                 </p>
-                <p className="mt-1 line-clamp-1 flex text-xs leading-5 text-gray-500">
-                  {posting.user?.companyName || posting.user?.name}
+                <p className="mt-1 line-clamp-1 flex items-center text-xs leading-5 text-gray-500">
+                  {posting.user?.name}
+                  {posting.user?.instagramStats?.isVerified ? (
+                    <SealCheck className="mx-1 text-accent" weight="fill" />
+                  ) : null}
                   {posting.minimumAge || posting.maximumAge ? " • " : ""}
                   {getAgeGroup(posting.minimumAge, posting.maximumAge)}
                   {posting.minimumFollowers
@@ -73,12 +76,8 @@ export default function JobPostings({
                 <p className="text-sm leading-6 text-gray-900">
                   {getCurrency(posting.barter, posting.currency, posting.price)}
                 </p>
-                {posting.externalLink ? (
-                  <div className="mt-1 flex items-center  gap-x-1.5 text-xs leading-5 text-gray-500">
-                    <ArrowSquareOut size={10} />
-                    External
-                  </div>
-                ) : (
+
+                {posting.applicationsCount ? (
                   <div className="mt-1 flex items-center gap-x-1.5">
                     <div className="flex-none rounded-full bg-emerald-500/20 p-1">
                       <div className="size-1.5 rounded-full bg-emerald-500" />
@@ -87,7 +86,7 @@ export default function JobPostings({
                       {`${posting.applicationsCount}+ applications`}
                     </p>
                   </div>
-                )}
+                ) : null}
               </div>
               <ArrowRight
                 aria-hidden="true"

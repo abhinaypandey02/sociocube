@@ -505,7 +505,7 @@ input UpdatePostingInput {
 input UpdateUserInput {
   bio: String
   category: String
-  companyName: String
+  contactEmail: String
   dob: String
   gender: String
   name: String
@@ -517,7 +517,7 @@ input UpdateUserInput {
 type User {
   bio: String
   category: String
-  companyName: String
+  contactEmail: String
   dob: String
   email: String
   gender: String

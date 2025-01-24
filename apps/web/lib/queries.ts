@@ -99,8 +99,10 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
       externalLink
       user {
         photo
-        companyName
         name
+        instagramStats {
+          isVerified
+        }
       }
     }
   }
@@ -190,7 +192,7 @@ export const GET_ACCOUNT_DETAILS = gql(`
     user: getCurrentUser {
       id
       name
-      companyName
+      contactEmail
       bio
       photo
       category
@@ -283,8 +285,11 @@ export const GET_POSTING = gql(`
       user {
         name
         photo
-        companyName
         id
+        instagramStats {
+          isVerified
+        }
+        username
       }
       deliverables
       externalLink
@@ -311,7 +316,9 @@ export const GET_ALL_POSTINGS = gql(`
       user {
         name
         photo
-        companyName
+        instagramStats {
+          isVerified
+        }
       }
       applicationsCount
       description
@@ -339,6 +346,7 @@ export const GET_CURRENT_USER_APPLICATION_STATUS = gql(`
       instagramStats {
         followers
       }
+      contactEmail
       dob
     }
     hasApplied: getHasUserApplied(postingID: $postingID)
@@ -355,7 +363,6 @@ export const GET_USER_POSTINGS = gql(`
       user {
         name
         photo
-        companyName
       }
       applicationsCount
       description

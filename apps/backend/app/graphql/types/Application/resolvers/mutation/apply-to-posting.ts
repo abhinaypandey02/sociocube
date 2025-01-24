@@ -56,10 +56,15 @@ export async function applyToPosting(
     if (posting.maximumAge && age > posting.maximumAge)
       throw GQLError(400, "Not in age range");
   }
+  await db
+    .update(UserTable)
+    .set({ contactEmail: email })
+    .where(eq(UserTable.id, ctx.userId));
   await db.insert(ApplicationTable).values({
     posting: postingID,
     comment,
     email,
+    external: Boolean(posting.externalLink),
     user: ctx.userId,
   });
   return true;

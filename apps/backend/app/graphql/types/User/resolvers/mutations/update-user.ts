@@ -1,6 +1,12 @@
 import { eq } from "drizzle-orm";
 import { Field, InputType } from "type-graphql";
-import { IsDateString, IsIn, Matches, MaxLength } from "class-validator";
+import {
+  IsDateString,
+  IsEmail,
+  IsIn,
+  Matches,
+  MaxLength,
+} from "class-validator";
 import categories from "commons/categories";
 import genders from "commons/genders";
 import { getAge, MAX_AGE, MIN_AGE } from "commons/age";
@@ -22,9 +28,9 @@ export class UpdateUserInput {
   @MaxLength(NAME_MAX_LENGTH)
   @Field({ nullable: true })
   name?: string;
-  @MaxLength(NAME_MAX_LENGTH)
+  @IsEmail()
   @Field({ nullable: true })
-  companyName?: string;
+  contactEmail?: string;
   @MaxLength(BIO_MAX_LENGTH)
   @Field({ nullable: true })
   bio?: string;
@@ -71,7 +77,7 @@ export async function handleUpdateUser(
       gender: updatedUser.gender,
       dob: updatedUser.dob,
       username: updatedUser.username,
-      companyName: updatedUser.companyName,
+      contactEmail: updatedUser.contactEmail,
     })
     .where(eq(UserTable.id, ctx.userId))
     .returning();

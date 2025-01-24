@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { cookies } from "next/headers";
 import type { Metadata } from "next";
+import { SealCheck } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 import { Injector, queryGQL } from "../../../lib/apollo-server";
 import {
   GET_CURRENT_USER_APPLICATION_STATUS,
@@ -12,6 +14,7 @@ import { convertToAbbreviation } from "../../../lib/utils";
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
 import { renderRichText } from "../../../lib/rich-text";
 import { getSEO } from "../../../constants/seo";
+import { getRoute } from "../../../constants/routes";
 import ApplyNowButton from "./apply-now-button";
 
 export async function generateMetadata({
@@ -56,10 +59,13 @@ export default async function JobPostingPage({
             <h3 className="text-2xl font-bold leading-7 text-gray-800 sm:text-3xl">
               {posting.title}
             </h3>
-            <div className="mt-5 flex items-center gap-2">
+            <Link
+              className="group mt-5 flex items-center gap-3"
+              href={`${getRoute("Profile")}/${posting.user?.username}`}
+            >
               {posting.user?.photo ? (
                 <Image
-                  alt={posting.user.companyName || ""}
+                  alt={posting.user.name || ""}
                   className="size-8 rounded-full"
                   height={40}
                   src={posting.user.photo}
@@ -67,11 +73,16 @@ export default async function JobPostingPage({
                 />
               ) : null}
               <div>
-                <p className="text-sm font-medium text-gray-600 sm:text-base">
-                  {posting.user?.companyName || posting.user?.name}
+                <p className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-gray-600 underline-offset-2 group-hover:underline sm:text-base">
+                    {posting.user?.name}
+                  </span>
+                  {posting.user?.instagramStats?.isVerified ? (
+                    <SealCheck className=" text-accent" weight="fill" />
+                  ) : null}
                 </p>
               </div>
-            </div>
+            </Link>
           </div>
           <div className="flex flex-col gap-3 max-sm:w-full max-sm:flex-col-reverse max-sm:gap-5">
             <div className="flex items-center justify-end gap-1">
@@ -88,7 +99,7 @@ export default async function JobPostingPage({
                 props={{ posting }}
               />
             </div>
-            {!posting.externalLink && posting.applicationsCount ? (
+            {posting.applicationsCount ? (
               <div className="flex items-center gap-2 sm:justify-end">
                 {posting.open ? (
                   <div className="flex-none rounded-full bg-emerald-500/20 p-1">

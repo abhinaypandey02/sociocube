@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { SealCheck } from "@phosphor-icons/react/dist/ssr";
 import { queryGQL } from "../../lib/apollo-server";
 import { GET_ALL_POSTINGS } from "../../lib/queries";
 import { convertToAbbreviation } from "../../lib/utils";
@@ -33,7 +34,7 @@ export default async function PostingsPage() {
             <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
               {posting.user?.photo ? (
                 <Image
-                  alt={posting.user.companyName || posting.user.name || ""}
+                  alt={posting.user.name || ""}
                   className="size-12 flex-none rounded-full bg-white object-cover ring-1 ring-gray-900/10"
                   height={48}
                   src={posting.user.photo}
@@ -44,11 +45,11 @@ export default async function PostingsPage() {
                 <div className="text-sm font-medium leading-6 text-gray-900">
                   {posting.title}
                 </div>
-                <small className="text-xs text-gray-600">
-                  by{" "}
-                  <em className="font-medium">
-                    {posting.user?.companyName || posting.user?.name}
-                  </em>
+                <small className="flex items-center gap-1 text-xs text-gray-600">
+                  by <em className=" font-medium">{posting.user?.name} </em>
+                  {posting.user?.instagramStats?.isVerified ? (
+                    <SealCheck className="text-accent" weight="fill" />
+                  ) : null}
                 </small>
               </div>
             </div>

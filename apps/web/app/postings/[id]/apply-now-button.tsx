@@ -7,7 +7,6 @@ import Form from "ui/form";
 import { useForm } from "react-hook-form";
 import { getAge } from "commons/age";
 import Link from "next/link";
-import { ArrowSquareOut } from "@phosphor-icons/react";
 import type {
   GetCurrentUserApplicationStatusQuery,
   GetPostingQuery,
@@ -23,18 +22,10 @@ interface FormType {
 }
 
 function LinkWrapper({
-  external,
   url,
   children,
-}: PropsWithChildren<{ external: boolean; url?: string | null }>) {
+}: PropsWithChildren<{ url?: string | null }>) {
   if (!url) return children;
-  if (external) {
-    return (
-      <a className="max-sm:w-full" href={url} rel="noopener" target="_blank">
-        {children}
-      </a>
-    );
-  }
   return (
     <Link className="max-sm:w-full" href={url}>
       {children}
@@ -53,7 +44,7 @@ export default function ApplyNowButton({
 }) {
   const form = useForm<FormType>({
     defaultValues: {
-      email: data?.user?.email || "",
+      email: data?.user?.contactEmail || data?.user?.email || "",
     },
   });
   const [appliedSuccess, setAppliedSuccess] = useState(
@@ -63,7 +54,8 @@ export default function ApplyNowButton({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRouteLoading, setIsRouteLoading] = useState(false);
   const message: [ReactNode, string | null, boolean] = useMemo(() => {
-    if (appliedSuccess) return ["Applied!", null, true];
+    if (appliedSuccess && !posting?.externalLink)
+      return ["Applied!", null, true];
     if (!posting?.open) return ["Closed", null, true];
     if (!data?.user)
       return [
@@ -88,39 +80,42 @@ export default function ApplyNowButton({
     const age = getAge(new Date(data.user.dob));
     if (age < (posting.minimumAge || 0) || age > (posting.maximumAge || 1000))
       return ["Not your age group", null, true];
-    if (posting.externalLink)
-      return [
-        <div className="flex items-center gap-2" key={0}>
-          Apply now <ArrowSquareOut />
-        </div>,
-        posting.externalLink,
-        false,
-      ];
     return ["Apply Now", null, false];
   }, [appliedSuccess, data?.user, posting]);
 
   const handleClose = () => {
     setIsModalOpen(false);
   };
-
+  const openExternalLink = () => {
+    if (posting?.externalLink) window.open(posting.externalLink, "_blank");
+  };
   const handleClick = useCallback(() => {
+    if (appliedSuccess) {
+      openExternalLink();
+      return;
+    }
     if (message[1]) {
       setIsRouteLoading(true);
     } else setIsModalOpen(true);
   }, [message, posting?.externalLink]);
 
   const handleApply = (values: FormType) => {
-    if (posting?.id)
-      applyNow({
-        email: values.email.toLowerCase(),
-        postingID: posting.id,
-        comment: values.comment,
-      })
-        .then(() => {
-          setAppliedSuccess(true);
-          setIsModalOpen(false);
+    if (posting?.id) {
+      if (appliedSuccess) {
+        openExternalLink();
+      } else
+        applyNow({
+          email: values.email.toLowerCase(),
+          postingID: posting.id,
+          comment: values.comment,
         })
-        .catch(handleGQLErrors);
+          .then(() => {
+            openExternalLink();
+            setAppliedSuccess(true);
+            setIsModalOpen(false);
+          })
+          .catch(handleGQLErrors);
+    }
   };
 
   const loading = isRouteLoading || dataLoading || applyNowLoading;
@@ -140,19 +135,21 @@ export default function ApplyNowButton({
             placeholder="Email for the recruiter to reach out to you"
             required
           />
-          <Input
-            className="mb-4 placeholder:text-xs"
-            label={
-              posting?.extraDetails
-                ? `${posting.extraDetails} *`
-                : "Add comments"
-            }
-            name="comment"
-            placeholder={`${posting?.extraDetails ? "" : "(Optional) "}Add a comment to add more information for the recruiter`}
-            required={Boolean(posting?.extraDetails)}
-            rules={{ required: Boolean(posting?.extraDetails) }}
-            textarea
-          />
+          {!posting?.externalLink ? (
+            <Input
+              className="mb-4 placeholder:text-xs"
+              label={
+                posting?.extraDetails
+                  ? `${posting.extraDetails} *`
+                  : "Add comments"
+              }
+              name="comment"
+              placeholder={`${posting?.extraDetails ? "" : "(Optional) "}Add a comment to add more information for the recruiter`}
+              required={Boolean(posting?.extraDetails)}
+              rules={{ required: Boolean(posting?.extraDetails) }}
+              textarea
+            />
+          ) : null}
           <Button
             className="ml-auto mt-3 !px-3 py-1 text-sm"
             loading={loading}
@@ -163,12 +160,12 @@ export default function ApplyNowButton({
           </Button>
         </Form>
       </Modal>
-      <LinkWrapper external={Boolean(posting?.externalLink)} url={message[1]}>
+      <LinkWrapper url={message[1]}>
         <Button
           className="w-full"
           disabled={message[2]}
           loading={loading}
-          onClick={!posting?.externalLink ? handleClick : undefined}
+          onClick={handleClick}
           outline={message[2]}
           variant={Variants.ACCENT}
         >

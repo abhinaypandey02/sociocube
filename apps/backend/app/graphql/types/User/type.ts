@@ -77,7 +77,7 @@ export class UserGQL {
   @Field({ nullable: true })
   email?: string;
   @Field({ nullable: true })
-  companyName?: string;
+  contactEmail?: string;
   @Field({ nullable: true })
   phone?: string;
   @Field(() => [AuthScopes])
