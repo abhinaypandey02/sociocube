@@ -5,7 +5,6 @@ import { getRoute } from "../../../constants/routes";
 
 export function getShareText(posting: NonNullable<GetPostingQuery["posting"]>) {
   return `*${posting.title}*
-by ${posting.user?.name}
         
 *About*
 ${posting.description}
