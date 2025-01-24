@@ -35,7 +35,7 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
   return (
     <GlobalState.Provider value={{ token, setToken }}>
       <Suspense>
-        <ProgressLoader showSpinner={false} />
+        <ProgressLoader color="#F45B69" showSpinner={false} />
       </Suspense>
       {children}
     </GlobalState.Provider>
