@@ -52,7 +52,7 @@ export default async function JobPostingPage({
   );
   if (!posting) return notFound();
   return (
-    <div className="mx-auto mt-8 max-w-5xl px-4 sm:mt-16 sm:px-6 lg:px-8">
+    <div className="mx-auto mt-4 max-w-5xl px-4 sm:mt-16 sm:px-6 lg:px-8">
       <div className="px-4 sm:px-0">
         <div className="flex flex-wrap items-start justify-between gap-5">
           <div>
@@ -85,7 +85,7 @@ export default async function JobPostingPage({
             </Link>
           </div>
           <div className="flex flex-col gap-3 max-sm:w-full max-sm:flex-col-reverse max-sm:gap-5">
-            <div className="flex items-center justify-end gap-1">
+            <div className="flex items-center gap-1 lg:justify-end">
               <Injector
                 Component={ApplyNowButton}
                 fetch={async () =>

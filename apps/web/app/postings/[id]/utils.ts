@@ -38,5 +38,5 @@ ${
 ${getAgeGroup(posting.minimumAge, posting.maximumAge)}`
     : ""
 }
-Apply now at: ${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}${getRoute("Postings")}/${posting.id}`;
+Apply now at: ${getRoute("Postings")}/${posting.id}`;
 }

@@ -23,7 +23,7 @@ import type {
   GetDefaultOnboardingDetailsQuery,
 } from "../../__generated__/graphql";
 import { AuthScopes } from "../../__generated__/graphql";
-import { getMeURL, getRoute } from "../../constants/routes";
+import { getRoute } from "../../constants/routes";
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
 import SocialsStatus from "./socials-status";
 import OnboardingLocationForm from "./onboarding-location";
@@ -260,7 +260,8 @@ function OnboardingWizard({
   }
   if (currentUser?.isOnboarded) {
     routeLoading = true;
-    if (currentUser.username) router.push(getMeURL(currentUser.username));
+    if (currentUser.username)
+      router.push(`${getRoute("Profile")}/${currentUser.username}`);
     else router.push(redirectURL || getRoute("Home"));
   }
   const MAX_STEPS = steps.length;

@@ -130,7 +130,7 @@ export default function ApplyNowButton({
         text: getShareText(posting),
       });
     return (
-      <div className="flex items-center ">
+      <div className="flex items-center gap-5 lg:gap-2 ">
         <Link href={`${getRoute("AccountPostingsEdit")}/${posting?.id}`}>
           <IconButton>
             <Pencil className="text-accent" size={24} weight="duotone" />
