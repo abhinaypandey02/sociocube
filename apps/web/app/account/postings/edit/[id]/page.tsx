@@ -32,7 +32,10 @@ export default async function CreateNewPostingPage({
       title="Edit posting"
     >
       <div className="max-w-2xl">
-        <CreateNewPostingForm existingPosting={posting} />
+        <CreateNewPostingForm
+          existingPosting={posting}
+          isVerified={Boolean(user?.instagramStats?.isVerified)}
+        />
       </div>
     </AccountPageWrapper>
   );

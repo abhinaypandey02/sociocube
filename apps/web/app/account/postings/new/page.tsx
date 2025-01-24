@@ -14,7 +14,10 @@ export default async function CreateNewPostingPage() {
   return (
     <AccountPageWrapper title="Create new posting">
       <div className="max-w-2xl">
-        <CreateNewPostingForm currencyCode={user?.locationID?.country} />
+        <CreateNewPostingForm
+          currencyCode={user?.locationID?.country}
+          isVerified={Boolean(user?.instagramStats?.isVerified)}
+        />
       </div>
     </AccountPageWrapper>
   );

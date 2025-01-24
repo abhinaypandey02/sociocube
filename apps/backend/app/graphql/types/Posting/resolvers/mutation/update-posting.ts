@@ -6,6 +6,9 @@ import { db } from "../../../../../../lib/db";
 import { PostingTable } from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";
 import { PostingPlatforms } from "../../../../constants/platforms";
+import { InstagramDetails } from "../../../Instagram/db/schema";
+import { UserTable } from "../../../User/db/schema";
+import GQLError from "../../../../constants/errors";
 
 @InputType("UpdatePostingInput")
 export class UpdatePostingInput {
@@ -40,6 +43,19 @@ export async function updatePosting(
   id: number,
   updatedPosting: UpdatePostingInput,
 ): Promise<boolean> {
+  const [user] = await db
+    .select({ token: InstagramDetails.accessToken })
+    .from(UserTable)
+    .where(eq(UserTable.id, ctx.userId))
+    .innerJoin(
+      InstagramDetails,
+      eq(InstagramDetails.id, UserTable.instagramDetails),
+    );
+  if (!user?.token)
+    throw GQLError(
+      403,
+      "Only verified users can update a posting. Please verify yourself from the menu.",
+    );
   await db
     .update(PostingTable)
     .set(updatedPosting)

@@ -220,6 +220,9 @@ export const GET_USER_CURRENCY = gql(`
   #graphql
   query GetUserCurrency {
     user: getCurrentUser {
+      instagramStats {
+        isVerified
+      }
       locationID {
         country
       }
@@ -356,15 +359,16 @@ export const GET_CURRENT_USER_APPLICATION_STATUS = gql(`
 export const GET_USER_POSTINGS = gql(`
   #graphql
   query GetUserPostings {
+    user: getCurrentUser {
+      instagramStats {
+        isVerified
+      }
+    }
     postings:getUserPostings {
       id
       maximumAge
       referralEarnings
       minimumFollowers
-      user {
-        name
-        photo
-      }
       applicationsCount
       description
       barter

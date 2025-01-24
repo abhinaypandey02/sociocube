@@ -10,19 +10,31 @@ import React, {
   useState,
 } from "react";
 import { ProgressLoader } from "nextjs-progressloader";
+import GetVerifiedModal from "../app/components/get-verified-modal";
 
 const GlobalState = createContext<{
   token?: string;
   setToken: (token?: string) => void;
-}>({ setToken: () => null });
+  toggleIsGetVerifiedModalOpen: () => void;
+}>({
+  setToken: () => null,
+  toggleIsGetVerifiedModalOpen: () => null,
+});
 
 export function useToken() {
   const { token } = useContext(GlobalState);
   return token;
 }
 
+export function useToggleGetVerifiedModal() {
+  const { toggleIsGetVerifiedModalOpen } = useContext(GlobalState);
+  return toggleIsGetVerifiedModalOpen;
+}
+
 export function GlobalStateWrapper({ children }: PropsWithChildren) {
   const [token, setToken] = useState<string>();
+  const [isGetVerifiedModalOpen, setIsGetVerifiedModalOpen] =
+    useState<boolean>(false);
   useEffect(() => {
     fetch(`/_auth`, {
       credentials: "include",
@@ -33,7 +45,21 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
       .catch(console.error);
   }, []);
   return (
-    <GlobalState.Provider value={{ token, setToken }}>
+    <GlobalState.Provider
+      value={{
+        token,
+        setToken,
+        toggleIsGetVerifiedModalOpen: () => {
+          setIsGetVerifiedModalOpen((prev) => !prev);
+        },
+      }}
+    >
+      <GetVerifiedModal
+        close={() => {
+          setIsGetVerifiedModalOpen(false);
+        }}
+        isOpen={isGetVerifiedModalOpen}
+      />
       <Suspense>
         <ProgressLoader color="#F45B69" showSpinner={false} />
       </Suspense>
