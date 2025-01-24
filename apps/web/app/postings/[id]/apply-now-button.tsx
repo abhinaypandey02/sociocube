@@ -123,33 +123,11 @@ export default function ApplyNowButton({
 
   const loading = isRouteLoading || dataLoading || applyNowLoading;
   const editable = posting?.user?.id === data?.user?.id;
-  if (editable) {
-    const canShare =
-      posting &&
-      navigator.canShare({
-        text: getShareText(posting),
-      });
-    return (
-      <div className="flex items-center gap-5 lg:gap-2 ">
-        <Link href={`${getRoute("AccountPostingsEdit")}/${posting?.id}`}>
-          <IconButton>
-            <Pencil className="text-accent" size={24} weight="duotone" />
-          </IconButton>
-        </Link>
-        {canShare ? (
-          <IconButton
-            onClick={() =>
-              navigator.share({
-                text: getShareText(posting),
-              })
-            }
-          >
-            <ShareNetwork className="text-accent" size={24} weight="duotone" />
-          </IconButton>
-        ) : null}
-      </div>
-    );
-  }
+  const canShare =
+    posting &&
+    navigator.canShare({
+      text: getShareText(posting),
+    });
   return (
     <>
       <Modal close={handleClose} open={isModalOpen}>
@@ -189,18 +167,38 @@ export default function ApplyNowButton({
           </Button>
         </Form>
       </Modal>
-      <LinkWrapper url={message[1]}>
-        <Button
-          className="w-full"
-          disabled={message[2]}
-          loading={loading}
-          onClick={handleClick}
-          outline={message[2]}
-          variant={Variants.ACCENT}
+      {editable ? (
+        <Link href={`${getRoute("AccountPostingsEdit")}/${posting?.id}`}>
+          <IconButton>
+            <Pencil className="text-accent" size={24} weight="duotone" />
+          </IconButton>
+        </Link>
+      ) : (
+        <LinkWrapper url={message[1]}>
+          <Button
+            className="w-full"
+            disabled={message[2]}
+            loading={loading}
+            onClick={handleClick}
+            outline={message[2]}
+            variant={Variants.ACCENT}
+          >
+            {message[0]}
+          </Button>
+        </LinkWrapper>
+      )}
+      {canShare ? (
+        <IconButton
+          className="max-lg:translate-x-3"
+          onClick={() =>
+            navigator.share({
+              text: getShareText(posting),
+            })
+          }
         >
-          {message[0]}
-        </Button>
-      </LinkWrapper>
+          <ShareNetwork className="text-accent" size={24} weight="duotone" />
+        </IconButton>
+      ) : null}
     </>
   );
 }

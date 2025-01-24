@@ -85,7 +85,7 @@ export default async function JobPostingPage({
             </Link>
           </div>
           <div className="flex flex-col gap-3 max-sm:w-full max-sm:flex-col-reverse max-sm:gap-5">
-            <div className="flex items-center gap-1 lg:justify-end">
+            <div className="flex items-center lg:flex-row-reverse lg:gap-4">
               <Injector
                 Component={ApplyNowButton}
                 fetch={async () =>
