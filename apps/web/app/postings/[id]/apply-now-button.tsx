@@ -163,7 +163,7 @@ export default function ApplyNowButton({
             success={appliedSuccess}
             type="submit"
           >
-            Send Application
+            {posting?.externalLink ? "Apply now" : "Send Application"}
           </Button>
         </Form>
       </Modal>
