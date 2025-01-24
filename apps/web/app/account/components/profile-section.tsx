@@ -30,7 +30,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
       if (!(await form.trigger())) return false;
       await saveUserMutation({
         updatedUser: {
-          [field]: form.getValues(field),
+          [field]: form.getValues(field) || undefined,
         },
       }).catch(handleGQLErrors);
       return true;

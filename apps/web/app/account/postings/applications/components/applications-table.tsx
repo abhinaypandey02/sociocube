@@ -8,8 +8,8 @@ import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import {
   ChatCircleDots,
   EnvelopeSimple,
+  Phone,
   SealCheck,
-  WhatsappLogo,
 } from "@phosphor-icons/react";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
@@ -46,15 +46,20 @@ const DEFAULT_COLUMNS = [
           <EnvelopeSimple size={20} />
         </button>
         {val.row.original.phone ? (
-          <a
-            href={`https://wa.me/${val.row.original.phone}`}
-            rel="noopener"
-            target="_blank"
+          <button
+            className="text-accent"
+            onClick={async () => {
+              if (val.row.original.phone) {
+                await navigator.clipboard.writeText(val.row.original.phone);
+                toast.success(`Copied ${val.row.original.phone} to clipboard`, {
+                  duration: 5000,
+                });
+              }
+            }}
+            type="button"
           >
-            <button className="text-accent" type="button">
-              <WhatsappLogo size={20} />
-            </button>
-          </a>
+            <Phone size={20} />
+          </button>
         ) : null}
       </div>
     ),

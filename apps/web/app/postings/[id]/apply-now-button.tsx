@@ -21,7 +21,7 @@ import { getShareText } from "./utils";
 
 interface FormType {
   email: string;
-  phone: string | undefined;
+  phone: string | undefined | null;
   comment?: string;
 }
 
@@ -49,7 +49,7 @@ export default function ApplyNowButton({
   const form = useForm<FormType>({
     defaultValues: {
       email: data?.user?.contactEmail || data?.user?.email || "",
-      phone: data?.user?.phone || "",
+      phone: data?.user?.phone,
     },
   });
   const [appliedSuccess, setAppliedSuccess] = useState(
@@ -113,7 +113,7 @@ export default function ApplyNowButton({
           email: values.email.toLowerCase(),
           postingID: posting.id,
           comment: values.comment,
-          phone: values.phone,
+          phone: values.phone || undefined,
         })
           .then(() => {
             openExternalLink();
