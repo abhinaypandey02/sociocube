@@ -351,6 +351,7 @@ export const GET_CURRENT_USER_APPLICATION_STATUS = gql(`
       }
       contactEmail
       dob
+      phone
     }
     hasApplied: getHasUserApplied(postingID: $postingID)
   }

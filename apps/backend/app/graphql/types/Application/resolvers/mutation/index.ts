@@ -8,8 +8,8 @@ export class ApplicationMutationResolver {
   @Mutation(() => Boolean)
   applyToPosting(
     @Ctx() ctx: AuthorizedContext,
-    @Args() { postingID, email, comment }: ApplyToPostingArgs,
+    @Args() { postingID, email, comment, phone }: ApplyToPostingArgs,
   ) {
-    return applyToPosting(ctx, postingID, email, comment);
+    return applyToPosting(ctx, postingID, email, comment, phone);
   }
 }

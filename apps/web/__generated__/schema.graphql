@@ -318,7 +318,7 @@ type Message {
 }
 
 type Mutation {
-  applyToPosting(comment: String, email: String!, postingID: Float!): Boolean!
+  applyToPosting(comment: String, email: String!, phone: String, postingID: Float!): Boolean!
   completeOnboarding: Boolean!
   createPosting(newPosting: NewPostingInput!): Float
   deletePosting(postingID: Float!): Boolean!

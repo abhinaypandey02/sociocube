@@ -21,6 +21,7 @@ import { getShareText } from "./utils";
 
 interface FormType {
   email: string;
+  phone: string | undefined;
   comment?: string;
 }
 
@@ -48,6 +49,7 @@ export default function ApplyNowButton({
   const form = useForm<FormType>({
     defaultValues: {
       email: data?.user?.contactEmail || data?.user?.email || "",
+      phone: data?.user?.phone || "",
     },
   });
   const [appliedSuccess, setAppliedSuccess] = useState(
@@ -111,6 +113,7 @@ export default function ApplyNowButton({
           email: values.email.toLowerCase(),
           postingID: posting.id,
           comment: values.comment,
+          phone: values.phone,
         })
           .then(() => {
             openExternalLink();
@@ -141,6 +144,12 @@ export default function ApplyNowButton({
             name="email"
             placeholder="Email for the recruiter to reach out to you"
             required
+          />
+          <Input
+            className="mb-4 placeholder:text-xs"
+            label="Contact phone (Whatsapp)"
+            name="phone"
+            placeholder="Your contact phone number, Whatsapp preferred"
           />
           {!posting?.externalLink ? (
             <Input

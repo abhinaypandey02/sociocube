@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { getAge } from "commons/age";
 import { ArgsType, Field } from "type-graphql";
-import { IsEmail } from "class-validator";
+import { IsEmail, MaxLength } from "class-validator";
 import { REFERRAL_RATES } from "commons/referral";
 import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
@@ -21,6 +21,9 @@ export class ApplyToPostingArgs {
   @Field()
   @IsEmail()
   email: string;
+  @Field(() => String, { nullable: true })
+  @MaxLength(15)
+  phone: string | null;
 }
 
 export async function applyToPosting(
@@ -28,6 +31,7 @@ export async function applyToPosting(
   postingID: number,
   email: string,
   comment: string | null,
+  phone: string | null,
 ) {
   const [user] = await db
     .select()
@@ -62,7 +66,7 @@ export async function applyToPosting(
   }
   await db
     .update(UserTable)
-    .set({ contactEmail: email })
+    .set({ contactEmail: email, phone: phone || undefined })
     .where(eq(UserTable.id, ctx.userId));
   const referralPrice = user.instagram_data.accessToken
     ? REFERRAL_RATES.verified
