@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { MagicWand } from "@phosphor-icons/react";
 import { toast } from "react-hot-toast";
+import type { GraphQLError } from "graphql/error";
 import { POSTING_PLATFORMS } from "../../../postings/constants";
 import type {
   GetPostingQuery,
@@ -74,13 +75,13 @@ export default function CreateNewPostingForm({
     useAuthMutation(CREATE_POSTING);
   const [updatePosting, { loading: updatingPost }] =
     useAuthMutation(UPDATE_POSTING);
-  const [loadingAIResult, setLoadingAIResult] = useState(false);
-  const isLoading =
-    loadingCountries || creatingPost || updatingPost || loadingAIResult;
+  const [loading, setLoading] = useState(false);
+  const isLoading = loadingCountries || creatingPost || updatingPost || loading;
   useEffect(() => {
     void fetchCountries();
   }, [fetchCountries]);
   const onSubmit = (formData: CreatePostingFormFields) => {
+    setLoading(true);
     if (existingPosting) {
       // @ts-expect-error -- required to delete
       delete formData.title;
@@ -98,9 +99,13 @@ export default function CreateNewPostingForm({
         .then((res) => {
           if (res.data?.updatePosting) {
             void revalidateAllPostings();
+            router.push(getRoute("AccountPostings"));
           }
         })
-        .catch(handleGQLErrors);
+        .catch((e: GraphQLError) => {
+          setLoading(false);
+          handleGQLErrors(e);
+        });
     } else {
       createPosting({
         newPosting: {
@@ -118,12 +123,15 @@ export default function CreateNewPostingForm({
             router.push(`${getRoute("Postings")}/${res.data.createPosting}`);
           }
         })
-        .catch(handleGQLErrors);
+        .catch((e: GraphQLError) => {
+          setLoading(false);
+          handleGQLErrors(e);
+        });
     }
   };
 
   const handleAiSubmit = async (data: { message: string }) => {
-    setLoadingAIResult(true);
+    setLoading(true);
     const res = await getTransformedPostingData(data.message);
     if (res) {
       form.reset(res);
@@ -133,7 +141,7 @@ export default function CreateNewPostingForm({
       toast.error("An error occurred with AI, please fill form manually!");
     }
     aiForm.resetField("message");
-    setLoadingAIResult(false);
+    setLoading(false);
   };
   return (
     <>
