@@ -23,6 +23,7 @@ import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 
 interface ProfilePage {
   params: Promise<{ username?: string }>;
+  searchParams: Promise<{ noCache?: string }>;
 }
 
 export const dynamicParams = true;
@@ -68,8 +69,12 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProfilePage({ params }: ProfilePage) {
+export default async function ProfilePage({
+  params,
+  searchParams,
+}: ProfilePage) {
   const { username } = await params;
+  const { noCache } = await searchParams;
   if (!username) return null;
   const data = await queryGQL(
     GET_SELLER,
@@ -77,7 +82,7 @@ export default async function ProfilePage({ params }: ProfilePage) {
       username,
     },
     undefined,
-    60,
+    noCache ? 0 : 60,
   );
   const seller = data.getSeller;
   if (!seller?.name || !seller.instagramStats) return notFound();

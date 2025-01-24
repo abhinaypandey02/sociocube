@@ -261,7 +261,9 @@ function OnboardingWizard({
   if (currentUser?.isOnboarded) {
     routeLoading = true;
     if (currentUser.username)
-      router.push(`${getRoute("Profile")}/${currentUser.username}`);
+      router.push(
+        `${getRoute("Profile")}/${currentUser.username}?noCache=true`,
+      );
     else router.push(redirectURL || getRoute("Home"));
   }
   const MAX_STEPS = steps.length;
