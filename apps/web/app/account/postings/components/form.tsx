@@ -8,6 +8,11 @@ import { useRouter } from "next/navigation";
 import { MagicWand } from "@phosphor-icons/react";
 import { toast } from "react-hot-toast";
 import type { GraphQLError } from "graphql/error";
+import {
+  BIO_MAX_LENGTH,
+  NAME_MAX_LENGTH,
+  POSTING_BIO_MAX_LENGTH,
+} from "commons/constraints";
 import { POSTING_PLATFORMS } from "../../../postings/constants";
 import type {
   GetPostingQuery,
@@ -142,7 +147,19 @@ export default function CreateNewPostingForm({
     setLoading(true);
     const res = await getTransformedPostingData(data.message);
     if (res) {
-      form.reset(res);
+      form.reset({
+        barter: res.barter,
+        description: res.description.slice(POSTING_BIO_MAX_LENGTH),
+        deliverables: res.deliverables.slice(BIO_MAX_LENGTH),
+        externalLink: res.externalLink,
+        extraDetails: res.extraDetails,
+        maximumAge: res.maximumAge || undefined,
+        title: res.title.slice(NAME_MAX_LENGTH * 2),
+        platforms: res.platforms,
+        minimumAge: res.minimumAge || undefined,
+        minimumFollowers: res.minimumFollowers || undefined,
+        price: res.price || undefined,
+      });
       toast.success("Autofilled the form!");
       ref.current?.scrollIntoView();
     } else {
@@ -194,11 +211,13 @@ export default function CreateNewPostingForm({
         <Input
           disabled={Boolean(existingPosting)}
           label="Title"
+          maxLength={NAME_MAX_LENGTH * 2}
           name="title"
           placeholder="Posting title"
         />
         <Input
           label="Description"
+          maxLength={POSTING_BIO_MAX_LENGTH}
           name="description"
           placeholder="Posting description"
           rows={8}
@@ -206,6 +225,7 @@ export default function CreateNewPostingForm({
         />
         <Input
           label="Deliverables (Optional)"
+          maxLength={BIO_MAX_LENGTH}
           name="deliverables"
           placeholder="Comma separated deliverables"
         />
