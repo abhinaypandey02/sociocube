@@ -89,7 +89,7 @@ export async function getOgImage(
           style={{
             textAlign: "center",
             marginTop: 50,
-            padding: "0 30px",
+            padding: "0 60px",
             fontSize: 54,
             fontWeight: 800,
             color: "#3d388b",
