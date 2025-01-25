@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { format } from "@flasd/whatsapp-formatting";
 import { ImageResponse } from "next/og";
+import type { ReactNode } from "react";
 
 export function renderRichText(text: string) {
   const renderedText = format(text);
@@ -34,7 +35,7 @@ export const size = {
 };
 
 export function getOgImage(
-  title: string,
+  title: ReactNode,
   cta?: string,
   subtitle?: string,
   image?: string,
@@ -83,6 +84,7 @@ export function getOgImage(
             fontSize: 54,
             fontWeight: 800,
             color: "#3d388b",
+            display: "flex",
           }}
         >
           {title}
@@ -93,7 +95,7 @@ export function getOgImage(
               textAlign: "center",
               marginTop: 10,
               padding: "0 30px",
-              fontSize: 30,
+              fontSize: 26,
               fontWeight: 600,
               color: "#3d388b",
             }}

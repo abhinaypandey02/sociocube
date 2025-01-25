@@ -1,0 +1,26 @@
+import { getOgImage } from "../../../lib/util-components";
+import { queryGQL } from "../../../lib/apollo-server";
+import { GET_POSTING } from "../../../lib/queries";
+
+export default async function Image({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const id = parseInt((await params).id);
+  const { posting } = await queryGQL(
+    GET_POSTING,
+    {
+      id,
+    },
+    undefined,
+    120,
+    ["posting"],
+  );
+  return getOgImage(
+    posting?.title || "Find collaboration opportunities",
+    "Apply now",
+    `Posted by: ${posting?.user?.name}`,
+    posting?.user?.photo || undefined,
+  );
+}

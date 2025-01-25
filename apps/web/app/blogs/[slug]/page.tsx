@@ -7,7 +7,7 @@ import { getSEO } from "../../../constants/seo";
 import { MARKDOWN_COMPONENTS } from "../markdown-components";
 import Schema from "../../components/schema";
 
-interface BlogPageProps {
+export interface BlogPageProps {
   params: Promise<{ slug: string }>;
 }
 

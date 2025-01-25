@@ -21,8 +21,8 @@ import { getMeURL, getRoute, Route } from "../../../constants/routes";
 import CopyLinkButton from "./components/copy-link-button";
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 
-interface ProfilePage {
-  params: Promise<{ username?: string }>;
+export interface ProfilePage {
+  params: Promise<{ username: string }>;
   searchParams: Promise<{ noCache?: string }>;
 }
 
@@ -39,7 +39,6 @@ export async function generateMetadata({
   params,
 }: ProfilePage): Promise<Metadata> {
   const { username } = await params;
-  if (!username) return {};
   const data = await queryGQL(
     GET_SELLER,
     {
