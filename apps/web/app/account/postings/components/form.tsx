@@ -149,12 +149,12 @@ export default function CreateNewPostingForm({
     if (res) {
       form.reset({
         barter: res.barter,
-        description: res.description.slice(POSTING_BIO_MAX_LENGTH),
-        deliverables: res.deliverables.slice(BIO_MAX_LENGTH),
+        description: res.description.slice(0, POSTING_BIO_MAX_LENGTH),
+        deliverables: res.deliverables.slice(0, BIO_MAX_LENGTH),
         externalLink: res.externalLink,
         extraDetails: res.extraDetails,
         maximumAge: res.maximumAge || undefined,
-        title: res.title.slice(NAME_MAX_LENGTH * 2),
+        title: res.title.slice(0, NAME_MAX_LENGTH * 2),
         platforms: res.platforms,
         minimumAge: res.minimumAge || undefined,
         minimumFollowers: res.minimumFollowers || undefined,
