@@ -1,5 +1,6 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+import { promises } from "node:fs";
 import { format } from "@flasd/whatsapp-formatting";
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
@@ -33,21 +34,22 @@ export const size = {
   width: 1200,
   height: 626,
 };
+const getInterSemiBold = async () => {
+  const response = await promises.readFile(
+    path.join(
+      fileURLToPath(import.meta.url),
+      "../../assets/inter-semibold.woff",
+    ),
+  );
+  return response;
+};
 
-function getFont() {
-  return [
-    readFileSync(join(process.cwd(), "assets/inter-semibold.woff")),
-    readFileSync(join(process.cwd(), "assets/inter-extrabold.woff")),
-  ] as const;
-}
-
-export function getOgImage(
+export async function getOgImage(
   title: ReactNode,
   cta?: string,
   subtitle?: string,
   image?: string,
 ) {
-  const [interSemiBold, interExtraBold] = getFont();
   return new ImageResponse(
     (
       // ImageResponse JSX element
@@ -130,13 +132,13 @@ export function getOgImage(
       fonts: [
         {
           name: "Inter",
-          data: interSemiBold,
+          data: await getInterSemiBold(),
           style: "normal",
           weight: 600,
         },
         {
           name: "Inter",
-          data: interExtraBold,
+          data: await getInterSemiBold(),
           style: "normal",
           weight: 800,
         },
