@@ -1,4 +1,4 @@
 export const REFERRAL_RATES={
-    verified:3,
-    others:1
+    verified:6,
+    others:3
 }
