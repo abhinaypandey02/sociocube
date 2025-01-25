@@ -31,9 +31,16 @@ export const size = {
   width: 1200,
   height: 626,
 };
+
 const getInterSemiBold = async () => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/inter-semibold.woff`,
+    `https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-600-normal.woff`,
+  );
+  return response.arrayBuffer();
+};
+const getInterBold = async () => {
+  const response = await fetch(
+    `https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-800-normal.woff`,
   );
   return response.arrayBuffer();
 };
@@ -132,7 +139,7 @@ export async function getOgImage(
         },
         {
           name: "Inter",
-          data: await getInterSemiBold(),
+          data: await getInterBold(),
           style: "normal",
           weight: 800,
         },
