@@ -20,7 +20,7 @@ export default async function Image({
   return getOgImage(
     posting?.title || "Find collaboration opportunities",
     "Apply now",
-    `Posted by: ${posting?.user?.name}`,
+    `Collaboration opportunity by ${posting?.user?.name}`,
     posting?.user?.photo || undefined,
   );
 }
