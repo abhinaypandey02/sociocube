@@ -25,7 +25,9 @@ export default async function PostingsPage() {
       cta={
         <LinkWrapper
           href={
-            user?.instagramStats?.isVerified ? Route.AccountPostingsNew : null
+            // user?.instagramStats?.isVerified ?
+            Route.AccountPostingsNew
+            // : null
           }
         >
           <AddPostingButton
