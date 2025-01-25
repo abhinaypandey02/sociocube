@@ -38,7 +38,7 @@ const getInterSemiBold = async () => {
   );
   return response.arrayBuffer();
 };
-const getInterBold = async () => {
+const getInterExtraBold = async () => {
   const response = await fetch(
     `https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-800-normal.woff`,
   );
@@ -51,6 +51,10 @@ export async function getOgImage(
   subtitle?: string,
   image?: string,
 ) {
+  const [interSemiBold, interExtraBold] = await Promise.all([
+    getInterSemiBold(),
+    getInterExtraBold(),
+  ]);
   return new ImageResponse(
     (
       // ImageResponse JSX element
@@ -133,13 +137,13 @@ export async function getOgImage(
       fonts: [
         {
           name: "Inter",
-          data: await getInterSemiBold(),
+          data: interSemiBold,
           style: "normal",
           weight: 600,
         },
         {
           name: "Inter",
-          data: await getInterBold(),
+          data: interExtraBold,
           style: "normal",
           weight: 800,
         },
