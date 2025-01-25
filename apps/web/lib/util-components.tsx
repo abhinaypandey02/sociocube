@@ -1,6 +1,3 @@
-import { fileURLToPath } from "node:url";
-import path from "node:path";
-import { promises } from "node:fs";
 import { format } from "@flasd/whatsapp-formatting";
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
@@ -35,13 +32,10 @@ export const size = {
   height: 626,
 };
 const getInterSemiBold = async () => {
-  const response = await promises.readFile(
-    path.join(
-      fileURLToPath(import.meta.url),
-      "../../assets/inter-semibold.woff",
-    ),
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/inter-semibold.woff`,
   );
-  return response;
+  return response.arrayBuffer();
 };
 
 export async function getOgImage(
