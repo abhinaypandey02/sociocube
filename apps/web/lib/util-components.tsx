@@ -36,8 +36,8 @@ export const size = {
 
 function getFont() {
   return [
-    readFileSync(join(process.cwd(), "assets/inter-semibold.ttf")),
-    readFileSync(join(process.cwd(), "assets/inter-extrabold.ttf")),
+    readFileSync(join(process.cwd(), "assets/inter-semibold.woff")),
+    readFileSync(join(process.cwd(), "assets/inter-extrabold.woff")),
   ] as const;
 }
 
