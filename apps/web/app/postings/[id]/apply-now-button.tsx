@@ -128,6 +128,7 @@ export default function ApplyNowButton({
   const editable = posting?.user?.id === data?.user?.id;
   const canShare =
     posting &&
+    typeof navigator !== "undefined" &&
     navigator.canShare({
       text: getShareText(posting),
     });

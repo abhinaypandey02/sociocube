@@ -24,6 +24,7 @@ export default async function Image({ params }: ProfilePage) {
           <svg
             fill="#4f46e5"
             height="0.75em"
+            style={{ marginTop: 6 }}
             viewBox="0 0 256 256"
             width="0.75em"
             xmlns="http://www.w3.org/2000/svg"
