@@ -41,10 +41,10 @@ export function getOgImage(
   image?: string,
 ) {
   const interSemiBold = readFileSync(
-    join(process.cwd(), "public/inter-semibold.ttf"),
+    join(process.cwd(), "assets/inter-semibold.ttf"),
   );
   const interExtraBold = readFileSync(
-    join(process.cwd(), "public/inter-extrabold.ttf"),
+    join(process.cwd(), "assets/inter-extrabold.ttf"),
   );
   return new ImageResponse(
     (
