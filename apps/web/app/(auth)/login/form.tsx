@@ -40,7 +40,7 @@ export default function LoginForm() {
     }
     setIsLoading(true);
     const error = await loginWithEmail(
-      data.email,
+      data.email.toLowerCase(),
       data.password,
       turnstileToken,
     );

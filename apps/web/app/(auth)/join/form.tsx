@@ -42,7 +42,7 @@ export default function SignupForm() {
     }
     setIsLoading(true);
     const error = await signupWithEmail(
-      data.email,
+      data.email.toLowerCase(),
       data.password,
       data.name,
       turnstileToken,
