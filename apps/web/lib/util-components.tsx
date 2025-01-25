@@ -34,18 +34,20 @@ export const size = {
   height: 626,
 };
 
+function getFont() {
+  return [
+    readFileSync(join(process.cwd(), "assets/inter-semibold.ttf")),
+    readFileSync(join(process.cwd(), "assets/inter-extrabold.ttf")),
+  ] as const;
+}
+
 export function getOgImage(
   title: ReactNode,
   cta?: string,
   subtitle?: string,
   image?: string,
 ) {
-  const interSemiBold = readFileSync(
-    join(process.cwd(), "assets/inter-semibold.ttf"),
-  );
-  const interExtraBold = readFileSync(
-    join(process.cwd(), "assets/inter-extrabold.ttf"),
-  );
+  const [interSemiBold, interExtraBold] = getFont();
   return new ImageResponse(
     (
       // ImageResponse JSX element
