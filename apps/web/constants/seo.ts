@@ -21,7 +21,7 @@ export const getSEO = (
     type: "website",
     siteName: title ? title : SEO.title,
     images: images || [
-      `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image.png`,
+      `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image`,
     ],
   },
 
@@ -29,7 +29,7 @@ export const getSEO = (
     title: title ? title : SEO.title,
     description: description || SEO.description,
     images: images || [
-      `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/twitter-image.png`,
+      `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/twitter-image`,
     ],
     card: "summary_large_image",
   },
@@ -38,7 +38,7 @@ export const getSEO = (
     capable: true,
     startupImage:
       images?.[0] ||
-      `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image.png`,
+      `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image`,
   },
   applicationName: SEO.companyName,
   creator: SEO.companyName,
