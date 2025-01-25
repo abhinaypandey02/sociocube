@@ -12,7 +12,7 @@ import {
 } from "../../../lib/queries";
 import { convertToAbbreviation } from "../../../lib/utils";
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
-import { renderRichText } from "../../../lib/rich-text";
+import { renderRichText } from "../../../lib/util-components";
 import { getSEO } from "../../../constants/seo";
 import { getRoute } from "../../../constants/routes";
 import ApplyNowButton from "./apply-now-button";
