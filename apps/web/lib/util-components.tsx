@@ -33,7 +33,12 @@ export const size = {
   height: 626,
 };
 
-export function getOgImage(title: string, cta?: string) {
+export function getOgImage(
+  title: string,
+  cta?: string,
+  subtitle?: string,
+  image?: string,
+) {
   const interSemiBold = readFileSync(
     join(process.cwd(), "public/inter-semibold.ttf"),
   );
@@ -60,13 +65,14 @@ export function getOgImage(title: string, cta?: string) {
       >
         <img
           alt="Sociocube"
-          height="400"
-          src={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/icon.svg`}
+          height={512}
+          src={image || "https://sociocube.com/web-app-manifest-192x192.png"}
           style={{
             height: 200,
             width: 200,
+            borderRadius: "50%",
           }}
-          width="400"
+          width={512}
         />
 
         <div
@@ -81,6 +87,20 @@ export function getOgImage(title: string, cta?: string) {
         >
           {title}
         </div>
+        {subtitle ? (
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: 10,
+              padding: "0 30px",
+              fontSize: 30,
+              fontWeight: 600,
+              color: "#3d388b",
+            }}
+          >
+            {subtitle}
+          </div>
+        ) : null}
 
         {cta ? (
           <div

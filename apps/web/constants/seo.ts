@@ -8,25 +8,15 @@ export const SEO = {
   themeColor: "#F45B69",
 };
 
-export const getSEO = (
-  title?: string,
-  description?: string,
-  images?: string[],
-): Metadata => ({
+export const getSEO = (title?: string, description?: string): Metadata => ({
   title: title ? `${title} • Sociocube` : SEO.title,
   description: description || SEO.description,
   openGraph: {
-    title: title ? title : SEO.title,
-    description: description || SEO.description,
     type: "website",
-    siteName: title ? title : SEO.title,
-    images,
+    siteName: SEO.companyName,
   },
 
   twitter: {
-    title: title ? title : SEO.title,
-    description: description || SEO.description,
-    images,
     card: "summary_large_image",
   },
   appleWebApp: {
