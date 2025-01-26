@@ -73,7 +73,7 @@ const DEFAULT_COLUMNS = [
       return (
         <Image
           alt={value.row.original.user?.name || ""}
-          className="size-10 rounded-full"
+          className="size-10 rounded-full object-cover"
           height={40}
           src={val}
           width={40}

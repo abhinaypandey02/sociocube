@@ -3,7 +3,7 @@ import { generateRefreshToken } from "../../../../../lib/auth/token";
 import { db, DBTransaction } from "../../../../../lib/db";
 import { UserDB, UserDBInsert, UserTable } from "./schema";
 
-const MAX_DEVICES = 2;
+const MAX_DEVICES = 5;
 
 export async function updateRefreshTokenAndScope(
   id: number,

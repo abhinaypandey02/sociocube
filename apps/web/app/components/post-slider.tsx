@@ -59,7 +59,7 @@ function PostSlide({
       >
         <Image
           alt={post.creatorName}
-          className="size-10 rounded-full"
+          className="size-10 rounded-full object-cover"
           height={40}
           priority={priority}
           src={post.creatorImage}
