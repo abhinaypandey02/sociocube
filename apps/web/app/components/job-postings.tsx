@@ -42,7 +42,7 @@ export default function JobPostings({
               {posting.user?.photo ? (
                 <Image
                   alt={posting.user.name || ""}
-                  className="size-12 flex-none rounded-full bg-gray-50"
+                  className="size-12 flex-none rounded-full bg-gray-50 object-cover"
                   height={48}
                   src={posting.user.photo}
                   width={48}

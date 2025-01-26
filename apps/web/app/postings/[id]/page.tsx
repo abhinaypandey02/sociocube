@@ -66,7 +66,7 @@ export default async function JobPostingPage({
               {posting.user?.photo ? (
                 <Image
                   alt={posting.user.name || ""}
-                  className="size-8 rounded-full"
+                  className="size-8 rounded-full object-cover"
                   height={40}
                   src={posting.user.photo}
                   width={40}

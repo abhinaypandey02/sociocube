@@ -85,7 +85,7 @@ function Navbar({
                   ) : (
                     <img
                       alt="logged in user"
-                      className="size-8 rounded-full"
+                      className="size-8 rounded-full object-cover"
                       src={userImage}
                     />
                   )}
