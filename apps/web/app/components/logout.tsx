@@ -13,12 +13,17 @@ export default function Logout() {
   }
   return (
     <>
-      <button className="-mx-3 block w-full rounded-lg px-3 py-2.5 text-left text-base font-medium leading-7 text-gray-900 hover:bg-gray-50 hover:underline hover:underline-offset-8  lg:hidden">
+      <button
+        className="-mx-3 block w-full rounded-lg px-3 py-2.5 text-left text-base font-medium leading-7 text-gray-900 hover:bg-gray-50 hover:underline hover:underline-offset-8  lg:hidden"
+        onClick={handleLogout}
+        type="button"
+      >
         Logout
       </button>
       <button
         className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 max-lg:hidden"
         onClick={handleLogout}
+        type="button"
       >
         Logout
       </button>
