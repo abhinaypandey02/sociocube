@@ -33,7 +33,10 @@ export function getTokenizedResponse(
     response.cookies.set("refresh", refreshToken, {
       secure: true,
       httpOnly: true,
-      maxAge: refreshToken === "" ? 0 : 60 * 60 * 24 * 60,
+      expires:
+        refreshToken === ""
+          ? 0
+          : new Date(Date.now() + 60 * 60 * 24 * 365 * 1000),
     });
   }
   return response;
