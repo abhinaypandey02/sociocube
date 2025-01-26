@@ -33,7 +33,7 @@ export function getTokenizedResponse(
     response.cookies.set("refresh", refreshToken, {
       secure: true,
       httpOnly: true,
-      expires: refreshToken === "" ? 0 : undefined,
+      maxAge: refreshToken === "" ? 0 : 60 * 60 * 24 * 60,
     });
   }
   return response;
