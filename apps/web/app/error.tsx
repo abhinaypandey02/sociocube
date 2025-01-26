@@ -1,6 +1,7 @@
 "use client";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { Spinner } from "@phosphor-icons/react/dist/ssr";
 import { Route } from "../constants/routes";
 import { useLogout } from "../lib/auth-client";
 
@@ -14,5 +15,5 @@ export default function Error({ error }: { error: Error }) {
     router.refresh();
   }, [logout, path, router]);
   console.error(error);
-  return null;
+  return <Spinner className="animate-spin fill-primary " size={30} />;
 }
