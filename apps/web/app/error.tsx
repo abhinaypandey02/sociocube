@@ -16,8 +16,8 @@ export default function Error({ error }: { error: Error }) {
   }, [logout, path, router]);
   console.error(error);
   return (
-    <div className="flex items-center justify-center">
-      <Spinner className="animate-spin fill-primary " size={60} />
+    <div className="flex min-h-[83vh] items-center justify-center sm:pt-10">
+      <Spinner className="animate-spin fill-primary" size={60} />
     </div>
   );
 }
