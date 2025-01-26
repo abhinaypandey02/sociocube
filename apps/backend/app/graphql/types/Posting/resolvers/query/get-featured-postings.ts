@@ -1,12 +1,15 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, count, desc, eq, getTableColumns } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { PostingTable } from "../../db/schema";
+import { ApplicationTable } from "../../../Application/db/schema";
 
 export async function getFeaturedPostings() {
   return db
-    .select()
+    .select(getTableColumns(PostingTable))
     .from(PostingTable)
     .where(and(eq(PostingTable.open, true)))
-    .orderBy(desc(PostingTable.createdAt))
+    .innerJoin(ApplicationTable, eq(ApplicationTable.posting, PostingTable.id))
+    .groupBy(PostingTable.id)
+    .orderBy(desc(count(ApplicationTable.id)))
     .limit(4);
 }
