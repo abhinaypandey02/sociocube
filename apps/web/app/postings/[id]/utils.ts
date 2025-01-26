@@ -12,7 +12,7 @@ ${posting.description}
 ${
   posting.deliverables
     ? `*Deliverables* 📦
-${posting.deliverables.map((deliverable) => `- ${deliverable}`).join("\n") || ""}`
+${posting.deliverables.map((deliverable) => `- ${deliverable.trim()}`).join("\n") || ""}`
     : ""
 }
         
