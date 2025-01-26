@@ -2,10 +2,12 @@ import { Field, InputType, Int } from "type-graphql";
 import { IsEnum, MaxLength } from "class-validator";
 import { and, eq } from "drizzle-orm";
 import { BIO_MAX_LENGTH, POSTING_BIO_MAX_LENGTH } from "commons/constraints";
+import { PostgresError } from "postgres";
 import { db } from "../../../../../../lib/db";
 import { PostingTable } from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";
 import { PostingPlatforms } from "../../../../constants/platforms";
+import { getCleanExternalLink, handleDuplicateLinkError } from "../../utils";
 // import { InstagramDetails } from "../../../Instagram/db/schema";
 // import { UserTable } from "../../../User/db/schema";
 // import GQLError from "../../../../constants/errors";
@@ -56,9 +58,17 @@ export async function updatePosting(
   //     403,
   //     "Only verified users can update a posting. Please verify yourself from the menu.",
   //   );
-  await db
-    .update(PostingTable)
-    .set(updatedPosting)
-    .where(and(eq(PostingTable.user, ctx.userId), eq(PostingTable.id, id)));
-  return true;
+  try {
+    await db
+      .update(PostingTable)
+      .set({
+        ...updatedPosting,
+        externalLink: getCleanExternalLink(updatedPosting.externalLink),
+      })
+      .where(and(eq(PostingTable.user, ctx.userId), eq(PostingTable.id, id)));
+    return true;
+  } catch (e) {
+    handleDuplicateLinkError(e as PostgresError);
+    throw e;
+  }
 }

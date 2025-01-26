@@ -113,7 +113,7 @@ export default function CreateNewPostingForm({
           if (res.data?.updatePosting) {
             void revalidateAllPostings();
             router.push(getRoute("AccountPostings"));
-          }
+          } else setLoading(false);
         })
         .catch((e: GraphQLError) => {
           setLoading(false);
@@ -134,7 +134,7 @@ export default function CreateNewPostingForm({
           if (res.data?.createPosting) {
             void revalidateOnlyPostingsPage();
             router.push(`${getRoute("Postings")}/${res.data.createPosting}`);
-          }
+          } else setLoading(false);
         })
         .catch((e: GraphQLError) => {
           setLoading(false);

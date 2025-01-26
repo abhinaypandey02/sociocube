@@ -6,10 +6,12 @@ import {
   POSTING_BIO_MAX_LENGTH,
 } from "commons/constraints";
 // import { eq } from "drizzle-orm";
+import { PostgresError } from "postgres";
 import { db } from "../../../../../../lib/db";
 import { PostingTable } from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";
 import { PostingPlatforms } from "../../../../constants/platforms";
+import { getCleanExternalLink, handleDuplicateLinkError } from "../../utils";
 // import { InstagramDetails } from "../../../Instagram/db/schema";
 // import { UserTable } from "../../../User/db/schema";
 // import GQLError from "../../../../constants/errors";
@@ -62,9 +64,18 @@ export async function createPosting(
   //     403,
   //     "Only verified users can create a posting. Please verify yourself from the menu.",
   //   );
-  const [posting] = await db
-    .insert(PostingTable)
-    .values({ ...newPosting, user: ctx.userId })
-    .returning({ id: PostingTable.id });
-  return posting?.id || null;
+  try {
+    const [posting] = await db
+      .insert(PostingTable)
+      .values({
+        ...newPosting,
+        externalLink: getCleanExternalLink(newPosting.externalLink),
+        user: ctx.userId,
+      })
+      .returning({ id: PostingTable.id });
+    return posting?.id || null;
+  } catch (e: unknown) {
+    handleDuplicateLinkError(e as PostgresError);
+    throw e;
+  }
 }
