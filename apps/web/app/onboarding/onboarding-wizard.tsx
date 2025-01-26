@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Variants } from "ui/button";
 import {
   ArrowRight,
@@ -253,19 +253,22 @@ function OnboardingWizard({
     ],
     [currentUser, currentUser?.instagramStats?.username, nextStep, redirectURL],
   );
-  let routeLoading = false;
-  if (!currentUser && !dataLoading) {
-    routeLoading = true;
-    router.push(redirectURL || getRoute("SignUp"));
-  }
-  if (currentUser?.isOnboarded) {
-    routeLoading = true;
-    if (currentUser.username)
-      router.push(
-        `${getRoute("Profile")}/${currentUser.username}?noCache=true`,
-      );
-    else router.push(redirectURL || getRoute("Home"));
-  }
+
+  useEffect(() => {
+    if (!currentUser && !dataLoading) {
+      router.push(redirectURL || getRoute("SignUp"));
+    }
+    if (currentUser?.isOnboarded) {
+      if (currentUser.username)
+        router.push(
+          `${getRoute("Profile")}/${currentUser.username}?noCache=true`,
+        );
+      else router.push(redirectURL || getRoute("Home"));
+    }
+  }, [currentUser, dataLoading, redirectURL, router]);
+
+  const routeLoading =
+    (!currentUser && !dataLoading) || currentUser?.isOnboarded;
   const MAX_STEPS = steps.length;
 
   function prevStep() {
