@@ -1,1 +1,1 @@
-export const USERNAME_REGEX = /^[a-z0-9](-?[a-z0-9]){0,14}$/
+export const USERNAME_REGEX = /^[a-zA-Z0-9](-?[a-zA-Z0-9]){0,15}$/

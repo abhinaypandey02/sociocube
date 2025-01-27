@@ -33,7 +33,7 @@ export default function OnboardingUsername({
     if (data.username) {
       const res = await updateUsername({
         usernameDetails: {
-          username: data.username,
+          username: data.username.toLowerCase(),
         },
       }).catch(handleGQLErrors);
       if (res?.data?.updateOnboardingUsername) nextStep();

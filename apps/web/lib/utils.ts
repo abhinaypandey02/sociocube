@@ -1,4 +1,5 @@
 import { USERNAME_REGEX } from "commons/regex";
+import { USERNAME_MAX_LENGTH } from "commons/constraints";
 
 export function convertToAbbreviation(number: number) {
   // Create a new Intl.NumberFormat object with options
@@ -21,7 +22,7 @@ export const getUsernameInputRules = (
     message: "Username can only contain alphabets, numbers and '-'",
   },
   maxLength: {
-    value: 16,
+    value: USERNAME_MAX_LENGTH,
     message: "Username can only contain maximum 16 characters",
   },
   validate: {

@@ -2,7 +2,7 @@ import { Field, InputType } from "type-graphql";
 import { eq } from "drizzle-orm";
 import { Matches, MaxLength } from "class-validator";
 import { USERNAME_REGEX } from "commons/regex";
-import { NAME_MAX_LENGTH } from "commons/constraints";
+import { USERNAME_MAX_LENGTH } from "commons/constraints";
 import { AuthorizedContext } from "../../../../../context";
 import { db } from "../../../../../../../lib/db";
 import { OnboardingDataTable, UserTable } from "../../../db/schema";
@@ -13,13 +13,14 @@ import GQLError from "../../../../../constants/errors";
 export class OnboardingUsernameInput {
   @Field()
   @Matches(USERNAME_REGEX)
-  @MaxLength(NAME_MAX_LENGTH)
+  @MaxLength(USERNAME_MAX_LENGTH)
   username: string;
 }
 export async function handleUpdateOnboardingUsername(
   ctx: AuthorizedContext,
-  { username }: OnboardingUsernameInput,
+  { username: usernameRaw }: OnboardingUsernameInput,
 ) {
+  const username = usernameRaw.toLowerCase();
   const user = await getCurrentUser(ctx);
   if (!user) throw GQLError(403);
   if (!user.onboardingData) throw GQLError(400, "Onboarding details missing");
