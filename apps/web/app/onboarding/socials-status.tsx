@@ -29,7 +29,7 @@ export default function SocialsStatus({
   );
   const handleManualConnection = (data: { username: null | string }) => {
     if (data.username) {
-      updateInstagramUsername({ username: data.username })
+      updateInstagramUsername({ username: data.username.trim().toLowerCase() })
         .then((res) => {
           if (res.data?.updateOnboardingInstagramUsername) {
             nextStep();
