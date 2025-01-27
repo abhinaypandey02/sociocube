@@ -25,7 +25,6 @@ import {
   getPosts,
   median,
 } from "../../graphql/types/User/resolvers/field/instagram";
-import { PostingTable } from "../../graphql/types/Posting/db/schema";
 import {
   getInstagramDataExternalAPI,
   getInstagramAuthorizationUrl,
@@ -133,17 +132,6 @@ export const GET = async (req: NextRequest) => {
             );
             const accountGettingVerified =
               existingUnverifiedInstagram.user.id === loggedInUserID;
-            if (accountGettingVerified) {
-              void fetch(
-                `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/revalidate-profile/${existingUnverifiedInstagram.user.username}`,
-              );
-            } else {
-              await db
-                .delete(PostingTable)
-                .where(
-                  eq(PostingTable.user, existingUnverifiedInstagram.user.id),
-                );
-            }
             await db
               .update(UserTable)
               .set({
