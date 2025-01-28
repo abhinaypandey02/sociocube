@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import type { Metadata } from "next";
 import { queryGQL } from "../lib/apollo-server";
 import { GET_FEATURED_SELLERS_AND_POSTS } from "../lib/queries";
-import type { GetFeaturedSellersQuery } from "../__generated__/graphql";
 import { getSEO, SEO } from "../constants/seo";
 import Hero from "./components/hero";
 import TopCreators from "./components/top-creators";
@@ -28,16 +27,6 @@ async function HomePage() {
     undefined,
     60,
   );
-  const sellersToShow = Array.from(sellers).sort(
-    (a, b) => (b.instagramStats?.er || 0) - (a.instagramStats?.er || 0),
-  );
-  const heroSellers: GetFeaturedSellersQuery["sellers"] = [];
-  if (sellersToShow.length > 0)
-    for (let i = 0; heroSellers.length < 5; i++) {
-      const seller = sellersToShow[i % sellersToShow.length];
-      if (seller) heroSellers.push(seller);
-    }
-
   return (
     <main>
       <Schema
@@ -56,7 +45,7 @@ async function HomePage() {
       />
       <Hero posts={posts} />
       <JobPostings postings={postings} />
-      <TopCreators sellers={sellersToShow} />
+      <TopCreators sellers={sellers} />
       <HowItWorks />
       <FiltersList />
       <Features />
