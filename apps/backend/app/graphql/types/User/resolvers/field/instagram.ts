@@ -8,6 +8,7 @@ import {
 } from "../../../../../auth/instagram/utils";
 import { InstagramMediaType } from "../../../../constants/instagram-media-type";
 import { AuthScopes } from "../../../../constants/scopes";
+import { Roles } from "../../../../constants/roles";
 
 function normaliseDigits(val: number) {
   return Math.round(val * 100) / 100;
@@ -46,7 +47,9 @@ export async function getInstagramStats(user: UserDB) {
       averageComments: instagramDetails.averageComments || 0,
       averageLikes: instagramDetails.averageLikes || 0,
       er: normaliseDigits(instagramDetails.er || 0),
-      isVerified: Boolean(instagramDetails.accessToken),
+      isVerified:
+        Boolean(instagramDetails.accessToken) ||
+        user.roles.includes(Roles.ManuallyVerified),
     };
   }
   const stats = await getStats(
@@ -74,7 +77,9 @@ export async function getInstagramStats(user: UserDB) {
     averageComments: instagramDetails.averageComments || 0,
     averageLikes: instagramDetails.averageLikes || 0,
     er: normaliseDigits(instagramDetails.er || 0),
-    isVerified: Boolean(instagramDetails.accessToken),
+    isVerified:
+      Boolean(instagramDetails.accessToken) ||
+      user.roles.includes(Roles.ManuallyVerified),
   };
 }
 

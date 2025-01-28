@@ -28,6 +28,7 @@ export const rolesEnum = pgEnum("role", [
   Roles.SELLER,
   Roles.ADMIN,
   Roles.ReferralCreator,
+  Roles.ManuallyVerified,
 ]);
 export const authScopesEnum = pgEnum("scope", [
   AuthScopes.GOOGLE,
