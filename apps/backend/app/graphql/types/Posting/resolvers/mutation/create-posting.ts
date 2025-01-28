@@ -5,18 +5,17 @@ import {
   NAME_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
 } from "commons/constraints";
-// import { eq } from "drizzle-orm";
+import { eq, and, gte } from "drizzle-orm";
 import { PostgresError } from "postgres";
-import { and, eq, gte } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { PostingTable } from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";
 import { PostingPlatforms } from "../../../../constants/platforms";
 import { getCleanExternalLink, handleDuplicateLinkError } from "../../utils";
 import GQLError from "../../../../constants/errors";
-// import { InstagramDetails } from "../../../Instagram/db/schema";
-// import { UserTable } from "../../../User/db/schema";
-// import GQLError from "../../../../constants/errors";
+import { InstagramDetails } from "../../../Instagram/db/schema";
+import { UserTable } from "../../../User/db/schema";
+import { Roles } from "../../../../constants/roles";
 
 @InputType("NewPostingInput")
 export class NewPostingInput {
@@ -56,19 +55,19 @@ export async function createPosting(
   ctx: AuthorizedContext,
   newPosting: NewPostingInput,
 ): Promise<number | null> {
-  // const [user] = await db
-  //   .select({ token: InstagramDetails.accessToken })
-  //   .from(UserTable)
-  //   .where(eq(UserTable.id, ctx.userId))
-  //   .innerJoin(
-  //     InstagramDetails,
-  //     eq(InstagramDetails.id, UserTable.instagramDetails),
-  //   );
-  // if (!user?.token)
-  //   throw GQLError(
-  //     403,
-  //     "Only verified users can create a posting. Please verify yourself from the menu.",
-  //   );
+  const [user] = await db
+    .select({ token: InstagramDetails.accessToken, roles: UserTable.roles })
+    .from(UserTable)
+    .where(eq(UserTable.id, ctx.userId))
+    .innerJoin(
+      InstagramDetails,
+      eq(InstagramDetails.id, UserTable.instagramDetails),
+    );
+  if (!user?.token && !user?.roles.includes(Roles.ManuallyVerified))
+    throw GQLError(
+      403,
+      "Only verified users can create a posting. Please verify yourself from the menu.",
+    );
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);

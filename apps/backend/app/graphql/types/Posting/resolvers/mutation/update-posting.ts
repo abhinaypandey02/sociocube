@@ -8,9 +8,10 @@ import { PostingTable } from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";
 import { PostingPlatforms } from "../../../../constants/platforms";
 import { getCleanExternalLink, handleDuplicateLinkError } from "../../utils";
-// import { InstagramDetails } from "../../../Instagram/db/schema";
-// import { UserTable } from "../../../User/db/schema";
-// import GQLError from "../../../../constants/errors";
+import { InstagramDetails } from "../../../Instagram/db/schema";
+import { UserTable } from "../../../User/db/schema";
+import GQLError from "../../../../constants/errors";
+import { Roles } from "../../../../constants/roles";
 
 @InputType("UpdatePostingInput")
 export class UpdatePostingInput {
@@ -45,19 +46,20 @@ export async function updatePosting(
   id: number,
   updatedPosting: UpdatePostingInput,
 ): Promise<boolean> {
-  // const [user] = await db
-  //   .select({ token: InstagramDetails.accessToken })
-  //   .from(UserTable)
-  //   .where(eq(UserTable.id, ctx.userId))
-  //   .innerJoin(
-  //     InstagramDetails,
-  //     eq(InstagramDetails.id, UserTable.instagramDetails),
-  //   );
-  // if (!user?.token)
-  //   throw GQLError(
-  //     403,
-  //     "Only verified users can update a posting. Please verify yourself from the menu.",
-  //   );
+  const [user] = await db
+    .select({ token: InstagramDetails.accessToken, roles: UserTable.roles })
+    .from(UserTable)
+    .where(eq(UserTable.id, ctx.userId))
+    .innerJoin(
+      InstagramDetails,
+      eq(InstagramDetails.id, UserTable.instagramDetails),
+    );
+  if (!user?.token && !user?.roles.includes(Roles.ManuallyVerified))
+    throw GQLError(
+      403,
+      "Only verified users can update a posting. Please verify yourself from the menu.",
+    );
+
   try {
     await db
       .update(PostingTable)

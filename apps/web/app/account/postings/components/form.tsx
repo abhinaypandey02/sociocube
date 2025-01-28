@@ -31,7 +31,7 @@ import {
 } from "../../../../lib/revalidate";
 import { getRoute } from "../../../../constants/routes";
 import { getTransformedPostingData } from "../../../../lib/server-actions";
-// import { useToggleGetVerifiedModal } from "../../../../lib/auth-client";
+import { useToggleGetVerifiedModal } from "../../../../lib/auth-client";
 
 export interface CreatePostingFormFields {
   title: string;
@@ -51,7 +51,7 @@ export interface CreatePostingFormFields {
 export default function CreateNewPostingForm({
   existingPosting,
   currencyCode,
-  // isVerified,
+  isVerified,
 }: {
   existingPosting?: GetPostingQuery["posting"];
   currencyCode?: number | null;
@@ -59,7 +59,7 @@ export default function CreateNewPostingForm({
 }) {
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
-  // const toggle = useToggleGetVerifiedModal();
+  const toggle = useToggleGetVerifiedModal();
   const form = useForm<CreatePostingFormFields>({
     defaultValues: {
       deliverables: existingPosting?.deliverables?.join(","),
@@ -90,10 +90,10 @@ export default function CreateNewPostingForm({
     void fetchCountries();
   }, [fetchCountries]);
   const onSubmit = (formData: CreatePostingFormFields) => {
-    // if (!isVerified) {
-    //   toggle();
-    //   return;
-    // }
+    if (!isVerified) {
+      toggle();
+      return;
+    }
     setLoading(true);
     if (existingPosting) {
       // @ts-expect-error -- required to delete
