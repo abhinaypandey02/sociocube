@@ -267,6 +267,7 @@ type GetFeaturedPostsResponse {
   creatorImage: String!
   creatorName: String!
   creatorUsername: String!
+  creatorVerified: Boolean!
   er: Float!
   likes: Float!
   mediaURL: String!
@@ -458,6 +459,7 @@ type Query {
 
 enum ROLES {
   ADMIN
+  ManuallyVerified
   ReferralCreator
   SELLER
 }

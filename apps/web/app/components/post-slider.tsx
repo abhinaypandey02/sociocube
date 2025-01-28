@@ -6,6 +6,7 @@ import { Heart, Spinner, TrendUp } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
+import { SealCheck } from "@phosphor-icons/react";
 import { getRoute } from "../../constants/routes";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 
@@ -65,7 +66,15 @@ function PostSlide({
           src={post.creatorImage}
           width={40}
         />
-        <p className="grow font-bold text-white">{post.creatorName}</p>
+        <p className="flex grow items-center gap-1.5 font-bold text-white">
+          {post.creatorName}
+          {post.creatorVerified ? (
+            <div className="relative">
+              <span className="absolute left-1/2 top-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 bg-white " />
+              <SealCheck className="relative text-accent" weight="fill" />
+            </div>
+          ) : null}
+        </p>
         <div className="text-xs font-semibold text-white">
           <div className="flex flex-col  items-center gap-1">
             <TrendUp size={16} weight="bold" />

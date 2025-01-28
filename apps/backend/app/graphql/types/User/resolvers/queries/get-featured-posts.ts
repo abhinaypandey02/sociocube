@@ -3,6 +3,8 @@ import { Field, ObjectType } from "type-graphql";
 import { db } from "../../../../../../lib/db";
 import { InstagramMediaTable, UserTable } from "../../db/schema";
 import { InstagramMediaType } from "../../../../constants/instagram-media-type";
+import { Roles } from "../../../../constants/roles";
+import { InstagramDetails } from "../../../Instagram/db/schema";
 
 @ObjectType()
 export class GetFeaturedPostsResponse {
@@ -22,6 +24,8 @@ export class GetFeaturedPostsResponse {
   creatorUsername: string;
   @Field()
   creatorImage?: string;
+  @Field()
+  creatorVerified: boolean;
 }
 
 export async function handleGetFeaturedPosts(): Promise<
@@ -55,6 +59,10 @@ export async function handleGetFeaturedPosts(): Promise<
         eq(InstagramMediaTable.user, UserTable.id),
       ),
     )
+    .innerJoin(
+      InstagramDetails,
+      eq(InstagramDetails.id, UserTable.instagramDetails),
+    )
     .orderBy(desc(InstagramMediaTable.likes))
     .limit(10);
   return data.map((post) => ({
@@ -66,5 +74,8 @@ export async function handleGetFeaturedPosts(): Promise<
     creatorName: post.user.name || "",
     creatorUsername: post.user.username || "",
     creatorImage: post.user.photo || "",
+    creatorVerified:
+      post.user.roles.includes(Roles.ManuallyVerified) ||
+      Boolean(post.instagram_data.accessToken),
   }));
 }

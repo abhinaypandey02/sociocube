@@ -81,6 +81,7 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
       creatorImage
       creatorName
       creatorUsername
+      creatorVerified
       postURL
       likes
       er
