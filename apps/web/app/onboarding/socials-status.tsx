@@ -3,7 +3,7 @@ import React from "react";
 import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "ui/button";
 import Image from "next/image";
-import { ShieldCheck } from "@phosphor-icons/react";
+import { SealCheck } from "@phosphor-icons/react";
 import { Input } from "ui/input";
 import { useForm } from "react-hook-form";
 import Form from "ui/form";
@@ -58,12 +58,14 @@ export default function SocialsStatus({
           }`}
         >
           <Button className="mx-auto flex items-center gap-2">
-            Connect Account <ArrowSquareOut weight="bold" />
+            Verify Account <ArrowSquareOut weight="bold" />
           </Button>
         </a>
       )}
       <div className="mt-3 flex items-center justify-center gap-2 text-center text-xs font-light italic leading-none">
-        {!connected && <ShieldCheck size={16} weight="bold" />}
+        {!connected && (
+          <SealCheck className="text-accent" size={16} weight="fill" />
+        )}
         {connected
           ? "You have already linked Instagram"
           : "Get a verification badge on your profile."}

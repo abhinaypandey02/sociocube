@@ -25,10 +25,8 @@ export function median(values: number[]): number {
   const half = Math.floor(values.length / 2);
   const newValues = [...values].sort((a, b) => b - a);
   return newValues.length % 2
-    ? normaliseDigits(newValues[half] || 0)
-    : normaliseDigits(
-        ((newValues[half - 1] || 0) + (newValues[half] || 0)) / 2,
-      );
+    ? newValues[half] || 0
+    : ((newValues[half - 1] || 0) + (newValues[half] || 0)) / 2;
 }
 
 export async function getInstagramStats(user: UserDB) {
@@ -244,11 +242,13 @@ export async function getInstagramMedia(user: UserDB) {
   await db
     .update(InstagramDetails)
     .set({
-      averageLikes: median(posts.map((post) => post.likes).filter(Boolean)),
-      averageComments: median(
-        posts.map((post) => post.comments).filter(Boolean),
+      averageLikes: Math.round(
+        median(posts.map((post) => post.likes).filter(Boolean)),
       ),
-      er: median(posts.map((post) => post.er).filter(Boolean)),
+      averageComments: Math.round(
+        median(posts.map((post) => post.comments).filter(Boolean)),
+      ),
+      er: normaliseDigits(median(posts.map((post) => post.er).filter(Boolean))),
       lastFetchedInstagramMedia: new Date(),
     })
     .where(eq(InstagramDetails.id, user.instagramDetails));
