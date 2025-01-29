@@ -25,8 +25,10 @@ export function median(values: number[]): number {
   const half = Math.floor(values.length / 2);
   const newValues = [...values].sort((a, b) => b - a);
   return newValues.length % 2
-    ? newValues[half] || 0
-    : Math.round(((newValues[half - 1] || 0) + (newValues[half] || 0)) / 2);
+    ? normaliseDigits(newValues[half] || 0)
+    : normaliseDigits(
+        ((newValues[half - 1] || 0) + (newValues[half] || 0)) / 2,
+      );
 }
 
 export async function getInstagramStats(user: UserDB) {

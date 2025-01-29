@@ -6,7 +6,7 @@ import {
   getTableColumns,
   desc,
   arrayContains,
-  gte,
+  gt,
   inArray,
 } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
@@ -32,7 +32,7 @@ export async function handleGetFeaturedSellers() {
       InstagramDetails,
       and(
         eq(InstagramDetails.id, UserTable.instagramDetails),
-        gte(InstagramDetails.er, 1),
+        gt(InstagramDetails.er, 1),
         or(
           isNotNull(InstagramDetails.accessToken),
           arrayContains(UserTable.roles, [Roles.ManuallyVerified]),
