@@ -11,7 +11,7 @@ import { AuthScopes } from "../../../../constants/scopes";
 import { Roles } from "../../../../constants/roles";
 
 function normaliseDigits(val: number) {
-  return Math.round(val * 100) / 100;
+  return Math.round(val * 10) / 10;
 }
 
 export function getER(followers: number, likes: number, comments: number) {
