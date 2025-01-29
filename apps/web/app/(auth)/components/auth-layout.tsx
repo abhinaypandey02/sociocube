@@ -35,7 +35,7 @@ export default function AuthLayout({
               </div>
             </div>
 
-            <SocialBar redirectURL={redirectURL} />
+            <SocialBar isLogin={!newUser} redirectURL={redirectURL} />
           </div>
         </div>
 

@@ -81,7 +81,7 @@ export const GET = async (req: NextRequest) => {
         }
         await db
           .update(InstagramDetails)
-          .set({ accessToken })
+          .set({ accessToken, accessTokenUpdatedAt: new Date() })
           .where(eq(InstagramDetails.appID, userId));
         refreshToken = await updateRefreshTokenAndScope(
           existingUser.id,

@@ -101,21 +101,6 @@ export default function LoginForm() {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <input
-              className="size-4 rounded border-gray-300 text-accent focus:ring-accent"
-              id="remember-me"
-              name="remember-me"
-              type="checkbox"
-            />
-            <label
-              className="ml-3 block text-sm leading-6 text-gray-900"
-              htmlFor="remember-me"
-            >
-              Remember me
-            </label>
-          </div>
-
           <div className="text-sm leading-6">
             <Link className="link-accent font-semibold" href="#">
               Forgot password?
