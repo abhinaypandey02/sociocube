@@ -1,4 +1,4 @@
-import { and, eq, isNotNull, desc } from "drizzle-orm";
+import { and, eq, ne, isNotNull, desc } from "drizzle-orm";
 import { Field, ObjectType } from "type-graphql";
 import { db } from "../../../../../../lib/db";
 import { InstagramMediaTable, UserTable } from "../../db/schema";
@@ -56,6 +56,7 @@ export async function handleGetFeaturedPosts(): Promise<
         eq(UserTable.isOnboarded, true),
         isNotNull(UserTable.name),
         isNotNull(UserTable.username),
+        ne(UserTable.id, 368),
         eq(InstagramMediaTable.user, UserTable.id),
       ),
     )
