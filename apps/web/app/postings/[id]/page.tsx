@@ -54,7 +54,7 @@ export default async function JobPostingPage({
   return (
     <div className="mx-auto mt-4 max-w-5xl px-4 sm:mt-16 sm:px-6 lg:px-8">
       <div className="px-4 sm:px-0">
-        <div className="flex flex-wrap items-start justify-between gap-5">
+        <div className="flex items-start justify-between gap-5 max-lg:flex-wrap">
           <div>
             <h3 className="text-2xl font-bold leading-7 text-gray-800 sm:text-3xl">
               {posting.title}
@@ -84,7 +84,7 @@ export default async function JobPostingPage({
               </div>
             </Link>
           </div>
-          <div className="flex flex-col gap-3 max-sm:w-full max-sm:flex-col-reverse max-sm:gap-5">
+          <div className="flex shrink-0 flex-col gap-3 max-sm:w-full max-sm:flex-col-reverse max-sm:gap-5">
             <div className="flex items-center lg:flex-row-reverse lg:gap-4">
               <Injector
                 Component={ApplyNowButton}
