@@ -5,8 +5,9 @@ import {
   isNotNull,
   getTableColumns,
   desc,
-  gt,
   arrayContains,
+  gte,
+  inArray,
 } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../db/schema";
@@ -24,13 +25,14 @@ export async function handleGetFeaturedSellers() {
         isNotNull(UserTable.bio),
         isNotNull(UserTable.instagramDetails),
         isNotNull(UserTable.name),
+        inArray(UserTable.id, [372, 541, 458, 361, 556, 422, 408, 469, 450]),
       ),
     )
     .innerJoin(
       InstagramDetails,
       and(
         eq(InstagramDetails.id, UserTable.instagramDetails),
-        gt(InstagramDetails.er, 1),
+        gte(InstagramDetails.er, 1),
         or(
           isNotNull(InstagramDetails.accessToken),
           arrayContains(UserTable.roles, [Roles.ManuallyVerified]),
