@@ -87,7 +87,7 @@ export default function SocialsStatus({
         >
           <Input
             className="grow"
-            label="Unverified connection"
+            label="Username connection"
             name="username"
             placeholder="Instagram Username"
           />
