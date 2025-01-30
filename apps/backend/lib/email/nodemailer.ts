@@ -18,7 +18,7 @@ export function sendEmail(
   return transporter.sendMail({
     from: {
       name: "Sociocube",
-      address: "info@mail.freeluencers.com",
+      address: "info@mail.sociocube.com",
     },
     subject,
     to,
