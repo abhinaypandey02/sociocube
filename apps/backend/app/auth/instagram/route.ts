@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
-import { ErrorResponses } from "../../../lib/auth/error-responses";
 import {
   getUser,
   updateRefreshTokenAndScope,
@@ -204,7 +203,10 @@ export const GET = async (req: NextRequest) => {
   }
   const refresh = req.nextUrl.searchParams.get("refresh") || "";
   const csrfToken = req.nextUrl.searchParams.get("csrf_token") || "";
-  if (!csrfToken) return ErrorResponses.missingBodyFields;
+  if (!csrfToken)
+    return NextResponse.redirect(
+      `${BASE_REDIRECT_URI}?error=Sign in cancelled`,
+    );
   return NextResponse.redirect(
     getInstagramAuthorizationUrl(
       createState({
