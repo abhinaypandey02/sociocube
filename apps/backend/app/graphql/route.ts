@@ -13,6 +13,7 @@ import { ChatResolvers } from "./types/Chat/resolvers";
 import { MapResolvers } from "./types/Map/resolvers";
 import { PostingResolvers } from "./types/Posting/resolvers";
 import { ApplicationResolvers } from "./types/Application/resolvers";
+import { RequestResolvers } from "./types/Request/resolvers";
 
 const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
   resolvers: [
@@ -21,6 +22,7 @@ const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
     ...MapResolvers,
     ...PostingResolvers,
     ...ApplicationResolvers,
+    ...RequestResolvers,
   ],
   authChecker,
   validate: true,

@@ -1,5 +1,11 @@
-export const VerifyEmail = ({ email }: { email: string }) => ({
+export const VerifyEmail = ({
+  email,
+  link,
+}: {
+  email: string;
+  link: string;
+}) => ({
   subject: `Welcome to Sociocube ${email}!`,
-  body: ``,
-  text: ``,
+  body: link,
+  text: link,
 });
