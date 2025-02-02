@@ -24,8 +24,10 @@ export default function ConnectionsSection({
           items={[
             {
               label: "Instagram",
-              value: data.id ? "Connected" : "Not connected",
-              editComponent: !data.id ? (
+              value: data.instagramStats?.isVerified
+                ? "Connected"
+                : "Not connected",
+              editComponent: !data.instagramStats?.isVerified ? (
                 <a href={`/_auth/instagram?redirectURL=${Route.Account}`}>
                   <Button>Connect</Button>
                 </a>

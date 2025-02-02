@@ -200,6 +200,9 @@ export const GET_ACCOUNT_DETAILS = gql(`
       gender
       dob
       username
+      instagramStats {
+        isVerified
+      }
       locationID {
         city
         country
