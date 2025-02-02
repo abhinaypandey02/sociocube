@@ -35,26 +35,20 @@ export const GET = async (req: NextRequest) => {
   if (stateParam) {
     const { refresh, csrfToken } = getState(stateParam);
     if (!csrfToken)
-      return new NextResponse("Refresh or csrftoken not found", {
-        status: 400,
-      });
+      return NextResponse.redirect(
+        `${BASE_REDIRECT_URI}?error=Some error occurred. Please reach out to @thesociocube on instagram`,
+      );
     if (accessCode) {
       const instagramData = await getLongLivedToken(accessCode);
       if (!instagramData)
-        return new NextResponse(
-          "Can't exchange access code with instagram api",
-          {
-            status: 400,
-          },
+        return NextResponse.redirect(
+          `${BASE_REDIRECT_URI}?error=Our instagram api is down currently. Please reach out to @thesociocube on instagram`,
         );
       const { accessToken, userId } = instagramData;
 
       if (!accessToken || !userId)
-        return new NextResponse(
-          "Can't fetch accessToken or userId from instagram api",
-          {
-            status: 400,
-          },
+        return NextResponse.redirect(
+          `${BASE_REDIRECT_URI}?error=An error occurred while fetching your account. Please reach out to @thesociocube on instagram`,
         );
       const loggedInUserID = getUserIdFromRefreshToken(refresh);
       const [existingUserJoin] = await db
@@ -69,9 +63,9 @@ export const GET = async (req: NextRequest) => {
       let refreshToken;
       if (existingUser) {
         if (loggedInUserID && existingUser.id !== loggedInUserID) {
-          return new NextResponse("This instagram account is already in use", {
-            status: 400,
-          });
+          return NextResponse.redirect(
+            `${BASE_REDIRECT_URI}?error=An account with this instagram already exists. Please visit login page and sign-in with Instagram`,
+          );
         }
         await db
           .update(InstagramDetails)
@@ -97,9 +91,9 @@ export const GET = async (req: NextRequest) => {
           biography?: string;
         };
         if (!personalInfo.username)
-          return new NextResponse("Can't fetch username for the current user", {
-            status: 400,
-          });
+          return NextResponse.redirect(
+            `${BASE_REDIRECT_URI}?error=An error occurred while fetching your details. Please reach out to @thesociocube on instagram`,
+          );
         const [existingUnverifiedInstagram] = await db
           .select()
           .from(InstagramDetails)
@@ -200,13 +194,13 @@ export const GET = async (req: NextRequest) => {
           return inserted.id;
         });
         if (!id)
-          return new NextResponse("Error creating new user", {
-            status: 400,
-          });
+          return NextResponse.redirect(
+            `${BASE_REDIRECT_URI}?error=An error occurred while creating a new account. Please reach out to @thesociocube on instagram`,
+          );
       } else {
-        return new NextResponse("You cannot signup with instagram", {
-          status: 400,
-        });
+        return NextResponse.redirect(
+          `${BASE_REDIRECT_URI}?error=This instagram is not linked to any account. Please create a new account`,
+        );
       }
       return NextResponse.redirect(
         `${BASE_REDIRECT_URI}?refresh=${refreshToken}&csrf_token=${csrfToken}`,

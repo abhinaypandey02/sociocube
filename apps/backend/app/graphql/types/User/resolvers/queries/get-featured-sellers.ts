@@ -27,7 +27,10 @@ export async function handleGetFeaturedSellers() {
         isNotNull(UserTable.name),
         inArray(
           UserTable.id,
-          [372, 541, 458, 361, 556, 422, 408, 469, 450, 148, 748, 646, 747, 760, 761, 737, 750],
+          [
+            372, 541, 458, 361, 556, 422, 408, 469, 450, 148, 748, 646, 747,
+            760, 761, 737, 750,
+          ],
         ),
       ),
     )
