@@ -80,8 +80,9 @@ export default function ApplyNowButton({
       (posting.minimumFollowers || 0)
     )
       return ["Not enough followers", null, true];
-    if (posting.minimumAge || posting.maximumAge){
-      if(!data.user.dob) return ["Add your DOB to apply", getRoute("Account"), false];
+    if (posting.minimumAge || posting.maximumAge) {
+      if (!data.user.dob)
+        return ["Add your DOB to apply", getRoute("Account"), false];
       const age = getAge(new Date(data.user.dob));
       if (age < (posting.minimumAge || 0) || age > (posting.maximumAge || 1000))
         return ["Not your age group", null, true];

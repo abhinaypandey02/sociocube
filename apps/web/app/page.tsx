@@ -44,8 +44,8 @@ async function HomePage() {
         id="org"
       />
       <Hero posts={posts} />
-      <JobPostings postings={postings} />
       <TopCreators sellers={sellers} />
+      <JobPostings postings={postings} />
       <HowItWorks />
       <FiltersList />
       <Features />

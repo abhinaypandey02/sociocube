@@ -7,6 +7,7 @@ import {
   lte,
   sql,
   isNotNull,
+  desc,
 } from "drizzle-orm";
 import { Field, InputType, Int } from "type-graphql";
 import { IsIn, Max, MaxLength, Min } from "class-validator";
@@ -115,5 +116,6 @@ export function handleSearchSellers(filters: SearchSellersFiltersInput) {
           : undefined,
       ),
     )
+    .orderBy(desc(InstagramDetails.followers))
     .limit(12);
 }

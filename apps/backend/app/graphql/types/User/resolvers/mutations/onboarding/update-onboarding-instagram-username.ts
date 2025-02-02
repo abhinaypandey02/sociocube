@@ -1,12 +1,13 @@
 import { and, eq, isNull } from "drizzle-orm";
 import { AuthorizedContext } from "../../../../../context";
 import { db } from "../../../../../../../lib/db";
-import { UserTable } from "../../../db/schema";
+import { InstagramMediaTable, UserTable } from "../../../db/schema";
 import GQLError from "../../../../../constants/errors";
 import { getInstagramDataExternalAPI } from "../../../../../../auth/instagram/utils";
 import { InstagramDetails } from "../../../../Instagram/db/schema";
 import { getCurrentUser } from "../../../utils";
 import { uploadImage } from "../../../../../../../lib/storage/aws-s3";
+import { getPosts } from "../../field/instagram";
 
 export async function handleUpdateOnboardingInstagramUsername(
   ctx: AuthorizedContext,
@@ -38,11 +39,23 @@ export async function handleUpdateOnboardingInstagramUsername(
   }
   const user = await getCurrentUser(ctx);
   if (!user) throw GQLError(403, "User not found");
+  const { posts, stats } = await getPosts(
+    data.followers_count,
+    ctx.userId,
+    undefined,
+    data.insta_username,
+  );
+  await db
+    .delete(InstagramMediaTable)
+    .where(eq(InstagramMediaTable.user, ctx.userId));
+  await db.insert(InstagramMediaTable).values(posts).onConflictDoNothing();
   const [details] = await db
     .insert(InstagramDetails)
     .values({
       username: data.insta_username,
       followers: data.followers_count,
+      lastFetchedInstagramStats: new Date(),
+      ...stats,
     })
     .returning({ id: InstagramDetails.id });
   if (details) {

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { ErrorResponses } from "../../../lib/auth/error-responses";
 import {
-  createUser,
   getUser,
   updateRefreshTokenAndScope,
 } from "../../graphql/types/User/db/utils";
@@ -20,11 +19,7 @@ import {
 import { db } from "../../../lib/db";
 import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
 import { deleteImage, uploadImage } from "../../../lib/storage/aws-s3";
-import {
-  getER,
-  getPosts,
-  median,
-} from "../../graphql/types/User/resolvers/field/instagram";
+import { getPosts } from "../../graphql/types/User/resolvers/field/instagram";
 import {
   getInstagramDataExternalAPI,
   getInstagramAuthorizationUrl,
@@ -71,7 +66,6 @@ export const GET = async (req: NextRequest) => {
           eq(UserTable.instagramDetails, InstagramDetails.id),
         );
       const existingUser = existingUserJoin?.user;
-
       let refreshToken;
       if (existingUser) {
         if (loggedInUserID && existingUser.id !== loggedInUserID) {
@@ -88,7 +82,7 @@ export const GET = async (req: NextRequest) => {
           existingUser.refreshTokens,
           Array.from(new Set(existingUser.scopes).add(AuthScopes.INSTAGRAM)),
         );
-      } else {
+      } else if (loggedInUserID) {
         const personalInfo = (await getGraphData(`me`, accessToken, [
           "name",
           "profile_picture_url",
@@ -149,24 +143,27 @@ export const GET = async (req: NextRequest) => {
               ),
             );
         }
+        const { posts, stats } = await getPosts(
+          personalInfo.followers_count,
+          loggedInUserID,
+          accessToken,
+          personalInfo.username,
+        );
+        await db
+          .insert(InstagramMediaTable)
+          .values(posts)
+          .onConflictDoNothing();
+
         const id = await db.transaction(async (tx) => {
-          const posts = await getPosts(accessToken, personalInfo.username);
           const [inserted] = await tx
             .insert(InstagramDetails)
             .values({
               appID: userId,
               username: personalInfo.username,
               followers: personalInfo.followers_count,
-              er: median(
-                posts.map((post) =>
-                  getER(
-                    personalInfo.followers_count,
-                    post.like_count || 0,
-                    post.comments_count || -1,
-                  ),
-                ),
-              ),
+              lastFetchedInstagramStats: new Date(),
               accessToken,
+              ...stats,
             })
             .returning();
           if (!inserted) return tx.rollback();
@@ -176,69 +173,40 @@ export const GET = async (req: NextRequest) => {
           const instagramPhotoURL =
             externalDetails?.profile_picture_url ||
             personalInfo.profile_picture_url;
-          if (loggedInUserID) {
-            const loggedInUser = await getUser(
-              eq(UserTable.id, loggedInUserID),
-            );
-            if (loggedInUser) {
-              refreshToken = await updateRefreshTokenAndScope(
-                loggedInUser.id,
-                loggedInUser.refreshTokens,
-                Array.from(
-                  new Set(loggedInUser.scopes).add(AuthScopes.INSTAGRAM),
-                ),
-                {
-                  instagramDetails: inserted.id,
-                  photo:
-                    loggedInUser.photo ||
-                    (instagramPhotoURL &&
-                      (await uploadImage(instagramPhotoURL, [
-                        "User",
-                        loggedInUserID.toString(),
-                        "photo",
-                      ]))),
-                  name: loggedInUser.name || personalInfo.name,
-                  bio: loggedInUser.bio || personalInfo.biography,
-                },
-                tx,
-              );
-            } else tx.rollback();
-          } else {
-            const newUser = await createUser(
+          const loggedInUser = await getUser(eq(UserTable.id, loggedInUserID));
+          if (loggedInUser) {
+            refreshToken = await updateRefreshTokenAndScope(
+              loggedInUser.id,
+              loggedInUser.refreshTokens,
+              Array.from(
+                new Set(loggedInUser.scopes).add(AuthScopes.INSTAGRAM),
+              ),
               {
-                name: personalInfo.name,
-                refreshTokens: [],
                 instagramDetails: inserted.id,
-                bio: personalInfo.biography,
-                scopes: [AuthScopes.INSTAGRAM],
-                roles: [],
+                photo:
+                  loggedInUser.photo ||
+                  (instagramPhotoURL &&
+                    (await uploadImage(instagramPhotoURL, [
+                      "User",
+                      loggedInUserID.toString(),
+                      "photo",
+                    ]))),
+                name: loggedInUser.name || personalInfo.name,
+                bio: loggedInUser.bio || personalInfo.biography,
               },
               tx,
             );
-            if (newUser) {
-              refreshToken = await updateRefreshTokenAndScope(
-                newUser.id,
-                [],
-                undefined,
-                {
-                  photo:
-                    instagramPhotoURL &&
-                    (await uploadImage(instagramPhotoURL, [
-                      "User",
-                      newUser.id.toString(),
-                      "photo",
-                    ])),
-                },
-                tx,
-              );
-            } else tx.rollback();
-          }
+          } else tx.rollback();
           return inserted.id;
         });
         if (!id)
           return new NextResponse("Error creating new user", {
             status: 400,
           });
+      } else {
+        return new NextResponse("You cannot signup with instagram", {
+          status: 400,
+        });
       }
       return NextResponse.redirect(
         `${BASE_REDIRECT_URI}?refresh=${refreshToken}&csrf_token=${csrfToken}`,
