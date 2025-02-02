@@ -8,9 +8,8 @@ export const GET = (req: NextRequest) => {
   const oldState = req.cookies.get("csrf_token")?.value;
   const redirectURL = req.cookies.get("redirectURL")?.value;
   const res = NextResponse.redirect(
-    redirectURL ||
-      process.env.NEXT_PUBLIC_FRONTEND_BASE_URL +
-        (error ? `?error=${error}` : ""),
+    (redirectURL || process.env.NEXT_PUBLIC_FRONTEND_BASE_URL) +
+      (error ? `?error=${error}` : ""),
   );
   if (refresh && process.env.NEXT_PUBLIC_FRONTEND_BASE_URL) {
     res.cookies.set("redirectURL", "", {
