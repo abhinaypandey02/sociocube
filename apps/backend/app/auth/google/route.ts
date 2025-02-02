@@ -74,6 +74,7 @@ export const GET = async (req: NextRequest) => {
           existingUser.id,
           existingUser.refreshTokens,
           Array.from(new Set(existingUser.scopes).add(AuthScopes.GOOGLE)),
+          { emailVerified: true },
         );
       } else if (loggedInUserID) {
         const loggedInUser = await getUser(eq(UserTable.id, loggedInUserID));
@@ -91,6 +92,7 @@ export const GET = async (req: NextRequest) => {
           refreshTokens: [],
           scopes: [AuthScopes.GOOGLE],
           roles: [],
+          emailVerified: true,
         });
         if (newUser) {
           refreshToken = await updateRefreshTokenAndScope(newUser.id, []);
