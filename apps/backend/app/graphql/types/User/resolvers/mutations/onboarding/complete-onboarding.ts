@@ -7,7 +7,6 @@ import {
   UserTable,
 } from "../../../db/schema";
 import GQLError from "../../../../../constants/errors";
-import { Roles } from "../../../../../constants/roles";
 
 export async function handleCompleteOnboarding(ctx: AuthorizedContext) {
   await db.transaction(async (tx) => {
@@ -58,7 +57,6 @@ export async function handleCompleteOnboarding(ctx: AuthorizedContext) {
         ...res.onboarding_data,
         id: ctx.userId,
         onboardingData: null,
-        roles: [...res.user.roles, Roles.SELLER],
         isOnboarded: true,
         location: location.id,
         username: res.onboarding_data.username,

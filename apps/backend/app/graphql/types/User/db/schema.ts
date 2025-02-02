@@ -24,7 +24,6 @@ export const mediaType = pgEnum("media_type", [
   InstagramMediaType.CarouselAlbum,
 ]);
 export const rolesEnum = pgEnum("role", [
-  Roles.SELLER,
   Roles.ADMIN,
   Roles.ReferralCreator,
   Roles.ManuallyVerified,
@@ -44,7 +43,7 @@ export const UserTable = pgTable(
     companyName: text("companyName"),
     username: text("username").unique(),
     email: text("email").unique(),
-    emailVerified: boolean("email_verified").default(true),
+    emailVerified: boolean("email_verified").default(false),
     contactEmail: text("contact_email").unique(),
     instagramDetails: integer("instagram_details").references(
       () => InstagramDetails.id,
