@@ -10,7 +10,6 @@ export const GET_CURRENT_USER = gql(`
       name
       photo
       isOnboarded
-      scopes
       instagramStats {
         isVerified
       }
@@ -200,7 +199,6 @@ export const GET_ACCOUNT_DETAILS = gql(`
       category
       gender
       dob
-      scopes
       username
       locationID {
         city

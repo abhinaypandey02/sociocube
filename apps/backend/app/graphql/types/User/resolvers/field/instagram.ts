@@ -1,5 +1,5 @@
 import { desc, eq } from "drizzle-orm";
-import { InstagramMediaTable, UserDB, UserTable } from "../../db/schema";
+import { InstagramMediaTable, UserDB } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import {
@@ -7,7 +7,6 @@ import {
   getInstagramDataExternalAPI,
 } from "../../../../../auth/instagram/utils";
 import { InstagramMediaType } from "../../../../constants/instagram-media-type";
-import { AuthScopes } from "../../../../constants/scopes";
 import { Roles } from "../../../../constants/roles";
 
 export function normaliseDigits(val: number) {
@@ -54,14 +53,6 @@ async function getStats(
     if (apiResult?.username) return apiResult;
     if (!apiResult && user.instagramDetails) {
       if (failedTries >= 5) {
-        await db
-          .update(UserTable)
-          .set({
-            scopes: user.scopes.filter(
-              (scope) => scope !== AuthScopes.INSTAGRAM,
-            ),
-          })
-          .where(eq(UserTable.id, user.id));
         await db
           .update(InstagramDetails)
           .set({ accessToken: null })

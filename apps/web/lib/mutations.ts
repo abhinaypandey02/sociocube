@@ -86,13 +86,6 @@ export const DISCONNECT_INSTAGRAM = gql(`
   }
 `);
 
-export const DISCONNECT_GOOGLE = gql(`
-  #graphql
-  mutation DisconnectGoogle {
-    disconnectGoogle
-  }
-`);
-
 export const APPLY_NOW = gql(`
   #graphql
   mutation ApplyNow($postingID:Float!, $email:String!, $comment:String, $phone:String) {

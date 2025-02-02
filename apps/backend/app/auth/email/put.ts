@@ -5,7 +5,6 @@ import {
   getTokenizedResponse,
 } from "../../../lib/auth/token";
 import { ErrorResponses } from "../../../lib/auth/error-responses";
-import { AuthScopes } from "../../graphql/constants/scopes";
 import { UserTable } from "../../graphql/types/User/db/schema";
 import {
   getUser,
@@ -35,7 +34,6 @@ export const PUT = async (req: Request) => {
     const refreshToken = await updateRefreshTokenAndScope(
       user.id,
       user.refreshTokens,
-      Array.from(new Set(user.scopes).add(AuthScopes.EMAIL)),
     );
     return getTokenizedResponse(generateAccessToken(user.id), refreshToken);
   }

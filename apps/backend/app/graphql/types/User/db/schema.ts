@@ -14,7 +14,6 @@ import categories from "commons/categories";
 import genders from "commons/genders";
 import { sql } from "drizzle-orm";
 import { Roles } from "../../../constants/roles";
-import { AuthScopes } from "../../../constants/scopes";
 import { InstagramDetails } from "../../Instagram/db/schema";
 import { CityTable, CountryTable, StateTable } from "../../Map/db/schema";
 import { InstagramMediaType } from "../../../constants/instagram-media-type";
@@ -29,12 +28,6 @@ export const rolesEnum = pgEnum("role", [
   Roles.ADMIN,
   Roles.ReferralCreator,
   Roles.ManuallyVerified,
-]);
-export const authScopesEnum = pgEnum("scope", [
-  AuthScopes.GOOGLE,
-  AuthScopes.INSTAGRAM,
-  AuthScopes.EMAIL,
-  AuthScopes.PHONE,
 ]);
 export const gendersEnum = pgEnum("genders", genders as [string, ...string[]]);
 export const categoriesEnum = pgEnum(
@@ -60,7 +53,6 @@ export const UserTable = pgTable(
     phone: text("phone"),
     photo: text("photo"),
     refreshTokens: text("refresh_tokens").array(),
-    scopes: authScopesEnum("scope").array().notNull(),
     roles: rolesEnum("role").array().notNull(),
     otp: integer("otp_id").references(() => OTPTable.id),
     onboardingData: integer("onboarding_data").references(

@@ -8,7 +8,6 @@ const MAX_DEVICES = 5;
 export async function updateRefreshTokenAndScope(
   id: number,
   refreshTokens: UserDB["refreshTokens"],
-  scopes?: UserDB["scopes"],
   data?: Partial<UserDBInsert>,
   tx?: DBTransaction,
 ) {
@@ -20,7 +19,6 @@ export async function updateRefreshTokenAndScope(
         0,
         MAX_DEVICES,
       ),
-      ...(scopes ? { scopes } : {}),
       ...(data || {}),
     })
     .where(eq(UserTable.id, id));

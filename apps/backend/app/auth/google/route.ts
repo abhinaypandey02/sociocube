@@ -7,7 +7,6 @@ import {
   getUser,
   updateRefreshTokenAndScope,
 } from "../../graphql/types/User/db/utils";
-import { AuthScopes } from "../../graphql/constants/scopes";
 import {
   BASE_REDIRECT_URI,
   createState,
@@ -73,7 +72,6 @@ export const GET = async (req: NextRequest) => {
         refreshToken = await updateRefreshTokenAndScope(
           existingUser.id,
           existingUser.refreshTokens,
-          Array.from(new Set(existingUser.scopes).add(AuthScopes.GOOGLE)),
           { emailVerified: true },
         );
       } else if (loggedInUserID) {
@@ -82,7 +80,6 @@ export const GET = async (req: NextRequest) => {
           refreshToken = await updateRefreshTokenAndScope(
             loggedInUser.id,
             loggedInUser.refreshTokens,
-            Array.from(new Set(loggedInUser.scopes).add(AuthScopes.GOOGLE)),
           );
         }
       } else if (user.name) {
@@ -90,7 +87,6 @@ export const GET = async (req: NextRequest) => {
           email: user.email,
           name: user.name,
           refreshTokens: [],
-          scopes: [AuthScopes.GOOGLE],
           roles: [],
           emailVerified: true,
         });

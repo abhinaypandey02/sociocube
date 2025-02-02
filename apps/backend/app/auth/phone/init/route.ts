@@ -4,7 +4,6 @@ import { eq } from "drizzle-orm";
 import { ErrorResponses } from "../../../../lib/auth/error-responses";
 import { getUser } from "../../../graphql/types/User/db/utils";
 import { sendOtp } from "../../../../lib/auth/send-otp";
-import { AuthScopes } from "../../../graphql/constants/scopes";
 import { db } from "../../../../lib/db";
 import { OTPTable, UserTable } from "../../../graphql/types/User/db/schema";
 import { verifyCaptcha } from "../../email/utils";
@@ -35,7 +34,6 @@ export const POST = async (req: NextRequest) => {
               phone: body.phone,
               otp: otp.id,
               refreshTokens: [],
-              scopes: [AuthScopes.PHONE],
               roles: [],
             })
             .returning({ id: UserTable.id });

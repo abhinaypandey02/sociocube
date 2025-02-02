@@ -1,5 +1,4 @@
 import { Field, InputType, ObjectType } from "type-graphql";
-import { AuthScopes } from "../../constants/scopes";
 import { Roles } from "../../constants/roles";
 
 @ObjectType("Pricing")
@@ -80,8 +79,6 @@ export class UserGQL {
   contactEmail?: string;
   @Field({ nullable: true })
   phone?: string;
-  @Field(() => [AuthScopes])
-  scopes: AuthScopes[];
   @Field({ nullable: true })
   onboardingData?: OnboardingData;
   @Field(() => [Roles], { nullable: true })

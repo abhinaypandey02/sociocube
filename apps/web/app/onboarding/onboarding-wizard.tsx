@@ -22,7 +22,6 @@ import type {
   Currency,
   GetDefaultOnboardingDetailsQuery,
 } from "../../__generated__/graphql";
-import { AuthScopes } from "../../__generated__/graphql";
 import { getRoute } from "../../constants/routes";
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
 import SocialsStatus from "./socials-status";
@@ -128,14 +127,10 @@ function OnboardingWizard({
         icon: ShareNetwork,
         component: (
           <SocialsStatus
+            connections={{ instagram: Boolean(currentUser?.instagramStats) }}
             key={1}
             nextStep={nextStep}
             redirectURL={redirectURL}
-            scopes={
-              currentUser?.instagramStats?.username
-                ? [AuthScopes.Instagram]
-                : []
-            }
           />
         ),
       },

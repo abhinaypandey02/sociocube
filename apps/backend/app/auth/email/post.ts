@@ -5,7 +5,6 @@ import {
   getTokenizedResponse,
 } from "../../../lib/auth/token";
 import { ErrorResponses } from "../../../lib/auth/error-responses";
-import { AuthScopes } from "../../graphql/constants/scopes";
 import { UserTable } from "../../graphql/types/User/db/schema";
 import {
   createUser,
@@ -34,7 +33,6 @@ export const POST = async (req: Request) => {
   const newUser = await createUser({
     ...body,
     refreshTokens: [],
-    scopes: [AuthScopes.EMAIL],
     password: encryptedPassword,
     roles: [],
   });

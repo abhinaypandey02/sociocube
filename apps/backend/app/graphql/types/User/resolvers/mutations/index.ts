@@ -16,7 +16,6 @@ import {
   OnboardingPriceInput,
 } from "./onboarding/update-onboarding-pricing";
 import { handleDisconnectInstagram } from "./disconnect-instagram";
-import { handleDisconnectGoogle } from "./disconnect-google";
 import {
   handleUpdateLocation,
   UpdateLocationInput,
@@ -107,10 +106,5 @@ export class UserMutationResolver {
   @Mutation(() => Boolean)
   disconnectInstagram(@Ctx() ctx: AuthorizedContext) {
     return handleDisconnectInstagram(ctx);
-  }
-  @Authorized()
-  @Mutation(() => Boolean)
-  disconnectGoogle(@Ctx() ctx: AuthorizedContext) {
-    return handleDisconnectGoogle(ctx);
   }
 }

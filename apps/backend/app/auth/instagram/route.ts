@@ -5,7 +5,6 @@ import {
   getUser,
   updateRefreshTokenAndScope,
 } from "../../graphql/types/User/db/utils";
-import { AuthScopes } from "../../graphql/constants/scopes";
 import {
   BASE_REDIRECT_URI,
   createState,
@@ -74,7 +73,6 @@ export const GET = async (req: NextRequest) => {
         refreshToken = await updateRefreshTokenAndScope(
           existingUser.id,
           existingUser.refreshTokens,
-          Array.from(new Set(existingUser.scopes).add(AuthScopes.INSTAGRAM)),
         );
       } else if (loggedInUserID) {
         const personalInfo = (await getGraphData(`me`, accessToken, [
@@ -172,9 +170,6 @@ export const GET = async (req: NextRequest) => {
             refreshToken = await updateRefreshTokenAndScope(
               loggedInUser.id,
               loggedInUser.refreshTokens,
-              Array.from(
-                new Set(loggedInUser.scopes).add(AuthScopes.INSTAGRAM),
-              ),
               {
                 instagramDetails: inserted.id,
                 photo:

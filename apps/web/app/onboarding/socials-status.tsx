@@ -7,23 +7,21 @@ import { SealCheck } from "@phosphor-icons/react";
 import { Input } from "ui/input";
 import { useForm } from "react-hook-form";
 import Form from "ui/form";
-import type { AuthScopes } from "../../__generated__/graphql";
 import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
 import { UPDATE_ONBOARDING_INSTAGRAM_USERNAME } from "../../lib/mutations";
 import { Route } from "../../constants/routes";
-import { completedOnboardingScopes } from "./utils";
 
 export default function SocialsStatus({
-  scopes,
+  connections,
   nextStep,
   redirectURL,
 }: {
-  scopes: AuthScopes[];
+  connections: { instagram: boolean };
   nextStep: () => void;
   redirectURL: string | null;
 }) {
   const form = useForm<{ username: string }>();
-  const connected = completedOnboardingScopes(scopes).length > 0;
+  const connected = connections.instagram;
   const [updateInstagramUsername, { loading }] = useAuthMutation(
     UPDATE_ONBOARDING_INSTAGRAM_USERNAME,
   );

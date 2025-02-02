@@ -237,13 +237,6 @@ type Application {
   user: User
 }
 
-enum AuthScopes {
-  EMAIL
-  GOOGLE
-  INSTAGRAM
-  PHONE
-}
-
 type Chat {
   conversation: Int!
   hasRead: Boolean!
@@ -324,12 +317,14 @@ type Mutation {
   completeOnboarding: Boolean!
   createPosting(newPosting: NewPostingInput!): Float
   deletePosting(postingID: Float!): Boolean!
-  disconnectGoogle: Boolean!
   disconnectInstagram: Boolean!
   pausePosting(postingID: Float!): Boolean!
   readMessage(conversationID: Int!): Boolean!
+  resetPassword(newPassword: String!, token: String!): Boolean!
   resumePosting(postingID: Float!): Boolean!
   sendMessage(body: String!, conversationID: Int!): Boolean!
+  sendResetPasswordEmail(email: String!): Boolean!
+  sendVerificationEmail: Boolean!
   updateOnboardingBasicDetails(basicDetails: OnboardingBasicDetailsInput!): Boolean!
   updateOnboardingDOB(dobDetails: OnboardingDOBInput!): Boolean!
   updateOnboardingInstagramUsername(username: String!): Boolean!
@@ -339,6 +334,7 @@ type Mutation {
   updatePosting(id: Float!, updatedPosting: UpdatePostingInput!): Boolean!
   updateUser(updatedUser: UpdateUserInput!): Boolean!
   updateUserLocation(updatedLocation: UpdateLocation!): Boolean!
+  verifyEmail(token: String!): Boolean!
 }
 
 input NewPostingInput {
@@ -541,6 +537,5 @@ type User {
   pictureUploadURL: StorageFile!
   pricing: Pricing
   roles: [ROLES!]
-  scopes: [AuthScopes!]!
   username: String
 }
