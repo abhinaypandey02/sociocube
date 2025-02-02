@@ -2,14 +2,16 @@
 
 import type { PropsWithChildren } from "react";
 import React, {
+  useEffect,
   createContext,
   Suspense,
   useCallback,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import { ProgressLoader } from "nextjs-progressloader";
+import { useSearchParams } from "next/navigation";
+import { toast } from "react-hot-toast";
 import GetVerifiedModal from "../app/components/get-verified-modal";
 
 const GlobalState = createContext<{
@@ -33,8 +35,13 @@ export function useToggleGetVerifiedModal() {
 
 export function GlobalStateWrapper({ children }: PropsWithChildren) {
   const [token, setToken] = useState<string>();
+  const params = useSearchParams();
   const [isGetVerifiedModalOpen, setIsGetVerifiedModalOpen] =
     useState<boolean>(false);
+  useEffect(() => {
+    const error = params.get("error");
+    if (error) toast.error(error);
+  }, [params]);
   useEffect(() => {
     fetch(`/_auth`, {
       credentials: "include",
