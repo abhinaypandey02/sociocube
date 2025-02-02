@@ -1,4 +1,4 @@
-import { sign, verify } from "jsonwebtoken";
+import { JsonWebTokenError, sign, verify } from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
 export function generateAccessToken(id: number) {
@@ -51,7 +51,7 @@ export function getUserIdFromRefreshToken(
       if (typeof decoded !== "string" && typeof decoded.id === "number")
         return decoded.id;
     } catch (e) {
-      console.error(e, "errors");
+      if (!(e instanceof JsonWebTokenError)) console.error(e, "errors");
       return null;
     }
   return null;
