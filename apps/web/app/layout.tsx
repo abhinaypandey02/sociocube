@@ -18,6 +18,7 @@ import { getCurrentUser, Injector } from "../lib/apollo-server";
 import OptimisticNavbar from "./components/optimistic-navbar";
 import { UNAUTHORISED_NAVBAR_SECTIONS } from "./constants";
 import Schema from "./components/schema";
+import ErrorToaster from "./components/error-toaster";
 
 const madina = localFont({
   src: "./madina.woff2",
@@ -100,6 +101,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
           id="title"
         />
         <Toaster />
+        <Suspense>
+          <ErrorToaster />
+        </Suspense>
         <ApolloWrapper>
           <GlobalStateWrapper>
             <Suspense
