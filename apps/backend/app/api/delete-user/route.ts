@@ -14,21 +14,10 @@
 //
 // export const POST = async (req: NextRequest) => {
 //   const id = ((await req.json()) as { id: number }).id;
-//   const posts = await db
-//     .delete(InstagramMediaTable)
-//     .where(eq(InstagramMediaTable.user, id))
-//     .returning();
-//   await db
-//     .delete(ApplicationTable)
-//     .where(eq(ApplicationTable.user, id))
-//     .returning();
-//   await db.delete(PostingTable).where(eq(PostingTable.user, id)).returning();
-//   for (const post of posts) {
-//     // eslint-disable-next-line no-await-in-loop -- needed
-//     await deleteImage(post.thumbnail);
-//     // eslint-disable-next-line no-await-in-loop -- needed
-//     if (post.mediaURL) await deleteImage(post.mediaURL);
-//   }
+//   await db.delete(InstagramMediaTable).where(eq(InstagramMediaTable.user, id));
+//   await db.delete(ApplicationTable).where(eq(ApplicationTable.user, id));
+//   await db.delete(PostingTable).where(eq(PostingTable.user, id));
+//
 //   const [user] = await db
 //     .delete(UserTable)
 //     .where(eq(UserTable.id, id))
