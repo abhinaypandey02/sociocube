@@ -7,7 +7,7 @@ import { handleResetPassword } from "./reset-password";
 
 @Resolver()
 export class RequestMutationResolver {
-  @Mutation(() => Boolean)
+  @Mutation(() => Boolean, { nullable: true })
   sendResetPasswordEmail(@Arg("email") email: string) {
     return handleSendResetPasswordEmail(email);
   }

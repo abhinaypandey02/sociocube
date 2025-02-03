@@ -124,3 +124,17 @@ export const UPDATE_POSTING = gql(`
     updatePosting(id:$id,updatedPosting: $newPosting)  
   }
 `);
+
+export const SEND_RESET_PASSWORD_EMAIL = gql(`
+  #graphql
+  mutation SendResetPasswordEmail($email:String!) {
+    sendResetPasswordEmail(email: $email)  
+  }
+`);
+
+export const RESET_PASSWORD = gql(`
+  #graphql
+  mutation ResetPassword($newPassword:String!, $token:String!) {
+    resetPassword(newPassword: $newPassword, token:$token)  
+  }
+`);

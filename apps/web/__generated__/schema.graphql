@@ -457,7 +457,6 @@ enum ROLES {
   ADMIN
   ManuallyVerified
   ReferralCreator
-  SELLER
 }
 
 input SearchSellersFilters {

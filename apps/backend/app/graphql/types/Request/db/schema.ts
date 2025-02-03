@@ -22,7 +22,7 @@ export const RequestTable = pgTable("request", {
     .references(() => UserTable.id)
     .notNull(),
   type: requestType("type").notNull(),
-  attempts: integer("attempts").default(0).notNull(),
+  attempts: integer("attempts").default(1).notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 

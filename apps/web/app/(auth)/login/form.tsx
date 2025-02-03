@@ -9,7 +9,7 @@ import Link from "next/link";
 import Form from "ui/form";
 import { toast } from "react-hot-toast";
 import { useLoginWithEmail } from "../../../lib/auth-client";
-import { Route } from "../../../constants/routes";
+import { getRoute, Route } from "../../../constants/routes";
 import useTurnstileToken from "../use-turnstile-token";
 import AuthLayout from "../components/auth-layout";
 import { EMAIL_REGEX } from "../../../constants/validations";
@@ -56,7 +56,16 @@ export default function LoginForm() {
   };
 
   return (
-    <AuthLayout newUser={false} redirectURL={redirectURL}>
+    <AuthLayout
+      bottomHeading={{
+        question: "New here?",
+        answer: "Get started on a new account!",
+        link: getRoute("SignUp"),
+      }}
+      newUser={false}
+      redirectURL={redirectURL}
+      title="Login to your account"
+    >
       <Form
         className="space-y-6"
         form={form}
@@ -102,7 +111,10 @@ export default function LoginForm() {
 
         <div className="flex items-center justify-between">
           <div className="text-sm leading-6">
-            <Link className="link-accent font-semibold" href="#">
+            <Link
+              className="link-accent font-semibold"
+              href={getRoute("Forgot")}
+            >
               Forgot password?
             </Link>
           </div>

@@ -8,7 +8,7 @@ import { Button } from "ui/button";
 import Form from "ui/form";
 import { toast } from "react-hot-toast";
 import { useSignUpWithEmail } from "../../../lib/auth-client";
-import { Route } from "../../../constants/routes";
+import { getRoute, Route } from "../../../constants/routes";
 import useTurnstileToken from "../use-turnstile-token";
 import AuthLayout from "../components/auth-layout";
 import { EMAIL_REGEX } from "../../../constants/validations";
@@ -59,7 +59,16 @@ export default function SignupForm() {
   };
 
   return (
-    <AuthLayout newUser redirectURL={redirectURL}>
+    <AuthLayout
+      bottomHeading={{
+        question: "Already have an account?",
+        link: getRoute("Login"),
+        answer: "Sign in to your account!",
+      }}
+      newUser
+      redirectURL={redirectURL}
+      title="Create a new account"
+    >
       <Form
         className="space-y-4"
         form={form}

@@ -1,6 +1,7 @@
 export enum Route {
   Home = "/",
   Login = "/login",
+  Forgot = "/forgot",
   SignUp = "/join",
   Account = "/account",
   Onboarding = "/onboarding",
