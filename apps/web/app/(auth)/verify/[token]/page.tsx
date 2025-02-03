@@ -13,9 +13,12 @@ export default async function VerifyEmailPage({
     await queryGQL(VERIFY_EMAIL, { token });
     return <div>Successfully verified!</div>;
   } catch (error) {
+    console.error(error);
     return (
       <div className="text-red-500">{(error as GraphQLError).message}</div>
     );
   }
+  return null;
 }
 export const metadata = getSEO("Forgot password");
+export const revalidate = 0;

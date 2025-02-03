@@ -20,7 +20,7 @@ export async function handleVerifyEmail(token: string) {
       ),
     )
     .innerJoin(UserTable, eq(UserTable.id, RequestTable.user));
-  if (!res) throw GQLError(400, "Invalid token data, please request again");
+  if (!res) throw GQLError(400, "Request expired, please request again");
   if (res.user.emailVerified) return true;
   if (new Date().getTime() - res.request.createdAt.getTime() > 3600000)
     throw GQLError(400, "Link expired, please request again");
