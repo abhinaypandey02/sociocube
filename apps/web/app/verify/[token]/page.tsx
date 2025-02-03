@@ -1,9 +1,9 @@
 import type { GraphQLError } from "graphql/error";
 import { CheckCircle, WarningCircle } from "@phosphor-icons/react/dist/ssr";
-import { queryGQL } from "../../../../lib/apollo-server";
-import { VERIFY_EMAIL } from "../../../../lib/queries";
-import { getSEO } from "../../../../constants/seo";
-import AuthLayout from "../../components/auth-layout";
+import { queryGQL } from "../../../lib/apollo-server";
+import { VERIFY_EMAIL } from "../../../lib/queries";
+import { getSEO } from "../../../constants/seo";
+import AuthLayout from "../../(auth)/components/auth-layout";
 
 export default async function VerifyEmailPage({
   params,
@@ -18,7 +18,6 @@ export default async function VerifyEmailPage({
     await queryGQL(VERIFY_EMAIL, { token }, undefined, 0);
     success = true;
   } catch (error) {
-    console.error(error);
     success = false;
     errorMessage = (error as GraphQLError).message;
   }
