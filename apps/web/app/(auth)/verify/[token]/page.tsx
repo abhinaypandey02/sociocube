@@ -1,8 +1,9 @@
+import type { GraphQLError } from "graphql/error";
 import { queryGQL } from "../../../../lib/apollo-server";
 import { VERIFY_EMAIL } from "../../../../lib/queries";
 import { getSEO } from "../../../../constants/seo";
 
-export default function VerifyEmailPage({
+export default async function VerifyEmailPage({
   params,
 }: {
   params: Promise<{ token: string }>;
@@ -12,7 +13,9 @@ export default function VerifyEmailPage({
     await queryGQL(VERIFY_EMAIL, { token });
     return <div>Successfully verified!</div>;
   } catch (error) {
-    return <div className="text-red-500">{error.message}</div>;
+    return (
+      <div className="text-red-500">{(error as GraphQLError).message}</div>
+    );
   }
 }
 export const metadata = getSEO("Forgot password");

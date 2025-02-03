@@ -12,6 +12,7 @@ import {
   updateRefreshTokenAndScope,
 } from "../../graphql/types/User/db/utils";
 import { sendTemplateEmail } from "../../../lib/email/template";
+import { getVerificationLink } from "../../graphql/types/Request/resolvers/mutation/send-verification-email";
 import { verifyCaptcha } from "./utils";
 
 export const POST = async (req: Request) => {
@@ -38,9 +39,12 @@ export const POST = async (req: Request) => {
   });
 
   if (newUser) {
-    await sendTemplateEmail(body.email, "WelcomeUser", {
-      firstName: body.name.split(" ")[0] || "",
-    });
+    const link = await getVerificationLink(newUser.id);
+    if (link)
+      await sendTemplateEmail(body.email, "WelcomeUser", {
+        firstName: body.name.split(" ")[0] || "",
+        verifyLink: link,
+      });
     const refreshToken = await updateRefreshTokenAndScope(newUser.id, []);
     return getTokenizedResponse(generateAccessToken(newUser.id), refreshToken);
   }

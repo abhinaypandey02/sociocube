@@ -13,6 +13,15 @@ function getVerifyLink(id: number) {
   return `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/verify/${token}`;
 }
 
+export async function getVerificationLink(userID: number) {
+  const [inserted] = await db
+    .insert(RequestTable)
+    .values({ user: userID, type: RequestType.VerifyEmail })
+    .returning();
+  if (!inserted) return null;
+  return getVerifyLink(inserted.id);
+}
+
 export async function handleSendVerificationEmail(userID: number) {
   const [user] = await db
     .select()
@@ -46,14 +55,11 @@ export async function handleSendVerificationEmail(userID: number) {
     }
     await db.delete(RequestTable).where(eq(RequestTable.id, res.id));
   }
-  const [inserted] = await db
-    .insert(RequestTable)
-    .values({ user: user.id, type: RequestType.VerifyEmail })
-    .returning();
-  if (!inserted) return null;
+  const link = await getVerificationLink(user.id);
+  if (!link) return null;
   await sendTemplateEmail(user.email, "VerifyEmail", {
     firstName: user.name?.split(" ")[0] || "",
-    link: getVerifyLink(inserted.id),
+    link,
   });
   return null;
 }

@@ -1,7 +1,17 @@
-export const WelcomeUser = ({ firstName }: { firstName: string }) => ({
-  subject: `Welcome to Sociocube  ${firstName}! Let’s Get You Started 🚀!`,
+export const WelcomeUser = ({
+  firstName,
+  verifyLink,
+}: {
+  firstName: string;
+  verifyLink: string;
+}) => ({
+  subject: `Verify your email ${firstName}! Welcome to Sociocube!`,
   text: `Hi ${firstName}!,
 Welcome to Sociocube! 🎉 We’re thrilled to have you onboard as part of our growing community of influencers. 🌟
+
+Let's start by verifying your email. Click on the link below to verify your email:
+
+${verifyLink}
 
 You’re just one step away from unlocking brand collaborations and showcasing your potential to the world. Here’s how to complete your onboarding:
 
@@ -24,6 +34,9 @@ sociocube.com`,
   html: `
   <p style="font-size: 16px; color: #555; margin-bottom: 20px;">Hi ${firstName},</p>
         <p style="font-size: 16px; color: #555; margin-bottom: 20px;">Welcome to Sociocube! 🎉 We’re thrilled to have you onboard as part of our growing community of influencers. 🌟</p>
+        <p style="font-size: 16px; color: #555; margin-bottom: 20px;">Let's start by verifying your email. Click on the link below to verify your email:</p>
+        <a href="${verifyLink}" style="color: #007bff; text-decoration: none; margin-bottom: 20px;">${verifyLink}</a>
+        
         <h2 style="font-size: 18px; color: #333; margin-top: 20px; margin-bottom: 10px;">Quick Steps to Finish Onboarding:</h2>
         <ol style="font-size: 16px; color: #555; padding-left: 25px; margin-bottom: 20px;">
           <li> 
