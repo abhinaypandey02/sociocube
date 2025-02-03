@@ -31,10 +31,14 @@ export async function handleSendVerificationEmail(userID: number) {
       ),
     );
   if (res) {
-    if (res.attempts >= 2) return null;
     if (new Date().getTime() - res.createdAt.getTime() < 3600000) {
+      if (res.attempts >= 2)
+        throw GQLError(
+          403,
+          "You can only send verification email twice an hour",
+        );
       await sendTemplateEmail(user.email, "VerifyEmail", {
-        email: user.email,
+        firstName: user.name?.split(" ")[0] || "",
         link: getVerifyLink(res.id),
       });
       await db.update(RequestTable).set({ attempts: res.attempts + 1 });
@@ -48,7 +52,7 @@ export async function handleSendVerificationEmail(userID: number) {
     .returning();
   if (!inserted) return null;
   await sendTemplateEmail(user.email, "VerifyEmail", {
-    email: user.email,
+    firstName: user.name?.split(" ")[0] || "",
     link: getVerifyLink(inserted.id),
   });
   return null;

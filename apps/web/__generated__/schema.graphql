@@ -323,7 +323,7 @@ type Mutation {
   resetPassword(newPassword: String!, token: String!): Boolean!
   resumePosting(postingID: Float!): Boolean!
   sendMessage(body: String!, conversationID: Int!): Boolean!
-  sendResetPasswordEmail(email: String!): Boolean!
+  sendResetPasswordEmail(email: String!): Boolean
   sendVerificationEmail: Boolean!
   updateOnboardingBasicDetails(basicDetails: OnboardingBasicDetailsInput!): Boolean!
   updateOnboardingDOB(dobDetails: OnboardingDOBInput!): Boolean!
@@ -334,7 +334,6 @@ type Mutation {
   updatePosting(id: Float!, updatedPosting: UpdatePostingInput!): Boolean!
   updateUser(updatedUser: UpdateUserInput!): Boolean!
   updateUserLocation(updatedLocation: UpdateLocation!): Boolean!
-  verifyEmail(token: String!): Boolean!
 }
 
 input NewPostingInput {
@@ -449,6 +448,7 @@ type Query {
   getUserPostings: [Posting!]!
   isUsernameAvailable(username: String!): Boolean!
   searchSellers(filters: SearchSellersFilters!): [User!]
+  verifyEmail(token: String!): Boolean!
   __schema: __Schema!
   __type(name: String!): __Type
 }

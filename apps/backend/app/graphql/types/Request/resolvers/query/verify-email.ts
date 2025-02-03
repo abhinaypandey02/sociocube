@@ -3,12 +3,13 @@ import { verify } from "jsonwebtoken";
 import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../../User/db/schema";
 import { RequestTable, RequestType } from "../../db/schema";
+import GQLError from "../../../../constants/errors";
 
 export async function handleVerifyEmail(token: string) {
   const data = verify(token, process.env.SIGNING_KEY || "") as {
     id: number;
   } | null;
-  if (!data?.id) return false;
+  if (!data?.id) throw GQLError(400, "Invalid token, please request again");
   const [res] = await db
     .select()
     .from(RequestTable)
@@ -19,10 +20,10 @@ export async function handleVerifyEmail(token: string) {
       ),
     )
     .innerJoin(UserTable, eq(UserTable.id, RequestTable.user));
-  if (!res) return false;
+  if (!res) throw GQLError(400, "Invalid token data, please request again");
   if (res.user.emailVerified) return true;
   if (new Date().getTime() - res.request.createdAt.getTime() > 3600000)
-    return false;
+    throw GQLError(400, "Link expired, please request again");
   await db
     .update(UserTable)
     .set({ emailVerified: true })

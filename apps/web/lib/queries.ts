@@ -425,3 +425,10 @@ export const GET_POSTING_APPLICATIONS = gql(`
     }
   }
 `);
+
+export const VERIFY_EMAIL = gql(`
+  #graphql
+  query VerifyEmail($token:String!) {
+    verifyEmail(token: $token)
+  }
+`);

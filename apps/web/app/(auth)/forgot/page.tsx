@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { getSEO } from "../../../constants/seo";
 import ForgotPasswordForm from "./form";
 
-export default function SignUpPage() {
+export default function ForgotPasswordPage() {
   return (
     <Suspense>
       <ForgotPasswordForm />

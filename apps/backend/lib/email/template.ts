@@ -2,10 +2,12 @@ import { sendEmail } from "./nodemailer";
 import { WelcomeUser } from "./templates/welcome";
 import { VerifyEmail } from "./templates/verify";
 import { BASE_TEMPLATE } from "./templates/base";
+import { ResetPassword } from "./templates/reset-password";
 
 export const Template = {
   WelcomeUser,
   VerifyEmail,
+  ResetPassword,
 };
 
 export function sendTemplateEmail<T extends keyof typeof Template>(

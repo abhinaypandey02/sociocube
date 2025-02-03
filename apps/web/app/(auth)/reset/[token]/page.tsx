@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import ResetForm from "./form";
 
-export default async function SignUpPage({
+export default async function ResetPasswordPage({
   params,
 }: {
   params: Promise<{ token: string }>;

@@ -4,6 +4,7 @@ import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../../User/db/schema";
 import { RequestTable, RequestType } from "../../db/schema";
 import { sendTemplateEmail } from "../../../../../../lib/email/template";
+import GQLError from "../../../../constants/errors";
 
 function getForgetLink(id: number) {
   const token = sign({ id }, process.env.SIGNING_KEY || "", {
@@ -28,10 +29,14 @@ export async function handleSendResetPasswordEmail(userEmail: string) {
       ),
     );
   if (res) {
-    if (res.attempts >= 2) return null;
-    if (new Date().getTime() - res.createdAt.getTime() < 3600000) {
-      await sendTemplateEmail(userEmail, "VerifyEmail", {
-        email: userEmail,
+    if (new Date().getTime() - res.createdAt.getTime() < 24 * 3600000) {
+      if (res.attempts >= 2)
+        throw GQLError(
+          403,
+          "You can only send password reset email twice a day",
+        );
+      await sendTemplateEmail(userEmail, "ResetPassword", {
+        firstName: user.name?.split(" ")[0] || "",
         link: getForgetLink(res.id),
       });
       await db.update(RequestTable).set({ attempts: res.attempts + 1 });
@@ -44,8 +49,8 @@ export async function handleSendResetPasswordEmail(userEmail: string) {
     .values({ user: user.id, type: RequestType.ResetPassword })
     .returning();
   if (!inserted) return null;
-  await sendTemplateEmail(userEmail, "VerifyEmail", {
-    email: userEmail,
+  await sendTemplateEmail(userEmail, "ResetPassword", {
+    firstName: user.name?.split(" ")[0] || "",
     link: getForgetLink(inserted.id),
   });
   return null;
