@@ -15,7 +15,7 @@ Please ignore if you haven't requested a password reset!
 Regards
 Team Sociocube
   `,
-  body: `<p style="font-size: 16px; color: #555; margin-bottom: 20px;">Hey ${firstName}!</p>
+  html: `<p style="font-size: 16px; color: #555; margin-bottom: 20px;">Hey ${firstName}!</p>
 <p style="font-size: 16px; color: #555; margin-bottom: 5px;">We received request to reset your password!</p>
 <p style="font-size: 16px; color: #555; margin-bottom: 20px;">Please click on the link below to reset your password.</p>
 <a href="${link}">${link}</a>
