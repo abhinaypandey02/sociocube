@@ -40,7 +40,7 @@ export const POST = async (req: Request) => {
 
   if (newUser) {
     const link = await getVerificationLink(newUser.id);
-    if (link)
+    if (link === "asd")
       await sendTemplateEmail(body.email, "WelcomeUser", {
         firstName: body.name.split(" ")[0] || "",
         verifyLink: link,
