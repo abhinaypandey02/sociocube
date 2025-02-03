@@ -7,19 +7,17 @@ export default function AuthLayout({
   newUser,
   title,
   bottomHeading,
-  hideSocialBar,
   children,
   redirectURL,
 }: PropsWithChildren<{
   newUser?: boolean;
   title: string;
-  hideSocialBar?: boolean;
   bottomHeading?: {
     question: string;
     answer: string;
     link: string;
   };
-  redirectURL: string;
+  redirectURL?: string;
 }>) {
   return (
     <section className="mt-5  flex flex-1 flex-col justify-center pb-12 sm:px-6 sm:py-12 lg:px-8">
@@ -32,7 +30,7 @@ export default function AuthLayout({
       <div className="sm:mx-auto sm:mt-20 sm:w-full sm:max-w-[480px]">
         <div className=" px-6 py-12 sm:rounded-lg sm:bg-white sm:px-12 sm:shadow">
           {children}
-          {!hideSocialBar && (
+          {redirectURL ? (
             <div>
               <div className="relative mt-10">
                 <div
@@ -50,7 +48,7 @@ export default function AuthLayout({
 
               <SocialBar isLogin={!newUser} redirectURL={redirectURL} />
             </div>
-          )}
+          ) : null}
         </div>
 
         {bottomHeading ? (

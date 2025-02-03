@@ -1,7 +1,9 @@
 import type { GraphQLError } from "graphql/error";
+import { CheckCircle, WarningCircle } from "@phosphor-icons/react/dist/ssr";
 import { queryGQL } from "../../../../lib/apollo-server";
 import { VERIFY_EMAIL } from "../../../../lib/queries";
 import { getSEO } from "../../../../constants/seo";
+import AuthLayout from "../../components/auth-layout";
 
 export default async function VerifyEmailPage({
   params,
@@ -9,14 +11,29 @@ export default async function VerifyEmailPage({
   params: Promise<{ token: string }>;
 }) {
   const token = (await params).token;
+  let success,
+    errorMessage = "";
+
   try {
     await queryGQL(VERIFY_EMAIL, { token }, undefined, 0);
-    return <div>Successfully verified!</div>;
+    success = true;
   } catch (error) {
-    console.error(error);
-    return (
-      <div className="text-red-500">{(error as GraphQLError).message}</div>
-    );
+    success = false;
+    errorMessage = (error as GraphQLError).message;
   }
+  return (
+    <AuthLayout title="Email verification">
+      <div className="flex flex-col items-center gap-7">
+        {success ? (
+          <CheckCircle color="green" size={60} weight="fill" />
+        ) : (
+          <WarningCircle color="red" size={60} weight="fill" />
+        )}
+        <div className="font-poppins font-medium">
+          {success ? "Email successfully verified!" : errorMessage}
+        </div>
+      </div>
+    </AuthLayout>
+  );
 }
 export const metadata = getSEO("Forgot password");

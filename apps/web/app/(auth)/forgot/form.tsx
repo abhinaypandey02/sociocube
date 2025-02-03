@@ -2,13 +2,13 @@
 import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
 import Form from "ui/form";
 import { toast } from "react-hot-toast";
 import { useMutation } from "@apollo/client";
-import { getRoute, Route } from "../../../constants/routes";
+import { getRoute } from "../../../constants/routes";
 import AuthLayout from "../components/auth-layout";
 import { SEND_RESET_PASSWORD_EMAIL } from "../../../lib/mutations";
 import { handleGQLErrors } from "../../../lib/apollo-client";
@@ -20,15 +20,9 @@ const defaultValues = {
 export default function ForgotPasswordForm() {
   const form = useForm({ defaultValues });
   const router = useRouter();
-  const params = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [forgotPassword] = useMutation(SEND_RESET_PASSWORD_EMAIL);
-  const paramsRedirectURL = params.get("redirectURL");
-  const redirectURL =
-    Route.Onboarding +
-    (paramsRedirectURL ? `?redirectURL=${paramsRedirectURL}` : "");
-
   const onSubmit: SubmitHandler<typeof defaultValues> = (data) => {
     setIsLoading(true);
     forgotPassword({
@@ -56,8 +50,6 @@ export default function ForgotPasswordForm() {
         answer: "Get started now!",
         link: getRoute("SignUp"),
       }}
-      hideSocialBar
-      redirectURL={redirectURL}
       title="Forgot password?"
     >
       <Form
