@@ -8,10 +8,10 @@ import { Button } from "ui/button";
 import Form from "ui/form";
 import { toast } from "react-hot-toast";
 import { useMutation } from "@apollo/client";
-import { getRoute } from "../../../../constants/routes";
-import AuthLayout from "../../components/auth-layout";
-import { RESET_PASSWORD } from "../../../../lib/mutations";
-import { handleGQLErrors } from "../../../../lib/apollo-client";
+import { getRoute } from "../../../constants/routes";
+import AuthLayout from "../../(auth)/components/auth-layout";
+import { RESET_PASSWORD } from "../../../lib/mutations";
+import { handleGQLErrors } from "../../../lib/apollo-client";
 
 const defaultValues = {
   password: "",
