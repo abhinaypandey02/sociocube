@@ -18,6 +18,7 @@ export default async function VerifyEmailPage({
     await queryGQL(VERIFY_EMAIL, { token }, undefined, 0);
     success = true;
   } catch (error) {
+    console.error(error);
     success = false;
     errorMessage = (error as GraphQLError).message;
   }
