@@ -8,7 +8,7 @@ import GQLError from "../../../../constants/errors";
 
 function getVerifyLink(id: number) {
   const token = sign({ id }, process.env.SIGNING_KEY || "", {
-    expiresIn: "1h",
+    expiresIn: "2d",
   });
   return `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/verify/${token}`;
 }
