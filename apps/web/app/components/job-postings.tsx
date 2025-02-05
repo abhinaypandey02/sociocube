@@ -60,15 +60,22 @@ export default function JobPostings({
                   {posting.user?.instagramStats?.isVerified ? (
                     <SealCheck className="mx-1 text-accent" weight="fill" />
                   ) : null}
-                  {posting.minimumAge || posting.maximumAge ? " • " : ""}
-                  {getAgeGroup(posting.minimumAge, posting.maximumAge)}
-                  {posting.minimumFollowers
-                    ? ` • Min followers: ${convertToAbbreviation(posting.minimumFollowers)}`
-                    : null}
+                  <span className="max-md:hidden">
+                    {posting.minimumAge || posting.maximumAge ? " • " : ""}
+                    {getAgeGroup(posting.minimumAge, posting.maximumAge)}
+                    {posting.minimumFollowers
+                      ? ` • Min followers: ${convertToAbbreviation(posting.minimumFollowers)}`
+                      : null}
+                  </span>
                 </p>
-                <p className="mt-1 text-sm font-medium leading-6 text-gray-900 sm:hidden">
-                  {getCurrency(posting.barter, posting.currency, posting.price)}
-                </p>
+                <div className="mt-1 flex items-center gap-x-1.5 sm:hidden">
+                  <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                    <div className="size-1.5 rounded-full bg-emerald-500" />
+                  </div>
+                  <p className="text-xs leading-5 text-gray-500">
+                    {`${posting.applicationsCount}+ applications`}
+                  </p>
+                </div>
               </div>
             </div>
             <div className="flex shrink-0 items-center gap-x-4">
