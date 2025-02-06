@@ -7,7 +7,7 @@ import { db } from "../../../../../../lib/db";
 import { PortfolioTable } from "../../db/schema";
 import GQLError from "../../../../constants/errors";
 
-@InputType()
+@InputType("AddPortfolioArgs")
 export class AddPortfolioArgs {
   @Field()
   imageURL: string;
