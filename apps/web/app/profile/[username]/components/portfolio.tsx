@@ -24,7 +24,7 @@ export default function Portfolio({
     <div className="mt-8">
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-medium text-gray-900">Portfolio</h2>
-        {isAuthor && data.uploadURL ? (
+        {portfolio && isAuthor && data.uploadURL && portfolio.length < 6 ? (
           <AddPortfolioButton
             imageUploadURL={data.uploadURL}
             username={username}
