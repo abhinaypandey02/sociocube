@@ -25,7 +25,7 @@ export default function DeletePortfolioButton({
   isLink: boolean;
 }) {
   const [open, setOpen] = useState(false);
-  const [deletePortfolio, { data, loading }] =
+  const [deletePortfolio, { data, loading, reset }] =
     useAuthMutation(DELETE_PORTFOLIO);
   const fileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -39,6 +39,7 @@ export default function DeletePortfolioButton({
         router.refresh();
       });
     setOpen(false);
+    reset();
   };
   return (
     <>

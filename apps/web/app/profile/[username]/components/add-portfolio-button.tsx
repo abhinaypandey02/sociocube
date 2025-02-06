@@ -82,13 +82,16 @@ export default function AddPortfolioButton({
         },
       }).catch(handleGQLErrors);
     }
+    setLoading(false);
+    revalidateProfilePage(username)
+      .then(() => {
+        router.refresh();
+      })
+      .catch(handleGQLErrors);
+    setOpen(false);
     resetPortfolio();
     resetPortfolioLink();
-    await revalidateProfilePage(username);
-    router.refresh();
     form.reset();
-    setOpen(false);
-    setLoading(false);
   };
   return (
     <>
