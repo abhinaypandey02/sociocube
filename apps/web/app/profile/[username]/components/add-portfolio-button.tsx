@@ -140,11 +140,14 @@ export default function AddPortfolioButton({
             {!imageURL &&
               (loading ? (
                 <Spinner
-                  className="my-40 animate-spin text-primary"
+                  className="my-20 animate-spin text-primary md:my-40"
                   size={30}
                 />
               ) : (
-                <ImageSquare className="my-40 text-primary" size={30} />
+                <ImageSquare
+                  className="my-20 text-primary md:my-40"
+                  size={30}
+                />
               ))}
           </button>
           <Input
