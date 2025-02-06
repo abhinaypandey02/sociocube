@@ -138,3 +138,17 @@ export const RESET_PASSWORD = gql(`
     resetPassword(newPassword: $newPassword, token:$token)  
   }
 `);
+
+export const ADD_PORTFOLIO = gql(`
+  #graphql
+  mutation AddPortfolio($portfolio:AddPortfolioArgs!) {
+    addPortfolio(data: $portfolio)  
+  }
+`);
+
+export const DELETE_PORTFOLIO = gql(`
+  #graphql
+  mutation DeletePortfolio($id:Float!) {
+    deletePortfolio(id: $id)  
+  }
+`);

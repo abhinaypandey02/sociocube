@@ -11,6 +11,8 @@ export class AddPortfolioArgs {
   imageURL: string;
   @Field(() => String, { nullable: true })
   caption: string | null;
+  @Field(() => String, { nullable: true })
+  link: string | null;
 }
 
 export async function addPortfolio(
@@ -27,6 +29,7 @@ export async function addPortfolio(
   await db.insert(PortfolioTable).values({
     imageURL: args.imageURL,
     caption: args.caption,
+    link: args.link,
     user: ctx.userId,
   });
   return true;

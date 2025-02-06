@@ -9,11 +9,13 @@ import {
 import type { UserDB } from "../../db/schema";
 import { FileGQL } from "../../../File/type";
 import { InstagramMedia, InstagramStats } from "../../../Instagram/type";
+import { PortfolioGQL } from "../../../Portfolio/type";
 import { getIsOnboarded, getOnboardingData } from "./onboarding-data";
 import { getPictureUploadURL } from "./picture-upload-url";
 import { getPricing } from "./pricing";
 import { getLocation, getLocationID } from "./location";
 import { getInstagramMedia, getInstagramStats } from "./instagram";
+import { getPortfolio } from "./portfolio";
 
 @Resolver(() => UserGQL)
 export class UserFieldResolver {
@@ -52,5 +54,9 @@ export class UserFieldResolver {
   @FieldResolver(() => [InstagramMedia], { nullable: true })
   async instagramMedia(@Root() user: UserDB): Promise<InstagramMedia[] | null> {
     return getInstagramMedia(user);
+  }
+  @FieldResolver(() => [PortfolioGQL], { nullable: true })
+  async portfolio(@Root() user: UserDB): Promise<PortfolioGQL[] | null> {
+    return getPortfolio(user);
   }
 }

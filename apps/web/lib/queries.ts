@@ -117,6 +117,12 @@ export const GET_SELLER = gql(`
       photo
       bio
       gender
+      portfolio {
+        caption
+        id
+        link
+        imageURL
+      }
       location {
           city
           country
@@ -430,5 +436,18 @@ export const VERIFY_EMAIL = gql(`
   #graphql
   query VerifyEmail($token:String!) {
     verifyEmail(token: $token)
+  }
+`);
+
+export const GET_PORTFOLIO_UPLOAD_URL = gql(`
+  #graphql
+  query GetPortfolioUploadURL {
+    user:getCurrentUser {
+      id
+    }
+    uploadURL: getPortfolioUploadURL {
+      uploadURL
+      url
+    }
   }
 `);

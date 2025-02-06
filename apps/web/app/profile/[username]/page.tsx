@@ -9,10 +9,12 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { queryGQL } from "../../../lib/apollo-server";
+import { cookies } from "next/headers";
+import { Injector, queryGQL } from "../../../lib/apollo-server";
 import {
   GET_SELLER,
   GET_FEATURED_SELLERS_AND_POSTS,
+  GET_PORTFOLIO_UPLOAD_URL,
 } from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
 import { convertToAbbreviation } from "../../../lib/utils";
@@ -20,6 +22,7 @@ import Schema from "../../components/schema";
 import { getMeURL, getRoute, Route } from "../../../constants/routes";
 import CopyLinkButton from "./components/copy-link-button";
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
+import Portfolio from "./components/portfolio";
 
 export interface ProfilePage {
   params: Promise<{ username: string }>;
@@ -218,6 +221,14 @@ export default async function ProfilePage({
           </div>
           <CopyLinkButton url={getMeURL(username, true)} />
         </div>
+
+        <Injector
+          Component={Portfolio}
+          fetch={async () =>
+            queryGQL(GET_PORTFOLIO_UPLOAD_URL, undefined, await cookies(), 0)
+          }
+          props={{ portfolio: seller.portfolio, id: seller.id, username }}
+        />
 
         <div className="mt-8">
           <div className="flex justify-between">
