@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { type ChangeEvent, useRef, useState } from "react";
 import { Button } from "ui/button";
 import { ImageSquare, Plus } from "@phosphor-icons/react";
 import { Input } from "ui/input";
@@ -8,6 +8,8 @@ import Form from "ui/form";
 import { useRouter } from "next/navigation";
 import { PORTFOLIO_CAPTION_MAX_LENGTH } from "commons/constraints";
 import { isURL } from "class-validator";
+import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "commons/file";
+import { toast } from "react-hot-toast";
 import Modal from "../../../../components/modal";
 import type { StorageFile } from "../../../../__generated__/graphql";
 import {
@@ -75,9 +77,22 @@ export default function AddPortfolioButton({
   return (
     <>
       <input
+        accept={ALLOWED_IMAGE_TYPES.join(", ")}
         className="hidden"
         onChange={(e) => {
-          setImage(e.target.files?.[0]);
+          const event = e as unknown as ChangeEvent<HTMLInputElement>;
+          const file = event.target.files?.[0];
+          if (file) {
+            if (file.size > MAXIMUM_FILE_SIZE) {
+              toast.error(
+                `Maximum file size is ${MAXIMUM_FILE_SIZE / 1024 / 1024}mb`,
+              );
+            } else if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+              toast.error(`Only png and jpeg image types are allowed`);
+            } else {
+              setImage(file);
+            }
+          }
         }}
         ref={fileRef}
         type="file"
