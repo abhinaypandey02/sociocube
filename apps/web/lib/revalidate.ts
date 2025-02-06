@@ -1,7 +1,6 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
-import { getRoute } from "../constants/routes";
+import { revalidateTag } from "next/cache";
 
 // eslint-disable-next-line -- @typescript-eslint/ require-await
 export async function revalidateAllPostings() {
@@ -15,5 +14,5 @@ export async function revalidateOnlyPostingsPage() {
 
 // eslint-disable-next-line -- @typescript-eslint/ require-await
 export async function revalidateProfilePage(username:string) {
-  revalidatePath(`${getRoute("Profile")}/${username}`);
+  revalidateTag(`profile-${username}`);
 }

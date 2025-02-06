@@ -80,6 +80,7 @@ export default async function ProfilePage({
     },
     undefined,
     noCache ? 0 : 60,
+    [`profile-${username}`],
   );
   const seller = data.getSeller;
   if (!seller?.name || !seller.instagramStats) return notFound();
