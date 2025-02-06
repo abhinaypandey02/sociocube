@@ -17,7 +17,7 @@ import {
   handleGQLErrors,
   useAuthMutation,
 } from "../../../../lib/apollo-client";
-import { ADD_PORTFOLIO } from "../../../../lib/mutations";
+import { ADD_PORTFOLIO, ADD_PORTFOLIO_LINK } from "../../../../lib/mutations";
 import { revalidateProfilePage } from "../../../../lib/revalidate";
 import { getProperSizedGif } from "./utils";
 
@@ -28,9 +28,11 @@ interface FormValues {
 export default function AddPortfolioButton({
   imageUploadURL,
   username,
+  isLink,
 }: {
   imageUploadURL: StorageFile;
   username: string;
+  isLink: boolean;
 }) {
   const form = useForm<FormValues>({
     defaultValues: {
@@ -40,37 +42,50 @@ export default function AddPortfolioButton({
   });
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [addPortfolio, { data }] = useAuthMutation(ADD_PORTFOLIO);
+  const [addPortfolio, { data: dataPortfolio, reset: resetPortfolio }] =
+    useAuthMutation(ADD_PORTFOLIO);
+  const [
+    addPortfolioLink,
+    { data: dataPortfolioLink, reset: resetPortfolioLink },
+  ] = useAuthMutation(ADD_PORTFOLIO_LINK);
   const [image, setImage] = useState<File | Blob>();
   const fileRef = useRef<HTMLInputElement>(null);
   const imageURL = image && URL.createObjectURL(image);
   const router = useRouter();
   const onSubmit = async (values: FormValues) => {
-    if (!image) return;
-
-    setLoading(true);
-    try {
-      await fetch(imageUploadURL.uploadURL, {
-        method: "PUT",
-        body: image,
-      });
-    } catch (e) {
-      setImage(undefined);
-      setLoading(false);
-      return;
+    if (!isLink) {
+      if (!image) return;
+      setLoading(true);
+      try {
+        await fetch(imageUploadURL.uploadURL, {
+          method: "PUT",
+          body: image,
+        });
+      } catch (e) {
+        setImage(undefined);
+        setLoading(false);
+        return;
+      }
+      await addPortfolio({
+        portfolio: {
+          caption: values.caption || null,
+          imageURL: imageUploadURL.url,
+          link: values.link || null,
+        },
+      }).catch(handleGQLErrors);
+    } else {
+      setLoading(true);
+      await addPortfolioLink({
+        portfolio: {
+          caption: values.caption,
+          link: values.link,
+        },
+      }).catch(handleGQLErrors);
     }
-    await addPortfolio({
-      portfolio: {
-        caption: values.caption || null,
-        imageURL: imageUploadURL.url,
-        link: values.link || null,
-      },
-    })
-      .catch(handleGQLErrors)
-      .then(async () => {
-        await revalidateProfilePage(username);
-        router.refresh();
-      });
+    resetPortfolio();
+    resetPortfolioLink();
+    await revalidateProfilePage(username);
+    router.refresh();
     form.reset();
     setOpen(false);
     setLoading(false);
@@ -118,46 +133,50 @@ export default function AddPortfolioButton({
         open={open}
       >
         <h3 className="mb-8 font-poppins text-xl font-medium text-gray-800">
-          Add new portfolio
+          Add new {isLink ? "link" : "portfolio"}
         </h3>
         <Form
           className="space-y-5"
           form={form}
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <button
-            className="flex w-full items-center justify-center rounded-md border border-dashed border-gray-500 text-gray-500"
-            onClick={() => fileRef.current?.click()}
-            type="button"
-          >
-            {imageURL ? (
-              <img
-                alt="new portfolio"
-                className="object-cover"
-                src={imageURL}
-              />
-            ) : null}
-            {!imageURL &&
-              (loading ? (
-                <Spinner
-                  className="my-20 animate-spin text-primary md:my-40"
-                  size={30}
+          {!isLink && (
+            <button
+              className="flex w-full items-center justify-center rounded-md border border-dashed border-gray-500 text-gray-500"
+              onClick={() => fileRef.current?.click()}
+              type="button"
+            >
+              {imageURL ? (
+                <img
+                  alt="new portfolio"
+                  className="object-cover"
+                  src={imageURL}
                 />
-              ) : (
-                <ImageSquare
-                  className="my-20 text-primary md:my-40"
-                  size={30}
-                />
-              ))}
-          </button>
+              ) : null}
+              {!imageURL &&
+                (loading ? (
+                  <Spinner
+                    className="my-20 animate-spin text-primary md:my-40"
+                    size={30}
+                  />
+                ) : (
+                  <ImageSquare
+                    className="my-20 text-primary md:my-40"
+                    size={30}
+                  />
+                ))}
+            </button>
+          )}
           <Input
-            label="Caption"
+            label={isLink ? "Title" : "Caption"}
             maxLength={PORTFOLIO_CAPTION_MAX_LENGTH}
             name="caption"
+            required={isLink}
           />
           <Input
-            label="Link to this work"
+            label={isLink ? "URL" : "Link to this work"}
             name="link"
+            required={isLink}
             rules={{
               validate: {
                 isURL: (val: string) => !val || isURL(val) || "Invalid URL",
@@ -167,12 +186,14 @@ export default function AddPortfolioButton({
           />
           <Button
             className="w-full"
-            disabled={!image}
+            disabled={!isLink && !image}
             loading={loading}
-            success={data?.addPortfolio}
+            success={
+              dataPortfolio?.addPortfolio || dataPortfolioLink?.addPortfolioLink
+            }
             type="submit"
           >
-            Add portfolio
+            Add {isLink ? "link" : "portfolio"}
           </Button>
         </Form>
       </Modal>

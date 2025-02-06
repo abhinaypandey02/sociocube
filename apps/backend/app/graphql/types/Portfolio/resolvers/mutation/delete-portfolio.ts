@@ -10,6 +10,6 @@ export async function deletePortfolio(ctx: AuthorizedContext, id: number) {
     .where(and(eq(PortfolioTable.id, id), eq(PortfolioTable.user, ctx.userId)))
     .returning();
   if (!deleted) return false;
-  await deleteImage(deleted.imageURL);
+  if (deleted.imageURL) await deleteImage(deleted.imageURL);
   return true;
 }

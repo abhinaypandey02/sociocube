@@ -145,6 +145,12 @@ export const ADD_PORTFOLIO = gql(`
     addPortfolio(data: $portfolio)  
   }
 `);
+export const ADD_PORTFOLIO_LINK = gql(`
+  #graphql
+  mutation AddPortfolioLink($portfolio:AddPortfolioLinkArgs!) {
+    addPortfolioLink(data: $portfolio)  
+  }
+`);
 
 export const DELETE_PORTFOLIO = gql(`
   #graphql

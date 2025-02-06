@@ -24,6 +24,11 @@ export type AddPortfolioArgs = {
   link?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type AddPortfolioLinkArgs = {
+  caption: Scalars['String']['input'];
+  link: Scalars['String']['input'];
+};
+
 export type Application = {
   __typename?: 'Application';
   comment?: Maybe<Scalars['String']['output']>;
@@ -120,6 +125,7 @@ export type Message = {
 export type Mutation = {
   __typename?: 'Mutation';
   addPortfolio: Scalars['Boolean']['output'];
+  addPortfolioLink: Scalars['Boolean']['output'];
   applyToPosting: Scalars['Boolean']['output'];
   completeOnboarding: Scalars['Boolean']['output'];
   createPosting?: Maybe<Scalars['Float']['output']>;
@@ -147,6 +153,11 @@ export type Mutation = {
 
 export type MutationAddPortfolioArgs = {
   data: AddPortfolioArgs;
+};
+
+
+export type MutationAddPortfolioLinkArgs = {
+  data: AddPortfolioLinkArgs;
 };
 
 
@@ -312,7 +323,7 @@ export type Portfolio = {
   __typename?: 'Portfolio';
   caption?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
-  imageURL: Scalars['String']['output'];
+  imageURL?: Maybe<Scalars['String']['output']>;
   link?: Maybe<Scalars['String']['output']>;
 };
 
@@ -372,7 +383,6 @@ export type Query = {
   getSeller?: Maybe<User>;
   getStates: Array<SelectOption>;
   getUserApplications: Array<Application>;
-  getUserPortfolio: Array<Portfolio>;
   getUserPostings: Array<Posting>;
   isUsernameAvailable: Scalars['Boolean']['output'];
   searchSellers?: Maybe<Array<User>>;
@@ -668,6 +678,13 @@ export type AddPortfolioMutationVariables = Exact<{
 
 export type AddPortfolioMutation = { __typename?: 'Mutation', addPortfolio: boolean };
 
+export type AddPortfolioLinkMutationVariables = Exact<{
+  portfolio: AddPortfolioLinkArgs;
+}>;
+
+
+export type AddPortfolioLinkMutation = { __typename?: 'Mutation', addPortfolioLink: boolean };
+
 export type DeletePortfolioMutationVariables = Exact<{
   id: Scalars['Float']['input'];
 }>;
@@ -695,7 +712,7 @@ export type GetSellerQueryVariables = Exact<{
 }>;
 
 
-export type GetSellerQuery = { __typename?: 'Query', getSeller?: { __typename?: 'User', id: number, name?: string | null, photo?: string | null, bio?: string | null, gender?: string | null, category?: string | null, dob?: string | null, portfolio?: Array<{ __typename?: 'Portfolio', caption?: string | null, id: number, link?: string | null, imageURL: string }> | null, location?: { __typename?: 'Location', city?: string | null, country?: string | null, currency?: { __typename?: 'Currency', name?: string | null, symbol?: string | null, code?: string | null } | null } | null, pricing?: { __typename?: 'Pricing', starting?: number | null } | null, instagramMedia?: Array<{ __typename?: 'InstagramMedia', thumbnail: string, caption?: string | null, link: string, likes: number, comments: number, er?: number | null }> | null, instagramStats?: { __typename?: 'InstagramStats', followers: number, mediaCount: number, username: string, er: number, averageLikes: number, isVerified: boolean } | null } | null };
+export type GetSellerQuery = { __typename?: 'Query', getSeller?: { __typename?: 'User', id: number, name?: string | null, photo?: string | null, bio?: string | null, gender?: string | null, category?: string | null, dob?: string | null, portfolio?: Array<{ __typename?: 'Portfolio', caption?: string | null, id: number, link?: string | null, imageURL?: string | null }> | null, location?: { __typename?: 'Location', city?: string | null, country?: string | null, currency?: { __typename?: 'Currency', name?: string | null, symbol?: string | null, code?: string | null } | null } | null, pricing?: { __typename?: 'Pricing', starting?: number | null } | null, instagramMedia?: Array<{ __typename?: 'InstagramMedia', thumbnail: string, caption?: string | null, link: string, likes: number, comments: number, er?: number | null }> | null, instagramStats?: { __typename?: 'InstagramStats', followers: number, mediaCount: number, username: string, er: number, averageLikes: number, isVerified: boolean } | null } | null };
 
 export type GetChatsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -817,6 +834,7 @@ export const UpdatePostingDocument = {"kind":"Document","definitions":[{"kind":"
 export const SendResetPasswordEmailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SendResetPasswordEmail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendResetPasswordEmail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}]}]}}]} as unknown as DocumentNode<SendResetPasswordEmailMutation, SendResetPasswordEmailMutationVariables>;
 export const ResetPasswordDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ResetPassword"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"newPassword"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"token"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"resetPassword"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"newPassword"},"value":{"kind":"Variable","name":{"kind":"Name","value":"newPassword"}}},{"kind":"Argument","name":{"kind":"Name","value":"token"},"value":{"kind":"Variable","name":{"kind":"Name","value":"token"}}}]}]}}]} as unknown as DocumentNode<ResetPasswordMutation, ResetPasswordMutationVariables>;
 export const AddPortfolioDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddPortfolio"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"portfolio"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddPortfolioArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addPortfolio"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"portfolio"}}}]}]}}]} as unknown as DocumentNode<AddPortfolioMutation, AddPortfolioMutationVariables>;
+export const AddPortfolioLinkDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddPortfolioLink"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"portfolio"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddPortfolioLinkArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addPortfolioLink"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"portfolio"}}}]}]}}]} as unknown as DocumentNode<AddPortfolioLinkMutation, AddPortfolioLinkMutationVariables>;
 export const DeletePortfolioDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeletePortfolio"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deletePortfolio"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode<DeletePortfolioMutation, DeletePortfolioMutationVariables>;
 export const GetCurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"user"},"name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"photo"}},{"kind":"Field","name":{"kind":"Name","value":"isOnboarded"}},{"kind":"Field","name":{"kind":"Name","value":"instagramStats"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isVerified"}}]}}]}}]}}]} as unknown as DocumentNode<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
 export const GetDefaultOnboardingDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetDefaultOnboardingDetails"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"photo"}},{"kind":"Field","name":{"kind":"Name","value":"isOnboarded"}},{"kind":"Field","name":{"kind":"Name","value":"instagramStats"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"username"}}]}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"onboardingData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"photo"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"dob"}},{"kind":"Field","name":{"kind":"Name","value":"gender"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"currency"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}}]}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"pricing"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"starting"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"pictureUploadURL"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uploadURL"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]} as unknown as DocumentNode<GetDefaultOnboardingDetailsQuery, GetDefaultOnboardingDetailsQueryVariables>;

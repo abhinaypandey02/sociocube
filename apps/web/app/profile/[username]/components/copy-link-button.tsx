@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { Link, Check } from "@phosphor-icons/react";
-import { Button, Variants } from "ui/button";
 import { toast } from "react-hot-toast";
+import { IconButton } from "ui/icon-button";
 
 export default function CopyLinkButton({ url }: { url: string }) {
   const [copied, setCopied] = useState(false);
@@ -12,13 +12,8 @@ export default function CopyLinkButton({ url }: { url: string }) {
     setCopied(true);
   };
   return (
-    <Button
-      className="flex items-center gap-2"
-      onClick={copyLink}
-      outline
-      variant={Variants.ACCENT}
-    >
+    <IconButton onClick={copyLink}>
       {copied ? <Check size={18} /> : <Link size={18} />}
-    </Button>
+    </IconButton>
   );
 }

@@ -27,30 +27,38 @@ export default function Portfolio({
         {portfolio && isAuthor && data.uploadURL && portfolio.length < 6 ? (
           <AddPortfolioButton
             imageUploadURL={data.uploadURL}
+            isLink={false}
             username={username}
           />
         ) : null}
       </div>
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 ">
-        {portfolio?.map((work) => (
-          <div className="relative" key={work.link}>
-            <a href={work.link || undefined} rel="noopener" target="_blank">
-              <Image
-                alt={work.caption || "portfolio"}
-                className="size-full rounded-md object-cover"
-                height={500}
-                src={work.imageURL}
-                width={500}
-              />
-            </a>
-            <small className="absolute bottom-0     w-full rounded-b-md bg-[rgba(0,0,0,0.15)] text-center text-[10px] italic text-white backdrop-blur-sm">
-              <div className="my-2 line-clamp-2 px-2">{work.caption}</div>
-            </small>
-            {isAuthor ? (
-              <DeletePortfolioButton username={username} work={work} />
-            ) : null}
-          </div>
-        ))}
+        {portfolio?.map(
+          (work) =>
+            work.imageURL && (
+              <div className="relative" key={work.link}>
+                <a href={work.link || undefined} rel="noopener" target="_blank">
+                  <Image
+                    alt={work.caption || "portfolio"}
+                    className="size-full rounded-md object-cover"
+                    height={500}
+                    src={work.imageURL}
+                    width={500}
+                  />
+                </a>
+                <small className="absolute bottom-0     w-full rounded-b-md bg-[rgba(0,0,0,0.15)] text-center text-[10px] italic text-white backdrop-blur-sm">
+                  <div className="my-2 line-clamp-2 px-2">{work.caption}</div>
+                </small>
+                {isAuthor ? (
+                  <DeletePortfolioButton
+                    isLink={false}
+                    username={username}
+                    work={work}
+                  />
+                ) : null}
+              </div>
+            ),
+        )}
       </div>
     </div>
   );

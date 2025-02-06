@@ -1,6 +1,5 @@
 import React, { Suspense } from "react";
 import type { Metadata } from "next";
-import { Button, Variants } from "ui/button";
 import {
   ArrowSquareOut,
   InstagramLogo,
@@ -10,6 +9,7 @@ import {
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { cookies } from "next/headers";
+import { IconButton } from "ui/icon-button";
 import { Injector, queryGQL } from "../../../lib/apollo-server";
 import {
   GET_SELLER,
@@ -23,6 +23,7 @@ import { getMeURL, getRoute, Route } from "../../../constants/routes";
 import CopyLinkButton from "./components/copy-link-button";
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 import Portfolio from "./components/portfolio";
+import PortfolioLinks from "./components/portfolio-links";
 
 export interface ProfilePage {
   params: Promise<{ username: string }>;
@@ -122,12 +123,26 @@ export default async function ProfilePage({
         id="main-profile"
       />
       <div className="lg:col-span-6 lg:col-start-7">
-        <h2 className="flex items-center gap-2 font-poppins text-2xl font-semibold text-gray-900">
-          {seller.name}{" "}
-          {seller.instagramStats.isVerified ? (
-            <SealCheck className="text-accent" weight="fill" />
-          ) : null}
-        </h2>
+        <div className="flex justify-between">
+          <h2 className="flex items-center gap-2 font-poppins text-2xl font-semibold text-gray-900">
+            {seller.name}{" "}
+            {seller.instagramStats.isVerified ? (
+              <SealCheck className="text-accent" weight="fill" />
+            ) : null}
+          </h2>
+          <div className="flex ">
+            <a
+              href={`https://ig.me/m/${seller.instagramStats.username}`}
+              rel="noopener"
+              target="_blank"
+            >
+              <IconButton>
+                <InstagramLogo size={18} />
+              </IconButton>
+            </a>
+            <CopyLinkButton url={getMeURL(username, true)} />
+          </div>
+        </div>
         {seller.pricing?.starting ? (
           <p className="mb-3 mt-1 text-gray-900">
             <span className="mr-1 text-sm font-light italic">from</span>{" "}
@@ -205,32 +220,32 @@ export default async function ProfilePage({
             </div>
           </div>
         ) : null}
-        <div className="mt-7 flex gap-4">
-          <div className="grow">
-            <a
-              href={`https://ig.me/m/${seller.instagramStats.username}`}
-              rel="noopener"
-              target="_blank"
-            >
-              <Button
-                className="flex w-full items-center gap-2"
-                variant={Variants.ACCENT}
-              >
-                Message now <InstagramLogo size={18} />
-              </Button>
-            </a>
-          </div>
-          <CopyLinkButton url={getMeURL(username, true)} />
-        </div>
-
+        <Injector
+          Component={PortfolioLinks}
+          fetch={async () =>
+            queryGQL(GET_PORTFOLIO_UPLOAD_URL, undefined, await cookies(), 0)
+          }
+          props={{
+            portfolio: seller.portfolio
+              ?.filter((work) => !work.imageURL && work.caption && work.link)
+              .toReversed(),
+            id: seller.id,
+            username,
+          }}
+        />
         <Injector
           Component={Portfolio}
           fetch={async () =>
             queryGQL(GET_PORTFOLIO_UPLOAD_URL, undefined, await cookies(), 0)
           }
-          props={{ portfolio: seller.portfolio, id: seller.id, username }}
+          props={{
+            portfolio: seller.portfolio
+              ?.filter((work) => Boolean(work.imageURL))
+              .toReversed(),
+            id: seller.id,
+            username,
+          }}
         />
-
         <div className="mt-8">
           <div className="flex justify-between">
             <h2 className="text-sm font-medium text-gray-900">Instagram</h2>

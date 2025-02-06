@@ -234,6 +234,11 @@ input AddPortfolioArgs {
   link: String
 }
 
+input AddPortfolioLinkArgs {
+  caption: String!
+  link: String!
+}
+
 type Application {
   comment: String
   email: String!
@@ -320,6 +325,7 @@ type Message {
 
 type Mutation {
   addPortfolio(data: AddPortfolioArgs!): Boolean!
+  addPortfolioLink(data: AddPortfolioLinkArgs!): Boolean!
   applyToPosting(comment: String, email: String!, phone: String, postingID: Float!): Boolean!
   completeOnboarding: Boolean!
   createPosting(newPosting: NewPostingInput!): Float
@@ -404,7 +410,7 @@ input OnboardingUsernameInput {
 type Portfolio {
   caption: String
   id: Int!
-  imageURL: String!
+  imageURL: String
   link: String
 }
 
@@ -461,7 +467,6 @@ type Query {
   getSeller(username: String!): User
   getStates(countryID: Int!): [SelectOption!]!
   getUserApplications: [Application!]!
-  getUserPortfolio: [Portfolio!]!
   getUserPostings: [Posting!]!
   isUsernameAvailable(username: String!): Boolean!
   searchSellers(filters: SearchSellersFilters!): [User!]

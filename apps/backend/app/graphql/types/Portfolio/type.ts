@@ -6,8 +6,8 @@ export class PortfolioGQL {
   caption: string | null;
   @Field(() => String, { nullable: true })
   link: string | null;
-  @Field()
-  imageURL: string;
+  @Field(() => String, { nullable: true })
+  imageURL: string | null;
   @Field(() => Int)
   id: number;
 }

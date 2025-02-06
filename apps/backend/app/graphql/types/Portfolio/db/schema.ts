@@ -6,7 +6,7 @@ export const PortfolioTable = pgTable("portfolio", {
   user: integer("user")
     .references(() => UserTable.id)
     .notNull(),
-  imageURL: text("image_url").notNull(),
+  imageURL: text("image_url"),
   link: text("link"),
   caption: text("caption"),
 });

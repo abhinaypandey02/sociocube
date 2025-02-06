@@ -16,11 +16,13 @@ import { revalidateProfilePage } from "../../../../lib/revalidate";
 export default function DeletePortfolioButton({
   work,
   username,
+  isLink,
 }: {
   work: NonNullable<
     NonNullable<GetSellerQuery["getSeller"]>["portfolio"]
   >[number];
   username: string;
+  isLink: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [deletePortfolio, { data, loading }] =
@@ -47,24 +49,26 @@ export default function DeletePortfolioButton({
         open={open}
       >
         <h3 className="mb-8 font-poppins text-xl font-medium text-gray-800">
-          Delete this portfolio work?
+          Delete this {isLink ? "link" : "portfolio work"}?
         </h3>
         <div className="space-y-5">
-          <button
-            className="flex w-full items-center justify-center rounded-md border border-dashed border-gray-500 text-gray-500"
-            onClick={() => fileRef.current?.click()}
-            type="button"
-          >
-            <img
-              alt="new portfolio"
-              className="object-cover"
-              src={work.imageURL}
-            />
-          </button>
+          {work.imageURL ? (
+            <button
+              className="flex w-full items-center justify-center rounded-md border border-dashed border-gray-500 text-gray-500"
+              onClick={() => fileRef.current?.click()}
+              type="button"
+            >
+              <img
+                alt="new portfolio"
+                className="object-cover"
+                src={work.imageURL}
+              />
+            </button>
+          ) : null}
           {work.caption ? (
             <Input
               disabled
-              label="Caption"
+              label={isLink ? "Title" : "Caption"}
               name="caption"
               value={work.caption}
             />
@@ -72,7 +76,7 @@ export default function DeletePortfolioButton({
           {work.link ? (
             <Input
               disabled
-              label="Link to this work"
+              label={isLink ? "URL" : "Link to this work"}
               name="link"
               value={work.link}
             />
@@ -85,7 +89,7 @@ export default function DeletePortfolioButton({
             success={data?.deletePortfolio}
             type="button"
           >
-            Delete portfolio
+            Delete {isLink ? "link" : "portfolio"}
           </Button>
         </div>
       </Modal>
