@@ -6,6 +6,8 @@ import { Input } from "ui/input";
 import { useForm } from "react-hook-form";
 import Form from "ui/form";
 import { useRouter } from "next/navigation";
+import { PORTFOLIO_CAPTION_MAX_LENGTH } from "commons/constraints";
+import { isURL } from "class-validator";
 import Modal from "../../../../components/modal";
 import type { StorageFile } from "../../../../__generated__/graphql";
 import {
@@ -27,7 +29,12 @@ export default function AddPortfolioButton({
   imageUploadURL: StorageFile;
   username: string;
 }) {
-  const form = useForm<FormValues>();
+  const form = useForm<FormValues>({
+    defaultValues: {
+      caption: "",
+      link: "",
+    },
+  });
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [addPortfolio, { data }] = useAuthMutation(ADD_PORTFOLIO);
@@ -37,6 +44,7 @@ export default function AddPortfolioButton({
   const router = useRouter();
   const onSubmit = async (values: FormValues) => {
     if (!image) return;
+
     setLoading(true);
     try {
       await fetch(imageUploadURL.uploadURL, {
@@ -60,6 +68,7 @@ export default function AddPortfolioButton({
         await revalidateProfilePage(username);
         router.refresh();
       });
+    form.reset();
     setOpen(false);
     setLoading(false);
   };
@@ -101,8 +110,21 @@ export default function AddPortfolioButton({
             ) : null}
             {!imageURL && <ImageSquare className="my-40" size="30" />}
           </button>
-          <Input label="Caption" name="caption" />
-          <Input label="Link to this work" name="link" />
+          <Input
+            label="Caption"
+            maxLength={PORTFOLIO_CAPTION_MAX_LENGTH}
+            name="caption"
+          />
+          <Input
+            label="Link to this work"
+            name="link"
+            rules={{
+              validate: {
+                isURL: (val: string) => isURL(val) || "Invalid URL",
+              },
+            }}
+            type="url"
+          />
           <Button
             className="w-full"
             disabled={!image}
@@ -118,7 +140,7 @@ export default function AddPortfolioButton({
         className="flex items-center gap-1 !px-3 !text-xs"
         onClick={() => {
           setImage(undefined);
-
+          form.reset();
           setOpen(true);
         }}
         outline

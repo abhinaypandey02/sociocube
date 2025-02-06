@@ -21,6 +21,7 @@
     "@next/third-parties": "^15.0.3",
     "@phosphor-icons/react": "^2.1.7",
     "@tanstack/react-table": "^8.20.6",
+    "class-validator": "^0.14.1",
     "classnames": "^2.5.1",
     "commons": "workspace:*",
     "gray-matter": "^4.0.3",

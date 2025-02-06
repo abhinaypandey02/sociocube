@@ -1,5 +1,7 @@
 import { count, eq } from "drizzle-orm";
 import { Field, InputType } from "type-graphql";
+import { IsUrl, MaxLength } from "class-validator";
+import { PORTFOLIO_CAPTION_MAX_LENGTH } from "commons/constraints";
 import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { PortfolioTable } from "../../db/schema";
@@ -10,8 +12,10 @@ export class AddPortfolioArgs {
   @Field()
   imageURL: string;
   @Field(() => String, { nullable: true })
+  @MaxLength(PORTFOLIO_CAPTION_MAX_LENGTH)
   caption: string | null;
   @Field(() => String, { nullable: true })
+  @IsUrl(undefined, { message: "Invalid URL" })
   link: string | null;
 }
 

@@ -159,6 +159,9 @@ importers:
       '@tanstack/react-table':
         specifier: ^8.20.6
         version: 8.20.6(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)
+      class-validator:
+        specifier: ^0.14.1
+        version: 0.14.1
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
