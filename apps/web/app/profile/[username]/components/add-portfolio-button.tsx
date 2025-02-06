@@ -10,6 +10,7 @@ import { PORTFOLIO_CAPTION_MAX_LENGTH } from "commons/constraints";
 import { isURL } from "class-validator";
 import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "commons/file";
 import { toast } from "react-hot-toast";
+import { Spinner } from "@phosphor-icons/react/dist/ssr";
 import Modal from "../../../../components/modal";
 import type { StorageFile } from "../../../../__generated__/graphql";
 import {
@@ -18,12 +19,12 @@ import {
 } from "../../../../lib/apollo-client";
 import { ADD_PORTFOLIO } from "../../../../lib/mutations";
 import { revalidateProfilePage } from "../../../../lib/revalidate";
+import { getProperSizedGif } from "./utils";
 
 interface FormValues {
   caption: string;
   link: string;
 }
-
 export default function AddPortfolioButton({
   imageUploadURL,
   username,
@@ -40,7 +41,7 @@ export default function AddPortfolioButton({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [addPortfolio, { data }] = useAuthMutation(ADD_PORTFOLIO);
-  const [image, setImage] = useState<File>();
+  const [image, setImage] = useState<File | Blob>();
   const fileRef = useRef<HTMLInputElement>(null);
   const imageURL = image && URL.createObjectURL(image);
   const router = useRouter();
@@ -60,9 +61,9 @@ export default function AddPortfolioButton({
     }
     await addPortfolio({
       portfolio: {
-        caption: values.caption,
+        caption: values.caption || null,
         imageURL: imageUploadURL.url,
-        link: values.link,
+        link: values.link || null,
       },
     })
       .catch(handleGQLErrors)
@@ -77,17 +78,30 @@ export default function AddPortfolioButton({
   return (
     <>
       <input
-        accept={ALLOWED_IMAGE_TYPES.join(", ")}
+        accept={[...ALLOWED_IMAGE_TYPES, "image/gif", "video/*"].join(", ")}
         className="hidden"
-        onChange={(e) => {
+        onChange={async (e) => {
           const event = e as unknown as ChangeEvent<HTMLInputElement>;
           const file = event.target.files?.[0];
           if (file) {
-            if (file.size > MAXIMUM_FILE_SIZE) {
+            if (file.type.startsWith("video/")) {
+              setLoading(true);
+              const blob = await getProperSizedGif(file);
+              setLoading(false);
+              if (blob) {
+                setImage(blob);
+              } else {
+                toast.error(
+                  `Cannot process video file, Please use a shorter video.`,
+                );
+              }
+            } else if (file.size > MAXIMUM_FILE_SIZE) {
               toast.error(
                 `Maximum file size is ${MAXIMUM_FILE_SIZE / 1024 / 1024}mb`,
               );
-            } else if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+            } else if (
+              ![...ALLOWED_IMAGE_TYPES, "image/gif"].includes(file.type)
+            ) {
               toast.error(`Only png and jpeg image types are allowed`);
             } else {
               setImage(file);
@@ -123,7 +137,15 @@ export default function AddPortfolioButton({
                 src={imageURL}
               />
             ) : null}
-            {!imageURL && <ImageSquare className="my-40" size="30" />}
+            {!imageURL &&
+              (loading ? (
+                <Spinner
+                  className="my-40 animate-spin text-primary"
+                  size={30}
+                />
+              ) : (
+                <ImageSquare className="my-40 text-primary" size={30} />
+              ))}
           </button>
           <Input
             label="Caption"
@@ -135,7 +157,7 @@ export default function AddPortfolioButton({
             name="link"
             rules={{
               validate: {
-                isURL: (val: string) => isURL(val) || "Invalid URL",
+                isURL: (val: string) => !val || isURL(val) || "Invalid URL",
               },
             }}
             type="url"
