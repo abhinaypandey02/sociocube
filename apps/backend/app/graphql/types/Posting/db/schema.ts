@@ -10,6 +10,7 @@ import {
 import { UserTable } from "../../User/db/schema";
 import { CountryTable } from "../../Map/db/schema";
 import { PostingPlatforms } from "../../../constants/platforms";
+import { AgencyTable } from "../../Agency/db/schema";
 
 export const platforms = pgEnum("platform", [
   PostingPlatforms.INSTAGRAM,
@@ -21,6 +22,7 @@ export const PostingTable = pgTable("posting", {
   user: integer("user")
     .references(() => UserTable.id)
     .notNull(),
+  agency: integer("agency").references(() => AgencyTable.id),
   title: text("title").notNull(),
   platforms: platforms("platforms").array().notNull().default([]),
   deliverables: text("deliverables").array(),

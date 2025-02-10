@@ -17,7 +17,9 @@ export const AgencyTable = pgTable("agency", {
   ),
 });
 
-const agencyMemberType = pgEnum("agency_member_type", [AgencyMemberType.Admin]);
+export const agencyMemberType = pgEnum("agency_member_type", [
+  AgencyMemberType.Admin,
+]);
 
 export const AgencyMember = pgTable("agency_member", {
   id: serial("id").unique(),
