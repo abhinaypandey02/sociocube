@@ -8,36 +8,31 @@ import { handleUnauthorized } from "../../../lib/auth-server";
 import ChatWindow from "./components/chat-window";
 
 interface ChatPage {
-  params: Promise<{ userid: string }>;
+  params: Promise<{ conversation: string }>;
 }
 export default async function Page({ params }: ChatPage) {
-  const Cookie = await cookies();
+  const { chat } = await queryGQL(
+    GET_CHAT,
+    {
+      conversationID: parseInt((await params).conversation),
+    },
+    await cookies(),
+  );
+  if (!chat) return notFound();
   const { user } = await getCurrentUser();
   if (!user) {
     handleUnauthorized();
     return;
   }
-  const { chat } = await queryGQL(
-    GET_CHAT,
-    {
-      userID: parseInt((await params).userid),
-    },
-    Cookie,
-  );
-  if (!chat) return notFound();
-
+  const photo = chat.agency?.photo || chat.user?.photo;
+  const name = chat.agency?.name || chat.user?.name;
   return (
     <div>
       <div className="flex gap-2">
-        {chat.with.photo ? (
-          <Image
-            alt={chat.with.name || ""}
-            height={50}
-            src={chat.with.photo}
-            width={50}
-          />
+        {photo ? (
+          <Image alt={name || ""} height={50} src={photo} width={50} />
         ) : null}
-        {chat.with.name}
+        {name}
       </div>
       <ChatWindow chat={chat} user={user} />
     </div>

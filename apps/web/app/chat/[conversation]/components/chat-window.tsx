@@ -24,18 +24,16 @@ export default function ChatWindow({
   chat: NonNullable<GetChatQuery["chat"]>;
   user: NonNullable<GetCurrentUserQuery["user"]>;
 }) {
+  const byAgency = chat.user?.id !== user.id;
   const token = useToken();
   const { register, handleSubmit, resetField } = useForm<FormValues>();
   const [sendMessage] = useAuthMutation(SEND_CHAT);
   const [readMessage] = useAuthMutation(READ_MESSAGE);
   const [messages, setMessages] = useState<
-    {
-      body: string;
-      sender: number;
-      sentAt: string;
-      failed?: boolean;
+    (NonNullable<GetChatQuery["chat"]>["messages"][number] & {
       loading?: boolean;
-    }[]
+      failed?: boolean;
+    })[]
   >(chat.messages.toReversed());
   function onSubmit(data: FormValues) {
     const index = messages.length;
@@ -44,9 +42,8 @@ export default function ChatWindow({
       ...old,
       {
         body: data.text,
-        sentAt: new Date().toISOString(),
-        sender: user.id,
-        loading: true,
+        sentAt: new Date().getTime(),
+        byAgency,
       },
     ]);
     sendMessage({
@@ -80,7 +77,7 @@ export default function ChatWindow({
     pusher.bind(
       NEW_MESSAGE,
       (message: NonNullable<GetChatQuery["chat"]>["messages"][number]) => {
-        if (message.sender !== user.id) {
+        if (message.byAgency !== byAgency) {
           void readMessage({
             conversationID: chat.id,
           });
@@ -88,8 +85,8 @@ export default function ChatWindow({
             ...old,
             {
               body: message.body,
-              sender: message.sender,
-              sentAt: `${message.sentAt}`,
+              byAgency: message.byAgency,
+              sentAt: message.sentAt,
             },
           ]);
         }
@@ -105,7 +102,7 @@ export default function ChatWindow({
     <div>
       {messages.map((msg) => (
         <div
-          className={`flex ${msg.sender === user.id ? "justify-end" : "justify-start"}`}
+          className={`flex ${msg.byAgency === byAgency ? "justify-end" : "justify-start"}`}
           key={msg.sentAt}
         >
           <div>

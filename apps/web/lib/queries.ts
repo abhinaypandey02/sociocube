@@ -162,8 +162,13 @@ export const GET_CHATS = gql(`
   query GetChats {
     chats:getChats {
       preview
-      id: conversation
-      with {
+      id
+      user {
+        id
+        name
+        photo
+      }
+      agency {
         id
         name
         photo
@@ -174,19 +179,25 @@ export const GET_CHATS = gql(`
 `);
 export const GET_CHAT = gql(`
   #graphql
-  query GetChat($userID: Int!) {
-    chat: getChat(userID: $userID) {
-      with {
+  query GetChat($conversationID: Int!) {
+    chat: getChat(conversationID: $conversationID) {
+      user {
         id
         name
         photo
       }
-      id: conversation
+      agency {
+        id
+        name
+        photo
+      }
+      id
+      preview
       hasRead
       messages{
         body
         sentAt
-        sender
+        byAgency
       }
     }
   }

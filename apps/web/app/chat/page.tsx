@@ -10,9 +10,9 @@ export default async function AllChatPage() {
   return (
     <div>
       {chats.map((chat) => (
-        <Link href={`${getRoute("Chat")}/${chat.with.id}`} key={chat.id}>
+        <Link href={`${getRoute("Chat")}/${chat.id}`} key={chat.id}>
           <div>
-            {chat.with.name} {!chat.hasRead && "(Unread)"}
+            {chat.agency?.name || chat.user?.name} {!chat.hasRead && "(Unread)"}
           </div>
           <div>{chat.preview}</div>
         </Link>

@@ -1,48 +1,21 @@
-import { aliasedTable, and, eq, ne } from "drizzle-orm";
+import { eq, getTableColumns, or } from "drizzle-orm";
 import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
-import {
-  ConversationParticipantTable,
-  ConversationTable,
-} from "../../db/schema";
-import { ChatGQL } from "../../type";
+import { ConversationTable } from "../../db/schema";
+import { ConversationGQL } from "../../type";
+import { AgencyMember } from "../../../Agency/db/schema";
 
 export async function handleGetChats(
   ctx: AuthorizedContext,
-): Promise<ChatGQL[]> {
-  const OtherParticipantsTable = aliasedTable(
-    ConversationParticipantTable,
-    "other_participants",
-  );
-  const participantConversations = await db
-    .select({
-      with: OtherParticipantsTable.user,
-      hasRead: ConversationParticipantTable.hasRead,
-      preview: ConversationTable.preview,
-      id: ConversationTable.id,
-    })
-    .from(ConversationParticipantTable)
-    .innerJoin(
-      OtherParticipantsTable,
-      eq(
-        OtherParticipantsTable.conversation,
-        ConversationParticipantTable.conversation,
-      ),
-    )
-    .innerJoin(
-      ConversationTable,
-      eq(ConversationTable.id, ConversationParticipantTable.conversation),
-    )
+): Promise<ConversationGQL[]> {
+  return db
+    .select(getTableColumns(ConversationTable))
+    .from(ConversationTable)
+    .innerJoin(AgencyMember, eq(AgencyMember.agency, ConversationTable.agency))
     .where(
-      and(
-        eq(ConversationParticipantTable.user, ctx.userId),
-        ne(ConversationParticipantTable.id, OtherParticipantsTable.id),
+      or(
+        eq(AgencyMember.user, ctx.userId),
+        eq(ConversationTable.user, ctx.userId),
       ),
     );
-  return participantConversations.map((conversation) => ({
-    conversation: conversation.id,
-    with: conversation.with || -1,
-    hasRead: Boolean(conversation.hasRead),
-    preview: conversation.preview || "",
-  }));
 }

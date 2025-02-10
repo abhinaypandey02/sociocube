@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { and, eq } from "drizzle-orm";
+import { and, eq, or } from "drizzle-orm";
 import { getConversationFromChannelName } from "config/events";
 import { db } from "../../../lib/db";
-import { ConversationParticipantTable } from "../../graphql/types/Chat/db/schema";
 import { pusher } from "../../../lib/socket/send-event";
 import { context } from "../../graphql/context";
+import { ConversationTable } from "../../graphql/types/Chat/db/schema";
+import { AgencyMember } from "../../graphql/types/Agency/db/schema";
 
 export const POST = async (req: NextRequest) => {
   const params = new URLSearchParams(await req.text());
@@ -14,17 +15,18 @@ export const POST = async (req: NextRequest) => {
   if (userId && channel && socketId) {
     const [conversation] = await db
       .select()
-      .from(ConversationParticipantTable)
-      .where(
+      .from(ConversationTable)
+      .innerJoin(
+        AgencyMember,
         and(
-          eq(
-            ConversationParticipantTable.conversation,
-            getConversationFromChannelName(channel),
-          ),
-          eq(ConversationParticipantTable.user, userId),
+          eq(AgencyMember.agency, ConversationTable.agency),
+          eq(ConversationTable.id, getConversationFromChannelName(channel)),
         ),
+      )
+      .where(
+        or(eq(AgencyMember.user, userId), eq(ConversationTable.user, userId)),
       );
-    if (conversation?.id)
+    if (conversation?.conversation.id)
       return new NextResponse(
         JSON.stringify(pusher.authorizeChannel(socketId, channel)),
       );

@@ -1,22 +1,19 @@
-import { Field, ObjectType, GraphQLISODateTime, Int } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 
-@ObjectType("Chat")
-export class ChatGQL {
+@ObjectType("Conversation")
+export class ConversationGQL {
+  @Field()
+  id: number;
   @Field()
   hasRead: boolean;
-  @Field()
-  preview?: string;
-  with: number;
-  @Field(() => Int)
-  conversation: number;
 }
 
 @ObjectType("Message")
 export class MessageGQL {
   @Field()
   body: string;
-  @Field(() => GraphQLISODateTime)
-  sentAt: string;
-  @Field(() => Int)
-  sender: number;
+  @Field(() => Number)
+  sentAt: Date;
+  @Field()
+  byAgency: boolean;
 }
