@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, Int, ObjectType } from "type-graphql";
 import { AgencyMemberType } from "../../constants/agency-member-type";
 
 @ObjectType("Agency")
@@ -9,11 +9,15 @@ export class AgencyGQL {
   photo: string;
   @Field()
   name: string;
+  @Field()
+  username: string;
 }
 @ObjectType("AgencyMember")
 export class AgencyMemberGQL {
   @Field(() => AgencyMemberType)
   type: AgencyMemberType;
+  @Field(() => Int)
+  agency: number;
 }
 
 @ObjectType("AgencyOnboarding")

@@ -1,6 +1,6 @@
 import { Field, InputType } from "type-graphql";
 import { eq } from "drizzle-orm";
-import { IsIn, IsDateString, MaxLength } from "class-validator";
+import { IsDateString, IsIn, MaxLength } from "class-validator";
 import categories from "commons/categories";
 import genders from "commons/genders";
 import { getAge, MAX_AGE, MIN_AGE } from "commons/age";

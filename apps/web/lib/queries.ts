@@ -120,7 +120,7 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
       applicationsCount
       minimumFollowers
       externalLink
-      user {
+      agency {
         photo
         name
         instagramStats {
@@ -135,18 +135,19 @@ export const GET_SELLER = gql(`
   #graphql
   query GetSeller($username:String!) {
     getSeller(username: $username) {
-      id
-      name
-      photo
-      bio
-      gender
-      portfolio {
-        caption
+      user{
         id
-        link
-        imageURL
-      }
-      location {
+        name
+        photo
+        bio
+        gender
+        portfolio {
+          caption
+          id
+          link
+          imageURL
+        }
+        location {
           city
           country
           currency {
@@ -154,27 +155,32 @@ export const GET_SELLER = gql(`
             symbol
             code
           }
+        }
+        category
+        dob
+        pricing {
+          starting
+        }
+        instagramMedia {
+          thumbnail
+          caption
+          link
+          likes
+          comments
+          er
+        }
+        instagramStats {
+          followers
+          mediaCount
+          username
+          er
+          averageLikes
+          isVerified
+        }
       }
-      category
-      dob
-      pricing {
-        starting
-      }
-      instagramMedia {
-        thumbnail
-        caption
-        link
-        likes
-        comments
-        er
-      }
-      instagramStats {
-        followers
-        mediaCount
-        username
-        er
-        averageLikes
-        isVerified
+      agency {
+        photo
+        name
       }
     }
   }
@@ -266,6 +272,12 @@ export const GET_USER_CURRENCY = gql(`
       instagramStats {
         isVerified
       }
+      agencies {
+        agencyDetails{
+          name
+          id
+        }
+      }
       locationID {
         country
       }
@@ -321,6 +333,13 @@ export const IS_USERNAME_AVAILABLE = gql(`
 export const GET_POSTING = gql(`
   #graphql
   query GetPosting($id: Int!) {
+    user: getCurrentUser {
+      agencies {
+        agencyDetails {
+          id
+        }
+      }
+    }
     posting:getPosting(id: $id){
       id
       maximumAge
@@ -328,10 +347,10 @@ export const GET_POSTING = gql(`
       minimumFollowers
       currencyCountry
       extraDetails
-      user {
+      agency {
+        id
         name
         photo
-        id
         instagramStats {
           isVerified
         }
@@ -359,7 +378,7 @@ export const GET_ALL_POSTINGS = gql(`
       id
       maximumAge
       minimumFollowers
-      user {
+      agency {
         name
         photo
         instagramStats {
@@ -391,6 +410,10 @@ export const GET_CURRENT_USER_APPLICATION_STATUS = gql(`
       isOnboarded
       instagramStats {
         followers
+      }
+      agencies {
+        type
+        agency
       }
       contactEmail
       dob

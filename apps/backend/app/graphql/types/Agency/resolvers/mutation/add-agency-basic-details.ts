@@ -1,7 +1,7 @@
 import { Field, InputType } from "type-graphql";
 import { IsEmail, IsNumberString, IsUrl, MaxLength } from "class-validator";
 import { BIO_MAX_LENGTH, NAME_MAX_LENGTH } from "commons/constraints";
-import { eq, and } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { AgencyOnboardingTable } from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";

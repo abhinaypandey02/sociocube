@@ -6,8 +6,8 @@ import { UserGQL } from "../../User/type";
 import { getUser } from "../../User/db/utils";
 import { UserTable } from "../../User/db/schema";
 import { AgencyTable } from "../../Agency/db/schema";
-import { ConversationMessageTable } from "../db/schema";
 import type { ConversationDB } from "../db/schema";
+import { ConversationMessageTable } from "../db/schema";
 import type { AuthorizedContext } from "../../../context";
 import { AgencyGQL } from "../../Agency/type";
 

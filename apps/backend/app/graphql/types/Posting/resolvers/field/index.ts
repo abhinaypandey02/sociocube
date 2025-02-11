@@ -1,21 +1,24 @@
 import { FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
 import { count, eq, sum } from "drizzle-orm";
-import { UserGQL } from "../../../User/type";
 import { PostingGQL } from "../../type";
 import type { PostingDB } from "../../db/schema";
-import { getCurrentUser } from "../../../User/utils";
-import { UserDB } from "../../../User/db/schema";
 import { db } from "../../../../../../lib/db";
 import { ApplicationTable } from "../../../Application/db/schema";
 import { CountryTable } from "../../../Map/db/schema";
+import { AgencyDB, AgencyTable } from "../../../Agency/db/schema";
+import { AgencyGQL } from "../../../Agency/type";
 
 @Resolver(() => PostingGQL)
 export class PostingFieldResolvers {
-  @FieldResolver(() => UserGQL, { nullable: true })
-  async user(@Root() posting: PostingDB): Promise<UserDB | undefined | null> {
-    return getCurrentUser({
-      userId: posting.user,
-    });
+  @FieldResolver(() => AgencyGQL)
+  async agency(
+    @Root() posting: PostingDB,
+  ): Promise<AgencyDB | undefined | null> {
+    const [agency] = await db
+      .select()
+      .from(AgencyTable)
+      .where(eq(AgencyTable.id, posting.agency));
+    return agency;
   }
   @FieldResolver(() => String, { nullable: true })
   async currency(

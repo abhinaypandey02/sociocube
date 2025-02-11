@@ -21,7 +21,7 @@ export default async function CreateNewPostingPage({
     undefined,
     0,
   );
-  if (!posting || posting.user?.id !== user?.id) return notFound();
+  if (!posting || !user?.id) return notFound();
   return (
     <AccountPageWrapper
       backRoute={{
@@ -32,10 +32,7 @@ export default async function CreateNewPostingPage({
       title="Edit posting"
     >
       <div className="max-w-2xl">
-        <CreateNewPostingForm
-          existingPosting={posting}
-          isVerified={Boolean(user?.instagramStats?.isVerified)}
-        />
+        <CreateNewPostingForm existingPosting={posting} />
       </div>
     </AccountPageWrapper>
   );

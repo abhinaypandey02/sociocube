@@ -52,7 +52,7 @@ export async function generateMetadata({
     60,
   );
 
-  const seller = data.getSeller;
+  const seller = data.getSeller?.user;
   if (!seller?.name) return {};
   return {
     alternates: {
@@ -61,7 +61,7 @@ export async function generateMetadata({
       }/${username}`,
     },
     ...getSEO(
-      `${data.getSeller?.name}`,
+      seller.name,
       `${convertToAbbreviation(seller.instagramStats?.followers || 0)} Followers, ${seller.instagramStats?.er}% Engagement, ${convertToAbbreviation(seller.instagramStats?.mediaCount || 0)} posts on their Instagram account @${seller.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
     ),
   };
@@ -83,7 +83,7 @@ export default async function ProfilePage({
     noCache ? 0 : 60,
     [`profile-${username}`],
   );
-  const seller = data.getSeller;
+  const seller = data.getSeller?.user;
   if (!seller?.name || !seller.instagramStats) return notFound();
   return (
     <div className="mx-auto max-w-2xl px-6 pt-6 sm:mt-8 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">

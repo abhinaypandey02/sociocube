@@ -16,6 +16,7 @@ import {
 import { POSTING_PLATFORMS } from "../../../postings/constants";
 import type {
   GetPostingQuery,
+  GetUserCurrencyQuery,
   PostingPlatforms,
 } from "../../../../__generated__/graphql";
 import {
@@ -31,10 +32,10 @@ import {
 } from "../../../../lib/revalidate";
 import { getRoute } from "../../../../constants/routes";
 import { getTransformedPostingData } from "../../../../lib/server-actions";
-import { useToggleGetVerifiedModal } from "../../../../lib/auth-client";
 
 export interface CreatePostingFormFields {
   title: string;
+  agency?: number;
   description: string;
   deliverables: string;
   extraDetails?: string;
@@ -51,17 +52,17 @@ export interface CreatePostingFormFields {
 export default function CreateNewPostingForm({
   existingPosting,
   currencyCode,
-  isVerified,
+  agencies,
 }: {
   existingPosting?: GetPostingQuery["posting"];
   currencyCode?: number | null;
-  isVerified: boolean;
+  agencies?: NonNullable<GetUserCurrencyQuery["user"]>["agencies"];
 }) {
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
-  const toggle = useToggleGetVerifiedModal();
   const form = useForm<CreatePostingFormFields>({
     defaultValues: {
+      agency: agencies?.[0]?.agencyDetails.id,
       deliverables: existingPosting?.deliverables?.join(","),
       barter: existingPosting?.barter,
       description: existingPosting?.description,
@@ -90,14 +91,12 @@ export default function CreateNewPostingForm({
     void fetchCountries();
   }, [fetchCountries]);
   const onSubmit = (formData: CreatePostingFormFields) => {
-    if (!isVerified) {
-      toggle();
-      return;
-    }
     setLoading(true);
+
     if (existingPosting) {
       // @ts-expect-error -- required to delete
       delete formData.title;
+      delete formData.agency;
       updatePosting({
         id: existingPosting.id,
         newPosting: {
@@ -120,7 +119,11 @@ export default function CreateNewPostingForm({
           handleGQLErrors(e);
         });
     } else {
+      const agency = formData.agency;
+      if (!agency) return;
+      delete formData.agency;
       createPosting({
+        agency,
         newPosting: {
           ...formData,
           deliverables:

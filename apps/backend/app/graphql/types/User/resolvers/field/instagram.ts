@@ -223,7 +223,10 @@ export async function getInstagramStats(user: UserDB | AgencyDB) {
   };
 }
 
-export async function getInstagramMedia(user: UserDB, isAgency?: boolean) {
+export async function getInstagramMedia(
+  user: UserDB | AgencyDB,
+  isAgency?: boolean,
+) {
   if (!user.instagramDetails) return null;
   const [instagramDetails] = await db
     .select()

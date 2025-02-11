@@ -17,10 +17,10 @@ import { uploadImage } from "../../../lib/storage/aws-s3";
 import { getPosts } from "../../graphql/types/User/resolvers/field/instagram";
 import { InstagramMediaTable } from "../../graphql/types/Instagram/db/schema2";
 import {
-  getInstagramDataExternalAPI,
-  getInstagramAuthorizationUrl,
-  getLongLivedToken,
   getGraphData,
+  getInstagramAuthorizationUrl,
+  getInstagramDataExternalAPI,
+  getLongLivedToken,
 } from "./utils";
 
 const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram`;

@@ -1,5 +1,6 @@
 import { Field, InputType, ObjectType } from "type-graphql";
 import { Roles } from "../../constants/roles";
+import { AgencyGQL } from "../Agency/type";
 
 @ObjectType("Pricing")
 @InputType("PricingInput")
@@ -97,4 +98,12 @@ export class UserGQL {
   location?: Location;
   @Field(() => Pricing, { nullable: true })
   pricing?: Pricing;
+}
+
+@ObjectType("Seller")
+export class SellerGQL {
+  @Field({ nullable: true })
+  user: UserGQL;
+  @Field({ nullable: true })
+  agency: AgencyGQL;
 }

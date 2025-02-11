@@ -16,7 +16,9 @@ export default function Portfolio({
   data: GetPortfolioUploadUrlQuery | null;
   id: number;
   username: string;
-  portfolio: NonNullable<GetSellerQuery["getSeller"]>["portfolio"];
+  portfolio: NonNullable<
+    NonNullable<GetSellerQuery["getSeller"]>["user"]
+  >["portfolio"];
 }) {
   const isAuthor = id === data?.user?.id;
   if ((!portfolio || portfolio.length === 0) && !isAuthor) return null;

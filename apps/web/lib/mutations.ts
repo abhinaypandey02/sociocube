@@ -141,8 +141,8 @@ export const RESUME_POSTING = gql(`
 
 export const CREATE_POSTING = gql(`
   #graphql
-  mutation CreatePosting($newPosting:NewPostingInput!) {
-    createPosting(newPosting: $newPosting)  
+  mutation CreatePosting($agency:Float!, $newPosting:NewPostingInput!) {
+    createPosting(newPosting: $newPosting, agency:$agency)  
   }
 `);
 export const UPDATE_POSTING = gql(`

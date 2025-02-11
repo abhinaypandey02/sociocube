@@ -1,13 +1,18 @@
 import { Field, InputType } from "type-graphql";
-import { eq, and } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
-import { AgencyOnboardingTable, AgencyTable } from "../../db/schema";
+import {
+  AgencyMember,
+  AgencyOnboardingTable,
+  AgencyTable,
+} from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";
 import GQLError from "../../../../constants/errors";
 import { LocationTable } from "../../../User/db/schema";
 import { getPosts } from "../../../User/resolvers/field/instagram";
 import { InstagramMediaTable } from "../../../Instagram/db/schema2";
 import { InstagramDetails } from "../../../Instagram/db/schema";
+import { AgencyMemberType } from "../../../../constants/agency-member-type";
 
 @InputType("AgencyLocationInput")
 export class AgencyLocationInput {
@@ -51,6 +56,15 @@ export async function addAgencyLocation(
     })
     .returning();
   if (!agency) throw GQLError(400, "Error in creating location");
+
+  await db.insert(AgencyMember).values({
+    agency: agency.id,
+    user: ctx.userId,
+    type: AgencyMemberType.Owner,
+  });
+  await db
+    .delete(AgencyOnboardingTable)
+    .where(eq(AgencyOnboardingTable.user, ctx.userId));
   const [instagramDetails] = await db
     .select()
     .from(InstagramDetails)

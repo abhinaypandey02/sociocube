@@ -11,6 +11,7 @@ import GQLError from "../../../../constants/errors";
 import { UserTable } from "../../../User/db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { Roles } from "../../../../constants/roles";
+import { AgencyTable } from "../../../Agency/db/schema";
 
 @ArgsType()
 export class ApplyToPostingArgs {
@@ -48,9 +49,9 @@ export async function applyToPosting(
     .select()
     .from(PostingTable)
     .where(eq(PostingTable.id, postingID))
-    .innerJoin(UserTable, eq(PostingTable.user, UserTable.id));
+    .innerJoin(AgencyTable, eq(PostingTable.agency, AgencyTable.id));
   if (!result) throw GQLError(404, "Posting not found");
-  const { posting, user: owner } = result;
+  const { posting, agency: owner } = result;
   if (!posting.open) throw GQLError(404, "Posting closed");
   if (
     posting.minimumFollowers &&

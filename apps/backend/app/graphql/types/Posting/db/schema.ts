@@ -1,11 +1,11 @@
 import {
-  pgTable,
-  text,
-  integer,
-  serial,
   boolean,
-  timestamp,
+  integer,
   pgEnum,
+  pgTable,
+  serial,
+  text,
+  timestamp,
 } from "drizzle-orm/pg-core";
 import { UserTable } from "../../User/db/schema";
 import { CountryTable } from "../../Map/db/schema";
@@ -19,10 +19,10 @@ export const platforms = pgEnum("platform", [
 
 export const PostingTable = pgTable("posting", {
   id: serial("id").primaryKey(),
-  user: integer("user")
-    .references(() => UserTable.id)
+  user: integer("user").references(() => UserTable.id),
+  agency: integer("agency")
+    .references(() => AgencyTable.id)
     .notNull(),
-  agency: integer("agency").references(() => AgencyTable.id),
   title: text("title").notNull(),
   platforms: platforms("platforms").array().notNull().default([]),
   deliverables: text("deliverables").array(),

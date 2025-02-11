@@ -1,10 +1,10 @@
 import {
-  pgTable,
-  text,
-  integer,
   index,
-  serial,
+  integer,
+  pgTable,
   real,
+  serial,
+  text,
   timestamp,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";

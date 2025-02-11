@@ -61,23 +61,23 @@ export default async function JobPostingPage({
             </h3>
             <Link
               className="group mt-5 flex items-center gap-3"
-              href={`${getRoute("Profile")}/${posting.user?.username}`}
+              href={`${getRoute("Profile")}/${posting.agency.username}`}
             >
-              {posting.user?.photo ? (
+              {posting.agency.photo ? (
                 <Image
-                  alt={posting.user.name || ""}
+                  alt={posting.agency.name || ""}
                   className="size-8 rounded-full object-cover"
                   height={40}
-                  src={posting.user.photo}
+                  src={posting.agency.photo}
                   width={40}
                 />
               ) : null}
               <div>
                 <p className="flex items-center gap-2">
                   <span className="text-sm font-medium text-gray-600 underline-offset-2 group-hover:underline sm:text-base">
-                    {posting.user?.name}
+                    {posting.agency.name}
                   </span>
-                  {posting.user?.instagramStats?.isVerified ? (
+                  {posting.agency.instagramStats?.isVerified ? (
                     <SealCheck className=" text-accent" weight="fill" />
                   ) : null}
                 </p>

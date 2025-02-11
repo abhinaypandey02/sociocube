@@ -39,12 +39,12 @@ export default function JobPostings({
             key={posting.id}
           >
             <div className="flex min-w-0 gap-x-4">
-              {posting.user?.photo ? (
+              {posting.agency.photo ? (
                 <Image
-                  alt={posting.user.name || ""}
+                  alt={posting.agency.name || ""}
                   className="size-12 flex-none rounded-full bg-gray-50 object-cover"
                   height={48}
-                  src={posting.user.photo}
+                  src={posting.agency.photo}
                   width={48}
                 />
               ) : null}
@@ -56,8 +56,8 @@ export default function JobPostings({
                   </Link>
                 </p>
                 <p className="mt-1 line-clamp-1 flex items-center text-xs leading-5 text-gray-500">
-                  {posting.user?.name}
-                  {posting.user?.instagramStats?.isVerified ? (
+                  {posting.agency.name}
+                  {posting.agency.instagramStats?.isVerified ? (
                     <SealCheck className="mx-1 text-accent" weight="fill" />
                   ) : null}
                   <span className="max-md:hidden">

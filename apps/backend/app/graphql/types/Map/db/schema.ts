@@ -1,13 +1,13 @@
 import {
   bigint,
-  varchar,
   char,
-  pgTable,
-  numeric,
-  text,
-  smallint,
-  timestamp,
   index,
+  numeric,
+  pgTable,
+  smallint,
+  text,
+  timestamp,
+  varchar,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 

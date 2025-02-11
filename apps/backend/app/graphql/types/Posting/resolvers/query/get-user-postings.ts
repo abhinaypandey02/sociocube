@@ -1,13 +1,13 @@
-import { eq } from "drizzle-orm";
-import { TEAM_USER_ID } from "commons/referral";
+import { eq, getTableColumns } from "drizzle-orm";
 import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { PostingTable } from "../../db/schema";
+import { AgencyMember } from "../../../Agency/db/schema";
 
 export async function getUserPostings(ctx: AuthorizedContext) {
-  if (ctx.userId === TEAM_USER_ID) return db.select().from(PostingTable);
   return db
-    .select()
-    .from(PostingTable)
-    .where(eq(PostingTable.user, ctx.userId));
+    .select(getTableColumns(PostingTable))
+    .from(AgencyMember)
+    .where(eq(AgencyMember.user, ctx.userId))
+    .innerJoin(PostingTable, eq(PostingTable.agency, AgencyMember.agency));
 }

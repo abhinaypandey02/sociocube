@@ -5,6 +5,7 @@ export enum Route {
   SignUp = "/join",
   Account = "/account",
   Onboarding = "/onboarding",
+  AgencyOnboarding = "/agency-onboarding",
   Profile = "/profile",
   Blogs = "/blogs",
   Chat = "/chat",

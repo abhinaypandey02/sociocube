@@ -36,7 +36,7 @@ export class AgencyMutationResolvers {
     return addAgencyUsername(ctx, data);
   }
   @Authorized()
-  @Mutation(() => Boolean)
+  @Mutation(() => String)
   async addAgencyLocation(
     @Ctx() ctx: AuthorizedContext,
     @Arg("data") data: AgencyLocationInput,

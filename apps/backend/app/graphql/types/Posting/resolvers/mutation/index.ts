@@ -12,9 +12,10 @@ export class PostingMutationResolvers {
   @Mutation(() => Number, { nullable: true })
   async createPosting(
     @Ctx() ctx: AuthorizedContext,
+    @Arg("agency") agency: number,
     @Arg("newPosting") newPosting: NewPostingInput,
   ): Promise<number | null> {
-    return createPosting(ctx, newPosting);
+    return createPosting(ctx, agency, newPosting);
   }
   @Authorized()
   @Mutation(() => Boolean)

@@ -1,4 +1,4 @@
-import { pgTable, text, integer, serial, pgEnum } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTable, serial, text } from "drizzle-orm/pg-core";
 import { LocationTable, UserTable } from "../../User/db/schema";
 import { InstagramDetails } from "../../Instagram/db/schema";
 import { AgencyMemberType } from "../../../constants/agency-member-type";
@@ -58,4 +58,4 @@ export const AgencyMember = pgTable("agency_member", {
 });
 
 export type AgencyDB = typeof AgencyTable.$inferSelect;
-export type AgencyOnboardingDB = typeof AgencyOnboardingTable.$inferSelect;
+export type AgencyMemberDB = typeof AgencyMember.$inferSelect;

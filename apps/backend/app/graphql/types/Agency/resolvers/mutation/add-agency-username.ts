@@ -1,7 +1,7 @@
 import { Field, InputType } from "type-graphql";
 import { Matches, MaxLength } from "class-validator";
 import { USERNAME_MAX_LENGTH } from "commons/constraints";
-import { eq, and } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { USERNAME_REGEX } from "commons/regex";
 import { db } from "../../../../../../lib/db";
 import { AgencyOnboardingTable } from "../../db/schema";

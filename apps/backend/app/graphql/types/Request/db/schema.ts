@@ -1,8 +1,8 @@
 import {
-  pgTable,
   integer,
-  serial,
   pgEnum,
+  pgTable,
+  serial,
   timestamp,
 } from "drizzle-orm/pg-core";
 import { UserTable } from "../../User/db/schema";

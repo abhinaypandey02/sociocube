@@ -5,7 +5,7 @@ import {
   NAME_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
 } from "commons/constraints";
-import { eq, and, gte } from "drizzle-orm";
+import { and, eq, gte } from "drizzle-orm";
 import { PostgresError } from "postgres";
 import { db } from "../../../../../../lib/db";
 import { PostingTable } from "../../db/schema";
@@ -13,9 +13,7 @@ import { AuthorizedContext } from "../../../../context";
 import { PostingPlatforms } from "../../../../constants/platforms";
 import { getCleanExternalLink, handleDuplicateLinkError } from "../../utils";
 import GQLError from "../../../../constants/errors";
-import { InstagramDetails } from "../../../Instagram/db/schema";
-import { UserTable } from "../../../User/db/schema";
-import { Roles } from "../../../../constants/roles";
+import { AgencyMember } from "../../../Agency/db/schema";
 
 @InputType("NewPostingInput")
 export class NewPostingInput {
@@ -53,21 +51,16 @@ const MAXIMUM_POSTINGS_DAY = 4;
 
 export async function createPosting(
   ctx: AuthorizedContext,
+  agency: number,
   newPosting: NewPostingInput,
 ): Promise<number | null> {
   const [user] = await db
-    .select({ token: InstagramDetails.accessToken, roles: UserTable.roles })
-    .from(UserTable)
-    .where(eq(UserTable.id, ctx.userId))
-    .innerJoin(
-      InstagramDetails,
-      eq(InstagramDetails.id, UserTable.instagramDetails),
+    .select()
+    .from(AgencyMember)
+    .where(
+      and(eq(AgencyMember.user, ctx.userId), eq(AgencyMember.agency, agency)),
     );
-  if (!user?.token && !user?.roles.includes(Roles.ManuallyVerified))
-    throw GQLError(
-      403,
-      "Only verified users can create a posting. Please verify yourself from the menu.",
-    );
+  if (!user) throw GQLError(403, "You dont have permission for this agency");
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
@@ -77,7 +70,7 @@ export async function createPosting(
     .from(PostingTable)
     .where(
       and(
-        eq(PostingTable.user, ctx.userId),
+        eq(PostingTable.agency, agency),
         gte(PostingTable.createdAt, yesterday),
       ),
     );
@@ -100,7 +93,7 @@ export async function createPosting(
       .values({
         ...newPosting,
         externalLink: getCleanExternalLink(newPosting.externalLink),
-        user: ctx.userId,
+        agency,
       })
       .returning({ id: PostingTable.id });
     return posting?.id || null;

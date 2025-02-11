@@ -59,7 +59,6 @@ function AgencyOnboardingWizard({
     setMaxTouchedStep((o) => Math.max(o, step + 1));
     if (step !== 0) router.refresh();
   }, [step]);
-
   const steps = useMemo(
     () => [
       {
@@ -131,7 +130,7 @@ function AgencyOnboardingWizard({
             defaultValues={{
               name: currentUser.onboardingAgency.name || "",
               photo: currentUser.onboardingAgency.photo || "",
-              about: currentUser.onboardingAgency.photo || "",
+              about: currentUser.onboardingAgency.about || "",
               contactEmail: currentUser.onboardingAgency.contactEmail || "",
               contactPhone: currentUser.onboardingAgency.contactPhone || "",
             }}
@@ -185,8 +184,7 @@ function AgencyOnboardingWizard({
     }
   }, [currentUser, dataLoading, redirectURL, router]);
 
-  const routeLoading =
-    (!currentUser && !dataLoading) || currentUser?.onboardingAgency;
+  const routeLoading = !currentUser && !dataLoading;
   const MAX_STEPS = steps.length;
 
   function prevStep() {

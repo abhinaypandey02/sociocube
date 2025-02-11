@@ -19,7 +19,7 @@ export default function DeletePortfolioButton({
   isLink,
 }: {
   work: NonNullable<
-    NonNullable<GetSellerQuery["getSeller"]>["portfolio"]
+    NonNullable<NonNullable<GetSellerQuery["getSeller"]>["user"]>["portfolio"]
   >[number];
   username: string;
   isLink: boolean;

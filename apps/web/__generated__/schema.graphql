@@ -241,8 +241,11 @@ input AddPortfolioLinkArgs {
 
 type Agency {
   id: Float!
+  instagramMedia: [InstagramMedia!]
+  instagramStats: InstagramStats
   name: String!
   photo: String!
+  username: String!
 }
 
 input AgencyBasicDetailsInput {
@@ -260,6 +263,8 @@ input AgencyLocationInput {
 }
 
 type AgencyMember {
+  agency: Int!
+  agencyDetails: Agency!
   type: AgencyMemberType!
 }
 
@@ -365,13 +370,13 @@ type Message {
 type Mutation {
   addAgencyBasicDetails(agency: AgencyBasicDetailsInput!): Boolean!
   addAgencyInstagramUsername(username: String!): Boolean!
-  addAgencyLocation(data: AgencyLocationInput!): Boolean!
+  addAgencyLocation(data: AgencyLocationInput!): String!
   addAgencyUsername(data: AgencyUsernameInput!): Boolean!
   addPortfolio(data: AddPortfolioArgs!): Boolean!
   addPortfolioLink(data: AddPortfolioLinkArgs!): Boolean!
   applyToPosting(comment: String, email: String!, phone: String, postingID: Float!): Boolean!
   completeOnboarding: Boolean!
-  createPosting(newPosting: NewPostingInput!): Float
+  createPosting(agency: Float!, newPosting: NewPostingInput!): Float
   deletePortfolio(id: Float!): Boolean!
   deletePosting(postingID: Float!): Boolean!
   disconnectInstagram: Boolean!
@@ -460,6 +465,7 @@ type Portfolio {
 }
 
 type Posting {
+  agency: Agency!
   applicationsCount: Int!
   barter: Boolean!
   createdAt: Float!
@@ -479,7 +485,6 @@ type Posting {
   referralEarnings: Float!
   title: String!
   updatedAt: Float!
-  user: User
 }
 
 enum PostingPlatforms {
@@ -511,7 +516,7 @@ type Query {
   getPortfolioUploadURL: StorageFile
   getPosting(id: Int!): Posting
   getPostingApplications(postingID: Int!): [Application!]!
-  getSeller(username: String!): User
+  getSeller(username: String!): Seller
   getStates(countryID: Int!): [SelectOption!]!
   getUserApplications: [Application!]!
   getUserPostings: [Posting!]!
@@ -545,6 +550,11 @@ input SearchSellersFilters {
 type SelectOption {
   label: String!
   value: Int!
+}
+
+type Seller {
+  agency: Agency
+  user: User
 }
 
 type StorageFile {

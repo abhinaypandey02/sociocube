@@ -1,14 +1,14 @@
 import {
   boolean,
+  date,
+  index,
   integer,
   pgEnum,
   pgTable,
+  real,
   serial,
   text,
   timestamp,
-  date,
-  index,
-  real,
 } from "drizzle-orm/pg-core";
 import categories from "commons/categories";
 import genders from "commons/genders";

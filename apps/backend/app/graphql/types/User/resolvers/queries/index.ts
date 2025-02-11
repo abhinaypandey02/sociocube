@@ -1,6 +1,6 @@
 import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "../../../../context";
-import { UserGQL } from "../../type";
+import { SellerGQL, UserGQL } from "../../type";
 import { handleGetCurrentUser } from "./get-current-user";
 import { handleGetFeaturedSellers } from "./get-featured-sellers";
 import { handleGetSeller } from "./get-seller";
@@ -28,7 +28,7 @@ export class UserQueryResolver {
   async getFeaturedPosts() {
     return handleGetFeaturedPosts();
   }
-  @Query(() => UserGQL, { nullable: true })
+  @Query(() => SellerGQL, { nullable: true })
   async getSeller(@Arg("username") username: string) {
     return handleGetSeller(username);
   }

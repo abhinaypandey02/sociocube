@@ -17,10 +17,10 @@ export default async function Image({ params }: ProfilePage) {
     60,
   );
   return getOgImage(
-    seller?.name ? (
+    seller?.user?.name ? (
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        {seller.name}
-        {seller.instagramStats?.isVerified ? (
+        {seller.user.name}
+        {seller.user.instagramStats?.isVerified ? (
           <svg
             fill="#4f46e5"
             height="0.75em"
@@ -37,7 +37,7 @@ export default async function Image({ params }: ProfilePage) {
       "Join the biggest influencer platform"
     ),
     "View profile",
-    `${convertToAbbreviation(seller?.instagramStats?.followers || 0)} followers • ${Math.round(seller?.instagramStats?.er || 0)}% Engagement`,
-    seller?.photo || undefined,
+    `${convertToAbbreviation(seller?.user?.instagramStats?.followers || 0)} followers • ${Math.round(seller?.user?.instagramStats?.er || 0)}% Engagement`,
+    seller?.user?.photo || undefined,
   );
 }

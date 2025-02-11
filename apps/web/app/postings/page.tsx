@@ -32,12 +32,12 @@ export default async function PostingsPage() {
             key={posting.id}
           >
             <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
-              {posting.user?.photo ? (
+              {posting.agency.photo ? (
                 <Image
-                  alt={posting.user.name || ""}
+                  alt={posting.agency.name || ""}
                   className="size-12 flex-none rounded-full bg-white object-cover ring-1 ring-gray-900/10"
                   height={48}
-                  src={posting.user.photo}
+                  src={posting.agency.photo}
                   width={48}
                 />
               ) : null}
@@ -46,8 +46,8 @@ export default async function PostingsPage() {
                   {posting.title}
                 </div>
                 <small className="flex items-center gap-1 text-xs text-gray-600">
-                  by <em className=" font-medium">{posting.user?.name} </em>
-                  {posting.user?.instagramStats?.isVerified ? (
+                  by <em className=" font-medium">{posting.agency.name} </em>
+                  {posting.agency.instagramStats?.isVerified ? (
                     <SealCheck className="text-accent" weight="fill" />
                   ) : null}
                 </small>

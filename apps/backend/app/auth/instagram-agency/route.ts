@@ -10,10 +10,10 @@ import { UserTable } from "../../graphql/types/User/db/schema";
 import { db } from "../../../lib/db";
 import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
 import {
-  getInstagramDataExternalAPI,
-  getInstagramAuthorizationUrl,
-  getLongLivedToken,
   getGraphData,
+  getInstagramAuthorizationUrl,
+  getInstagramDataExternalAPI,
+  getLongLivedToken,
 } from "../instagram/utils";
 import {
   AgencyMember,
