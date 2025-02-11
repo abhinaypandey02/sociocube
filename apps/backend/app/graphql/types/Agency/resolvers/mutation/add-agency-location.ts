@@ -78,7 +78,10 @@ export async function addAgencyLocation(
       true,
     );
     await db.insert(InstagramMediaTable).values(posts).onConflictDoNothing();
-    await db.update(InstagramDetails).set(stats);
+    await db
+      .update(InstagramDetails)
+      .set(stats)
+      .where(eq(InstagramDetails.id, instagramDetails.id));
   }
   return agency.username;
 }
