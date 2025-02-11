@@ -71,7 +71,7 @@ export const GET_DEFAULT_AGENCY_ONBOARDING_DETAILS = gql(`
         name
         photo
         contactEmail
-        about
+        bio
         contactPhone
         pictureUploadURL {
           uploadURL
@@ -179,8 +179,36 @@ export const GET_SELLER = gql(`
         }
       }
       agency {
+        id
         photo
         name
+        bio
+        location {
+          city
+          country
+        }
+        portfolio {
+          caption
+          id
+          link
+          imageURL
+        }
+        instagramMedia {
+          thumbnail
+          caption
+          link
+          likes
+          comments
+          er
+        }
+        instagramStats {
+          followers
+          mediaCount
+          username
+          er
+          averageLikes
+          isVerified
+        }
       }
     }
   }

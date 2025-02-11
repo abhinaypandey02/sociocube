@@ -22,7 +22,7 @@ export default function AgencyBasicDetailsForm({
   defaultValues: {
     name: string;
     photo: string;
-    about: string;
+    bio: string;
     contactEmail: string;
     contactPhone: string;
   };
@@ -61,7 +61,7 @@ export default function AgencyBasicDetailsForm({
         photo: profilePicture ? photoUpload.url : data.photo,
         contactEmail: data.contactEmail,
         contactPhone: data.contactPhone,
-        about: data.about,
+        bio: data.bio,
       },
     })
       .then((res) => {
@@ -109,7 +109,7 @@ export default function AgencyBasicDetailsForm({
       <Input
         className="block"
         label="About you"
-        name="about"
+        name="bio"
         placeholder="Write a brief about you"
         textarea
       />

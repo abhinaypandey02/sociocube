@@ -14,7 +14,7 @@ export class AgencyBasicDetailsInput {
   name: string;
   @MaxLength(BIO_MAX_LENGTH)
   @Field({ nullable: true })
-  about?: string;
+  bio?: string;
   @Field()
   @IsEmail()
   contactEmail: string;

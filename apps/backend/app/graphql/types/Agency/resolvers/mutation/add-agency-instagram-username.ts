@@ -48,7 +48,7 @@ export async function addAgencyInstagramUsername(
       user: ctx.userId,
       name: data.name || "",
       photo: data.profile_picture_url,
-      about: data.biography,
+      bio: data.biography,
     });
   }
   return true;

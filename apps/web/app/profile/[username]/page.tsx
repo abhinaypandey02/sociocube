@@ -52,7 +52,7 @@ export async function generateMetadata({
     60,
   );
 
-  const seller = data.getSeller?.user;
+  const seller = data.getSeller?.user || data.getSeller?.agency;
   if (!seller?.name) return {};
   return {
     alternates: {
@@ -83,7 +83,8 @@ export default async function ProfilePage({
     noCache ? 0 : 60,
     [`profile-${username}`],
   );
-  const seller = data.getSeller?.user;
+  const seller = data.getSeller?.user || data.getSeller?.agency;
+  const user = data.getSeller?.user;
   if (!seller?.name || !seller.instagramStats) return notFound();
   return (
     <div className="mx-auto max-w-2xl px-6 pt-6 sm:mt-8 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
@@ -143,17 +144,17 @@ export default async function ProfilePage({
             <CopyLinkButton url={getMeURL(username, true)} />
           </div>
         </div>
-        {seller.pricing?.starting ? (
+        {user?.pricing?.starting ? (
           <p className="mb-3 mt-1 text-gray-900">
             <span className="mr-1 text-sm font-light italic">from</span>{" "}
             <span className=" ">
-              {seller.location?.currency?.symbol}
-              {seller.pricing.starting} {seller.location?.currency?.code}
+              {user.location?.currency?.symbol}
+              {user.pricing.starting} {user.location?.currency?.code}
             </span>
           </p>
         ) : null}
         <div className="prose prose-sm mt-2 text-gray-500">
-          {seller.gender} • {seller.category}
+          {user ? `${user.gender} • ${user.category}` : "Agency"}
         </div>
 
         {/* Reviews */}

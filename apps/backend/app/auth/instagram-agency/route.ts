@@ -152,7 +152,7 @@ export const GET = async (req: NextRequest) => {
           user: loggedInUserID,
           name: personalInfo.name || "",
           photo: instagramPhotoURL,
-          about: personalInfo.biography || "",
+          bio: personalInfo.biography || "",
         });
         return inserted.id;
       });

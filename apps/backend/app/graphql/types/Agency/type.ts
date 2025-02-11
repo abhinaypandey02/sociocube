@@ -11,6 +11,8 @@ export class AgencyGQL {
   name: string;
   @Field()
   username: string;
+  @Field()
+  bio: string;
 }
 @ObjectType("AgencyMember")
 export class AgencyMemberGQL {
@@ -31,7 +33,7 @@ export class AgencyOnboardingGQL {
   @Field(() => String, { nullable: true })
   contactPhone: string | null;
   @Field()
-  about: string;
+  bio: string;
   @Field(() => String, { nullable: true })
   username: string | null;
 }

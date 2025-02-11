@@ -30,7 +30,7 @@ export function getStep(
   if (!currentUser?.onboardingAgency) return 0;
   if (
     !currentUser.onboardingAgency.name ||
-    !currentUser.onboardingAgency.about ||
+    !currentUser.onboardingAgency.bio ||
     !currentUser.onboardingAgency.photo ||
     !currentUser.onboardingAgency.contactEmail ||
     !currentUser.onboardingAgency.contactPhone
@@ -130,7 +130,7 @@ function AgencyOnboardingWizard({
             defaultValues={{
               name: currentUser.onboardingAgency.name || "",
               photo: currentUser.onboardingAgency.photo || "",
-              about: currentUser.onboardingAgency.about || "",
+              bio: currentUser.onboardingAgency.bio || "",
               contactEmail: currentUser.onboardingAgency.contactEmail || "",
               contactPhone: currentUser.onboardingAgency.contactPhone || "",
             }}

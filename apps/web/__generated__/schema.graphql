@@ -240,16 +240,19 @@ input AddPortfolioLinkArgs {
 }
 
 type Agency {
+  bio: String!
   id: Float!
   instagramMedia: [InstagramMedia!]
   instagramStats: InstagramStats
+  location: Location
   name: String!
   photo: String!
+  portfolio: [Portfolio!]
   username: String!
 }
 
 input AgencyBasicDetailsInput {
-  about: String
+  bio: String
   contactEmail: String!
   contactPhone: String!
   name: String!
@@ -274,7 +277,7 @@ enum AgencyMemberType {
 }
 
 type AgencyOnboarding {
-  about: String!
+  bio: String!
   contactEmail: String
   contactPhone: String
   name: String!

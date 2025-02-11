@@ -18,7 +18,7 @@ export const AgencyTable = pgTable("agency", {
   location: integer("location")
     .references(() => LocationTable.id)
     .notNull(),
-  about: text("about"),
+  bio: text("bio").notNull(),
   roles: agencyRolesEnum("role").array().notNull(),
   username: text("username").notNull(),
   instagramDetails: integer("instagram_details").references(
@@ -31,7 +31,7 @@ export const AgencyOnboardingTable = pgTable("agency_onboarding", {
   photo: text("photo"),
   contactEmail: text("contact_email"),
   contactPhone: text("contact_phone"),
-  about: text("about").notNull(),
+  bio: text("bio").notNull(),
   username: text("username"),
   instagramDetails: integer("instagram_details")
     .references(() => InstagramDetails.id)

@@ -1,4 +1,4 @@
-import { and, eq, isNotNull, or } from "drizzle-orm";
+import { and, eq, isNotNull } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../db/schema";
 import { AgencyTable } from "../../../Agency/db/schema";
@@ -9,7 +9,7 @@ export async function handleGetSeller(username: string) {
     .from(UserTable)
     .where(
       and(
-        or(isNotNull(UserTable.instagramDetails)),
+        isNotNull(UserTable.instagramDetails),
         eq(UserTable.username, username),
       ),
     )
@@ -24,7 +24,7 @@ export async function handleGetSeller(username: string) {
     .from(AgencyTable)
     .where(
       and(
-        or(isNotNull(AgencyTable.instagramDetails)),
+        isNotNull(AgencyTable.instagramDetails),
         eq(AgencyTable.username, username),
       ),
     )
