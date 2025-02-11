@@ -10,20 +10,20 @@ import {
   getState,
   getUserIdFromRefreshToken,
 } from "../../../lib/auth/token";
-import {
-  InstagramMediaTable,
-  UserTable,
-} from "../../graphql/types/User/db/schema";
+import { UserTable } from "../../graphql/types/User/db/schema";
 import { db } from "../../../lib/db";
 import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
 import { uploadImage } from "../../../lib/storage/aws-s3";
 import { getPosts } from "../../graphql/types/User/resolvers/field/instagram";
+import { InstagramMediaTable } from "../../graphql/types/Instagram/db/schema2";
 import {
   getInstagramDataExternalAPI,
   getInstagramAuthorizationUrl,
   getLongLivedToken,
   getGraphData,
 } from "./utils";
+
+const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram`;
 
 export const GET = async (req: NextRequest) => {
   const accessCode = req.nextUrl.searchParams.get("code");
@@ -37,7 +37,7 @@ export const GET = async (req: NextRequest) => {
         `${BASE_REDIRECT_URI}?error=Some error occurred. Please reach out to @thesociocube on instagram`,
       );
     if (accessCode) {
-      const instagramData = await getLongLivedToken(accessCode);
+      const instagramData = await getLongLivedToken(accessCode, REDIRECT_URI);
       if (!instagramData)
         return NextResponse.redirect(
           `${BASE_REDIRECT_URI}?error=Our instagram api is down currently. Please reach out to @thesociocube on instagram`,
@@ -199,6 +199,7 @@ export const GET = async (req: NextRequest) => {
         csrfToken,
         refresh,
       }),
+      REDIRECT_URI,
     ),
   );
 };

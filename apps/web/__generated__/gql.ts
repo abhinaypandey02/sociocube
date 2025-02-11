@@ -14,10 +14,14 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  #graphql\n  mutation UpdateOnboardingBasicDetails($basicDetails: OnboardingBasicDetailsInput!) {\n    updateOnboardingBasicDetails(basicDetails: $basicDetails)\n  }\n": types.UpdateOnboardingBasicDetailsDocument,
+    "\n  #graphql\n  mutation UpdateAgencyOnboardingBasicDetails($basicDetails: AgencyBasicDetailsInput!) {\n    addAgencyBasicDetails(agency: $basicDetails)\n  }\n": types.UpdateAgencyOnboardingBasicDetailsDocument,
     "\n  #graphql\n  mutation UpdateOnboardingDOB($dobDetails: OnboardingDOBInput!) {\n    updateOnboardingDOB(dobDetails: $dobDetails)\n  }\n": types.UpdateOnboardingDobDocument,
     "\n  #graphql\n  mutation UpdateOnboardingInstagramUsername($username: String!) {\n    updateOnboardingInstagramUsername(username: $username)\n  }\n": types.UpdateOnboardingInstagramUsernameDocument,
+    "\n  #graphql\n  mutation UpdateAgencyOnboardingInstagramUsername($username: String!) {\n    addAgencyInstagramUsername(username: $username)\n  }\n": types.UpdateAgencyOnboardingInstagramUsernameDocument,
     "\n  #graphql\n  mutation UpdateOnboardingUsername($usernameDetails: OnboardingUsernameInput!) {\n    updateOnboardingUsername(usernameDetails: $usernameDetails)\n  }\n": types.UpdateOnboardingUsernameDocument,
+    "\n  #graphql\n  mutation UpdateAgencyOnboardingUsername($usernameDetails: AgencyUsernameInput!) {\n    addAgencyUsername(data: $usernameDetails)\n  }\n": types.UpdateAgencyOnboardingUsernameDocument,
     "\n  #graphql\n  mutation UpdateOnboardingLocation($locationDetails: OnboardingLocationInput!) {\n    updateOnboardingLocation(locationDetails: $locationDetails){\n      name\n      symbol\n    }\n  }\n": types.UpdateOnboardingLocationDocument,
+    "\n  #graphql\n  mutation UpdateAgencyOnboardingLocation($locationDetails: AgencyLocationInput!) {\n    addAgencyLocation(data: $locationDetails)\n  }\n": types.UpdateAgencyOnboardingLocationDocument,
     "\n  #graphql\n  mutation UpdateOnboardingPricing($pricingDetails: OnboardingPriceInput!) {\n    updateOnboardingPricing(pricingDetails: $pricingDetails)\n  }\n": types.UpdateOnboardingPricingDocument,
     "\n  #graphql\n  mutation CompleteOnboarding {\n    completeOnboarding\n  }\n": types.CompleteOnboardingDocument,
     "\n  #graphql\n  mutation ReadMessage($conversationID:Int!) {\n    readMessage(conversationID: $conversationID)\n  }\n": types.ReadMessageDocument,
@@ -38,6 +42,7 @@ const documents = {
     "\n  #graphql\n  mutation DeletePortfolio($id:Float!) {\n    deletePortfolio(id: $id)  \n  }\n": types.DeletePortfolioDocument,
     "\n  #graphql\n  query GetCurrentUser {\n    user: getCurrentUser {\n      id\n      email\n      username\n      name\n      photo\n      isOnboarded\n      instagramStats {\n        isVerified\n      }\n    }\n  }\n": types.GetCurrentUserDocument,
     "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      id\n      email\n      name\n      photo\n      isOnboarded\n      instagramStats {\n        username\n      }\n      bio\n      username\n      onboardingData {\n        username\n        name\n        photo\n        bio\n        category\n        city\n        dob\n        gender\n        country\n        currency {\n          name\n          symbol\n        }\n        state\n        pricing{\n          starting\n        }\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n": types.GetDefaultOnboardingDetailsDocument,
+    "\n  #graphql\n  query GetDefaultAgencyOnboardingDetails {\n    getCurrentUser {\n      id\n      agencies {\n        type\n      }\n      onboardingAgency {\n        username\n        name\n        photo\n        contactEmail\n        about\n        contactPhone\n        pictureUploadURL {\n          uploadURL\n          url\n        }\n      }\n    }\n  }\n": types.GetDefaultAgencyOnboardingDetailsDocument,
     "\n  #graphql\n  query GetFeaturedSellers {\n    sellers: getFeaturedSellers {\n      username\n      name\n      photo\n      bio\n      category\n      instagramStats {\n        username\n        followers\n        er\n        isVerified\n      }\n    }\n    posts:getFeaturedPosts {\n      mediaURL\n      thumbnailURL\n      creatorImage\n      creatorName\n      creatorUsername\n      creatorVerified\n      postURL\n      likes\n      er\n    }\n    postings: getFeaturedPostings {\n      id\n      price\n      currency\n      title\n      open\n      minimumAge\n      maximumAge\n      barter\n      applicationsCount\n      minimumFollowers\n      externalLink\n      user {\n        photo\n        name\n        instagramStats {\n          isVerified\n        }\n      }\n    }\n  }\n": types.GetFeaturedSellersDocument,
     "\n  #graphql\n  query GetSeller($username:String!) {\n    getSeller(username: $username) {\n      id\n      name\n      photo\n      bio\n      gender\n      portfolio {\n        caption\n        id\n        link\n        imageURL\n      }\n      location {\n          city\n          country\n          currency {\n            name\n            symbol\n            code\n          }\n      }\n      category\n      dob\n      pricing {\n        starting\n      }\n      instagramMedia {\n        thumbnail\n        caption\n        link\n        likes\n        comments\n        er\n      }\n      instagramStats {\n        followers\n        mediaCount\n        username\n        er\n        averageLikes\n        isVerified\n      }\n    }\n  }\n": types.GetSellerDocument,
     "\n  #graphql\n  query GetChats {\n    chats:getChats {\n      preview\n      id\n      user {\n        id\n        name\n        photo\n      }\n      agency {\n        id\n        name\n        photo\n      }\n      hasRead\n    }\n  }\n": types.GetChatsDocument,
@@ -79,6 +84,10 @@ export function gql(source: "\n  #graphql\n  mutation UpdateOnboardingBasicDetai
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n  #graphql\n  mutation UpdateAgencyOnboardingBasicDetails($basicDetails: AgencyBasicDetailsInput!) {\n    addAgencyBasicDetails(agency: $basicDetails)\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdateAgencyOnboardingBasicDetails($basicDetails: AgencyBasicDetailsInput!) {\n    addAgencyBasicDetails(agency: $basicDetails)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n  #graphql\n  mutation UpdateOnboardingDOB($dobDetails: OnboardingDOBInput!) {\n    updateOnboardingDOB(dobDetails: $dobDetails)\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdateOnboardingDOB($dobDetails: OnboardingDOBInput!) {\n    updateOnboardingDOB(dobDetails: $dobDetails)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -87,11 +96,23 @@ export function gql(source: "\n  #graphql\n  mutation UpdateOnboardingInstagramU
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n  #graphql\n  mutation UpdateAgencyOnboardingInstagramUsername($username: String!) {\n    addAgencyInstagramUsername(username: $username)\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdateAgencyOnboardingInstagramUsername($username: String!) {\n    addAgencyInstagramUsername(username: $username)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n  #graphql\n  mutation UpdateOnboardingUsername($usernameDetails: OnboardingUsernameInput!) {\n    updateOnboardingUsername(usernameDetails: $usernameDetails)\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdateOnboardingUsername($usernameDetails: OnboardingUsernameInput!) {\n    updateOnboardingUsername(usernameDetails: $usernameDetails)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n  #graphql\n  mutation UpdateAgencyOnboardingUsername($usernameDetails: AgencyUsernameInput!) {\n    addAgencyUsername(data: $usernameDetails)\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdateAgencyOnboardingUsername($usernameDetails: AgencyUsernameInput!) {\n    addAgencyUsername(data: $usernameDetails)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n  #graphql\n  mutation UpdateOnboardingLocation($locationDetails: OnboardingLocationInput!) {\n    updateOnboardingLocation(locationDetails: $locationDetails){\n      name\n      symbol\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdateOnboardingLocation($locationDetails: OnboardingLocationInput!) {\n    updateOnboardingLocation(locationDetails: $locationDetails){\n      name\n      symbol\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  #graphql\n  mutation UpdateAgencyOnboardingLocation($locationDetails: AgencyLocationInput!) {\n    addAgencyLocation(data: $locationDetails)\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdateAgencyOnboardingLocation($locationDetails: AgencyLocationInput!) {\n    addAgencyLocation(data: $locationDetails)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -172,6 +193,10 @@ export function gql(source: "\n  #graphql\n  query GetCurrentUser {\n    user: g
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      id\n      email\n      name\n      photo\n      isOnboarded\n      instagramStats {\n        username\n      }\n      bio\n      username\n      onboardingData {\n        username\n        name\n        photo\n        bio\n        category\n        city\n        dob\n        gender\n        country\n        currency {\n          name\n          symbol\n        }\n        state\n        pricing{\n          starting\n        }\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      id\n      email\n      name\n      photo\n      isOnboarded\n      instagramStats {\n        username\n      }\n      bio\n      username\n      onboardingData {\n        username\n        name\n        photo\n        bio\n        category\n        city\n        dob\n        gender\n        country\n        currency {\n          name\n          symbol\n        }\n        state\n        pricing{\n          starting\n        }\n      }\n      pictureUploadURL {\n        uploadURL\n        url\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  #graphql\n  query GetDefaultAgencyOnboardingDetails {\n    getCurrentUser {\n      id\n      agencies {\n        type\n      }\n      onboardingAgency {\n        username\n        name\n        photo\n        contactEmail\n        about\n        contactPhone\n        pictureUploadURL {\n          uploadURL\n          url\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetDefaultAgencyOnboardingDetails {\n    getCurrentUser {\n      id\n      agencies {\n        type\n      }\n      onboardingAgency {\n        username\n        name\n        photo\n        contactEmail\n        about\n        contactPhone\n        pictureUploadURL {\n          uploadURL\n          url\n        }\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

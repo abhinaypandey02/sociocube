@@ -1,8 +1,10 @@
 import { InstagramMediaType } from "../../graphql/constants/instagram-media-type";
 
-const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram`;
-export const getInstagramAuthorizationUrl = (state: string) =>
-  `https://www.instagram.com/oauth/authorize?client_id=${process.env.INSTAGRAM_CLIENT_ID}&state=${state}&response_type=code&enable_fb_login=0&force_authentication=1&scope=instagram_business_basic&redirect_uri=${REDIRECT_URI}`;
+export const getInstagramAuthorizationUrl = (
+  state: string,
+  redirectURL: string,
+) =>
+  `https://www.instagram.com/oauth/authorize?client_id=${process.env.INSTAGRAM_CLIENT_ID}&state=${state}&response_type=code&enable_fb_login=0&force_authentication=1&scope=instagram_business_basic&redirect_uri=${redirectURL}`;
 
 export const getGraphUrl = (
   path: string,
@@ -30,12 +32,12 @@ export async function getRefreshedAccessToken(token: string) {
   return response.access_token;
 }
 
-export async function getLongLivedToken(code: string) {
+export async function getLongLivedToken(code: string, redirectURL: string) {
   const formData = new FormData();
   formData.set("client_id", process.env.INSTAGRAM_CLIENT_ID || "");
   formData.set("client_secret", process.env.INSTAGRAM_CLIENT_SECRET || "");
   formData.set("grant_type", "authorization_code");
-  formData.set("redirect_uri", REDIRECT_URI);
+  formData.set("redirect_uri", redirectURL);
   formData.set("code", code);
   const shortRes = await fetch("https://api.instagram.com/oauth/access_token", {
     method: "POST",

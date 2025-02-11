@@ -5,6 +5,7 @@ import {
   IsEmail,
   IsIn,
   IsNumberString,
+  IsUrl,
   Matches,
   MaxLength,
 } from "class-validator";
@@ -40,6 +41,7 @@ export class UpdateUserInput {
   @Field({ nullable: true })
   bio?: string;
   @Field({ nullable: true })
+  @IsUrl()
   photo?: string;
   @Field({ nullable: true })
   @IsIn(categories.map(({ title }) => title))

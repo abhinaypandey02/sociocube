@@ -114,28 +114,5 @@ export const OnboardingDataTable = pgTable("onboarding_data", {
   pricing: integer("pricing").references(() => PricingTable.id),
 });
 
-export const InstagramMediaTable = pgTable(
-  "instagram_post",
-  {
-    id: serial("id").primaryKey(),
-    appID: text("app_id").unique(),
-    thumbnail: text("thumbnail").notNull(),
-    mediaURL: text("media_url"),
-    link: text("url").notNull(),
-    caption: text("caption"),
-    type: mediaType("type").notNull(),
-    comments: integer("comments").notNull(),
-    likes: integer("likes").notNull(),
-    timestamp: date("timestamp"),
-    er: real("er"),
-    user: integer("user")
-      .references(() => UserTable.id)
-      .notNull(),
-  },
-  (table) => ({
-    userIdx: index("post_user_idx").on(table.user),
-  }),
-);
-
 export type UserDBInsert = typeof UserTable.$inferInsert;
 export type UserDB = typeof UserTable.$inferSelect;

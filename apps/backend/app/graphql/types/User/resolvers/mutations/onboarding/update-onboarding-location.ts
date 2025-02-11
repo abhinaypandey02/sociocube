@@ -26,7 +26,6 @@ export async function handleUpdateOnboardingLocation(
     .where(
       and(
         eq(UserTable.id, ctx.userId),
-        isNotNull(UserTable.onboardingData),
         eq(UserTable.isOnboarded, false),
         isNotNull(UserTable.instagramDetails),
       ),

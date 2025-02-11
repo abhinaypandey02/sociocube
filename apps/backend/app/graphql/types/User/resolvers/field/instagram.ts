@@ -1,5 +1,5 @@
 import { desc, eq } from "drizzle-orm";
-import { InstagramMediaTable, UserDB } from "../../db/schema";
+import { UserDB } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import {
@@ -8,6 +8,8 @@ import {
 } from "../../../../../auth/instagram/utils";
 import { InstagramMediaType } from "../../../../constants/instagram-media-type";
 import { Roles } from "../../../../constants/roles";
+import { AgencyDB } from "../../../Agency/db/schema";
+import { InstagramMediaTable } from "../../../Instagram/db/schema2";
 
 export function normaliseDigits(val: number) {
   return Math.round(val * 10) / 10;
@@ -29,7 +31,7 @@ export function median(values: number[]): number {
 }
 
 async function getStats(
-  user: UserDB,
+  user: UserDB | AgencyDB,
   failedTries: number,
   accessToken?: string | null,
   username?: string,
@@ -97,6 +99,7 @@ export async function getPosts(
   userID: number,
   accessToken?: string | null,
   username?: string,
+  isAgency?: boolean,
 ) {
   let posts: InstagramPost[] = [];
   if (accessToken) {
@@ -140,7 +143,7 @@ export async function getPosts(
       type: media.media_type,
       caption: media.caption,
       appID: media.id,
-      user: userID,
+      [isAgency ? "agency" : "user"]: userID,
       er: getER(followers, media.like_count || 0, media.comments_count || -1),
     }))
     .sort((a, b) => b.er - a.er);
@@ -166,7 +169,7 @@ function cacheAlive(d: Date) {
   return time < 16;
 }
 
-export async function getInstagramStats(user: UserDB) {
+export async function getInstagramStats(user: UserDB | AgencyDB) {
   if (!user.instagramDetails) return null;
   const [instagramDetails] = await db
     .select()
@@ -220,7 +223,7 @@ export async function getInstagramStats(user: UserDB) {
   };
 }
 
-export async function getInstagramMedia(user: UserDB) {
+export async function getInstagramMedia(user: UserDB, isAgency?: boolean) {
   if (!user.instagramDetails) return null;
   const [instagramDetails] = await db
     .select()
@@ -234,7 +237,11 @@ export async function getInstagramMedia(user: UserDB) {
     const posts = await db
       .select()
       .from(InstagramMediaTable)
-      .where(eq(InstagramMediaTable.user, user.id))
+      .where(
+        isAgency
+          ? eq(InstagramMediaTable.agency, user.id)
+          : eq(InstagramMediaTable.user, user.id),
+      )
       .orderBy(desc(InstagramMediaTable.er))
       .limit(6);
     if (posts.length > 0) return posts;
@@ -245,6 +252,7 @@ export async function getInstagramMedia(user: UserDB) {
     user.id,
     instagramDetails.accessToken,
     instagramDetails.username,
+    isAgency,
   );
   if (posts.length === 0) return [];
   await db

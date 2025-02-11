@@ -58,6 +58,29 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
   }
 `);
 
+export const GET_DEFAULT_AGENCY_ONBOARDING_DETAILS = gql(`
+  #graphql
+  query GetDefaultAgencyOnboardingDetails {
+    getCurrentUser {
+      id
+      agencies {
+        type
+      }
+      onboardingAgency {
+        username
+        name
+        photo
+        contactEmail
+        about
+        contactPhone
+        pictureUploadURL {
+          uploadURL
+          url
+        }
+      }
+    }
+  }
+`);
 export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
   #graphql
   query GetFeaturedSellers {

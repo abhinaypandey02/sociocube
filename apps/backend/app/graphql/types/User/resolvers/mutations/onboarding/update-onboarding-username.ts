@@ -5,9 +5,10 @@ import { USERNAME_REGEX } from "commons/regex";
 import { USERNAME_MAX_LENGTH } from "commons/constraints";
 import { AuthorizedContext } from "../../../../../context";
 import { db } from "../../../../../../../lib/db";
-import { OnboardingDataTable, UserTable } from "../../../db/schema";
+import { OnboardingDataTable } from "../../../db/schema";
 import { getCurrentUser, usernameAllowed } from "../../../utils";
 import GQLError from "../../../../../constants/errors";
+import { handleIsUsernameAvailable } from "../../queries/is-username-available";
 
 @InputType("OnboardingUsernameInput")
 export class OnboardingUsernameInput {
@@ -24,12 +25,9 @@ export async function handleUpdateOnboardingUsername(
   const user = await getCurrentUser(ctx);
   if (!user) throw GQLError(403);
   if (!user.onboardingData) throw GQLError(400, "Onboarding details missing");
-  const existingUsers = await db
-    .select()
-    .from(UserTable)
-    .where(eq(UserTable.username, username));
   if (!usernameAllowed(username)) throw GQLError(400, "Invalid username!");
-  if (existingUsers.length > 0) throw GQLError(400, "Username taken");
+  if (!(await handleIsUsernameAvailable(username)))
+    throw GQLError(400, "Username taken");
   await db
     .update(OnboardingDataTable)
     .set({

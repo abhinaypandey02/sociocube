@@ -245,6 +245,43 @@ type Agency {
   photo: String!
 }
 
+input AgencyBasicDetailsInput {
+  about: String
+  contactEmail: String!
+  contactPhone: String!
+  name: String!
+  photo: String!
+}
+
+input AgencyLocationInput {
+  city: Float
+  country: Float!
+  state: Float!
+}
+
+type AgencyMember {
+  type: AgencyMemberType!
+}
+
+enum AgencyMemberType {
+  Admin
+  Owner
+}
+
+type AgencyOnboarding {
+  about: String!
+  contactEmail: String
+  contactPhone: String
+  name: String!
+  photo: String
+  pictureUploadURL: StorageFile!
+  username: String
+}
+
+input AgencyUsernameInput {
+  username: String!
+}
+
 type Application {
   comment: String
   email: String!
@@ -326,6 +363,10 @@ type Message {
 }
 
 type Mutation {
+  addAgencyBasicDetails(agency: AgencyBasicDetailsInput!): Boolean!
+  addAgencyInstagramUsername(username: String!): Boolean!
+  addAgencyLocation(data: AgencyLocationInput!): Boolean!
+  addAgencyUsername(data: AgencyUsernameInput!): Boolean!
   addPortfolio(data: AddPortfolioArgs!): Boolean!
   addPortfolioLink(data: AddPortfolioLinkArgs!): Boolean!
   applyToPosting(comment: String, email: String!, phone: String, postingID: Float!): Boolean!
@@ -342,6 +383,7 @@ type Mutation {
   sendMessageToUser(body: String!, userID: Int!): Boolean!
   sendResetPasswordEmail(email: String!): Boolean
   sendVerificationEmail: Boolean!
+  updateAgency(data: UpdateAgencyInput!, id: Float!): Boolean!
   updateOnboardingBasicDetails(basicDetails: OnboardingBasicDetailsInput!): Boolean!
   updateOnboardingDOB(dobDetails: OnboardingDOBInput!): Boolean!
   updateOnboardingInstagramUsername(username: String!): Boolean!
@@ -510,6 +552,17 @@ type StorageFile {
   url: String!
 }
 
+input UpdateAgencyInput {
+  city: Float
+  contactEmail: String
+  contactPhone: String
+  country: Float
+  name: String
+  photo: String
+  state: Float
+  username: String
+}
+
 input UpdateLocation {
   city: Float
   country: Float!
@@ -544,6 +597,7 @@ input UpdateUserInput {
 }
 
 type User {
+  agencies: [AgencyMember!]!
   bio: String
   category: String
   contactEmail: String
@@ -557,6 +611,7 @@ type User {
   location: Location
   locationID: LocationID
   name: String
+  onboardingAgency: AgencyOnboarding
   onboardingData: OnboardingData
   phone: String
   photo: String

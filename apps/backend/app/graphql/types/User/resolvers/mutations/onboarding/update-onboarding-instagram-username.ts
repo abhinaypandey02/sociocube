@@ -1,13 +1,14 @@
 import { and, eq, isNull } from "drizzle-orm";
 import { AuthorizedContext } from "../../../../../context";
 import { db } from "../../../../../../../lib/db";
-import { InstagramMediaTable, UserTable } from "../../../db/schema";
+import { UserTable } from "../../../db/schema";
 import GQLError from "../../../../../constants/errors";
 import { getInstagramDataExternalAPI } from "../../../../../../auth/instagram/utils";
 import { InstagramDetails } from "../../../../Instagram/db/schema";
 import { getCurrentUser } from "../../../utils";
 import { uploadImage } from "../../../../../../../lib/storage/aws-s3";
 import { getPosts } from "../../field/instagram";
+import { InstagramMediaTable } from "../../../../Instagram/db/schema2";
 
 export async function handleUpdateOnboardingInstagramUsername(
   ctx: AuthorizedContext,

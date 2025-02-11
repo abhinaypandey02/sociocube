@@ -7,6 +7,13 @@ export const UPDATE_ONBOARDING_BASIC_DETAILS = gql(`
   }
 `);
 
+export const UPDATE_AGENCY_ONBOARDING_BASIC_DETAILS = gql(`
+  #graphql
+  mutation UpdateAgencyOnboardingBasicDetails($basicDetails: AgencyBasicDetailsInput!) {
+    addAgencyBasicDetails(agency: $basicDetails)
+  }
+`);
+
 export const UPDATE_ONBOARDING_DOB = gql(`
   #graphql
   mutation UpdateOnboardingDOB($dobDetails: OnboardingDOBInput!) {
@@ -20,10 +27,23 @@ export const UPDATE_ONBOARDING_INSTAGRAM_USERNAME = gql(`
   }
 `);
 
+export const UPDATE_AGENCY_ONBOARDING_INSTAGRAM_USERNAME = gql(`
+  #graphql
+  mutation UpdateAgencyOnboardingInstagramUsername($username: String!) {
+    addAgencyInstagramUsername(username: $username)
+  }
+`);
+
 export const UPDATE_ONBOARDING_USERNAME = gql(`
   #graphql
   mutation UpdateOnboardingUsername($usernameDetails: OnboardingUsernameInput!) {
     updateOnboardingUsername(usernameDetails: $usernameDetails)
+  }
+`);
+export const UPDATE_AGENCY_ONBOARDING_USERNAME = gql(`
+  #graphql
+  mutation UpdateAgencyOnboardingUsername($usernameDetails: AgencyUsernameInput!) {
+    addAgencyUsername(data: $usernameDetails)
   }
 `);
 
@@ -34,6 +54,13 @@ export const UPDATE_ONBOARDING_LOCATION = gql(`
       name
       symbol
     }
+  }
+`);
+
+export const UPDATE_AGENCY_ONBOARDING_LOCATION = gql(`
+  #graphql
+  mutation UpdateAgencyOnboardingLocation($locationDetails: AgencyLocationInput!) {
+    addAgencyLocation(data: $locationDetails)
   }
 `);
 

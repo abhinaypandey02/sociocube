@@ -1,10 +1,11 @@
 import { and, eq, ne, isNotNull, desc } from "drizzle-orm";
 import { Field, ObjectType } from "type-graphql";
 import { db } from "../../../../../../lib/db";
-import { InstagramMediaTable, UserTable } from "../../db/schema";
+import { UserTable } from "../../db/schema";
 import { InstagramMediaType } from "../../../../constants/instagram-media-type";
 import { Roles } from "../../../../constants/roles";
 import { InstagramDetails } from "../../../Instagram/db/schema";
+import { InstagramMediaTable } from "../../../Instagram/db/schema2";
 
 @ObjectType()
 export class GetFeaturedPostsResponse {
