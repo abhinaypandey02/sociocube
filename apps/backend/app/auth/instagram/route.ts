@@ -128,10 +128,11 @@ export const GET = async (req: NextRequest) => {
           accessToken,
           personalInfo.username,
         );
-        await db
-          .insert(InstagramMediaTable)
-          .values(posts)
-          .onConflictDoNothing();
+        if (posts.length > 0)
+          await db
+            .insert(InstagramMediaTable)
+            .values(posts)
+            .onConflictDoNothing();
 
         const id = await db.transaction(async (tx) => {
           const [inserted] = await tx
