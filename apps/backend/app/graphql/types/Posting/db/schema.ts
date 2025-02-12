@@ -7,7 +7,6 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { UserTable } from "../../User/db/schema";
 import { CountryTable } from "../../Map/db/schema";
 import { PostingPlatforms } from "../../../constants/platforms";
 import { AgencyTable } from "../../Agency/db/schema";
@@ -19,7 +18,6 @@ export const platforms = pgEnum("platform", [
 
 export const PostingTable = pgTable("posting", {
   id: serial("id").primaryKey(),
-  user: integer("user").references(() => UserTable.id),
   agency: integer("agency")
     .references(() => AgencyTable.id)
     .notNull(),
