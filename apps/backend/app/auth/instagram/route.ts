@@ -141,6 +141,7 @@ export const GET = async (req: NextRequest) => {
               username: personalInfo.username,
               followers: personalInfo.followers_count,
               accessToken,
+              mediaCount: personalInfo.media_count,
               ...stats,
             })
             .returning();

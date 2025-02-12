@@ -55,7 +55,7 @@ export async function handleUpdateOnboardingInstagramUsername(
     .values({
       username: data.insta_username,
       followers: data.followers_count,
-      lastFetchedInstagramStats: new Date(),
+      mediaCount: data.total_media || data.total_media_public_profile,
       ...stats,
     })
     .returning({ id: InstagramDetails.id });
