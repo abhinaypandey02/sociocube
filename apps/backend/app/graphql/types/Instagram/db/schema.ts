@@ -26,8 +26,12 @@ export const InstagramDetails = pgTable(
     accessTokenUpdatedAt: timestamp("access_token_updated_at")
       .notNull()
       .defaultNow(),
-    lastFetchedInstagramStats: timestamp("last_fetched_instagram_stats"),
-    lastFetchedInstagramMedia: timestamp("last_fetched_instagram_media"),
+    lastFetchedInstagramStats: timestamp(
+      "last_fetched_instagram_stats",
+    ).defaultNow(),
+    lastFetchedInstagramMedia: timestamp(
+      "last_fetched_instagram_media",
+    ).defaultNow(),
   },
   (table) => ({
     instagramSearchIndex: index("instagram_search_index").using(

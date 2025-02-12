@@ -80,10 +80,12 @@ export const GET = async (req: NextRequest) => {
           "followers_count",
           "username",
           "biography",
+          "media_count",
         ])) as {
           name: string;
           profile_picture_url?: string;
           followers_count: number;
+          media_count: number;
           username: string;
           biography?: string;
         };
@@ -138,7 +140,6 @@ export const GET = async (req: NextRequest) => {
               appID: userId,
               username: personalInfo.username,
               followers: personalInfo.followers_count,
-              lastFetchedInstagramStats: new Date(),
               accessToken,
               ...stats,
             })

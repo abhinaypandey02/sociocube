@@ -58,11 +58,13 @@ export const GET = async (req: NextRequest) => {
         "profile_picture_url",
         "followers_count",
         "username",
+        "media_count",
         "biography",
       ])) as {
         name: string;
         profile_picture_url?: string;
         followers_count: number;
+        media_count: number;
         username: string;
         biography?: string;
       };
@@ -99,10 +101,15 @@ export const GET = async (req: NextRequest) => {
           ),
         );
       if (userAgency?.agency === existingAgency?.id) {
-        await db
-          .update(InstagramDetails)
-          .set({ accessToken, accessTokenUpdatedAt: new Date() })
-          .where(eq(InstagramDetails.appID, userId));
+        if (existingUserJoin?.instagram_data.id)
+          await db
+            .update(InstagramDetails)
+            .set({
+              accessToken,
+              accessTokenUpdatedAt: new Date(),
+              appID: userId,
+            })
+            .where(eq(InstagramDetails.id, existingUserJoin.instagram_data.id));
         return NextResponse.redirect(
           `${BASE_REDIRECT_URI}?success=Updated instagram details`,
         );
@@ -136,8 +143,8 @@ export const GET = async (req: NextRequest) => {
             appID: userId,
             username: personalInfo.username,
             followers: personalInfo.followers_count,
-            lastFetchedInstagramStats: new Date(),
             accessToken,
+            mediaCount: personalInfo.media_count,
           })
           .returning();
         if (!inserted) return tx.rollback();
