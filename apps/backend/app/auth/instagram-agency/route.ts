@@ -130,7 +130,7 @@ export const GET = async (req: NextRequest) => {
           .set({ instagramDetails: null })
           .where(eq(AgencyTable.id, existingAgency.id));
       }
-      if (existingUser || existingAgency) {
+      if (existingUserJoin?.instagram_data.id) {
         await db
           .delete(InstagramDetails)
           .where(eq(InstagramDetails.id, existingUserJoin.instagram_data.id));
@@ -154,7 +154,7 @@ export const GET = async (req: NextRequest) => {
         const instagramPhotoURL =
           externalDetails?.profile_picture_url ||
           personalInfo.profile_picture_url;
-        await db.insert(AgencyOnboardingTable).values({
+        await tx.insert(AgencyOnboardingTable).values({
           instagramDetails: inserted.id,
           user: loggedInUserID,
           name: personalInfo.name || "",
