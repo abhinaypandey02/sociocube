@@ -100,7 +100,7 @@ export const GET = async (req: NextRequest) => {
             eq(AgencyMember.type, AgencyMemberType.Owner),
           ),
         );
-      if (userAgency?.agency === existingAgency?.id) {
+      if (userAgency?.agency && userAgency.agency === existingAgency?.id) {
         if (existingUserJoin?.instagram_data.id)
           await db
             .update(InstagramDetails)

@@ -51,7 +51,7 @@ export default function AgencySocialsStatus({
         </Button>
       ) : (
         <a
-          href={`/_auth/instagram-agency?redirectURL=${Route.Onboarding}${
+          href={`/_auth/instagram-agency?redirectURL=${Route.AgencyOnboarding}${
             redirectURL ? `%3FredirectURL%3D${redirectURL}` : ""
           }`}
         >
