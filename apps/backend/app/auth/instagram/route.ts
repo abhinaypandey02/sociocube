@@ -16,6 +16,7 @@ import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
 import { uploadImage } from "../../../lib/storage/aws-s3";
 import { getPosts } from "../../graphql/types/User/resolvers/field/instagram";
 import { InstagramMediaTable } from "../../graphql/types/Instagram/db/schema2";
+import { AgencyTable } from "../../graphql/types/Agency/db/schema";
 import {
   getGraphData,
   getInstagramAuthorizationUrl,
@@ -53,10 +54,19 @@ export const GET = async (req: NextRequest) => {
         .select()
         .from(InstagramDetails)
         .where(eq(InstagramDetails.appID, userId))
-        .innerJoin(
+        .leftJoin(
           UserTable,
           eq(UserTable.instagramDetails, InstagramDetails.id),
+        )
+        .leftJoin(
+          AgencyTable,
+          eq(AgencyTable.instagramDetails, InstagramDetails.id),
         );
+      if (existingUserJoin?.agency) {
+        return NextResponse.redirect(
+          `${BASE_REDIRECT_URI}?error=An agency is using this account, please unlink account from the agency`,
+        );
+      }
       const existingUser = existingUserJoin?.user;
       let refreshToken;
       if (existingUser) {
@@ -100,6 +110,10 @@ export const GET = async (req: NextRequest) => {
           .leftJoin(
             UserTable,
             eq(UserTable.instagramDetails, InstagramDetails.id),
+          )
+          .leftJoin(
+            AgencyTable,
+            eq(AgencyTable.instagramDetails, InstagramDetails.id),
           );
         if (existingUnverifiedInstagram) {
           if (existingUnverifiedInstagram.user) {
@@ -112,6 +126,14 @@ export const GET = async (req: NextRequest) => {
                 isOnboarded: accountGettingVerified ? undefined : false,
               })
               .where(eq(UserTable.id, existingUnverifiedInstagram.user.id));
+          }
+          if (existingUnverifiedInstagram.agency) {
+            await db
+              .update(AgencyTable)
+              .set({
+                instagramDetails: null,
+              })
+              .where(eq(AgencyTable.id, existingUnverifiedInstagram.agency.id));
           }
           await db
             .delete(InstagramDetails)

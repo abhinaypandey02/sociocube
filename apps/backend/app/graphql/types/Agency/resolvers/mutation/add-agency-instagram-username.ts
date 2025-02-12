@@ -6,6 +6,7 @@ import GQLError from "../../../../constants/errors";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { getInstagramDataExternalAPI } from "../../../../../auth/instagram/utils";
 import { UserTable } from "../../../User/db/schema";
+import { uploadImage } from "../../../../../../lib/storage/aws-s3";
 
 export async function addAgencyInstagramUsername(
   ctx: AuthorizedContext,
@@ -30,14 +31,23 @@ export async function addAgencyInstagramUsername(
     userDetails?.instagram_data &&
     userDetails.instagram_data.username === username
   ) {
-    await db.update(UserTable).set({
-      instagramDetails: null,
-    });
+    await db
+      .update(UserTable)
+      .set({
+        instagramDetails: null,
+      })
+      .where(eq(UserTable.id, ctx.userId));
     await db.insert(AgencyOnboardingTable).values({
       instagramDetails: userDetails.instagram_data.id,
       user: ctx.userId,
       name: data.name || "",
-      photo: data.profile_picture_url,
+      photo:
+        data.profile_picture_url &&
+        (await uploadImage(data.profile_picture_url, [
+          "User",
+          ctx.userId.toString(),
+          "agency-photo",
+        ])),
       bio: data.biography,
     });
     return true;

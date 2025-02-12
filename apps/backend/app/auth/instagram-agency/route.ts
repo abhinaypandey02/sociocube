@@ -21,6 +21,7 @@ import {
   AgencyTable,
 } from "../../graphql/types/Agency/db/schema";
 import { AgencyMemberType } from "../../graphql/constants/agency-member-type";
+import { uploadImage } from "../../../lib/storage/aws-s3";
 
 const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram-agency`;
 
@@ -158,7 +159,13 @@ export const GET = async (req: NextRequest) => {
           instagramDetails: inserted.id,
           user: loggedInUserID,
           name: personalInfo.name || "",
-          photo: instagramPhotoURL,
+          photo:
+            instagramPhotoURL &&
+            (await uploadImage(instagramPhotoURL, [
+              "User",
+              loggedInUserID.toString(),
+              "agency-photo",
+            ])),
           bio: personalInfo.biography || "",
         });
         return inserted.id;
