@@ -62,7 +62,7 @@ Now that you know how powerful UGC can be, how do you start using it effectively
 
 3. **Create UGC Campaigns:** Run UGC-focused campaigns and offer incentives such as giveaways, discounts, or features to encourage users to participate.
 
-4. **Leverage UGC Platforms:** Platforms like Sociocube offer a great way for brands to connect with talented creators who produce authentic content.
+4. **Leverage UGC Platforms:** Platforms like Socio cube offer a great way for brands to connect with talented creators who produce authentic content.
 
 ---
 
@@ -72,4 +72,4 @@ User-generated content is no longer just a marketing tool—it’s a strategy th
 
 The future of marketing is all about collaboration, community, and authenticity, and UGC is at the heart of that change. Start tapping into the power of UGC today, and watch your brand grow through meaningful connections.
 
-🌟 Ready to take your brand to the next level with UGC? Check out [Sociocube.com](https://sociocube.com) and connect with the best content creators in the game.
+🌟 Ready to take your brand to the next level with UGC? Check out [Socio cube.com](https://sociocube.com) and connect with the best content creators in the game.

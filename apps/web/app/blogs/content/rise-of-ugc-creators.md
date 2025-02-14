@@ -55,7 +55,7 @@ Breaking into the UGC space might seem intimidating, but it’s simpler than you
 
 1. **Define Your Niche**: Focus on categories like beauty, travel, fitness, or food.
 2. **Create Portfolio Content**: Use products you already love to build a portfolio of UGC examples.
-3. **Join Platforms That Connect Creators and Brands**: Platforms like Sociocube make it easy to showcase your work and find collaboration opportunities.
+3. **Join Platforms That Connect Creators and Brands**: Platforms like Socio cube make it easy to showcase your work and find collaboration opportunities.
 4. **Pitch Yourself**: Reach out to brands with personalized messages highlighting your skills.
 
 Remember, consistency and authenticity are your best assets.
@@ -76,7 +76,7 @@ As the digital landscape evolves, demand for UGC creators is skyrocketing. Here�
 
 - **Brands are prioritizing authenticity over perfection.**
 - **E-commerce and social media platforms rely heavily on UGC to drive conversions.**
-- **Tools and platforms like Sociocube are making it easier than ever to connect with brands.**
+- **Tools and platforms like Socio cube are making it easier than ever to connect with brands.**
 
 If you’ve ever thought about turning your passion for content creation into a side hustle (or even a full-time gig), now is the perfect time.
 
@@ -86,4 +86,4 @@ If you’ve ever thought about turning your passion for content creation into a 
 
 The rise of UGC creators is reshaping the future of marketing. Whether you’re a creator looking for opportunities or a brand aiming to build authentic connections, UGC offers a win-win solution for everyone.
 
-Want to jumpstart your journey as a UGC creator? Explore [Sociocube.com](https://sociocube.com) today and discover how you can turn your creative passion into an opportunity to grow and thrive.  
+Want to jumpstart your journey as a UGC creator? Explore [Socio cube.com](https://sociocube.com) today and discover how you can turn your creative passion into an opportunity to grow and thrive.  
