@@ -13,6 +13,7 @@ import { toast } from "react-hot-toast";
 import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
 import { UPDATE_AGENCY_ONBOARDING_BASIC_DETAILS } from "../../lib/mutations";
 import type { StorageFile } from "../../__generated__/graphql";
+import { AgencyCategory } from "../../__generated__/graphql";
 
 export default function AgencyBasicDetailsForm({
   defaultValues,
@@ -23,6 +24,7 @@ export default function AgencyBasicDetailsForm({
     name: string;
     photo: string;
     bio: string;
+    category?: AgencyCategory | null;
     contactEmail: string;
     contactPhone: string;
   };
@@ -47,6 +49,9 @@ export default function AgencyBasicDetailsForm({
       setMissingPhoto(true);
       return;
     }
+    if (!data.category) {
+      return;
+    }
     if (profilePicture) {
       setUploadingPicture(true);
       const res = await fetch(photoUpload.uploadURL, {
@@ -59,6 +64,7 @@ export default function AgencyBasicDetailsForm({
       basicDetails: {
         name: data.name,
         photo: profilePicture ? photoUpload.url : data.photo,
+        category: data.category,
         contactEmail: data.contactEmail,
         contactPhone: data.contactPhone,
         bio: data.bio,
@@ -101,30 +107,53 @@ export default function AgencyBasicDetailsForm({
       ) : null}
       <Input
         className="block"
-        label="Full name"
+        label="Brand name"
         name="name"
         placeholder="Enter your name"
+        required
         rules={{ required: true }}
       />
       <Input
         className="block"
-        label="About you"
+        label="About your brand"
         name="bio"
         placeholder="Write a brief about you"
+        required
+        rules={{ required: true }}
         textarea
+      />
+      <Input
+        className="block"
+        label="Category"
+        name="category"
+        options={[
+          {
+            value: AgencyCategory.Brand,
+            label: "Brand",
+          },
+          {
+            value: AgencyCategory.Agency,
+            label: "Agency",
+          },
+        ]}
+        placeholder="Select what category describes you best"
+        required
+        rules={{ required: true }}
       />
       <Input
         className="block"
         label="Contact email"
         name="contactEmail"
-        placeholder="Write a brief about you"
+        placeholder="yourbrandemail@brand.com"
+        required
+        rules={{ required: true }}
         type="email"
       />
       <Input
         className="block"
-        label="Contact phone"
+        label="Contact phone (Optional)"
         name="contactPhone"
-        placeholder="Write a brief about you"
+        placeholder="+91 94566XXXXX"
       />
       <input
         accept={ALLOWED_IMAGE_TYPES.join(", ")}

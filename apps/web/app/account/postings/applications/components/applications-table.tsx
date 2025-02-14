@@ -97,7 +97,11 @@ const DEFAULT_COLUMNS = [
   }),
   colHelper.accessor("user.dob", {
     header: "Age",
-    cell: (value) => getAge(new Date(value.getValue() || "")),
+    cell: (value) => {
+      const age = getAge(new Date(value.getValue() || ""));
+      if (isNaN(age)) return "NA";
+      return age;
+    },
   }),
   colHelper.accessor("user.instagramStats.followers", {
     header: "Followers",

@@ -154,7 +154,8 @@ export default async function ProfilePage({
           </p>
         ) : null}
         <div className="prose prose-sm mt-2 text-gray-500">
-          {user ? `${user.gender} • ${user.category}` : "Agency"}
+          {user ? `${user.gender} • ` : ""}
+          {seller.category}
         </div>
 
         {/* Reviews */}

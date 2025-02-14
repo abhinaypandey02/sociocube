@@ -32,7 +32,7 @@ export default async function AccountPostingApplicationsPage({
     <AccountPageWrapper
       backRoute={{
         route: Route.AccountPostings,
-        title: "Postings",
+        title: "Campaigns",
       }}
       title={`Applications for ${posting.title}`}
     >

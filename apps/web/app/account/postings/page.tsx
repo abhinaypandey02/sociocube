@@ -1,13 +1,15 @@
 import React from "react";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import { Button } from "ui/button";
+import { Plus } from "@phosphor-icons/react/dist/ssr";
 import { queryGQL } from "../../../lib/apollo-server";
 import { GET_USER_POSTINGS } from "../../../lib/queries";
-import { Route } from "../../../constants/routes";
+import { getRoute, Route } from "../../../constants/routes";
 import AccountPageWrapper from "../components/account-page-wrapper";
-import LinkWrapper from "../../../components/link-wrapper";
 import PostingsTable from "./components/postings-table";
 import EarningsInfo from "./components/earnings-info";
-import AddPostingButton from "./components/add-posting-button";
 
 export default async function PostingsPage() {
   const { postings, user } = await queryGQL(
@@ -16,6 +18,7 @@ export default async function PostingsPage() {
     await cookies(),
     0,
   );
+  if (!user?.agencies.length) return redirect(getRoute("AgencyOnboarding"));
   const totalEarnings = postings.reduce(
     (acc, curr) => curr.referralEarnings + acc,
     0,
@@ -23,15 +26,12 @@ export default async function PostingsPage() {
   return (
     <AccountPageWrapper
       cta={
-        <LinkWrapper
-          href={
-            user?.instagramStats?.isVerified ? Route.AccountPostingsNew : null
-          }
-        >
-          <AddPostingButton
-            isVerified={Boolean(user?.instagramStats?.isVerified)}
-          />
-        </LinkWrapper>
+        <Link href={Route.AccountPostingsNew}>
+          <Button className="flex items-center gap-1 !text-sm max-lg:size-9 max-lg:rounded-full max-lg:!p-0">
+            <Plus weight="bold" />{" "}
+            <span className="max-lg:hidden">Create new</span>
+          </Button>
+        </Link>
       }
       title="Your postings"
     >

@@ -21,7 +21,7 @@ export default async function PostingsPage() {
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-16 lg:px-8">
       <div className="flex  items-center justify-between gap-2">
         <h2 className="font-poppins text-3xl font-semibold text-gray-800 sm:text-4xl sm:font-bold ">
-          Collaborations
+          Active Campaigns
         </h2>
       </div>
       <ul className="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:mt-16 lg:grid-cols-3 xl:gap-x-8">

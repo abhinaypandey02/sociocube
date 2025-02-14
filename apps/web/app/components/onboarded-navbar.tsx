@@ -13,7 +13,7 @@ export default async function OnboardedNavbar() {
   return (
     <Navbar
       userImage={user.photo || "loading"}
-      {...(user.isOnboarded
+      {...(user.isOnboarded || user.agencies.length > 0
         ? getOnboardedUserNavbarSections(user)
         : AUTHORISED_USER_NAVBAR_SECTIONS)}
     />

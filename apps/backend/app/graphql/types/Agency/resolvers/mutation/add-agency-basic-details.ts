@@ -1,11 +1,18 @@
 import { Field, InputType } from "type-graphql";
-import { IsEmail, IsNumberString, IsUrl, MaxLength } from "class-validator";
+import {
+  IsEmail,
+  IsEnum,
+  IsNumberString,
+  IsUrl,
+  MaxLength,
+} from "class-validator";
 import { BIO_MAX_LENGTH, NAME_MAX_LENGTH } from "commons/constraints";
 import { and, eq } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { AgencyOnboardingTable } from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";
 import GQLError from "../../../../constants/errors";
+import { AgencyCategory } from "../../../../constants/agency-category";
 
 @InputType("AgencyBasicDetailsInput")
 export class AgencyBasicDetailsInput {
@@ -13,8 +20,11 @@ export class AgencyBasicDetailsInput {
   @MaxLength(NAME_MAX_LENGTH * 2)
   name: string;
   @MaxLength(BIO_MAX_LENGTH)
-  @Field({ nullable: true })
-  bio?: string;
+  @Field()
+  bio: string;
+  @IsEnum(AgencyCategory)
+  @Field()
+  category: AgencyCategory;
   @Field()
   @IsEmail()
   contactEmail: string;

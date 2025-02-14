@@ -38,6 +38,7 @@ export async function addAgencyLocation(
     !onboardingDetails.name ||
     !onboardingDetails.username ||
     !onboardingDetails.photo ||
+    !onboardingDetails.category ||
     !onboardingDetails.contactEmail
   )
     throw GQLError(400, "Please complete previous steps first");
@@ -47,6 +48,7 @@ export async function addAgencyLocation(
     .insert(AgencyTable)
     .values({
       ...onboardingDetails,
+      category: onboardingDetails.category,
       name: onboardingDetails.name,
       photo: onboardingDetails.photo,
       contactEmail: onboardingDetails.contactEmail,

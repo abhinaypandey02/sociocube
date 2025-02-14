@@ -74,25 +74,35 @@ function AgencyOnboardingWizard({
             <Image
               alt="Start for sales"
               className="mx-auto"
-              height={400}
+              height={500}
               loading="eager"
-              src="/onboarding-start.svg"
-              width={200}
+              src="/agency-onboarding-start.svg"
+              width={300}
             />
             <h2 className="mt-5 text-center font-poppins text-3xl font-bold text-gray-800">
-              Let's get you onboarded
+              It's time to grow your brand
             </h2>
             <small className="mx-auto mt-2 max-w-96 text-center text-gray-500">
-              With some simple steps you can onboard to become a seller at
-              Sociocube!
+              You are a just few steps away from taking your brand on a
+              professional level
             </small>
             <Button
               className="mx-auto mt-3 flex items-center gap-2 !font-medium"
               onClick={nextStep}
               variant={Variants.ACCENT}
             >
-              Start now <ArrowRight weight="bold" />
+              Create your brand <ArrowRight weight="bold" />
             </Button>
+            <small className="my-5 text-center">or</small>
+            <Link href={getRoute("Onboarding")}>
+              <Button
+                className="mx-auto mt-3 flex items-center gap-2 !text-sm !font-medium"
+                outline
+                variant={Variants.PRIMARY}
+              >
+                Join as an influencer/creator
+              </Button>
+            </Link>
             <Link
               className="mt-5 text-center text-sm underline underline-offset-2"
               href={getRoute("Home")}
@@ -103,11 +113,11 @@ function AgencyOnboardingWizard({
         ),
       },
       {
-        title: "Socials",
-        heading: "Let's connect your socials",
-        description: "Connect your socials.",
+        title: "Brand Socials",
+        heading: "Let's connect your brand's socials",
+        description: "Connect your brand's socials.",
         longDescription:
-          "Connect your instagram account to verify your identity.",
+          "Connect your brand's instagram account to verify your identity.",
         icon: ShareNetwork,
         component: (
           <SocialsStatus
@@ -119,11 +129,11 @@ function AgencyOnboardingWizard({
         ),
       },
       {
-        title: "Basic details",
-        heading: "Let's know you better",
-        description: "Information about you",
+        title: "Brand details",
+        heading: "Let's know about your brand better",
+        description: "Information about your brand",
         longDescription:
-          "Provide information about you so we can help you be found!",
+          "Provide information about your brand so we can help you be found!",
         icon: PencilSimple,
         component: currentUser?.onboardingAgency ? (
           <OnboardingBasicDetailsForm
@@ -131,6 +141,7 @@ function AgencyOnboardingWizard({
               name: currentUser.onboardingAgency.name || "",
               photo: currentUser.onboardingAgency.photo || "",
               bio: currentUser.onboardingAgency.bio || "",
+              category: currentUser.onboardingAgency.category,
               contactEmail: currentUser.onboardingAgency.contactEmail || "",
               contactPhone: currentUser.onboardingAgency.contactPhone || "",
             }}
@@ -142,11 +153,11 @@ function AgencyOnboardingWizard({
       },
 
       {
-        title: "Username",
-        heading: "Personalised link",
-        description: "Get a personalized link",
+        title: "Brand's Username",
+        heading: "Personalised brand link",
+        description: "Get a personalized link for your brand",
         longDescription:
-          "Get a personalised sharing link. Select a unique username and get your own custom link that you can share easily!",
+          "Get a personalised sharing link for your brand. Select a unique username and get your own custom link that you can share easily!",
         icon: LinkIcon,
         component: (
           <AgencyUsername
@@ -160,10 +171,10 @@ function AgencyOnboardingWizard({
       },
       {
         title: "Location",
-        heading: "Where are you based?",
-        description: "Your current city",
+        heading: "Where is your team based?",
+        description: "Your brand's city",
         longDescription:
-          "Enter the details about your current location to help people find you better",
+          "Enter the details about where your brand is setup to help people find you easily",
         icon: MapPin,
         component: <OnboardingLocationForm key={5} />,
       },

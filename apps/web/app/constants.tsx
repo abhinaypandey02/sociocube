@@ -6,7 +6,7 @@ import GetVerifiedOption from "./components/get-verified-option";
 export const NAVBAR_COMMON_ROUTES = [
   { label: "Home", href: getRoute("Home") },
   { label: "Search", href: getRoute("Search") },
-  { label: "Collaborations", href: getRoute("Postings") },
+  { label: "Campaigns", href: getRoute("Postings") },
 ];
 
 export const UNAUTHORISED_NAVBAR_SECTIONS = {
@@ -28,9 +28,14 @@ export const AUTHORISED_USER_NAVBAR_SECTIONS = {
   primaryLinks: NAVBAR_COMMON_ROUTES,
   secondaryLinks: [
     {
-      label: "Your postings",
-      href: getRoute("AccountPostings"),
+      label: "Run a campaign",
+      href: getRoute("AgencyOnboarding"),
     },
+    {
+      label: "Start an agency",
+      href: getRoute("AgencyOnboarding"),
+    },
+
     {
       label: "Settings",
       href: getRoute("Account"),
@@ -54,10 +59,22 @@ export const getOnboardedUserNavbarSections = (
 ) => ({
   primaryLinks: NAVBAR_COMMON_ROUTES,
   secondaryLinks: [
-    {
-      label: "Your profile",
-      href: `${getRoute("Profile")}/${user?.username}`,
-    },
+    ...(user?.isOnboarded
+      ? [
+          {
+            label: "Your profile",
+            href: `${getRoute("Profile")}/${user.username}`,
+          },
+        ]
+      : []),
+    ...(user?.agencies.length
+      ? [
+          {
+            label: "Your campaigns",
+            href: getRoute("AccountPostings"),
+          },
+        ]
+      : []),
     ...(!user?.isOnboarded || user.instagramStats?.isVerified
       ? []
       : [
@@ -67,10 +84,6 @@ export const getOnboardedUserNavbarSections = (
             render: <GetVerifiedOption />,
           },
         ]),
-    {
-      label: "Postings",
-      href: getRoute("AccountPostings"),
-    },
     {
       label: "Settings",
       href: getRoute("Account"),

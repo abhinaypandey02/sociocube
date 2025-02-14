@@ -26,7 +26,7 @@ export default async function CreateNewPostingPage({
     <AccountPageWrapper
       backRoute={{
         route: Route.AccountPostings,
-        title: "Postings",
+        title: "Campaigns",
       }}
       cta={<ManagePostingButton posting={posting} />}
       title="Edit posting"

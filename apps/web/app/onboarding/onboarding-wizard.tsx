@@ -99,7 +99,7 @@ function OnboardingWizard({
               Let's get you onboarded
             </h2>
             <small className="mx-auto mt-2 max-w-96 text-center text-gray-500">
-              With some simple steps you can onboard to become a seller at
+              With some simple steps you can onboard to become a creator on
               Sociocube!
             </small>
             <Button
@@ -109,6 +109,16 @@ function OnboardingWizard({
             >
               Start now <ArrowRight weight="bold" />
             </Button>
+            <small className="my-5 text-center">or</small>
+            <Link href={getRoute("AgencyOnboarding")}>
+              <Button
+                className="mx-auto mt-3 flex items-center gap-2 !text-sm !font-medium"
+                outline
+                variant={Variants.PRIMARY}
+              >
+                Start an agency/brand
+              </Button>
+            </Link>
             <Link
               className="mt-5 text-center text-sm underline underline-offset-2"
               href={getRoute("Home")}

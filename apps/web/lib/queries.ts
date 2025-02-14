@@ -9,6 +9,9 @@ export const GET_CURRENT_USER = gql(`
       username
       name
       photo
+      agencies {
+        agency
+      }
       isOnboarded
       instagramStats {
         isVerified
@@ -67,6 +70,7 @@ export const GET_DEFAULT_AGENCY_ONBOARDING_DETAILS = gql(`
         type
       }
       onboardingAgency {
+        category
         username
         name
         photo
@@ -128,6 +132,12 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
         }
       }
     }
+    agencies: getFeaturedAgencies {
+      name
+      username
+      photo
+      category
+    }
   }
 `);
 
@@ -183,6 +193,7 @@ export const GET_SELLER = gql(`
         photo
         name
         bio
+        category
         location {
           city
           country
@@ -455,6 +466,9 @@ export const GET_USER_POSTINGS = gql(`
   #graphql
   query GetUserPostings {
     user: getCurrentUser {
+      agencies {
+        agency
+      }
       instagramStats {
         isVerified
       }

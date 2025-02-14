@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from "type-graphql";
 import { AgencyMemberType } from "../../constants/agency-member-type";
+import { AgencyCategory } from "../../constants/agency-category";
 
 @ObjectType("Agency")
 export class AgencyGQL {
@@ -11,6 +12,8 @@ export class AgencyGQL {
   name: string;
   @Field()
   username: string;
+  @Field(() => AgencyCategory)
+  category: AgencyCategory;
   @Field()
   bio: string;
 }
@@ -36,4 +39,6 @@ export class AgencyOnboardingGQL {
   bio: string;
   @Field(() => String, { nullable: true })
   username: string | null;
+  @Field(() => AgencyCategory, { nullable: true })
+  category: AgencyCategory | null;
 }

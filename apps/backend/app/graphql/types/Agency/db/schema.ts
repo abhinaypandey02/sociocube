@@ -3,11 +3,16 @@ import { LocationTable, UserTable } from "../../User/db/schema";
 import { InstagramDetails } from "../../Instagram/db/schema";
 import { AgencyMemberType } from "../../../constants/agency-member-type";
 import { Roles } from "../../../constants/roles";
+import { AgencyCategory } from "../../../constants/agency-category";
 
 export const agencyRolesEnum = pgEnum("agency_role", [
   Roles.ADMIN,
   Roles.ReferralCreator,
   Roles.ManuallyVerified,
+]);
+export const agencyCategoryEnum = pgEnum("agency_category", [
+  AgencyCategory.Agency,
+  AgencyCategory.Brand,
 ]);
 export const AgencyTable = pgTable("agency", {
   id: serial("id").unique(),
@@ -20,6 +25,9 @@ export const AgencyTable = pgTable("agency", {
     .notNull(),
   bio: text("bio").notNull(),
   roles: agencyRolesEnum("role").array().notNull(),
+  category: agencyCategoryEnum("category")
+    .notNull()
+    .default(AgencyCategory.Brand),
   username: text("username").notNull(),
   instagramDetails: integer("instagram_details").references(
     () => InstagramDetails.id,
@@ -32,6 +40,7 @@ export const AgencyOnboardingTable = pgTable("agency_onboarding", {
   contactEmail: text("contact_email"),
   contactPhone: text("contact_phone"),
   bio: text("bio").notNull(),
+  category: agencyCategoryEnum("category").default(AgencyCategory.Brand),
   username: text("username"),
   instagramDetails: integer("instagram_details")
     .references(() => InstagramDetails.id)

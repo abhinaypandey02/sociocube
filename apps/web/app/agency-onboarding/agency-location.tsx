@@ -6,6 +6,7 @@ import { Input } from "ui/input";
 import { Button } from "ui/button";
 import Form from "ui/form";
 import { useRouter } from "next/navigation";
+import type { GraphQLError } from "graphql/error";
 import {
   handleGQLErrors,
   useAuthMutation,
@@ -24,7 +25,7 @@ interface FormValues {
 export default function OnboardingLocationForm() {
   const form = useForm<FormValues>();
   const router = useRouter();
-  const [updateBasicDetails, { loading }] = useAuthMutation(
+  const [updateBasicDetails, { called, reset }] = useAuthMutation(
     UPDATE_AGENCY_ONBOARDING_LOCATION,
   );
   const [fetchCountries, { data: countriesData, loading: loadingCountries }] =
@@ -72,7 +73,10 @@ export default function OnboardingLocationForm() {
           state: data.state,
           country: data.country,
         },
-      }).catch(handleGQLErrors);
+      }).catch((e) => {
+        handleGQLErrors(e as GraphQLError);
+        reset();
+      });
       if (res?.data?.addAgencyLocation) {
         router.push(`${getRoute("Profile")}/${res.data.addAgencyLocation}`);
       }
@@ -114,10 +118,10 @@ export default function OnboardingLocationForm() {
       <Button
         className="ml-auto"
         disabled={!form.watch("city")}
-        loading={loading || loadingCountries || loadingCities || loadingStates}
+        loading={called || loadingCountries || loadingCities || loadingStates}
         type="submit"
       >
-        Create your agency
+        Register my brand
       </Button>
     </Form>
   );

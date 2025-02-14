@@ -241,6 +241,7 @@ input AddPortfolioLinkArgs {
 
 type Agency {
   bio: String!
+  category: AgencyCategory!
   id: Float!
   instagramMedia: [InstagramMedia!]
   instagramStats: InstagramStats
@@ -252,11 +253,17 @@ type Agency {
 }
 
 input AgencyBasicDetailsInput {
-  bio: String
+  bio: String!
+  category: AgencyCategory!
   contactEmail: String!
   contactPhone: String!
   name: String!
   photo: String!
+}
+
+enum AgencyCategory {
+  Agency
+  Brand
 }
 
 input AgencyLocationInput {
@@ -278,6 +285,7 @@ enum AgencyMemberType {
 
 type AgencyOnboarding {
   bio: String!
+  category: AgencyCategory
   contactEmail: String
   contactPhone: String
   name: String!
@@ -512,6 +520,7 @@ type Query {
   getCities(stateID: Int!): [SelectOption!]!
   getCountries: [SelectOption!]!
   getCurrentUser: User
+  getFeaturedAgencies: [Agency!]!
   getFeaturedPostings: [Posting!]!
   getFeaturedPosts: [GetFeaturedPostsResponse!]!
   getFeaturedSellers: [User!]!

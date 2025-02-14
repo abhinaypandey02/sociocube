@@ -15,6 +15,7 @@ import {
   RESUME_POSTING,
 } from "../../../../../lib/mutations";
 import { revalidateAllPostings } from "../../../../../lib/revalidate";
+import { getRoute } from "../../../../../constants/routes";
 
 export default function ManagePostingButton({
   posting,
@@ -79,7 +80,9 @@ export default function ManagePostingButton({
           onClick={() => {
             setIsLoading(true);
             deletePosting({ postingID: posting.id })
-              .then(handleReload)
+              .then(() => {
+                router.push(getRoute("AccountPostings"));
+              })
               .catch(handleGQLErrors);
           }}
         >

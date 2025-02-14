@@ -9,6 +9,7 @@ import TopCreators from "./components/top-creators";
 import Schema from "./components/schema";
 import Faqs from "./components/faqs";
 import JobPostings from "./components/job-postings";
+import TopAgencies from "./components/top-agencies";
 
 const HowItWorks = dynamic(() => import("./components/how-it-works"));
 const Cta = dynamic(() => import("./components/cta"));
@@ -21,7 +22,7 @@ export function generateMetadata(): Metadata {
 }
 
 async function HomePage() {
-  const { sellers, posts, postings } = await queryGQL(
+  const { sellers, posts, postings, agencies } = await queryGQL(
     GET_FEATURED_SELLERS_AND_POSTS,
     undefined,
     undefined,
@@ -45,6 +46,7 @@ async function HomePage() {
       />
       <Hero posts={posts} />
       <TopCreators sellers={sellers} />
+      <TopAgencies agencies={agencies} />
       <JobPostings postings={postings} />
       <HowItWorks />
       <FiltersList />

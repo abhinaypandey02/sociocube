@@ -3,7 +3,7 @@ import React from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import Table from "ui/table";
 import Link from "next/link";
-import { ArrowSquareOut } from "@phosphor-icons/react";
+import { ArrowSquareOut, PencilSimple } from "@phosphor-icons/react";
 import type { GetUserPostingsQuery } from "../../../../__generated__/graphql";
 import { getCurrency } from "../../../postings/utils";
 import { Route } from "../../../../constants/routes";
@@ -14,7 +14,14 @@ const columnHelper = createColumnHelper<Posting>();
 const columns = [
   columnHelper.accessor("title", {
     header: "Title",
-    cell: (val) => val.getValue(),
+    cell: (val) => (
+      <Link
+        className="hover:underline"
+        href={`${Route.Postings}/${val.row.original.id}`}
+      >
+        {val.getValue()}
+      </Link>
+    ),
   }),
   columnHelper.accessor("price", {
     header: "Payment",
@@ -33,8 +40,13 @@ const columns = [
         className="flex items-center gap-1"
         href={`${Route.AccountPostingsApplications}/${val.row.original.id}`}
       >
-        {val.getValue()}
-        <ArrowSquareOut className="text-accent" weight="bold" />
+        {val.getValue()}&nbsp;
+        <Link
+          className="text-primary hover:underline"
+          href={`${Route.AccountPostingsApplications}/${val.row.original.id}`}
+        >
+          View
+        </Link>
       </Link>
     ),
   }),
@@ -45,18 +57,18 @@ const columns = [
   columnHelper.accessor("id", {
     header: "Actions",
     cell: (val) => (
-      <div className="flex ">
-        <Link
-          className="text-primary"
-          href={`${Route.Postings}/${val.getValue()}`}
-        >
-          View&nbsp;
-        </Link>
+      <div className="flex gap-2">
         <Link
           className="text-accent"
           href={`${Route.AccountPostingsEdit}/${val.getValue()}`}
         >
-          Edit
+          <PencilSimple size={18} />
+        </Link>
+        <Link
+          className="text-accent"
+          href={`${Route.Postings}/${val.row.original.id}`}
+        >
+          <ArrowSquareOut size={18} />
         </Link>
       </div>
     ),
