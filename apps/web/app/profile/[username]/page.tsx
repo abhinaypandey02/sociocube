@@ -228,6 +228,7 @@ export default async function ProfilePage({
             queryGQL(GET_PORTFOLIO_UPLOAD_URL, undefined, await cookies(), 0)
           }
           props={{
+            isAgencyAuthor: !user,
             portfolio: seller.portfolio
               ?.filter((work) => !work.imageURL && work.caption && work.link)
               .toReversed(),
@@ -241,6 +242,7 @@ export default async function ProfilePage({
             queryGQL(GET_PORTFOLIO_UPLOAD_URL, undefined, await cookies(), 0)
           }
           props={{
+            isAgencyAuthor: !user,
             portfolio: seller.portfolio
               ?.filter((work) => Boolean(work.imageURL))
               .toReversed(),

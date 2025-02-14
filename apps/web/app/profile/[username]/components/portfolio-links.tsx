@@ -11,16 +11,18 @@ export default function PortfolioLinks({
   portfolio,
   username,
   data,
+  isAgencyAuthor,
   id,
 }: {
   data: GetPortfolioUploadUrlQuery | null;
   id: number;
   username: string;
+  isAgencyAuthor: boolean;
   portfolio: NonNullable<
     NonNullable<GetSellerQuery["getSeller"]>["user"]
   >["portfolio"];
 }) {
-  const isAuthor = id === data?.user?.id;
+  const isAuthor = data && (id === data.user?.id || isAgencyAuthor);
   if ((!portfolio || portfolio.length === 0) && !isAuthor) return null;
   return (
     <div className="mt-8">
@@ -28,7 +30,9 @@ export default function PortfolioLinks({
         <h2 className="text-sm font-medium text-gray-900">Links</h2>
         {portfolio && isAuthor && data.uploadURL && portfolio.length < 6 ? (
           <AddPortfolioButton
+            id={id}
             imageUploadURL={data.uploadURL}
+            isAgencyAuthor={isAgencyAuthor}
             isLink
             username={username}
           />

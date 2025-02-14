@@ -29,10 +29,14 @@ export default function AddPortfolioButton({
   imageUploadURL,
   username,
   isLink,
+  id,
+  isAgencyAuthor,
 }: {
   imageUploadURL: StorageFile;
   username: string;
   isLink: boolean;
+  isAgencyAuthor?: boolean;
+  id: number;
 }) {
   const form = useForm<FormValues>({
     defaultValues: {
@@ -71,6 +75,7 @@ export default function AddPortfolioButton({
           caption: values.caption || null,
           imageURL: imageUploadURL.url,
           link: values.link || null,
+          agency: isAgencyAuthor ? id : undefined,
         },
       }).catch(handleGQLErrors);
     } else {
@@ -79,6 +84,7 @@ export default function AddPortfolioButton({
         portfolio: {
           caption: values.caption,
           link: values.link,
+          agency: isAgencyAuthor ? id : undefined,
         },
       }).catch(handleGQLErrors);
     }

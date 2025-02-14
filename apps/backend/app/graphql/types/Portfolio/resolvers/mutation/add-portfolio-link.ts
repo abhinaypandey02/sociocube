@@ -6,6 +6,7 @@ import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { PortfolioTable } from "../../db/schema";
 import GQLError from "../../../../constants/errors";
+import { AgencyMember } from "../../../Agency/db/schema";
 
 @InputType("AddPortfolioLinkArgs")
 export class AddPortfolioLinkArgs {
@@ -15,17 +16,36 @@ export class AddPortfolioLinkArgs {
   @Field(() => String)
   @IsUrl(undefined, { message: "Invalid URL" })
   link: string;
+  @Field(() => Number, { nullable: true })
+  agency: number | null;
 }
 
 export async function addPortfolioLink(
   ctx: AuthorizedContext,
   args: AddPortfolioLinkArgs,
 ) {
+  if (args.agency) {
+    const [user] = await db
+      .select()
+      .from(AgencyMember)
+      .where(
+        and(
+          eq(AgencyMember.user, ctx.userId),
+          eq(AgencyMember.agency, args.agency),
+        ),
+      );
+    if (!user) throw GQLError(403, "You dont have permission for this agency");
+  }
   const [portfolioCount] = await db
     .select({ count: count(PortfolioTable.id) })
     .from(PortfolioTable)
     .where(
-      and(eq(PortfolioTable.user, ctx.userId), isNull(PortfolioTable.imageURL)),
+      and(
+        args.agency
+          ? eq(PortfolioTable.agency, args.agency)
+          : eq(PortfolioTable.user, ctx.userId),
+        isNull(PortfolioTable.imageURL),
+      ),
     );
   if (!portfolioCount) throw GQLError(500, "Internal error! Please try again!");
   if (portfolioCount.count >= 6)
@@ -33,7 +53,8 @@ export async function addPortfolioLink(
   await db.insert(PortfolioTable).values({
     caption: args.caption,
     link: args.link,
-    user: ctx.userId,
+    user: args.agency ? undefined : ctx.userId,
+    agency: args.agency,
   });
   return true;
 }

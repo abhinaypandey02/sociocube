@@ -137,6 +137,9 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
       username
       photo
       category
+      instagramStats {
+        isVerified
+      }
     }
   }
 `);

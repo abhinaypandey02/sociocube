@@ -1,6 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import {
+  ArrowRight,
+  MagnifyingGlass,
+  SealCheck,
+} from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import { getRoute } from "../../constants/routes";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
@@ -25,7 +29,7 @@ export default function TopAgencies({
       id="sellers"
       title="Top brands and agencies"
     >
-      <ul className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
+      <ul className="mx-auto grid max-w-2xl grid-cols-1 gap-x-12 gap-y-14 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
         {agencies.map((person, i) => (
           <li
             className={i >= 8 ? "hidden lg:block xl:hidden" : ""}
@@ -40,9 +44,14 @@ export default function TopAgencies({
                 width={240}
               />
               <div className="mt-2">
-                <h3 className=" truncate text-center font-poppins  font-semibold  ">
-                  {person.name}
-                </h3>
+                <div className="flex items-center justify-center gap-2 overflow-hidden text-xl">
+                  <h3 className=" truncate font-poppins  font-semibold  ">
+                    {person.name || ""}{" "}
+                  </h3>
+                  {person.instagramStats?.isVerified ? (
+                    <SealCheck className="shrink-0 text-accent" weight="fill" />
+                  ) : null}
+                </div>
                 <p className="mt-1  text-center text-xs font-medium text-gray-500">
                   {person.category}
                 </p>

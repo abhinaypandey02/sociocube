@@ -229,12 +229,14 @@ schema {
 }
 
 input AddPortfolioArgs {
+  agency: Float
   caption: String
   imageURL: String!
   link: String
 }
 
 input AddPortfolioLinkArgs {
+  agency: Float
   caption: String!
   link: String!
 }
