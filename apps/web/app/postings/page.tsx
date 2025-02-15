@@ -48,7 +48,7 @@ export default async function PostingsPage() {
                 <small className="flex items-center gap-1 text-xs text-gray-600">
                   by <em className=" font-medium">{posting.agency.name} </em>
                   {posting.agency.instagramStats?.isVerified ? (
-                    <SealCheck className="text-accent" weight="fill" />
+                    <SealCheck className="text-primary" weight="fill" />
                   ) : null}
                 </small>
               </div>

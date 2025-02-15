@@ -62,7 +62,7 @@ export default function AgencySocialsStatus({
       )}
       <div className="mt-3 flex items-center justify-center gap-2 text-center text-xs font-light italic leading-none">
         {!connected && (
-          <SealCheck className="text-accent" size={16} weight="fill" />
+          <SealCheck className="text-primary" size={16} weight="fill" />
         )}
         {connected
           ? "You have already linked Instagram"

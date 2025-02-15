@@ -78,7 +78,7 @@ export default async function JobPostingPage({
                     {posting.agency.name}
                   </span>
                   {posting.agency.instagramStats?.isVerified ? (
-                    <SealCheck className=" text-accent" weight="fill" />
+                    <SealCheck className="text-primary" weight="fill" />
                   ) : null}
                 </p>
               </div>

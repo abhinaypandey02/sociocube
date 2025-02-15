@@ -10,18 +10,21 @@ import DeletePortfolioButton from "./delete-portfolio-button";
 export default function Portfolio({
   portfolio,
   username,
+  isAgency,
   data,
-  isAgencyAuthor,
   id,
 }: {
   data: GetPortfolioUploadUrlQuery | null;
   id: number;
+  isAgency: boolean;
   username: string;
-  isAgencyAuthor: boolean;
   portfolio: NonNullable<
     NonNullable<GetSellerQuery["getSeller"]>["user"]
   >["portfolio"];
 }) {
+  const isAgencyAuthor = data?.user?.agencies.some(
+    ({ agency }) => agency === id,
+  );
   const isAuthor = data && (id === data.user?.id || isAgencyAuthor);
   if ((!portfolio || portfolio.length === 0) && !isAuthor) return null;
   return (
@@ -32,6 +35,7 @@ export default function Portfolio({
           <AddPortfolioButton
             id={id}
             imageUploadURL={data.uploadURL}
+            isAgency={isAgency}
             isAgencyAuthor={isAgencyAuthor}
             isLink={false}
             username={username}

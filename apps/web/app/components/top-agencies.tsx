@@ -49,7 +49,10 @@ export default function TopAgencies({
                     {person.name || ""}{" "}
                   </h3>
                   {person.instagramStats?.isVerified ? (
-                    <SealCheck className="shrink-0 text-accent" weight="fill" />
+                    <SealCheck
+                      className="shrink-0 text-primary"
+                      weight="fill"
+                    />
                   ) : null}
                 </div>
                 <p className="mt-1  text-center text-xs font-medium text-gray-500">

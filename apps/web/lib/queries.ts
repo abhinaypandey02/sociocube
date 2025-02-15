@@ -198,6 +198,18 @@ export const GET_SELLER = gql(`
         name
         bio
         category
+        recentPostings {
+          id
+          title
+          open
+          price
+          barter
+          currency
+          applicationsCount
+          minimumAge
+          maximumAge
+          minimumFollowers
+        }
         location {
           city
           country
@@ -547,6 +559,9 @@ export const GET_PORTFOLIO_UPLOAD_URL = gql(`
   query GetPortfolioUploadURL {
     user:getCurrentUser {
       id
+      agencies {
+        agency
+      }
     }
     uploadURL: getPortfolioUploadURL {
       uploadURL

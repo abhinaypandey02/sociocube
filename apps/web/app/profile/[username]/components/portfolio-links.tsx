@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "ui/button";
+import { Button, Variants } from "ui/button";
 import type {
   GetPortfolioUploadUrlQuery,
   GetSellerQuery,
@@ -10,18 +10,21 @@ import DeletePortfolioButton from "./delete-portfolio-button";
 export default function PortfolioLinks({
   portfolio,
   username,
+  isAgency,
   data,
-  isAgencyAuthor,
   id,
 }: {
   data: GetPortfolioUploadUrlQuery | null;
   id: number;
   username: string;
-  isAgencyAuthor: boolean;
+  isAgency: boolean;
   portfolio: NonNullable<
     NonNullable<GetSellerQuery["getSeller"]>["user"]
   >["portfolio"];
 }) {
+  const isAgencyAuthor = data?.user?.agencies.some(
+    ({ agency }) => agency === id,
+  );
   const isAuthor = data && (id === data.user?.id || isAgencyAuthor);
   if ((!portfolio || portfolio.length === 0) && !isAuthor) return null;
   return (
@@ -32,6 +35,7 @@ export default function PortfolioLinks({
           <AddPortfolioButton
             id={id}
             imageUploadURL={data.uploadURL}
+            isAgency={isAgency}
             isAgencyAuthor={isAgencyAuthor}
             isLink
             username={username}
@@ -47,7 +51,11 @@ export default function PortfolioLinks({
               rel="noopener"
               target="_blank"
             >
-              <Button className="flex size-full items-center">
+              <Button
+                className="flex size-full items-center"
+                outline={isAgency}
+                variant={isAgency ? Variants.PRIMARY : Variants.ACCENT}
+              >
                 {work.caption}
               </Button>
             </a>

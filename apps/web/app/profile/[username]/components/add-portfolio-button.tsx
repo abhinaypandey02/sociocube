@@ -1,6 +1,6 @@
 "use client";
 import React, { type ChangeEvent, useRef, useState } from "react";
-import { Button } from "ui/button";
+import { Button, Variants } from "ui/button";
 import { ImageSquare, Plus } from "@phosphor-icons/react";
 import { Input } from "ui/input";
 import { useForm } from "react-hook-form";
@@ -30,12 +30,14 @@ export default function AddPortfolioButton({
   username,
   isLink,
   id,
+  isAgency,
   isAgencyAuthor,
 }: {
   imageUploadURL: StorageFile;
   username: string;
   isLink: boolean;
   isAgencyAuthor?: boolean;
+  isAgency: boolean;
   id: number;
 }) {
   const form = useForm<FormValues>({
@@ -201,6 +203,7 @@ export default function AddPortfolioButton({
               dataPortfolio?.addPortfolio || dataPortfolioLink?.addPortfolioLink
             }
             type="submit"
+            variant={isAgency ? Variants.PRIMARY : Variants.ACCENT}
           >
             Add {isLink ? "link" : "portfolio"}
           </Button>
@@ -214,6 +217,7 @@ export default function AddPortfolioButton({
           setOpen(true);
         }}
         outline
+        variant={isAgency ? Variants.PRIMARY : Variants.ACCENT}
       >
         Add <Plus />
       </Button>

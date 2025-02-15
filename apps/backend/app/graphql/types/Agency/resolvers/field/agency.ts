@@ -1,5 +1,5 @@
 import { FieldResolver, Resolver, Root } from "type-graphql";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { AgencyGQL } from "../../type";
 import {
   getInstagramMedia,
@@ -43,6 +43,8 @@ export class AgencyFieldResolver {
     return db
       .select()
       .from(PostingTable)
-      .where(eq(PostingTable.agency, agency.id));
+      .where(eq(PostingTable.agency, agency.id))
+      .orderBy(desc(PostingTable.open), desc(PostingTable.createdAt))
+      .limit(3);
   }
 }
