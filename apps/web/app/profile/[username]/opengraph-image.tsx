@@ -8,7 +8,7 @@ export { size } from "../../../lib/util-components";
 
 export default async function Image({ params }: ProfilePage) {
   const { username } = await params;
-  const { getSeller: seller } = await queryGQL(
+  const { getSeller } = await queryGQL(
     GET_SELLER,
     {
       username,
@@ -16,11 +16,14 @@ export default async function Image({ params }: ProfilePage) {
     undefined,
     60,
   );
+  const user = getSeller?.user;
+  const agency = getSeller?.agency;
+  const seller = user || agency;
   return getOgImage(
-    seller?.user?.name ? (
+    seller?.name ? (
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        {seller.user.name}
-        {seller.user.instagramStats?.isVerified ? (
+        {seller.name}
+        {seller.instagramStats?.isVerified ? (
           <svg
             fill="#4f46e5"
             height="0.75em"
@@ -37,7 +40,7 @@ export default async function Image({ params }: ProfilePage) {
       "Join the biggest influencer platform"
     ),
     "View profile",
-    `${convertToAbbreviation(seller?.user?.instagramStats?.followers || 0)} followers • ${Math.round(seller?.user?.instagramStats?.er || 0)}% Engagement`,
-    seller?.user?.photo || undefined,
+    `${convertToAbbreviation(seller?.instagramStats?.followers || 0)} followers • ${Math.round(seller?.instagramStats?.er || 0)}% Engagement`,
+    seller?.photo || undefined,
   );
 }
