@@ -35,7 +35,6 @@ import { getTransformedPostingData } from "../../../../lib/server-actions";
 
 export interface CreatePostingFormFields {
   title: string;
-  agency?: number;
   description: string;
   deliverables: string;
   extraDetails?: string;
@@ -62,7 +61,6 @@ export default function CreateNewPostingForm({
   const ref = useRef<HTMLDivElement>(null);
   const form = useForm<CreatePostingFormFields>({
     defaultValues: {
-      agency: agencies?.[0]?.agencyDetails.id,
       deliverables: existingPosting?.deliverables?.join(","),
       barter: existingPosting?.barter,
       description: existingPosting?.description,
@@ -96,7 +94,6 @@ export default function CreateNewPostingForm({
     if (existingPosting) {
       // @ts-expect-error -- required to delete
       delete formData.title;
-      delete formData.agency;
       updatePosting({
         id: existingPosting.id,
         newPosting: {
@@ -119,9 +116,8 @@ export default function CreateNewPostingForm({
           handleGQLErrors(e);
         });
     } else {
-      const agency = formData.agency;
+      const agency = agencies?.[0]?.agencyDetails.id;
       if (!agency) return;
-      delete formData.agency;
       createPosting({
         agency,
         newPosting: {
