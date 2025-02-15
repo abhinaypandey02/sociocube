@@ -291,29 +291,33 @@ export default async function ProfilePage({
                     className="relative  flex justify-between gap-x-6 py-3 transition-all duration-300 hover:scale-[1.02]"
                     key={posting.id}
                   >
-                    <div className="">
-                      <p className="flex items-center gap-2 text-sm leading-6 text-gray-600">
-                        {posting.open ? (
-                          <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                            <div className="size-1.5 rounded-full bg-emerald-500" />
-                          </div>
-                        ) : null}
-                        <Link href={`${getRoute("Postings")}/${posting.id}`}>
+                    <div className="flex items-center gap-3 sm:gap-2 ">
+                      {posting.open ? (
+                        <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                          <div className="size-1.5 rounded-full bg-emerald-500" />
+                        </div>
+                      ) : null}
+
+                      <div>
+                        <Link
+                          className="text-sm leading-6 text-gray-600"
+                          href={`${getRoute("Postings")}/${posting.id}`}
+                        >
                           <span className="absolute inset-x-0 -top-px bottom-0" />
                           {posting.title}
                         </Link>
-                      </p>
-                      <p className="mt-1 items-center text-xs leading-5 text-gray-500 sm:line-clamp-1 sm:flex">
-                        {descriptions.join(" • ")}{" "}
-                        <p className="inline-block sm:hidden">
-                          {" • "}
-                          {getCurrency(
-                            posting.barter,
-                            posting.currency,
-                            posting.price,
-                          )}
+                        <p className="mt-1 items-center text-xs leading-5 text-gray-500 sm:line-clamp-1 sm:flex">
+                          {descriptions.join(" • ")}{" "}
+                          <p className="inline-block sm:hidden">
+                            {descriptions.length ? " • " : ""}
+                            {getCurrency(
+                              posting.barter,
+                              posting.currency,
+                              posting.price,
+                            )}
+                          </p>
                         </p>
-                      </p>
+                      </div>
                     </div>
                     <div className="flex shrink-0 items-center gap-x-4">
                       <div className="hidden sm:flex sm:flex-col sm:items-end">
