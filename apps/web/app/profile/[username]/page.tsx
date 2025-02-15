@@ -292,7 +292,12 @@ export default async function ProfilePage({
                     key={posting.id}
                   >
                     <div className="">
-                      <p className="text-sm  leading-6 text-gray-600">
+                      <p className="flex items-center gap-2 text-sm leading-6 text-gray-600">
+                        {posting.open ? (
+                          <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                            <div className="size-1.5 rounded-full bg-emerald-500" />
+                          </div>
+                        ) : null}
                         <Link href={`${getRoute("Postings")}/${posting.id}`}>
                           <span className="absolute inset-x-0 -top-px bottom-0" />
                           {posting.title}

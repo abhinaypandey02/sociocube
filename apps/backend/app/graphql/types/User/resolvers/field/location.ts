@@ -26,7 +26,7 @@ export async function getLocation(user: UserDB | AgencyDB) {
   return null;
 }
 
-export async function getLocationID(user: UserDB) {
+export async function getLocationID(user: UserDB | AgencyDB) {
   if (user.location) {
     const [location] = await db
       .select()

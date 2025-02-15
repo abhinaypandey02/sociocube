@@ -248,6 +248,7 @@ type Agency {
   instagramMedia: [InstagramMedia!]
   instagramStats: InstagramStats
   location: Location
+  locationID: LocationID
   name: String!
   photo: String!
   portfolio: [Portfolio!]!

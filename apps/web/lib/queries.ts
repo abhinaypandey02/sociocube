@@ -324,17 +324,14 @@ export const GET_USER_CURRENCY = gql(`
   #graphql
   query GetUserCurrency {
     user: getCurrentUser {
-      instagramStats {
-        isVerified
-      }
       agencies {
         agencyDetails{
           name
           id
+          locationID {
+            country
+          }
         }
-      }
-      locationID {
-        country
       }
     }
   }

@@ -50,11 +50,9 @@ export interface CreatePostingFormFields {
 
 export default function CreateNewPostingForm({
   existingPosting,
-  currencyCode,
   agencies,
 }: {
   existingPosting?: GetPostingQuery["posting"];
-  currencyCode?: number | null;
   agencies?: NonNullable<GetUserCurrencyQuery["user"]>["agencies"];
 }) {
   const router = useRouter();
@@ -71,7 +69,9 @@ export default function CreateNewPostingForm({
       price: existingPosting?.price || undefined,
       title: existingPosting?.title,
       currencyCountry:
-        existingPosting?.currencyCountry || currencyCode || undefined,
+        existingPosting?.currencyCountry ||
+        agencies?.[0]?.agencyDetails.locationID?.country ||
+        undefined,
       externalLink: existingPosting?.externalLink || undefined,
       extraDetails: existingPosting?.extraDetails || undefined,
     },

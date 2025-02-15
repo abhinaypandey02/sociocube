@@ -7,8 +7,11 @@ import {
 } from "../../../User/resolvers/field/instagram";
 import type { AgencyDB } from "../../db/schema";
 import { InstagramMedia, InstagramStats } from "../../../Instagram/type";
-import { Location } from "../../../User/type";
-import { getLocation } from "../../../User/resolvers/field/location";
+import { Location, LocationID } from "../../../User/type";
+import {
+  getLocation,
+  getLocationID,
+} from "../../../User/resolvers/field/location";
 import { PortfolioGQL } from "../../../Portfolio/type";
 import { db } from "../../../../../../lib/db";
 import { PortfolioTable } from "../../../Portfolio/db/schema";
@@ -27,6 +30,12 @@ export class AgencyFieldResolver {
   ): Promise<InstagramMedia[] | null> {
     return getInstagramMedia(user, true);
   }
+
+  @FieldResolver(() => LocationID, { nullable: true })
+  async locationID(@Root() user: AgencyDB): Promise<LocationID | null> {
+    return getLocationID(user);
+  }
+
   @FieldResolver(() => Location, { nullable: true })
   async location(@Root() agency: AgencyDB): Promise<Location | null> {
     return getLocation(agency);

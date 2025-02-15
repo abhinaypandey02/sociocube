@@ -13,14 +13,12 @@ export default async function CreateNewPostingPage() {
     undefined,
     await cookies(),
   );
-  if (user?.agencies.length === 0) redirect(getRoute("AgencyOnboarding"));
+  if (!user?.agencies || user.agencies.length === 0)
+    redirect(getRoute("AgencyOnboarding"));
   return (
     <AccountPageWrapper title="Create new posting">
       <div className="max-w-2xl">
-        <CreateNewPostingForm
-          agencies={user?.agencies}
-          currencyCode={user?.locationID?.country}
-        />
+        <CreateNewPostingForm agencies={user.agencies} />
       </div>
     </AccountPageWrapper>
   );
