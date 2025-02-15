@@ -258,9 +258,15 @@ export async function getInstagramMedia(
     isAgency,
   );
   if (posts.length === 0) return [];
-  await db
-    .delete(InstagramMediaTable)
-    .where(eq(InstagramMediaTable.user, user.id));
+  if (isAgency) {
+    await db
+      .delete(InstagramMediaTable)
+      .where(eq(InstagramMediaTable.agency, user.id));
+  } else {
+    await db
+      .delete(InstagramMediaTable)
+      .where(eq(InstagramMediaTable.user, user.id));
+  }
   await db.insert(InstagramMediaTable).values(posts).onConflictDoNothing();
   await db
     .update(InstagramDetails)

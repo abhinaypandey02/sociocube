@@ -22,6 +22,7 @@ import {
 } from "../../graphql/types/Agency/db/schema";
 import { AgencyMemberType } from "../../graphql/constants/agency-member-type";
 import { uploadImage } from "../../../lib/storage/aws-s3";
+import { InstagramMediaTable } from "../../graphql/types/Instagram/db/schema2";
 
 const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram-agency`;
 
@@ -124,12 +125,19 @@ export const GET = async (req: NextRequest) => {
           .update(UserTable)
           .set({ instagramDetails: null, isOnboarded: false })
           .where(eq(UserTable.id, existingUser.id));
+        await db
+          .delete(InstagramMediaTable)
+          .where(eq(InstagramMediaTable.user, existingUser.id));
       }
       if (existingAgency) {
         await db
           .update(AgencyTable)
           .set({ instagramDetails: null })
           .where(eq(AgencyTable.id, existingAgency.id));
+
+        await db
+          .delete(InstagramMediaTable)
+          .where(eq(InstagramMediaTable.agency, existingAgency.id));
       }
       if (existingUserJoin?.instagram_data.id) {
         await db

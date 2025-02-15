@@ -7,6 +7,7 @@ import { InstagramDetails } from "../../../Instagram/db/schema";
 import { getInstagramDataExternalAPI } from "../../../../../auth/instagram/utils";
 import { UserTable } from "../../../User/db/schema";
 import { uploadImage } from "../../../../../../lib/storage/aws-s3";
+import { InstagramMediaTable } from "../../../Instagram/db/schema2";
 
 export async function addAgencyInstagramUsername(
   ctx: AuthorizedContext,
@@ -32,9 +33,13 @@ export async function addAgencyInstagramUsername(
     userDetails.instagram_data.username === username
   ) {
     await db
+      .delete(InstagramMediaTable)
+      .where(eq(InstagramMediaTable.user, ctx.userId));
+    await db
       .update(UserTable)
       .set({
         instagramDetails: null,
+        isOnboarded: false,
       })
       .where(eq(UserTable.id, ctx.userId));
     await db.insert(AgencyOnboardingTable).values({
