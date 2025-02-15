@@ -293,10 +293,16 @@ export default async function ProfilePage({
                           {posting.title}
                         </Link>
                       </p>
-                      <p className="mt-1 line-clamp-1 flex items-center text-xs leading-5 text-gray-500">
-                        <span className="max-md:hidden">
-                          {descriptions.join(" • ")}
-                        </span>
+                      <p className="mt-1 items-center text-xs leading-5 text-gray-500 sm:line-clamp-1 sm:flex">
+                        {descriptions.join(" • ")}{" "}
+                        <p className="inline-block sm:hidden">
+                          {" • "}
+                          {getCurrency(
+                            posting.barter,
+                            posting.currency,
+                            posting.price,
+                          )}
+                        </p>
                       </p>
                     </div>
                     <div className="flex shrink-0 items-center gap-x-4">
