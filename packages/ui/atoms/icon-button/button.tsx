@@ -11,7 +11,7 @@ function IconButton(props: PropsWithChildren<ComponentProps<"button">>) {
       type="button"
       {...props}
       className={classNames(
-        "aspect-square p-2 rounded-full transition-colors hover:bg-gray-100",
+        "aspect-square p-2.5 sm:p-2 rounded-full transition-colors hover:bg-gray-100",
         props.className,
       )}
     >

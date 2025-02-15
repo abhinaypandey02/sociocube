@@ -42,7 +42,7 @@ export default function Portfolio({
           />
         ) : null}
       </div>
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 ">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 ">
         {portfolio?.map(
           (work) =>
             work.imageURL && (

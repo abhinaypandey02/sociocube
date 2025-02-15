@@ -42,7 +42,7 @@ export default function PortfolioLinks({
           />
         ) : null}
       </div>
-      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 ">
+      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3 ">
         {portfolio?.map((work) => (
           <div className="relative" key={work.link}>
             <a

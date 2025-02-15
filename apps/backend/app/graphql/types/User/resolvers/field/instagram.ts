@@ -246,7 +246,7 @@ export async function getInstagramMedia(
           : eq(InstagramMediaTable.user, user.id),
       )
       .orderBy(desc(InstagramMediaTable.er))
-      .limit(6);
+      .limit(4);
     if (posts.length > 0) return posts;
   }
 
@@ -272,5 +272,5 @@ export async function getInstagramMedia(
     .update(InstagramDetails)
     .set(stats)
     .where(eq(InstagramDetails.id, user.instagramDetails));
-  return posts.slice(0, 6);
+  return posts.slice(0, 4);
 }

@@ -128,33 +128,38 @@ export default async function ProfilePage({
         }}
         id="main-profile"
       />
-      <div className="lg:col-span-6 lg:col-start-7">
-        <div className="flex justify-between">
-          <h2 className="flex items-center gap-2 font-poppins text-2xl font-semibold text-gray-900">
-            {seller.name}{" "}
-            {seller.instagramStats.isVerified ? (
-              <SealCheck
-                className={classNames(user ? "text-accent" : "text-primary")}
-                weight="fill"
-              />
-            ) : null}
-            {agency ? (
-              <span className="rounded-full bg-primary/95 px-2 py-1.5 text-xs font-medium leading-none text-white shadow ">
-                {seller.category}
-              </span>
-            ) : null}
+      <div className="lg:col-span-8 ">
+        <div className="flex justify-between gap-2 max-sm:flex-wrap">
+          <h2 className="flex items-center gap-2 font-poppins text-xl font-semibold text-gray-900 sm:text-2xl">
+            {seller.name}
           </h2>
-          <div className="flex ">
-            <a
-              href={`https://ig.me/m/${seller.instagramStats.username}`}
-              rel="noopener"
-              target="_blank"
-            >
-              <IconButton>
-                <InstagramLogo size={18} />
-              </IconButton>
-            </a>
-            <CopyLinkButton url={getMeURL(username, true)} />
+          <div className="flex grow items-center justify-between gap-2">
+            <div className="flex items-center gap-3">
+              {seller.instagramStats.isVerified ? (
+                <SealCheck
+                  className={classNames(user ? "text-accent" : "text-primary")}
+                  size={23}
+                  weight="fill"
+                />
+              ) : null}
+              {agency ? (
+                <span className="rounded-full bg-primary/95 px-2 py-1.5 text-xs font-medium leading-none text-white">
+                  {seller.category}
+                </span>
+              ) : null}
+            </div>
+            <div className="flex items-center">
+              <a
+                href={`https://ig.me/m/${seller.instagramStats.username}`}
+                rel="noopener"
+                target="_blank"
+              >
+                <IconButton>
+                  <InstagramLogo size={18} />
+                </IconButton>
+              </a>
+              <CopyLinkButton url={getMeURL(username, true)} />
+            </div>
           </div>
         </div>
         {user?.pricing?.starting ? (
@@ -194,7 +199,7 @@ export default async function ProfilePage({
         {/* Reviews */}
       </div>
       {/* Image gallery */}
-      <div className="mt-8 lg:col-span-6 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
+      <div className="mt-8 lg:col-span-4 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
         <h2 className="sr-only">Image</h2>
 
         {seller.photo ? (
@@ -224,7 +229,7 @@ export default async function ProfilePage({
         ) : null}
       </div>
 
-      <div className="mt-6 lg:col-span-6">
+      <div className="mt-6 lg:col-span-8">
         {/* Product details */}
         <div className="">
           <h2 className="text-sm font-medium text-gray-900">About</h2>
@@ -271,7 +276,7 @@ export default async function ProfilePage({
                 See all <ArrowRight />
               </Link>
             </div>
-            <ul className="mx-auto mt-4 max-w-6xl divide-y divide-gray-100 ">
+            <ul className="mx-auto mt-4 max-w-6xl divide-y divide-gray-300 ">
               {agency.recentPostings.map((posting) => {
                 const descriptions = [
                   posting.applicationsCount &&
@@ -283,7 +288,7 @@ export default async function ProfilePage({
                 ].filter(Boolean);
                 return (
                   <li
-                    className="relative  flex justify-between gap-x-6 rounded-xl py-3 transition-all duration-300 hover:scale-[1.02]"
+                    className="relative  flex justify-between gap-x-6 py-3 transition-all duration-300 hover:scale-[1.02]"
                     key={posting.id}
                   >
                     <div className="">
@@ -307,7 +312,7 @@ export default async function ProfilePage({
                     </div>
                     <div className="flex shrink-0 items-center gap-x-4">
                       <div className="hidden sm:flex sm:flex-col sm:items-end">
-                        <p className="text-xs leading-6 text-gray-900">
+                        <p className="text-sm leading-6 text-gray-900">
                           {getCurrency(
                             posting.barter,
                             posting.currency,
@@ -392,7 +397,7 @@ export default async function ProfilePage({
               </div>
             ) : null}
           </div>
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 ">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 ">
             {seller.instagramMedia?.map((media, i) => (
               <a
                 className="relative"
