@@ -32,6 +32,7 @@ export async function handleGetChatWithAgency(
       hasRead: true,
       user: ctx.userId,
       agency: agency.id,
+      createdAt: new Date(),
     }
   );
 }

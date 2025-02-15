@@ -42,7 +42,7 @@ export default function ChatWindow({
       ...old,
       {
         body: data.text,
-        sentAt: new Date().getTime(),
+        createdAt: new Date().getTime(),
         byAgency,
       },
     ]);
@@ -86,7 +86,7 @@ export default function ChatWindow({
             {
               body: message.body,
               byAgency: message.byAgency,
-              sentAt: message.sentAt,
+              createdAt: message.createdAt,
             },
           ]);
         }
@@ -103,13 +103,15 @@ export default function ChatWindow({
       {messages.map((msg) => (
         <div
           className={`flex ${msg.byAgency === byAgency ? "justify-end" : "justify-start"}`}
-          key={msg.sentAt}
+          key={msg.createdAt}
         >
           <div>
             {msg.body}
             <br /> {msg.loading ? "(Sending)" : null}{" "}
             {msg.failed ? "Failed" : null}{" "}
-            {!msg.loading && !msg.failed && new Date(msg.sentAt).toTimeString()}
+            {!msg.loading &&
+              !msg.failed &&
+              new Date(msg.createdAt).toTimeString()}
           </div>
         </div>
       ))}

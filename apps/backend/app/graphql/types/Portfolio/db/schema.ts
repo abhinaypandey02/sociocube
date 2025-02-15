@@ -1,4 +1,4 @@
-import { integer, pgTable, serial, text } from "drizzle-orm/pg-core";
+import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { UserTable } from "../../User/db/schema";
 import { AgencyTable } from "../../Agency/db/schema";
 
@@ -9,6 +9,7 @@ export const PortfolioTable = pgTable("portfolio", {
   imageURL: text("image_url"),
   link: text("link"),
   caption: text("caption"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export type PortfolioDB = typeof PortfolioTable.$inferSelect;

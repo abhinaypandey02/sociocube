@@ -1,4 +1,11 @@
-import { integer, pgEnum, pgTable, serial, text } from "drizzle-orm/pg-core";
+import {
+  integer,
+  pgEnum,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import { LocationTable, UserTable } from "../../User/db/schema";
 import { InstagramDetails } from "../../Instagram/db/schema";
 import { AgencyMemberType } from "../../../constants/agency-member-type";
@@ -32,6 +39,7 @@ export const AgencyTable = pgTable("agency", {
   instagramDetails: integer("instagram_details").references(
     () => InstagramDetails.id,
   ),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 export const AgencyOnboardingTable = pgTable("agency_onboarding", {
   id: serial("id").unique(),
@@ -48,6 +56,7 @@ export const AgencyOnboardingTable = pgTable("agency_onboarding", {
   user: integer("user")
     .references(() => UserTable.id)
     .notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const agencyMemberType = pgEnum("agency_member_type", [
@@ -64,6 +73,7 @@ export const AgencyMember = pgTable("agency_member", {
     .references(() => AgencyTable.id)
     .notNull(),
   type: agencyMemberType("type").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export type AgencyDB = typeof AgencyTable.$inferSelect;

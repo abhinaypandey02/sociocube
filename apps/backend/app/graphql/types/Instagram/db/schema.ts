@@ -32,6 +32,7 @@ export const InstagramDetails = pgTable(
     lastFetchedInstagramMedia: timestamp(
       "last_fetched_instagram_media",
     ).defaultNow(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (table) => ({
     instagramSearchIndex: index("instagram_search_index").using(

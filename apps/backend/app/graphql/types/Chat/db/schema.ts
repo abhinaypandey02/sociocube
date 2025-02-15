@@ -18,6 +18,7 @@ export const ConversationTable = pgTable("conversation", {
     .references(() => AgencyTable.id)
     .notNull(),
   hasRead: boolean("has_read").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const ConversationMessageTable = pgTable("conversation_message", {
@@ -27,6 +28,6 @@ export const ConversationMessageTable = pgTable("conversation_message", {
     .references(() => ConversationTable.id)
     .notNull(),
   body: text("body").notNull(),
-  sentAt: timestamp("sent_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 export type ConversationDB = typeof ConversationTable.$inferSelect;

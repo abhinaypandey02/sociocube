@@ -35,6 +35,7 @@ export async function handleGetChatWithUser(
       agency: -1,
       id: -1,
       hasRead: false,
+      createdAt: new Date(),
     }
   );
 }

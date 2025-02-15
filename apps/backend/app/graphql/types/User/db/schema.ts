@@ -64,6 +64,7 @@ export const UserTable = pgTable(
     dob: date("dob"),
     gender: gendersEnum("gender"),
     pricing: integer("pricing").references(() => PricingTable.id),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (table) => ({
     userSearchIndex: index("user_search_index").using(

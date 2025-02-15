@@ -13,7 +13,7 @@ export class MessageGQL {
   @Field()
   body: string;
   @Field(() => Number)
-  sentAt: Date;
+  createdAt: Date;
   @Field()
   byAgency: boolean;
 }

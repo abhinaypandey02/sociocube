@@ -250,7 +250,8 @@ type Agency {
   location: Location
   name: String!
   photo: String!
-  portfolio: [Portfolio!]
+  portfolio: [Portfolio!]!
+  recentPostings: [Posting!]!
   username: String!
 }
 
@@ -377,7 +378,7 @@ type LocationID {
 type Message {
   body: String!
   byAgency: Boolean!
-  sentAt: Float!
+  createdAt: Float!
 }
 
 type Mutation {

@@ -268,7 +268,7 @@ export const GET_CHAT = gql(`
       hasRead
       messages{
         body
-        sentAt
+        createdAt
         byAgency
       }
     }
