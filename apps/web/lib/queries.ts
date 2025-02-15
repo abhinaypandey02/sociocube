@@ -12,6 +12,7 @@ export const GET_CURRENT_USER = gql(`
       agencies {
         agency
       }
+      emailVerified
       isOnboarded
       instagramStats {
         isVerified

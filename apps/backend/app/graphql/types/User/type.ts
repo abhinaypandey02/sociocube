@@ -86,6 +86,8 @@ export class UserGQL {
   roles?: Roles[];
   @Field({ nullable: true })
   isOnboarded?: boolean;
+  @Field()
+  emailVerified: boolean;
   @Field({ nullable: true })
   category?: string;
   @Field({ nullable: true })

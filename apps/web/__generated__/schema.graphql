@@ -627,6 +627,7 @@ type User {
   contactEmail: String
   dob: String
   email: String
+  emailVerified: Boolean!
   gender: String
   id: Float!
   instagramMedia: [InstagramMedia!]
