@@ -52,7 +52,7 @@ export default function PortfolioLinks({
               target="_blank"
             >
               <Button
-                className="flex size-full items-center"
+                className="flex size-full items-center font-poppins"
                 outline={isAgency}
                 variant={isAgency ? Variants.PRIMARY : Variants.ACCENT}
               >
