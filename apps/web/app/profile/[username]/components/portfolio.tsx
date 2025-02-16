@@ -56,9 +56,11 @@ export default function Portfolio({
                     width={500}
                   />
                 </a>
-                <small className="absolute bottom-0     w-full rounded-b-md bg-[rgba(0,0,0,0.15)] text-center text-[10px] italic text-white backdrop-blur-sm">
-                  <div className="my-2 line-clamp-2 px-2">{work.caption}</div>
-                </small>
+                {work.caption ? (
+                  <small className="absolute bottom-0 w-full rounded-b-md bg-[rgba(0,0,0,0.15)] text-center text-[10px] italic text-white backdrop-blur-sm">
+                    <div className="my-2 line-clamp-2 px-2">{work.caption}</div>
+                  </small>
+                ) : null}
                 {isAuthor ? (
                   <DeletePortfolioButton
                     isLink={false}
