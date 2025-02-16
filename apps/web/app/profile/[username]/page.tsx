@@ -66,7 +66,7 @@ export async function generateMetadata({
     },
     ...getSEO(
       seller.name,
-      `${convertToAbbreviation(seller.instagramStats?.followers || 0)} Followers, ${seller.instagramStats?.er}% Engagement, ${convertToAbbreviation(seller.instagramStats?.mediaCount || 0)} posts on their Instagram account @${seller.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
+      `${convertToAbbreviation(seller.instagramStats?.followers || 0)} Followers, ${convertToAbbreviation(seller.instagramStats?.mediaCount || 0)} posts on their Instagram account @${seller.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
     ),
   };
 }
@@ -395,16 +395,6 @@ export default async function ProfilePage({
               </div>
               <span className="text-sm font-medium text-gray-900">Posts</span>
             </div>
-            {seller.instagramStats.er ? (
-              <div className="text-center ">
-                <div className=" text-3xl font-medium text-gray-900">
-                  {seller.instagramStats.er}%
-                </div>
-                <span className="text-sm font-medium text-gray-900">
-                  Engagement
-                </span>
-              </div>
-            ) : null}
           </div>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 ">
             {seller.instagramMedia?.map((media, i) => (

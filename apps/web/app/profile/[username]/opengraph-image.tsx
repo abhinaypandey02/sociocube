@@ -40,7 +40,7 @@ export default async function Image({ params }: ProfilePage) {
       "Join the biggest influencer platform"
     ),
     "View profile",
-    `${convertToAbbreviation(seller?.instagramStats?.followers || 0)} followers • ${Math.round(seller?.instagramStats?.er || 0)}% Engagement`,
+    `${convertToAbbreviation(seller?.instagramStats?.followers || 0)} followers • ${Math.round(seller?.instagramStats?.mediaCount || 0)} Posts`,
     seller?.photo || undefined,
   );
 }
