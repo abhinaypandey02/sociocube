@@ -81,6 +81,7 @@ export async function addAgencyInstagramUsername(
     .values({
       username: data.insta_username,
       followers: data.followers_count,
+      mediaCount: data.total_media || data.total_media_public_profile,
       lastFetchedInstagramStats: new Date(),
     })
     .returning({ id: InstagramDetails.id });

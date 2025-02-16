@@ -79,6 +79,7 @@ export default function OnboardingLocationForm() {
       });
       if (res?.data?.addAgencyLocation) {
         router.push(`${getRoute("Profile")}/${res.data.addAgencyLocation}`);
+        router.refresh();
       }
     }
   };
