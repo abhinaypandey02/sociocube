@@ -9,7 +9,7 @@ export default function VerifyEmailHeader() {
   );
 
   return (
-    <div className="bg-primary/90 py-1.5 text-center text-sm text-white">
+    <div className="bg-accent/90 p-1.5 text-center text-xs text-white sm:text-sm">
       Verify your email to receive latest campaigns! An email has been sent to
       your inbox.{" "}
       <button
