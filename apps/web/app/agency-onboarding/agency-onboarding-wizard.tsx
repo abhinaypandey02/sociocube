@@ -184,7 +184,10 @@ function AgencyOnboardingWizard({
 
   useEffect(() => {
     if (!currentUser && !dataLoading) {
-      router.push(redirectURL || getRoute("SignUp"));
+      router.push(
+        redirectURL ||
+          `${getRoute("SignUp")}?redirectURL=${getRoute("AgencyOnboarding")}`,
+      );
     }
     if (
       currentUser?.agencies.some(
