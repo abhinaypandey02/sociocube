@@ -6,10 +6,14 @@ import TagsDisplay from "./tags-display";
 
 export default function CategoryFilter({
   onChange,
+  variables,
 }: {
   onChange: (data: SearchSellersFilters) => void;
+  variables: SearchSellersFilters;
 }) {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>(
+    variables.categories || [],
+  );
   return (
     <div className="space-y-3">
       <Input

@@ -5,7 +5,9 @@ import type { SearchSellersFilters } from "../../../__generated__/graphql";
 
 export default function AgeFilter({
   onChange,
+  variables,
 }: {
+  variables: SearchSellersFilters;
   onChange: (data: SearchSellersFilters) => void;
 }) {
   return (
@@ -22,6 +24,7 @@ export default function AgeFilter({
         label: range.title,
       }))}
       placeholder="Age range"
+      value={variables.ageRange || undefined}
     />
   );
 }

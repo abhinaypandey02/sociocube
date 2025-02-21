@@ -2,19 +2,28 @@ import React, { useEffect, useState } from "react";
 import { Input } from "ui/input";
 import { useAuthQuery } from "../../../lib/apollo-client";
 import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "../../../lib/queries";
+import type { SearchSellersFilters } from "../../../__generated__/graphql";
 
 export default function CountryFilter({
   onChange,
+  variables,
 }: {
   onChange: (data: {
     countries?: number[] | null;
     states?: number[] | null;
     cities?: number[] | null;
   }) => void;
+  variables: SearchSellersFilters;
 }) {
-  const [countryID, setCountryID] = useState<number>();
-  const [stateID, setStateID] = useState<number>();
-  const [cityID, setCityID] = useState<number>();
+  const [countryID, setCountryID] = useState<number | undefined>(
+    variables.countries?.[0],
+  );
+  const [stateID, setStateID] = useState<number | undefined>(
+    variables.states?.[0],
+  );
+  const [cityID, setCityID] = useState<number | undefined>(
+    variables.cities?.[0],
+  );
   const [fetchCountries, { data: countriesData }] = useAuthQuery(GET_COUNTRIES);
   const [fetchStates, { data: statesData }] = useAuthQuery(GET_STATES);
   const [fetchCities, { data: citiesData }] = useAuthQuery(GET_CITIES);

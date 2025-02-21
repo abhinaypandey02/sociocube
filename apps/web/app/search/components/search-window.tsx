@@ -18,6 +18,8 @@ import {
   Plus,
   Funnel,
   X,
+  SealCheck,
+  MapPin,
 } from "@phosphor-icons/react";
 import Link from "next/link";
 import { Input } from "ui/input";
@@ -25,6 +27,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
+import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import type {
   SearchSellersFilters,
   SearchSellersQuery,
@@ -32,8 +35,9 @@ import type {
 import { SearchFilterSorting } from "../../../__generated__/graphql";
 import { getRoute } from "../../../constants/routes";
 import { SEARCH_FILTERS } from "../constants";
+import { convertToAbbreviation } from "../../../lib/utils";
+import SearchLoading from "./search-loading";
 
-const SearchLoading = dynamic(() => import("./search-loading"));
 const NoResults = dynamic(() => import("./no-results"));
 const MobileFilterPanel = dynamic(() => import("./mobile-filter-panel"));
 
@@ -115,6 +119,7 @@ export default function SearchWindow({
         }}
         handleChange={handleChange}
         isOpen={mobileFiltersOpen}
+        variables={variables}
       />
       <form
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
@@ -227,8 +232,25 @@ export default function SearchWindow({
                     className="group flex w-full items-center justify-between text-sm text-gray-400 hover:text-gray-500"
                     type="button"
                   >
-                    <span className="font-medium text-gray-900">
+                    <span className="flex items-center gap-2 font-medium text-gray-900">
                       {section.name}
+                      {section.keys.some((key) => variables[key]) ? (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const newVariables = { ...variables };
+                            section.keys.forEach(
+                              // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- i can do it
+                              (key) => delete newVariables[key],
+                            );
+                            setVariables(newVariables);
+                            handleUpdateParams(newVariables);
+                          }}
+                          type="button"
+                        >
+                          <X />
+                        </button>
+                      ) : null}
                     </span>
                     <span className="ml-6 flex items-center">
                       <Plus
@@ -243,7 +265,10 @@ export default function SearchWindow({
                   </DisclosureButton>
                   <DisclosurePanel className="pt-6">
                     <div className="space-y-4">
-                      <section.component onChange={handleChange} />
+                      <section.component
+                        onChange={handleChange}
+                        variables={variables}
+                      />
                     </div>
                   </DisclosurePanel>
                 </Disclosure>
@@ -254,26 +279,68 @@ export default function SearchWindow({
             <div className=" lg:col-span-3">
               {loading ? <SearchLoading /> : null}
               {data?.sellers?.length === 0 && !loading && <NoResults />}
-              <ul className=" grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              <ul className="space-y-5">
                 {!loading &&
                   data?.sellers?.map((person) => (
-                    <li key={person.name || "jj"}>
-                      <Link href={`${getRoute("Profile")}/${person.username}`}>
+                    <li key={person.name || ""}>
+                      <Link
+                        className="flex items-center gap-3 rounded-md px-4 py-3 hover:shadow"
+                        href={`${getRoute("Profile")}/${person.username}`}
+                      >
                         <Image
                           alt={person.name || ""}
-                          className="aspect-[14/13] w-full rounded-2xl object-cover"
-                          height={260}
+                          className="size-16 shrink-0 rounded-full object-cover sm:size-20"
+                          height={80}
                           src={person.photo || ""}
-                          width={280}
+                          width={80}
                         />
-                        <div className="mt-2 flex flex-wrap items-center justify-between">
-                          <h3 className=" truncate text-xl font-semibold leading-9 tracking-tight ">
-                            {person.name || ""}
-                          </h3>
+                        <div className="min-w-0 grow">
+                          <div className="flex flex-wrap items-start justify-between">
+                            <div>
+                              <h3 className=" flex items-center gap-1.5  text-lg font-semibold  ">
+                                {person.name || ""}
+                                {person.instagramStats?.isVerified ? (
+                                  <SealCheck
+                                    className="text-accent"
+                                    size={16}
+                                    weight="fill"
+                                  />
+                                ) : null}
+                              </h3>
+                              <div className="mt-0.5  font-poppins text-xs font-medium text-accent max-sm:w-full">
+                                {person.category}
+                              </div>
+                              <p className="mt-1 flex flex-wrap items-center gap-1 truncate text-sm leading-6 text-gray-800">
+                                <InstagramLogo weight="bold" />
+                                {convertToAbbreviation(
+                                  person.instagramStats?.followers || 0,
+                                )}
+
+                                {person.pricing ? (
+                                  <>
+                                    {" "}
+                                    •{" "}
+                                    <span className="">
+                                      {person.location?.currency?.symbol}
+                                      {person.pricing.starting}{" "}
+                                      {person.location?.currency?.code}
+                                    </span>
+                                  </>
+                                ) : null}
+                              </p>
+                            </div>
+
+                            <div className="mt-0.5 flex items-center gap-1 text-[13px] text-gray-700 sm:text-end">
+                              <MapPin />
+                              {person.location?.city},{" "}
+                              {person.location?.country}
+                            </div>
+                          </div>
+
+                          <p className="mt-1 truncate text-xs italic text-gray-400 max-sm:hidden">
+                            {person.bio}
+                          </p>
                         </div>
-                        <p className="truncate text-sm leading-6 text-gray-800">
-                          {person.bio}
-                        </p>
                       </Link>
                     </li>
                   ))}

@@ -24,7 +24,8 @@ function Select({
   const value = formContext?.getValues(rest.name) as string;
   useEffect(() => {
     const updatedValue = options.find(
-      (option) => option.value === formContext?.getValues(rest.name),
+      (option) =>
+        option.value === (rest.value || formContext?.getValues(rest.name)),
     )?.label;
     if (updatedValue) setSearchValue(updatedValue);
   }, [options, value]);

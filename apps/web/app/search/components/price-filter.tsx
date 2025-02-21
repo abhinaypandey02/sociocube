@@ -1,39 +1,30 @@
 import React from "react";
-import { Input } from "ui/input";
+import MultiRangeSlider from "multi-range-slider-react";
 import type { SearchSellersFilters } from "../../../__generated__/graphql";
 
 export default function PriceFilter({
   onChange,
+  variables,
 }: {
   onChange: (data: SearchSellersFilters) => void;
+  variables: SearchSellersFilters;
 }) {
   return (
-    <div>
-      <Input
-        className="block"
-        name="from"
-        onChange={(e) => {
-          const val = parseInt(e.target.value);
-          onChange({
-            generalPriceFrom: isNaN(val) ? undefined : val,
-          });
-        }}
-        placeholder="Price from"
-        type="number"
-      />
-      <div className="my-3 text-center text-sm">to</div>
-      <Input
-        className="block"
-        name="to"
-        onChange={(e) => {
-          const val = parseInt(e.target.value);
-          onChange({
-            generalPriceTo: isNaN(val) ? undefined : val,
-          });
-        }}
-        placeholder="Price to"
-        type="number"
-      />
-    </div>
+    <MultiRangeSlider
+      barInnerColor="#F45B69"
+      labels={["<10", "7k", "15k", "22k", "", "36k", "", ">100k"]}
+      max={50000}
+      maxValue={variables.generalPriceTo || 50000}
+      min={10}
+      minValue={variables.generalPriceFrom || 10}
+      onChange={(val) => {
+        onChange({
+          generalPriceFrom: val.minValue === 10 ? undefined : val.minValue,
+          generalPriceTo: val.maxValue === 50000 ? undefined : val.maxValue,
+        });
+      }}
+      step={10}
+      stepOnly
+    />
   );
 }

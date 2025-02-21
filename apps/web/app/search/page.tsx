@@ -16,14 +16,17 @@ function parseParams(
       return parseInt(val);
     }
     case "ARRAY":
-      return val.split(",");
-    case "NUMERIC_ARRAY":
-      return val
+      return val.split(",").map(decodeURIComponent);
+    case "NUMERIC_ARRAY": {
+      const arr = val
         .split(",")
         .map(parseInt)
         .filter((num) => !isNaN(num));
+      if (arr.length === 0) return undefined;
+      return arr;
+    }
     default:
-      return val;
+      return decodeURIComponent(val);
   }
 }
 

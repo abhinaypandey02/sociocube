@@ -15,10 +15,12 @@ export default function MobileFilterPanel({
   isOpen,
   close,
   handleChange,
+  variables,
 }: {
   isOpen: boolean;
   close: () => void;
   handleChange: (data: SearchSellersFilters) => void;
+  variables: SearchSellersFilters;
 }) {
   return (
     <Dialog className="relative z-40 lg:hidden" onClose={close} open={isOpen}>
@@ -70,7 +72,10 @@ export default function MobileFilterPanel({
                   </DisclosureButton>
                   <DisclosurePanel className="pt-6">
                     <div className="space-y-4">
-                      <section.component onChange={handleChange} />
+                      <section.component
+                        onChange={handleChange}
+                        variables={variables}
+                      />
                     </div>
                   </DisclosurePanel>
                 </h3>

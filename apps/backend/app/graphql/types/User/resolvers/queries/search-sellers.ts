@@ -121,7 +121,7 @@ export function handleSearchSellers(filters: SearchSellersFiltersInput) {
             to_tsvector('english', ${UserTable.name}) || 
             to_tsvector('english', ${UserTable.username}) || 
             to_tsvector('english', ${UserTable.bio})
-        ) @@ to_tsquery('english', ${filters.query})`
+        ) @@ plainto_tsquery('english', ${filters.query})`
           : undefined,
       ),
     )

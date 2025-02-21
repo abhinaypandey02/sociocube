@@ -375,6 +375,23 @@ export const SEARCH_SELLERS = gql(`
       username
       photo
       bio
+      category
+      gender
+      instagramStats {
+        isVerified
+        followers
+      }
+      pricing {
+        starting
+      }
+      location {
+        city
+        country
+        currency {
+          symbol
+          code
+        }
+      }
     }
   }
 `);

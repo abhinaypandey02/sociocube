@@ -6,10 +6,12 @@ import TagsDisplay from "./tags-display";
 
 export default function GenderFilter({
   onChange,
+  variables,
 }: {
   onChange: (data: SearchSellersFilters) => void;
+  variables: SearchSellersFilters;
 }) {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>(variables.genders || []);
   return (
     <div className="space-y-3">
       <Input

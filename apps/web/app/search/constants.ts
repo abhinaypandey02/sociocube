@@ -1,42 +1,48 @@
 import type { ComponentType } from "react";
-import dynamic from "next/dynamic";
 import type { SearchSellersFilters } from "../../__generated__/graphql";
-
-const CountryFilter = dynamic(() => import("./components/country-filter"));
-const GenderFilter = dynamic(() => import("./components/gender-filter"));
-const CategoryFilter = dynamic(() => import("./components/category-filter"));
-const PriceFilter = dynamic(() => import("./components/price-filter"));
-const FollowersFilter = dynamic(() => import("./components/followers-filter"));
-const AgeFilter = dynamic(() => import("./components/age-filter"));
+import CountryFilter from "./components/country-filter";
+import GenderFilter from "./components/gender-filter";
+import CategoryFilter from "./components/category-filter";
+import PriceFilter from "./components/price-filter";
+import FollowersFilter from "./components/followers-filter";
+import AgeFilter from "./components/age-filter";
 
 export const SEARCH_FILTERS: {
   name: string;
+  keys: (keyof SearchSellersFilters)[];
   component: ComponentType<{
     onChange: (data: SearchSellersFilters) => void;
+    variables: SearchSellersFilters;
   }>;
 }[] = [
   {
     name: "Location",
     component: CountryFilter,
+    keys: ["countries", "states", "cities"],
   },
   {
     name: "Genders",
     component: GenderFilter,
+    keys: ["genders"],
   },
   {
     name: "Categories",
     component: CategoryFilter,
+    keys: ["categories"],
   },
   {
     name: "Price",
     component: PriceFilter,
+    keys: ["generalPriceFrom", "generalPriceTo"],
   },
   {
     name: "Followers",
     component: FollowersFilter,
+    keys: ["followersTo", "followersFrom"],
   },
   {
     name: "Age",
     component: AgeFilter,
+    keys: ["ageRange"],
   },
 ];
