@@ -31,7 +31,10 @@ export const rolesEnum = pgEnum("role", [
 export const gendersEnum = pgEnum("genders", genders as [string, ...string[]]);
 export const categoriesEnum = pgEnum(
   "categories",
-  categories.map((category) => category.title) as [string, ...string[]],
+  categories.sort((a, b) => a.id - b.id).map((category) => category.title) as [
+    string,
+    ...string[],
+  ],
 );
 
 export const UserTable = pgTable(

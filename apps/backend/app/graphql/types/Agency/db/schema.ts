@@ -46,7 +46,7 @@ export const AgencyTable = pgTable(
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (table) => ({
-    userSearchIndex: index("posting_search_index").using(
+    userSearchIndex: index("agency_search_index").using(
       "gin",
       sql`(
         to_tsvector('english', ${table.name}) || 
