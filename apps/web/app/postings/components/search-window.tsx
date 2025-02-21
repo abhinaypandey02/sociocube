@@ -12,14 +12,14 @@ import {
   Transition,
 } from "@headlessui/react";
 import {
-  SlidersHorizontal,
+  CurrencyCircleDollar,
+  Funnel,
   MagnifyingGlass,
   Minus,
   Plus,
-  Funnel,
-  X,
   SealCheck,
-  MapPin,
+  SlidersHorizontal,
+  X,
 } from "@phosphor-icons/react";
 import Link from "next/link";
 import { Input } from "ui/input";
@@ -27,35 +27,27 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
-import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import type {
-  SearchSellersFilters,
-  SearchSellersQuery,
+  GetAllPostingsQuery,
+  SearchPostingsFilters,
 } from "../../../__generated__/graphql";
-import { SearchFilterSorting } from "../../../__generated__/graphql";
+import { SearchPostingsSorting } from "../../../__generated__/graphql";
 import { getRoute } from "../../../constants/routes";
-import { SEARCH_FILTERS } from "../constants";
+import { getAgeGroup, getCurrency } from "../utils";
 import { convertToAbbreviation } from "../../../lib/utils";
 import SearchLoading from "./search-loading";
+import { SEARCH_POSTINGS_FILTERS } from "./constants";
 
 const NoResults = dynamic(() => import("./no-results"));
 const MobileFilterPanel = dynamic(() => import("./mobile-filter-panel"));
 
 const SORT_OPTIONS = [
   {
-    id: SearchFilterSorting.FollowersAsc,
-    label: "Followers (low to High)",
+    id: SearchPostingsSorting.Trending,
+    label: "Trending (High to low)",
   },
   {
-    id: SearchFilterSorting.FollowersDesc,
-    label: "Followers (High to low)",
-  },
-  {
-    id: SearchFilterSorting.PriceAsc,
-    label: "Price (low to High)",
-  },
-  {
-    id: SearchFilterSorting.PriceDesc,
+    id: SearchPostingsSorting.PriceDesc,
     label: "Price (High to low)",
   },
 ];
@@ -64,26 +56,26 @@ export default function SearchWindow({
   data,
   filters,
 }: {
-  data: SearchSellersQuery | null;
-  filters: SearchSellersFilters;
+  data: GetAllPostingsQuery | null;
+  filters: SearchPostingsFilters;
 }) {
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [variables, setVariables] = useState<SearchSellersFilters>(filters);
+  const [variables, setVariables] = useState<SearchPostingsFilters>(filters);
   const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout>();
 
   useEffect(() => {
     if (data) setLoading(false);
   }, [data]);
 
-  function handleUpdateParams(vars: SearchSellersFilters) {
+  function handleUpdateParams(vars: SearchPostingsFilters) {
     setLoading(true);
     const params = new URLSearchParams(vars as Record<string, string>);
-    router.push(`${getRoute("Search")}?${params.toString()}`);
+    router.push(`${getRoute("Postings")}?${params.toString()}`);
   }
 
-  function handleChange(changesData: SearchSellersFilters) {
+  function handleChange(changesData: SearchPostingsFilters) {
     setLoading(true);
     if (searchTimeout) clearTimeout(searchTimeout);
     const newVars = { ...variables, ...changesData };
@@ -95,7 +87,7 @@ export default function SearchWindow({
     );
   }
 
-  function handleSort(sortBy?: SearchFilterSorting) {
+  function handleSort(sortBy?: SearchPostingsSorting) {
     const newVariables = { ...variables, sortBy };
     setVariables(newVariables);
     handleUpdateParams(newVariables);
@@ -127,7 +119,7 @@ export default function SearchWindow({
       >
         <div className="flex flex-wrap items-baseline justify-between gap-5 border-b border-gray-200 pb-6 pt-4 sm:pt-16">
           <h2 className="font-poppins text-3xl font-semibold text-gray-900 sm:text-4xl sm:font-bold">
-            Find influencers
+            Find campaigns
           </h2>
 
           <div className="flex w-72 items-center max-md:w-full">
@@ -192,7 +184,7 @@ export default function SearchWindow({
                         }}
                         type="button"
                       >
-                        Clear filters <X />
+                        Clear <X />
                       </button>
                     </MenuItem>
                   ) : null}
@@ -222,7 +214,7 @@ export default function SearchWindow({
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
             {/* Filters */}
             <div className="-mt-4 hidden lg:block">
-              {SEARCH_FILTERS.map((section) => (
+              {SEARCH_POSTINGS_FILTERS.map((section) => (
                 <Disclosure
                   as="div"
                   className="border-b border-gray-200 py-6"
@@ -278,68 +270,78 @@ export default function SearchWindow({
             {/* Product grid */}
             <div className=" lg:col-span-3">
               {loading ? <SearchLoading /> : null}
-              {data?.sellers?.length === 0 && !loading && <NoResults />}
+              {data?.postings.length === 0 && !loading && <NoResults />}
               <ul className="space-y-5">
                 {!loading &&
-                  data?.sellers?.map((person) => (
-                    <li key={person.name || ""}>
+                  data?.postings.map((posting) => (
+                    <li key={posting.id}>
                       <Link
                         className="flex items-center gap-3 rounded-md px-4 py-3 hover:shadow"
-                        href={`${getRoute("Profile")}/${person.username}`}
+                        href={`${getRoute("Postings")}/${posting.id}`}
                       >
                         <Image
-                          alt={person.name || ""}
+                          alt={posting.agency.name || ""}
                           className="size-16 shrink-0 rounded-full object-cover sm:size-20"
                           height={80}
-                          src={person.photo || ""}
+                          src={posting.agency.photo || ""}
                           width={80}
                         />
                         <div className="min-w-0 grow">
                           <div className="flex flex-wrap items-start justify-between">
                             <div>
-                              <h3 className=" flex items-center gap-1.5  text-lg font-semibold  ">
-                                {person.name || ""}
-                                {person.instagramStats?.isVerified ? (
+                              <h3 className="  gap-1.5  text-lg font-semibold  ">
+                                {posting.title}{" "}
+                                {posting.barter ? null : (
+                                  <CurrencyCircleDollar
+                                    className="inline-block text-primary"
+                                    size={22}
+                                    weight="fill"
+                                  />
+                                )}
+                              </h3>
+                              <div className="mt-0.5 flex items-center gap-1 font-poppins text-xs font-medium text-primary max-sm:w-full">
+                                {posting.agency.name}{" "}
+                                {posting.agency.instagramStats?.isVerified ? (
                                   <SealCheck
-                                    className="text-accent"
-                                    size={16}
+                                    className="text-primary"
                                     weight="fill"
                                   />
                                 ) : null}
-                              </h3>
-                              <div className="mt-0.5  font-poppins text-xs font-medium text-accent max-sm:w-full">
-                                {person.category}
                               </div>
-                              <p className="mt-1 flex flex-wrap items-center gap-1 truncate text-sm leading-6 text-gray-800">
-                                <InstagramLogo weight="bold" />
-                                {convertToAbbreviation(
-                                  person.instagramStats?.followers || 0,
+                              <p className="mt-1 flex flex-wrap items-center gap-1 truncate text-xs leading-6 text-gray-800">
+                                {getAgeGroup(
+                                  posting.minimumAge,
+                                  posting.maximumAge,
                                 )}
-
-                                {person.pricing ? (
-                                  <>
-                                    {" "}
-                                    •{" "}
-                                    <span className="">
-                                      {person.location?.currency?.symbol}
-                                      {person.pricing.starting}{" "}
-                                      {person.location?.currency?.code}
-                                    </span>
-                                  </>
-                                ) : null}
+                                {(posting.minimumAge || posting.maximumAge) &&
+                                posting.minimumFollowers
+                                  ? " • "
+                                  : ""}
+                                {posting.minimumFollowers
+                                  ? `Min followers: ${convertToAbbreviation(posting.minimumFollowers)}`
+                                  : null}
                               </p>
                             </div>
-
-                            <div className="mt-0.5 flex items-center gap-1 text-[13px] text-gray-700 sm:text-end">
-                              <MapPin />
-                              {person.location?.city},{" "}
-                              {person.location?.country}
+                            <div className="items-center gap-2 max-sm:flex">
+                              <div className="mt-0.5 gap-1 text-sm font-medium text-gray-700 sm:text-end">
+                                {getCurrency(
+                                  posting.barter,
+                                  posting.currency,
+                                  posting.price,
+                                )}
+                              </div>
+                              {posting.applicationsCount ? (
+                                <div className="mt-1 flex items-center gap-x-1.5">
+                                  <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                                    <div className="size-1.5 rounded-full bg-emerald-500" />
+                                  </div>
+                                  <p className="text-xs leading-5 text-gray-500">
+                                    {`${posting.applicationsCount}+ applications`}
+                                  </p>
+                                </div>
+                              ) : null}
                             </div>
                           </div>
-
-                          <p className="mt-1 truncate text-xs italic text-gray-400 max-sm:hidden">
-                            {person.bio}
-                          </p>
                         </div>
                       </Link>
                     </li>

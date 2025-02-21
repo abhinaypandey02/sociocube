@@ -1,20 +1,20 @@
-"use client";
 import React, { useState } from "react";
 import { Input } from "ui/input";
-import categories from "commons/categories";
-import type { SearchSellersFilters } from "../../../__generated__/graphql";
-import TagsDisplay from "./tags-display";
+import type {
+  PostingPlatforms,
+  SearchPostingsFilters,
+} from "../../../__generated__/graphql";
+import { POSTING_PLATFORMS } from "../constants";
+import TagsDisplay from "../../search/components/tags-display";
 
-export default function CategoryFilter({
+export default function PlatformsFilter({
   onChange,
   variables,
 }: {
-  onChange: (data: SearchSellersFilters) => void;
-  variables: SearchSellersFilters;
+  onChange: (data: SearchPostingsFilters) => void;
+  variables: SearchPostingsFilters;
 }) {
-  const [selected, setSelected] = useState<string[]>(
-    variables.categories || [],
-  );
+  const [selected, setSelected] = useState<string[]>(variables.platforms || []);
   return (
     <div className="space-y-3">
       <Input
@@ -24,12 +24,10 @@ export default function CategoryFilter({
           const updated = Array.from(new Set([...selected, e.target.value]));
           setSelected(updated);
           onChange({
-            categories: updated,
+            platforms: updated as PostingPlatforms[],
           });
         }}
-        options={categories
-          .filter((v) => !selected.includes(v.title))
-          .map((v) => ({ value: v.title, label: v.title }))}
+        options={POSTING_PLATFORMS.filter((v) => !selected.includes(v.value))}
         placeholder="Category"
       />
       <TagsDisplay
@@ -37,7 +35,7 @@ export default function CategoryFilter({
           const updated = selected.filter((o) => o !== v);
           setSelected(updated);
           onChange({
-            categories: updated,
+            platforms: updated as PostingPlatforms[],
           });
         }}
         tags={selected}

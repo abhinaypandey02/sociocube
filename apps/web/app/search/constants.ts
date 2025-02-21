@@ -46,3 +46,29 @@ export const SEARCH_FILTERS: {
     keys: ["ageRange"],
   },
 ];
+
+export function parseParams(
+  val: string | undefined,
+  type?: "NUMBER" | "ARRAY" | "NUMERIC_ARRAY",
+) {
+  if (!val) return undefined;
+  switch (type) {
+    case "NUMBER": {
+      const num = parseInt(val);
+      if (isNaN(num)) return undefined;
+      return parseInt(val);
+    }
+    case "ARRAY":
+      return val.split(",").map(decodeURIComponent);
+    case "NUMERIC_ARRAY": {
+      const arr = val
+        .split(",")
+        .map(parseInt)
+        .filter((num) => !isNaN(num));
+      if (arr.length === 0) return undefined;
+      return arr;
+    }
+    default:
+      return decodeURIComponent(val);
+  }
+}

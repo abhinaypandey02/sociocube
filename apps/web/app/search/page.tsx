@@ -3,32 +3,7 @@ import { Injector, queryGQL } from "../../lib/apollo-server";
 import { SEARCH_SELLERS } from "../../lib/queries";
 import type { SearchFilterSorting } from "../../__generated__/graphql";
 import SearchWindow from "./components/search-window";
-
-function parseParams(
-  val: string | undefined,
-  type?: "NUMBER" | "ARRAY" | "NUMERIC_ARRAY",
-) {
-  if (!val) return undefined;
-  switch (type) {
-    case "NUMBER": {
-      const num = parseInt(val);
-      if (isNaN(num)) return undefined;
-      return parseInt(val);
-    }
-    case "ARRAY":
-      return val.split(",").map(decodeURIComponent);
-    case "NUMERIC_ARRAY": {
-      const arr = val
-        .split(",")
-        .map(parseInt)
-        .filter((num) => !isNaN(num));
-      if (arr.length === 0) return undefined;
-      return arr;
-    }
-    default:
-      return decodeURIComponent(val);
-  }
-}
+import { parseParams } from "./constants";
 
 export default async function SearchPage({
   searchParams,

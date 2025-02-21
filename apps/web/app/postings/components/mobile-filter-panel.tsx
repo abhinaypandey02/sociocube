@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import {
   Dialog,
@@ -9,8 +8,8 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { Minus, Plus, X } from "@phosphor-icons/react";
-import type { SearchSellersFilters } from "../../../__generated__/graphql";
-import { SEARCH_FILTERS } from "../constants";
+import type { SearchPostingsFilters } from "../../../__generated__/graphql";
+import { SEARCH_POSTINGS_FILTERS } from "./constants";
 
 export default function MobileFilterPanel({
   isOpen,
@@ -20,8 +19,8 @@ export default function MobileFilterPanel({
 }: {
   isOpen: boolean;
   close: () => void;
-  handleChange: (data: SearchSellersFilters) => void;
-  variables: SearchSellersFilters;
+  handleChange: (data: SearchPostingsFilters) => void;
+  variables: SearchPostingsFilters;
 }) {
   return (
     <Dialog className="relative z-40 lg:hidden" onClose={close} open={isOpen}>
@@ -49,7 +48,7 @@ export default function MobileFilterPanel({
 
           {/* Filters */}
           <form className="mt-4 border-t border-gray-200">
-            {SEARCH_FILTERS.map((section) => (
+            {SEARCH_POSTINGS_FILTERS.map((section) => (
               <Disclosure
                 as="div"
                 className="border-t border-gray-200 px-4 py-6"

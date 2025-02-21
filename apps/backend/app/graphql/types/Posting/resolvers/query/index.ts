@@ -2,7 +2,7 @@ import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "../../../../context";
 import { PostingGQL } from "../../type";
 import { getUserPostings } from "./get-user-postings";
-import { getAllPostings } from "./get-all-postings";
+import { getAllPostings, SearchPostingsFiltersInput } from "./get-all-postings";
 import { getPosting } from "./get-posting";
 import { getFeaturedPostings } from "./get-featured-postings";
 
@@ -14,8 +14,10 @@ export class PostingQueryResolvers {
     return getUserPostings(ctx);
   }
   @Query(() => [PostingGQL])
-  getAllPostings(): Promise<PostingGQL[]> {
-    return getAllPostings();
+  getAllPostings(
+    @Arg("filters", { nullable: true }) filters?: SearchPostingsFiltersInput,
+  ): Promise<PostingGQL[]> {
+    return getAllPostings(filters || {});
   }
   @Query(() => [PostingGQL])
   getFeaturedPostings(): Promise<PostingGQL[]> {

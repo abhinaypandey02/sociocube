@@ -517,7 +517,7 @@ input PricingInput {
 }
 
 type Query {
-  getAllPostings: [Posting!]!
+  getAllPostings(filters: SearchPostingsFilters): [Posting!]!
   getChat(conversationID: Int!): Conversation
   getChatWithAgency(username: String!): Conversation
   getChatWithUser(username: String!): Conversation
@@ -555,6 +555,21 @@ enum SearchFilterSorting {
   FollowersDesc
   PriceAsc
   PriceDesc
+}
+
+input SearchPostingsFilters {
+  age: Float
+  agency: String
+  followers: Float
+  paidOnly: Boolean
+  platforms: [PostingPlatforms!]
+  query: String
+  sortBy: SearchPostingsSorting
+}
+
+enum SearchPostingsSorting {
+  PriceDesc
+  Trending
 }
 
 input SearchSellersFilters {

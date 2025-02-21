@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Input } from "ui/input";
 import { AGE_RANGES } from "commons/age";

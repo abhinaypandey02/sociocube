@@ -1,93 +1,32 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { SealCheck } from "@phosphor-icons/react/dist/ssr";
-import { queryGQL } from "../../lib/apollo-server";
-import { GET_ALL_POSTINGS } from "../../lib/queries";
-import { convertToAbbreviation } from "../../lib/utils";
-import { getRoute } from "../../constants/routes";
 import { getSEO } from "../../constants/seo";
-import { getAgeGroup, getCurrency, getPlatforms } from "./utils";
+import { Injector, queryGQL } from "../../lib/apollo-server";
+import { GET_ALL_POSTINGS } from "../../lib/queries";
+import type {
+  PostingPlatforms,
+  SearchPostingsSorting,
+} from "../../__generated__/graphql";
+import { parseParams } from "../search/constants";
+import SearchWindow from "./components/search-window";
 
-export default async function PostingsPage() {
-  const { postings } = await queryGQL(
-    GET_ALL_POSTINGS,
-    undefined,
-    undefined,
-    120,
-    ["posting", "all-postings"],
-  );
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string>>;
+}) {
+  const params = await searchParams;
+  const filters = {
+    age: parseParams(params.age, "NUMBER") as number,
+    platforms: parseParams(params.platforms, "ARRAY") as PostingPlatforms[],
+    followers: parseParams(params.followers, "NUMBER") as number,
+    query: parseParams(params.query) as string,
+    sortBy: parseParams(params.sortBy) as SearchPostingsSorting,
+  };
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-16 lg:px-8">
-      <div className="flex  items-center justify-between gap-2">
-        <h2 className="font-poppins text-3xl font-semibold text-gray-800 sm:text-4xl sm:font-bold ">
-          Active Campaigns
-        </h2>
-      </div>
-      <ul className="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:mt-16 lg:grid-cols-3 xl:gap-x-8">
-        {postings.map((posting) => (
-          <Link
-            className="overflow-hidden rounded-xl border border-gray-200 shadow-lg transition-transform duration-300 hover:scale-105"
-            href={`${getRoute("Postings")}/${posting.id}`}
-            key={posting.id}
-          >
-            <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
-              {posting.agency.photo ? (
-                <Image
-                  alt={posting.agency.name || ""}
-                  className="size-12 flex-none rounded-full bg-white object-cover ring-1 ring-gray-900/10"
-                  height={48}
-                  src={posting.agency.photo}
-                  width={48}
-                />
-              ) : null}
-              <div>
-                <div className="text-sm font-medium leading-6 text-gray-900">
-                  {posting.title}
-                </div>
-                <small className="flex items-center gap-1 text-xs text-gray-600">
-                  by <em className=" font-medium">{posting.agency.name} </em>
-                  {posting.agency.instagramStats?.isVerified ? (
-                    <SealCheck className="text-primary" weight="fill" />
-                  ) : null}
-                </small>
-              </div>
-            </div>
-            <dl className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
-              <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Platforms</dt>
-                <dd className="text-gray-700">
-                  {getPlatforms(posting.platforms)}
-                </dd>
-              </div>
-              <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Payment</dt>
-                <dd className="text-gray-700">
-                  {getCurrency(posting.barter, posting.currency, posting.price)}
-                </dd>
-              </div>
-              {posting.minimumFollowers ? (
-                <div className="flex justify-between gap-x-4 py-3">
-                  <dt className="text-gray-500">Minimum followers</dt>
-                  <dd className="text-gray-700">
-                    {convertToAbbreviation(posting.minimumFollowers)}
-                  </dd>
-                </div>
-              ) : null}
-              {posting.minimumAge || posting.maximumAge ? (
-                <div className="flex justify-between gap-x-4 py-3">
-                  <dt className="text-gray-500">Age group</dt>
-                  <dd className="flex items-start gap-x-2">
-                    {getAgeGroup(posting.minimumAge, posting.maximumAge)}
-                  </dd>
-                </div>
-              ) : null}
-            </dl>
-          </Link>
-        ))}
-      </ul>
-    </div>
+    <Injector
+      Component={SearchWindow}
+      fetch={() => queryGQL(GET_ALL_POSTINGS, { filters }, undefined, 0)}
+      props={{ filters }}
+    />
   );
 }
-
-export const metadata = getSEO("Find collaboration opportunities");
+export const metadata = getSEO("Find influencers");
