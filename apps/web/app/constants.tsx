@@ -1,5 +1,6 @@
 import { getRoute } from "../constants/routes";
 import type { GetCurrentUserQuery } from "../__generated__/graphql";
+import { AgencyMemberType } from "../__generated__/graphql";
 import Logout from "./components/logout";
 import GetVerifiedOption from "./components/get-verified-option";
 
@@ -72,6 +73,14 @@ export const getOnboardedUserNavbarSections = (
           {
             label: "Your campaigns",
             href: getRoute("AccountPostings"),
+          },
+        ]
+      : []),
+    ...(!user?.agencies.some((agency) => agency.type === AgencyMemberType.Owner)
+      ? [
+          {
+            label: "Start an agency",
+            href: getRoute("AgencyOnboarding"),
           },
         ]
       : []),

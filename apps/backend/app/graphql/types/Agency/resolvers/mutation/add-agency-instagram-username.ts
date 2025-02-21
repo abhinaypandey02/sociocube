@@ -1,4 +1,6 @@
 import { eq } from "drizzle-orm";
+import { TEAM_USER_ID } from "commons/referral";
+import { v4 } from "uuid";
 import { db } from "../../../../../../lib/db";
 import { AgencyOnboardingTable } from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";
@@ -50,7 +52,7 @@ export async function addAgencyInstagramUsername(
         data.profile_picture_url &&
         (await uploadImage(data.profile_picture_url, [
           "User",
-          ctx.userId.toString(),
+          ctx.userId === TEAM_USER_ID ? v4() : ctx.userId.toString(),
           "agency-photo",
         ])),
       bio: data.biography,
@@ -90,7 +92,13 @@ export async function addAgencyInstagramUsername(
       instagramDetails: details.id,
       user: ctx.userId,
       name: data.name || "",
-      photo: data.profile_picture_url,
+      photo:
+        data.profile_picture_url &&
+        (await uploadImage(data.profile_picture_url, [
+          "User",
+          ctx.userId === TEAM_USER_ID ? v4() : ctx.userId.toString(),
+          "agency-photo",
+        ])),
       bio: data.biography,
     });
   }

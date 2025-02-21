@@ -28,7 +28,7 @@ export class AgencyBasicDetailsInput {
   @Field()
   @IsEmail()
   contactEmail: string;
-  @Field()
+  @Field({ nullable: true })
   @MaxLength(15)
   @IsNumberString()
   contactPhone: string;

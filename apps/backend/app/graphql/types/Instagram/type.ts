@@ -22,6 +22,8 @@ export class InstagramStats {
 @ObjectType("InstagramMedia")
 export class InstagramMedia {
   @Field()
+  timestamp: string;
+  @Field()
   thumbnail: string;
   @Field(() => Int)
   likes: number;

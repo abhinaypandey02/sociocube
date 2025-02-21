@@ -260,7 +260,7 @@ input AgencyBasicDetailsInput {
   bio: String!
   category: AgencyCategory!
   contactEmail: String!
-  contactPhone: String!
+  contactPhone: String
   name: String!
   photo: String!
 }
@@ -345,6 +345,7 @@ type InstagramMedia {
   likes: Int!
   link: String!
   thumbnail: String!
+  timestamp: String!
   type: InstagramMediaType!
 }
 

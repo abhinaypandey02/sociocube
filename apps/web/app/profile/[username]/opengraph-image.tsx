@@ -3,6 +3,7 @@ import { queryGQL } from "../../../lib/apollo-server";
 import { GET_SELLER } from "../../../lib/queries";
 import { convertToAbbreviation } from "../../../lib/utils";
 import type { ProfilePage } from "./page";
+import { getPostFrequency } from "./components/utils";
 
 export { size } from "../../../lib/util-components";
 
@@ -40,7 +41,7 @@ export default async function Image({ params }: ProfilePage) {
       "Join the biggest influencer platform"
     ),
     "View profile",
-    `${convertToAbbreviation(seller?.instagramStats?.followers || 0)} followers • ${Math.round(seller?.instagramStats?.mediaCount || 0)} Posts`,
+    `${convertToAbbreviation(seller?.instagramStats?.followers || 0)} followers • ${Math.round(seller?.instagramStats?.mediaCount || 0)} Posts • ${getPostFrequency(seller?.instagramMedia || [])} Frequency`,
     seller?.photo || undefined,
   );
 }

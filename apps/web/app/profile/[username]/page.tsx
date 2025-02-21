@@ -28,6 +28,7 @@ import CopyLinkButton from "./components/copy-link-button";
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 import Portfolio from "./components/portfolio";
 import PortfolioLinks from "./components/portfolio-links";
+import { getPostFrequency } from "./components/utils";
 
 export interface ProfilePage {
   params: Promise<{ username: string }>;
@@ -66,7 +67,7 @@ export async function generateMetadata({
     },
     ...getSEO(
       seller.name,
-      `${convertToAbbreviation(seller.instagramStats?.followers || 0)} Followers, ${convertToAbbreviation(seller.instagramStats?.mediaCount || 0)} posts on their Instagram account @${seller.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
+      `${convertToAbbreviation(seller.instagramStats?.followers || 0)} Followers, ${getPostFrequency(seller.instagramMedia || [])} Frequency, ${convertToAbbreviation(seller.instagramStats?.mediaCount || 0)} posts on their Instagram account @${seller.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
     ),
   };
 }
@@ -394,6 +395,14 @@ export default async function ProfilePage({
                 {convertToAbbreviation(seller.instagramStats.mediaCount)}
               </div>
               <span className="text-sm font-medium text-gray-900">Posts</span>
+            </div>
+            <div className="text-center ">
+              <div className=" text-3xl font-medium text-gray-900">
+                {getPostFrequency(seller.instagramMedia)}
+              </div>
+              <span className="text-sm font-medium text-gray-900">
+                Frequency
+              </span>
             </div>
           </div>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 ">

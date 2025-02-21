@@ -11,6 +11,7 @@ export const GET_CURRENT_USER = gql(`
       photo
       agencies {
         agency
+        type
       }
       emailVerified
       isOnboarded
@@ -182,6 +183,7 @@ export const GET_SELLER = gql(`
           likes
           comments
           er
+          timestamp
         }
         instagramStats {
           followers
@@ -225,6 +227,7 @@ export const GET_SELLER = gql(`
           caption
           link
           likes
+          timestamp
           comments
           er
         }

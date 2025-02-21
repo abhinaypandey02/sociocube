@@ -23,7 +23,7 @@ export const InstagramMediaTable = pgTable(
     type: mediaType("type").notNull(),
     comments: integer("comments").notNull(),
     likes: integer("likes").notNull(),
-    timestamp: date("timestamp"),
+    timestamp: date("timestamp").notNull(),
     er: real("er"),
     user: integer("user").references(() => UserTable.id),
     agency: integer("agency").references(() => AgencyTable.id),

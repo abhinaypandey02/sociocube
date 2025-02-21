@@ -66,7 +66,7 @@ export default function AgencyBasicDetailsForm({
         photo: profilePicture ? photoUpload.url : data.photo,
         category: data.category,
         contactEmail: data.contactEmail,
-        contactPhone: data.contactPhone,
+        contactPhone: data.contactPhone || undefined,
         bio: data.bio,
       },
     })

@@ -1,5 +1,6 @@
 import { Field, InputType } from "type-graphql";
 import { and, eq } from "drizzle-orm";
+import { TEAM_USER_ID } from "commons/referral";
 import { db } from "../../../../../../lib/db";
 import {
   AgencyMember,
@@ -62,7 +63,10 @@ export async function addAgencyLocation(
   await db.insert(AgencyMember).values({
     agency: agency.id,
     user: ctx.userId,
-    type: AgencyMemberType.Owner,
+    type:
+      ctx.userId === TEAM_USER_ID
+        ? AgencyMemberType.Admin
+        : AgencyMemberType.Owner,
   });
   await db
     .delete(AgencyOnboardingTable)
