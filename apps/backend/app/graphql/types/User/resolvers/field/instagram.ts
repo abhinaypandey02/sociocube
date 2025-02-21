@@ -5,6 +5,7 @@ import { InstagramDetails } from "../../../Instagram/db/schema";
 import {
   getGraphUrl,
   getInstagramDataExternalAPI,
+  getInstagramMediaExternalAPI,
 } from "../../../../../auth/instagram/utils";
 import { InstagramMediaType } from "../../../../constants/instagram-media-type";
 import { Roles } from "../../../../constants/roles";
@@ -73,9 +74,9 @@ async function getStats(
     const data = await getInstagramDataExternalAPI(username);
     if (data) {
       return {
-        followers_count: data.followers_count,
-        media_count: data.total_media || data.total_media_public_profile,
-        username: data.insta_username,
+        followers_count: data.follower_count,
+        media_count: data.media_count,
+        username: data.username,
       };
     }
   }
@@ -88,9 +89,10 @@ interface InstagramPost {
   comments_count: number;
   permalink: string;
   caption: string;
-  media_url: string;
+  media_url?: string;
   is_comment_enabled?: boolean;
-  media_type: InstagramMediaType;
+  media_type?: InstagramMediaType;
+  isVideo?: boolean;
   timestamp: string;
 }
 
@@ -126,18 +128,16 @@ export async function getPosts(
     if (fetchReq?.data) posts = fetchReq.data;
   }
   if (username) {
-    const data = await getInstagramDataExternalAPI(username);
-    if (data?.media_data)
-      posts = data.media_data
-        .filter((post) => post.media_type !== InstagramMediaType.CarouselAlbum)
-        .slice(0, 12);
+    const data = await getInstagramMediaExternalAPI(username);
+    if (data) posts = data;
   }
   const postsToUpdate = posts
     .map((media) => ({
+      isVideo: media.isVideo || media.media_type === InstagramMediaType.Video,
       comments: media.comments_count || -1,
       likes: media.like_count || 0,
       link: media.permalink,
-      thumbnail: media.thumbnail_url || media.media_url,
+      thumbnail: media.thumbnail_url || media.media_url || "",
       mediaURL: media.media_url,
       timestamp: media.timestamp,
       type: media.media_type,

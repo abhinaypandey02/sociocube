@@ -4,6 +4,7 @@
     "./.env"
   ],
   "globalEnv": [
+    "RAPIDAPI_KEY",
     "SIGNING_KEY",
     "NEXT_PUBLIC_DEVELOPMENT",
     "POSTGRES_URL",

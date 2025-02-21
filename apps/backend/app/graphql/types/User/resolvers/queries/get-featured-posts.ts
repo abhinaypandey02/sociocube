@@ -2,7 +2,6 @@ import { and, desc, eq, isNotNull, ne } from "drizzle-orm";
 import { Field, ObjectType } from "type-graphql";
 import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../db/schema";
-import { InstagramMediaType } from "../../../../constants/instagram-media-type";
 import { Roles } from "../../../../constants/roles";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { InstagramMediaTable } from "../../../Instagram/db/schema2";
@@ -40,7 +39,7 @@ export async function handleGetFeaturedPosts(): Promise<
         .from(InstagramMediaTable)
         .where(
           and(
-            eq(InstagramMediaTable.type, InstagramMediaType.Video),
+            eq(InstagramMediaTable.isVideo, true),
             isNotNull(InstagramMediaTable.mediaURL),
           ),
         )

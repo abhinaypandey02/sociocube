@@ -54,7 +54,7 @@ export async function generateMetadata({
       username,
     },
     undefined,
-    60,
+    60 * 6 * 165,
   );
 
   const seller = data.getSeller?.user || data.getSeller?.agency;
@@ -85,7 +85,7 @@ export default async function ProfilePage({
       username,
     },
     undefined,
-    noCache ? 0 : 60,
+    noCache ? 0 : 60 * 6 * 165,
     [`profile-${username}`],
   );
   const user = getSeller?.user;

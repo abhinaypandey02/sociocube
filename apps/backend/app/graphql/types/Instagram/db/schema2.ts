@@ -1,4 +1,5 @@
 import {
+  boolean,
   date,
   index,
   integer,
@@ -9,7 +10,7 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { AgencyTable } from "../../Agency/db/schema";
-import { mediaType, UserTable } from "../../User/db/schema";
+import { UserTable } from "../../User/db/schema";
 
 export const InstagramMediaTable = pgTable(
   "instagram_post",
@@ -20,10 +21,10 @@ export const InstagramMediaTable = pgTable(
     mediaURL: text("media_url"),
     link: text("url").notNull(),
     caption: text("caption"),
-    type: mediaType("type").notNull(),
     comments: integer("comments").notNull(),
     likes: integer("likes").notNull(),
     timestamp: date("timestamp").notNull(),
+    isVideo: boolean("is_video").notNull(),
     er: real("er"),
     user: integer("user").references(() => UserTable.id),
     agency: integer("agency").references(() => AgencyTable.id),

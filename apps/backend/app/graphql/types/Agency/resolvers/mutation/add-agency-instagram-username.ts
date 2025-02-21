@@ -16,7 +16,7 @@ export async function addAgencyInstagramUsername(
   username: string,
 ): Promise<boolean> {
   const data = await getInstagramDataExternalAPI(username);
-  if (!data?.insta_username) {
+  if (!data?.username) {
     throw GQLError(
       500,
       "Unable to fetch instagram profile, check username and ensure it's a public profile. Also try other method.",
@@ -47,10 +47,10 @@ export async function addAgencyInstagramUsername(
     await db.insert(AgencyOnboardingTable).values({
       instagramDetails: userDetails.instagram_data.id,
       user: ctx.userId,
-      name: data.name || "",
+      name: data.full_name || "",
       photo:
-        data.profile_picture_url &&
-        (await uploadImage(data.profile_picture_url, [
+        data.profile_pic_url_hd &&
+        (await uploadImage(data.profile_pic_url_hd, [
           "User",
           ctx.userId === TEAM_USER_ID ? v4() : ctx.userId.toString(),
           "agency-photo",
@@ -81,9 +81,9 @@ export async function addAgencyInstagramUsername(
   const [details] = await db
     .insert(InstagramDetails)
     .values({
-      username: data.insta_username,
-      followers: data.followers_count,
-      mediaCount: data.total_media || data.total_media_public_profile,
+      username: data.username,
+      followers: data.follower_count,
+      mediaCount: data.media_count,
       lastFetchedInstagramStats: new Date(),
     })
     .returning({ id: InstagramDetails.id });
@@ -91,10 +91,10 @@ export async function addAgencyInstagramUsername(
     await db.insert(AgencyOnboardingTable).values({
       instagramDetails: details.id,
       user: ctx.userId,
-      name: data.name || "",
+      name: data.full_name || "",
       photo:
-        data.profile_picture_url &&
-        (await uploadImage(data.profile_picture_url, [
+        data.profile_pic_url_hd &&
+        (await uploadImage(data.profile_pic_url_hd, [
           "User",
           ctx.userId === TEAM_USER_ID ? v4() : ctx.userId.toString(),
           "agency-photo",

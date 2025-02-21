@@ -32,7 +32,7 @@ export async function handleUpdateOnboardingInstagramUsername(
     }
   }
   const data = await getInstagramDataExternalAPI(username);
-  if (!data?.insta_username) {
+  if (!data?.username) {
     throw GQLError(
       500,
       "Unable to fetch instagram profile, check username and ensure it's a public profile. Also try other method.",
@@ -41,10 +41,10 @@ export async function handleUpdateOnboardingInstagramUsername(
   const user = await getCurrentUser(ctx);
   if (!user) throw GQLError(403, "User not found");
   const { posts, stats } = await getPosts(
-    data.followers_count,
+    data.follower_count,
     ctx.userId,
     undefined,
-    data.insta_username,
+    data.username,
   );
   await db
     .delete(InstagramMediaTable)
@@ -53,9 +53,9 @@ export async function handleUpdateOnboardingInstagramUsername(
   const [details] = await db
     .insert(InstagramDetails)
     .values({
-      username: data.insta_username,
-      followers: data.followers_count,
-      mediaCount: data.total_media || data.total_media_public_profile,
+      username: data.username,
+      followers: data.follower_count,
+      mediaCount: data.media_count,
       ...stats,
     })
     .returning({ id: InstagramDetails.id });
@@ -66,8 +66,8 @@ export async function handleUpdateOnboardingInstagramUsername(
         instagramDetails: details.id,
         photo:
           user.photo ||
-          (data.profile_picture_url &&
-            (await uploadImage(data.profile_picture_url, [
+          (data.profile_pic_url_hd &&
+            (await uploadImage(data.profile_pic_url_hd, [
               "User",
               user.id.toString(),
               "photo",

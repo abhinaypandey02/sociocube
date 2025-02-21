@@ -161,7 +161,7 @@ export const GET = async (req: NextRequest) => {
           personalInfo.username,
         );
         const instagramPhotoURL =
-          externalDetails?.profile_picture_url ||
+          externalDetails?.profile_pic_url_hd ||
           personalInfo.profile_picture_url;
         await tx.insert(AgencyOnboardingTable).values({
           instagramDetails: inserted.id,

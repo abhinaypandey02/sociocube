@@ -1,5 +1,4 @@
 import { Field, Int, ObjectType } from "type-graphql";
-import { InstagramMediaType } from "../../constants/instagram-media-type";
 
 @ObjectType("InstagramStats")
 export class InstagramStats {
@@ -29,8 +28,6 @@ export class InstagramMedia {
   likes: number;
   @Field(() => Int)
   comments: number;
-  @Field(() => InstagramMediaType)
-  type: InstagramMediaType;
   @Field()
   link: string;
   @Field(() => Number, { nullable: true })

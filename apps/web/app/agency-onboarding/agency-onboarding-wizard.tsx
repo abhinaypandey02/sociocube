@@ -141,7 +141,6 @@ function AgencyOnboardingWizard({
               name: currentUser.onboardingAgency.name || "",
               photo: currentUser.onboardingAgency.photo || "",
               bio: currentUser.onboardingAgency.bio || "",
-              category: currentUser.onboardingAgency.category,
               contactEmail: currentUser.onboardingAgency.contactEmail || "",
               contactPhone: currentUser.onboardingAgency.contactPhone || "",
             }}
