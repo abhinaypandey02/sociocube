@@ -337,7 +337,7 @@ export default function SearchWindow({
                             </div>
                           </div>
 
-                          <p className="mt-1 truncate text-xs italic text-gray-400 max-sm:hidden">
+                          <p className="mt-1 truncate text-xs  text-gray-400 max-sm:hidden">
                             {person.bio}
                           </p>
                         </div>

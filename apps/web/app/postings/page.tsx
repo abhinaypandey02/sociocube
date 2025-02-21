@@ -24,7 +24,7 @@ export default async function SearchPage({
   return (
     <Injector
       Component={SearchWindow}
-      fetch={() => queryGQL(GET_ALL_POSTINGS, { filters }, undefined, 0)}
+      fetch={() => queryGQL(GET_ALL_POSTINGS, { filters }, undefined, 120)}
       props={{ filters }}
     />
   );
