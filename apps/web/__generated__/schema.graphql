@@ -550,6 +550,13 @@ enum ROLES {
   ReferralCreator
 }
 
+enum SearchFilterSorting {
+  FollowersAsc
+  FollowersDesc
+  PriceAsc
+  PriceDesc
+}
+
 input SearchSellersFilters {
   ageRange: Int
   categories: [String!]
@@ -561,6 +568,7 @@ input SearchSellersFilters {
   generalPriceFrom: Float
   generalPriceTo: Float
   query: String
+  sortBy: SearchFilterSorting
   states: [Int!]
 }
 

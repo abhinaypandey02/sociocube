@@ -3,13 +3,14 @@ import {
   desc,
   eq,
   getTableColumns,
+  gt,
   gte,
   inArray,
   isNotNull,
   lte,
   sql,
 } from "drizzle-orm";
-import { Field, InputType, Int } from "type-graphql";
+import { Field, InputType, Int, registerEnumType } from "type-graphql";
 import { IsIn, Max, MaxLength, Min } from "class-validator";
 import categories from "commons/categories";
 import genders from "commons/genders";
@@ -18,6 +19,15 @@ import { NAME_MAX_LENGTH } from "commons/constraints";
 import { db } from "../../../../../../lib/db";
 import { LocationTable, PricingTable, UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
+
+enum SearchFilterSorting {
+  PriceAsc = "PRICE_ASC",
+  PriceDesc = "PRICE_DESC",
+  FollowersDesc = "FOLLOWERS_DESC",
+  FollowersAsc = "FOLLOWERS_ASC",
+}
+
+registerEnumType(SearchFilterSorting, { name: "SearchFilterSorting" });
 
 @InputType("SearchSellersFilters")
 export class SearchSellersFiltersInput {
@@ -48,6 +58,21 @@ export class SearchSellersFiltersInput {
   generalPriceFrom?: number;
   @Field({ nullable: true })
   generalPriceTo?: number;
+  @Field(() => SearchFilterSorting, { nullable: true })
+  sortBy?: SearchFilterSorting;
+}
+
+function getOrderBy(sortBy?: SearchFilterSorting) {
+  switch (sortBy) {
+    case SearchFilterSorting.PriceAsc:
+      return PricingTable.starting;
+    case SearchFilterSorting.PriceDesc:
+      return desc(PricingTable.starting);
+    case SearchFilterSorting.FollowersAsc:
+      return InstagramDetails.followers;
+    default:
+      return desc(InstagramDetails.followers);
+  }
 }
 
 export function handleSearchSellers(filters: SearchSellersFiltersInput) {
@@ -72,6 +97,10 @@ export function handleSearchSellers(filters: SearchSellersFiltersInput) {
         isNotNull(UserTable.photo),
         isNotNull(UserTable.instagramDetails),
         isNotNull(UserTable.name),
+        filters.sortBy === SearchFilterSorting.PriceAsc ||
+          filters.sortBy === SearchFilterSorting.PriceDesc
+          ? isNotNull(UserTable.pricing)
+          : undefined,
         filters.categories && inArray(UserTable.category, filters.categories),
         filters.genders && inArray(UserTable.gender, filters.genders),
         filters.followersFrom
@@ -114,8 +143,12 @@ export function handleSearchSellers(filters: SearchSellersFiltersInput) {
         filters.generalPriceTo
           ? lte(PricingTable.starting, filters.generalPriceTo)
           : undefined,
+        filters.sortBy === SearchFilterSorting.PriceAsc ||
+          filters.sortBy === SearchFilterSorting.PriceDesc
+          ? gt(PricingTable.starting, 0)
+          : undefined,
       ),
     )
-    .orderBy(desc(InstagramDetails.followers))
+    .orderBy(getOrderBy(filters.sortBy))
     .limit(12);
 }

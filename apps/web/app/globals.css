@@ -14,3 +14,31 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.thumb::before{
+  @apply !shadow-md !border !border-gray-200;
+}
+
+.caption *{
+  @apply !bg-primary !shadow-md;
+}
+
+.multi-range-slider{
+  padding: 0!important;
+  box-shadow: none!important;
+  border: none!important;
+}
+.multi-range-slider .ruler{
+  display: none!important;
+}
+.multi-range-slider .bar-inner{
+  border: none!important;
+  box-shadow: none!important;
+}
+.multi-range-slider .bar-right{
+  border: none!important;
+  box-shadow: none!important;
+}
+.multi-range-slider .bar-left{
+  border: none!important;
+  box-shadow: none!important;
+}

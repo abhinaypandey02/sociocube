@@ -27,6 +27,7 @@
     "classnames": "^2.5.1",
     "commons": "workspace:*",
     "gray-matter": "^4.0.3",
+    "multi-range-slider-react": "^2.0.7",
     "next": "15.0.0-canary.205",
     "nextjs-progressloader": "^1.2.0",
     "pusher-js": "8.4.0-rc2",

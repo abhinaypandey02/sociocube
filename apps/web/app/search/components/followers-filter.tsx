@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "ui/input";
+import MultiRangeSlider from "multi-range-slider-react";
 import type { SearchSellersFilters } from "../../../__generated__/graphql";
 
 export default function FollowersFilter({
@@ -9,30 +9,21 @@ export default function FollowersFilter({
 }) {
   return (
     <div>
-      <Input
-        className="block"
-        name="from"
-        onChange={(e) => {
-          const val = parseInt(e.target.value);
+      <MultiRangeSlider
+        barInnerColor="#F45B69"
+        labels={["10", "12k", "25k", "", "50k", "", "75k", "", ">100k"]}
+        max={100000}
+        maxValue={100000}
+        min={10}
+        minValue={50000}
+        onChange={(val) => {
           onChange({
-            followersFrom: isNaN(val) ? undefined : val,
+            followersFrom: val.minValue,
+            followersTo: val.maxValue === 100000 ? undefined : val.maxValue,
           });
         }}
-        placeholder="Followers from"
-        type="number"
-      />
-      <div className="my-3 text-center text-sm">to</div>
-      <Input
-        className="block"
-        name="to"
-        onChange={(e) => {
-          const val = parseInt(e.target.value);
-          onChange({
-            followersTo: isNaN(val) ? undefined : val,
-          });
-        }}
-        placeholder="Followers to"
-        type="number"
+        step={500}
+        stepOnly
       />
     </div>
   );

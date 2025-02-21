@@ -563,6 +563,13 @@ export enum Roles {
   ReferralCreator = 'ReferralCreator'
 }
 
+export enum SearchFilterSorting {
+  FollowersAsc = 'FollowersAsc',
+  FollowersDesc = 'FollowersDesc',
+  PriceAsc = 'PriceAsc',
+  PriceDesc = 'PriceDesc'
+}
+
 export type SearchSellersFilters = {
   ageRange?: InputMaybe<Scalars['Int']['input']>;
   categories?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -574,6 +581,7 @@ export type SearchSellersFilters = {
   generalPriceFrom?: InputMaybe<Scalars['Float']['input']>;
   generalPriceTo?: InputMaybe<Scalars['Float']['input']>;
   query?: InputMaybe<Scalars['String']['input']>;
+  sortBy?: InputMaybe<SearchFilterSorting>;
   states?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
