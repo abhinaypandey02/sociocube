@@ -107,22 +107,19 @@ export default function ApplyNowButton({
   }, [message, posting?.externalLink]);
 
   const handleApply = (values: FormType) => {
+    openExternalLink();
     if (posting?.id) {
-      if (appliedSuccess) {
-        openExternalLink();
-      } else
-        applyNow({
-          email: values.email.toLowerCase(),
-          postingID: posting.id,
-          comment: values.comment,
-          phone: values.phone || undefined,
+      applyNow({
+        email: values.email.toLowerCase(),
+        postingID: posting.id,
+        comment: values.comment,
+        phone: values.phone || undefined,
+      })
+        .then(() => {
+          setAppliedSuccess(true);
+          setIsModalOpen(false);
         })
-          .then(() => {
-            openExternalLink();
-            setAppliedSuccess(true);
-            setIsModalOpen(false);
-          })
-          .catch(handleGQLErrors);
+        .catch(handleGQLErrors);
     }
   };
 
