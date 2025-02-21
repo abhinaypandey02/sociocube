@@ -103,8 +103,8 @@ export async function getAllPostings(filters: SearchPostingsFiltersInput) {
           : undefined,
       ),
     )
-    .innerJoin(ApplicationTable, eq(ApplicationTable.posting, PostingTable.id))
+    .leftJoin(ApplicationTable, eq(ApplicationTable.posting, PostingTable.id))
     .groupBy(PostingTable.id)
     .orderBy(getOrderBy(filters.sortBy))
-    .limit(10);
+    .limit(20);
 }
