@@ -18,7 +18,7 @@ export default async function SearchPage({
     age: parseParams(params.age, "NUMBER") as number,
     platforms: parseParams(params.platforms, "ARRAY") as PostingPlatforms[],
     followers: parseParams(params.followers, "NUMBER") as number,
-    query: parseParams(params.query) as string,
+    query: parseParams(params.query || params.agency) as string,
     sortBy: parseParams(params.sortBy) as SearchPostingsSorting,
   };
   return (

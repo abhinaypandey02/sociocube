@@ -41,8 +41,6 @@ export class SearchPostingsFiltersInput {
   age?: number;
   @Field(() => [PostingPlatforms], { nullable: true })
   platforms?: PostingPlatforms[];
-  @Field({ nullable: true })
-  agency?: string;
   @Field(() => SearchPostingsSorting, { nullable: true })
   sortBy?: SearchPostingsSorting;
 }
@@ -95,7 +93,6 @@ export async function getAllPostings(filters: SearchPostingsFiltersInput) {
       AgencyTable,
       and(
         eq(AgencyTable.id, PostingTable.agency),
-        filters.agency ? eq(AgencyTable.username, filters.agency) : undefined,
         filters.query
           ? sql`(
             to_tsvector('english', ${PostingTable.title}) || 

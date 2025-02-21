@@ -51,7 +51,7 @@ export function parseParams(
   val: string | undefined,
   type?: "NUMBER" | "ARRAY" | "NUMERIC_ARRAY",
 ) {
-  if (!val) return undefined;
+  if (!val || val === "undefined" || val === "null") return undefined;
   switch (type) {
     case "NUMBER": {
       const num = parseInt(val);
