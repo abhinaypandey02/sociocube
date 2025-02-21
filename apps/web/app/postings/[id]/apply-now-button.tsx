@@ -179,7 +179,11 @@ export default function ApplyNowButton({
             success={appliedSuccess}
             type="submit"
           >
-            {posting?.externalLink ? "Apply now" : "Send Application"}
+            {posting?.externalLink
+              ? appliedSuccess
+                ? "Open form"
+                : "Apply now"
+              : "Send Application"}
           </Button>
         </Form>
       </Modal>
