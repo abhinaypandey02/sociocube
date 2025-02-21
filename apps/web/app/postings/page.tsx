@@ -29,4 +29,4 @@ export default async function SearchPage({
     />
   );
 }
-export const metadata = getSEO("Find influencers");
+export const metadata = getSEO("Find collaboration opportunities");

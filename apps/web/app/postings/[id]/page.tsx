@@ -32,7 +32,10 @@ export async function generateMetadata({
     120,
     ["posting"],
   );
-  return getSEO(`Apply for ${posting?.title || ""}`, posting?.description);
+  return getSEO(
+    `${posting?.title} by ${posting?.agency.name}`,
+    posting?.description,
+  );
 }
 
 export default async function JobPostingPage({
