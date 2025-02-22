@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
+import { ApplicationStatus } from "./db/schema";
 
 @ObjectType("Application")
 export class ApplicationGQL {
@@ -10,4 +11,10 @@ export class ApplicationGQL {
   phone: string;
   @Field()
   referralEarnings: number;
+  @Field(() => ApplicationStatus)
+  status: ApplicationStatus;
+  @Field()
+  id: number;
+  @Field(() => Number)
+  createdAt: Date;
 }

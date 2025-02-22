@@ -14,6 +14,7 @@ export enum Route {
   TermsConditions = "/terms-and-conditions",
   Postings = "/postings",
   AccountPostings = `${Account}/postings`,
+  AccountApplications = `${Account}/applications`,
   AccountPostingsEdit = `${AccountPostings}/edit`,
   AccountPostingsNew = `${AccountPostings}/new`,
   AccountPostingsApplications = `${AccountPostings}/applications`,

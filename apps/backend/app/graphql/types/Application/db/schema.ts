@@ -1,14 +1,32 @@
 import {
-  pgTable,
-  text,
-  integer,
-  serial,
-  primaryKey,
   boolean,
+  integer,
+  pgEnum,
+  pgTable,
+  primaryKey,
+  serial,
+  text,
   timestamp,
 } from "drizzle-orm/pg-core";
+import { registerEnumType } from "type-graphql";
 import { UserTable } from "../../User/db/schema";
 import { PostingTable } from "../../Posting/db/schema";
+
+export enum ApplicationStatus {
+  Applied = "APPLIED",
+  Rejected = "REJECTED",
+  Interested = "INTERESTED",
+  Completed = "COMPLETED",
+}
+
+registerEnumType(ApplicationStatus, { name: "ApplicationStatus" });
+
+export const applicationStatusEnum = pgEnum("application_status_enum", [
+  ApplicationStatus.Applied,
+  ApplicationStatus.Completed,
+  ApplicationStatus.Interested,
+  ApplicationStatus.Rejected,
+]);
 
 export const ApplicationTable = pgTable(
   "application",
@@ -23,6 +41,9 @@ export const ApplicationTable = pgTable(
     email: text("email").notNull(),
     phone: text("phone"),
     comment: text("comment"),
+    status: applicationStatusEnum("status")
+      .default(ApplicationStatus.Applied)
+      .notNull(),
     external: boolean("external").default(false),
     referralEarnings: integer("referral_earnings").default(0),
     createdAt: timestamp("created_at").defaultNow().notNull(),

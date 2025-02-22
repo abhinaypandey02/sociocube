@@ -1,6 +1,7 @@
 "use client";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import Table from "ui/table";
+import type { CellContext } from "@tanstack/react-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import { getAge } from "commons/age";
@@ -15,8 +16,11 @@ import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import type { GetPostingApplicationsQuery } from "../../../../../__generated__/graphql";
+import { ApplicationStatus } from "../../../../../__generated__/graphql";
 import { getRoute } from "../../../../../constants/routes";
 import { convertToAbbreviation } from "../../../../../lib/utils";
+import ApplicationActions from "./application-actions";
+import DownloadExcelButton from "./download-excel-button";
 
 type Application = GetPostingApplicationsQuery["applications"][number];
 const colHelper = createColumnHelper<Application>();
@@ -37,7 +41,7 @@ const DEFAULT_COLUMNS = [
         <button
           className="text-accent"
           onClick={async () => {
-            if (val.row.original.user?.email) {
+            if (val.row.original.email) {
               await navigator.clipboard.writeText(val.row.original.email);
               toast.success(`Copied ${val.row.original.email} to clipboard`);
             }
@@ -131,8 +135,12 @@ const DEFAULT_COLUMNS = [
   }),
 ];
 
+const compareFn = (a: Application, b: Application) =>
+  (a.status === ApplicationStatus.Rejected ? 1 : 0) -
+  (b.status === ApplicationStatus.Rejected ? 1 : 0);
+
 export default function ApplicationsTable({
-  applications,
+  applications: defaultApplications,
   posting,
   showEarnings,
 }: {
@@ -140,6 +148,38 @@ export default function ApplicationsTable({
   posting: GetPostingApplicationsQuery["posting"];
   showEarnings: boolean;
 }) {
+  const [applications, setApplications] = useState(
+    defaultApplications.sort(compareFn),
+  );
+
+  const handleReject = (id: number) => {
+    setApplications((prev) =>
+      prev
+        .map((val) =>
+          val.id === id ? { ...val, status: ApplicationStatus.Rejected } : val,
+        )
+        .sort(compareFn),
+    );
+  };
+  const handleLike = (id: number) => {
+    setApplications((prev) =>
+      prev.map((val) =>
+        val.id === id ? { ...val, status: ApplicationStatus.Interested } : val,
+      ),
+    );
+  };
+
+  const ApplicationActionsCell = useCallback(
+    (val: CellContext<Application, ApplicationStatus>) => (
+      <ApplicationActions
+        handleLike={handleLike}
+        handleReject={handleReject}
+        id={val.row.original.id}
+        status={val.getValue()}
+      />
+    ),
+    [],
+  );
   const columns = [
     ...DEFAULT_COLUMNS,
     ...(showEarnings
@@ -177,6 +217,21 @@ export default function ApplicationsTable({
             },
           }),
         ]),
+
+    colHelper.accessor("status", {
+      header: "Actions",
+      cell: ApplicationActionsCell,
+    }),
   ];
-  return <Table columns={columns} data={applications} />;
+  return (
+    <>
+      <div className="mb-4 flex justify-end">
+        <DownloadExcelButton
+          applications={applications}
+          postingTitle={posting?.title || "Posting"}
+        />
+      </div>
+      <Table columns={columns} data={applications} />
+    </>
+  );
 }

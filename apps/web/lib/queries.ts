@@ -541,6 +541,8 @@ export const GET_POSTING_APPLICATIONS = gql(`
       email
       referralEarnings
       phone
+      status
+      id
       user {
         name
         photo
@@ -583,6 +585,27 @@ export const GET_PORTFOLIO_UPLOAD_URL = gql(`
     uploadURL: getPortfolioUploadURL {
       uploadURL
       url
+    }
+  }
+`);
+
+export const GET_USER_APPLICATIONS = gql(`
+  #graphql
+  query GetUserApplications {
+    getUserApplications {
+      status
+      comment
+      email
+      phone
+      posting {
+        title
+        agency {
+          name
+          username
+          photo
+        }
+        id
+      }
     }
   }
 `);

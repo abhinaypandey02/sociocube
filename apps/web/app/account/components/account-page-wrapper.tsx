@@ -26,7 +26,7 @@ export default function AccountPageWrapper({
           <ArrowLeft /> Back to {backRoute.title}
         </Link>
       ) : null}
-      <div className="mb-8 flex items-center justify-between gap-2">
+      <div className="mb-10 flex items-center justify-between gap-2">
         <h2 className="font-poppins text-2xl font-bold text-gray-800 lg:text-4xl">
           {title}
         </h2>

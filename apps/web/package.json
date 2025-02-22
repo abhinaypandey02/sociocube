@@ -38,7 +38,8 @@
     "react-markdown": "^9.0.1",
     "swiper": "^11.1.15",
     "ui": "workspace:*",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "write-excel-file": "^2.1.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.3",

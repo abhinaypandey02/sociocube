@@ -191,3 +191,16 @@ export const DELETE_PORTFOLIO = gql(`
     deletePortfolio(id: $id)  
   }
 `);
+
+export const LIKE_APPLICATION = gql(`
+  #graphql
+  mutation LikeApplication($id:Float!) {
+    likeApplication(id: $id)  
+  }
+`);
+export const REJECT_APPLICATION = gql(`
+  #graphql
+  mutation RejectApplication($id:Float!) {
+    rejectApplication(id: $id)  
+  }
+`);

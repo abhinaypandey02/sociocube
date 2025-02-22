@@ -66,6 +66,10 @@ export const getOnboardedUserNavbarSections = (
             label: "Your profile",
             href: `${getRoute("Profile")}/${user.username}`,
           },
+          {
+            label: "Your applications",
+            href: getRoute("AccountApplications"),
+          },
         ]
       : []),
     ...(user?.agencies.length

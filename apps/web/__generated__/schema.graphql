@@ -304,11 +304,21 @@ input AgencyUsernameInput {
 
 type Application {
   comment: String
+  createdAt: Float!
   email: String!
+  id: Float!
   phone: String
   posting: Posting
   referralEarnings: Float!
+  status: ApplicationStatus!
   user: User
+}
+
+enum ApplicationStatus {
+  Applied
+  Completed
+  Interested
+  Rejected
 }
 
 type Conversation {
@@ -346,13 +356,6 @@ type InstagramMedia {
   link: String!
   thumbnail: String!
   timestamp: String!
-  type: InstagramMediaType!
-}
-
-enum InstagramMediaType {
-  CarouselAlbum
-  Image
-  Video
 }
 
 type InstagramStats {
@@ -396,8 +399,10 @@ type Mutation {
   deletePortfolio(id: Float!): Boolean!
   deletePosting(postingID: Float!): Boolean!
   disconnectInstagram: Boolean!
+  likeApplication(id: Float!): Boolean!
   pausePosting(postingID: Float!): Boolean!
   readMessage(conversationID: Int!): Boolean!
+  rejectApplication(id: Float!): Boolean!
   resetPassword(newPassword: String!, token: String!): Boolean!
   resumePosting(postingID: Float!): Boolean!
   sendMessage(body: String!, conversationID: Int!): Boolean!
@@ -559,7 +564,6 @@ enum SearchFilterSorting {
 
 input SearchPostingsFilters {
   age: Float
-  agency: String
   followers: Float
   paidOnly: Boolean
   platforms: [PostingPlatforms!]
