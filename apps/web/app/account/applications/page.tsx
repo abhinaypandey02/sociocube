@@ -1,13 +1,13 @@
 import React from "react";
-import {cookies} from "next/headers";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import Image from "next/image";
-import {MagnifyingGlass,} from "@phosphor-icons/react/dist/ssr";
+import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import AccountPageWrapper from "../components/account-page-wrapper";
-import {queryGQL} from "../../../lib/apollo-server";
-import {GET_USER_APPLICATIONS} from "../../../lib/queries";
-import {getRoute} from "../../../constants/routes";
-import {getStatusColor, getStatusName} from "../postings/applications/utils";
+import { queryGQL } from "../../../lib/apollo-server";
+import { GET_USER_APPLICATIONS } from "../../../lib/queries";
+import { getRoute } from "../../../constants/routes";
+import { getStatusColor, getStatusName } from "../postings/applications/utils";
 
 export default async function MyApplications() {
   const data = await queryGQL(
@@ -65,7 +65,12 @@ export default async function MyApplications() {
                         </Link>
                       </div>
                       <p className="mt-2 flex flex-wrap items-center gap-1 truncate text-xs leading-6 text-gray-700">
-                        {[app.phone, app.email, app.comment]
+                        {[
+                          new Date(app.createdAt).toDateString(),
+                          app.phone,
+                          app.email,
+                          app.comment,
+                        ]
                           .filter(Boolean)
                           .join(" • ")}
                       </p>

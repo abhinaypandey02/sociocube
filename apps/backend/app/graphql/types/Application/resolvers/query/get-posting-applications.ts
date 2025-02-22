@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { ApplicationTable } from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";
@@ -13,5 +13,6 @@ export async function getPostingApplications(
   return db
     .select()
     .from(ApplicationTable)
-    .where(eq(ApplicationTable.posting, postingID));
+    .where(eq(ApplicationTable.posting, postingID))
+    .orderBy(desc(ApplicationTable.id));
 }

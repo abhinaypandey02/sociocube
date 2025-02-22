@@ -542,6 +542,7 @@ export const GET_POSTING_APPLICATIONS = gql(`
       referralEarnings
       phone
       status
+      createdAt
       id
       user {
         name
@@ -597,6 +598,7 @@ export const GET_USER_APPLICATIONS = gql(`
       comment
       email
       phone
+      createdAt
       posting {
         title
         agency {

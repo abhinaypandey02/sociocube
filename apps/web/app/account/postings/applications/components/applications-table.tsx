@@ -23,7 +23,7 @@ import ApplicationActions from "./application-actions";
 import DownloadExcelButton from "./download-excel-button";
 
 type Application = GetPostingApplicationsQuery["applications"][number];
-const colHelper = createColumnHelper<Application>();
+const colHelper = createColumnHelper<Application & { reach: string }>();
 
 const DEFAULT_COLUMNS = [
   colHelper.accessor("user.instagramStats.username", {
@@ -114,17 +114,9 @@ const DEFAULT_COLUMNS = [
   colHelper.accessor("user.instagramStats.averageLikes", {
     header: "Avg. Likes",
   }),
-  colHelper.accessor("user.instagramStats.er", {
+  colHelper.accessor("reach", {
     header: "Reach",
     id: "reach",
-    cell: (val) =>
-      convertToAbbreviation(
-        Math.round(
-          (val.getValue() *
-            (val.row.original.user?.instagramStats?.followers || 0)) /
-            100,
-        ),
-      ),
   }),
   colHelper.accessor("user.instagramStats.er", {
     header: "ER",
@@ -142,14 +134,22 @@ const compareFn = (a: Application, b: Application) =>
 export default function ApplicationsTable({
   applications: defaultApplications,
   posting,
-  showEarnings,
 }: {
   applications: Application[];
   posting: GetPostingApplicationsQuery["posting"];
   showEarnings: boolean;
 }) {
   const [applications, setApplications] = useState(
-    defaultApplications.sort(compareFn),
+    defaultApplications.sort(compareFn).map((val) => ({
+      ...val,
+      reach: convertToAbbreviation(
+        Math.round(
+          ((val.user?.instagramStats?.er || 0) *
+            (val.user?.instagramStats?.followers || 0)) /
+            100,
+        ),
+      ),
+    })),
   );
 
   const handleReject = (id: number) => {
@@ -170,7 +170,7 @@ export default function ApplicationsTable({
   };
 
   const ApplicationActionsCell = useCallback(
-    (val: CellContext<Application, ApplicationStatus>) => (
+    (val: CellContext<Application & { reach: string }, ApplicationStatus>) => (
       <ApplicationActions
         handleLike={handleLike}
         handleReject={handleReject}
@@ -182,9 +182,6 @@ export default function ApplicationsTable({
   );
   const columns = [
     ...DEFAULT_COLUMNS,
-    ...(showEarnings
-      ? [colHelper.accessor("referralEarnings", { header: "Earnings" })]
-      : []),
     ...(posting?.externalLink
       ? []
       : [
@@ -197,8 +194,8 @@ export default function ApplicationsTable({
               return (
                 <Popover className="relative">
                   <PopoverButton className="flex items-center font-poppins">
-                    {comment.slice(0, 30)}
-                    {comment.length > 30 ? (
+                    {comment.slice(0, 25)}
+                    {comment.length > 25 ? (
                       <ChatCircleDots
                         className="ml-1 text-primary"
                         size={18}
@@ -222,12 +219,21 @@ export default function ApplicationsTable({
       header: "Actions",
       cell: ApplicationActionsCell,
     }),
+    colHelper.accessor("createdAt", {
+      header: "Date",
+      cell: (val) => new Date(val.getValue()).toDateString(),
+    }),
   ];
   return (
     <>
       <div className="mb-4 flex justify-end">
         <DownloadExcelButton
           applications={applications}
+          extraDetails={
+            posting?.externalLink
+              ? undefined
+              : posting?.extraDetails || "Comment"
+          }
           postingTitle={posting?.title || "Posting"}
         />
       </div>

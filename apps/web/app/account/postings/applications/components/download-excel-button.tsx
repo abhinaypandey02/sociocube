@@ -9,9 +9,11 @@ import { getStatusName } from "../utils";
 export default function DownloadExcelButton({
   applications,
   postingTitle,
+  extraDetails,
 }: {
   applications: GetPostingApplicationsQuery["applications"];
   postingTitle: string;
+  extraDetails?: string;
 }) {
   return (
     <button
@@ -32,6 +34,8 @@ export default function DownloadExcelButton({
               { value: "ER" },
               { value: "Total Posts" },
               { value: "Status" },
+              ...(extraDetails ? [{ value: extraDetails }] : []),
+              { value: "Date" },
             ].map((val) => ({ ...val, fontWeight: "bold" as const })),
             ...applications.map((app) => [
               {
@@ -85,6 +89,19 @@ export default function DownloadExcelButton({
               {
                 type: String,
                 value: getStatusName(app.status),
+              },
+              ...(extraDetails
+                ? [
+                    {
+                      type: String,
+                      value: app.comment || "",
+                    },
+                  ]
+                : []),
+              {
+                type: Date,
+                value: new Date(app.createdAt),
+                format: "mm/dd/yyyy hh:mm",
               },
             ]),
           ],
