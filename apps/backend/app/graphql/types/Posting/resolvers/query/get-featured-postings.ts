@@ -11,5 +11,5 @@ export async function getFeaturedPostings() {
     .innerJoin(ApplicationTable, eq(ApplicationTable.posting, PostingTable.id))
     .groupBy(PostingTable.id)
     .orderBy(desc(count(ApplicationTable.id)))
-    .limit(20);
+    .limit(5);
 }

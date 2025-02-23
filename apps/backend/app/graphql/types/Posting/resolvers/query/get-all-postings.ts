@@ -20,6 +20,7 @@ import { db } from "../../../../../../lib/db";
 import { PostingPlatforms } from "../../../../constants/platforms";
 import { AgencyTable } from "../../../Agency/db/schema";
 import { ApplicationTable } from "../../../Application/db/schema";
+import { PaginationArgs, withPagination } from "../../../../utils/pagination";
 
 enum SearchPostingsSorting {
   PriceDesc = "PRICE_DESC",
@@ -55,56 +56,61 @@ function getOrderBy(sortBy?: SearchPostingsSorting) {
       return desc(PostingTable.createdAt);
   }
 }
-export async function getAllPostings(filters: SearchPostingsFiltersInput) {
-  return db
-    .select(getTableColumns(PostingTable))
-    .from(PostingTable)
-    .where(
-      and(
-        eq(PostingTable.open, true),
-        filters.paidOnly ? eq(PostingTable.barter, false) : undefined,
-        filters.sortBy === SearchPostingsSorting.PriceDesc
-          ? isNotNull(PostingTable.price)
-          : undefined,
-        filters.platforms?.length
-          ? arrayOverlaps(PostingTable.platforms, filters.platforms)
-          : undefined,
-        filters.followers
-          ? or(
-              isNull(PostingTable.minimumFollowers),
-              lte(PostingTable.minimumFollowers, filters.followers),
-            )
-          : undefined,
-        filters.age
-          ? and(
-              or(
-                isNull(PostingTable.minimumAge),
-                lte(PostingTable.minimumAge, filters.age),
-              ),
-              or(
-                isNull(PostingTable.maximumAge),
-                gte(PostingTable.maximumAge, filters.age),
-              ),
-            )
-          : undefined,
-      ),
-    )
-    .innerJoin(
-      AgencyTable,
-      and(
-        eq(AgencyTable.id, PostingTable.agency),
-        filters.query
-          ? sql`(
+export async function getAllPostings(
+  filters: SearchPostingsFiltersInput,
+  pagination: PaginationArgs,
+) {
+  return withPagination(
+    db
+      .select(getTableColumns(PostingTable))
+      .from(PostingTable)
+      .where(
+        and(
+          eq(PostingTable.open, true),
+          filters.paidOnly ? eq(PostingTable.barter, false) : undefined,
+          filters.sortBy === SearchPostingsSorting.PriceDesc
+            ? isNotNull(PostingTable.price)
+            : undefined,
+          filters.platforms?.length
+            ? arrayOverlaps(PostingTable.platforms, filters.platforms)
+            : undefined,
+          filters.followers
+            ? or(
+                isNull(PostingTable.minimumFollowers),
+                lte(PostingTable.minimumFollowers, filters.followers),
+              )
+            : undefined,
+          filters.age
+            ? and(
+                or(
+                  isNull(PostingTable.minimumAge),
+                  lte(PostingTable.minimumAge, filters.age),
+                ),
+                or(
+                  isNull(PostingTable.maximumAge),
+                  gte(PostingTable.maximumAge, filters.age),
+                ),
+              )
+            : undefined,
+        ),
+      )
+      .innerJoin(
+        AgencyTable,
+        and(
+          eq(AgencyTable.id, PostingTable.agency),
+          filters.query
+            ? sql`(
             to_tsvector('english', ${PostingTable.title}) || 
             to_tsvector('english', ${PostingTable.description}) || 
             to_tsvector('english', ${AgencyTable.username}) || 
             to_tsvector('english', ${AgencyTable.name})
         ) @@ plainto_tsquery('english', ${filters.query})`
-          : undefined,
-      ),
-    )
-    .leftJoin(ApplicationTable, eq(ApplicationTable.posting, PostingTable.id))
-    .groupBy(PostingTable.id)
-    .orderBy(getOrderBy(filters.sortBy))
-    .limit(20);
+            : undefined,
+        ),
+      )
+      .leftJoin(ApplicationTable, eq(ApplicationTable.posting, PostingTable.id))
+      .groupBy(PostingTable.id)
+      .orderBy(getOrderBy(filters.sortBy)),
+    pagination,
+  );
 }

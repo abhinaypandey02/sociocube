@@ -446,7 +446,7 @@ export const GET_POSTING = gql(`
 export const GET_ALL_POSTINGS = gql(`
   #graphql
   query GetAllPostings($filters:SearchPostingsFilters!) {
-    postings:getAllPostings(filters: $filters) {
+    postings:getAllPostings(filters: $filters, pagination:{pageSize:20}) {
       id
       maximumAge
       minimumFollowers

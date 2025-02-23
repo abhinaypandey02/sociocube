@@ -478,6 +478,11 @@ input OnboardingUsernameInput {
   username: String!
 }
 
+input PaginationArgs {
+  page: Float! = 1
+  pageSize: Float! = 10
+}
+
 type Portfolio {
   caption: String
   id: Int!
@@ -522,7 +527,7 @@ input PricingInput {
 }
 
 type Query {
-  getAllPostings(filters: SearchPostingsFilters): [Posting!]!
+  getAllPostings(filters: SearchPostingsFilters, pagination: PaginationArgs!): [Posting!]!
   getChat(conversationID: Int!): Conversation
   getChatWithAgency(username: String!): Conversation
   getChatWithUser(username: String!): Conversation

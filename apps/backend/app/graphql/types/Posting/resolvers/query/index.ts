@@ -1,6 +1,7 @@
 import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "../../../../context";
 import { PostingGQL } from "../../type";
+import { PaginationArgs } from "../../../../utils/pagination";
 import { getUserPostings } from "./get-user-postings";
 import { getAllPostings, SearchPostingsFiltersInput } from "./get-all-postings";
 import { getPosting } from "./get-posting";
@@ -15,9 +16,10 @@ export class PostingQueryResolvers {
   }
   @Query(() => [PostingGQL])
   getAllPostings(
+    @Arg("pagination") pagination: PaginationArgs,
     @Arg("filters", { nullable: true }) filters?: SearchPostingsFiltersInput,
   ): Promise<PostingGQL[]> {
-    return getAllPostings(filters || {});
+    return getAllPostings(filters || {}, pagination);
   }
   @Query(() => [PostingGQL])
   getFeaturedPostings(): Promise<PostingGQL[]> {

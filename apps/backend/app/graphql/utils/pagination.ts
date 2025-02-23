@@ -1,5 +1,4 @@
 import { Field, InputType } from "type-graphql";
-import { PgSelect } from "drizzle-orm/pg-core";
 import { MaxLength } from "class-validator";
 
 @InputType("PaginationArgs")
@@ -11,9 +10,15 @@ export class PaginationArgs {
   page: number;
 }
 
-export function withPagination<T extends PgSelect>(
-  qb: T,
-  { page, pageSize }: PaginationArgs,
-) {
-  return qb.limit(pageSize).offset((page - 1) * pageSize);
+export function withPagination<
+  T extends {
+    limit: (x: number) => {
+      offset: (x: number) => unknown;
+    };
+  },
+>(qb: T, { page, pageSize }: PaginationArgs) {
+  return qb.limit(pageSize).offset((page - 1) * pageSize) as Omit<
+    T,
+    "limit" | "offset"
+  >;
 }
