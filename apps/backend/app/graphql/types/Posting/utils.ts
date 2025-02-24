@@ -38,4 +38,5 @@ export async function checkPermission(
       ),
     );
   if (!posting) throw GQLError(400, "You dont have permission for this agency");
+  return posting.posting.agency;
 }

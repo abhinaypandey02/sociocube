@@ -387,6 +387,7 @@ type Message {
 }
 
 type Mutation {
+  acceptPortfolio(review: Float!): Boolean!
   addAgencyBasicDetails(agency: AgencyBasicDetailsInput!): Boolean!
   addAgencyInstagramUsername(username: String!): Boolean!
   addAgencyLocation(data: AgencyLocationInput!): String!
@@ -403,11 +404,14 @@ type Mutation {
   pausePosting(postingID: Float!): Boolean!
   readMessage(conversationID: Int!): Boolean!
   rejectApplication(id: Float!): Boolean!
+  rejectPortfolio(review: Float!): Boolean!
   resetPassword(newPassword: String!, token: String!): Boolean!
   resumePosting(postingID: Float!): Boolean!
   sendMessage(body: String!, conversationID: Int!): Boolean!
   sendMessageToUser(body: String!, userID: Int!): Boolean!
   sendResetPasswordEmail(email: String!): Boolean
+  sendReviewByAgency(args: SendReviewByAgencyArgs!): Boolean!
+  sendReviewByUser(args: SendReviewByUserArgs!): Boolean!
   sendVerificationEmail: Boolean!
   updateAgency(data: UpdateAgencyInput!, id: Float!): Boolean!
   updateOnboardingBasicDetails(basicDetails: OnboardingBasicDetailsInput!): Boolean!
@@ -488,6 +492,7 @@ type Portfolio {
   id: Int!
   imageURL: String
   link: String
+  review: Review
 }
 
 type Posting {
@@ -540,6 +545,8 @@ type Query {
   getFeaturedPosts: [GetFeaturedPostsResponse!]!
   getFeaturedSellers: [User!]!
   getHasUserApplied(postingID: Float!): Boolean!
+  getPendingPortfolios: [Review!]!
+  getPendingReviews: [Review!]!
   getPortfolioUploadURL: StorageFile
   getPosting(id: Int!): Posting
   getPostingApplications(postingID: Int!): [Application!]!
@@ -558,6 +565,14 @@ enum ROLES {
   ADMIN
   ManuallyVerified
   ReferralCreator
+}
+
+type Review {
+  agencyFeedback: String
+  agencyRating: Float!
+  portfolio: Portfolio
+  userFeedback: String
+  userRating: Float!
 }
 
 enum SearchFilterSorting {
@@ -604,6 +619,19 @@ type SelectOption {
 type Seller {
   agency: Agency
   user: User
+}
+
+input SendReviewByAgencyArgs {
+  application: Float!
+  userFeedback: String
+  userRating: Float!
+}
+
+input SendReviewByUserArgs {
+  agencyFeedback: String
+  agencyRating: Float!
+  portfolio: Float
+  review: Float!
 }
 
 type StorageFile {

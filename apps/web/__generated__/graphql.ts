@@ -194,6 +194,7 @@ export type Message = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  acceptPortfolio: Scalars['Boolean']['output'];
   addAgencyBasicDetails: Scalars['Boolean']['output'];
   addAgencyInstagramUsername: Scalars['Boolean']['output'];
   addAgencyLocation: Scalars['String']['output'];
@@ -210,11 +211,14 @@ export type Mutation = {
   pausePosting: Scalars['Boolean']['output'];
   readMessage: Scalars['Boolean']['output'];
   rejectApplication: Scalars['Boolean']['output'];
+  rejectPortfolio: Scalars['Boolean']['output'];
   resetPassword: Scalars['Boolean']['output'];
   resumePosting: Scalars['Boolean']['output'];
   sendMessage: Scalars['Boolean']['output'];
   sendMessageToUser: Scalars['Boolean']['output'];
   sendResetPasswordEmail?: Maybe<Scalars['Boolean']['output']>;
+  sendReviewByAgency: Scalars['Boolean']['output'];
+  sendReviewByUser: Scalars['Boolean']['output'];
   sendVerificationEmail: Scalars['Boolean']['output'];
   updateAgency: Scalars['Boolean']['output'];
   updateOnboardingBasicDetails: Scalars['Boolean']['output'];
@@ -226,6 +230,11 @@ export type Mutation = {
   updatePosting: Scalars['Boolean']['output'];
   updateUser: Scalars['Boolean']['output'];
   updateUserLocation: Scalars['Boolean']['output'];
+};
+
+
+export type MutationAcceptPortfolioArgs = {
+  review: Scalars['Float']['input'];
 };
 
 
@@ -303,6 +312,11 @@ export type MutationRejectApplicationArgs = {
 };
 
 
+export type MutationRejectPortfolioArgs = {
+  review: Scalars['Float']['input'];
+};
+
+
 export type MutationResetPasswordArgs = {
   newPassword: Scalars['String']['input'];
   token: Scalars['String']['input'];
@@ -328,6 +342,16 @@ export type MutationSendMessageToUserArgs = {
 
 export type MutationSendResetPasswordEmailArgs = {
   email: Scalars['String']['input'];
+};
+
+
+export type MutationSendReviewByAgencyArgs = {
+  args: SendReviewByAgencyArgs;
+};
+
+
+export type MutationSendReviewByUserArgs = {
+  args: SendReviewByUserArgs;
 };
 
 
@@ -451,6 +475,7 @@ export type Portfolio = {
   id: Scalars['Int']['output'];
   imageURL?: Maybe<Scalars['String']['output']>;
   link?: Maybe<Scalars['String']['output']>;
+  review?: Maybe<Review>;
 };
 
 export type Posting = {
@@ -506,6 +531,8 @@ export type Query = {
   getFeaturedPosts: Array<GetFeaturedPostsResponse>;
   getFeaturedSellers: Array<User>;
   getHasUserApplied: Scalars['Boolean']['output'];
+  getPendingPortfolios: Array<Review>;
+  getPendingReviews: Array<Review>;
   getPortfolioUploadURL?: Maybe<StorageFile>;
   getPosting?: Maybe<Posting>;
   getPostingApplications: Array<Application>;
@@ -590,6 +617,15 @@ export enum Roles {
   ReferralCreator = 'ReferralCreator'
 }
 
+export type Review = {
+  __typename?: 'Review';
+  agencyFeedback?: Maybe<Scalars['String']['output']>;
+  agencyRating: Scalars['Float']['output'];
+  portfolio?: Maybe<Portfolio>;
+  userFeedback?: Maybe<Scalars['String']['output']>;
+  userRating: Scalars['Float']['output'];
+};
+
 export enum SearchFilterSorting {
   FollowersAsc = 'FollowersAsc',
   FollowersDesc = 'FollowersDesc',
@@ -636,6 +672,19 @@ export type Seller = {
   __typename?: 'Seller';
   agency?: Maybe<Agency>;
   user?: Maybe<User>;
+};
+
+export type SendReviewByAgencyArgs = {
+  application: Scalars['Float']['input'];
+  userFeedback?: InputMaybe<Scalars['String']['input']>;
+  userRating: Scalars['Float']['input'];
+};
+
+export type SendReviewByUserArgs = {
+  agencyFeedback?: InputMaybe<Scalars['String']['input']>;
+  agencyRating: Scalars['Float']['input'];
+  portfolio?: InputMaybe<Scalars['Float']['input']>;
+  review: Scalars['Float']['input'];
 };
 
 export type StorageFile = {
