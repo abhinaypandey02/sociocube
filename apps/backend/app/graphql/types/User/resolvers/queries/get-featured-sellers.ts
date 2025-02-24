@@ -4,7 +4,6 @@ import {
   desc,
   eq,
   getTableColumns,
-  gt,
   inArray,
   isNotNull,
   or,
@@ -38,7 +37,6 @@ export async function handleGetFeaturedSellers() {
       InstagramDetails,
       and(
         eq(InstagramDetails.id, UserTable.instagramDetails),
-        gt(InstagramDetails.er, 1),
         or(
           isNotNull(InstagramDetails.accessToken),
           arrayContains(UserTable.roles, [Roles.ManuallyVerified]),
