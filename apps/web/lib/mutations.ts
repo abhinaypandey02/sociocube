@@ -204,3 +204,16 @@ export const REJECT_APPLICATION = gql(`
     rejectApplication(id: $id)  
   }
 `);
+
+export const SEND_REVIEW_BY_AGENCY = gql(`
+  #graphql
+  mutation SendReviewByAgency($args:SendReviewByAgencyArgs!) {
+    sendReviewByAgency(args: $args)  
+  }
+`);
+export const SEND_REVIEW_BY_USER = gql(`
+  #graphql
+  mutation SendReviewByUser($args:SendReviewByUserArgs!) {
+    sendReviewByUser(args: $args)  
+  }
+`);

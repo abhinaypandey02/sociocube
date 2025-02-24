@@ -156,6 +156,13 @@ export const GET_SELLER = gql(`
         photo
         bio
         gender
+        reviews {
+          feedback
+          rating
+          name
+          photo
+          username
+        }
         portfolio {
           caption
           id
@@ -200,6 +207,13 @@ export const GET_SELLER = gql(`
         name
         bio
         category
+        reviews {
+          feedback
+          rating
+          name
+          photo
+          username
+        }
         recentPostings {
           id
           title
@@ -593,6 +607,7 @@ export const GET_PORTFOLIO_UPLOAD_URL = gql(`
 export const GET_USER_APPLICATIONS = gql(`
   #graphql
   query GetUserApplications {
+    getPendingReviews
     getUserApplications {
       status
       comment

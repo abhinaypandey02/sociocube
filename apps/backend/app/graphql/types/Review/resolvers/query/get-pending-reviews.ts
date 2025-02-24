@@ -1,13 +1,19 @@
-import { and, eq, isNull } from "drizzle-orm";
+import { and, eq, gt, isNull } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { ReviewTable } from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";
+import { getReviewDeadline } from "../../utils";
 
-export function getPendingReviews(ctx: AuthorizedContext) {
-  return db
+export async function getPendingReviews(ctx: AuthorizedContext) {
+  const reviews = await db
     .select()
     .from(ReviewTable)
     .where(
-      and(eq(ReviewTable.user, ctx.userId), isNull(ReviewTable.agencyRating)),
+      and(
+        eq(ReviewTable.user, ctx.userId),
+        isNull(ReviewTable.agencyRating),
+        gt(ReviewTable.createdAt, getReviewDeadline()),
+      ),
     );
+  return reviews.map(({ posting }) => posting);
 }

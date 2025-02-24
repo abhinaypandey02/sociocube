@@ -3,11 +3,13 @@ import { Field, ObjectType } from "type-graphql";
 @ObjectType("Review")
 export class ReviewGQL {
   @Field()
-  userRating: number;
+  rating: number;
+  @Field(() => String, { nullable: true })
+  feedback: string | null;
   @Field()
-  agencyRating: number;
-  @Field({ nullable: true })
-  userFeedback: string;
-  @Field({ nullable: true })
-  agencyFeedback: string;
+  name: string;
+  @Field()
+  username: string;
+  @Field(() => String, { nullable: true })
+  photo: string | null;
 }

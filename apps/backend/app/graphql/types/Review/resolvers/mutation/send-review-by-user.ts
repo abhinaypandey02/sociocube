@@ -1,9 +1,10 @@
-import { and, eq, isNull } from "drizzle-orm";
+import { and, eq, gt, isNull } from "drizzle-orm";
 import { Field, InputType } from "type-graphql";
 import { Min } from "class-validator";
 import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { ReviewTable } from "../../db/schema";
+import { getReviewDeadline } from "../../utils";
 
 @InputType("SendReviewByUserArgs")
 export class SendReviewByUserArgs {
@@ -15,7 +16,7 @@ export class SendReviewByUserArgs {
   @Field({ nullable: true })
   portfolio: number;
   @Field()
-  review: number;
+  posting: number;
 }
 
 export async function sendReviewByUser(
@@ -31,9 +32,10 @@ export async function sendReviewByUser(
     })
     .where(
       and(
-        eq(ReviewTable.id, args.review),
+        eq(ReviewTable.posting, args.posting),
         eq(ReviewTable.user, ctx.userId),
         isNull(ReviewTable.agencyRating),
+        gt(ReviewTable.createdAt, getReviewDeadline()),
       ),
     );
   return res.length === 1;

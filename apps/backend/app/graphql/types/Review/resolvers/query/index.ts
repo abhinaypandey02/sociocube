@@ -7,7 +7,7 @@ import { getPendingPortfolios } from "./get-pending-portfolios";
 @Resolver()
 export class ReviewQueryResolver {
   @Authorized()
-  @Query(() => [ReviewGQL])
+  @Query(() => [Number])
   getPendingReviews(@Ctx() ctx: AuthorizedContext) {
     return getPendingReviews(ctx);
   }

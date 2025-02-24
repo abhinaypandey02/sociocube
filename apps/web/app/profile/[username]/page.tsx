@@ -1,11 +1,12 @@
 import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import {
+  ArrowRight,
   ArrowSquareOut,
   InstagramLogo,
-  TrendUp,
   SealCheck,
-  ArrowRight,
+  Sparkle,
+  TrendUp,
 } from "@phosphor-icons/react/dist/ssr";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -15,9 +16,9 @@ import Link from "next/link";
 import classNames from "classnames";
 import { Injector, queryGQL } from "../../../lib/apollo-server";
 import {
-  GET_SELLER,
   GET_FEATURED_SELLERS_AND_POSTS,
   GET_PORTFOLIO_UPLOAD_URL,
+  GET_SELLER,
 } from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
 import { convertToAbbreviation } from "../../../lib/utils";
@@ -29,6 +30,7 @@ import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 import Portfolio from "./components/portfolio";
 import PortfolioLinks from "./components/portfolio-links";
 import { getPostFrequency } from "./components/utils";
+import Review from "./components/review";
 
 export interface ProfilePage {
   params: Promise<{ username: string }>;
@@ -228,6 +230,32 @@ export default async function ProfilePage({
             />
           </>
         ) : null}
+        <div className="mt-7">
+          <h2 className="text-sm font-medium text-gray-900">Reviews</h2>
+
+          <div className="mt-5 space-y-4 ">
+            {seller.reviews.map((review) => (
+              <Review key={review.name} review={review} />
+            ))}
+            {seller.reviews.length === 0 ? (
+              <div className="text-gray-500">
+                <div className="flex items-center justify-center gap-1 text-sm">
+                  No reviews yet.
+                  <Sparkle size={18} />
+                </div>
+                <div className=" mt-2 flex items-center justify-center gap-1 text-center text-xs ">
+                  <Link
+                    className="font-medium text-gray-600"
+                    href={getRoute("Postings")}
+                  >
+                    Apply to campaigns
+                  </Link>{" "}
+                  to get reviews.
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </div>
       </div>
 
       <div className="mt-6 lg:col-span-8">
@@ -345,7 +373,7 @@ export default async function ProfilePage({
           props={{
             isAgency: !user,
             portfolio: seller.portfolio
-              ?.filter((work) => !work.imageURL && work.caption && work.link)
+              .filter((work) => !work.imageURL && work.caption && work.link)
               .toReversed(),
             id: seller.id,
             username,
@@ -359,7 +387,7 @@ export default async function ProfilePage({
           props={{
             isAgency: !user,
             portfolio: seller.portfolio
-              ?.filter((work) => Boolean(work.imageURL))
+              .filter((work) => Boolean(work.imageURL))
               .toReversed(),
             id: seller.id,
             username,
@@ -441,7 +469,7 @@ export default async function ProfilePage({
                 {media.er ? (
                   <div className="absolute left-0 top-0 flex items-center gap-2 p-2 text-center text-[10px] font-bold text-white backdrop-blur-sm">
                     <TrendUp />
-                    {media.er}%
+                    {Math.max(media.er, 1.1)}%
                   </div>
                 ) : null}
               </a>

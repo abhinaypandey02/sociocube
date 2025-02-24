@@ -8,18 +8,24 @@ import { queryGQL } from "../../../lib/apollo-server";
 import { GET_USER_APPLICATIONS } from "../../../lib/queries";
 import { getRoute } from "../../../constants/routes";
 import { getStatusColor, getStatusName } from "../postings/applications/utils";
+import SendReview from "../postings/applications/components/send-review";
 
 export default async function MyApplications() {
-  const data = await queryGQL(
+  const { getUserApplications, getPendingReviews } = await queryGQL(
     GET_USER_APPLICATIONS,
     undefined,
     await cookies(),
     0,
   );
 
+  const applications = getUserApplications.map((app) => ({
+    ...app,
+    isPendingReview: getPendingReviews.includes(app.posting?.id || -1),
+  }));
+
   return (
     <AccountPageWrapper title="Your applications">
-      {data.getUserApplications.length === 0 && (
+      {applications.length === 0 && (
         <div className="flex justify-center gap-1 pt-5 text-lg text-gray-700">
           You haven't applied to any campaigns yet.
           <Link
@@ -31,7 +37,7 @@ export default async function MyApplications() {
         </div>
       )}
       <ul className="space-y-5">
-        {data.getUserApplications.map(
+        {applications.map(
           ({ posting, ...app }) =>
             posting && (
               <li
@@ -75,16 +81,20 @@ export default async function MyApplications() {
                           .join(" • ")}
                       </p>
                     </div>
-                    <div className="items-center gap-2 max-sm:flex">
-                      <div
-                        className="mt-0.5 gap-1 rounded-md px-3 py-1.5 text-sm font-medium shadow sm:text-end"
-                        style={{
-                          background: getStatusColor(app.status)[0],
-                          color: getStatusColor(app.status)[1],
-                        }}
-                      >
-                        {getStatusName(app.status)}
-                      </div>
+                    <div className="flex items-center gap-2">
+                      {app.isPendingReview ? (
+                        <SendReview posting={posting} />
+                      ) : (
+                        <div
+                          className="mt-0.5 gap-1 rounded-md px-3 py-1.5 text-sm font-medium  sm:text-end"
+                          style={{
+                            background: getStatusColor(app.status)[0],
+                            color: getStatusColor(app.status)[1],
+                          }}
+                        >
+                          {getStatusName(app.status)}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

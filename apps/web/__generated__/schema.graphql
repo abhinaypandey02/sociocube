@@ -253,6 +253,7 @@ type Agency {
   photo: String!
   portfolio: [Portfolio!]!
   recentPostings: [Posting!]!
+  reviews: [Review!]!
   username: String!
 }
 
@@ -546,7 +547,7 @@ type Query {
   getFeaturedSellers: [User!]!
   getHasUserApplied(postingID: Float!): Boolean!
   getPendingPortfolios: [Review!]!
-  getPendingReviews: [Review!]!
+  getPendingReviews: [Float!]!
   getPortfolioUploadURL: StorageFile
   getPosting(id: Int!): Posting
   getPostingApplications(postingID: Int!): [Application!]!
@@ -568,11 +569,12 @@ enum ROLES {
 }
 
 type Review {
-  agencyFeedback: String
-  agencyRating: Float!
+  feedback: String
+  name: String!
+  photo: String
   portfolio: Portfolio
-  userFeedback: String
-  userRating: Float!
+  rating: Float!
+  username: String!
 }
 
 enum SearchFilterSorting {
@@ -631,7 +633,7 @@ input SendReviewByUserArgs {
   agencyFeedback: String
   agencyRating: Float!
   portfolio: Float
-  review: Float!
+  posting: Float!
 }
 
 type StorageFile {
@@ -704,8 +706,9 @@ type User {
   phone: String
   photo: String
   pictureUploadURL: StorageFile!
-  portfolio: [Portfolio!]
+  portfolio: [Portfolio!]!
   pricing: Pricing
+  reviews: [Review!]!
   roles: [ROLES!]
   username: String
 }

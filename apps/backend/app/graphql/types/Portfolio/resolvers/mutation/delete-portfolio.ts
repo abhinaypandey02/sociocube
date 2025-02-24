@@ -19,8 +19,29 @@ export async function deletePortfolio(ctx: AuthorizedContext, id: number) {
       ),
     );
   if (!portfolio) throw GQLError(404, "No portfolio found.");
-  if (portfolio.portfolio.agency && !portfolio.agency_member)
+  if (
+    (portfolio.portfolio.agency && !portfolio.agency_member) ||
+    (portfolio.portfolio.user && portfolio.portfolio.user !== ctx.userId)
+  )
     throw GQLError(403, "You dont have permission for this agency");
+  if (portfolio.agency_member && portfolio.portfolio.user) {
+    await db
+      .update(PortfolioTable)
+      .set({
+        agency: null,
+      })
+      .where(eq(PortfolioTable.id, id));
+    return true;
+  }
+  if (!portfolio.agency_member && portfolio.portfolio.agency) {
+    await db
+      .update(PortfolioTable)
+      .set({
+        user: null,
+      })
+      .where(eq(PortfolioTable.id, id));
+    return true;
+  }
   const [deleted] = await db
     .delete(PortfolioTable)
     .where(

@@ -227,7 +227,7 @@ export async function getInstagramMedia(
   user: UserDB | AgencyDB,
   isAgency?: boolean,
 ) {
-  if (!user.instagramDetails) return null;
+  if (!user.instagramDetails) return [];
   const [instagramDetails] = await db
     .select()
     .from(InstagramDetails)

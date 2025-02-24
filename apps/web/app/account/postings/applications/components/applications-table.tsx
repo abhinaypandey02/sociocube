@@ -91,6 +91,7 @@ const DEFAULT_COLUMNS = [
       <Link
         className="flex items-center gap-2 font-medium text-accent hover:underline"
         href={`${getRoute("Profile")}/${val.row.original.user?.username}`}
+        prefetch={false}
       >
         {val.getValue()}{" "}
         {val.row.original.user?.instagramStats?.isVerified ? (
@@ -169,13 +170,23 @@ export default function ApplicationsTable({
     );
   };
 
+  const handleReview = (id: number) => {
+    setApplications((prev) =>
+      prev.map((val) =>
+        val.id === id ? { ...val, status: ApplicationStatus.Completed } : val,
+      ),
+    );
+  };
+
   const ApplicationActionsCell = useCallback(
     (val: CellContext<Application & { reach: string }, ApplicationStatus>) => (
       <ApplicationActions
         handleLike={handleLike}
         handleReject={handleReject}
+        handleReview={handleReview}
         id={val.row.original.id}
         status={val.getValue()}
+        user={val.row.original.user}
       />
     ),
     [],

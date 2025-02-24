@@ -11,6 +11,7 @@ import { FileGQL } from "../../../File/type";
 import { InstagramMedia, InstagramStats } from "../../../Instagram/type";
 import { PortfolioGQL } from "../../../Portfolio/type";
 import { AgencyMemberGQL, AgencyOnboardingGQL } from "../../../Agency/type";
+import { ReviewGQL } from "../../../Review/type";
 import { getIsOnboarded, getOnboardingData } from "./onboarding-data";
 import { getPictureUploadURL } from "./picture-upload-url";
 import { getPricing } from "./pricing";
@@ -18,6 +19,7 @@ import { getLocation, getLocationID } from "./location";
 import { getInstagramMedia, getInstagramStats } from "./instagram";
 import { getPortfolio } from "./portfolio";
 import { getAgencies, getOnboardingAgency } from "./agency";
+import { getReviews } from "./review";
 
 @Resolver(() => UserGQL)
 export class UserFieldResolver {
@@ -68,11 +70,15 @@ export class UserFieldResolver {
     return getInstagramStats(user);
   }
   @FieldResolver(() => [InstagramMedia], { nullable: true })
-  async instagramMedia(@Root() user: UserDB): Promise<InstagramMedia[] | null> {
+  async instagramMedia(@Root() user: UserDB): Promise<InstagramMedia[]> {
     return getInstagramMedia(user);
   }
-  @FieldResolver(() => [PortfolioGQL], { nullable: true })
-  async portfolio(@Root() user: UserDB): Promise<PortfolioGQL[] | null> {
+  @FieldResolver(() => [PortfolioGQL])
+  async portfolio(@Root() user: UserDB): Promise<PortfolioGQL[]> {
     return getPortfolio(user);
+  }
+  @FieldResolver(() => [ReviewGQL])
+  async reviews(@Root() user: UserDB): Promise<ReviewGQL[]> {
+    return getReviews(user);
   }
 }
