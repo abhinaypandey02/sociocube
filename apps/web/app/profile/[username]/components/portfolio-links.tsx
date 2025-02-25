@@ -26,12 +26,12 @@ export default function PortfolioLinks({
     ({ agency }) => agency === id,
   );
   const isAuthor = data && (id === data.user?.id || isAgencyAuthor);
-  if ((!portfolio || portfolio.length === 0) && !isAuthor) return null;
+  if (portfolio.length === 0 && !isAuthor) return null;
   return (
     <div className="mt-8">
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-medium text-gray-900">Links</h2>
-        {portfolio && isAuthor && data.uploadURL && portfolio.length < 6 ? (
+        {isAuthor && data.uploadURL && portfolio.length < 6 ? (
           <AddPortfolioButton
             id={id}
             imageUploadURL={data.uploadURL}
@@ -43,7 +43,7 @@ export default function PortfolioLinks({
         ) : null}
       </div>
       <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3 ">
-        {portfolio?.map((work) => (
+        {portfolio.map((work) => (
           <div className="relative" key={work.link}>
             <a
               className="block h-full"
