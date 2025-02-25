@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { MAX_CAMPAIGNS } from "commons/constraints";
 import type {
   GetPortfolioUploadUrlQuery,
   GetSellerQuery,
@@ -31,7 +32,7 @@ export default function Portfolio({
     <div className="mt-8">
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-medium text-gray-900">Portfolio</h2>
-        {isAuthor && data.uploadURL && portfolio.length < 6 ? (
+        {isAuthor && data.uploadURL && portfolio.length < MAX_CAMPAIGNS ? (
           <AddPortfolioButton
             id={id}
             imageUploadURL={data.uploadURL}

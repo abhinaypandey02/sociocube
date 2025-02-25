@@ -24,6 +24,7 @@ import { getProperSizedGif } from "./utils";
 interface FormValues {
   caption: string;
   link: string;
+  imageURL: string;
 }
 export default function AddPortfolioButton({
   imageUploadURL,
@@ -60,22 +61,24 @@ export default function AddPortfolioButton({
   const router = useRouter();
   const onSubmit = async (values: FormValues) => {
     if (!isLink) {
-      if (!image) return;
+      if (!image && !values.imageURL) return;
       setLoading(true);
-      try {
-        await fetch(imageUploadURL.uploadURL, {
-          method: "PUT",
-          body: image,
-        });
-      } catch (e) {
-        setImage(undefined);
-        setLoading(false);
-        return;
+      if (image) {
+        try {
+          await fetch(imageUploadURL.uploadURL, {
+            method: "PUT",
+            body: image,
+          });
+        } catch (e) {
+          setImage(undefined);
+          setLoading(false);
+          return;
+        }
       }
       await addPortfolio({
         portfolio: {
           caption: values.caption || null,
-          imageURL: imageUploadURL.url,
+          imageURL: values.imageURL || imageUploadURL.url,
           link: values.link || null,
           agency: isAgencyAuthor ? id : undefined,
         },
@@ -101,6 +104,8 @@ export default function AddPortfolioButton({
     resetPortfolioLink();
     form.reset();
   };
+
+  const manualURL = form.watch("imageURL");
   return (
     <>
       <input
@@ -152,31 +157,43 @@ export default function AddPortfolioButton({
           onSubmit={form.handleSubmit(onSubmit)}
         >
           {!isLink && (
-            <button
-              className="flex w-full items-center justify-center rounded-md border border-dashed border-gray-500 text-gray-500"
-              onClick={() => fileRef.current?.click()}
-              type="button"
-            >
-              {imageURL ? (
-                <img
-                  alt="new portfolio"
-                  className="object-cover"
-                  src={imageURL}
+            <>
+              {!manualURL && (
+                <button
+                  className="flex w-full items-center justify-center rounded-md border border-dashed border-gray-500 text-gray-500"
+                  onClick={() => fileRef.current?.click()}
+                  type="button"
+                >
+                  {imageURL ? (
+                    <img
+                      alt="new portfolio"
+                      className="object-cover"
+                      src={imageURL}
+                    />
+                  ) : null}
+                  {!imageURL &&
+                    (loading ? (
+                      <Spinner
+                        className="my-20 animate-spin text-primary md:my-40"
+                        size={30}
+                      />
+                    ) : (
+                      <ImageSquare
+                        className="my-20 text-primary md:my-40"
+                        size={30}
+                      />
+                    ))}
+                </button>
+              )}
+
+              {!imageURL && (
+                <Input
+                  label="Instagram url of work"
+                  name="imageURL"
+                  type="url"
                 />
-              ) : null}
-              {!imageURL &&
-                (loading ? (
-                  <Spinner
-                    className="my-20 animate-spin text-primary md:my-40"
-                    size={30}
-                  />
-                ) : (
-                  <ImageSquare
-                    className="my-20 text-primary md:my-40"
-                    size={30}
-                  />
-                ))}
-            </button>
+              )}
+            </>
           )}
           <Input
             label={isLink ? "Title" : "Caption"}
@@ -184,20 +201,22 @@ export default function AddPortfolioButton({
             name="caption"
             required={isLink}
           />
-          <Input
-            label={isLink ? "URL" : "Link to this work"}
-            name="link"
-            required={isLink}
-            rules={{
-              validate: {
-                isURL: (val: string) => !val || isURL(val) || "Invalid URL",
-              },
-            }}
-            type="url"
-          />
+          {isLink || imageURL ? (
+            <Input
+              label={isLink ? "URL" : "Link to this work"}
+              name="link"
+              required={isLink}
+              rules={{
+                validate: {
+                  isURL: (val: string) => !val || isURL(val) || "Invalid URL",
+                },
+              }}
+              type="url"
+            />
+          ) : null}
           <Button
             className="w-full"
-            disabled={!isLink && !image}
+            disabled={!isLink && !image && !manualURL}
             loading={loading}
             success={
               dataPortfolio?.addPortfolio || dataPortfolioLink?.addPortfolioLink

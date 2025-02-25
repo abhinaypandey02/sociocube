@@ -42,8 +42,8 @@ export async function getSignedFileURL(keys: string[]) {
   return getSignedUrl(client, command, { expiresIn: 3600 });
 }
 
-export async function uploadImage(url: string, key: string[]) {
-  const photoBlob = await fetch(url).then((file) => file.blob());
+export async function uploadImage(url: string, key: string[], blob?: Blob) {
+  const photoBlob = blob || (await fetch(url).then((file) => file.blob()));
   const uploadURL = await getUploadFileURL(key, true);
   try {
     const res = await fetch(uploadURL, {
