@@ -14,7 +14,7 @@ import {
 } from "drizzle-orm";
 import { Field, InputType, registerEnumType } from "type-graphql";
 import { MaxLength } from "class-validator";
-import { NAME_MAX_LENGTH } from "commons/constraints";
+import { NAME_MAX_LENGTH, USERNAME_MAX_LENGTH } from "commons/constraints";
 import { PostingTable } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
 import { PostingPlatforms } from "../../../../constants/platforms";
@@ -34,6 +34,9 @@ export class SearchPostingsFiltersInput {
   @Field({ nullable: true })
   @MaxLength(NAME_MAX_LENGTH)
   query?: string;
+  @Field({ nullable: true })
+  @MaxLength(USERNAME_MAX_LENGTH)
+  agency?: string;
   @Field({ nullable: true })
   paidOnly?: boolean;
   @Field({ nullable: true })
@@ -67,6 +70,7 @@ export async function getAllPostings(
       .where(
         and(
           eq(PostingTable.open, true),
+
           filters.paidOnly ? eq(PostingTable.barter, false) : undefined,
           filters.sortBy === SearchPostingsSorting.PriceDesc
             ? isNotNull(PostingTable.price)
@@ -98,6 +102,7 @@ export async function getAllPostings(
         AgencyTable,
         and(
           eq(AgencyTable.id, PostingTable.agency),
+          filters.agency ? eq(AgencyTable.username, filters.agency) : undefined,
           filters.query
             ? sql`(
             to_tsvector('english', ${PostingTable.title}) || 

@@ -241,16 +241,7 @@ export default async function ProfilePage({
               <div className="text-gray-500">
                 <div className="flex items-center justify-center gap-1 text-sm">
                   No reviews yet.
-                  <Sparkle size={18} />
-                </div>
-                <div className=" mt-2 flex items-center justify-center gap-1 text-center text-xs ">
-                  <Link
-                    className="font-medium text-gray-600"
-                    href={getRoute("Postings")}
-                  >
-                    Apply to campaigns
-                  </Link>{" "}
-                  to get reviews.
+                  <Sparkle size={20} />
                 </div>
               </div>
             ) : null}
@@ -300,7 +291,7 @@ export default async function ProfilePage({
                   "flex items-center gap-1 text-sm font-semibold",
                   user ? "text-accent" : "text-primary",
                 )}
-                href={getRoute("Postings")}
+                href={`${getRoute("Postings")}?agency=${username}`}
               >
                 See all <ArrowRight />
               </Link>

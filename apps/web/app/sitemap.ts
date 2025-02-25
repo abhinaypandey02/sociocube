@@ -13,7 +13,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: Route.Search,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+    {
+      url: Route.Postings,
+      lastModified: new Date(),
+      changeFrequency: "daily",
       priority: 1,
     },
     {
@@ -29,12 +35,44 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.3,
     },
   ];
-  const users = (await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/get-all-users-sitemap`,
-  ).then((data) => data.json())) as number[];
+  const { users, campaigns, agenciesWithPostings, agencies } = (await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/get-sitemap-data`,
+  ).then((data) => data.json())) as {
+    campaigns: number[];
+    users: string[];
+    agencies: string[];
+    agenciesWithPostings: string[];
+  };
   routes.push(
     ...users.map((user) => ({
       url: `${Route.Profile}/${user}`,
+      lastModified: new Date(),
+      changeFrequency:
+        "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
+      priority: 0.9,
+    })),
+  );
+  routes.push(
+    ...agencies.map((user) => ({
+      url: `${Route.Profile}/${user}`,
+      lastModified: new Date(),
+      changeFrequency:
+        "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
+      priority: 0.8,
+    })),
+  );
+  routes.push(
+    ...agenciesWithPostings.map((user) => ({
+      url: `${Route.Postings}?agency=${user}`,
+      lastModified: new Date(),
+      changeFrequency:
+        "monthly" as MetadataRoute.Sitemap[number]["changeFrequency"],
+      priority: 0.7,
+    })),
+  );
+  routes.push(
+    ...campaigns.map((user) => ({
+      url: `${Route.Postings}/${user}`,
       lastModified: new Date(),
       changeFrequency:
         "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],

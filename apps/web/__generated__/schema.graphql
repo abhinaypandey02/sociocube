@@ -485,7 +485,7 @@ input OnboardingUsernameInput {
 
 input PaginationArgs {
   page: Float = 1
-  pageSize: Float! = 10
+  pageSize: Float = 10
 }
 
 type Portfolio {
@@ -586,6 +586,7 @@ enum SearchFilterSorting {
 
 input SearchPostingsFilters {
   age: Float
+  agency: String
   followers: Float
   paidOnly: Boolean
   platforms: [PostingPlatforms!]

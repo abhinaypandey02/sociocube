@@ -466,7 +466,7 @@ export type OnboardingUsernameInput = {
 
 export type PaginationArgs = {
   page?: InputMaybe<Scalars['Float']['input']>;
-  pageSize?: Scalars['Float']['input'];
+  pageSize?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type Portfolio = {
@@ -636,6 +636,7 @@ export enum SearchFilterSorting {
 
 export type SearchPostingsFilters = {
   age?: InputMaybe<Scalars['Float']['input']>;
+  agency?: InputMaybe<Scalars['String']['input']>;
   followers?: InputMaybe<Scalars['Float']['input']>;
   paidOnly?: InputMaybe<Scalars['Boolean']['input']>;
   platforms?: InputMaybe<Array<PostingPlatforms>>;

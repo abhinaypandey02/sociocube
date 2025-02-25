@@ -59,6 +59,7 @@ export default function SearchWindow({
   data: GetAllPostingsQuery | null;
   filters: SearchPostingsFilters;
 }) {
+  const agency = filters.agency ? data?.postings[0]?.agency.name : null;
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -118,9 +119,24 @@ export default function SearchWindow({
         onSubmit={handleSubmit}
       >
         <div className="flex flex-wrap items-baseline justify-between gap-5 border-b border-gray-200 pb-6 pt-4 sm:pt-16">
-          <h2 className="font-poppins text-3xl font-semibold text-gray-900 sm:text-4xl sm:font-bold">
-            Find campaigns
-          </h2>
+          <div>
+            <h2 className="font-poppins text-3xl font-semibold text-gray-900 sm:text-4xl sm:font-bold">
+              Find campaigns
+            </h2>
+            {agency ? (
+              <h3 className="mt-3 flex gap-1 text-xl font-medium text-gray-600">
+                by <span className="text-primary">{agency}</span>{" "}
+                <button
+                  className="ml-3 flex items-center gap-1 text-sm font-semibold text-gray-500  underline"
+                  onClick={() => {
+                    handleChange({ agency: undefined });
+                  }}
+                >
+                  Clear <X />
+                </button>
+              </h3>
+            ) : null}
+          </div>
 
           <div className="flex w-72 items-center max-md:w-full">
             <Input
