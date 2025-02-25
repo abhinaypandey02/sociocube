@@ -47,7 +47,7 @@ export class NewPostingInput {
   currencyCountry: number | null;
 }
 
-const MAXIMUM_POSTINGS_DAY = 4;
+const MAXIMUM_POSTINGS_DAY = 40;
 
 export async function createPosting(
   ctx: AuthorizedContext,
