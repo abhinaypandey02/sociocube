@@ -51,7 +51,7 @@ export async function addPortfolio(
     );
   if (!portfolioCount) throw GQLError(500, "Internal error! Please try again!");
   if (portfolioCount.count >= 6)
-    throw GQLError(400, "Maximum no. of postings reached");
+    throw GQLError(400, "Maximum no. of campaigns reached");
   await db.insert(PortfolioTable).values({
     imageURL: args.imageURL,
     caption: args.caption,

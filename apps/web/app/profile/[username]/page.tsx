@@ -24,7 +24,7 @@ import { getSEO } from "../../../constants/seo";
 import { convertToAbbreviation } from "../../../lib/utils";
 import Schema from "../../components/schema";
 import { getMeURL, getRoute, Route } from "../../../constants/routes";
-import { getAgeGroup, getCurrency } from "../../postings/utils";
+import { getAgeGroup, getCurrency } from "../../campaigns/utils";
 import CopyLinkButton from "./components/copy-link-button";
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 import Portfolio from "./components/portfolio";

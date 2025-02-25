@@ -5,7 +5,7 @@ import Table from "ui/table";
 import Link from "next/link";
 import { ArrowSquareOut, PencilSimple } from "@phosphor-icons/react";
 import type { GetUserPostingsQuery } from "../../../../__generated__/graphql";
-import { getCurrency } from "../../../postings/utils";
+import { getCurrency } from "../../../campaigns/utils";
 import { Route } from "../../../../constants/routes";
 
 type Posting = NonNullable<GetUserPostingsQuery["postings"]>[number];

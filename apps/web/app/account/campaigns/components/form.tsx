@@ -13,7 +13,7 @@ import {
   NAME_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
 } from "commons/constraints";
-import { POSTING_PLATFORMS } from "../../../postings/constants";
+import { POSTING_PLATFORMS } from "../../../campaigns/constants";
 import type {
   GetPostingQuery,
   GetUserCurrencyQuery,

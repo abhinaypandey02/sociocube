@@ -7,8 +7,8 @@ import AccountPageWrapper from "../components/account-page-wrapper";
 import { queryGQL } from "../../../lib/apollo-server";
 import { GET_USER_APPLICATIONS } from "../../../lib/queries";
 import { getRoute } from "../../../constants/routes";
-import { getStatusColor, getStatusName } from "../postings/applications/utils";
-import SendReview from "../postings/applications/components/send-review";
+import { getStatusColor, getStatusName } from "../campaigns/applications/utils";
+import SendReview from "../campaigns/applications/components/send-review";
 
 export default async function MyApplications() {
   const { getUserApplications, getPendingReviews } = await queryGQL(

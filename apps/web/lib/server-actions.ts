@@ -1,7 +1,7 @@
 "use server";
 
 import { NAME_MAX_LENGTH, POSTING_BIO_MAX_LENGTH } from "commons/constraints";
-import type { CreatePostingFormFields } from "../app/account/postings/components/form";
+import type { CreatePostingFormFields } from "../app/account/campaigns/components/form";
 
 export async function getTransformedPostingData(message: string) {
   const data = await fetch("https://api.groq.com/openai/v1/chat/completions", {

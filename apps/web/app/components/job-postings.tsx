@@ -9,7 +9,7 @@ import Link from "next/link";
 import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
 import { getRoute } from "../../constants/routes";
 import { convertToAbbreviation } from "../../lib/utils";
-import { getAgeGroup, getCurrency } from "../postings/utils";
+import { getAgeGroup, getCurrency } from "../campaigns/utils";
 import SectionWrapper from "./section-wrapper";
 
 export default function JobPostings({
