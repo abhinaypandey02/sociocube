@@ -1,12 +1,12 @@
 import { Field, InputType } from "type-graphql";
-import { MaxLength } from "class-validator";
+import { Max } from "class-validator";
 
 @InputType("PaginationArgs")
 export class PaginationArgs {
-  @MaxLength(20)
-  @Field({ defaultValue: 10 })
+  @Max(20)
+  @Field({ defaultValue: 10, nullable: true })
   pageSize: number;
-  @Field({ defaultValue: 1 })
+  @Field({ defaultValue: 1, nullable: true })
   page: number;
 }
 

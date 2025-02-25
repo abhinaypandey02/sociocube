@@ -484,7 +484,7 @@ input OnboardingUsernameInput {
 }
 
 input PaginationArgs {
-  page: Float! = 1
+  page: Float = 1
   pageSize: Float! = 10
 }
 
