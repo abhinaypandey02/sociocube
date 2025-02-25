@@ -15,7 +15,8 @@ export async function generateMetadata({
 }) {
   const params = await searchParams;
 
-  if (!parseParams(params.agency)) return getSEO("Find influencer campaigns");
+  if (!params.agency || !parseParams(params.agency))
+    return getSEO("Find influencer campaigns");
   const filters = {
     age: parseParams(params.age, "NUMBER") as number,
     platforms: parseParams(params.platforms, "ARRAY") as PostingPlatforms[],

@@ -14,7 +14,7 @@ export default async function Image({
 }) {
   const params = await searchParams;
 
-  if (!parseParams(params.agency))
+  if (!params.agency || !parseParams(params.agency))
     return getOgImage("Find influencer campaigns");
   const filters = {
     age: parseParams(params.age, "NUMBER") as number,
