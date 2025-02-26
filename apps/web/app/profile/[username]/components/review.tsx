@@ -26,7 +26,7 @@ export default function Review({
   const photo = review.portfolio?.imageURL || review.photo;
   return (
     <div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-start gap-3">
         {photo ? (
           <LinkWrapper
             className="relative shrink-0"
@@ -73,7 +73,7 @@ export default function Review({
               size={20}
             />
           </div>
-          <div className="ml-0.5 mt-1 text-xs italic text-gray-600 sm:mt-2 sm:text-sm">
+          <div className="ml-0.5 mt-1 text-xs italic text-gray-600 sm:mt-1.5 sm:text-[13px]">
             "{review.feedback}"
           </div>
         </Link>
