@@ -180,7 +180,7 @@ export default function ApplyNowButton({
           </IconButton>
         </Link>
       ) : (
-        <LinkWrapper href={message[1]}>
+        <LinkWrapper className="max-sm:w-full" href={message[1]}>
           <Button
             className="w-full"
             disabled={message[2]}
