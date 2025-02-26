@@ -14,7 +14,7 @@ import {
   PAUSE_POSTING,
   RESUME_POSTING,
 } from "../../../../../lib/mutations";
-import { revalidateAllPostings } from "../../../../../lib/revalidate";
+import { revalidatePosting } from "../../../../../lib/revalidate";
 import { getRoute } from "../../../../../constants/routes";
 
 export default function ManagePostingButton({
@@ -36,7 +36,7 @@ export default function ManagePostingButton({
   const handleReload = () => {
     router.refresh();
     toast.success("Successfully updated posting");
-    void revalidateAllPostings();
+    void revalidatePosting(posting.id);
   };
   useEffect(() => {
     setIsLoading(false);

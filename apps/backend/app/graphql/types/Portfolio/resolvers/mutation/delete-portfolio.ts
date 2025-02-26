@@ -5,6 +5,7 @@ import { PortfolioTable } from "../../db/schema";
 import { deleteImage } from "../../../../../../lib/storage/aws-s3";
 import { AgencyMember } from "../../../Agency/db/schema";
 import GQLError from "../../../../constants/errors";
+import { ReviewTable } from "../../../Review/db/schema";
 
 export async function deletePortfolio(ctx: AuthorizedContext, id: number) {
   const [portfolio] = await db
@@ -20,8 +21,8 @@ export async function deletePortfolio(ctx: AuthorizedContext, id: number) {
     );
   if (!portfolio) throw GQLError(404, "No portfolio found.");
   if (
-    (portfolio.portfolio.agency && !portfolio.agency_member) ||
-    (portfolio.portfolio.user && portfolio.portfolio.user !== ctx.userId)
+    !(portfolio.portfolio.agency && portfolio.agency_member) &&
+    !(portfolio.portfolio.user && portfolio.portfolio.user === ctx.userId)
   )
     throw GQLError(403, "You dont have permission for this agency");
   if (portfolio.agency_member && portfolio.portfolio.user) {
@@ -42,6 +43,12 @@ export async function deletePortfolio(ctx: AuthorizedContext, id: number) {
       .where(eq(PortfolioTable.id, id));
     return true;
   }
+  await db
+    .update(ReviewTable)
+    .set({
+      portfolio: null,
+    })
+    .where(eq(ReviewTable.portfolio, id));
   const [deleted] = await db
     .delete(PortfolioTable)
     .where(

@@ -4,8 +4,28 @@ import Link from "next/link";
 
 export default function LinkWrapper({
   href,
+  external,
+  className,
   children,
-}: PropsWithChildren<{ href?: string | null }>) {
+}: PropsWithChildren<{
+  href?: string | null;
+  external?: boolean;
+  className?: string;
+}>) {
   if (!href) return children;
-  return <Link href={href}>{children}</Link>;
+  if (
+    external ||
+    (!href.startsWith(process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "/") &&
+      !href.startsWith("/"))
+  )
+    return (
+      <a className={className} href={href} rel="noopener" target="_blank">
+        {children}
+      </a>
+    );
+  return (
+    <Link className={className} href={href}>
+      {children}
+    </Link>
+  );
 }

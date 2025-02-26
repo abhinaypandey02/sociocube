@@ -9,6 +9,7 @@ import { Injector, queryGQL } from "../../../lib/apollo-server";
 import {
   GET_CURRENT_USER_APPLICATION_STATUS,
   GET_POSTING,
+  GET_POSTING_REVIEWS,
 } from "../../../lib/queries";
 import { convertToAbbreviation } from "../../../lib/utils";
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
@@ -16,6 +17,7 @@ import { renderRichText } from "../../../lib/util-components";
 import { getSEO } from "../../../constants/seo";
 import { getRoute } from "../../../constants/routes";
 import ApplyNowButton from "./apply-now-button";
+import PostingReviews from "./posting-reviews";
 
 export async function generateMetadata({
   params,
@@ -29,7 +31,7 @@ export async function generateMetadata({
       id,
     },
     undefined,
-    120,
+    undefined,
     ["posting"],
   );
   return getSEO(
@@ -50,7 +52,7 @@ export default async function JobPostingPage({
       id,
     },
     undefined,
-    120,
+    undefined,
     ["posting"],
   );
   if (!posting) return notFound();
@@ -117,6 +119,10 @@ export default async function JobPostingPage({
           </div>
         </div>
       </div>
+      <Injector
+        Component={PostingReviews}
+        fetch={() => queryGQL(GET_POSTING_REVIEWS, { id }, undefined, 120)}
+      />
       <div>
         <dl className="grid grid-cols-1 sm:grid-cols-2">
           <div className="px-4 py-6 sm:col-span-2 sm:px-0 sm:pt-10">

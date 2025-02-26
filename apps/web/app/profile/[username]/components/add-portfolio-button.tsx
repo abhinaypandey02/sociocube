@@ -1,5 +1,5 @@
 "use client";
-import React, { type ChangeEvent, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button, Variants } from "ui/button";
 import { ImageSquare, Plus } from "@phosphor-icons/react";
 import { Input } from "ui/input";
@@ -8,8 +8,6 @@ import Form from "ui/form";
 import { useRouter } from "next/navigation";
 import { PORTFOLIO_CAPTION_MAX_LENGTH } from "commons/constraints";
 import { isURL } from "class-validator";
-import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "commons/file";
-import { toast } from "react-hot-toast";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
 import Modal from "../../../../components/modal";
 import type { StorageFile } from "../../../../__generated__/graphql";
@@ -19,7 +17,7 @@ import {
 } from "../../../../lib/apollo-client";
 import { ADD_PORTFOLIO, ADD_PORTFOLIO_LINK } from "../../../../lib/mutations";
 import { revalidateProfilePage } from "../../../../lib/revalidate";
-import { getProperSizedGif } from "./utils";
+import PortfolioImageHandler from "./portfolio-image-handler";
 
 interface FormValues {
   caption: string;
@@ -108,39 +106,15 @@ export default function AddPortfolioButton({
   const manualURL = form.watch("imageURL");
   return (
     <>
-      <input
-        accept={[...ALLOWED_IMAGE_TYPES, "image/gif", "video/*"].join(", ")}
-        className="hidden"
-        onChange={async (e) => {
-          const event = e as unknown as ChangeEvent<HTMLInputElement>;
-          const file = event.target.files?.[0];
-          if (file) {
-            if (file.type.startsWith("video/")) {
-              setLoading(true);
-              const blob = await getProperSizedGif(file);
-              setLoading(false);
-              if (blob) {
-                setImage(blob);
-              } else {
-                toast.error(
-                  `Cannot process video file, Please use a shorter video.`,
-                );
-              }
-            } else if (file.size > MAXIMUM_FILE_SIZE) {
-              toast.error(
-                `Maximum file size is ${MAXIMUM_FILE_SIZE / 1024 / 1024}mb`,
-              );
-            } else if (
-              ![...ALLOWED_IMAGE_TYPES, "image/gif"].includes(file.type)
-            ) {
-              toast.error(`Only png and jpeg image types are allowed`);
-            } else {
-              setImage(file);
-            }
-          }
+      <PortfolioImageHandler
+        onChange={(val) => {
+          setLoading(false);
+          if (val) setImage(val);
+        }}
+        onGifLoadStart={() => {
+          setLoading(true);
         }}
         ref={fileRef}
-        type="file"
       />
       <Modal
         close={() => {
@@ -188,6 +162,7 @@ export default function AddPortfolioButton({
 
               {!imageURL && (
                 <Input
+                  disabled={loading}
                   label="Instagram url of work"
                   name="imageURL"
                   type="url"

@@ -11,7 +11,7 @@ import { getStatusColor, getStatusName } from "../campaigns/applications/utils";
 import SendReview from "../campaigns/applications/components/send-review";
 
 export default async function MyApplications() {
-  const { getUserApplications, getPendingReviews } = await queryGQL(
+  const { getUserApplications, getPendingReviews, uploadURL } = await queryGQL(
     GET_USER_APPLICATIONS,
     undefined,
     await cookies(),
@@ -22,7 +22,6 @@ export default async function MyApplications() {
     ...app,
     isPendingReview: getPendingReviews.includes(app.posting?.id || -1),
   }));
-
   return (
     <AccountPageWrapper title="Your applications">
       {applications.length === 0 && (
@@ -82,8 +81,11 @@ export default async function MyApplications() {
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      {app.isPendingReview ? (
-                        <SendReview posting={posting} />
+                      {app.isPendingReview && uploadURL ? (
+                        <SendReview
+                          imageUploadURL={uploadURL}
+                          posting={posting}
+                        />
                       ) : (
                         <div
                           className="mt-0.5 gap-1 rounded-md px-3 py-1.5 text-sm font-medium  sm:text-end"

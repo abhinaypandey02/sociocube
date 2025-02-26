@@ -3,8 +3,8 @@
 import { revalidateTag } from "next/cache";
 
 // eslint-disable-next-line -- @typescript-eslint/ require-await
-export async function revalidateAllPostings() {
-  revalidateTag("posting");
+export async function revalidatePosting(id:number) {
+  revalidateTag(`posting-${id}`);
 }
 
 // eslint-disable-next-line -- @typescript-eslint/ require-await

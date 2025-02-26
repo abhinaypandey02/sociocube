@@ -162,6 +162,11 @@ export const GET_SELLER = gql(`
           name
           photo
           username
+          portfolio {
+            id
+            imageURL
+            link
+          }
         }
         portfolio {
           caption
@@ -213,6 +218,11 @@ export const GET_SELLER = gql(`
           name
           photo
           username
+          portfolio {
+            id
+            imageURL
+            link
+          }
         }
         recentPostings {
           id
@@ -457,6 +467,24 @@ export const GET_POSTING = gql(`
     }
   }
 `);
+
+export const GET_POSTING_REVIEWS = gql(`
+  #graphql
+  query GetPostingReviews($id: Int!) {
+    posting:getPosting(id: $id){
+
+      reviews {
+        portfolio {
+          imageURL
+          link
+        }
+        rating
+        photo
+        username
+      }
+    }
+  }
+`);
 export const GET_ALL_POSTINGS = gql(`
   #graphql
   query GetAllPostings($filters:SearchPostingsFilters!) {
@@ -608,6 +636,10 @@ export const GET_USER_APPLICATIONS = gql(`
   #graphql
   query GetUserApplications {
     getPendingReviews
+    uploadURL: getPortfolioUploadURL {
+      uploadURL
+      url
+    }
     getUserApplications {
       status
       comment

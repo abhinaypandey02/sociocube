@@ -96,8 +96,9 @@ async function getInstagramMediaURL(url: string, userId: string) {
 export async function addPortfolio(
   ctx: AuthorizedContext,
   args: AddPortfolioArgs,
+  forReview?: true,
 ) {
-  if (args.agency) {
+  if (args.agency && !forReview) {
     const [user] = await db
       .select()
       .from(AgencyMember)
@@ -109,25 +110,28 @@ export async function addPortfolio(
       );
     if (!user) throw GQLError(403, "You dont have permission for this agency");
   }
+  if (!forReview) {
+    const [portfolioCount] = await db
+      .select({ count: count(PortfolioTable.id) })
+      .from(PortfolioTable)
+      .where(
+        and(
+          args.agency
+            ? eq(PortfolioTable.agency, args.agency)
+            : eq(PortfolioTable.user, ctx.userId),
+          args.agency
+            ? isNull(PortfolioTable.user)
+            : isNull(PortfolioTable.agency),
+          isNotNull(PortfolioTable.imageURL),
+          isNull(ReviewTable.portfolio),
+        ),
+      );
+    if (!portfolioCount)
+      throw GQLError(500, "Internal error! Please try again!");
 
-  const [portfolioCount] = await db
-    .select({ count: count(PortfolioTable.id) })
-    .from(PortfolioTable)
-    .leftJoin(ReviewTable, eq(ReviewTable.portfolio, PortfolioTable.id))
-    .where(
-      and(
-        args.agency
-          ? eq(PortfolioTable.agency, args.agency)
-          : eq(PortfolioTable.user, ctx.userId),
-        isNotNull(PortfolioTable.imageURL),
-        isNull(ReviewTable.portfolio),
-      ),
-    );
-  if (!portfolioCount) throw GQLError(500, "Internal error! Please try again!");
-
-  if (portfolioCount.count >= MAX_CAMPAIGNS)
-    throw GQLError(400, "Maximum no. of campaigns reached");
-
+    if (portfolioCount.count >= MAX_CAMPAIGNS)
+      throw GQLError(400, "Maximum no. of campaigns reached");
+  }
   const isInstagramMediaURL = args.imageURL.includes("instagram.com");
   if (isInstagramMediaURL) {
     args.link = args.imageURL;
@@ -140,12 +144,15 @@ export async function addPortfolio(
     args.imageURL = newImageURL;
   }
 
-  await db.insert(PortfolioTable).values({
-    imageURL: args.imageURL,
-    caption: args.caption,
-    link: args.link,
-    user: args.agency ? undefined : ctx.userId,
-    agency: args.agency,
-  });
-  return true;
+  const [portfolio] = await db
+    .insert(PortfolioTable)
+    .values({
+      imageURL: args.imageURL,
+      caption: args.caption,
+      link: args.link,
+      user: args.agency && !forReview ? undefined : ctx.userId,
+      agency: args.agency,
+    })
+    .returning({ id: PortfolioTable.id });
+  return portfolio?.id;
 }

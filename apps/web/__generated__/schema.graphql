@@ -515,6 +515,7 @@ type Posting {
   platforms: [PostingPlatforms!]!
   price: Int
   referralEarnings: Float!
+  reviews: [Review!]!
   title: String!
   updatedAt: Float!
 }
@@ -633,7 +634,9 @@ input SendReviewByAgencyArgs {
 input SendReviewByUserArgs {
   agencyFeedback: String
   agencyRating: Float!
-  portfolio: Float
+  caption: String
+  imageURL: String!
+  link: String
   posting: Float!
 }
 

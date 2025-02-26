@@ -1,5 +1,5 @@
 "use client";
-import type { PropsWithChildren, ReactNode } from "react";
+import type { ReactNode } from "react";
 import React, { useCallback, useMemo, useState } from "react";
 import { Button, Variants } from "ui/button";
 import { Input } from "ui/input";
@@ -17,24 +17,13 @@ import { getRoute, Route } from "../../../constants/routes";
 import Modal from "../../../components/modal";
 import { handleGQLErrors, useAuthMutation } from "../../../lib/apollo-client";
 import { APPLY_NOW } from "../../../lib/mutations";
+import LinkWrapper from "../../../components/link-wrapper";
 import { getShareText } from "./utils";
 
 interface FormType {
   email: string;
   phone: string | undefined | null;
   comment?: string;
-}
-
-function LinkWrapper({
-  url,
-  children,
-}: PropsWithChildren<{ url?: string | null }>) {
-  if (!url) return children;
-  return (
-    <Link className="max-sm:w-full" href={url}>
-      {children}
-    </Link>
-  );
 }
 
 export default function ApplyNowButton({
@@ -191,7 +180,7 @@ export default function ApplyNowButton({
           </IconButton>
         </Link>
       ) : (
-        <LinkWrapper url={message[1]}>
+        <LinkWrapper href={message[1]}>
           <Button
             className="w-full"
             disabled={message[2]}

@@ -3,31 +3,63 @@ import React from "react";
 import { Rating } from "react-simple-star-rating";
 import Image from "next/image";
 import Link from "next/link";
-import type { GetSellerQuery } from "../../../../__generated__/graphql";
+import classNames from "classnames";
+import type {
+  GetCurrentUserQuery,
+  GetSellerQuery,
+} from "../../../../__generated__/graphql";
 import { getRoute } from "../../../../constants/routes";
+import LinkWrapper from "../../../../components/link-wrapper";
+import DeletePortfolioButton from "./delete-portfolio-button";
 
 export default function Review({
+  data,
   review,
+  username,
 }: {
+  data?: GetCurrentUserQuery;
   review: NonNullable<
     NonNullable<GetSellerQuery["getSeller"]>["user"]
   >["reviews"][number];
+  username: string;
 }) {
+  const photo = review.portfolio?.imageURL || review.photo;
   return (
-    <Link
-      className="group flex items-center gap-3"
-      href={`${getRoute("Profile")}/${review.username}`}
-    >
-      {review.photo ? (
-        <Image
-          alt={review.name}
-          className="rounded-full"
-          height={44}
-          src={review.photo}
-          width={44}
-        />
+    <div className="flex items-center gap-3">
+      {photo ? (
+        <LinkWrapper
+          className="relative shrink-0"
+          href={
+            review.portfolio?.link ||
+            `${getRoute("Profile")}/${review.username}`
+          }
+        >
+          <Image
+            alt={review.name}
+            className={classNames(
+              review.portfolio?.imageURL
+                ? "rounded-md size-14"
+                : "rounded-full size-12",
+              "object-cover  translate-y-1 ",
+            )}
+            height={44}
+            src={photo}
+            width={44}
+          />
+
+          {review.portfolio && data?.user?.username === username ? (
+            <DeletePortfolioButton
+              isLink={false}
+              username={username}
+              work={review.portfolio}
+            />
+          ) : null}
+        </LinkWrapper>
       ) : null}
-      <div className="w-full">
+      <Link
+        className="group w-full"
+        href={`${getRoute("Profile")}/${review.username}`}
+      >
         <div className="flex w-full items-end justify-between gap-2">
           <div className="text-sm font-semibold text-gray-800 group-hover:underline">
             {review.name}
@@ -43,7 +75,7 @@ export default function Review({
         <div className="ml-0.5 mt-1 text-sm  text-gray-600">
           {review.feedback}
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }

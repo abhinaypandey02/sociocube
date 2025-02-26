@@ -27,8 +27,8 @@ import {
 import { GET_COUNTRIES } from "../../../../lib/queries";
 import { CREATE_POSTING, UPDATE_POSTING } from "../../../../lib/mutations";
 import {
-  revalidateAllPostings,
   revalidateOnlyPostingsPage,
+  revalidatePosting,
 } from "../../../../lib/revalidate";
 import { getRoute } from "../../../../constants/routes";
 import { getTransformedPostingData } from "../../../../lib/server-actions";
@@ -108,7 +108,7 @@ export default function CreateNewPostingForm({
       })
         .then((res) => {
           if (res.data?.updatePosting) {
-            void revalidateAllPostings();
+            void revalidatePosting(existingPosting.id);
             router.push(getRoute("AccountPostings"));
           } else setLoading(false);
         })

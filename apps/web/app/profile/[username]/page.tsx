@@ -14,7 +14,7 @@ import { cookies } from "next/headers";
 import { IconButton } from "ui/icon-button";
 import Link from "next/link";
 import classNames from "classnames";
-import { Injector, queryGQL } from "../../../lib/apollo-server";
+import { getCurrentUser, Injector, queryGQL } from "../../../lib/apollo-server";
 import {
   GET_FEATURED_SELLERS_AND_POSTS,
   GET_PORTFOLIO_UPLOAD_URL,
@@ -235,7 +235,12 @@ export default async function ProfilePage({
 
           <div className="mt-5 space-y-4 ">
             {seller.reviews.map((review) => (
-              <Review key={review.name} review={review} />
+              <Injector
+                Component={Review}
+                fetch={getCurrentUser}
+                key={review.username}
+                props={{ review, username }}
+              />
             ))}
             {seller.reviews.length === 0 ? (
               <div className="text-gray-500">

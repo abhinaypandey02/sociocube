@@ -25,5 +25,6 @@ export async function getReviews(user: UserDB | AgencyDB) {
     name: res.agency.name || "",
     photo: res.agency.photo,
     username: res.agency.username,
+    portfolio: res.review.portfolio,
   }));
 }

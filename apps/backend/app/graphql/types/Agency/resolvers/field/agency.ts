@@ -1,5 +1,5 @@
 import { FieldResolver, Resolver, Root } from "type-graphql";
-import { and, desc, eq, isNotNull } from "drizzle-orm";
+import { and, desc, eq, isNotNull, isNull } from "drizzle-orm";
 import { AgencyGQL } from "../../type";
 import {
   getInstagramMedia,
@@ -61,6 +61,7 @@ export class AgencyFieldResolver {
       name: res.user.name || "",
       photo: res.user.photo,
       username: res.user.username || "",
+      portfolio: res.review.portfolio,
     }));
   }
   @FieldResolver(() => [PortfolioGQL])
@@ -68,7 +69,9 @@ export class AgencyFieldResolver {
     return db
       .select()
       .from(PortfolioTable)
-      .where(eq(PortfolioTable.agency, agency.id));
+      .where(
+        and(eq(PortfolioTable.agency, agency.id), isNull(PortfolioTable.user)),
+      );
   }
   @FieldResolver(() => [PostingGQL])
   async recentPostings(@Root() agency: AgencyDB): Promise<PostingGQL[]> {

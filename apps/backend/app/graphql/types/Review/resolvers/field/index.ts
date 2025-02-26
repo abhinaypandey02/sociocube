@@ -1,7 +1,6 @@
 import { FieldResolver, Resolver, Root } from "type-graphql";
 import { and, eq, isNotNull } from "drizzle-orm";
 import { ReviewGQL } from "../../type";
-import type { ReviewDB } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
 import { PortfolioDB, PortfolioTable } from "../../../Portfolio/db/schema";
 import { PortfolioGQL } from "../../../Portfolio/type";
@@ -10,9 +9,9 @@ import { PortfolioGQL } from "../../../Portfolio/type";
 export class ReviewFieldResolvers {
   @FieldResolver(() => PortfolioGQL, { nullable: true })
   async portfolio(
-    @Root() review: ReviewDB,
+    @Root() review: ReviewGQL,
   ): Promise<PortfolioDB | undefined | null> {
-    if (!review.portfolio || !review.agencyRating) return null;
+    if (!review.portfolio) return null;
     const [portfolio] = await db
       .select()
       .from(PortfolioTable)

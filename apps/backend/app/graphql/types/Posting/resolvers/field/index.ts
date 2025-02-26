@@ -1,5 +1,5 @@
 import { FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
-import { count, eq, sum } from "drizzle-orm";
+import { and, count, eq, isNotNull, sum } from "drizzle-orm";
 import { PostingGQL } from "../../type";
 import type { PostingDB } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
@@ -7,6 +7,10 @@ import { ApplicationTable } from "../../../Application/db/schema";
 import { CountryTable } from "../../../Map/db/schema";
 import { AgencyDB, AgencyTable } from "../../../Agency/db/schema";
 import { AgencyGQL } from "../../../Agency/type";
+import { ReviewGQL } from "../../../Review/type";
+import { ReviewTable } from "../../../Review/db/schema";
+import { UserTable } from "../../../User/db/schema";
+import { PortfolioTable } from "../../../Portfolio/db/schema";
 
 @Resolver(() => PostingGQL)
 export class PostingFieldResolvers {
@@ -48,5 +52,36 @@ export class PostingFieldResolvers {
       .from(ApplicationTable)
       .where(eq(ApplicationTable.posting, posting.id));
     return applications?.count || 0;
+  }
+
+  @FieldResolver(() => [ReviewGQL])
+  async reviews(@Root() posting: PostingDB): Promise<ReviewGQL[]> {
+    const data = await db
+      .select()
+      .from(ReviewTable)
+      .where(
+        and(
+          eq(ReviewTable.posting, posting.id),
+          isNotNull(ReviewTable.agencyRating),
+          isNotNull(ReviewTable.portfolio),
+        ),
+      )
+      .innerJoin(
+        PortfolioTable,
+        and(
+          eq(PortfolioTable.id, ReviewTable.portfolio),
+          isNotNull(PortfolioTable.user),
+          isNotNull(PortfolioTable.agency),
+        ),
+      )
+      .innerJoin(UserTable, eq(UserTable.id, ReviewTable.user));
+    return data.map((res) => ({
+      rating: res.review.agencyRating!,
+      feedback: res.review.agencyFeedback,
+      name: res.user.name || "",
+      photo: res.user.photo,
+      username: res.user.username || "",
+      portfolio: res.review.portfolio,
+    }));
   }
 }
