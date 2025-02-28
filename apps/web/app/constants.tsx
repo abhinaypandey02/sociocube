@@ -1,6 +1,6 @@
-import { getRoute } from "../constants/routes";
-import type { GetCurrentUserQuery } from "../__generated__/graphql";
-import { AgencyMemberType } from "../__generated__/graphql";
+import {getRoute} from "../constants/routes";
+import type {GetCurrentUserQuery} from "../__generated__/graphql";
+import {AgencyMemberType} from "../__generated__/graphql";
 import Logout from "./components/logout";
 import GetVerifiedOption from "./components/get-verified-option";
 
@@ -97,6 +97,15 @@ export const getOnboardedUserNavbarSections = (
             render: <GetVerifiedOption />,
           },
         ]),
+
+    ...(user?.agencies.length
+      ? [
+          {
+            label: "Agency settings",
+            href: getRoute("AccountAgency"),
+          },
+        ]
+      : []),
     {
       label: "Settings",
       href: getRoute("Account"),

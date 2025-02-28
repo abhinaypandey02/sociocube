@@ -244,6 +244,8 @@ input AddPortfolioLinkArgs {
 type Agency {
   bio: String!
   category: AgencyCategory!
+  contactEmail: String!
+  contactPhone: String
   id: Float!
   instagramMedia: [InstagramMedia!]
   instagramStats: InstagramStats
@@ -251,6 +253,7 @@ type Agency {
   locationID: LocationID
   name: String!
   photo: String!
+  pictureUploadURL: StorageFile!
   portfolio: [Portfolio!]!
   recentPostings: [Posting!]!
   reviews: [Review!]!
@@ -415,6 +418,7 @@ type Mutation {
   sendReviewByUser(args: SendReviewByUserArgs!): Boolean!
   sendVerificationEmail: Boolean!
   updateAgency(data: UpdateAgencyInput!, id: Float!): Boolean!
+  updateAgencyLocation(data: UpdateAgencyLocationInput!, id: Float!): Boolean!
   updateOnboardingBasicDetails(basicDetails: OnboardingBasicDetailsInput!): Boolean!
   updateOnboardingDOB(dobDetails: OnboardingDOBInput!): Boolean!
   updateOnboardingInstagramUsername(username: String!): Boolean!
@@ -542,6 +546,7 @@ type Query {
   getCities(stateID: Int!): [SelectOption!]!
   getCountries: [SelectOption!]!
   getCurrentUser: User
+  getCurrentUserAgency(username: String): Agency
   getFeaturedAgencies: [Agency!]!
   getFeaturedPostings: [Posting!]!
   getFeaturedPosts: [GetFeaturedPostsResponse!]!
@@ -646,14 +651,17 @@ type StorageFile {
 }
 
 input UpdateAgencyInput {
-  city: Float
   contactEmail: String
   contactPhone: String
-  country: Float
   name: String
   photo: String
-  state: Float
   username: String
+}
+
+input UpdateAgencyLocationInput {
+  city: Float
+  country: Float!
+  state: Float!
 }
 
 input UpdateLocation {

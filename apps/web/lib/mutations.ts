@@ -1,4 +1,4 @@
-import { gql } from "../__generated__";
+import {gql} from "../__generated__";
 
 export const UPDATE_ONBOARDING_BASIC_DETAILS = gql(`
   #graphql
@@ -96,6 +96,19 @@ export const UPDATE_USER = gql(`
   #graphql
   mutation UpdateUser($updatedUser: UpdateUserInput!) {
     updateUser(updatedUser: $updatedUser)
+  }
+`);
+export const UPDATE_AGENCY = gql(`
+  #graphql
+  mutation UpdateAgency($agencyID:Float!, $agency: UpdateAgencyInput!) {
+    updateAgency(id: $agencyID, data: $agency)
+  }
+`);
+
+export const UPDATE_AGENCY_LOCATION = gql(`
+  #graphql
+  mutation UpdateAgencyLocation($agencyID:Float!, $agency: UpdateAgencyLocationInput!) {
+    updateAgencyLocation(id: $agencyID, data: $agency)
   }
 `);
 

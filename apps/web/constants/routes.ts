@@ -18,6 +18,7 @@ export enum Route {
   AccountPostingsEdit = `${AccountPostings}/edit`,
   AccountPostingsNew = `${AccountPostings}/new`,
   AccountPostingsApplications = `${AccountPostings}/applications`,
+  AccountAgency = `${Account}/agency`,
 }
 
 export function getRoute(route: keyof typeof Route) {

@@ -6,15 +6,16 @@ import {Button} from "ui/button";
 import {useRouter} from "next/navigation";
 import {toast} from "react-hot-toast";
 import {handleGQLErrors, useAuthMutation, useAuthQuery,} from "../../../lib/apollo-client";
-import {UPDATE_USER_LOCATION} from "../../../lib/mutations";
+import {UPDATE_AGENCY_LOCATION} from "../../../lib/mutations";
 import {GET_CITIES, GET_COUNTRIES, GET_STATES} from "../../../lib/queries";
+import type {AgencyViewData} from "../agency/components/agency-view";
 import ContentTemplate from "./content-template";
 import type {AccountSectionData} from "./account-view";
 
-export default function LocationSection({
+export default function AgencyLocationSection({
   data,
 }: {
-  data: AccountSectionData;
+  data: AgencyViewData;
 }) {
   const form = useForm({
     defaultValues: data.locationID || {
@@ -23,7 +24,7 @@ export default function LocationSection({
       city: null,
     },
   });
-  const [saveUserMutation, { loading }] = useAuthMutation(UPDATE_USER_LOCATION);
+  const [updateAgency, { loading }] = useAuthMutation(UPDATE_AGENCY_LOCATION);
   const router = useRouter();
   const [fetchCountries, { data: countriesData, loading: loadingCountries }] =
     useAuthQuery(GET_COUNTRIES);
@@ -49,12 +50,13 @@ export default function LocationSection({
     NonNullable<AccountSectionData["locationID"]>
   > = async ({ city, state, country }) => {
     if (state && country) {
-      await saveUserMutation({
-        updatedLocation: {
+      await updateAgency({
+        agency: {
           city,
           state,
           country,
         },
+        agencyID: data.id,
       })
         .catch(handleGQLErrors)
         .then(() => {

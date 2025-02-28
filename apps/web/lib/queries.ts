@@ -1,4 +1,4 @@
-import { gql } from "../__generated__";
+import {gql} from "../__generated__";
 
 export const GET_CURRENT_USER = gql(`
   #graphql
@@ -263,6 +263,35 @@ export const GET_SELLER = gql(`
           averageLikes
           isVerified
         }
+      }
+    }
+  }
+`);
+
+export const GET_AGENCY_ACCOUNT_DETAILS = gql(`
+  #graphql
+  query GetAgencyAccountDetails($username:String) {
+    agency: getCurrentUserAgency(username: $username) {
+      id
+      photo
+      name
+      bio
+      contactEmail
+      contactPhone
+      category
+      username
+      locationID {
+        country
+        city
+        state
+      }
+      pictureUploadURL {
+        uploadURL
+        url
+      }
+      location {
+        city
+        country
       }
     }
   }

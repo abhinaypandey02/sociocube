@@ -2,28 +2,30 @@
 import React, {useState} from "react";
 import classNames from "classnames";
 import {useRouter} from "next/navigation";
-import {useAccountSections} from "../constants";
-import type {GetAccountDetailsQuery} from "../../../__generated__/graphql";
-import {getRoute} from "../../../constants/routes";
+import type {GetAgencyAccountDetailsQuery} from "../../../../__generated__/graphql";
+import {useAgencySections} from "../../constants";
+import {getRoute} from "../../../../constants/routes";
 
-export type AccountSectionData = NonNullable<GetAccountDetailsQuery["user"]>;
+export type AgencyViewData = NonNullable<
+  GetAgencyAccountDetailsQuery["agency"]
+>;
 
-export default function AccountView({
+export default function AgencyView({
   defaultSection,
-  data,
+  agency,
 }: {
   defaultSection: number;
-  data: AccountSectionData;
+  agency: AgencyViewData;
 }) {
   const [selectedSection, setSelectedSection] = useState(
     isNaN(defaultSection) ? 0 : defaultSection,
   );
   const router = useRouter();
-  const ACCOUNT_SECTIONS = useAccountSections();
+  const ACCOUNT_SECTIONS = useAgencySections();
   const SelectedComponent = ACCOUNT_SECTIONS[selectedSection]?.component;
   return (
     <div className="mx-auto max-w-7xl sm:pt-16 lg:flex lg:gap-x-16 lg:px-8">
-      <h2 className="sr-only">General Settings</h2>
+      <h2 className="sr-only">Agency Settings</h2>
 
       <aside className="flex overflow-x-auto border-b border-gray-900/5 py-4 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-20">
         <nav className="flex-none px-4 sm:px-6 lg:px-0">
@@ -42,7 +44,11 @@ export default function AccountView({
                       item.onClick();
                     } else {
                       setSelectedSection(i);
-                      router.push(`${getRoute("Account")}/?section=${i}`);
+                      router.push(
+                        `${getRoute("AccountAgency")}/?section=${i}&agency=${
+                          agency.username
+                        }`,
+                      );
                     }
                   }}
                   type="button"
@@ -63,7 +69,7 @@ export default function AccountView({
           </ul>
         </nav>
       </aside>
-      {SelectedComponent ? <SelectedComponent data={data} /> : null}
+      {SelectedComponent ? <SelectedComponent data={agency} /> : null}
     </div>
   );
 }
