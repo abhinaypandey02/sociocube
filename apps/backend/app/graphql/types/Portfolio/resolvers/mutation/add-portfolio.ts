@@ -1,4 +1,3 @@
-import { Readable } from "node:stream";
 import { and, count, eq, isNotNull, isNull } from "drizzle-orm";
 import { Field, InputType } from "type-graphql";
 import { IsUrl, MaxLength } from "class-validator";
@@ -6,17 +5,18 @@ import {
   MAX_CAMPAIGNS,
   PORTFOLIO_CAPTION_MAX_LENGTH,
 } from "commons/constraints";
-import ffmpeg from "fluent-ffmpeg";
 import { v4 } from "uuid";
-import { MAXIMUM_FILE_SIZE } from "commons/file";
 import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { PortfolioTable } from "../../db/schema";
 import GQLError from "../../../../constants/errors";
 import { AgencyMember } from "../../../Agency/db/schema";
 import { instagramRapidAPI } from "../../../../../../lib/rapidapi/instagram";
-import { uploadImage } from "../../../../../../lib/storage/aws-s3";
-import { ReviewTable } from "../../../Review/db/schema";
+import {
+  getFileURL,
+  getUploadFileURL,
+  uploadImage,
+} from "../../../../../../lib/storage/aws-s3";
 
 @InputType("AddPortfolioArgs")
 export class AddPortfolioArgs {
@@ -32,42 +32,9 @@ export class AddPortfolioArgs {
   agency: number | null;
 }
 
-function createGif(file: Readable, duration: number): Promise<Buffer | null> {
-  return new Promise((resolve) => {
-    const command = ffmpeg(file)
-      .format("gif")
-      .duration(duration)
-      .fpsOutput(10)
-      .complexFilter("scale=-1:360")
-      .pipe();
-
-    const _buf = Array<Uint8Array>();
-
-    command.on("data", (chunk: Uint8Array) => _buf.push(chunk));
-    command.on("end", () => {
-      resolve(Buffer.concat(_buf));
-    });
-    command.on("error", () => {
-      resolve(null);
-    });
-  });
-}
-
-async function getProperSizedGif(file: Readable) {
-  for (let currentDuration = 8; currentDuration > 0; currentDuration /= 2) {
-    // eslint-disable-next-line no-await-in-loop -- fu
-    const gif = await createGif(file, currentDuration);
-    if (gif) {
-      const blob = new Blob([gif]);
-      if (blob.size <= MAXIMUM_FILE_SIZE) return blob;
-    }
-  }
-  return null;
-}
-
 async function getInstagramMediaURL(url: string, userId: string) {
   const res = (await instagramRapidAPI(
-    `post_info?code_or_id_or_url=${url}`,
+    `post_info?code_or_id_or_url=${encodeURIComponent(url)}`,
   )) as {
     data: {
       video_url?: string;
@@ -75,13 +42,21 @@ async function getInstagramMediaURL(url: string, userId: string) {
     };
   };
   if (res.data.video_url) {
-    const stream = await fetch(res.data.video_url).then(({ body }) => body);
+    const key = ["User", userId, "portfolio", v4()];
+    const stream = await fetch("https://strapi.cbtproxy.com:8080/vouchers", {
+      method: "POST",
+      body: JSON.stringify({
+        url: res.data.video_url,
+        uploadURL: await getUploadFileURL(key, true),
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).catch((err) => {
+      console.error(err);
+    });
     if (stream) {
-      // @ts-expect-error -- needed
-      const gif = await getProperSizedGif(Readable.fromWeb(stream));
-      if (gif) {
-        return uploadImage("", ["User", userId, "portfolio", v4()], gif);
-      }
+      return getFileURL(key);
     }
   } else if (res.data.thumbnail_url) {
     return uploadImage(res.data.thumbnail_url, [
@@ -123,7 +98,6 @@ export async function addPortfolio(
             ? isNull(PortfolioTable.user)
             : isNull(PortfolioTable.agency),
           isNotNull(PortfolioTable.imageURL),
-          isNull(ReviewTable.portfolio),
         ),
       );
     if (!portfolioCount)
