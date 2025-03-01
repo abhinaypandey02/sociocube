@@ -3,11 +3,13 @@ import { WelcomeUser } from "./templates/welcome";
 import { VerifyEmail } from "./templates/verify";
 import { BASE_TEMPLATE } from "./templates/base";
 import { ResetPassword } from "./templates/reset-password";
+import { AcceptInvite } from "./templates/accept-invite";
 
 export const Template = {
   WelcomeUser,
   VerifyEmail,
   ResetPassword,
+  AcceptInvite,
 };
 
 export function sendTemplateEmail<T extends keyof typeof Template>(

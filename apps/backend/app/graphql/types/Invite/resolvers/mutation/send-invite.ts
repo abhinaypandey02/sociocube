@@ -8,10 +8,13 @@ import GQLError from "../../../../constants/errors";
 import { AuthorizedContext } from "../../../../context";
 import { sendTemplateEmail } from "../../../../../../lib/email/template";
 import { DAY } from "../../../../utils/time";
-import { AgencyMember } from "../../../Agency/db/schema";
+import { AgencyMember, AgencyTable } from "../../../Agency/db/schema";
 import { AgencyMemberType } from "../../../../constants/agency-member-type";
 import { UserTable } from "../../../User/db/schema";
-import { transferOwnership } from "../../utils";
+import {
+  getAgencyTypeNameFromInviteType,
+  transferOwnership,
+} from "../../utils";
 
 const INVITE_COOLDOWN = 7;
 const MAX_INVITES_AT_ONCE = 7;
@@ -43,7 +46,8 @@ export async function sendInvite(
     .from(AgencyMember)
     .where(
       and(eq(AgencyMember.user, ctx.userId), eq(AgencyMember.agency, agency)),
-    );
+    )
+    .innerJoin(AgencyTable, eq(AgencyTable.id, AgencyMember.agency));
   if (!currentUserMembership)
     throw GQLError(403, "You dont have permission for this agency");
   const weekLater = new Date();
@@ -67,9 +71,10 @@ export async function sendInvite(
       new Date().getTime() - existingInviteToEmail.createdAt.getTime() >
         (INVITE_COOLDOWN * DAY) / 2
     ) {
-      await sendTemplateEmail(email, "VerifyEmail", {
-        firstName: "",
+      await sendTemplateEmail(email, "AcceptInvite", {
+        agency: currentUserMembership.agency.name,
         link: getInviteLink(existingInviteToEmail.id, agency),
+        type: getAgencyTypeNameFromInviteType(type),
       });
       await db.update(InviteTable).set({
         attempts: existingInviteToEmail.attempts + 1,
@@ -105,7 +110,7 @@ export async function sendInvite(
       and(eq(UserTable.id, AgencyMember.user), eq(UserTable.email, email)),
     );
   if (type === InviteType.AgencyOwner) {
-    if (currentUserMembership.type !== AgencyMemberType.Owner) {
+    if (currentUserMembership.agency_member.type !== AgencyMemberType.Owner) {
       throw GQLError(403, "Only the owner can transfer ownership");
     }
 
@@ -166,9 +171,10 @@ export async function sendInvite(
     .returning();
   if (!inserted) return false;
 
-  await sendTemplateEmail(email, "VerifyEmail", {
-    firstName: "",
+  await sendTemplateEmail(email, "AcceptInvite", {
+    agency: currentUserMembership.agency.name,
     link: getInviteLink(inserted.id, agency),
+    type: getAgencyTypeNameFromInviteType(type),
   });
   return true;
 }
