@@ -1,14 +1,25 @@
-import { and, eq, getTableColumns } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
+import { Field, ObjectType } from "type-graphql";
 import { db } from "../../../../../../lib/db";
 import { AgencyMember, AgencyTable } from "../../db/schema";
 import { AuthorizedContext } from "../../../../context";
+import { AgencyGQL } from "../../type";
+import { AgencyMemberType } from "../../../../constants/agency-member-type";
+
+@ObjectType("GetCurrentUserAgencyResponse")
+export class GetCurrentUserAgencyResponse {
+  @Field(() => AgencyGQL)
+  agency: AgencyGQL;
+  @Field(() => AgencyMemberType)
+  type: AgencyMemberType;
+}
 
 export async function getCurrentUserAgency(
   ctx: AuthorizedContext,
   username?: string,
 ) {
-  const [agency] = await db
-    .select(getTableColumns(AgencyTable))
+  const [res] = await db
+    .select()
     .from(AgencyMember)
     .where(and(eq(AgencyMember.user, ctx.userId)))
     .innerJoin(
@@ -19,5 +30,6 @@ export async function getCurrentUserAgency(
       ),
     )
     .limit(1);
-  return agency;
+  if (!res) return null;
+  return { agency: res.agency, type: res.agency_member.type };
 }

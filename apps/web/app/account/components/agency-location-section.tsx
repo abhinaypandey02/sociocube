@@ -17,7 +17,7 @@ import ContentTemplate from "./content-template";
 import type { AccountSectionData } from "./account-view";
 
 export default function AgencyLocationSection({
-  data,
+  data: { agency: data },
 }: {
   data: AgencyViewData;
 }) {

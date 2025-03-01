@@ -1,12 +1,10 @@
-import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
-import type { AuthorizedContext } from "../../../../context";
-import { InviteDetails, inviteDetails } from "./invite-details";
+import { Arg, Query, Resolver } from "type-graphql";
+import { getInviteDetails, InviteDetails } from "./invite-details";
 
 @Resolver()
 export class InviteQueryResolver {
-  @Authorized()
   @Query(() => InviteDetails)
-  inviteDetails(@Ctx() ctx: AuthorizedContext, @Arg("token") token: string) {
-    return inviteDetails(ctx, token);
+  getInviteDetails(@Arg("token") token: string) {
+    return getInviteDetails(token);
   }
 }

@@ -22,5 +22,4 @@ export default async function Page({
   if (!user) return redirect(getRoute("Home"));
   return <AccountView data={user} defaultSection={paramSection} />;
 }
-export const fetchCache = "force-no-store";
 export const metadata = getSEO("Manage your Account");

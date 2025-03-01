@@ -8,6 +8,7 @@ import GQLError from "../../../../constants/errors";
 import { AuthorizedContext } from "../../../../context";
 import { AgencyMember } from "../../../Agency/db/schema";
 import { AgencyMemberType } from "../../../../constants/agency-member-type";
+import { transferOwnership } from "../../utils";
 
 export async function acceptInvite(ctx: AuthorizedContext, token: string) {
   const data = verify(token, process.env.SIGNING_KEY || "") as {
@@ -52,33 +53,7 @@ export async function acceptInvite(ctx: AuthorizedContext, token: string) {
   }
 
   if (res.invite.type === InviteType.AgencyOwner) {
-    const [existingOwner] = await db
-      .select()
-      .from(AgencyMember)
-      .where(
-        and(
-          eq(AgencyMember.user, ctx.userId),
-          eq(AgencyMember.type, AgencyMemberType.Owner),
-        ),
-      );
-    if (existingOwner)
-      throw GQLError(400, "You are already an owner of an agency.");
-    await db
-      .update(AgencyMember)
-      .set({
-        type: AgencyMemberType.Admin,
-      })
-      .where(
-        and(
-          eq(AgencyMember.agency, data.agency),
-          eq(AgencyMember.type, AgencyMemberType.Owner),
-        ),
-      );
-    await db.insert(AgencyMember).values({
-      user: ctx.userId,
-      type: AgencyMemberType.Owner,
-      agency: data.agency,
-    });
+    await transferOwnership(ctx.userId, data.agency);
   }
   await db.delete(InviteTable).where(eq(InviteTable.id, data.id));
   return true;

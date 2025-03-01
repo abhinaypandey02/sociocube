@@ -1,4 +1,4 @@
-import { FieldResolver, Resolver, Root } from "type-graphql";
+import { Authorized, Ctx, FieldResolver, Resolver, Root } from "type-graphql";
 import { and, desc, eq, isNotNull, isNull } from "drizzle-orm";
 import { AgencyGQL } from "../../type";
 import {
@@ -22,6 +22,8 @@ import { ReviewTable } from "../../../Review/db/schema";
 import { UserTable } from "../../../User/db/schema";
 import { FileGQL } from "../../../File/type";
 import { getPictureUploadURL } from "../../../User/resolvers/field/picture-upload-url";
+import { GetAgencyMember, getAgencyMembers } from "../query/get-agency-members";
+import type { AuthorizedContext } from "../../../../context";
 
 @Resolver(() => AgencyGQL)
 export class AgencyFieldResolver {
@@ -88,5 +90,10 @@ export class AgencyFieldResolver {
       .where(eq(PostingTable.agency, agency.id))
       .orderBy(desc(PostingTable.open), desc(PostingTable.createdAt))
       .limit(3);
+  }
+  @FieldResolver(() => [GetAgencyMember])
+  @Authorized()
+  async members(@Ctx() ctx: AuthorizedContext, @Root() agency: AgencyDB) {
+    return getAgencyMembers(ctx, agency.id);
   }
 }

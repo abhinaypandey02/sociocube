@@ -22,7 +22,7 @@ function Button({
   return (
     <button
       className={classNames(
-        "ring-0 border duration-200 disabled:brightness-90 active:brightness-90 flex justify-center rounded-lg px-5 py-1.5  font-semibold leading-6 shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+        "ring-0 border duration-200 disabled:brightness-90 active:brightness-90 flex justify-center rounded-lg px-4 py-1 text-sm font-semibold leading-6 shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
         !success && {
           "border-primary": variant === Variants.PRIMARY,
           "border-accent": variant === Variants.ACCENT,

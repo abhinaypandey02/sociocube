@@ -1,23 +1,19 @@
-import React, { type ChangeEvent, useCallback, useRef, useState } from "react";
-import { Input } from "ui/input";
-import { useForm } from "react-hook-form";
-import { Button } from "ui/button";
+import React, {type ChangeEvent, useCallback, useRef, useState} from "react";
+import {Input} from "ui/input";
+import {useForm} from "react-hook-form";
+import {Button} from "ui/button";
 import Form from "ui/form";
-import {
-  handleGQLErrors,
-  useAuthMutation,
-  useAuthQuery,
-} from "../../../lib/apollo-client";
-import { UPDATE_AGENCY } from "../../../lib/mutations";
-import { getUsernameInputRules } from "../../../lib/utils";
-import { IS_USERNAME_AVAILABLE } from "../../../lib/queries";
-import { getMeURL } from "../../../constants/routes";
-import type { AgencyViewData } from "../agency/components/agency-view";
-import { AgencyCategory } from "../../../__generated__/graphql";
+import {handleGQLErrors, useAuthMutation, useAuthQuery,} from "../../../lib/apollo-client";
+import {UPDATE_AGENCY} from "../../../lib/mutations";
+import {getUsernameInputRules} from "../../../lib/utils";
+import {IS_USERNAME_AVAILABLE} from "../../../lib/queries";
+import {getMeURL} from "../../../constants/routes";
+import type {AgencyViewData} from "../agency/components/agency-view";
+import {AgencyCategory} from "../../../__generated__/graphql";
 import ContentTemplate from "./content-template";
 
 export default function AgencyProfileSection({
-  data,
+  data: { agency: data },
 }: {
   data: AgencyViewData;
 }) {
@@ -28,7 +24,7 @@ export default function AgencyProfileSection({
   const [updateAgency] = useAuthMutation(UPDATE_AGENCY);
   const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
   const handleSave = useCallback(
-    (field: keyof AgencyViewData) => async () => {
+    (field: keyof AgencyViewData["agency"]) => async () => {
       if (!(await form.trigger())) return false;
       await updateAgency({
         agency: {

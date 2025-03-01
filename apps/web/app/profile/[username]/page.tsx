@@ -407,7 +407,7 @@ export default async function ProfilePage({
           </div>
           <div className="mt-6 grid grid-cols-3 gap-3 ">
             <div className="text-center ">
-              <div className=" text-3xl font-medium text-gray-900">
+              <div className=" text-xl font-medium text-gray-900 sm:text-3xl">
                 {convertToAbbreviation(seller.instagramStats.followers)}
               </div>
               <span className="text-sm font-medium text-gray-900">
@@ -415,13 +415,13 @@ export default async function ProfilePage({
               </span>
             </div>
             <div className="text-center ">
-              <div className=" text-3xl font-medium text-gray-900">
+              <div className=" text-xl font-medium text-gray-900 sm:text-3xl">
                 {convertToAbbreviation(seller.instagramStats.mediaCount)}
               </div>
               <span className="text-sm font-medium text-gray-900">Posts</span>
             </div>
             <div className="text-center ">
-              <div className=" text-3xl font-medium text-gray-900">
+              <div className="text-xl font-medium text-gray-900 sm:text-3xl">
                 {getPostFrequency(seller.instagramMedia)}
               </div>
               <span className="text-sm font-medium text-gray-900">

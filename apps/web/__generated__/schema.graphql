@@ -251,6 +251,7 @@ type Agency {
   instagramStats: InstagramStats
   location: Location
   locationID: LocationID
+  members: [GetAgencyMember!]!
   name: String!
   photo: String!
   pictureUploadURL: StorageFile!
@@ -340,6 +341,18 @@ type Currency {
   symbol: String
 }
 
+type GetAgencyMember {
+  email: String!
+  name: String!
+  photo: String
+  type: AgencyMemberType!
+}
+
+type GetCurrentUserAgencyResponse {
+  agency: Agency!
+  type: AgencyMemberType!
+}
+
 type GetFeaturedPostsResponse {
   creatorImage: String!
   creatorName: String!
@@ -372,6 +385,17 @@ type InstagramStats {
   username: String!
 }
 
+type InviteDetails {
+  email: String!
+  subtitle: String!
+  title: String!
+}
+
+enum InviteType {
+  AgencyAdmin
+  AgencyOwner
+}
+
 type Location {
   city: String
   country: String
@@ -391,6 +415,7 @@ type Message {
 }
 
 type Mutation {
+  acceptInvite(token: String!): Boolean!
   acceptPortfolio(review: Float!): Boolean!
   addAgencyBasicDetails(agency: AgencyBasicDetailsInput!): Boolean!
   addAgencyInstagramUsername(username: String!): Boolean!
@@ -411,6 +436,7 @@ type Mutation {
   rejectPortfolio(review: Float!): Boolean!
   resetPassword(newPassword: String!, token: String!): Boolean!
   resumePosting(postingID: Float!): Boolean!
+  sendInvite(args: SendInviteArgs!): Boolean
   sendMessage(body: String!, conversationID: Int!): Boolean!
   sendMessageToUser(body: String!, userID: Int!): Boolean!
   sendResetPasswordEmail(email: String!): Boolean
@@ -546,12 +572,13 @@ type Query {
   getCities(stateID: Int!): [SelectOption!]!
   getCountries: [SelectOption!]!
   getCurrentUser: User
-  getCurrentUserAgency(username: String): Agency
+  getCurrentUserAgency(username: String): GetCurrentUserAgencyResponse
   getFeaturedAgencies: [Agency!]!
   getFeaturedPostings: [Posting!]!
   getFeaturedPosts: [GetFeaturedPostsResponse!]!
   getFeaturedSellers: [User!]!
   getHasUserApplied(postingID: Float!): Boolean!
+  getInviteDetails(token: String!): InviteDetails!
   getPendingPortfolios: [Review!]!
   getPendingReviews: [Float!]!
   getPortfolioUploadURL: StorageFile
@@ -628,6 +655,12 @@ type SelectOption {
 type Seller {
   agency: Agency
   user: User
+}
+
+input SendInviteArgs {
+  agency: Float!
+  email: String!
+  type: InviteType!
 }
 
 input SendReviewByAgencyArgs {

@@ -7,15 +7,15 @@ import { useAgencySections } from "../../constants";
 import { getRoute } from "../../../../constants/routes";
 
 export type AgencyViewData = NonNullable<
-  GetAgencyAccountDetailsQuery["agency"]
+  GetAgencyAccountDetailsQuery["getCurrentUserAgency"]
 >;
 
 export default function AgencyView({
   defaultSection,
-  agency,
+  data,
 }: {
   defaultSection: number;
-  agency: AgencyViewData;
+  data: AgencyViewData;
 }) {
   const [selectedSection, setSelectedSection] = useState(
     isNaN(defaultSection) ? 0 : defaultSection,
@@ -24,7 +24,7 @@ export default function AgencyView({
   const ACCOUNT_SECTIONS = useAgencySections();
   const SelectedComponent = ACCOUNT_SECTIONS[selectedSection]?.component;
   return (
-    <div className="mx-auto max-w-7xl sm:pt-16 lg:flex lg:gap-x-16 lg:px-8">
+    <div className="mx-auto max-w-7xl lg:flex lg:gap-x-16 lg:px-8">
       <h2 className="sr-only">Agency Settings</h2>
 
       <aside className="flex overflow-x-auto border-b border-gray-900/5 py-4 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-20">
@@ -46,7 +46,7 @@ export default function AgencyView({
                       setSelectedSection(i);
                       router.push(
                         `${getRoute("AccountAgency")}/?section=${i}&agency=${
-                          agency.username
+                          data.agency.username
                         }`,
                       );
                     }
@@ -69,7 +69,7 @@ export default function AgencyView({
           </ul>
         </nav>
       </aside>
-      {SelectedComponent ? <SelectedComponent data={agency} /> : null}
+      {SelectedComponent ? <SelectedComponent data={data} /> : null}
     </div>
   );
 }

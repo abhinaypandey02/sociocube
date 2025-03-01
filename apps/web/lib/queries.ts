@@ -271,29 +271,38 @@ export const GET_SELLER = gql(`
 export const GET_AGENCY_ACCOUNT_DETAILS = gql(`
   #graphql
   query GetAgencyAccountDetails($username:String) {
-    agency: getCurrentUserAgency(username: $username) {
-      id
-      photo
-      name
-      bio
-      contactEmail
-      contactPhone
-      category
-      username
-      locationID {
-        country
-        city
-        state
+      getCurrentUserAgency(username: $username){
+          type
+          agency{
+              id
+              photo
+              name
+              bio
+              contactEmail
+              contactPhone
+              category
+              username
+              members {
+                  photo
+                  name
+                  email
+                  type
+              }
+              locationID {
+                  country
+                  city
+                  state
+              }
+              pictureUploadURL {
+                  uploadURL
+                  url
+              }
+              location {
+                  city
+                  country
+              }
+          }
       }
-      pictureUploadURL {
-        uploadURL
-        url
-      }
-      location {
-        city
-        country
-      }
-    }
   }
 `);
 
@@ -686,4 +695,15 @@ export const GET_USER_APPLICATIONS = gql(`
       }
     }
   }
+`);
+
+export const GET_INVITE_DETAILS = gql(`
+  #graphql
+  query GetInviteDetails($token: String!) {
+    getInviteDetails(token: $token) {
+        title
+        subtitle
+        email
+      }
+    }
 `);

@@ -15,14 +15,16 @@ export default async function Page({
   const params = await searchParams;
   const selectedAgencyUsername = params.agency;
   const paramSection = parseInt(params.section || "0");
-  const { agency } = await queryGQL(
+  const { getCurrentUserAgency } = await queryGQL(
     GET_AGENCY_ACCOUNT_DETAILS,
     { username: selectedAgencyUsername },
     await cookies(),
     0,
   );
-  if (!agency) return redirect(getRoute("Home"));
-  return <AgencyView agency={agency} defaultSection={paramSection} />;
+  if (!getCurrentUserAgency) return redirect(getRoute("Home"));
+  return (
+    <AgencyView data={getCurrentUserAgency} defaultSection={paramSection} />
+  );
 }
-export const fetchCache = "force-no-store";
+
 export const metadata = getSEO("Manage your Agency");

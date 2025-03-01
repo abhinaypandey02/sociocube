@@ -1,20 +1,14 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "../../../../context";
-import { InviteType } from "../../db/schema";
-import { sendInvite } from "./send-invite";
+import { sendInvite, SendInviteArgs } from "./send-invite";
 import { acceptInvite } from "./accept-invite";
 
 @Resolver()
 export class InviteMutationResolver {
   @Authorized()
   @Mutation(() => Boolean, { nullable: true })
-  sendInvite(
-    @Ctx() ctx: AuthorizedContext,
-    @Arg("email") email: string,
-    @Arg("type", () => InviteType) type: InviteType,
-    @Arg("agency") agency: number,
-  ) {
-    return sendInvite(ctx, email, type, agency);
+  sendInvite(@Ctx() ctx: AuthorizedContext, @Arg("args") data: SendInviteArgs) {
+    return sendInvite(ctx, data);
   }
   @Authorized()
   @Mutation(() => Boolean)

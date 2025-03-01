@@ -230,3 +230,10 @@ export const SEND_REVIEW_BY_USER = gql(`
     sendReviewByUser(args: $args)  
   }
 `);
+
+export const INVITE_ADMIN = gql(`
+  #graphql
+  mutation InviteAdmin($args:SendInviteArgs!) {
+    sendInvite(args: $args)  
+  }
+`);

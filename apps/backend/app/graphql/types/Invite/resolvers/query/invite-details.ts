@@ -5,9 +5,8 @@ import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../../User/db/schema";
 import { InviteTable } from "../../db/schema";
 import GQLError from "../../../../constants/errors";
-import { AuthorizedContext } from "../../../../context";
 import { AgencyTable } from "../../../Agency/db/schema";
-import { AgencyMemberType } from "../../../../constants/agency-member-type";
+import { getAgencyTypeNameFromInviteType } from "../../utils";
 
 @ObjectType()
 export class InviteDetails {
@@ -19,7 +18,7 @@ export class InviteDetails {
   email: string;
 }
 
-export async function inviteDetails(ctx: AuthorizedContext, token: string) {
+export async function getInviteDetails(token: string) {
   const data = verify(token, process.env.SIGNING_KEY || "") as {
     id: number;
     agency: number;
@@ -38,8 +37,8 @@ export async function inviteDetails(ctx: AuthorizedContext, token: string) {
   if (!res) throw GQLError(400, "Request expired, please request again");
 
   return {
-    title: `Become an ${AgencyMemberType.Owner} of ${agency?.name}`,
-    subtitle: `You have been invited by ${res.user.name} to be the ${AgencyMemberType.Admin} of ${agency?.name}`,
+    title: `Become an ${getAgencyTypeNameFromInviteType(res.invite.type)} of ${agency?.name}`,
+    subtitle: `You have been invited by ${res.user.name} to be the ${getAgencyTypeNameFromInviteType(res.invite.type)} of ${agency?.name}`,
     email: res.invite.email,
   };
 }
