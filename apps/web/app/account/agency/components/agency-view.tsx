@@ -1,10 +1,10 @@
 "use client";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
-import {useRouter} from "next/navigation";
-import type {GetAgencyAccountDetailsQuery} from "../../../../__generated__/graphql";
-import {useAgencySections} from "../../constants";
-import {getRoute} from "../../../../constants/routes";
+import { useRouter } from "next/navigation";
+import type { GetAgencyAccountDetailsQuery } from "../../../../__generated__/graphql";
+import { useAgencySections } from "../../constants";
+import { getRoute } from "../../../../constants/routes";
 
 export type AgencyViewData = NonNullable<
   GetAgencyAccountDetailsQuery["agency"]

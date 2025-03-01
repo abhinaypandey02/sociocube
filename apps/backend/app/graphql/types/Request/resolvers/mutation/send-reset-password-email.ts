@@ -5,6 +5,7 @@ import { UserTable } from "../../../User/db/schema";
 import { RequestTable, RequestType } from "../../db/schema";
 import { sendTemplateEmail } from "../../../../../../lib/email/template";
 import GQLError from "../../../../constants/errors";
+import { DAY } from "../../../../utils/time";
 
 function getForgetLink(id: number) {
   const token = sign({ id }, process.env.SIGNING_KEY || "", {
@@ -29,7 +30,7 @@ export async function handleSendResetPasswordEmail(userEmail: string) {
       ),
     );
   if (res) {
-    if (new Date().getTime() - res.createdAt.getTime() < 24 * 3600000) {
+    if (new Date().getTime() - res.createdAt.getTime() < DAY) {
       if (res.attempts >= 2)
         throw GQLError(
           403,

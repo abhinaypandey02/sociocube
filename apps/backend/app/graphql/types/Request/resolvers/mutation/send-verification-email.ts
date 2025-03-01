@@ -5,6 +5,7 @@ import { UserTable } from "../../../User/db/schema";
 import { RequestTable, RequestType } from "../../db/schema";
 import { sendTemplateEmail } from "../../../../../../lib/email/template";
 import GQLError from "../../../../constants/errors";
+import { HOUR } from "../../../../utils/time";
 
 function getVerifyLink(id: number) {
   const token = sign({ id }, process.env.SIGNING_KEY || "", {
@@ -40,7 +41,7 @@ export async function handleSendVerificationEmail(userID: number) {
       ),
     );
   if (res) {
-    if (new Date().getTime() - res.createdAt.getTime() < 3600000) {
+    if (new Date().getTime() - res.createdAt.getTime() < HOUR) {
       if (res.attempts >= 2)
         throw GQLError(
           403,

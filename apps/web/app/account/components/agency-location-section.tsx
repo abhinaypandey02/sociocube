@@ -1,16 +1,20 @@
-import React, {useEffect} from "react";
-import {Input} from "ui/input";
-import {type SubmitHandler, useForm} from "react-hook-form";
+import React, { useEffect } from "react";
+import { Input } from "ui/input";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import Form from "ui/form";
-import {Button} from "ui/button";
-import {useRouter} from "next/navigation";
-import {toast} from "react-hot-toast";
-import {handleGQLErrors, useAuthMutation, useAuthQuery,} from "../../../lib/apollo-client";
-import {UPDATE_AGENCY_LOCATION} from "../../../lib/mutations";
-import {GET_CITIES, GET_COUNTRIES, GET_STATES} from "../../../lib/queries";
-import type {AgencyViewData} from "../agency/components/agency-view";
+import { Button } from "ui/button";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
+import {
+  handleGQLErrors,
+  useAuthMutation,
+  useAuthQuery,
+} from "../../../lib/apollo-client";
+import { UPDATE_AGENCY_LOCATION } from "../../../lib/mutations";
+import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "../../../lib/queries";
+import type { AgencyViewData } from "../agency/components/agency-view";
 import ContentTemplate from "./content-template";
-import type {AccountSectionData} from "./account-view";
+import type { AccountSectionData } from "./account-view";
 
 export default function AgencyLocationSection({
   data,

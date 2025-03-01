@@ -1,6 +1,6 @@
-import {Field, Int, ObjectType} from "type-graphql";
-import {AgencyMemberType} from "../../constants/agency-member-type";
-import {AgencyCategory} from "../../constants/agency-category";
+import { Field, Int, ObjectType } from "type-graphql";
+import { AgencyMemberType } from "../../constants/agency-member-type";
+import { AgencyCategory } from "../../constants/agency-category";
 
 @ObjectType("Agency")
 export class AgencyGQL {

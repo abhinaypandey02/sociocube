@@ -4,6 +4,7 @@ import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../../User/db/schema";
 import { RequestTable, RequestType } from "../../db/schema";
 import GQLError from "../../../../constants/errors";
+import { DAY } from "../../../../utils/time";
 
 export async function handleVerifyEmail(token: string) {
   const data = verify(token, process.env.SIGNING_KEY || "") as {
@@ -22,7 +23,7 @@ export async function handleVerifyEmail(token: string) {
     .innerJoin(UserTable, eq(UserTable.id, RequestTable.user));
   if (!res) throw GQLError(400, "Request expired, please request again");
   if (res.user.emailVerified) return true;
-  if (new Date().getTime() - res.request.createdAt.getTime() > 48 * 3600000)
+  if (new Date().getTime() - res.request.createdAt.getTime() > 2 * DAY)
     throw GQLError(400, "Link expired, please request again");
   await db
     .update(UserTable)

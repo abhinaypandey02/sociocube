@@ -1,7 +1,7 @@
-import {and, eq, getTableColumns} from "drizzle-orm";
-import {db} from "../../../../../../lib/db";
-import {AgencyMember, AgencyTable} from "../../db/schema";
-import {AuthorizedContext} from "../../../../context";
+import { and, eq, getTableColumns } from "drizzle-orm";
+import { db } from "../../../../../../lib/db";
+import { AgencyMember, AgencyTable } from "../../db/schema";
+import { AuthorizedContext } from "../../../../context";
 
 export async function getCurrentUserAgency(
   ctx: AuthorizedContext,

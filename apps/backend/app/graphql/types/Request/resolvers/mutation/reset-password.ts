@@ -26,7 +26,7 @@ export async function handleResetPassword(token: string, newPassword: string) {
     throw GQLError(400, "Link expired, please request again");
   await db
     .update(UserTable)
-    .set({ password: await hash(newPassword, 10) })
+    .set({ password: await hash(newPassword, 10), emailVerified: true })
     .where(eq(UserTable.id, res.user.id));
   await db.delete(RequestTable).where(eq(RequestTable.id, data.id));
   return true;

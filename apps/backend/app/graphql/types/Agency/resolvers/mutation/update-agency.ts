@@ -1,13 +1,19 @@
-import {Field, InputType} from "type-graphql";
-import {IsEmail, IsNumberString, IsUrl, Matches, MaxLength,} from "class-validator";
-import {and, eq} from "drizzle-orm";
-import {NAME_MAX_LENGTH, USERNAME_MAX_LENGTH} from "commons/constraints";
-import {USERNAME_REGEX} from "commons/regex";
-import {db} from "../../../../../../lib/db";
-import {AgencyMember, AgencyTable} from "../../db/schema";
-import {AuthorizedContext} from "../../../../context";
+import { Field, InputType } from "type-graphql";
+import {
+  IsEmail,
+  IsNumberString,
+  IsUrl,
+  Matches,
+  MaxLength,
+} from "class-validator";
+import { and, eq } from "drizzle-orm";
+import { NAME_MAX_LENGTH, USERNAME_MAX_LENGTH } from "commons/constraints";
+import { USERNAME_REGEX } from "commons/regex";
+import { db } from "../../../../../../lib/db";
+import { AgencyMember, AgencyTable } from "../../db/schema";
+import { AuthorizedContext } from "../../../../context";
 import GQLError from "../../../../constants/errors";
-import {handleIsUsernameAvailable} from "../../../User/resolvers/queries/is-username-available";
+import { handleIsUsernameAvailable } from "../../../User/resolvers/queries/is-username-available";
 
 @InputType("UpdateAgencyInput")
 export class UpdateAgencyInput {

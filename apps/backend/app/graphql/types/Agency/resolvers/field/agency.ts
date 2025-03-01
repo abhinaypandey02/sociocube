@@ -1,21 +1,27 @@
-import {FieldResolver, Resolver, Root} from "type-graphql";
-import {and, desc, eq, isNotNull, isNull} from "drizzle-orm";
-import {AgencyGQL} from "../../type";
-import {getInstagramMedia, getInstagramStats,} from "../../../User/resolvers/field/instagram";
-import type {AgencyDB} from "../../db/schema";
-import {InstagramMedia, InstagramStats} from "../../../Instagram/type";
-import {Location, LocationID} from "../../../User/type";
-import {getLocation, getLocationID,} from "../../../User/resolvers/field/location";
-import {PortfolioGQL} from "../../../Portfolio/type";
-import {db} from "../../../../../../lib/db";
-import {PortfolioTable} from "../../../Portfolio/db/schema";
-import {PostingGQL} from "../../../Posting/type";
-import {PostingTable} from "../../../Posting/db/schema";
-import {ReviewGQL} from "../../../Review/type";
-import {ReviewTable} from "../../../Review/db/schema";
-import {UserTable} from "../../../User/db/schema";
-import {FileGQL} from "../../../File/type";
-import {getPictureUploadURL} from "../../../User/resolvers/field/picture-upload-url";
+import { FieldResolver, Resolver, Root } from "type-graphql";
+import { and, desc, eq, isNotNull, isNull } from "drizzle-orm";
+import { AgencyGQL } from "../../type";
+import {
+  getInstagramMedia,
+  getInstagramStats,
+} from "../../../User/resolvers/field/instagram";
+import type { AgencyDB } from "../../db/schema";
+import { InstagramMedia, InstagramStats } from "../../../Instagram/type";
+import { Location, LocationID } from "../../../User/type";
+import {
+  getLocation,
+  getLocationID,
+} from "../../../User/resolvers/field/location";
+import { PortfolioGQL } from "../../../Portfolio/type";
+import { db } from "../../../../../../lib/db";
+import { PortfolioTable } from "../../../Portfolio/db/schema";
+import { PostingGQL } from "../../../Posting/type";
+import { PostingTable } from "../../../Posting/db/schema";
+import { ReviewGQL } from "../../../Review/type";
+import { ReviewTable } from "../../../Review/db/schema";
+import { UserTable } from "../../../User/db/schema";
+import { FileGQL } from "../../../File/type";
+import { getPictureUploadURL } from "../../../User/resolvers/field/picture-upload-url";
 
 @Resolver(() => AgencyGQL)
 export class AgencyFieldResolver {

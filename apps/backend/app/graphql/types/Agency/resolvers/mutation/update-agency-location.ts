@@ -1,9 +1,9 @@
-import {Field, InputType} from "type-graphql";
-import {and, eq} from "drizzle-orm";
-import {db} from "../../../../../../lib/db";
-import {AgencyMember, AgencyTable} from "../../db/schema";
-import {AuthorizedContext} from "../../../../context";
-import {LocationTable} from "../../../User/db/schema";
+import { Field, InputType } from "type-graphql";
+import { and, eq } from "drizzle-orm";
+import { db } from "../../../../../../lib/db";
+import { AgencyMember, AgencyTable } from "../../db/schema";
+import { AuthorizedContext } from "../../../../context";
+import { LocationTable } from "../../../User/db/schema";
 import GQLError from "../../../../constants/errors";
 
 @InputType("UpdateAgencyLocationInput")

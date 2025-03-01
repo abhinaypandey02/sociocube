@@ -17,6 +17,7 @@ import { RequestResolvers } from "./types/Request/resolvers";
 import { PortfolioResolvers } from "./types/Portfolio/resolvers";
 import { AgencyResolvers } from "./types/Agency/resolvers";
 import { ReviewResolvers } from "./types/Review/resolvers";
+import { InviteResolvers } from "./types/Invite/resolvers";
 
 const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
   resolvers: [
@@ -29,6 +30,7 @@ const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
     ...PortfolioResolvers,
     ...AgencyResolvers,
     ...ReviewResolvers,
+    ...InviteResolvers,
   ],
   authChecker,
   validate: true,

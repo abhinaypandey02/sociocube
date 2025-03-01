@@ -1,11 +1,17 @@
-import {Arg, Authorized, Ctx, Mutation, Resolver} from "type-graphql";
-import type {AuthorizedContext} from "../../../../context";
-import {addAgencyBasicDetails, AgencyBasicDetailsInput,} from "./add-agency-basic-details";
-import {updateAgency, UpdateAgencyInput} from "./update-agency";
-import {addAgencyInstagramUsername} from "./add-agency-instagram-username";
-import {addAgencyUsername, AgencyUsernameInput} from "./add-agency-username";
-import {addAgencyLocation, AgencyLocationInput} from "./add-agency-location";
-import {updateAgencyLocation, UpdateAgencyLocationInput,} from "./update-agency-location";
+import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
+import type { AuthorizedContext } from "../../../../context";
+import {
+  addAgencyBasicDetails,
+  AgencyBasicDetailsInput,
+} from "./add-agency-basic-details";
+import { updateAgency, UpdateAgencyInput } from "./update-agency";
+import { addAgencyInstagramUsername } from "./add-agency-instagram-username";
+import { addAgencyUsername, AgencyUsernameInput } from "./add-agency-username";
+import { addAgencyLocation, AgencyLocationInput } from "./add-agency-location";
+import {
+  updateAgencyLocation,
+  UpdateAgencyLocationInput,
+} from "./update-agency-location";
 
 @Resolver()
 export class AgencyMutationResolvers {
