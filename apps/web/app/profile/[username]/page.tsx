@@ -87,7 +87,7 @@ export default async function ProfilePage({
       username,
     },
     undefined,
-    noCache ? 0 : 60 * 6 * 165,
+    noCache ? 0 : 60 * 10,
     [`profile-${username}`],
   );
   const user = getSeller?.user;
