@@ -11,21 +11,24 @@ import {
 } from "../../campaigns/applications/utils";
 import FullScreenLoader from "../../components/full-screen-loader";
 
+type Application = GetUserApplicationsQuery["getUserApplications"][0] & {
+  isPendingReview: boolean;
+};
+
+type Applications = GetUserApplicationsQuery & {
+  applications: Application[];
+};
+
 export default function AplicationTable({
   data,
   loading,
 }: {
-  data?: GetUserApplicationsQuery;
+  data?: Applications;
   loading: boolean;
 }) {
-  const getUserApplications = data?.getUserApplications || [];
-  const getPendingReviews = data?.getPendingReviews || [];
   const uploadURL = data?.uploadURL;
+  const applications = data?.applications || [];
   if (loading) return <FullScreenLoader />;
-  const applications = getUserApplications.map((app) => ({
-    ...app,
-    isPendingReview: getPendingReviews.includes(app.posting?.id || -1),
-  }));
   return (
     <div>
       {applications.length === 0 && (
@@ -105,7 +108,7 @@ export default function AplicationTable({
                   </div>
                 </div>
               </li>
-            ),
+            )
         )}
       </ul>
     </div>

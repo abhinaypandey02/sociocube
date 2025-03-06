@@ -16,9 +16,18 @@ export default function MyApplications() {
               GET_USER_APPLICATIONS,
               undefined,
               await cookies(),
-              0,
+              0
             );
-          return { getUserApplications, getPendingReviews, uploadURL };
+          const applications = getUserApplications.map((app) => ({
+            ...app,
+            isPendingReview: getPendingReviews.includes(app.posting?.id || -1),
+          }));
+          return {
+            applications,
+            uploadURL,
+            getPendingReviews,
+            getUserApplications,
+          };
         }}
       />
     </AccountPageWrapper>
