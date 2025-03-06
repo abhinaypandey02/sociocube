@@ -29,7 +29,7 @@ export default function PostingsPage() {
             GET_USER_POSTINGS,
             undefined,
             await cookies(),
-            0
+            0,
           );
           return { postings, user };
         }}

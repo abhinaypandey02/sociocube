@@ -32,7 +32,7 @@ const columns = [
       getCurrency(
         val.row.original.barter,
         val.row.original.currency,
-        val.getValue()
+        val.getValue(),
       ),
   }),
 
@@ -91,7 +91,7 @@ export default function PostingsTable({
   if (!user?.agencies.length) return redirect(getRoute("AgencyOnboarding"));
   const totalEarnings = postings.reduce(
     (acc, curr) => curr.referralEarnings + acc,
-    0
+    0,
   );
   return (
     <>
@@ -109,7 +109,7 @@ export default function PostingsTable({
         data={postings}
       />
       {totalEarnings ? (
-        <EarningsInfo totalEarnings={totalEarnings} title="Total Earnings" />
+        <EarningsInfo title="Total Earnings" totalEarnings={totalEarnings} />
       ) : null}
     </>
   );
