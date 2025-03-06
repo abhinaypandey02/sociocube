@@ -19,7 +19,7 @@ export default async function Page({
           GET_ACCOUNT_DETAILS,
           undefined,
           await cookies(),
-          0
+          0,
         );
         return user || null;
       }}
