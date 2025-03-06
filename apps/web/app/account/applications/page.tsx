@@ -16,7 +16,7 @@ export default function MyApplications() {
               GET_USER_APPLICATIONS,
               undefined,
               await cookies(),
-              0
+              0,
             );
           return { getUserApplications, getPendingReviews, uploadURL };
         }}

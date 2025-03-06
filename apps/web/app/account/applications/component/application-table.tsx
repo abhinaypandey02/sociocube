@@ -1,9 +1,9 @@
 import React from "react";
-import { getRoute } from "../../../../constants/routes";
 import Link from "next/link";
-import { GetUserApplicationsQuery } from "../../../../__generated__/graphql";
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
+import type { GetUserApplicationsQuery } from "../../../../__generated__/graphql";
+import { getRoute } from "../../../../constants/routes";
 import SendReview from "../../campaigns/applications/components/send-review";
 import {
   getStatusColor,
@@ -105,7 +105,7 @@ export default function AplicationTable({
                   </div>
                 </div>
               </li>
-            )
+            ),
         )}
       </ul>
     </div>
