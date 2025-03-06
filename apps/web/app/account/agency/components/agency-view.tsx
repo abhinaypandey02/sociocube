@@ -21,7 +21,7 @@ export default function AgencyView({
   loading: boolean;
 }) {
   const [selectedSection, setSelectedSection] = useState(
-    isNaN(defaultSection) ? 0 : defaultSection
+    isNaN(defaultSection) ? 0 : defaultSection,
   );
   const router = useRouter();
   const ACCOUNT_SECTIONS = useAgencySections();
@@ -42,7 +42,7 @@ export default function AgencyView({
                     selectedSection === i
                       ? "bg-gray-50 text-accent"
                       : "text-gray-700 hover:text-accent hover:bg-gray-50",
-                    "group cursor-pointer flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold"
+                    "group cursor-pointer flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold",
                   )}
                   onClick={() => {
                     if (item.onClick) {
@@ -52,7 +52,7 @@ export default function AgencyView({
                       router.push(
                         `${getRoute("AccountAgency")}/?section=${i}&agency=${
                           data.agency.username
-                        }`
+                        }`,
                       );
                     }
                   }}
@@ -64,7 +64,7 @@ export default function AgencyView({
                       selectedSection === i
                         ? "text-accent"
                         : "text-gray-400 group-hover:text-accent",
-                      "h-6 w-6 shrink-0"
+                      "h-6 w-6 shrink-0",
                     )}
                   />
                   {item.title}

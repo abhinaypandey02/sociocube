@@ -21,7 +21,7 @@ export default async function Page({
           GET_AGENCY_ACCOUNT_DETAILS,
           { username: selectedAgencyUsername },
           await cookies(),
-          0
+          0,
         );
         return getCurrentUserAgency || null;
       }}
