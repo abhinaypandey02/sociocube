@@ -1,26 +1,33 @@
 "use client";
 import React, { useState } from "react";
 import classNames from "classnames";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useAccountSections } from "../constants";
 import type { GetAccountDetailsQuery } from "../../../__generated__/graphql";
 import { getRoute } from "../../../constants/routes";
+import FullScreenLoader from "./full-screen-loader";
 
 export type AccountSectionData = NonNullable<GetAccountDetailsQuery["user"]>;
 
 export default function AccountView({
-  defaultSection,
   data,
+  defaultSection,
+  loading,
 }: {
+  data: GetAccountDetailsQuery["user"];
   defaultSection: number;
-  data: AccountSectionData;
+  loading: boolean;
 }) {
   const [selectedSection, setSelectedSection] = useState(
-    isNaN(defaultSection) ? 0 : defaultSection,
+    isNaN(defaultSection) ? 0 : defaultSection
   );
   const router = useRouter();
   const ACCOUNT_SECTIONS = useAccountSections();
   const SelectedComponent = ACCOUNT_SECTIONS[selectedSection]?.component;
+  if (loading) return <FullScreenLoader />;
+
+  if (!data) redirect(getRoute("Home"));
+
   return (
     <div className="mx-auto max-w-7xl lg:flex lg:gap-x-16 lg:px-8">
       <h2 className="sr-only">General Settings</h2>
@@ -35,7 +42,7 @@ export default function AccountView({
                     selectedSection === i
                       ? "bg-gray-50 text-accent"
                       : "text-gray-700 hover:text-accent hover:bg-gray-50",
-                    "group cursor-pointer flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold",
+                    "group cursor-pointer flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold"
                   )}
                   onClick={() => {
                     if (item.onClick) {
@@ -53,7 +60,7 @@ export default function AccountView({
                       selectedSection === i
                         ? "text-accent"
                         : "text-gray-400 group-hover:text-accent",
-                      "h-6 w-6 shrink-0",
+                      "h-6 w-6 shrink-0"
                     )}
                   />
                   {item.title}
