@@ -8,7 +8,6 @@ export default function EarningsInfo({
   totalEarnings: number;
   title: string;
 }) {
-  if (!totalEarnings) return null;
   return (
     <div className="mt-6">
       <div>
