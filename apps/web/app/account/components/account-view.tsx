@@ -24,9 +24,8 @@ export default function AccountView({
   const router = useRouter();
   const ACCOUNT_SECTIONS = useAccountSections();
   const SelectedComponent = ACCOUNT_SECTIONS[selectedSection]?.component;
-  if (loading) return <FullScreenLoader />;
 
-  if (!data) return redirect(getRoute("Home"));
+  if (!data && !loading) return redirect(getRoute("Home"));
 
   return (
     <div className="mx-auto max-w-7xl lg:flex lg:gap-x-16 lg:px-8">
@@ -70,7 +69,13 @@ export default function AccountView({
           </ul>
         </nav>
       </aside>
-      {SelectedComponent ? <SelectedComponent data={data} /> : null}
+      {loading ? (
+        <FullScreenLoader className="!h-full" />
+      ) : (
+        <>
+          {SelectedComponent && data ? <SelectedComponent data={data} /> : null}
+        </>
+      )}
     </div>
   );
 }

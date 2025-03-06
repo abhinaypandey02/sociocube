@@ -21,13 +21,12 @@ export default function AgencyView({
   loading: boolean;
 }) {
   const [selectedSection, setSelectedSection] = useState(
-    isNaN(defaultSection) ? 0 : defaultSection,
+    isNaN(defaultSection) ? 0 : defaultSection
   );
   const router = useRouter();
   const ACCOUNT_SECTIONS = useAgencySections();
   const SelectedComponent = ACCOUNT_SECTIONS[selectedSection]?.component;
-  if (loading) return <FullScreenLoader />;
-  if (!data) return redirect(getRoute("Home"));
+  if (!loading && !data) return redirect(getRoute("Home"));
   return (
     <div className="mx-auto max-w-7xl lg:flex lg:gap-x-16 lg:px-8">
       <h2 className="sr-only">Agency Settings</h2>
@@ -42,7 +41,7 @@ export default function AgencyView({
                     selectedSection === i
                       ? "bg-gray-50 text-accent"
                       : "text-gray-700 hover:text-accent hover:bg-gray-50",
-                    "group cursor-pointer flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold",
+                    "group cursor-pointer flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold"
                   )}
                   onClick={() => {
                     if (item.onClick) {
@@ -51,8 +50,8 @@ export default function AgencyView({
                       setSelectedSection(i);
                       router.push(
                         `${getRoute("AccountAgency")}/?section=${i}&agency=${
-                          data.agency.username
-                        }`,
+                          data?.agency.username
+                        }`
                       );
                     }
                   }}
@@ -64,7 +63,7 @@ export default function AgencyView({
                       selectedSection === i
                         ? "text-accent"
                         : "text-gray-400 group-hover:text-accent",
-                      "h-6 w-6 shrink-0",
+                      "h-6 w-6 shrink-0"
                     )}
                   />
                   {item.title}
@@ -74,7 +73,13 @@ export default function AgencyView({
           </ul>
         </nav>
       </aside>
-      {SelectedComponent ? <SelectedComponent data={data} /> : null}
+      {loading ? (
+        <FullScreenLoader className="!h-full" />
+      ) : (
+        <>
+          {SelectedComponent && data ? <SelectedComponent data={data} /> : null}
+        </>
+      )}
     </div>
   );
 }
