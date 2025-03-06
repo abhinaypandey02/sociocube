@@ -108,7 +108,7 @@ export default function AplicationTable({
                   </div>
                 </div>
               </li>
-            )
+            ),
         )}
       </ul>
     </div>
