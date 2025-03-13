@@ -14,9 +14,9 @@ import { UserTable } from "../../graphql/types/User/db/schema";
 import { db } from "../../../lib/db";
 import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
 import { uploadImage } from "../../../lib/storage/aws-s3";
-import { getPosts } from "../../graphql/types/User/resolvers/field/instagram";
 import { InstagramMediaTable } from "../../graphql/types/Instagram/db/schema2";
 import { AgencyTable } from "../../graphql/types/Agency/db/schema";
+import { fetchUploadedPostsAndStats } from "../../graphql/types/Instagram/utils";
 import {
   getGraphData,
   getInstagramAuthorizationUrl,
@@ -144,13 +144,13 @@ export const GET = async (req: NextRequest) => {
               ),
             );
         }
-        const { posts, stats } = await getPosts(
+        const { posts, stats } = await fetchUploadedPostsAndStats(
           personalInfo.followers_count,
           loggedInUserID,
           accessToken,
           personalInfo.username,
         );
-        if (posts.length > 0)
+        if (posts && posts.length > 0)
           await db
             .insert(InstagramMediaTable)
             .values(posts)

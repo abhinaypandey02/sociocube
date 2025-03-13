@@ -1,7 +1,4 @@
-import { eq } from "drizzle-orm";
 import { instagramRapidAPI } from "../../../lib/rapidapi/instagram";
-import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
-import { db } from "../../../lib/db";
 
 export const getInstagramAuthorizationUrl = (
   state: string,
@@ -86,51 +83,4 @@ export async function getInstagramDataExternalAPI(username: string) {
     };
   };
   return result.data;
-}
-
-export async function getInstagramMediaExternalAPI(username: string) {
-  const result = (await instagramRapidAPI(
-    `reels?username_or_id_or_url=${username}&url_embed_safe=true`,
-  ).catch(() => ({}))) as {
-    data?: {
-      user?: {
-        username: string;
-      };
-      items: {
-        comment_count: number;
-        like_count: number;
-        video_url?: string;
-        code: string;
-        thumbnail_url: string;
-        is_video: boolean;
-        can_reply: boolean;
-        like_and_view_counts_disabled: boolean;
-        taken_at: number;
-        id: string;
-        caption?: {
-          text?: string;
-        };
-      }[];
-    };
-  };
-  if (result.data?.user?.username && result.data.user.username !== username) {
-    await db
-      .update(InstagramDetails)
-      .set({
-        username: result.data.user.username,
-      })
-      .where(eq(InstagramDetails.username, username));
-  }
-  return result.data?.items.map((item) => ({
-    id: item.id,
-    thumbnail_url: item.thumbnail_url,
-    like_count: item.like_count,
-    comments_count: item.comment_count,
-    permalink: `https://www.instagram.com/p/${item.code}`,
-    caption: item.caption?.text || "",
-    media_url: item.video_url,
-    is_comment_enabled: item.can_reply,
-    timestamp: new Date(item.taken_at * 1000).toISOString(),
-    isVideo: item.is_video,
-  }));
 }

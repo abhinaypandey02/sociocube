@@ -10,10 +10,10 @@ import {
 import { AuthorizedContext } from "../../../../context";
 import GQLError from "../../../../constants/errors";
 import { LocationTable } from "../../../User/db/schema";
-import { getPosts } from "../../../User/resolvers/field/instagram";
 import { InstagramMediaTable } from "../../../Instagram/db/schema2";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { AgencyMemberType } from "../../../../constants/agency-member-type";
+import { fetchUploadedPostsAndStats } from "../../../Instagram/utils";
 
 @InputType("AgencyLocationInput")
 export class AgencyLocationInput {
@@ -76,18 +76,20 @@ export async function addAgencyLocation(
     .from(InstagramDetails)
     .where(eq(InstagramDetails.id, onboardingDetails.instagramDetails));
   if (instagramDetails) {
-    const { posts, stats } = await getPosts(
+    const { posts, stats } = await fetchUploadedPostsAndStats(
       instagramDetails.followers,
       agency.id,
       instagramDetails.accessToken,
       instagramDetails.username,
       true,
     );
-    await db.insert(InstagramMediaTable).values(posts).onConflictDoNothing();
-    await db
-      .update(InstagramDetails)
-      .set(stats)
-      .where(eq(InstagramDetails.id, instagramDetails.id));
+    if (posts && stats) {
+      await db.insert(InstagramMediaTable).values(posts).onConflictDoNothing();
+      await db
+        .update(InstagramDetails)
+        .set(stats)
+        .where(eq(InstagramDetails.id, instagramDetails.id));
+    }
   }
   return agency.username;
 }

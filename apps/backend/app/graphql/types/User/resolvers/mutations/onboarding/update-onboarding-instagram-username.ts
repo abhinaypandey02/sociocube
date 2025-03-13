@@ -7,8 +7,8 @@ import { getInstagramDataExternalAPI } from "../../../../../../auth/instagram/ut
 import { InstagramDetails } from "../../../../Instagram/db/schema";
 import { getCurrentUser } from "../../../utils";
 import { uploadImage } from "../../../../../../../lib/storage/aws-s3";
-import { getPosts } from "../../field/instagram";
 import { InstagramMediaTable } from "../../../../Instagram/db/schema2";
+import { fetchUploadedPostsAndStats } from "../../../../Instagram/utils";
 
 export async function handleUpdateOnboardingInstagramUsername(
   ctx: AuthorizedContext,
@@ -40,16 +40,15 @@ export async function handleUpdateOnboardingInstagramUsername(
   }
   const user = await getCurrentUser(ctx);
   if (!user) throw GQLError(403, "User not found");
-  const { posts, stats } = await getPosts(
+  const { posts, stats } = await fetchUploadedPostsAndStats(
     data.follower_count,
     ctx.userId,
     undefined,
     data.username,
   );
-  await db
-    .delete(InstagramMediaTable)
-    .where(eq(InstagramMediaTable.user, ctx.userId));
-  await db.insert(InstagramMediaTable).values(posts).onConflictDoNothing();
+  if (posts) {
+    await db.insert(InstagramMediaTable).values(posts).onConflictDoNothing();
+  }
   const [details] = await db
     .insert(InstagramDetails)
     .values({
