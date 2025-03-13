@@ -9,7 +9,7 @@ export default function Logout() {
   async function handleLogout() {
     router.push("/");
     await logout();
-    router.refresh();
+    window.location.reload();
   }
   return (
     <>
