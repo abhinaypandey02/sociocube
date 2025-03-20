@@ -13,6 +13,7 @@ import {
 import classNames from "classnames";
 import { List, User, X } from "@phosphor-icons/react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { Button } from "../../atoms/button";
 import type { NavbarProps } from "./types";
 
@@ -34,13 +35,13 @@ function Navbar({
     <header className="bg-primary-bg">
       <nav
         aria-label="Global"
-        className="mx-auto flex max-w-7xl items-center justify-between py-6 pl-6 pr-3 sm:gap-x-6 sm:pr-6 lg:px-8"
+        className="mx-auto flex max-w-7xl items-center justify-between pb-6 pl-6 pr-3 pt-7 sm:gap-x-6 sm:pr-6 lg:px-8"
       >
         <Link
           className="-m-1.5 p-1.5 font-madina text-5xl leading-none text-primary sm:text-6xl"
           href={process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "/"}
         >
-          <h1 className="lowercase">Sociocube</h1>
+          <Image alt="Sociocube" height={48} src="/icon0.svg" width={48} />
         </Link>
         <div className="hidden lg:flex lg:gap-x-12">
           {primaryLinks.map(

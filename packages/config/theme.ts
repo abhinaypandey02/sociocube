@@ -1,11 +1,11 @@
-import type { Config } from 'tailwindcss'
+import type {Config} from 'tailwindcss'
 
 const theme: Config['theme'] = {
         colors:{
-            primary:'#F45B69',
+            primary:'#5B9364',
             accent:'#4f46e5',
             dark:'#011627',
-            "primary-bg":'#fcfcfc'
+            "primary-bg":'#fff'
         },
         borderRadius:{
             primary:'4px'
