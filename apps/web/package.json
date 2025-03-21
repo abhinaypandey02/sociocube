@@ -22,6 +22,7 @@
     "@headlessui/react": "^2.1.10",
     "@next/third-parties": "^15.0.3",
     "@phosphor-icons/react": "^2.1.7",
+    "@sentry/nextjs": "^9.8.0",
     "@tanstack/react-table": "^8.20.6",
     "class-validator": "^0.14.1",
     "classnames": "^2.5.1",

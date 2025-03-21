@@ -32,7 +32,8 @@
     "HF_API_KEY",
     "NEXT_PUBLIC_GA_ID",
     "NODEMAILER_EMAIL",
-    "NODEMAILER_PASSWORD"
+    "NODEMAILER_PASSWORD",
+    "NEXT_PUBLIC_SENTRY_DSN"
   ],
   "tasks": {
     "db-studio": {
