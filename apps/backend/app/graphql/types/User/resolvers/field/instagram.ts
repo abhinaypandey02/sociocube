@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { UserDB } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
 import { InstagramDetails } from "../../../Instagram/db/schema";
@@ -11,6 +11,7 @@ import {
   fetchUploadedPostsAndStats,
 } from "../../../Instagram/utils";
 import { deleteOldPosts } from "../../../Instagram/fetch-utils";
+import { deleteImage } from "../../../../../../lib/storage/aws-s3";
 
 function cacheAlive(d: Date) {
   const time = (new Date().getTime() - d.getTime()) / (1000 * 60 * 60);
@@ -79,22 +80,22 @@ export async function getInstagramMedia(
     .from(InstagramDetails)
     .where(eq(InstagramDetails.id, user.instagramDetails));
   if (!instagramDetails) return [];
-  // if (
-  //   instagramDetails.lastFetchedInstagramMedia &&
-  //   cacheAlive(instagramDetails.lastFetchedInstagramMedia)
-  // ) {
-  //   const posts = await db
-  //     .select()
-  //     .from(InstagramMediaTable)
-  //     .where(
-  //       isAgency
-  //         ? eq(InstagramMediaTable.agency, user.id)
-  //         : eq(InstagramMediaTable.user, user.id),
-  //     )
-  //     .orderBy(desc(InstagramMediaTable.er))
-  //     .limit(4);
-  //   if (posts.length > 0) return posts;
-  // }
+  if (
+    instagramDetails.lastFetchedInstagramMedia &&
+    cacheAlive(instagramDetails.lastFetchedInstagramMedia)
+  ) {
+    const posts = await db
+      .select()
+      .from(InstagramMediaTable)
+      .where(
+        isAgency
+          ? eq(InstagramMediaTable.agency, user.id)
+          : eq(InstagramMediaTable.user, user.id),
+      )
+      .orderBy(desc(InstagramMediaTable.er))
+      .limit(4);
+    if (posts.length > 0) return posts;
+  }
   const { posts, stats } = await fetchUploadedPostsAndStats(
     instagramDetails.followers,
     user.id,
@@ -103,8 +104,15 @@ export async function getInstagramMedia(
     isAgency,
   );
   if (!posts || !stats || posts.length === 0) return [];
-  await deleteOldPosts(user.id, isAgency ? "agency" : "user", posts);
+  const deleted = await deleteOldPosts(
+    user.id,
+    isAgency ? "agency" : "user",
+    posts,
+  );
   await db.insert(InstagramMediaTable).values(posts).onConflictDoNothing();
+  await Promise.all(
+    deleted.map(({ url }) => url !== posts[0]?.thumbnail && deleteImage(url)),
+  );
   await db
     .update(InstagramDetails)
     .set(stats)

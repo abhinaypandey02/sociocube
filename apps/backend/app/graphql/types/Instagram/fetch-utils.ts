@@ -5,7 +5,6 @@ import { instagramRapidAPI } from "../../../../lib/rapidapi/instagram";
 import { InstagramMediaType } from "../../constants/instagram-media-type";
 import { getER } from "../../utils/math";
 import { db } from "../../../../lib/db";
-import { deleteImage } from "../../../../lib/storage/aws-s3";
 import { InstagramDetails } from "./db/schema";
 import { InstagramMediaTable } from "./db/schema2";
 
@@ -274,19 +273,18 @@ export async function deleteOldPosts(
   type: "agency" | "user",
   posts: SafeFetchedInstagramPost[],
 ) {
-  const deleted = await db
+  return db
     .delete(InstagramMediaTable)
     .where(
       and(
         eq(InstagramMediaTable[type], id),
         notInArray(
           InstagramMediaTable.thumbnail,
-          posts.map((post) => post.thumbnail),
+          posts.map((post) => post.thumbnail).slice(1),
         ),
       ),
     )
     .returning({
       url: InstagramMediaTable.thumbnail,
     });
-  await Promise.all(deleted.map(({ url }) => url && deleteImage(url)));
 }
