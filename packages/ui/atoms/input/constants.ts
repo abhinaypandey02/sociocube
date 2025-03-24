@@ -1,24 +1,14 @@
 import classNames from "classnames";
-import { Variants } from "../../constants";
 
-export const getBaseClassName = (
-  variant: Variants,
-  isSuffixed: boolean,
-  isCheckbox: boolean,
-) =>
+export const getBaseClassName = (isSuffixed: boolean, isCheckbox: boolean) =>
   classNames(
-    `block border-0 py-1.5 px-3 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:text-gray-400   focus:ring-inset outline-0 text-base sm:text-sm sm:leading-6`,
-    {
-      "focus:ring-primary accent-primary": variant === Variants.PRIMARY,
-      "focus:ring-accent accent-accent": variant === Variants.ACCENT,
-      "focus:ring-dark": variant === Variants.DARK,
-    },
+    `focus:ring-accent accent-accent block border-0 py-2.5 px-4 text-gray-900 shadow-sm  ring-inset ring-gray-300 placeholder:text-gray-400   focus:ring-inset outline-0 text-base sm:leading-6`,
     {
       "w-full focus:ring-2 ring-1": !isCheckbox,
     },
     {
-      "rounded-l-md": true,
-      "rounded-r-md": !isSuffixed,
+      "rounded-l-xl": true,
+      "rounded-r-xl": !isSuffixed,
     },
   );
 

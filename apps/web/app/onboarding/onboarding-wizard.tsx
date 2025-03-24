@@ -7,12 +7,12 @@ import {
   CaretLeft,
   CaretRight,
   FlagCheckered,
+  Link as LinkIcon,
   MapPin,
   MoneyWavy,
   PencilSimple,
   SealCheck,
   ShareNetwork,
-  Link as LinkIcon,
 } from "@phosphor-icons/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -113,7 +113,7 @@ function OnboardingWizard({
             <Link href={getRoute("AgencyOnboarding")}>
               <Button
                 className="mx-auto mt-3 flex items-center gap-2 !text-sm !font-medium"
-                outline
+                invert
                 variant={Variants.PRIMARY}
               >
                 Start an agency/brand

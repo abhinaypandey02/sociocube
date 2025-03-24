@@ -53,7 +53,7 @@ export default function PortfolioLinks({
             >
               <Button
                 className="flex size-full items-center font-poppins"
-                outline={isAgency}
+                invert={isAgency}
                 variant={isAgency ? Variants.PRIMARY : Variants.ACCENT}
               >
                 {work.caption}

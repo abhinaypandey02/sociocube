@@ -103,11 +103,11 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
                     {photoValue ? (
                       <Button
                         className=" w-full"
+                        invert
                         onClick={() => {
                           form.setValue("photo", "");
                           setLocalFile(null);
                         }}
-                        outline
                       >
                         Delete
                       </Button>

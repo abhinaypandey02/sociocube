@@ -21,7 +21,6 @@ export type InputProps = {
 
 export type SelectProps = {
   options: SelectOption[];
-  variant?: Variants;
   name: string;
   rules?: RegisterOptions;
 } & ComponentProps<"input">;

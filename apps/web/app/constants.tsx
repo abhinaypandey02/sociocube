@@ -50,7 +50,7 @@ export const AUTHORISED_USER_NAVBAR_SECTIONS = {
   cta: {
     button: {
       children: "List yourself",
-      outline: true,
+      invert: true,
     },
     href: getRoute("Onboarding"),
   },

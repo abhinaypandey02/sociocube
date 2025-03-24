@@ -157,11 +157,11 @@ export default function SendReview({
               <Input label="Instagram url of work" name="imageURL" type="url" />
               <Button
                 className="mt-4 w-full text-sm"
+                invert
                 loading={loading}
                 onClick={() => {
                   fileRef.current?.click();
                 }}
-                outline
                 variant={Variants.ACCENT}
               >
                 or Upload manually

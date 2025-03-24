@@ -7,17 +7,11 @@ import React, {
 } from "react";
 import classNames from "classnames";
 import { useFormContext, type UseFormReturn } from "react-hook-form";
-import { Variants } from "../../constants";
 import Dropdown from "../dropdown/dropdown";
 import { isTouchDevice } from "../../utils";
 import type { SelectProps, SelectOption } from "./types";
 
-function Select({
-  options,
-  variant = Variants.PRIMARY,
-  rules,
-  ...rest
-}: SelectProps) {
+function Select({ options, rules, ...rest }: SelectProps) {
   const formContext = useFormContext() as UseFormReturn | undefined;
   const ref = useRef<HTMLInputElement | null>(null);
   const [searchValue, setSearchValue] = useState("");
@@ -85,14 +79,7 @@ function Select({
           filteredOptions.map((option) => (
             <button
               className={classNames(
-                `my-1 block w-full rounded-primary px-3 py-1 text-sm text-left transition-colors outline-0 focus:bg-opacity-5 hover:bg-opacity-5`,
-                {
-                  "focus:bg-primary hover:bg-primary":
-                    variant === Variants.PRIMARY,
-                  "focus:bg-accent hover:bg-accent":
-                    variant === Variants.ACCENT,
-                  "focus:bg-dark hover:bg-dark": variant === Variants.DARK,
-                },
+                `focus:bg-primary hover:bg-primary my-1 block w-full rounded-primary px-3 py-1 text-sm text-left transition-colors outline-0 focus:bg-opacity-5 hover:bg-opacity-5`,
               )}
               key={option.value}
               onClick={() => {

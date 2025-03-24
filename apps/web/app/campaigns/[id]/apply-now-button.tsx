@@ -184,9 +184,9 @@ export default function ApplyNowButton({
           <Button
             className="w-full"
             disabled={message[2]}
+            invert={message[2]}
             loading={loading}
             onClick={handleClick}
-            outline={message[2]}
             variant={Variants.ACCENT}
           >
             {message[0]}

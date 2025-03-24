@@ -84,9 +84,9 @@ export default function DeletePortfolioButton({
           ) : null}
           <Button
             className="w-full"
+            invert
             loading={loading}
             onClick={onSubmit}
-            outline
             success={data?.deletePortfolio}
             type="button"
           >

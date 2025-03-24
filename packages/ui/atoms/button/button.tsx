@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 import React from "react";
 import classNames from "classnames";
-import { CheckCircle, CircleNotch } from "@phosphor-icons/react/dist/ssr";
+import { CircleNotch } from "@phosphor-icons/react/dist/ssr";
 import { Variants } from "../../constants";
 import type { ButtonProps } from "./types";
 
@@ -10,67 +10,53 @@ import type { ButtonProps } from "./types";
  */
 function Button({
   variant = Variants.PRIMARY,
-  outline = false,
+  invert = false,
+  borderless = false,
+  square = false,
   children,
   className,
   type,
   loading,
-  success,
   disabled,
   ...rest
 }: PropsWithChildren<ButtonProps>) {
   return (
     <button
       className={classNames(
-        "ring-0 border duration-200 disabled:brightness-90 active:brightness-90 flex justify-center rounded-lg px-4 py-1 text-sm font-semibold leading-6 shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
-        !success && {
-          "border-primary": variant === Variants.PRIMARY,
-          "border-accent": variant === Variants.ACCENT,
-          "border-dark": variant === Variants.DARK,
+        "ring-0 border active:brightness-110 duration-200 flex justify-center  rounded-2xl font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
+        borderless && "border-none shadow-none",
+        square ? "p-3" : "px-4 py-2 ",
+        variant === Variants.PRIMARY && {
+          "focus-visible:outline-primary bg-primary": true,
+          "border-primary": !borderless,
+          "text-primary ": invert,
         },
-        success && "bg-green-400 border-green-500",
-        !outline &&
-          !success && {
-            "bg-primary": variant === Variants.PRIMARY,
-            "bg-accent": variant === Variants.ACCENT,
-            "bg-dark": variant === Variants.DARK,
-          },
-        !outline && "hover:brightness-95 transition-[filter] text-white",
-        outline && "transition-colors bg-white",
-        outline && {
-          "text-primary hover:bg-primary hover:text-white":
-            variant === Variants.PRIMARY,
-          "text-accent hover:bg-accent hover:text-white":
-            variant === Variants.ACCENT,
-          "hover:bg-dark hover:text-white": variant === Variants.DARK,
+        variant === Variants.ACCENT && {
+          "focus-visible:outline-accent bg-accent": true,
+          "border-accent": !borderless,
+          "text-accent ": invert,
         },
+        variant === Variants.DARK && {
+          "focus-visible:outline-dark bg-dark": true,
+          "border-dark": !borderless,
+          "text-dark ": invert,
+        },
+        !invert &&
+          "disabled:bg-opacity-50 hover:brightness-95 transition-[filter] text-white",
+        invert &&
+          "transition-colors bg-opacity-0 hover:bg-opacity-10 disabled:text-opacity-80",
         loading ? "cursor-progress" : "disabled:cursor-not-allowed",
         className,
       )}
-      disabled={success || disabled}
+      disabled={disabled || loading}
       type={
         /* eslint-disable-next-line react/button-has-type -- type comes from the parent button */
         type || "button"
       }
       {...rest}
     >
-      {!success && loading ? (
-        <CircleNotch
-          className={classNames(
-            "animate-spin",
-            outline
-              ? {
-                  "text-primary": variant === Variants.PRIMARY,
-                  "text-accent ": variant === Variants.ACCENT,
-                  "text-dark": variant === Variants.DARK,
-                }
-              : "text-white",
-          )}
-          size={20}
-        />
-      ) : null}
-      {success ? <CheckCircle color="white" size={20} /> : null}
-      {!loading && !success && children}
+      {loading ? <CircleNotch className="animate-spin" weight="bold" /> : null}
+      {!loading && children}
     </button>
   );
 }

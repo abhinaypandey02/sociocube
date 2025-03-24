@@ -205,12 +205,12 @@ export default function AddPortfolioButton({
       </Modal>
       <Button
         className="flex items-center gap-1 !px-3 !text-xs"
+        invert
         onClick={() => {
           setImage(undefined);
           form.reset();
           setOpen(true);
         }}
-        outline
         variant={isAgency ? Variants.PRIMARY : Variants.ACCENT}
       >
         Add <Plus />

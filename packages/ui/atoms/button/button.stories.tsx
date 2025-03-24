@@ -1,5 +1,6 @@
-import { userEvent, within, fn, expect } from "@storybook/test";
+import { expect, fn, userEvent, within } from "@storybook/test";
 import type { Meta, StoryObj } from "@storybook/react";
+import { CheckCircle } from "@phosphor-icons/react";
 import { enumArgTypes } from "../../storybook-utils";
 import { Variants } from "../../constants";
 import Button from "./button";
@@ -42,21 +43,22 @@ export const Dark: Story = {
 };
 export const PrimaryOutline: Story = {
   args: {
-    children: "Primary Outline",
-    outline: true,
+    children: <CheckCircle />,
+    invert: true,
+    disabled: true,
   },
 };
 export const AccentOutline: Story = {
   args: {
     children: "Accent Outline",
     variant: Variants.ACCENT,
-    outline: true,
+    invert: true,
   },
 };
 export const DarkOutline: Story = {
   args: {
     children: "Dark Outline",
     variant: Variants.DARK,
-    outline: true,
+    invert: true,
   },
 };

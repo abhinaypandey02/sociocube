@@ -55,7 +55,7 @@ export default function OnboardingDOB({
         </p>
       ) : null}
       <div className="!mt-6 flex justify-between">
-        <Button onClick={nextStep} outline type="submit">
+        <Button invert onClick={nextStep} type="submit">
           Skip it
         </Button>
 

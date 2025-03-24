@@ -106,11 +106,11 @@ export default function AgencyProfileSection({
                     {photoValue ? (
                       <Button
                         className=" w-full"
+                        invert
                         onClick={() => {
                           form.setValue("photo", "");
                           setLocalFile(null);
                         }}
-                        outline
                       >
                         Delete
                       </Button>

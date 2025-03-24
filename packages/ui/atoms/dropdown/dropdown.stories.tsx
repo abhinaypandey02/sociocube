@@ -14,13 +14,13 @@ export const Main: Story = {
     trigger: <Button>Trigger</Button>,
     children: (close) => (
       <div>
-        <Button onClick={close} outline>
+        <Button invert onClick={close}>
           close
         </Button>
-        <Button onClick={close} outline>
+        <Button invert onClick={close}>
           close
         </Button>
-        <Button onClick={close} outline>
+        <Button invert onClick={close}>
           close
         </Button>
       </div>

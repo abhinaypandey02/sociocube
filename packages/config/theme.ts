@@ -3,7 +3,7 @@ import type {Config} from 'tailwindcss'
 const theme: Config['theme'] = {
         colors:{
             primary:'#5B9364',
-            accent:'#4f46e5',
+            accent:'#6358de',
             dark:'#011627',
             "primary-bg":'#fff'
         },

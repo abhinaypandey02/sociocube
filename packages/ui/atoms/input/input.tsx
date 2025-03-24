@@ -3,7 +3,6 @@ import React from "react";
 import classNames from "classnames";
 import type { UseFormReturn } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
-import { Variants } from "../../constants";
 import type { InputProps } from "./types";
 import Select from "./select";
 import { getBaseClassName, getInputErrorMessages } from "./constants";
@@ -17,7 +16,7 @@ function InputWrapper({
   return (
     <div className="w-full">
       {label ? (
-        <label className="mb-1 block pl-0.5 font-poppins text-sm font-medium">
+        <label className="mb-1.5 block pl-0.5 font-poppins font-semibold">
           {label}
         </label>
       ) : null}
@@ -37,7 +36,6 @@ function InputWrapper({
 function Input({
   textarea = false,
   options,
-  variant = Variants.PRIMARY,
   rules,
   label,
   error,
@@ -52,7 +50,6 @@ function Input({
     getInputErrorMessages(formError?.type?.toString());
   const className = classNames(
     getBaseClassName(
-      variant,
       Boolean(suffix),
       rest.type === "checkbox" || rest.type === "radio",
     ),
@@ -64,7 +61,6 @@ function Input({
         <Select
           options={options}
           rules={rules}
-          variant={variant}
           {...rest}
           className={className}
         />

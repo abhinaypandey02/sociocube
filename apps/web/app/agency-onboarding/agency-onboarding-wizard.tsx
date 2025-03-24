@@ -97,7 +97,7 @@ function AgencyOnboardingWizard({
             <Link href={getRoute("Onboarding")}>
               <Button
                 className="mx-auto mt-3 flex items-center gap-2 !text-sm !font-medium"
-                outline
+                invert
                 variant={Variants.PRIMARY}
               >
                 Join as an influencer/creator
