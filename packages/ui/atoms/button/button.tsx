@@ -23,7 +23,7 @@ function Button({
   return (
     <button
       className={classNames(
-        "ring-0 border active:brightness-110 duration-200 flex justify-center  rounded-2xl font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
+        "relative ring-0 border  duration-200 flex justify-center  rounded-[14px] font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
         borderless && "border-none shadow-none",
         square ? "p-3" : "px-4 py-2 ",
         variant === Variants.PRIMARY && {
@@ -41,8 +41,9 @@ function Button({
           "border-dark": !borderless,
           "text-dark ": invert,
         },
+        !disabled && !loading && "active:brightness-110",
         !invert &&
-          "disabled:bg-opacity-50 hover:brightness-95 transition-[filter] text-white",
+          "disabled:bg-opacity-50 disabled:border-opacity-0 hover:brightness-95 transition-[filter] text-white",
         invert &&
           "transition-colors bg-opacity-0 hover:bg-opacity-10 disabled:text-opacity-80",
         loading ? "cursor-progress" : "disabled:cursor-not-allowed",
@@ -55,8 +56,12 @@ function Button({
       }
       {...rest}
     >
-      {loading ? <CircleNotch className="animate-spin" weight="bold" /> : null}
-      {!loading && children}
+      <span className="absolute left-1/2 -translate-x-1/2 ">
+        {loading ? (
+          <CircleNotch className=" animate-spin" size={24} weight="bold" />
+        ) : null}
+      </span>
+      <span className={loading ? "opacity-0" : ""}>{children}</span>
     </button>
   );
 }
