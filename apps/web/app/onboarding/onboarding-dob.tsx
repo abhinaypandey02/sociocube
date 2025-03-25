@@ -1,28 +1,22 @@
 "use client";
 import React from "react";
-import type { SubmitHandler } from "react-hook-form";
-import { useForm } from "react-hook-form";
-import { Input } from "ui/input";
-import { Button } from "ui/button";
+import type {SubmitHandler} from "react-hook-form";
+import {useForm} from "react-hook-form";
+import {Input} from "ui/input";
+import {Button} from "ui/button";
 import Form from "ui/form";
-import { getAgeRange } from "commons/age";
-import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
-import { UPDATE_ONBOARDING_DOB } from "../../lib/mutations";
-import { ageValidation } from "../../constants/validations";
+import {getAgeRange} from "commons/age";
+import {handleGQLErrors, useAuthMutation} from "../../lib/apollo-client";
+import {UPDATE_ONBOARDING_DOB} from "../../lib/mutations";
+import {ageValidation} from "../../constants/validations";
 
-export default function OnboardingDOB({
-  defaultValues,
-  nextStep,
-}: {
-  defaultValues: { dob?: string };
-  nextStep: () => void;
-}) {
-  const form = useForm({ defaultValues });
+export default function OnboardingDOB({ nextStep }: { nextStep: () => void }) {
+  const form = useForm<{ dob?: string }>();
   const [updateDOB, { loading }] = useAuthMutation(UPDATE_ONBOARDING_DOB);
 
   const dob = form.watch("dob");
   const ageRange = dob && getAgeRange(new Date(dob));
-  const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
+  const onSubmit: SubmitHandler<{ dob?: string }> = async (data) => {
     if (data.dob) {
       const res = await updateDOB({
         dobDetails: {

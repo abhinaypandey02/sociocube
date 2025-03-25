@@ -1,12 +1,12 @@
-import { Field, InputType, ObjectType } from "type-graphql";
-import { Roles } from "../../constants/roles";
-import { AgencyGQL } from "../Agency/type";
+import {Field, InputType, ObjectType} from "type-graphql";
+import {Roles} from "../../constants/roles";
+import {AgencyGQL} from "../Agency/type";
 
 @ObjectType("Pricing")
 @InputType("PricingInput")
 export class Pricing {
-  @Field({ nullable: true })
-  starting?: number;
+  @Field(() => String, { nullable: true })
+  starting: number | null;
 }
 @ObjectType("Currency")
 export class Currency {
@@ -37,33 +37,6 @@ export class LocationID {
   state?: number;
 }
 
-@ObjectType("OnboardingData")
-export class OnboardingData {
-  @Field({ nullable: true })
-  name?: string;
-  @Field({ nullable: true })
-  bio?: string;
-  @Field({ nullable: true })
-  photo?: string;
-  @Field({ nullable: true })
-  category?: string;
-  @Field({ nullable: true })
-  gender?: string;
-  @Field({ nullable: true })
-  dob?: string;
-  @Field({ nullable: true })
-  username?: string;
-  @Field({ nullable: true })
-  city?: number;
-  @Field({ nullable: true })
-  state?: number;
-  @Field({ nullable: true })
-  country?: number;
-  @Field(() => Pricing, { nullable: true })
-  pricing?: Pricing;
-  @Field(() => Currency, { nullable: true })
-  currency?: Currency;
-}
 @ObjectType("User")
 export class UserGQL {
   @Field()
@@ -80,8 +53,6 @@ export class UserGQL {
   contactEmail?: string;
   @Field({ nullable: true })
   phone?: string;
-  @Field({ nullable: true })
-  onboardingData?: OnboardingData;
   @Field(() => [Roles], { nullable: true })
   roles?: Roles[];
   @Field({ nullable: true })

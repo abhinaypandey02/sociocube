@@ -1,6 +1,6 @@
 "use client";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Variants } from "ui/button";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {Button, Variants} from "ui/button";
 import {
   ArrowRight,
   Calendar,
@@ -11,24 +11,19 @@ import {
   MapPin,
   MoneyWavy,
   PencilSimple,
-  SealCheck,
   ShareNetwork,
 } from "@phosphor-icons/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { Spinner } from "@phosphor-icons/react/dist/ssr";
+import {useRouter} from "next/navigation";
+import {Spinner} from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
-import type {
-  Currency,
-  GetDefaultOnboardingDetailsQuery,
-} from "../../__generated__/graphql";
-import { getRoute } from "../../constants/routes";
+import type {Currency, GetDefaultOnboardingDetailsQuery,} from "../../__generated__/graphql";
+import {getRoute} from "../../constants/routes";
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
 import SocialsStatus from "./socials-status";
 import OnboardingLocationForm from "./onboarding-location";
 import OnboardingPricingForm from "./onboarding-pricing";
 import OnboardingStepper from "./stepper";
-import OnboardingCompleteForm from "./onboarding-complete-form";
 import OnboardingDOB from "./onboarding-dob";
 import OnboardingUsername from "./onboarding-username";
 
@@ -38,17 +33,16 @@ export function getStep(
   if (!currentUser) return 0;
   if (!currentUser.instagramStats?.username) return 0;
   if (
-    !currentUser.onboardingData?.name ||
-    !currentUser.onboardingData.bio ||
-    !currentUser.onboardingData.gender ||
-    !currentUser.onboardingData.category
+    !currentUser.name ||
+    !currentUser.bio ||
+    !currentUser.gender ||
+    !currentUser.category
   )
     return 2;
-  if (!currentUser.onboardingData.dob && !currentUser.onboardingData.username)
-    return 3;
-  if (!currentUser.onboardingData.username) return 4;
-  if (!currentUser.onboardingData.city) return 5;
-  if (!currentUser.onboardingData.pricing) return 6;
+  if (!currentUser.dob && !currentUser.username) return 3;
+  if (!currentUser.username) return 4;
+  if (!currentUser.location?.city) return 5;
+  if (!currentUser.pricing) return 6;
   if (!currentUser.isOnboarded) return 7;
   return 0;
 }
@@ -67,7 +61,7 @@ function OnboardingWizard({
   const [step, setStep] = useState(getStep(currentUser));
   const [maxTouchedStep, setMaxTouchedStep] = useState(getStep(currentUser));
   const [currency, setCurrency] = useState<Currency | undefined | null>(
-    data?.getCurrentUser?.onboardingData?.currency,
+    currentUser?.location?.currency,
   );
   const nextStep = useCallback(() => {
     setStep((o) => Math.min(o + 1, MAX_STEPS - 1));
@@ -154,12 +148,9 @@ function OnboardingWizard({
         component: currentUser ? (
           <OnboardingBasicDetailsForm
             defaultValues={{
-              name: currentUser.onboardingData?.name || currentUser.name || "",
-              photo:
-                currentUser.onboardingData?.photo || currentUser.photo || "",
-              bio: currentUser.onboardingData?.bio || currentUser.bio || "",
-              category: currentUser.onboardingData?.category || "",
-              gender: currentUser.onboardingData?.gender || "",
+              name: currentUser.name || "",
+              photo: currentUser.photo || "",
+              bio: currentUser.bio || "",
             }}
             key={currentUser.instagramStats?.username}
             nextStep={nextStep}
@@ -175,15 +166,7 @@ function OnboardingWizard({
         longDescription:
           "We don't display your age anywhere in the platform. Your date of birth is used by brands to find influencers of a particular age range. Not providing this would leave you out of age based discoveries.",
         icon: Calendar,
-        component: (
-          <OnboardingDOB
-            defaultValues={{
-              dob: currentUser?.onboardingData?.dob || undefined,
-            }}
-            key={3}
-            nextStep={nextStep}
-          />
-        ),
+        component: <OnboardingDOB key={3} nextStep={nextStep} />,
       },
       {
         title: "Username",
@@ -196,8 +179,7 @@ function OnboardingWizard({
           <OnboardingUsername
             defaultValues={{
               username:
-                currentUser?.onboardingData?.username ||
-                currentUser?.instagramStats?.username,
+                currentUser?.username || currentUser?.instagramStats?.username,
             }}
             key={4}
             nextStep={nextStep}
@@ -213,11 +195,6 @@ function OnboardingWizard({
         icon: MapPin,
         component: (
           <OnboardingLocationForm
-            defaultValues={{
-              city: currentUser?.onboardingData?.city,
-              country: currentUser?.onboardingData?.country,
-              state: currentUser?.onboardingData?.state,
-            }}
             key={5}
             nextStep={nextStep}
             setCurrency={setCurrency}
@@ -234,24 +211,8 @@ function OnboardingWizard({
         component: (
           <OnboardingPricingForm
             currency={currency}
-            defaultValues={currentUser?.onboardingData?.pricing || {}}
             key={6}
             nextStep={nextStep}
-          />
-        ),
-      },
-      {
-        title: "Finish",
-        heading: "Complete onboarding",
-        description: "Complete onboarding",
-        longDescription:
-          "You have completed all the steps and are ready to go!",
-        icon: SealCheck,
-        component: (
-          <OnboardingCompleteForm
-            key={7}
-            redirectURL={redirectURL}
-            username={currentUser?.onboardingData?.username}
           />
         ),
       },

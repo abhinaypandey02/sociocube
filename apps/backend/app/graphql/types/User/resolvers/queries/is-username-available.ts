@@ -1,8 +1,8 @@
-import { eq } from "drizzle-orm";
-import { db } from "../../../../../../lib/db";
-import { OnboardingDataTable, UserTable } from "../../db/schema";
-import { usernameAllowed } from "../../utils";
-import { AgencyOnboardingTable, AgencyTable } from "../../../Agency/db/schema";
+import {eq} from "drizzle-orm";
+import {db} from "../../../../../../lib/db";
+import {UserTable} from "../../db/schema";
+import {usernameAllowed} from "../../utils";
+import {AgencyOnboardingTable, AgencyTable} from "../../../Agency/db/schema";
 
 export async function handleIsUsernameAvailable(username: string) {
   if (!usernameAllowed(username)) throw new Error("Username invalid");
@@ -17,15 +17,10 @@ export async function handleIsUsernameAvailable(username: string) {
     .where(eq(AgencyTable.username, username))
     .limit(1);
   if (seller || agency) return false;
-  const [onboardingSeller] = await db
-    .select()
-    .from(OnboardingDataTable)
-    .where(eq(OnboardingDataTable.username, username))
-    .limit(1);
   const [onboardingAgency] = await db
     .select()
     .from(AgencyOnboardingTable)
     .where(eq(AgencyOnboardingTable.username, username))
     .limit(1);
-  return !onboardingSeller && !onboardingAgency;
+  return !onboardingAgency;
 }

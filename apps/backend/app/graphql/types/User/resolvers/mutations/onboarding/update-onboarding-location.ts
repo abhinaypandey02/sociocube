@@ -1,11 +1,11 @@
-import { Field, InputType } from "type-graphql";
-import { and, eq, isNotNull } from "drizzle-orm";
-import { AuthorizedContext } from "../../../../../context";
-import { db } from "../../../../../../../lib/db";
-import { OnboardingDataTable, UserTable } from "../../../db/schema";
+import {Field, InputType} from "type-graphql";
+import {and, eq, isNotNull} from "drizzle-orm";
+import {AuthorizedContext} from "../../../../../context";
+import {db} from "../../../../../../../lib/db";
+import {LocationTable, UserTable} from "../../../db/schema";
 import GQLError from "../../../../../constants/errors";
-import { Currency } from "../../../type";
-import { CountryTable } from "../../../../Map/db/schema";
+import {Currency} from "../../../type";
+import {CountryTable} from "../../../../Map/db/schema";
 
 @InputType("OnboardingLocationInput")
 export class OnboardingLocationInput {
@@ -29,28 +29,21 @@ export async function handleUpdateOnboardingLocation(
         eq(UserTable.isOnboarded, false),
         isNotNull(UserTable.instagramDetails),
       ),
-    )
-    .leftJoin(
-      OnboardingDataTable,
-      eq(UserTable.onboardingData, OnboardingDataTable.id),
     );
-  if (
-    !res?.user.onboardingData ||
-    !res.onboarding_data?.name ||
-    !res.onboarding_data.bio ||
-    !res.onboarding_data.gender ||
-    !res.onboarding_data.username ||
-    !res.onboarding_data.category
-  )
+  if (!res?.name || !res.bio || !res.gender || !res.username || !res.category)
     throw GQLError(400, "Please add basic details to continue");
-  await db
-    .update(OnboardingDataTable)
-    .set({
+  const [location] = await db
+    .insert(LocationTable)
+    .values({
       city,
       country,
       state,
     })
-    .where(eq(OnboardingDataTable.id, res.user.onboardingData));
+    .returning({ id: LocationTable.id });
+  if (!location) throw GQLError(400, "Error creating location");
+  await db.update(UserTable).set({
+    location: location.id,
+  });
   const [cityData] = await db
     .select()
     .from(CountryTable)

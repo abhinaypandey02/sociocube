@@ -1,14 +1,13 @@
-import { Field, InputType } from "type-graphql";
-import { eq } from "drizzle-orm";
-import { Matches, MaxLength } from "class-validator";
-import { USERNAME_REGEX } from "commons/regex";
-import { USERNAME_MAX_LENGTH } from "commons/constraints";
-import { AuthorizedContext } from "../../../../../context";
-import { db } from "../../../../../../../lib/db";
-import { OnboardingDataTable } from "../../../db/schema";
-import { getCurrentUser, usernameAllowed } from "../../../utils";
+import {Field, InputType} from "type-graphql";
+import {eq} from "drizzle-orm";
+import {Matches, MaxLength} from "class-validator";
+import {USERNAME_REGEX} from "commons/regex";
+import {USERNAME_MAX_LENGTH} from "commons/constraints";
+import {AuthorizedContext} from "../../../../../context";
+import {db} from "../../../../../../../lib/db";
+import {usernameAllowed} from "../../../utils";
 import GQLError from "../../../../../constants/errors";
-import { handleIsUsernameAvailable } from "../../queries/is-username-available";
+import {UserTable} from "../../../db/schema";
 
 @InputType("OnboardingUsernameInput")
 export class OnboardingUsernameInput {
@@ -22,17 +21,12 @@ export async function handleUpdateOnboardingUsername(
   { username: usernameRaw }: OnboardingUsernameInput,
 ) {
   const username = usernameRaw.toLowerCase();
-  const user = await getCurrentUser(ctx);
-  if (!user) throw GQLError(403);
-  if (!user.onboardingData) throw GQLError(400, "Onboarding details missing");
   if (!usernameAllowed(username)) throw GQLError(400, "Invalid username!");
-  if (!(await handleIsUsernameAvailable(username)))
-    throw GQLError(400, "Username taken");
   await db
-    .update(OnboardingDataTable)
+    .update(UserTable)
     .set({
       username,
     })
-    .where(eq(OnboardingDataTable.id, user.onboardingData));
+    .where(eq(UserTable.id, ctx.userId));
   return true;
 }

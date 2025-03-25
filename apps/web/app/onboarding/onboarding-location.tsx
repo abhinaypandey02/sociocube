@@ -1,33 +1,29 @@
 "use client";
-import React, { useEffect } from "react";
-import type { SubmitHandler } from "react-hook-form";
-import { useForm } from "react-hook-form";
-import { Input } from "ui/input";
-import { Button } from "ui/button";
+import React, {useEffect} from "react";
+import type {SubmitHandler} from "react-hook-form";
+import {useForm} from "react-hook-form";
+import {Input} from "ui/input";
+import {Button} from "ui/button";
 import Form from "ui/form";
-import {
-  handleGQLErrors,
-  useAuthMutation,
-  useAuthQuery,
-} from "../../lib/apollo-client";
-import { UPDATE_ONBOARDING_LOCATION } from "../../lib/mutations";
-import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "../../lib/queries";
-import type { Currency } from "../../__generated__/graphql";
+import {handleGQLErrors, useAuthMutation, useAuthQuery,} from "../../lib/apollo-client";
+import {UPDATE_ONBOARDING_LOCATION} from "../../lib/mutations";
+import {GET_CITIES, GET_COUNTRIES, GET_STATES} from "../../lib/queries";
+import type {Currency} from "../../__generated__/graphql";
+
+interface FormFields {
+  country?: number | null;
+  state?: number | null;
+  city?: number | null;
+}
 
 export default function OnboardingLocationForm({
-  defaultValues,
   nextStep,
   setCurrency,
 }: {
-  defaultValues: {
-    country?: number | null;
-    state?: number | null;
-    city?: number | null;
-  };
   nextStep: () => void;
   setCurrency: (currency: Currency) => void;
 }) {
-  const form = useForm({ defaultValues });
+  const form = useForm<FormFields>();
   const [updateBasicDetails, { loading }] = useAuthMutation(
     UPDATE_ONBOARDING_LOCATION,
   );
@@ -68,7 +64,7 @@ export default function OnboardingLocationForm({
   const countries = countriesData?.countries;
   const states = statesData?.states;
   const cities = citiesData?.cities;
-  const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
     if (data.state && data.country) {
       const res = await updateBasicDetails({
         locationDetails: {

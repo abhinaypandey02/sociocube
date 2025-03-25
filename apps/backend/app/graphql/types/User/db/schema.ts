@@ -1,22 +1,11 @@
-import {
-  boolean,
-  date,
-  index,
-  integer,
-  pgEnum,
-  pgTable,
-  real,
-  serial,
-  text,
-  timestamp,
-} from "drizzle-orm/pg-core";
+import {boolean, date, index, integer, pgEnum, pgTable, real, serial, text, timestamp,} from "drizzle-orm/pg-core";
 import categories from "commons/categories";
 import genders from "commons/genders";
-import { sql } from "drizzle-orm";
-import { Roles } from "../../../constants/roles";
-import { InstagramDetails } from "../../Instagram/db/schema";
-import { CityTable, CountryTable, StateTable } from "../../Map/db/schema";
-import { InstagramMediaType } from "../../../constants/instagram-media-type";
+import {sql} from "drizzle-orm";
+import {Roles} from "../../../constants/roles";
+import {InstagramDetails} from "../../Instagram/db/schema";
+import {CityTable, CountryTable, StateTable} from "../../Map/db/schema";
+import {InstagramMediaType} from "../../../constants/instagram-media-type";
 
 export const mediaType = pgEnum("media_type", [
   InstagramMediaType.Image,
@@ -43,7 +32,6 @@ export const UserTable = pgTable(
     id: serial("id").primaryKey(),
     name: text("name"),
     bio: text("bio"),
-    companyName: text("companyName"),
     username: text("username").unique(),
     email: text("email").unique(),
     emailVerified: boolean("email_verified").default(false),
@@ -56,17 +44,12 @@ export const UserTable = pgTable(
     photo: text("photo"),
     refreshTokens: text("refresh_tokens").array(),
     roles: rolesEnum("role").array().notNull(),
-    otp: integer("otp_id").references(() => OTPTable.id),
-    onboardingData: integer("onboarding_data").references(
-      () => OnboardingDataTable.id,
-    ),
     isOnboarded: boolean("is_onboarded").default(false),
     stripeSubscriptionID: text("stripe_subscription_id"),
     location: integer("location").references(() => LocationTable.id),
     category: categoriesEnum("category"),
     dob: date("dob"),
     gender: gendersEnum("gender"),
-    pricing: integer("pricing").references(() => PricingTable.id),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (table) => ({
@@ -100,23 +83,10 @@ export const LocationTable = pgTable("location", {
     .references(() => CountryTable.id),
 });
 export const PricingTable = pgTable("pricing", {
-  id: serial("id").primaryKey(),
   starting: real("starting"),
+  user: integer("user")
+    .primaryKey()
+    .references(() => UserTable.id),
 });
-export const OnboardingDataTable = pgTable("onboarding_data", {
-  id: serial("id").primaryKey(),
-  name: text("name"),
-  username: text("username").unique(),
-  bio: text("bio"),
-  photo: text("photo"),
-  city: integer("city").references(() => CityTable.id),
-  state: integer("state").references(() => StateTable.id),
-  country: integer("country").references(() => CountryTable.id),
-  category: categoriesEnum("category"),
-  dob: date("dob"),
-  gender: gendersEnum("gender"),
-  pricing: integer("pricing").references(() => PricingTable.id),
-});
-
 export type UserDBInsert = typeof UserTable.$inferInsert;
 export type UserDB = typeof UserTable.$inferSelect;

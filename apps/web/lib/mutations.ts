@@ -71,13 +71,6 @@ export const UPDATE_ONBOARDING_PRICING = gql(`
   }
 `);
 
-export const COMPLETE_ONBOARDING = gql(`
-  #graphql
-  mutation CompleteOnboarding {
-    completeOnboarding
-  }
-`);
-
 export const READ_MESSAGE = gql(`
   #graphql
   mutation ReadMessage($conversationID:Int!) {

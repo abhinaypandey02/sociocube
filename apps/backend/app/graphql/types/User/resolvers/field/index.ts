@@ -1,33 +1,22 @@
-import { Authorized, FieldResolver, Resolver, Root } from "type-graphql";
-import {
-  Location,
-  LocationID,
-  OnboardingData,
-  Pricing,
-  UserGQL,
-} from "../../type";
-import type { UserDB } from "../../db/schema";
-import { FileGQL } from "../../../File/type";
-import { InstagramMedia, InstagramStats } from "../../../Instagram/type";
-import { PortfolioGQL } from "../../../Portfolio/type";
-import { AgencyMemberGQL, AgencyOnboardingGQL } from "../../../Agency/type";
-import { ReviewGQL } from "../../../Review/type";
-import { getIsOnboarded, getOnboardingData } from "./onboarding-data";
-import { getPictureUploadURL } from "./picture-upload-url";
-import { getPricing } from "./pricing";
-import { getLocation, getLocationID } from "./location";
-import { getInstagramMedia, getInstagramStats } from "./instagram";
-import { getPortfolio } from "./portfolio";
-import { getAgencies, getOnboardingAgency } from "./agency";
-import { getReviews } from "./review";
+import {Authorized, FieldResolver, Resolver, Root} from "type-graphql";
+import {Location, LocationID, Pricing, UserGQL} from "../../type";
+import type {UserDB} from "../../db/schema";
+import {FileGQL} from "../../../File/type";
+import {InstagramMedia, InstagramStats} from "../../../Instagram/type";
+import {PortfolioGQL} from "../../../Portfolio/type";
+import {AgencyMemberGQL, AgencyOnboardingGQL} from "../../../Agency/type";
+import {ReviewGQL} from "../../../Review/type";
+import {getIsOnboarded} from "./onboarding-data";
+import {getPictureUploadURL} from "./picture-upload-url";
+import {getPricing} from "./pricing";
+import {getLocation, getLocationID} from "./location";
+import {getInstagramMedia, getInstagramStats} from "./instagram";
+import {getPortfolio} from "./portfolio";
+import {getAgencies, getOnboardingAgency} from "./agency";
+import {getReviews} from "./review";
 
 @Resolver(() => UserGQL)
 export class UserFieldResolver {
-  @Authorized()
-  @FieldResolver(() => OnboardingData, { nullable: true })
-  async onboardingData(@Root() user: UserDB): Promise<OnboardingData | null> {
-    return getOnboardingData(user);
-  }
   @Authorized()
   @FieldResolver(() => AgencyOnboardingGQL, { nullable: true })
   async onboardingAgency(
@@ -48,7 +37,7 @@ export class UserFieldResolver {
   }
 
   @FieldResolver(() => Pricing, { nullable: true })
-  async pricing(@Root() user: UserDB): Promise<Pricing | null> {
+  async pricing(@Root() user: UserDB): Promise<Pricing | undefined> {
     return getPricing(user);
   }
   @FieldResolver(() => Location, { nullable: true })

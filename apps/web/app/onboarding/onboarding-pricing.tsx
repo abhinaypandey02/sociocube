@@ -1,33 +1,31 @@
 "use client";
 import React from "react";
-import type { SubmitHandler } from "react-hook-form";
-import { useForm } from "react-hook-form";
-import { Input } from "ui/input";
-import { Button } from "ui/button";
+import type {SubmitHandler} from "react-hook-form";
+import {useForm} from "react-hook-form";
+import {Input} from "ui/input";
+import {Button} from "ui/button";
 import Form from "ui/form";
-import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
-import { UPDATE_ONBOARDING_PRICING } from "../../lib/mutations";
-import type { Currency, Pricing } from "../../__generated__/graphql";
+import {handleGQLErrors, useAuthMutation} from "../../lib/apollo-client";
+import {UPDATE_ONBOARDING_PRICING} from "../../lib/mutations";
+import type {Currency, Pricing} from "../../__generated__/graphql";
 
 export default function OnboardingPricingForm({
-  defaultValues,
   nextStep,
   currency,
 }: {
-  defaultValues: Pricing;
   nextStep: () => void;
   currency?: Currency | null;
 }) {
-  const form = useForm({ defaultValues });
+  const form = useForm<Pricing>();
   const [updatePricing, { loading }] = useAuthMutation(
     UPDATE_ONBOARDING_PRICING,
   );
 
-  const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
+  const onSubmit: SubmitHandler<Pricing> = async (data) => {
     if (data.starting) {
       const res = await updatePricing({
         pricingDetails: {
-          starting: data.starting,
+          starting: parseInt(data.starting),
         },
       }).catch(handleGQLErrors);
       if (res?.data?.updateOnboardingPricing) nextStep();

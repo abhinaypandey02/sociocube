@@ -23,7 +23,6 @@ import { PricingTable, UserTable } from "../../db/schema";
 import type { AuthorizedContext } from "../../../../context";
 import { Pricing } from "../../type";
 import GQLError from "../../../../constants/errors";
-import { isUserNameAvailable } from "../../utils";
 
 @InputType("UpdateUserInput")
 export class UpdateUserInput {
@@ -69,11 +68,7 @@ export async function handleUpdateUser(
     if (age < MIN_AGE || age > MAX_AGE)
       throw GQLError(400, "Invalid date of birth");
   }
-  if (updatedUser.username) {
-    if (!(await isUserNameAvailable(updatedUser.username)))
-      throw GQLError(400, "Invalid username");
-  }
-  const [user] = await db
+  await db
     .update(UserTable)
     .set({
       id: ctx.userId,
@@ -90,23 +85,16 @@ export async function handleUpdateUser(
     .where(eq(UserTable.id, ctx.userId))
     .returning();
   if (updatedUser.pricing) {
-    if (user?.pricing) {
-      await db
-        .update(PricingTable)
-        .set(updatedUser.pricing)
-        .where(eq(PricingTable.id, user.pricing));
-    } else {
-      const [pricing] = await db
-        .insert(PricingTable)
-        .values(updatedUser.pricing)
-        .returning({ id: PricingTable.id });
-      if (pricing?.id) {
-        await db
-          .update(UserTable)
-          .set({ pricing: pricing.id })
-          .where(eq(UserTable.id, ctx.userId));
-      }
-    }
+    await db
+      .insert(PricingTable)
+      .values({
+        ...updatedUser.pricing,
+        user: ctx.userId,
+      })
+      .onConflictDoUpdate({
+        target: PricingTable.user,
+        set: updatedUser.pricing,
+      });
   }
   return true;
 }

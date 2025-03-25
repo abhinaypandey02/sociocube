@@ -21,6 +21,7 @@ export const POST = async (req: NextRequest) => {
   await db.delete(PortfolioTable).where(eq(PortfolioTable.user, id));
   await db.delete(ApplicationTable).where(eq(ApplicationTable.user, id));
   await db.delete(RequestTable).where(eq(RequestTable.user, id));
+  await db.delete(PricingTable).where(eq(PricingTable.user, id));
   const [user] = await db
     .delete(UserTable)
     .where(eq(UserTable.id, id))
@@ -32,8 +33,6 @@ export const POST = async (req: NextRequest) => {
       .where(eq(InstagramDetails.id, user.instagramDetails));
   if (user.location)
     await db.delete(LocationTable).where(eq(LocationTable.id, user.location));
-  if (user.pricing)
-    await db.delete(PricingTable).where(eq(PricingTable.id, user.pricing));
   if (user.photo) await deleteImage(user.photo);
   return new NextResponse(null, { status: 200 });
 };

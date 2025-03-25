@@ -1,24 +1,13 @@
-import {
-  and,
-  desc,
-  eq,
-  getTableColumns,
-  gt,
-  gte,
-  inArray,
-  isNotNull,
-  lte,
-  sql,
-} from "drizzle-orm";
-import { Field, InputType, Int, registerEnumType } from "type-graphql";
-import { IsIn, Max, MaxLength, Min } from "class-validator";
+import {and, desc, eq, getTableColumns, gt, gte, inArray, isNotNull, lte, sql,} from "drizzle-orm";
+import {Field, InputType, Int, registerEnumType} from "type-graphql";
+import {IsIn, Max, MaxLength, Min} from "class-validator";
 import categories from "commons/categories";
 import genders from "commons/genders";
-import { AGE_RANGES } from "commons/age";
-import { NAME_MAX_LENGTH } from "commons/constraints";
-import { db } from "../../../../../../lib/db";
-import { LocationTable, PricingTable, UserTable } from "../../db/schema";
-import { InstagramDetails } from "../../../Instagram/db/schema";
+import {AGE_RANGES} from "commons/age";
+import {NAME_MAX_LENGTH} from "commons/constraints";
+import {db} from "../../../../../../lib/db";
+import {LocationTable, PricingTable, UserTable} from "../../db/schema";
+import {InstagramDetails} from "../../../Instagram/db/schema";
 
 enum SearchFilterSorting {
   PriceAsc = "PRICE_ASC",
@@ -97,10 +86,6 @@ export function handleSearchSellers(filters: SearchSellersFiltersInput) {
         isNotNull(UserTable.photo),
         isNotNull(UserTable.instagramDetails),
         isNotNull(UserTable.name),
-        filters.sortBy === SearchFilterSorting.PriceAsc ||
-          filters.sortBy === SearchFilterSorting.PriceDesc
-          ? isNotNull(UserTable.pricing)
-          : undefined,
         filters.categories && inArray(UserTable.category, filters.categories),
         filters.genders && inArray(UserTable.gender, filters.genders),
         filters.followersFrom
@@ -134,7 +119,7 @@ export function handleSearchSellers(filters: SearchSellersFiltersInput) {
         filters.countries && inArray(LocationTable.country, filters.countries),
       ),
     )
-    .leftJoin(PricingTable, and(eq(PricingTable.id, UserTable.pricing)))
+    .leftJoin(PricingTable, and(eq(PricingTable.user, UserTable.id)))
     .where(
       and(
         filters.generalPriceFrom

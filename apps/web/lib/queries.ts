@@ -1,4 +1,4 @@
-import { gql } from "../__generated__";
+import {gql} from "../__generated__";
 
 export const GET_CURRENT_USER = gql(`
   #graphql
@@ -36,28 +36,23 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
       }
       bio
       username
-      onboardingData {
-        username
-        name
-        photo
-        bio
-        category
-        city
-        dob
-        gender
-        country
-        currency {
-          name
-          symbol
-        }
-        state
-        pricing{
-          starting
-        }
-      }
       pictureUploadURL {
         uploadURL
         url
+      }
+      pricing {
+        starting
+      }
+      gender
+      category
+      dob
+      location {
+        city
+        currency {
+          code
+          name
+          symbol
+        }
       }
     }
   }

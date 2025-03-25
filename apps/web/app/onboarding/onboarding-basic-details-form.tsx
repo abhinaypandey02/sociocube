@@ -1,20 +1,28 @@
 "use client";
-import type { ChangeEvent } from "react";
-import React, { useRef, useState } from "react";
-import type { SubmitHandler } from "react-hook-form";
-import { useForm } from "react-hook-form";
-import { Input } from "ui/input";
-import { Button } from "ui/button";
+import type {ChangeEvent} from "react";
+import React, {useRef, useState} from "react";
+import type {SubmitHandler} from "react-hook-form";
+import {useForm} from "react-hook-form";
+import {Input} from "ui/input";
+import {Button} from "ui/button";
 import categories from "commons/categories";
 import genders from "commons/genders";
 import Form from "ui/form";
-import { User } from "@phosphor-icons/react";
+import {User} from "@phosphor-icons/react";
 import Image from "next/image";
-import { MAXIMUM_FILE_SIZE, ALLOWED_IMAGE_TYPES } from "commons/file";
-import { toast } from "react-hot-toast";
-import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
-import { UPDATE_ONBOARDING_BASIC_DETAILS } from "../../lib/mutations";
-import type { StorageFile } from "../../__generated__/graphql";
+import {ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE} from "commons/file";
+import {toast} from "react-hot-toast";
+import {handleGQLErrors, useAuthMutation} from "../../lib/apollo-client";
+import {UPDATE_ONBOARDING_BASIC_DETAILS} from "../../lib/mutations";
+import type {StorageFile} from "../../__generated__/graphql";
+
+interface FormFields {
+  name: string;
+  photo: string;
+  bio: string;
+  gender?: string;
+  category?: string;
+}
 
 export default function OnboardingBasicDetailsForm({
   defaultValues,
@@ -25,13 +33,11 @@ export default function OnboardingBasicDetailsForm({
     name: string;
     photo: string;
     bio: string;
-    gender: string;
-    category: string;
   };
   nextStep: () => void;
   photoUpload: StorageFile;
 }) {
-  const form = useForm({ defaultValues });
+  const form = useForm<FormFields>({ defaultValues });
   const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
   const [profilePicture, setProfilePicture] = useState<File>();
   const [uploadingPicture, setUploadingPicture] = useState(false);
@@ -44,7 +50,8 @@ export default function OnboardingBasicDetailsForm({
     ? URL.createObjectURL(profilePicture)
     : defaultValues.photo;
 
-  const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    if (!data.gender || !data.category) return;
     if (!data.photo && !profilePicture) {
       setMissingPhoto(true);
       return;

@@ -424,7 +424,6 @@ type Mutation {
   addPortfolio(data: AddPortfolioArgs!): Boolean!
   addPortfolioLink(data: AddPortfolioLinkArgs!): Boolean!
   applyToPosting(comment: String, email: String!, phone: String, postingID: Float!): Boolean!
-  completeOnboarding: Boolean!
   createPosting(agency: Float!, newPosting: NewPostingInput!): Float
   deletePortfolio(id: Float!): Boolean!
   deletePosting(postingID: Float!): Boolean!
@@ -484,21 +483,6 @@ input OnboardingDOBInput {
   dob: String!
 }
 
-type OnboardingData {
-  bio: String
-  category: String
-  city: Float
-  country: Float
-  currency: Currency
-  dob: String
-  gender: String
-  name: String
-  photo: String
-  pricing: Pricing
-  state: Float
-  username: String
-}
-
 input OnboardingLocationInput {
   city: Float
   country: Float!
@@ -556,11 +540,11 @@ enum PostingPlatforms {
 }
 
 type Pricing {
-  starting: Float
+  starting: String
 }
 
 input PricingInput {
-  starting: Float
+  starting: String
 }
 
 type Query {
@@ -747,7 +731,6 @@ type User {
   locationID: LocationID
   name: String
   onboardingAgency: AgencyOnboarding
-  onboardingData: OnboardingData
   phone: String
   photo: String
   pictureUploadURL: StorageFile!

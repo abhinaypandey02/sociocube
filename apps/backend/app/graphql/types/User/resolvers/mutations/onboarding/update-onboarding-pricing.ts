@@ -1,12 +1,8 @@
-import { Field, InputType } from "type-graphql";
-import { and, eq, isNotNull } from "drizzle-orm";
-import { AuthorizedContext } from "../../../../../context";
-import { db } from "../../../../../../../lib/db";
-import {
-  OnboardingDataTable,
-  PricingTable,
-  UserTable,
-} from "../../../db/schema";
+import {Field, InputType} from "type-graphql";
+import {and, eq, isNotNull} from "drizzle-orm";
+import {AuthorizedContext} from "../../../../../context";
+import {db} from "../../../../../../../lib/db";
+import {LocationTable, PricingTable, UserTable} from "../../../db/schema";
 import GQLError from "../../../../../constants/errors";
 
 @InputType("OnboardingPriceInput")
@@ -24,35 +20,13 @@ export async function handleUpdateOnboardingPricing(
     .where(
       and(
         eq(UserTable.id, ctx.userId),
-        isNotNull(UserTable.onboardingData),
         eq(UserTable.isOnboarded, false),
         isNotNull(UserTable.instagramDetails),
       ),
     )
-    .leftJoin(
-      OnboardingDataTable,
-      eq(UserTable.onboardingData, OnboardingDataTable.id),
-    );
-  if (!res?.onboarding_data?.city || !res.user.onboardingData)
+    .leftJoin(LocationTable, eq(UserTable.location, LocationTable.id));
+  if (!res?.location?.city)
     throw GQLError(400, "Please add a city to continue");
-  if (res.onboarding_data.pricing) {
-    await db
-      .update(PricingTable)
-      .set({
-        starting,
-      })
-      .where(eq(PricingTable.id, res.onboarding_data.pricing));
-  } else {
-    const [pricing] = await db
-      .insert(PricingTable)
-      .values({ starting })
-      .returning({ id: PricingTable.id });
-    if (pricing?.id) {
-      await db
-        .update(OnboardingDataTable)
-        .set({ pricing: pricing.id })
-        .where(eq(OnboardingDataTable.id, res.user.onboardingData));
-    }
-  }
+  await db.insert(PricingTable).values({ starting, user: ctx.userId });
   return true;
 }
