@@ -1,8 +1,8 @@
-import {eq} from "drizzle-orm";
-import {db} from "../../../../../../lib/db";
-import {UserTable} from "../../db/schema";
-import {usernameAllowed} from "../../utils";
-import {AgencyOnboardingTable, AgencyTable} from "../../../Agency/db/schema";
+import { eq } from "drizzle-orm";
+import { db } from "../../../../../../lib/db";
+import { UserTable } from "../../db/schema";
+import { usernameAllowed } from "../../utils";
+import { AgencyOnboardingTable, AgencyTable } from "../../../Agency/db/schema";
 
 export async function handleIsUsernameAvailable(username: string) {
   if (!usernameAllowed(username)) throw new Error("Username invalid");

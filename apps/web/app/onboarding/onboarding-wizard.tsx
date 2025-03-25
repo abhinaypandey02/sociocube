@@ -1,6 +1,6 @@
 "use client";
-import React, {useCallback, useEffect, useMemo, useState} from "react";
-import {Button, Variants} from "ui/button";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Button, Variants } from "ui/button";
 import {
   ArrowRight,
   Calendar,
@@ -14,11 +14,14 @@ import {
   ShareNetwork,
 } from "@phosphor-icons/react";
 import Image from "next/image";
-import {useRouter} from "next/navigation";
-import {Spinner} from "@phosphor-icons/react/dist/ssr";
+import { useRouter } from "next/navigation";
+import { Spinner } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
-import type {Currency, GetDefaultOnboardingDetailsQuery,} from "../../__generated__/graphql";
-import {getRoute} from "../../constants/routes";
+import type {
+  Currency,
+  GetDefaultOnboardingDetailsQuery,
+} from "../../__generated__/graphql";
+import { getRoute } from "../../constants/routes";
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
 import SocialsStatus from "./socials-status";
 import OnboardingLocationForm from "./onboarding-location";

@@ -1,6 +1,6 @@
-import {Field, InputType, ObjectType} from "type-graphql";
-import {Roles} from "../../constants/roles";
-import {AgencyGQL} from "../Agency/type";
+import { Field, InputType, ObjectType } from "type-graphql";
+import { Roles } from "../../constants/roles";
+import { AgencyGQL } from "../Agency/type";
 
 @ObjectType("Pricing")
 @InputType("PricingInput")

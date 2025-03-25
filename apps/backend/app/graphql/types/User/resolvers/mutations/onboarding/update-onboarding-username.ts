@@ -1,13 +1,13 @@
-import {Field, InputType} from "type-graphql";
-import {eq} from "drizzle-orm";
-import {Matches, MaxLength} from "class-validator";
-import {USERNAME_REGEX} from "commons/regex";
-import {USERNAME_MAX_LENGTH} from "commons/constraints";
-import {AuthorizedContext} from "../../../../../context";
-import {db} from "../../../../../../../lib/db";
-import {usernameAllowed} from "../../../utils";
+import { Field, InputType } from "type-graphql";
+import { eq } from "drizzle-orm";
+import { Matches, MaxLength } from "class-validator";
+import { USERNAME_REGEX } from "commons/regex";
+import { USERNAME_MAX_LENGTH } from "commons/constraints";
+import { AuthorizedContext } from "../../../../../context";
+import { db } from "../../../../../../../lib/db";
+import { usernameAllowed } from "../../../utils";
 import GQLError from "../../../../../constants/errors";
-import {UserTable} from "../../../db/schema";
+import { UserTable } from "../../../db/schema";
 
 @InputType("OnboardingUsernameInput")
 export class OnboardingUsernameInput {

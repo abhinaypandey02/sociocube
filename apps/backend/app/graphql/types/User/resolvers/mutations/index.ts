@@ -1,18 +1,33 @@
-import {Arg, Authorized, Ctx, Mutation, Resolver} from "type-graphql";
-import type {AuthorizedContext} from "../../../../context";
-import {Currency} from "../../type";
+import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
+import type { AuthorizedContext } from "../../../../context";
+import { Currency } from "../../type";
 import {
   handleUpdateOnboardingBasicDetails,
   OnboardingBasicDetailsInput,
 } from "./onboarding/update-onboarding-basic-details";
-import {handleUpdateUser, UpdateUserInput} from "./update-user";
-import {handleUpdateOnboardingLocation, OnboardingLocationInput,} from "./onboarding/update-onboarding-location";
-import {handleUpdateOnboardingPricing, OnboardingPriceInput,} from "./onboarding/update-onboarding-pricing";
-import {handleDisconnectInstagram} from "./disconnect-instagram";
-import {handleUpdateLocation, UpdateLocationInput,} from "./update-user-location";
-import {handleUpdateOnboardingDOB, OnboardingDOBInput,} from "./onboarding/update-onboarding-dob";
-import {handleUpdateOnboardingUsername, OnboardingUsernameInput,} from "./onboarding/update-onboarding-username";
-import {handleUpdateOnboardingInstagramUsername} from "./onboarding/update-onboarding-instagram-username";
+import { handleUpdateUser, UpdateUserInput } from "./update-user";
+import {
+  handleUpdateOnboardingLocation,
+  OnboardingLocationInput,
+} from "./onboarding/update-onboarding-location";
+import {
+  handleUpdateOnboardingPricing,
+  OnboardingPriceInput,
+} from "./onboarding/update-onboarding-pricing";
+import { handleDisconnectInstagram } from "./disconnect-instagram";
+import {
+  handleUpdateLocation,
+  UpdateLocationInput,
+} from "./update-user-location";
+import {
+  handleUpdateOnboardingDOB,
+  OnboardingDOBInput,
+} from "./onboarding/update-onboarding-dob";
+import {
+  handleUpdateOnboardingUsername,
+  OnboardingUsernameInput,
+} from "./onboarding/update-onboarding-username";
+import { handleUpdateOnboardingInstagramUsername } from "./onboarding/update-onboarding-instagram-username";
 
 @Resolver()
 export class UserMutationResolver {

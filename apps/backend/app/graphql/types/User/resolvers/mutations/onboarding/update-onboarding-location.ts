@@ -1,11 +1,11 @@
-import {Field, InputType} from "type-graphql";
-import {and, eq, isNotNull} from "drizzle-orm";
-import {AuthorizedContext} from "../../../../../context";
-import {db} from "../../../../../../../lib/db";
-import {LocationTable, UserTable} from "../../../db/schema";
+import { Field, InputType } from "type-graphql";
+import { and, eq, isNotNull } from "drizzle-orm";
+import { AuthorizedContext } from "../../../../../context";
+import { db } from "../../../../../../../lib/db";
+import { LocationTable, UserTable } from "../../../db/schema";
 import GQLError from "../../../../../constants/errors";
-import {Currency} from "../../../type";
-import {CountryTable} from "../../../../Map/db/schema";
+import { Currency } from "../../../type";
+import { CountryTable } from "../../../../Map/db/schema";
 
 @InputType("OnboardingLocationInput")
 export class OnboardingLocationInput {

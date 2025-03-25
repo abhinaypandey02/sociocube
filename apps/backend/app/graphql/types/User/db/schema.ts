@@ -1,11 +1,22 @@
-import {boolean, date, index, integer, pgEnum, pgTable, real, serial, text, timestamp,} from "drizzle-orm/pg-core";
+import {
+  boolean,
+  date,
+  index,
+  integer,
+  pgEnum,
+  pgTable,
+  real,
+  serial,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import categories from "commons/categories";
 import genders from "commons/genders";
-import {sql} from "drizzle-orm";
-import {Roles} from "../../../constants/roles";
-import {InstagramDetails} from "../../Instagram/db/schema";
-import {CityTable, CountryTable, StateTable} from "../../Map/db/schema";
-import {InstagramMediaType} from "../../../constants/instagram-media-type";
+import { sql } from "drizzle-orm";
+import { Roles } from "../../../constants/roles";
+import { InstagramDetails } from "../../Instagram/db/schema";
+import { CityTable, CountryTable, StateTable } from "../../Map/db/schema";
+import { InstagramMediaType } from "../../../constants/instagram-media-type";
 
 export const mediaType = pgEnum("media_type", [
   InstagramMediaType.Image,

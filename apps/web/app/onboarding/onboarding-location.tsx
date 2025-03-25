@@ -1,14 +1,18 @@
 "use client";
-import React, {useEffect} from "react";
-import type {SubmitHandler} from "react-hook-form";
-import {useForm} from "react-hook-form";
-import {Input} from "ui/input";
-import {Button} from "ui/button";
+import React, { useEffect } from "react";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { Input } from "ui/input";
+import { Button } from "ui/button";
 import Form from "ui/form";
-import {handleGQLErrors, useAuthMutation, useAuthQuery,} from "../../lib/apollo-client";
-import {UPDATE_ONBOARDING_LOCATION} from "../../lib/mutations";
-import {GET_CITIES, GET_COUNTRIES, GET_STATES} from "../../lib/queries";
-import type {Currency} from "../../__generated__/graphql";
+import {
+  handleGQLErrors,
+  useAuthMutation,
+  useAuthQuery,
+} from "../../lib/apollo-client";
+import { UPDATE_ONBOARDING_LOCATION } from "../../lib/mutations";
+import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "../../lib/queries";
+import type { Currency } from "../../__generated__/graphql";
 
 interface FormFields {
   country?: number | null;

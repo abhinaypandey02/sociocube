@@ -1,20 +1,20 @@
 "use client";
-import type {ChangeEvent} from "react";
-import React, {useRef, useState} from "react";
-import type {SubmitHandler} from "react-hook-form";
-import {useForm} from "react-hook-form";
-import {Input} from "ui/input";
-import {Button} from "ui/button";
+import type { ChangeEvent } from "react";
+import React, { useRef, useState } from "react";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { Input } from "ui/input";
+import { Button } from "ui/button";
 import categories from "commons/categories";
 import genders from "commons/genders";
 import Form from "ui/form";
-import {User} from "@phosphor-icons/react";
+import { User } from "@phosphor-icons/react";
 import Image from "next/image";
-import {ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE} from "commons/file";
-import {toast} from "react-hot-toast";
-import {handleGQLErrors, useAuthMutation} from "../../lib/apollo-client";
-import {UPDATE_ONBOARDING_BASIC_DETAILS} from "../../lib/mutations";
-import type {StorageFile} from "../../__generated__/graphql";
+import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "commons/file";
+import { toast } from "react-hot-toast";
+import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
+import { UPDATE_ONBOARDING_BASIC_DETAILS } from "../../lib/mutations";
+import type { StorageFile } from "../../__generated__/graphql";
 
 interface FormFields {
   name: string;

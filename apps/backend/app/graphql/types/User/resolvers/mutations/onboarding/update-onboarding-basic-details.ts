@@ -1,13 +1,13 @@
-import {Field, InputType} from "type-graphql";
-import {eq} from "drizzle-orm";
-import {IsDateString, IsIn, MaxLength} from "class-validator";
+import { Field, InputType } from "type-graphql";
+import { eq } from "drizzle-orm";
+import { IsDateString, IsIn, MaxLength } from "class-validator";
 import categories from "commons/categories";
 import genders from "commons/genders";
-import {getAge, MAX_AGE, MIN_AGE} from "commons/age";
-import {BIO_MAX_LENGTH, NAME_MAX_LENGTH} from "commons/constraints";
-import {AuthorizedContext} from "../../../../../context";
-import {db} from "../../../../../../../lib/db";
-import {UserTable} from "../../../db/schema";
+import { getAge, MAX_AGE, MIN_AGE } from "commons/age";
+import { BIO_MAX_LENGTH, NAME_MAX_LENGTH } from "commons/constraints";
+import { AuthorizedContext } from "../../../../../context";
+import { db } from "../../../../../../../lib/db";
+import { UserTable } from "../../../db/schema";
 import GQLError from "../../../../../constants/errors";
 
 @InputType("OnboardingBasicDetailsInput")

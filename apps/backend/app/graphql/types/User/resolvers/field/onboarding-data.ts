@@ -1,4 +1,4 @@
-import {UserDB} from "../../db/schema";
+import { UserDB } from "../../db/schema";
 
 export function getIsOnboarded(user: UserDB) {
   return Boolean(

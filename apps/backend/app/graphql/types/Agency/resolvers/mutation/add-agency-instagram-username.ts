@@ -1,15 +1,15 @@
-import {eq} from "drizzle-orm";
-import {TEAM_USER_ID} from "commons/referral";
-import {v4} from "uuid";
-import {db} from "../../../../../../lib/db";
-import {AgencyOnboardingTable} from "../../db/schema";
-import {AuthorizedContext} from "../../../../context";
+import { eq } from "drizzle-orm";
+import { TEAM_USER_ID } from "commons/referral";
+import { v4 } from "uuid";
+import { db } from "../../../../../../lib/db";
+import { AgencyOnboardingTable } from "../../db/schema";
+import { AuthorizedContext } from "../../../../context";
 import GQLError from "../../../../constants/errors";
-import {InstagramDetails} from "../../../Instagram/db/schema";
-import {getInstagramDataExternalAPI} from "../../../../../auth/instagram/utils";
-import {UserTable} from "../../../User/db/schema";
-import {uploadImage} from "../../../../../../lib/storage/aws-s3";
-import {InstagramMediaTable} from "../../../Instagram/db/schema2";
+import { InstagramDetails } from "../../../Instagram/db/schema";
+import { getInstagramDataExternalAPI } from "../../../../../auth/instagram/utils";
+import { UserTable } from "../../../User/db/schema";
+import { uploadImage } from "../../../../../../lib/storage/aws-s3";
+import { InstagramMediaTable } from "../../../Instagram/db/schema2";
 
 export async function addAgencyInstagramUsername(
   ctx: AuthorizedContext,

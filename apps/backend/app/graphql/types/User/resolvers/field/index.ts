@@ -1,19 +1,19 @@
-import {Authorized, FieldResolver, Resolver, Root} from "type-graphql";
-import {Location, LocationID, Pricing, UserGQL} from "../../type";
-import type {UserDB} from "../../db/schema";
-import {FileGQL} from "../../../File/type";
-import {InstagramMedia, InstagramStats} from "../../../Instagram/type";
-import {PortfolioGQL} from "../../../Portfolio/type";
-import {AgencyMemberGQL, AgencyOnboardingGQL} from "../../../Agency/type";
-import {ReviewGQL} from "../../../Review/type";
-import {getIsOnboarded} from "./onboarding-data";
-import {getPictureUploadURL} from "./picture-upload-url";
-import {getPricing} from "./pricing";
-import {getLocation, getLocationID} from "./location";
-import {getInstagramMedia, getInstagramStats} from "./instagram";
-import {getPortfolio} from "./portfolio";
-import {getAgencies, getOnboardingAgency} from "./agency";
-import {getReviews} from "./review";
+import { Authorized, FieldResolver, Resolver, Root } from "type-graphql";
+import { Location, LocationID, Pricing, UserGQL } from "../../type";
+import type { UserDB } from "../../db/schema";
+import { FileGQL } from "../../../File/type";
+import { InstagramMedia, InstagramStats } from "../../../Instagram/type";
+import { PortfolioGQL } from "../../../Portfolio/type";
+import { AgencyMemberGQL, AgencyOnboardingGQL } from "../../../Agency/type";
+import { ReviewGQL } from "../../../Review/type";
+import { getIsOnboarded } from "./onboarding-data";
+import { getPictureUploadURL } from "./picture-upload-url";
+import { getPricing } from "./pricing";
+import { getLocation, getLocationID } from "./location";
+import { getInstagramMedia, getInstagramStats } from "./instagram";
+import { getPortfolio } from "./portfolio";
+import { getAgencies, getOnboardingAgency } from "./agency";
+import { getReviews } from "./review";
 
 @Resolver(() => UserGQL)
 export class UserFieldResolver {

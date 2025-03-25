@@ -1,8 +1,8 @@
-import {Field, InputType} from "type-graphql";
-import {and, eq, isNotNull} from "drizzle-orm";
-import {AuthorizedContext} from "../../../../../context";
-import {db} from "../../../../../../../lib/db";
-import {LocationTable, PricingTable, UserTable} from "../../../db/schema";
+import { Field, InputType } from "type-graphql";
+import { and, eq, isNotNull } from "drizzle-orm";
+import { AuthorizedContext } from "../../../../../context";
+import { db } from "../../../../../../../lib/db";
+import { LocationTable, PricingTable, UserTable } from "../../../db/schema";
 import GQLError from "../../../../../constants/errors";
 
 @InputType("OnboardingPriceInput")
