@@ -123,7 +123,7 @@ export const GET = async (req: NextRequest) => {
       if (existingUser) {
         await db
           .update(UserTable)
-          .set({ instagramDetails: null, isOnboarded: false })
+          .set({ instagramDetails: null })
           .where(eq(UserTable.id, existingUser.id));
         await db
           .delete(InstagramMediaTable)

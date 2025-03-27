@@ -55,7 +55,6 @@ export const UserTable = pgTable(
     photo: text("photo"),
     refreshTokens: text("refresh_tokens").array(),
     roles: rolesEnum("role").array().notNull(),
-    isOnboarded: boolean("is_onboarded").default(false),
     stripeSubscriptionID: text("stripe_subscription_id"),
     location: integer("location").references(() => LocationTable.id),
     category: categoriesEnum("category"),

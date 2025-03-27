@@ -42,11 +42,10 @@ export function getStep(
     !currentUser.category
   )
     return 2;
-  if (!currentUser.dob && !currentUser.username) return 3;
-  if (!currentUser.username) return 4;
-  if (!currentUser.location?.city) return 5;
-  if (!currentUser.pricing) return 6;
-  if (!currentUser.isOnboarded) return 7;
+  if (!currentUser.dob) return 3;
+  if (!currentUser.location?.city) return 4;
+  if (!currentUser.pricing) return 4;
+  if (!currentUser.username) return 6;
   return 0;
 }
 
@@ -172,24 +171,6 @@ function OnboardingWizard({
         component: <OnboardingDOB key={3} nextStep={nextStep} />,
       },
       {
-        title: "Username",
-        heading: "Personalised link",
-        description: "Get a personalized link",
-        longDescription:
-          "Get a personalised sharing link. Select a unique username and get your own custom link that you can share easily!",
-        icon: LinkIcon,
-        component: (
-          <OnboardingUsername
-            defaultValues={{
-              username:
-                currentUser?.username || currentUser?.instagramStats?.username,
-            }}
-            key={4}
-            nextStep={nextStep}
-          />
-        ),
-      },
-      {
         title: "Location",
         heading: "Where are you based?",
         description: "Your current city",
@@ -216,6 +197,23 @@ function OnboardingWizard({
             currency={currency}
             key={6}
             nextStep={nextStep}
+          />
+        ),
+      },
+      {
+        title: "Username",
+        heading: "Personalised link",
+        description: "Get a personalized link",
+        longDescription:
+          "Get a personalised sharing link. Select a unique username and get your own custom link that you can share easily!",
+        icon: LinkIcon,
+        component: (
+          <OnboardingUsername
+            defaultValues={{
+              username:
+                currentUser?.username || currentUser?.instagramStats?.username,
+            }}
+            key={4}
           />
         ),
       },

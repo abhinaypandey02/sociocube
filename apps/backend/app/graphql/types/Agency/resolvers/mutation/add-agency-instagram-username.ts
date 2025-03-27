@@ -37,12 +37,6 @@ export async function addAgencyInstagramUsername(
     await db
       .delete(InstagramMediaTable)
       .where(eq(InstagramMediaTable.user, ctx.userId));
-    await db
-      .update(UserTable)
-      .set({
-        isOnboarded: false,
-      })
-      .where(eq(UserTable.id, ctx.userId));
     await db.insert(AgencyOnboardingTable).values({
       instagramDetails: userDetails.instagram_data.id,
       user: ctx.userId,

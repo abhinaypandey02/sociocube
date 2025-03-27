@@ -14,7 +14,6 @@ export async function handleDisconnectInstagram(ctx: AuthorizedContext) {
       .update(UserTable)
       .set({
         instagramDetails: null,
-        isOnboarded: false,
       })
       .where(eq(UserTable.id, ctx.userId));
     if (user.instagramDetails)

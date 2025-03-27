@@ -13,11 +13,9 @@ import { PostingTable } from "../../../Posting/db/schema";
 export class ApplicationFieldResolvers {
   @FieldResolver(() => UserGQL, { nullable: true })
   async user(@Root() app: ApplicationDB): Promise<UserDB | undefined | null> {
-    const user = await getCurrentUser({
+    return getCurrentUser({
       userId: app.user,
     });
-    if (!user?.isOnboarded) return null;
-    return user;
   }
   @FieldResolver(() => PostingGQL, { nullable: true })
   async posting(

@@ -117,13 +117,10 @@ export const GET = async (req: NextRequest) => {
           );
         if (existingUnverifiedInstagram) {
           if (existingUnverifiedInstagram.user) {
-            const accountGettingVerified =
-              existingUnverifiedInstagram.user.id === loggedInUserID;
             await db
               .update(UserTable)
               .set({
                 instagramDetails: null,
-                isOnboarded: accountGettingVerified ? undefined : false,
               })
               .where(eq(UserTable.id, existingUnverifiedInstagram.user.id));
           }

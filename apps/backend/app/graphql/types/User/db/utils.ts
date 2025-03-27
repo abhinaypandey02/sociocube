@@ -35,10 +35,5 @@ export async function createUser(data: UserDBInsert, tx?: DBTransaction) {
     .insert(UserTable)
     .values(data)
     .returning({ id: UserTable.id });
-  if (user)
-    await (tx || db)
-      .update(UserTable)
-      .set({ username: user.id.toString() })
-      .where(eq(UserTable.id, user.id));
   return user;
 }

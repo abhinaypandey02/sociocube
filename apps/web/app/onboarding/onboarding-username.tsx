@@ -1,10 +1,12 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { Input } from "ui/input";
 import { Button } from "ui/button";
 import Form from "ui/form";
+import { useRouter } from "next/navigation";
+import type { GraphQLError } from "graphql/error";
 import {
   handleGQLErrors,
   useAuthMutation,
@@ -13,28 +15,35 @@ import {
 import { IS_USERNAME_AVAILABLE } from "../../lib/queries";
 import { getUsernameInputRules } from "../../lib/utils";
 import { UPDATE_USER } from "../../lib/mutations";
+import { getRoute } from "../../constants/routes";
 
 export default function OnboardingUsername({
   defaultValues,
-  nextStep,
 }: {
   defaultValues: { username?: string };
-  nextStep: () => void;
 }) {
+  const router = useRouter();
   const form = useForm({ defaultValues, reValidateMode: "onSubmit" });
-  const [updateUsername, { loading }] = useAuthMutation(UPDATE_USER);
+  const [updateUsername] = useAuthMutation(UPDATE_USER);
+  const [loading, setLoading] = useState(false);
   const [isUsernameAvailable, { loading: loadingAvailability }] = useAuthQuery(
     IS_USERNAME_AVAILABLE,
   );
 
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (data.username) {
+      setLoading(true);
       const res = await updateUsername({
         updatedUser: {
           username: data.username.toLowerCase(),
         },
-      }).catch(handleGQLErrors);
-      if (res?.data?.updateUser) nextStep();
+      }).catch((e) => {
+        handleGQLErrors(e as GraphQLError);
+        setLoading(false);
+      });
+      if (res?.data?.updateUser) {
+        router.push(`${getRoute("Profile")}/${data.username.toLowerCase()}`);
+      }
     }
   };
   return (

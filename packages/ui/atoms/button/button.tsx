@@ -61,7 +61,7 @@ function Button({
           <CircleNotch className=" animate-spin" size={24} weight="bold" />
         ) : null}
       </span>
-      <span className={loading ? "opacity-0" : ""}>{children}</span>
+      <span className={loading ? "opacity-0" : "flex"}>{children}</span>
     </button>
   );
 }

@@ -12,6 +12,7 @@ import { UserTable } from "../../../User/db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { Roles } from "../../../../constants/roles";
 import { AgencyTable } from "../../../Agency/db/schema";
+import { getIsOnboarded } from "../../../User/resolvers/field/onboarding-data";
 
 @ArgsType()
 export class ApplyToPostingArgs {
@@ -44,7 +45,7 @@ export async function applyToPosting(
       eq(InstagramDetails.id, UserTable.instagramDetails),
     );
   if (!user) throw GQLError(404, "User details not found");
-  if (!user.user.isOnboarded) throw GQLError(404, "User not onboarded");
+  if (!getIsOnboarded(user.user)) throw GQLError(404, "User not onboarded");
   const [result] = await db
     .select()
     .from(PostingTable)

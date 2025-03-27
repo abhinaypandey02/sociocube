@@ -19,7 +19,6 @@ export async function handleGetFeaturedSellers() {
     .from(UserTable)
     .where(
       and(
-        eq(UserTable.isOnboarded, true),
         isNotNull(UserTable.photo),
         isNotNull(UserTable.bio),
         isNotNull(UserTable.instagramDetails),

@@ -53,7 +53,6 @@ export async function handleGetFeaturedPosts(): Promise<
       UserTable,
       and(
         isNotNull(UserTable.photo),
-        eq(UserTable.isOnboarded, true),
         isNotNull(UserTable.name),
         isNotNull(UserTable.username),
         ne(UserTable.id, 368),
