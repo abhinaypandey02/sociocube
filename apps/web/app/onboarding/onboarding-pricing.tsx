@@ -6,8 +6,8 @@ import { Input } from "ui/input";
 import { Button } from "ui/button";
 import Form from "ui/form";
 import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
-import { UPDATE_ONBOARDING_PRICING } from "../../lib/mutations";
 import type { Currency, Pricing } from "../../__generated__/graphql";
+import { UPDATE_USER } from "../../lib/mutations";
 
 export default function OnboardingPricingForm({
   nextStep,
@@ -17,18 +17,18 @@ export default function OnboardingPricingForm({
   currency?: Currency | null;
 }) {
   const form = useForm<Pricing>();
-  const [updatePricing, { loading }] = useAuthMutation(
-    UPDATE_ONBOARDING_PRICING,
-  );
+  const [updatePricing, { loading }] = useAuthMutation(UPDATE_USER);
 
   const onSubmit: SubmitHandler<Pricing> = async (data) => {
     if (data.starting) {
       const res = await updatePricing({
-        pricingDetails: {
-          starting: parseInt(data.starting),
+        updatedUser: {
+          pricing: {
+            starting: data.starting,
+          },
         },
       }).catch(handleGQLErrors);
-      if (res?.data?.updateOnboardingPricing) nextStep();
+      if (res?.data?.updateUser) nextStep();
     }
   };
   return (

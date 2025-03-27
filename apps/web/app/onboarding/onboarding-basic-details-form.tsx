@@ -13,8 +13,8 @@ import Image from "next/image";
 import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "commons/file";
 import { toast } from "react-hot-toast";
 import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
-import { UPDATE_ONBOARDING_BASIC_DETAILS } from "../../lib/mutations";
 import type { StorageFile } from "../../__generated__/graphql";
+import { UPDATE_USER } from "../../lib/mutations";
 
 interface FormFields {
   name: string;
@@ -42,9 +42,7 @@ export default function OnboardingBasicDetailsForm({
   const [profilePicture, setProfilePicture] = useState<File>();
   const [uploadingPicture, setUploadingPicture] = useState(false);
   const [missingPhoto, setMissingPhoto] = useState(false);
-  const [updateBasicDetails, { loading }] = useAuthMutation(
-    UPDATE_ONBOARDING_BASIC_DETAILS,
-  );
+  const [updateBasicDetails, { loading }] = useAuthMutation(UPDATE_USER);
 
   const displayURL = profilePicture
     ? URL.createObjectURL(profilePicture)
@@ -65,16 +63,16 @@ export default function OnboardingBasicDetailsForm({
       if (!res.ok) return;
     }
     updateBasicDetails({
-      basicDetails: {
+      updatedUser: {
         name: data.name,
-        imageURL: profilePicture ? photoUpload.url : data.photo,
+        photo: profilePicture ? photoUpload.url : data.photo,
         bio: data.bio,
         category: data.category,
         gender: data.gender,
       },
     })
       .then((res) => {
-        if (res.data?.updateOnboardingBasicDetails) {
+        if (res.data?.updateUser) {
           nextStep();
         }
       })

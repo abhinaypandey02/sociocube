@@ -444,15 +444,10 @@ type Mutation {
   sendVerificationEmail: Boolean!
   updateAgency(data: UpdateAgencyInput!, id: Float!): Boolean!
   updateAgencyLocation(data: UpdateAgencyLocationInput!, id: Float!): Boolean!
-  updateOnboardingBasicDetails(basicDetails: OnboardingBasicDetailsInput!): Boolean!
-  updateOnboardingDOB(dobDetails: OnboardingDOBInput!): Boolean!
-  updateOnboardingInstagramUsername(username: String!): Boolean!
-  updateOnboardingLocation(locationDetails: OnboardingLocationInput!): Currency!
-  updateOnboardingPricing(pricingDetails: OnboardingPriceInput!): Boolean!
-  updateOnboardingUsername(usernameDetails: OnboardingUsernameInput!): Boolean!
+  updateInstagramUsername(username: String!): Boolean!
   updatePosting(id: Float!, updatedPosting: UpdatePostingInput!): Boolean!
   updateUser(updatedUser: UpdateUserInput!): Boolean!
-  updateUserLocation(updatedLocation: UpdateLocation!): Boolean!
+  updateUserLocation(updatedLocation: UpdateLocation!): Currency!
 }
 
 input NewPostingInput {
@@ -468,33 +463,6 @@ input NewPostingInput {
   platforms: [PostingPlatforms!]!
   price: Int
   title: String!
-}
-
-input OnboardingBasicDetailsInput {
-  bio: String!
-  category: String!
-  dob: String
-  gender: String!
-  imageURL: String
-  name: String!
-}
-
-input OnboardingDOBInput {
-  dob: String!
-}
-
-input OnboardingLocationInput {
-  city: Float
-  country: Float!
-  state: Float!
-}
-
-input OnboardingPriceInput {
-  starting: Float!
-}
-
-input OnboardingUsernameInput {
-  username: String!
 }
 
 input PaginationArgs {
@@ -540,11 +508,11 @@ enum PostingPlatforms {
 }
 
 type Pricing {
-  starting: String
+  starting: Float
 }
 
 input PricingInput {
-  starting: String
+  starting: Float
 }
 
 type Query {

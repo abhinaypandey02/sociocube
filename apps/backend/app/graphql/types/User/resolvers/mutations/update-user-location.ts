@@ -4,6 +4,7 @@ import { db } from "../../../../../../lib/db";
 import { LocationTable, UserTable } from "../../db/schema";
 import type { AuthorizedContext } from "../../../../context";
 import { getCurrentUser } from "../../utils";
+import { CountryTable } from "../../../Map/db/schema";
 
 @InputType("UpdateLocation")
 export class UpdateLocationInput {
@@ -20,6 +21,7 @@ export async function handleUpdateLocation(
   updatedLocation: UpdateLocationInput,
 ) {
   const user = await getCurrentUser(ctx);
+
   if (user?.location)
     await db
       .update(LocationTable)
@@ -37,7 +39,13 @@ export async function handleUpdateLocation(
           location: res.id,
         })
         .where(eq(UserTable.id, ctx.userId));
-  } else return false;
-
-  return true;
+  }
+  const [country] = await db
+    .select()
+    .from(CountryTable)
+    .where(eq(CountryTable.id, updatedLocation.country));
+  return {
+    name: country?.currencyName || undefined,
+    symbol: country?.currencySymbol || undefined,
+  };
 }

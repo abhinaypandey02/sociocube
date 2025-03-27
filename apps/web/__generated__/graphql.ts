@@ -1,6 +1,5 @@
 /* eslint-disable */
-import {TypedDocumentNode as DocumentNode} from '@graphql-typed-document-node/core';
-
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -254,15 +253,10 @@ export type Mutation = {
   sendVerificationEmail: Scalars['Boolean']['output'];
   updateAgency: Scalars['Boolean']['output'];
   updateAgencyLocation: Scalars['Boolean']['output'];
-  updateOnboardingBasicDetails: Scalars['Boolean']['output'];
-  updateOnboardingDOB: Scalars['Boolean']['output'];
-  updateOnboardingInstagramUsername: Scalars['Boolean']['output'];
-  updateOnboardingLocation: Currency;
-  updateOnboardingPricing: Scalars['Boolean']['output'];
-  updateOnboardingUsername: Scalars['Boolean']['output'];
+  updateInstagramUsername: Scalars['Boolean']['output'];
   updatePosting: Scalars['Boolean']['output'];
   updateUser: Scalars['Boolean']['output'];
-  updateUserLocation: Scalars['Boolean']['output'];
+  updateUserLocation: Currency;
 };
 
 
@@ -410,33 +404,8 @@ export type MutationUpdateAgencyLocationArgs = {
 };
 
 
-export type MutationUpdateOnboardingBasicDetailsArgs = {
-  basicDetails: OnboardingBasicDetailsInput;
-};
-
-
-export type MutationUpdateOnboardingDobArgs = {
-  dobDetails: OnboardingDobInput;
-};
-
-
-export type MutationUpdateOnboardingInstagramUsernameArgs = {
+export type MutationUpdateInstagramUsernameArgs = {
   username: Scalars['String']['input'];
-};
-
-
-export type MutationUpdateOnboardingLocationArgs = {
-  locationDetails: OnboardingLocationInput;
-};
-
-
-export type MutationUpdateOnboardingPricingArgs = {
-  pricingDetails: OnboardingPriceInput;
-};
-
-
-export type MutationUpdateOnboardingUsernameArgs = {
-  usernameDetails: OnboardingUsernameInput;
 };
 
 
@@ -468,33 +437,6 @@ export type NewPostingInput = {
   platforms: Array<PostingPlatforms>;
   price?: InputMaybe<Scalars['Int']['input']>;
   title: Scalars['String']['input'];
-};
-
-export type OnboardingBasicDetailsInput = {
-  bio: Scalars['String']['input'];
-  category: Scalars['String']['input'];
-  dob?: InputMaybe<Scalars['String']['input']>;
-  gender: Scalars['String']['input'];
-  imageURL?: InputMaybe<Scalars['String']['input']>;
-  name: Scalars['String']['input'];
-};
-
-export type OnboardingDobInput = {
-  dob: Scalars['String']['input'];
-};
-
-export type OnboardingLocationInput = {
-  city?: InputMaybe<Scalars['Float']['input']>;
-  country: Scalars['Float']['input'];
-  state: Scalars['Float']['input'];
-};
-
-export type OnboardingPriceInput = {
-  starting: Scalars['Float']['input'];
-};
-
-export type OnboardingUsernameInput = {
-  username: Scalars['String']['input'];
 };
 
 export type PaginationArgs = {
@@ -543,11 +485,11 @@ export enum PostingPlatforms {
 
 export type Pricing = {
   __typename?: 'Pricing';
-  starting?: Maybe<Scalars['String']['output']>;
+  starting?: Maybe<Scalars['Float']['output']>;
 };
 
 export type PricingInput = {
-  starting?: InputMaybe<Scalars['String']['input']>;
+  starting?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type Query = {
@@ -824,13 +766,6 @@ export type User = {
   username?: Maybe<Scalars['String']['output']>;
 };
 
-export type UpdateOnboardingBasicDetailsMutationVariables = Exact<{
-  basicDetails: OnboardingBasicDetailsInput;
-}>;
-
-
-export type UpdateOnboardingBasicDetailsMutation = { __typename?: 'Mutation', updateOnboardingBasicDetails: boolean };
-
 export type UpdateAgencyOnboardingBasicDetailsMutationVariables = Exact<{
   basicDetails: AgencyBasicDetailsInput;
 }>;
@@ -838,19 +773,12 @@ export type UpdateAgencyOnboardingBasicDetailsMutationVariables = Exact<{
 
 export type UpdateAgencyOnboardingBasicDetailsMutation = { __typename?: 'Mutation', addAgencyBasicDetails: boolean };
 
-export type UpdateOnboardingDobMutationVariables = Exact<{
-  dobDetails: OnboardingDobInput;
-}>;
-
-
-export type UpdateOnboardingDobMutation = { __typename?: 'Mutation', updateOnboardingDOB: boolean };
-
-export type UpdateOnboardingInstagramUsernameMutationVariables = Exact<{
+export type UpdateInstagramUsernameMutationVariables = Exact<{
   username: Scalars['String']['input'];
 }>;
 
 
-export type UpdateOnboardingInstagramUsernameMutation = { __typename?: 'Mutation', updateOnboardingInstagramUsername: boolean };
+export type UpdateInstagramUsernameMutation = { __typename?: 'Mutation', updateInstagramUsername: boolean };
 
 export type UpdateAgencyOnboardingInstagramUsernameMutationVariables = Exact<{
   username: Scalars['String']['input'];
@@ -859,13 +787,6 @@ export type UpdateAgencyOnboardingInstagramUsernameMutationVariables = Exact<{
 
 export type UpdateAgencyOnboardingInstagramUsernameMutation = { __typename?: 'Mutation', addAgencyInstagramUsername: boolean };
 
-export type UpdateOnboardingUsernameMutationVariables = Exact<{
-  usernameDetails: OnboardingUsernameInput;
-}>;
-
-
-export type UpdateOnboardingUsernameMutation = { __typename?: 'Mutation', updateOnboardingUsername: boolean };
-
 export type UpdateAgencyOnboardingUsernameMutationVariables = Exact<{
   usernameDetails: AgencyUsernameInput;
 }>;
@@ -873,26 +794,12 @@ export type UpdateAgencyOnboardingUsernameMutationVariables = Exact<{
 
 export type UpdateAgencyOnboardingUsernameMutation = { __typename?: 'Mutation', addAgencyUsername: boolean };
 
-export type UpdateOnboardingLocationMutationVariables = Exact<{
-  locationDetails: OnboardingLocationInput;
-}>;
-
-
-export type UpdateOnboardingLocationMutation = { __typename?: 'Mutation', updateOnboardingLocation: { __typename?: 'Currency', name?: string | null, symbol?: string | null } };
-
 export type UpdateAgencyOnboardingLocationMutationVariables = Exact<{
   locationDetails: AgencyLocationInput;
 }>;
 
 
 export type UpdateAgencyOnboardingLocationMutation = { __typename?: 'Mutation', addAgencyLocation: string };
-
-export type UpdateOnboardingPricingMutationVariables = Exact<{
-  pricingDetails: OnboardingPriceInput;
-}>;
-
-
-export type UpdateOnboardingPricingMutation = { __typename?: 'Mutation', updateOnboardingPricing: boolean };
 
 export type ReadMessageMutationVariables = Exact<{
   conversationID: Scalars['Int']['input'];
@@ -937,7 +844,7 @@ export type UpdateUserLocationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserLocationMutation = { __typename?: 'Mutation', updateUserLocation: boolean };
+export type UpdateUserLocationMutation = { __typename?: 'Mutation', updateUserLocation: { __typename?: 'Currency', name?: string | null, symbol?: string | null } };
 
 export type DisconnectInstagramMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -1075,7 +982,7 @@ export type GetCurrentUserQuery = { __typename?: 'Query', user?: { __typename?: 
 export type GetDefaultOnboardingDetailsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetDefaultOnboardingDetailsQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'User', id: number, email?: string | null, name?: string | null, photo?: string | null, isOnboarded?: boolean | null, bio?: string | null, username?: string | null, gender?: string | null, category?: string | null, dob?: string | null, instagramStats?: { __typename?: 'InstagramStats', username: string } | null, pictureUploadURL: { __typename?: 'StorageFile', uploadURL: string, url: string }, pricing?: { __typename?: 'Pricing', starting?: string | null } | null, location?: { __typename?: 'Location', city?: string | null, currency?: { __typename?: 'Currency', code?: string | null, name?: string | null, symbol?: string | null } | null } | null } | null };
+export type GetDefaultOnboardingDetailsQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'User', id: number, email?: string | null, name?: string | null, photo?: string | null, isOnboarded?: boolean | null, bio?: string | null, username?: string | null, gender?: string | null, category?: string | null, dob?: string | null, instagramStats?: { __typename?: 'InstagramStats', username: string } | null, pictureUploadURL: { __typename?: 'StorageFile', uploadURL: string, url: string }, pricing?: { __typename?: 'Pricing', starting?: number | null } | null, location?: { __typename?: 'Location', city?: string | null, currency?: { __typename?: 'Currency', code?: string | null, name?: string | null, symbol?: string | null } | null } | null } | null };
 
 export type GetDefaultAgencyOnboardingDetailsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1092,7 +999,7 @@ export type GetSellerQueryVariables = Exact<{
 }>;
 
 
-export type GetSellerQuery = { __typename?: 'Query', getSeller?: { __typename?: 'Seller', user?: { __typename?: 'User', id: number, name?: string | null, photo?: string | null, bio?: string | null, gender?: string | null, category?: string | null, dob?: string | null, reviews: Array<{ __typename?: 'Review', feedback?: string | null, rating: number, name: string, photo?: string | null, username: string, portfolio?: { __typename?: 'Portfolio', id: number, imageURL?: string | null, link?: string | null } | null }>, portfolio: Array<{ __typename?: 'Portfolio', caption?: string | null, id: number, link?: string | null, imageURL?: string | null }>, location?: { __typename?: 'Location', city?: string | null, country?: string | null, currency?: { __typename?: 'Currency', name?: string | null, symbol?: string | null, code?: string | null } | null } | null, pricing?: { __typename?: 'Pricing', starting?: string | null } | null, instagramMedia?: Array<{ __typename?: 'InstagramMedia', thumbnail: string, caption?: string | null, link: string, likes: number, comments: number, er?: number | null, timestamp: string }> | null, instagramStats?: { __typename?: 'InstagramStats', followers: number, mediaCount: number, username: string, er: number, averageLikes: number, isVerified: boolean } | null } | null, agency?: { __typename?: 'Agency', id: number, photo: string, name: string, bio: string, category: AgencyCategory, reviews: Array<{ __typename?: 'Review', feedback?: string | null, rating: number, name: string, photo?: string | null, username: string, portfolio?: { __typename?: 'Portfolio', id: number, imageURL?: string | null, link?: string | null } | null }>, recentPostings: Array<{ __typename?: 'Posting', id: number, title: string, open: boolean, price?: number | null, barter: boolean, currency?: string | null, applicationsCount: number, minimumAge?: number | null, maximumAge?: number | null, minimumFollowers?: number | null }>, location?: { __typename?: 'Location', city?: string | null, country?: string | null } | null, portfolio: Array<{ __typename?: 'Portfolio', caption?: string | null, id: number, link?: string | null, imageURL?: string | null }>, instagramMedia?: Array<{ __typename?: 'InstagramMedia', thumbnail: string, caption?: string | null, link: string, likes: number, timestamp: string, comments: number, er?: number | null }> | null, instagramStats?: { __typename?: 'InstagramStats', followers: number, mediaCount: number, username: string, er: number, averageLikes: number, isVerified: boolean } | null } | null } | null };
+export type GetSellerQuery = { __typename?: 'Query', getSeller?: { __typename?: 'Seller', user?: { __typename?: 'User', id: number, name?: string | null, photo?: string | null, bio?: string | null, gender?: string | null, category?: string | null, dob?: string | null, reviews: Array<{ __typename?: 'Review', feedback?: string | null, rating: number, name: string, photo?: string | null, username: string, portfolio?: { __typename?: 'Portfolio', id: number, imageURL?: string | null, link?: string | null } | null }>, portfolio: Array<{ __typename?: 'Portfolio', caption?: string | null, id: number, link?: string | null, imageURL?: string | null }>, location?: { __typename?: 'Location', city?: string | null, country?: string | null, currency?: { __typename?: 'Currency', name?: string | null, symbol?: string | null, code?: string | null } | null } | null, pricing?: { __typename?: 'Pricing', starting?: number | null } | null, instagramMedia?: Array<{ __typename?: 'InstagramMedia', thumbnail: string, caption?: string | null, link: string, likes: number, comments: number, er?: number | null, timestamp: string }> | null, instagramStats?: { __typename?: 'InstagramStats', followers: number, mediaCount: number, username: string, er: number, averageLikes: number, isVerified: boolean } | null } | null, agency?: { __typename?: 'Agency', id: number, photo: string, name: string, bio: string, category: AgencyCategory, reviews: Array<{ __typename?: 'Review', feedback?: string | null, rating: number, name: string, photo?: string | null, username: string, portfolio?: { __typename?: 'Portfolio', id: number, imageURL?: string | null, link?: string | null } | null }>, recentPostings: Array<{ __typename?: 'Posting', id: number, title: string, open: boolean, price?: number | null, barter: boolean, currency?: string | null, applicationsCount: number, minimumAge?: number | null, maximumAge?: number | null, minimumFollowers?: number | null }>, location?: { __typename?: 'Location', city?: string | null, country?: string | null } | null, portfolio: Array<{ __typename?: 'Portfolio', caption?: string | null, id: number, link?: string | null, imageURL?: string | null }>, instagramMedia?: Array<{ __typename?: 'InstagramMedia', thumbnail: string, caption?: string | null, link: string, likes: number, timestamp: string, comments: number, er?: number | null }> | null, instagramStats?: { __typename?: 'InstagramStats', followers: number, mediaCount: number, username: string, er: number, averageLikes: number, isVerified: boolean } | null } | null } | null };
 
 export type GetAgencyAccountDetailsQueryVariables = Exact<{
   username?: InputMaybe<Scalars['String']['input']>;
@@ -1116,7 +1023,7 @@ export type GetChatQuery = { __typename?: 'Query', chat?: { __typename?: 'Conver
 export type GetAccountDetailsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAccountDetailsQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: number, name?: string | null, contactEmail?: string | null, bio?: string | null, photo?: string | null, phone?: string | null, category?: string | null, gender?: string | null, dob?: string | null, username?: string | null, instagramStats?: { __typename?: 'InstagramStats', isVerified: boolean } | null, locationID?: { __typename?: 'LocationID', city?: number | null, country?: number | null, state?: number | null } | null, pricing?: { __typename?: 'Pricing', starting?: string | null } | null, pictureUploadURL: { __typename?: 'StorageFile', uploadURL: string, url: string } } | null };
+export type GetAccountDetailsQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: number, name?: string | null, contactEmail?: string | null, bio?: string | null, photo?: string | null, phone?: string | null, category?: string | null, gender?: string | null, dob?: string | null, username?: string | null, instagramStats?: { __typename?: 'InstagramStats', isVerified: boolean } | null, locationID?: { __typename?: 'LocationID', city?: number | null, country?: number | null, state?: number | null } | null, pricing?: { __typename?: 'Pricing', starting?: number | null } | null, pictureUploadURL: { __typename?: 'StorageFile', uploadURL: string, url: string } } | null };
 
 export type GetUserCurrencyQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1147,7 +1054,7 @@ export type SearchSellersQueryVariables = Exact<{
 }>;
 
 
-export type SearchSellersQuery = { __typename?: 'Query', sellers?: Array<{ __typename?: 'User', name?: string | null, username?: string | null, photo?: string | null, bio?: string | null, category?: string | null, gender?: string | null, instagramStats?: { __typename?: 'InstagramStats', isVerified: boolean, followers: number } | null, pricing?: { __typename?: 'Pricing', starting?: string | null } | null, location?: { __typename?: 'Location', city?: string | null, country?: string | null, currency?: { __typename?: 'Currency', symbol?: string | null, code?: string | null } | null } | null }> | null };
+export type SearchSellersQuery = { __typename?: 'Query', sellers?: Array<{ __typename?: 'User', name?: string | null, username?: string | null, photo?: string | null, bio?: string | null, category?: string | null, gender?: string | null, instagramStats?: { __typename?: 'InstagramStats', isVerified: boolean, followers: number } | null, pricing?: { __typename?: 'Pricing', starting?: number | null } | null, location?: { __typename?: 'Location', city?: string | null, country?: string | null, currency?: { __typename?: 'Currency', symbol?: string | null, code?: string | null } | null } | null }> | null };
 
 export type IsUsernameAvailableQueryVariables = Exact<{
   username: Scalars['String']['input'];
@@ -1221,22 +1128,17 @@ export type GetInviteDetailsQueryVariables = Exact<{
 export type GetInviteDetailsQuery = { __typename?: 'Query', getInviteDetails: { __typename?: 'InviteDetails', title: string, subtitle: string, email: string } };
 
 
-export const UpdateOnboardingBasicDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOnboardingBasicDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"basicDetails"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OnboardingBasicDetailsInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOnboardingBasicDetails"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"basicDetails"},"value":{"kind":"Variable","name":{"kind":"Name","value":"basicDetails"}}}]}]}}]} as unknown as DocumentNode<UpdateOnboardingBasicDetailsMutation, UpdateOnboardingBasicDetailsMutationVariables>;
 export const UpdateAgencyOnboardingBasicDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateAgencyOnboardingBasicDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"basicDetails"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AgencyBasicDetailsInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addAgencyBasicDetails"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"agency"},"value":{"kind":"Variable","name":{"kind":"Name","value":"basicDetails"}}}]}]}}]} as unknown as DocumentNode<UpdateAgencyOnboardingBasicDetailsMutation, UpdateAgencyOnboardingBasicDetailsMutationVariables>;
-export const UpdateOnboardingDobDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOnboardingDOB"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"dobDetails"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OnboardingDOBInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOnboardingDOB"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"dobDetails"},"value":{"kind":"Variable","name":{"kind":"Name","value":"dobDetails"}}}]}]}}]} as unknown as DocumentNode<UpdateOnboardingDobMutation, UpdateOnboardingDobMutationVariables>;
-export const UpdateOnboardingInstagramUsernameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOnboardingInstagramUsername"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOnboardingInstagramUsername"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}}]}]}}]} as unknown as DocumentNode<UpdateOnboardingInstagramUsernameMutation, UpdateOnboardingInstagramUsernameMutationVariables>;
+export const UpdateInstagramUsernameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateInstagramUsername"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateInstagramUsername"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}}]}]}}]} as unknown as DocumentNode<UpdateInstagramUsernameMutation, UpdateInstagramUsernameMutationVariables>;
 export const UpdateAgencyOnboardingInstagramUsernameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateAgencyOnboardingInstagramUsername"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addAgencyInstagramUsername"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}}]}]}}]} as unknown as DocumentNode<UpdateAgencyOnboardingInstagramUsernameMutation, UpdateAgencyOnboardingInstagramUsernameMutationVariables>;
-export const UpdateOnboardingUsernameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOnboardingUsername"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"usernameDetails"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OnboardingUsernameInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOnboardingUsername"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"usernameDetails"},"value":{"kind":"Variable","name":{"kind":"Name","value":"usernameDetails"}}}]}]}}]} as unknown as DocumentNode<UpdateOnboardingUsernameMutation, UpdateOnboardingUsernameMutationVariables>;
 export const UpdateAgencyOnboardingUsernameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateAgencyOnboardingUsername"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"usernameDetails"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AgencyUsernameInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addAgencyUsername"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"usernameDetails"}}}]}]}}]} as unknown as DocumentNode<UpdateAgencyOnboardingUsernameMutation, UpdateAgencyOnboardingUsernameMutationVariables>;
-export const UpdateOnboardingLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOnboardingLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locationDetails"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OnboardingLocationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOnboardingLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"locationDetails"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locationDetails"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}}]}}]}}]} as unknown as DocumentNode<UpdateOnboardingLocationMutation, UpdateOnboardingLocationMutationVariables>;
 export const UpdateAgencyOnboardingLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateAgencyOnboardingLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locationDetails"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AgencyLocationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addAgencyLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locationDetails"}}}]}]}}]} as unknown as DocumentNode<UpdateAgencyOnboardingLocationMutation, UpdateAgencyOnboardingLocationMutationVariables>;
-export const UpdateOnboardingPricingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOnboardingPricing"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pricingDetails"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OnboardingPriceInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOnboardingPricing"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pricingDetails"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pricingDetails"}}}]}]}}]} as unknown as DocumentNode<UpdateOnboardingPricingMutation, UpdateOnboardingPricingMutationVariables>;
 export const ReadMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ReadMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"conversationID"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"readMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"conversationID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"conversationID"}}}]}]}}]} as unknown as DocumentNode<ReadMessageMutation, ReadMessageMutationVariables>;
 export const SendChatDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SendChat"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"conversationID"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"conversationID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"conversationID"}}},{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}]}]}}]} as unknown as DocumentNode<SendChatMutation, SendChatMutationVariables>;
 export const UpdateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updatedUser"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updatedUser"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updatedUser"}}}]}]}}]} as unknown as DocumentNode<UpdateUserMutation, UpdateUserMutationVariables>;
 export const UpdateAgencyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateAgency"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"agencyID"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"agency"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateAgencyInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateAgency"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"agencyID"}}},{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"agency"}}}]}]}}]} as unknown as DocumentNode<UpdateAgencyMutation, UpdateAgencyMutationVariables>;
 export const UpdateAgencyLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateAgencyLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"agencyID"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"agency"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateAgencyLocationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateAgencyLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"agencyID"}}},{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"agency"}}}]}]}}]} as unknown as DocumentNode<UpdateAgencyLocationMutation, UpdateAgencyLocationMutationVariables>;
-export const UpdateUserLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateUserLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updatedLocation"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateLocation"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateUserLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updatedLocation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updatedLocation"}}}]}]}}]} as unknown as DocumentNode<UpdateUserLocationMutation, UpdateUserLocationMutationVariables>;
+export const UpdateUserLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateUserLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updatedLocation"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateLocation"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateUserLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updatedLocation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updatedLocation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}}]}}]}}]} as unknown as DocumentNode<UpdateUserLocationMutation, UpdateUserLocationMutationVariables>;
 export const DisconnectInstagramDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DisconnectInstagram"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"disconnectInstagram"}}]}}]} as unknown as DocumentNode<DisconnectInstagramMutation, DisconnectInstagramMutationVariables>;
 export const ApplyNowDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ApplyNow"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"postingID"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"comment"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"phone"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"applyToPosting"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"postingID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"postingID"}}},{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"comment"},"value":{"kind":"Variable","name":{"kind":"Name","value":"comment"}}},{"kind":"Argument","name":{"kind":"Name","value":"phone"},"value":{"kind":"Variable","name":{"kind":"Name","value":"phone"}}}]}]}}]} as unknown as DocumentNode<ApplyNowMutation, ApplyNowMutationVariables>;
 export const DeletePostingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeletePosting"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"postingID"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deletePosting"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"postingID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"postingID"}}}]}]}}]} as unknown as DocumentNode<DeletePostingMutation, DeletePostingMutationVariables>;

@@ -10,9 +10,9 @@ import {
   useAuthMutation,
   useAuthQuery,
 } from "../../lib/apollo-client";
-import { UPDATE_ONBOARDING_LOCATION } from "../../lib/mutations";
 import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "../../lib/queries";
 import type { Currency } from "../../__generated__/graphql";
+import { UPDATE_USER_LOCATION } from "../../lib/mutations";
 
 interface FormFields {
   country?: number | null;
@@ -28,9 +28,8 @@ export default function OnboardingLocationForm({
   setCurrency: (currency: Currency) => void;
 }) {
   const form = useForm<FormFields>();
-  const [updateBasicDetails, { loading }] = useAuthMutation(
-    UPDATE_ONBOARDING_LOCATION,
-  );
+  const [updateBasicDetails, { loading }] =
+    useAuthMutation(UPDATE_USER_LOCATION);
   const [fetchCountries, { data: countriesData, loading: loadingCountries }] =
     useAuthQuery(GET_COUNTRIES);
   const [fetchStates, { data: statesData, loading: loadingStates }] =
@@ -71,14 +70,14 @@ export default function OnboardingLocationForm({
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     if (data.state && data.country) {
       const res = await updateBasicDetails({
-        locationDetails: {
+        updatedLocation: {
           city: data.city,
           state: data.state,
           country: data.country,
         },
       }).catch(handleGQLErrors);
-      if (res?.data?.updateOnboardingLocation) {
-        setCurrency(res.data.updateOnboardingLocation);
+      if (res?.data?.updateUserLocation) {
+        setCurrency(res.data.updateUserLocation);
         nextStep();
       }
     }

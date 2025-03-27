@@ -1,99 +1,38 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "../../../../context";
 import { Currency } from "../../type";
-import {
-  handleUpdateOnboardingBasicDetails,
-  OnboardingBasicDetailsInput,
-} from "./onboarding/update-onboarding-basic-details";
 import { handleUpdateUser, UpdateUserInput } from "./update-user";
-import {
-  handleUpdateOnboardingLocation,
-  OnboardingLocationInput,
-} from "./onboarding/update-onboarding-location";
-import {
-  handleUpdateOnboardingPricing,
-  OnboardingPriceInput,
-} from "./onboarding/update-onboarding-pricing";
 import { handleDisconnectInstagram } from "./disconnect-instagram";
 import {
   handleUpdateLocation,
   UpdateLocationInput,
 } from "./update-user-location";
-import {
-  handleUpdateOnboardingDOB,
-  OnboardingDOBInput,
-} from "./onboarding/update-onboarding-dob";
-import {
-  handleUpdateOnboardingUsername,
-  OnboardingUsernameInput,
-} from "./onboarding/update-onboarding-username";
-import { handleUpdateOnboardingInstagramUsername } from "./onboarding/update-onboarding-instagram-username";
+import { handleUpdateInstagramUsername } from "./update-instagram-username";
 
 @Resolver()
 export class UserMutationResolver {
   @Authorized()
   @Mutation(() => Boolean)
-  updateOnboardingInstagramUsername(
+  updateInstagramUsername(
     @Arg("username") username: string,
     @Ctx() ctx: AuthorizedContext,
-  ) {
-    return handleUpdateOnboardingInstagramUsername(ctx, username);
-  }
-  @Authorized()
-  @Mutation(() => Boolean)
-  updateOnboardingBasicDetails(
-    @Arg("basicDetails") basicDetails: OnboardingBasicDetailsInput,
-    @Ctx() ctx: AuthorizedContext,
-  ) {
-    return handleUpdateOnboardingBasicDetails(ctx, basicDetails);
-  }
-  @Authorized()
-  @Mutation(() => Boolean)
-  updateOnboardingDOB(
-    @Arg("dobDetails") dobDetails: OnboardingDOBInput,
-    @Ctx() ctx: AuthorizedContext,
-  ) {
-    return handleUpdateOnboardingDOB(ctx, dobDetails);
-  }
-  @Authorized()
-  @Mutation(() => Boolean)
-  updateOnboardingUsername(
-    @Arg("usernameDetails")
-    usernameDetails: OnboardingUsernameInput,
-    @Ctx() ctx: AuthorizedContext,
-  ) {
-    return handleUpdateOnboardingUsername(ctx, usernameDetails);
-  }
-  @Authorized()
-  @Mutation(() => Currency)
-  updateOnboardingLocation(
-    @Arg("locationDetails") locationDetails: OnboardingLocationInput,
-    @Ctx() ctx: AuthorizedContext,
-  ) {
-    return handleUpdateOnboardingLocation(ctx, locationDetails);
-  }
-  @Authorized()
-  @Mutation(() => Boolean)
-  updateOnboardingPricing(
-    @Arg("pricingDetails") pricingDetails: OnboardingPriceInput,
-    @Ctx() ctx: AuthorizedContext,
-  ) {
-    return handleUpdateOnboardingPricing(ctx, pricingDetails);
+  ): Promise<boolean> {
+    return handleUpdateInstagramUsername(ctx, username);
   }
   @Authorized()
   @Mutation(() => Boolean)
   updateUser(
     @Ctx() ctx: AuthorizedContext,
     @Arg("updatedUser") updatedUser: UpdateUserInput,
-  ) {
+  ): Promise<boolean> {
     return handleUpdateUser(ctx, updatedUser);
   }
   @Authorized()
-  @Mutation(() => Boolean)
+  @Mutation(() => Currency)
   updateUserLocation(
     @Ctx() ctx: AuthorizedContext,
     @Arg("updatedLocation") updatedLocation: UpdateLocationInput,
-  ) {
+  ): Promise<Currency> {
     return handleUpdateLocation(ctx, updatedLocation);
   }
   @Authorized()

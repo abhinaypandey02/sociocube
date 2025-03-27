@@ -5,7 +5,7 @@ import { AgencyGQL } from "../Agency/type";
 @ObjectType("Pricing")
 @InputType("PricingInput")
 export class Pricing {
-  @Field(() => String, { nullable: true })
+  @Field(() => Number, { nullable: true })
   starting: number | null;
 }
 @ObjectType("Currency")

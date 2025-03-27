@@ -1,12 +1,5 @@
 import { gql } from "../__generated__";
 
-export const UPDATE_ONBOARDING_BASIC_DETAILS = gql(`
-  #graphql
-  mutation UpdateOnboardingBasicDetails($basicDetails: OnboardingBasicDetailsInput!) {
-    updateOnboardingBasicDetails(basicDetails: $basicDetails)
-  }
-`);
-
 export const UPDATE_AGENCY_ONBOARDING_BASIC_DETAILS = gql(`
   #graphql
   mutation UpdateAgencyOnboardingBasicDetails($basicDetails: AgencyBasicDetailsInput!) {
@@ -14,16 +7,10 @@ export const UPDATE_AGENCY_ONBOARDING_BASIC_DETAILS = gql(`
   }
 `);
 
-export const UPDATE_ONBOARDING_DOB = gql(`
+export const UPDATE_INSTAGRAM_USERNAME = gql(`
   #graphql
-  mutation UpdateOnboardingDOB($dobDetails: OnboardingDOBInput!) {
-    updateOnboardingDOB(dobDetails: $dobDetails)
-  }
-`);
-export const UPDATE_ONBOARDING_INSTAGRAM_USERNAME = gql(`
-  #graphql
-  mutation UpdateOnboardingInstagramUsername($username: String!) {
-    updateOnboardingInstagramUsername(username: $username)
+  mutation UpdateInstagramUsername($username: String!) {
+    updateInstagramUsername(username: $username)
   }
 `);
 
@@ -34,12 +21,6 @@ export const UPDATE_AGENCY_ONBOARDING_INSTAGRAM_USERNAME = gql(`
   }
 `);
 
-export const UPDATE_ONBOARDING_USERNAME = gql(`
-  #graphql
-  mutation UpdateOnboardingUsername($usernameDetails: OnboardingUsernameInput!) {
-    updateOnboardingUsername(usernameDetails: $usernameDetails)
-  }
-`);
 export const UPDATE_AGENCY_ONBOARDING_USERNAME = gql(`
   #graphql
   mutation UpdateAgencyOnboardingUsername($usernameDetails: AgencyUsernameInput!) {
@@ -47,27 +28,10 @@ export const UPDATE_AGENCY_ONBOARDING_USERNAME = gql(`
   }
 `);
 
-export const UPDATE_ONBOARDING_LOCATION = gql(`
-  #graphql
-  mutation UpdateOnboardingLocation($locationDetails: OnboardingLocationInput!) {
-    updateOnboardingLocation(locationDetails: $locationDetails){
-      name
-      symbol
-    }
-  }
-`);
-
 export const UPDATE_AGENCY_ONBOARDING_LOCATION = gql(`
   #graphql
   mutation UpdateAgencyOnboardingLocation($locationDetails: AgencyLocationInput!) {
     addAgencyLocation(data: $locationDetails)
-  }
-`);
-
-export const UPDATE_ONBOARDING_PRICING = gql(`
-  #graphql
-  mutation UpdateOnboardingPricing($pricingDetails: OnboardingPriceInput!) {
-    updateOnboardingPricing(pricingDetails: $pricingDetails)
   }
 `);
 
@@ -108,7 +72,10 @@ export const UPDATE_AGENCY_LOCATION = gql(`
 export const UPDATE_USER_LOCATION = gql(`
   #graphql
   mutation UpdateUserLocation($updatedLocation: UpdateLocation!) {
-    updateUserLocation(updatedLocation: $updatedLocation)
+    updateUserLocation(updatedLocation: $updatedLocation){
+      name
+      symbol
+    }
   }
 `);
 

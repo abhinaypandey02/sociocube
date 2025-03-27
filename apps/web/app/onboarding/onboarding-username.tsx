@@ -10,9 +10,9 @@ import {
   useAuthMutation,
   useAuthQuery,
 } from "../../lib/apollo-client";
-import { UPDATE_ONBOARDING_USERNAME } from "../../lib/mutations";
 import { IS_USERNAME_AVAILABLE } from "../../lib/queries";
 import { getUsernameInputRules } from "../../lib/utils";
+import { UPDATE_USER } from "../../lib/mutations";
 
 export default function OnboardingUsername({
   defaultValues,
@@ -22,9 +22,7 @@ export default function OnboardingUsername({
   nextStep: () => void;
 }) {
   const form = useForm({ defaultValues, reValidateMode: "onSubmit" });
-  const [updateUsername, { loading }] = useAuthMutation(
-    UPDATE_ONBOARDING_USERNAME,
-  );
+  const [updateUsername, { loading }] = useAuthMutation(UPDATE_USER);
   const [isUsernameAvailable, { loading: loadingAvailability }] = useAuthQuery(
     IS_USERNAME_AVAILABLE,
   );
@@ -32,11 +30,11 @@ export default function OnboardingUsername({
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (data.username) {
       const res = await updateUsername({
-        usernameDetails: {
+        updatedUser: {
           username: data.username.toLowerCase(),
         },
       }).catch(handleGQLErrors);
-      if (res?.data?.updateOnboardingUsername) nextStep();
+      if (res?.data?.updateUser) nextStep();
     }
   };
   return (

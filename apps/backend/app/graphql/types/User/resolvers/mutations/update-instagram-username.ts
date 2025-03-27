@@ -1,19 +1,21 @@
-import { and, eq, isNull } from "drizzle-orm";
-import { AuthorizedContext } from "../../../../../context";
-import { db } from "../../../../../../../lib/db";
-import { UserTable } from "../../../db/schema";
-import GQLError from "../../../../../constants/errors";
-import { getInstagramDataExternalAPI } from "../../../../../../auth/instagram/utils";
-import { InstagramDetails } from "../../../../Instagram/db/schema";
-import { getCurrentUser } from "../../../utils";
-import { uploadImage } from "../../../../../../../lib/storage/aws-s3";
-import { InstagramMediaTable } from "../../../../Instagram/db/schema2";
-import { fetchUploadedPostsAndStats } from "../../../../Instagram/utils";
+import { and, eq } from "drizzle-orm";
+import { AuthorizedContext } from "../../../../context";
+import { db } from "../../../../../../lib/db";
+import { UserTable } from "../../db/schema";
+import GQLError from "../../../../constants/errors";
+import { getInstagramDataExternalAPI } from "../../../../../auth/instagram/utils";
+import { InstagramDetails } from "../../../Instagram/db/schema";
+import { getCurrentUser } from "../../utils";
+import { uploadImage } from "../../../../../../lib/storage/aws-s3";
+import { InstagramMediaTable } from "../../../Instagram/db/schema2";
+import { fetchUploadedPostsAndStats } from "../../../Instagram/utils";
 
-export async function handleUpdateOnboardingInstagramUsername(
+export async function handleUpdateInstagramUsername(
   ctx: AuthorizedContext,
   username: string,
 ) {
+  const user = await getCurrentUser(ctx);
+  if (!user) throw GQLError(403, "User not found");
   const [existingDetails] = await db
     .select()
     .from(InstagramDetails)
@@ -25,10 +27,12 @@ export async function handleUpdateOnboardingInstagramUsername(
         "This profile is already in use. Please use your own instagram account.",
       );
     } else {
-      throw GQLError(
-        500,
-        "This profile is in use with another account. Please connect instagram account to take verified ownership.",
-      );
+      await db
+        .update(UserTable)
+        .set({
+          instagramDetails: existingDetails.id,
+        })
+        .where(and(eq(UserTable.id, ctx.userId)));
     }
   }
   const data = await getInstagramDataExternalAPI(username);
@@ -38,8 +42,7 @@ export async function handleUpdateOnboardingInstagramUsername(
       "Unable to fetch instagram profile, check username and ensure it's a public profile. Also try other method.",
     );
   }
-  const user = await getCurrentUser(ctx);
-  if (!user) throw GQLError(403, "User not found");
+
   const { posts, stats } = await fetchUploadedPostsAndStats(
     data.follower_count,
     ctx.userId,
@@ -73,9 +76,7 @@ export async function handleUpdateOnboardingInstagramUsername(
             ]))),
         bio: user.bio || data.biography,
       })
-      .where(
-        and(eq(UserTable.id, ctx.userId), isNull(UserTable.instagramDetails)),
-      );
+      .where(and(eq(UserTable.id, ctx.userId)));
   }
   return true;
 }

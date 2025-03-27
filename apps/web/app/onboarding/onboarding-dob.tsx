@@ -7,23 +7,23 @@ import { Button } from "ui/button";
 import Form from "ui/form";
 import { getAgeRange } from "commons/age";
 import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
-import { UPDATE_ONBOARDING_DOB } from "../../lib/mutations";
 import { ageValidation } from "../../constants/validations";
+import { UPDATE_USER } from "../../lib/mutations";
 
 export default function OnboardingDOB({ nextStep }: { nextStep: () => void }) {
   const form = useForm<{ dob?: string }>();
-  const [updateDOB, { loading }] = useAuthMutation(UPDATE_ONBOARDING_DOB);
+  const [updateDOB, { loading }] = useAuthMutation(UPDATE_USER);
 
   const dob = form.watch("dob");
   const ageRange = dob && getAgeRange(new Date(dob));
   const onSubmit: SubmitHandler<{ dob?: string }> = async (data) => {
     if (data.dob) {
       const res = await updateDOB({
-        dobDetails: {
+        updatedUser: {
           dob: data.dob,
         },
       }).catch(handleGQLErrors);
-      if (res?.data?.updateOnboardingDOB) nextStep();
+      if (res?.data?.updateUser) nextStep();
     }
   };
   return (
