@@ -229,82 +229,14 @@ schema {
 }
 
 input AddPortfolioArgs {
-  agency: Float
   caption: String
   imageURL: String!
   link: String
 }
 
 input AddPortfolioLinkArgs {
-  agency: Float
   caption: String!
   link: String!
-}
-
-type Agency {
-  bio: String!
-  category: AgencyCategory!
-  contactEmail: String!
-  contactPhone: String
-  id: Float!
-  instagramMedia: [InstagramMedia!]
-  instagramStats: InstagramStats
-  location: Location
-  locationID: LocationID
-  members: [GetAgencyMember!]!
-  name: String!
-  photo: String!
-  pictureUploadURL: StorageFile!
-  portfolio: [Portfolio!]!
-  recentPostings: [Posting!]!
-  reviews: [Review!]!
-  username: String!
-}
-
-input AgencyBasicDetailsInput {
-  bio: String!
-  category: AgencyCategory!
-  contactEmail: String!
-  contactPhone: String
-  name: String!
-  photo: String!
-}
-
-enum AgencyCategory {
-  Agency
-  Brand
-}
-
-input AgencyLocationInput {
-  city: Float
-  country: Float!
-  state: Float!
-}
-
-type AgencyMember {
-  agency: Int!
-  agencyDetails: Agency!
-  type: AgencyMemberType!
-}
-
-enum AgencyMemberType {
-  Admin
-  Owner
-}
-
-type AgencyOnboarding {
-  bio: String!
-  category: AgencyCategory
-  contactEmail: String
-  contactPhone: String
-  name: String!
-  photo: String
-  pictureUploadURL: StorageFile!
-  username: String
-}
-
-input AgencyUsernameInput {
-  username: String!
 }
 
 type Application {
@@ -327,7 +259,7 @@ enum ApplicationStatus {
 }
 
 type Conversation {
-  agency: Agency
+  agency: User
   hasRead: Boolean!
   id: Float!
   messages(page: Float): [Message!]!
@@ -339,18 +271,6 @@ type Currency {
   code: String
   name: String
   symbol: String
-}
-
-type GetAgencyMember {
-  email: String!
-  name: String!
-  photo: String
-  type: AgencyMemberType!
-}
-
-type GetCurrentUserAgencyResponse {
-  agency: Agency!
-  type: AgencyMemberType!
 }
 
 type GetFeaturedPostsResponse {
@@ -385,17 +305,6 @@ type InstagramStats {
   username: String!
 }
 
-type InviteDetails {
-  email: String!
-  subtitle: String!
-  title: String!
-}
-
-enum InviteType {
-  AgencyAdmin
-  AgencyOwner
-}
-
 type Location {
   city: String
   country: String
@@ -415,16 +324,10 @@ type Message {
 }
 
 type Mutation {
-  acceptInvite(token: String!): Boolean!
-  acceptPortfolio(review: Float!): Boolean!
-  addAgencyBasicDetails(agency: AgencyBasicDetailsInput!): Boolean!
-  addAgencyInstagramUsername(username: String!): Boolean!
-  addAgencyLocation(data: AgencyLocationInput!): String!
-  addAgencyUsername(data: AgencyUsernameInput!): Boolean!
   addPortfolio(data: AddPortfolioArgs!): Boolean!
   addPortfolioLink(data: AddPortfolioLinkArgs!): Boolean!
   applyToPosting(comment: String, email: String!, phone: String, postingID: Float!): Boolean!
-  createPosting(agency: Float!, newPosting: NewPostingInput!): Float
+  createPosting(newPosting: NewPostingInput!): Float
   deletePortfolio(id: Float!): Boolean!
   deletePosting(postingID: Float!): Boolean!
   disconnectInstagram: Boolean!
@@ -432,18 +335,14 @@ type Mutation {
   pausePosting(postingID: Float!): Boolean!
   readMessage(conversationID: Int!): Boolean!
   rejectApplication(id: Float!): Boolean!
-  rejectPortfolio(review: Float!): Boolean!
   resetPassword(newPassword: String!, token: String!): Boolean!
   resumePosting(postingID: Float!): Boolean!
-  sendInvite(args: SendInviteArgs!): Boolean
   sendMessage(body: String!, conversationID: Int!): Boolean!
   sendMessageToUser(body: String!, userID: Int!): Boolean!
   sendResetPasswordEmail(email: String!): Boolean
   sendReviewByAgency(args: SendReviewByAgencyArgs!): Boolean!
   sendReviewByUser(args: SendReviewByUserArgs!): Boolean!
   sendVerificationEmail: Boolean!
-  updateAgency(data: UpdateAgencyInput!, id: Float!): Boolean!
-  updateAgencyLocation(data: UpdateAgencyLocationInput!, id: Float!): Boolean!
   updateInstagramUsername(username: String!): Boolean!
   updatePosting(id: Float!, updatedPosting: UpdatePostingInput!): Boolean!
   updateUser(updatedUser: UpdateUserInput!): Boolean!
@@ -479,7 +378,7 @@ type Portfolio {
 }
 
 type Posting {
-  agency: Agency!
+  agency: User!
   applicationsCount: Int!
   barter: Boolean!
   createdAt: Float!
@@ -524,19 +423,15 @@ type Query {
   getCities(stateID: Int!): [SelectOption!]!
   getCountries: [SelectOption!]!
   getCurrentUser: User
-  getCurrentUserAgency(username: String): GetCurrentUserAgencyResponse
-  getFeaturedAgencies: [Agency!]!
   getFeaturedPostings: [Posting!]!
   getFeaturedPosts: [GetFeaturedPostsResponse!]!
   getFeaturedSellers: [User!]!
   getHasUserApplied(postingID: Float!): Boolean!
-  getInviteDetails(token: String!): InviteDetails!
-  getPendingPortfolios: [Review!]!
   getPendingReviews: [Float!]!
   getPortfolioUploadURL: StorageFile
   getPosting(id: Int!): Posting
   getPostingApplications(postingID: Int!): [Application!]!
-  getSeller(username: String!): Seller
+  getSeller(username: String!): User
   getStates(countryID: Int!): [SelectOption!]!
   getUserApplications: [Application!]!
   getUserPostings: [Posting!]!
@@ -548,9 +443,10 @@ type Query {
 }
 
 enum ROLES {
-  ADMIN
-  ManuallyVerified
-  ReferralCreator
+  Admin
+  Agency
+  Brand
+  Creator
 }
 
 type Review {
@@ -604,17 +500,6 @@ type SelectOption {
   value: Int!
 }
 
-type Seller {
-  agency: Agency
-  user: User
-}
-
-input SendInviteArgs {
-  agency: Float!
-  email: String!
-  type: InviteType!
-}
-
 input SendReviewByAgencyArgs {
   application: Float!
   userFeedback: String
@@ -633,20 +518,6 @@ input SendReviewByUserArgs {
 type StorageFile {
   uploadURL: String!
   url: String!
-}
-
-input UpdateAgencyInput {
-  contactEmail: String
-  contactPhone: String
-  name: String
-  photo: String
-  username: String
-}
-
-input UpdateAgencyLocationInput {
-  city: Float
-  country: Float!
-  state: Float!
 }
 
 input UpdateLocation {
@@ -683,7 +554,6 @@ input UpdateUserInput {
 }
 
 type User {
-  agencies: [AgencyMember!]!
   bio: String
   category: String
   contactEmail: String
@@ -698,13 +568,12 @@ type User {
   location: Location
   locationID: LocationID
   name: String
-  onboardingAgency: AgencyOnboarding
   phone: String
   photo: String
   pictureUploadURL: StorageFile!
   portfolio: [Portfolio!]!
   pricing: Pricing
   reviews: [Review!]!
-  roles: [ROLES!]
+  role: ROLES
   username: String
 }

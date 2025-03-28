@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import {
-  ArrowRight,
   ArrowSquareOut,
   InstagramLogo,
   SealCheck,
@@ -12,8 +11,6 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { cookies } from "next/headers";
 import { IconButton } from "ui/icon-button";
-import Link from "next/link";
-import classNames from "classnames";
 import { getCurrentUser, Injector, queryGQL } from "../../../lib/apollo-server";
 import {
   GET_FEATURED_SELLERS_AND_POSTS,
@@ -24,7 +21,6 @@ import { getSEO } from "../../../constants/seo";
 import { convertToAbbreviation } from "../../../lib/utils";
 import Schema from "../../components/schema";
 import { getMeURL, getRoute, Route } from "../../../constants/routes";
-import { getAgeGroup, getCurrency } from "../../campaigns/utils";
 import CopyLinkButton from "./components/copy-link-button";
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 import Portfolio from "./components/portfolio";
@@ -50,7 +46,7 @@ export async function generateMetadata({
   params,
 }: ProfilePage): Promise<Metadata> {
   const { username } = await params;
-  const data = await queryGQL(
+  const { getSeller: user } = await queryGQL(
     GET_SELLER,
     {
       username,
@@ -59,8 +55,7 @@ export async function generateMetadata({
     60 * 6 * 165,
   );
 
-  const seller = data.getSeller?.user || data.getSeller?.agency;
-  if (!seller?.name) return {};
+  if (!user?.name) return {};
   return {
     alternates: {
       canonical: `${
@@ -68,8 +63,8 @@ export async function generateMetadata({
       }/${username}`,
     },
     ...getSEO(
-      seller.name,
-      `${convertToAbbreviation(seller.instagramStats?.followers || 0)} Followers, ${getPostFrequency(seller.instagramMedia || [])} Frequency, ${convertToAbbreviation(seller.instagramStats?.mediaCount || 0)} posts on their Instagram account @${seller.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
+      user.name,
+      `${convertToAbbreviation(user.instagramStats?.followers || 0)} Followers, ${getPostFrequency(user.instagramMedia || [])} Frequency, ${convertToAbbreviation(user.instagramStats?.mediaCount || 0)} posts on their Instagram account @${user.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
     ),
   };
 }
@@ -81,7 +76,7 @@ export default async function ProfilePage({
   const { username } = await params;
   const { noCache } = await searchParams;
   if (!username) return null;
-  const { getSeller } = await queryGQL(
+  const { getSeller: user } = await queryGQL(
     GET_SELLER,
     {
       username,
@@ -90,10 +85,7 @@ export default async function ProfilePage({
     noCache ? 0 : 60 * 10,
     [`profile-${username}`],
   );
-  const user = getSeller?.user;
-  const agency = getSeller?.agency;
-  const seller = user || agency;
-  if (!seller?.name || !seller.instagramStats) return notFound();
+  if (!user?.name || !user.instagramStats) return notFound();
   return (
     <div className="mx-auto max-w-2xl px-6 pt-6 sm:mt-8 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
       <Suspense>
@@ -105,27 +97,27 @@ export default async function ProfilePage({
           "@type": "ProfilePage",
           mainEntity: {
             "@type": "Person",
-            name: seller.name,
-            alternateName: seller.instagramStats.username,
-            identifier: seller.instagramStats.username,
+            name: user.name,
+            alternateName: user.instagramStats.username,
+            identifier: user.instagramStats.username,
             interactionStatistic: [
               {
                 "@type": "InteractionCounter",
                 interactionType: "https://schema.org/FollowAction",
-                userInteractionCount: seller.instagramStats.followers,
+                userInteractionCount: user.instagramStats.followers,
               },
               {
                 "@type": "InteractionCounter",
                 interactionType: "https://schema.org/LikeAction",
-                userInteractionCount: seller.instagramStats.averageLikes,
+                userInteractionCount: user.instagramStats.averageLikes,
               },
             ],
-            description: seller.bio,
-            image: seller.photo,
+            description: user.bio,
+            image: user.photo,
             sameAs: [
               `${getRoute("Profile")}/${username}`,
               getMeURL(username),
-              `https://instagram.com/${seller.instagramStats.username}`,
+              `https://instagram.com/${user.instagramStats.username}`,
             ],
           },
         }}
@@ -134,26 +126,17 @@ export default async function ProfilePage({
       <div className="lg:col-span-8 ">
         <div className="flex justify-between gap-2 max-sm:flex-wrap">
           <h2 className="flex items-center gap-2 font-poppins text-xl font-semibold text-gray-900 sm:text-2xl">
-            {seller.name}
+            {user.name}
           </h2>
           <div className="flex grow items-center justify-between gap-2">
             <div className="flex items-center gap-3">
-              {seller.instagramStats.isVerified ? (
-                <SealCheck
-                  className={classNames(user ? "text-accent" : "text-primary")}
-                  size={23}
-                  weight="fill"
-                />
-              ) : null}
-              {agency ? (
-                <span className="rounded-full bg-primary/95 px-2 py-1.5 text-xs font-medium leading-none text-white">
-                  {seller.category}
-                </span>
+              {user.instagramStats.isVerified ? (
+                <SealCheck className="text-accent" size={23} weight="fill" />
               ) : null}
             </div>
             <div className="flex items-center">
               <a
-                href={`https://ig.me/m/${seller.instagramStats.username}`}
+                href={`https://ig.me/m/${user.instagramStats.username}`}
                 rel="noopener"
                 target="_blank"
               >
@@ -165,7 +148,7 @@ export default async function ProfilePage({
             </div>
           </div>
         </div>
-        {user?.pricing?.starting ? (
+        {user.pricing?.starting ? (
           <p className="mb-3 mt-1 text-gray-900">
             <span className="mr-1 text-sm font-light italic">from</span>{" "}
             <span className=" ">
@@ -174,30 +157,6 @@ export default async function ProfilePage({
             </span>
           </p>
         ) : null}
-        <div className="prose prose-sm mt-2 flex gap-2 text-gray-500">
-          {!agency?.location ? (
-            <>
-              {seller.category}
-              <span>•</span>
-              {user?.gender}
-            </>
-          ) : (
-            <a
-              className="flex items-center gap-2 text-[15px]"
-              href={`http://maps.google.com/?q=${agency.location.city || ""}+${agency.location.country}`}
-              rel="noopener"
-              target="_blank"
-            >
-              {agency.location.city ? `${agency.location.city}, ` : ""}
-              {agency.location.country}{" "}
-              <ArrowSquareOut
-                className="inline-block"
-                color="black"
-                size={14}
-              />
-            </a>
-          )}
-        </div>
 
         {/* Reviews */}
       </div>
@@ -205,27 +164,27 @@ export default async function ProfilePage({
       <div className="mt-8 lg:col-span-4 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
         <h2 className="sr-only">Image</h2>
 
-        {seller.photo ? (
+        {user.photo ? (
           <>
             <Schema
               data={{
                 "@context": "https://schema.org/",
                 "@type": "ImageObject",
-                contentUrl: seller.photo,
-                creditText: seller.name,
+                contentUrl: user.photo,
+                creditText: user.name,
                 creator: {
                   "@type": "Person",
-                  name: seller.name,
+                  name: user.name,
                 },
-                copyrightNotice: seller.name,
+                copyrightNotice: user.name,
               }}
               id="profile-image"
             />
             <Image
-              alt={seller.name}
+              alt={user.name}
               className="w-full rounded-lg lg:col-span-2 lg:row-span-2"
               height={1080}
-              src={seller.photo}
+              src={user.photo}
               width={720}
             />
           </>
@@ -234,7 +193,7 @@ export default async function ProfilePage({
           <h2 className="text-sm font-medium text-gray-900">Reviews</h2>
 
           <div className="mt-5 space-y-4 ">
-            {seller.reviews.map((review) => (
+            {user.reviews.map((review) => (
               <Injector
                 Component={Review}
                 fetch={getCurrentUser}
@@ -242,7 +201,7 @@ export default async function ProfilePage({
                 props={{ review, username }}
               />
             ))}
-            {seller.reviews.length === 0 ? (
+            {user.reviews.length === 0 ? (
               <div className="text-gray-500">
                 <div className="flex items-center justify-center gap-1 text-sm">
                   No reviews yet.
@@ -260,7 +219,7 @@ export default async function ProfilePage({
           <h2 className="text-sm font-medium text-gray-900">About</h2>
 
           <div className="prose prose-sm mt-2 text-gray-500">
-            {seller.bio?.split("\n").map((line) => (
+            {user.bio?.split("\n").map((line) => (
               <>
                 {line}
                 <br />
@@ -268,7 +227,7 @@ export default async function ProfilePage({
             ))}
           </div>
         </div>
-        {user?.location ? (
+        {user.location ? (
           <div className="mt-5">
             <h2 className="text-sm font-medium text-gray-900">Location</h2>
 
@@ -285,82 +244,6 @@ export default async function ProfilePage({
             </div>
           </div>
         ) : null}
-        {agency?.recentPostings.length ? (
-          <div className="mt-8">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-medium text-gray-900">
-                Recent Campaigns
-              </h2>
-              <Link
-                className={classNames(
-                  "flex items-center gap-1 text-sm font-semibold",
-                  user ? "text-accent" : "text-primary",
-                )}
-                href={`${getRoute("Postings")}?agency=${username}`}
-              >
-                See all <ArrowRight />
-              </Link>
-            </div>
-            <ul className="mx-auto mt-4 max-w-6xl divide-y divide-gray-300 ">
-              {agency.recentPostings.map((posting) => {
-                const descriptions = [
-                  posting.applicationsCount &&
-                    `${posting.applicationsCount}+ applications`,
-                  getAgeGroup(posting.minimumAge, posting.maximumAge) ||
-                    undefined,
-                  posting.minimumFollowers &&
-                    `Min followers: ${convertToAbbreviation(posting.minimumFollowers)}`,
-                ].filter(Boolean);
-                return (
-                  <li
-                    className="relative  flex justify-between gap-x-6 py-3 transition-all duration-300 hover:scale-[1.02]"
-                    key={posting.id}
-                  >
-                    <div className="flex items-center gap-3 sm:gap-2 ">
-                      {posting.open ? (
-                        <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                          <div className="size-1.5 rounded-full bg-emerald-500" />
-                        </div>
-                      ) : null}
-
-                      <div>
-                        <Link
-                          className="text-sm leading-6 text-gray-600"
-                          href={`${getRoute("Postings")}/${posting.id}`}
-                        >
-                          <span className="absolute inset-x-0 -top-px bottom-0" />
-                          {posting.title}
-                        </Link>
-                        <p className="mt-1 items-center text-xs leading-5 text-gray-500 sm:line-clamp-1 sm:flex">
-                          {descriptions.join(" • ")}{" "}
-                          <p className="inline-block sm:hidden">
-                            {descriptions.length ? " • " : ""}
-                            {getCurrency(
-                              posting.barter,
-                              posting.currency,
-                              posting.price,
-                            )}
-                          </p>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex shrink-0 items-center gap-x-4">
-                      <div className="hidden sm:flex sm:flex-col sm:items-end">
-                        <p className="text-sm leading-6 text-gray-900">
-                          {getCurrency(
-                            posting.barter,
-                            posting.currency,
-                            posting.price,
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ) : null}
         <Injector
           Component={PortfolioLinks}
           fetch={async () =>
@@ -368,10 +251,10 @@ export default async function ProfilePage({
           }
           props={{
             isAgency: !user,
-            portfolio: seller.portfolio
+            portfolio: user.portfolio
               .filter((work) => !work.imageURL && work.caption && work.link)
               .toReversed(),
-            id: seller.id,
+            id: user.id,
             username,
           }}
         />
@@ -382,10 +265,10 @@ export default async function ProfilePage({
           }
           props={{
             isAgency: !user,
-            portfolio: seller.portfolio
+            portfolio: user.portfolio
               .filter((work) => Boolean(work.imageURL))
               .toReversed(),
-            id: seller.id,
+            id: user.id,
             username,
           }}
         />
@@ -394,21 +277,18 @@ export default async function ProfilePage({
           <div className="flex justify-between">
             <h2 className="text-sm font-medium text-gray-900">Instagram</h2>
             <a
-              className={classNames(
-                "text-sm font-medium",
-                user ? "text-accent" : "text-primary",
-              )}
-              href={`https://instagram.com/${seller.instagramStats.username}`}
+              className="text-sm font-medium text-accent"
+              href={`https://instagram.com/${user.instagramStats.username}`}
               rel="noopener"
               target="_blank"
             >
-              @{seller.instagramStats.username}
+              @{user.instagramStats.username}
             </a>
           </div>
           <div className="mt-6 grid grid-cols-3 gap-3 ">
             <div className="text-center ">
               <div className=" text-xl font-medium text-gray-900 sm:text-3xl">
-                {convertToAbbreviation(seller.instagramStats.followers)}
+                {convertToAbbreviation(user.instagramStats.followers)}
               </div>
               <span className="text-sm font-medium text-gray-900">
                 Followers
@@ -416,13 +296,13 @@ export default async function ProfilePage({
             </div>
             <div className="text-center ">
               <div className=" text-xl font-medium text-gray-900 sm:text-3xl">
-                {convertToAbbreviation(seller.instagramStats.mediaCount)}
+                {convertToAbbreviation(user.instagramStats.mediaCount)}
               </div>
               <span className="text-sm font-medium text-gray-900">Posts</span>
             </div>
             <div className="text-center ">
               <div className="text-xl font-medium text-gray-900 sm:text-3xl">
-                {getPostFrequency(seller.instagramMedia)}
+                {getPostFrequency(user.instagramMedia)}
               </div>
               <span className="text-sm font-medium text-gray-900">
                 Frequency
@@ -430,7 +310,7 @@ export default async function ProfilePage({
             </div>
           </div>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 ">
-            {seller.instagramMedia?.map((media, i) => (
+            {user.instagramMedia?.map((media, i) => (
               <a
                 className="relative"
                 href={media.link}
@@ -443,17 +323,17 @@ export default async function ProfilePage({
                     "@context": "https://schema.org/",
                     "@type": "ImageObject",
                     contentUrl: media.thumbnail,
-                    creditText: seller.name,
+                    creditText: user.name,
                     creator: {
                       "@type": "Person",
-                      name: seller.name,
+                      name: user.name,
                     },
-                    copyrightNotice: seller.name,
+                    copyrightNotice: user.name,
                   }}
                   id={`post-image-${i}`}
                 />
                 <Image
-                  alt={media.caption || `Post by ${seller.name}`}
+                  alt={media.caption || `Post by ${user.name}`}
                   className="size-full rounded-md object-cover"
                   height={500}
                   src={media.thumbnail}

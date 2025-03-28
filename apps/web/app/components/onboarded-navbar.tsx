@@ -16,7 +16,7 @@ export default async function OnboardedNavbar() {
       {!user.emailVerified && <VerifyEmailHeader />}
       <Navbar
         userImage={user.photo || "loading"}
-        {...(user.isOnboarded || user.agencies.length > 0
+        {...(user.isOnboarded
           ? getOnboardedUserNavbarSections(user)
           : AUTHORISED_USER_NAVBAR_SECTIONS)}
       />

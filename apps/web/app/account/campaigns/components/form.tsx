@@ -16,7 +16,6 @@ import {
 import { POSTING_PLATFORMS } from "../../../campaigns/constants";
 import type {
   GetPostingQuery,
-  GetUserCurrencyQuery,
   PostingPlatforms,
 } from "../../../../__generated__/graphql";
 import {
@@ -41,7 +40,6 @@ export interface CreatePostingFormFields {
   externalLink?: string;
   barter: boolean;
   maximumAge: number;
-  agency?: number;
   minimumAge: number;
   minimumFollowers: number;
   currencyCountry: number;
@@ -51,10 +49,10 @@ export interface CreatePostingFormFields {
 
 export default function CreateNewPostingForm({
   existingPosting,
-  agencies,
+  currencyCountry,
 }: {
   existingPosting?: GetPostingQuery["posting"];
-  agencies?: NonNullable<GetUserCurrencyQuery["user"]>["agencies"];
+  currencyCountry?: number | null;
 }) {
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
@@ -70,9 +68,7 @@ export default function CreateNewPostingForm({
       price: existingPosting?.price || undefined,
       title: existingPosting?.title,
       currencyCountry:
-        existingPosting?.currencyCountry ||
-        agencies?.[0]?.agencyDetails.locationID?.country ||
-        undefined,
+        existingPosting?.currencyCountry || currencyCountry || undefined,
       externalLink: existingPosting?.externalLink || undefined,
       extraDetails: existingPosting?.extraDetails || undefined,
     },
@@ -117,11 +113,7 @@ export default function CreateNewPostingForm({
           handleGQLErrors(e);
         });
     } else {
-      const agency = formData.agency;
-      if (!agency) return;
-      delete formData.agency;
       createPosting({
-        agency,
         newPosting: {
           ...formData,
           deliverables:
@@ -209,20 +201,6 @@ export default function CreateNewPostingForm({
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <div ref={ref} />
-        {!existingPosting && agencies && agencies.length > 1 ? (
-          <Input
-            disabled={Boolean(existingPosting)}
-            label="Agency / Brand"
-            maxLength={NAME_MAX_LENGTH * 2}
-            name="agency"
-            options={agencies.map((agency) => ({
-              label: agency.agencyDetails.name,
-              value: agency.agencyDetails.id,
-            }))}
-            placeholder="Agency to create this for"
-            required
-          />
-        ) : null}
         <Input
           disabled={Boolean(existingPosting)}
           label="Title"

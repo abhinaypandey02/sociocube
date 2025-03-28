@@ -52,8 +52,8 @@ export class UserGQL {
   contactEmail?: string;
   @Field({ nullable: true })
   phone?: string;
-  @Field(() => [Roles], { nullable: true })
-  roles?: Roles[];
+  @Field(() => Roles, { nullable: true })
+  role?: Roles;
   @Field({ nullable: true })
   isOnboarded?: boolean;
   @Field()

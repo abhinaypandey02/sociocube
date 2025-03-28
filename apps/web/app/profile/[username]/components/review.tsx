@@ -19,7 +19,7 @@ export default function Review({
 }: {
   data?: GetCurrentUserQuery;
   review: NonNullable<
-    NonNullable<GetSellerQuery["getSeller"]>["user"]
+    NonNullable<GetSellerQuery["getSeller"]>
   >["reviews"][number];
   username: string;
 }) {

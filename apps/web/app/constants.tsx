@@ -1,6 +1,5 @@
 import { getRoute } from "../constants/routes";
 import type { GetCurrentUserQuery } from "../__generated__/graphql";
-import { AgencyMemberType } from "../__generated__/graphql";
 import Logout from "./components/logout";
 import GetVerifiedOption from "./components/get-verified-option";
 
@@ -72,22 +71,6 @@ export const getOnboardedUserNavbarSections = (
           },
         ]
       : []),
-    ...(user?.agencies.length
-      ? [
-          {
-            label: "Your campaigns",
-            href: getRoute("AccountPostings"),
-          },
-        ]
-      : []),
-    ...(!user?.agencies.some((agency) => agency.type === AgencyMemberType.Owner)
-      ? [
-          {
-            label: "Start an agency",
-            href: getRoute("AgencyOnboarding"),
-          },
-        ]
-      : []),
     ...(!user?.isOnboarded || user.instagramStats?.isVerified
       ? []
       : [
@@ -97,15 +80,6 @@ export const getOnboardedUserNavbarSections = (
             render: <GetVerifiedOption />,
           },
         ]),
-
-    ...(user?.agencies.length
-      ? [
-          {
-            label: "Agency settings",
-            href: getRoute("AccountAgency"),
-          },
-        ]
-      : []),
     {
       label: "Settings",
       href: getRoute("Account"),

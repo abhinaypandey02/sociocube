@@ -20,9 +20,7 @@ export const ReviewTable = pgTable(
       .notNull(),
     userRating: real("user_rating").notNull(),
     userFeedback: text("user_feedback"),
-    agency: integer("agency")
-      .references(() => UserTable.id)
-      .notNull(),
+    agency: integer("agency").references(() => UserTable.id),
     agencyRating: real("agency_rating"),
     agencyFeedback: text("agency_feedback"),
     posting: integer("posting")

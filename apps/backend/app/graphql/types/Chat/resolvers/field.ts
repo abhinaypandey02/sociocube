@@ -39,4 +39,12 @@ export class ChatFieldResolvers {
     if (chat.user === ctx.userId) return null;
     return getUser(eq(UserTable.id, chat.user));
   }
+  @FieldResolver(() => UserGQL, { nullable: true })
+  async agency(
+    @Ctx("ctx") ctx: AuthorizedContext,
+    @Root() chat: ConversationDB,
+  ) {
+    if (chat.agency === ctx.userId) return null;
+    return getUser(eq(UserTable.id, chat.agency));
+  }
 }

@@ -9,14 +9,22 @@ export const GET_CURRENT_USER = gql(`
       username
       name
       photo
-      agencies {
-        agency
-        type
-      }
+      role
       emailVerified
       isOnboarded
       instagramStats {
         isVerified
+      }
+    }
+  }
+`);
+
+export const GET_USER_CURRENCY = gql(`
+  #graphql
+  query GetUserCurrency {
+    user: getCurrentUser {
+      locationID {
+        country
       }
     }
   }
@@ -58,30 +66,6 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
   }
 `);
 
-export const GET_DEFAULT_AGENCY_ONBOARDING_DETAILS = gql(`
-  #graphql
-  query GetDefaultAgencyOnboardingDetails {
-    getCurrentUser {
-      id
-      agencies {
-        type
-      }
-      onboardingAgency {
-        category
-        username
-        name
-        photo
-        contactEmail
-        bio
-        contactPhone
-        pictureUploadURL {
-          uploadURL
-          url
-        }
-      }
-    }
-  }
-`);
 export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
   #graphql
   query GetFeaturedSellers {
@@ -129,15 +113,6 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
         }
       }
     }
-    agencies: getFeaturedAgencies {
-      name
-      username
-      photo
-      category
-      instagramStats {
-        isVerified
-      }
-    }
   }
 `);
 
@@ -145,7 +120,7 @@ export const GET_SELLER = gql(`
   #graphql
   query GetSeller($username:String!) {
     getSeller(username: $username) {
-      user{
+      
         id
         name
         photo
@@ -200,104 +175,8 @@ export const GET_SELLER = gql(`
           averageLikes
           isVerified
         }
-      }
-      agency {
-        id
-        photo
-        name
-        bio
-        category
-        reviews {
-          feedback
-          rating
-          name
-          photo
-          username
-          portfolio {
-            id
-            imageURL
-            link
-          }
-        }
-        recentPostings {
-          id
-          title
-          open
-          price
-          barter
-          currency
-          applicationsCount
-          minimumAge
-          maximumAge
-          minimumFollowers
-        }
-        location {
-          city
-          country
-        }
-        portfolio {
-          caption
-          id
-          link
-          imageURL
-        }
-        instagramMedia {
-          thumbnail
-          caption
-          link
-          likes
-          timestamp
-          comments
-          er
-        }
-        instagramStats {
-          followers
-          mediaCount
-          username
-          er
-          averageLikes
-          isVerified
-        }
-      }
+      
     }
-  }
-`);
-
-export const GET_AGENCY_ACCOUNT_DETAILS = gql(`
-  #graphql
-  query GetAgencyAccountDetails($username:String) {
-      getCurrentUserAgency(username: $username){
-          type
-          agency{
-              id
-              photo
-              name
-              bio
-              contactEmail
-              contactPhone
-              category
-              username
-              members {
-                  photo
-                  name
-                  email
-                  type
-              }
-              locationID {
-                  country
-                  city
-                  state
-              }
-              pictureUploadURL {
-                  uploadURL
-                  url
-              }
-              location {
-                  city
-                  country
-              }
-          }
-      }
   }
 `);
 
@@ -380,22 +259,6 @@ export const GET_ACCOUNT_DETAILS = gql(`
   }
 `);
 
-export const GET_USER_CURRENCY = gql(`
-  #graphql
-  query GetUserCurrency {
-    user: getCurrentUser {
-      agencies {
-        agencyDetails{
-          name
-          id
-          locationID {
-            country
-          }
-        }
-      }
-    }
-  }
-`);
 export const GET_COUNTRIES = gql(`
   #graphql
   query GetCountries {
@@ -462,13 +325,6 @@ export const IS_USERNAME_AVAILABLE = gql(`
 export const GET_POSTING = gql(`
   #graphql
   query GetPosting($id: Int!) {
-    user: getCurrentUser {
-      agencies {
-        agencyDetails {
-          id
-        }
-      }
-    }
     posting:getPosting(id: $id){
       id
       maximumAge
@@ -558,10 +414,6 @@ export const GET_CURRENT_USER_APPLICATION_STATUS = gql(`
       instagramStats {
         followers
       }
-      agencies {
-        type
-        agency
-      }
       contactEmail
       dob
       phone
@@ -574,9 +426,6 @@ export const GET_USER_POSTINGS = gql(`
   #graphql
   query GetUserPostings {
     user: getCurrentUser {
-      agencies {
-        agency
-      }
       instagramStats {
         isVerified
       }
@@ -654,9 +503,6 @@ export const GET_PORTFOLIO_UPLOAD_URL = gql(`
   query GetPortfolioUploadURL {
     user:getCurrentUser {
       id
-      agencies {
-        agency
-      }
     }
     uploadURL: getPortfolioUploadURL {
       uploadURL
@@ -690,15 +536,4 @@ export const GET_USER_APPLICATIONS = gql(`
       }
     }
   }
-`);
-
-export const GET_INVITE_DETAILS = gql(`
-  #graphql
-  query GetInviteDetails($token: String!) {
-    getInviteDetails(token: $token) {
-        title
-        subtitle
-        email
-      }
-    }
 `);

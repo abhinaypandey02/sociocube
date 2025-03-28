@@ -19,14 +19,9 @@ export default function Portfolio({
   id: number;
   isAgency: boolean;
   username: string;
-  portfolio: NonNullable<
-    NonNullable<GetSellerQuery["getSeller"]>["user"]
-  >["portfolio"];
+  portfolio: NonNullable<NonNullable<GetSellerQuery["getSeller"]>>["portfolio"];
 }) {
-  const isAgencyAuthor = data?.user?.agencies.some(
-    ({ agency }) => agency === id,
-  );
-  const isAuthor = data && (id === data.user?.id || isAgencyAuthor);
+  const isAuthor = data && id === data.user?.id;
   if (portfolio.length === 0 && !isAuthor) return null;
   return (
     <div className="mt-8">
@@ -34,10 +29,8 @@ export default function Portfolio({
         <h2 className="text-sm font-medium text-gray-900">Portfolio</h2>
         {isAuthor && data.uploadURL && portfolio.length < MAX_CAMPAIGNS ? (
           <AddPortfolioButton
-            id={id}
             imageUploadURL={data.uploadURL}
             isAgency={isAgency}
-            isAgencyAuthor={isAgencyAuthor}
             isLink={false}
             username={username}
           />

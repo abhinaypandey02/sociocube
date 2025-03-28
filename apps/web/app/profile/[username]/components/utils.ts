@@ -39,7 +39,7 @@ export async function getProperSizedGif(file: File) {
 
 export function getPostFrequency(
   postsData: NonNullable<
-    NonNullable<GetSellerQuery["getSeller"]>["user"]
+    NonNullable<GetSellerQuery["getSeller"]>
   >["instagramMedia"],
 ) {
   if (!postsData || postsData.length < 2) return "NA";

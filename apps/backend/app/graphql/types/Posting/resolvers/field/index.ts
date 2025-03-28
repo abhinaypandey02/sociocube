@@ -7,11 +7,20 @@ import { ApplicationTable } from "../../../Application/db/schema";
 import { CountryTable } from "../../../Map/db/schema";
 import { ReviewGQL } from "../../../Review/type";
 import { ReviewTable } from "../../../Review/db/schema";
-import { UserTable } from "../../../User/db/schema";
+import { UserDB, UserTable } from "../../../User/db/schema";
 import { PortfolioTable } from "../../../Portfolio/db/schema";
+import { UserGQL } from "../../../User/type";
 
 @Resolver(() => PostingGQL)
 export class PostingFieldResolvers {
+  @FieldResolver(() => UserGQL)
+  async agency(@Root() posting: PostingDB): Promise<UserDB | undefined | null> {
+    const [user] = await db
+      .select()
+      .from(UserTable)
+      .where(eq(UserTable.id, posting.agency));
+    return user;
+  }
   @FieldResolver(() => String, { nullable: true })
   async currency(
     @Root() posting: PostingDB,

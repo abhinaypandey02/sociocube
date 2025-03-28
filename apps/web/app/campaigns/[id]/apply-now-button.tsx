@@ -113,9 +113,7 @@ export default function ApplyNowButton({
   };
 
   const loading = isRouteLoading || dataLoading || applyNowLoading;
-  const editable = data?.user?.agencies.some(
-    (member) => member.agency === posting?.agency.id,
-  );
+  const editable = data?.user === posting?.agency.id;
   const canShare =
     posting &&
     typeof navigator !== "undefined" &&

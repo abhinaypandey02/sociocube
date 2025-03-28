@@ -1,37 +1,9 @@
 import { gql } from "../__generated__";
 
-export const UPDATE_AGENCY_ONBOARDING_BASIC_DETAILS = gql(`
-  #graphql
-  mutation UpdateAgencyOnboardingBasicDetails($basicDetails: AgencyBasicDetailsInput!) {
-    addAgencyBasicDetails(agency: $basicDetails)
-  }
-`);
-
 export const UPDATE_INSTAGRAM_USERNAME = gql(`
   #graphql
   mutation UpdateInstagramUsername($username: String!) {
     updateInstagramUsername(username: $username)
-  }
-`);
-
-export const UPDATE_AGENCY_ONBOARDING_INSTAGRAM_USERNAME = gql(`
-  #graphql
-  mutation UpdateAgencyOnboardingInstagramUsername($username: String!) {
-    addAgencyInstagramUsername(username: $username)
-  }
-`);
-
-export const UPDATE_AGENCY_ONBOARDING_USERNAME = gql(`
-  #graphql
-  mutation UpdateAgencyOnboardingUsername($usernameDetails: AgencyUsernameInput!) {
-    addAgencyUsername(data: $usernameDetails)
-  }
-`);
-
-export const UPDATE_AGENCY_ONBOARDING_LOCATION = gql(`
-  #graphql
-  mutation UpdateAgencyOnboardingLocation($locationDetails: AgencyLocationInput!) {
-    addAgencyLocation(data: $locationDetails)
   }
 `);
 
@@ -55,20 +27,6 @@ export const UPDATE_USER = gql(`
     updateUser(updatedUser: $updatedUser)
   }
 `);
-export const UPDATE_AGENCY = gql(`
-  #graphql
-  mutation UpdateAgency($agencyID:Float!, $agency: UpdateAgencyInput!) {
-    updateAgency(id: $agencyID, data: $agency)
-  }
-`);
-
-export const UPDATE_AGENCY_LOCATION = gql(`
-  #graphql
-  mutation UpdateAgencyLocation($agencyID:Float!, $agency: UpdateAgencyLocationInput!) {
-    updateAgencyLocation(id: $agencyID, data: $agency)
-  }
-`);
-
 export const UPDATE_USER_LOCATION = gql(`
   #graphql
   mutation UpdateUserLocation($updatedLocation: UpdateLocation!) {
@@ -114,8 +72,8 @@ export const RESUME_POSTING = gql(`
 
 export const CREATE_POSTING = gql(`
   #graphql
-  mutation CreatePosting($agency:Float!, $newPosting:NewPostingInput!) {
-    createPosting(newPosting: $newPosting, agency:$agency)  
+  mutation CreatePosting($newPosting:NewPostingInput!) {
+    createPosting(newPosting: $newPosting)  
   }
 `);
 export const UPDATE_POSTING = gql(`
@@ -188,12 +146,5 @@ export const SEND_REVIEW_BY_USER = gql(`
   #graphql
   mutation SendReviewByUser($args:SendReviewByUserArgs!) {
     sendReviewByUser(args: $args)  
-  }
-`);
-
-export const INVITE_ADMIN = gql(`
-  #graphql
-  mutation InviteAdmin($args:SendInviteArgs!) {
-    sendInvite(args: $args)  
   }
 `);

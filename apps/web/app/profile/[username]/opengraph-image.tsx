@@ -9,7 +9,7 @@ export { size } from "../../../lib/util-components";
 
 export default async function Image({ params }: ProfilePage) {
   const { username } = await params;
-  const { getSeller } = await queryGQL(
+  const { getSeller: user } = await queryGQL(
     GET_SELLER,
     {
       username,
@@ -17,14 +17,11 @@ export default async function Image({ params }: ProfilePage) {
     undefined,
     60,
   );
-  const user = getSeller?.user;
-  const agency = getSeller?.agency;
-  const seller = user || agency;
   return getOgImage(
-    seller?.name ? (
+    user?.name ? (
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        {seller.name}
-        {seller.instagramStats?.isVerified ? (
+        {user.name}
+        {user.instagramStats?.isVerified ? (
           <svg
             fill="#4f46e5"
             height="0.75em"
@@ -41,7 +38,7 @@ export default async function Image({ params }: ProfilePage) {
       "Join the biggest influencer platform"
     ),
     "View profile",
-    `${convertToAbbreviation(seller?.instagramStats?.followers || 0)} followers • ${Math.round(seller?.instagramStats?.mediaCount || 0)} Posts • ${getPostFrequency(seller?.instagramMedia || [])} Frequency`,
-    seller?.photo || undefined,
+    `${convertToAbbreviation(user?.instagramStats?.followers || 0)} followers • ${Math.round(user?.instagramStats?.mediaCount || 0)} Posts • ${getPostFrequency(user?.instagramMedia || [])} Frequency`,
+    user?.photo || undefined,
   );
 }
