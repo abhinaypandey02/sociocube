@@ -2,8 +2,6 @@ import { desc, eq } from "drizzle-orm";
 import { UserDB } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
 import { InstagramDetails } from "../../../Instagram/db/schema";
-import { Roles } from "../../../../constants/roles";
-import { AgencyDB } from "../../../Agency/db/schema";
 import { InstagramMediaTable } from "../../../Instagram/db/schema2";
 import { normaliseDigits } from "../../../../utils/math";
 import {
@@ -18,7 +16,7 @@ function cacheAlive(d: Date) {
   return time < 16;
 }
 
-export async function getInstagramStats(user: UserDB | AgencyDB) {
+export async function getInstagramStats(user: UserDB) {
   if (!user.instagramDetails) return null;
   const [instagramDetails] = await db
     .select()
@@ -36,9 +34,7 @@ export async function getInstagramStats(user: UserDB | AgencyDB) {
       averageComments: instagramDetails.averageComments || 0,
       averageLikes: instagramDetails.averageLikes || 0,
       er: normaliseDigits(instagramDetails.er || 0),
-      isVerified:
-        Boolean(instagramDetails.accessToken) ||
-        user.roles.includes(Roles.ManuallyVerified),
+      isVerified: instagramDetails.isVerified,
     };
   }
   const stats = await fetchStats(
@@ -64,16 +60,11 @@ export async function getInstagramStats(user: UserDB | AgencyDB) {
     averageComments: instagramDetails.averageComments || 0,
     averageLikes: instagramDetails.averageLikes || 0,
     er: normaliseDigits(instagramDetails.er || 0),
-    isVerified:
-      Boolean(instagramDetails.accessToken) ||
-      user.roles.includes(Roles.ManuallyVerified),
+    isVerified: instagramDetails.isVerified,
   };
 }
 
-export async function getInstagramMedia(
-  user: UserDB | AgencyDB,
-  isAgency?: boolean,
-) {
+export async function getInstagramMedia(user: UserDB) {
   if (!user.instagramDetails) return [];
   const [instagramDetails] = await db
     .select()
@@ -87,11 +78,7 @@ export async function getInstagramMedia(
     const posts = await db
       .select()
       .from(InstagramMediaTable)
-      .where(
-        isAgency
-          ? eq(InstagramMediaTable.agency, user.id)
-          : eq(InstagramMediaTable.user, user.id),
-      )
+      .where(eq(InstagramMediaTable.user, user.id))
       .orderBy(desc(InstagramMediaTable.er))
       .limit(4);
     if (posts.length > 0) return posts;
@@ -101,14 +88,9 @@ export async function getInstagramMedia(
     user.id,
     instagramDetails.accessToken,
     instagramDetails.username,
-    isAgency,
   );
   if (!posts || !stats || posts.length === 0) return [];
-  const deleted = await deleteOldPosts(
-    user.id,
-    isAgency ? "agency" : "user",
-    posts,
-  );
+  const deleted = await deleteOldPosts(user.id, posts);
   await db.insert(InstagramMediaTable).values(posts).onConflictDoNothing();
   await Promise.all(
     deleted.map(({ url }) => url !== posts[0]?.thumbnail && deleteImage(url)),

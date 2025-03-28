@@ -16,17 +16,12 @@ import { sql } from "drizzle-orm";
 import { Roles } from "../../../constants/roles";
 import { InstagramDetails } from "../../Instagram/db/schema";
 import { CityTable, CountryTable, StateTable } from "../../Map/db/schema";
-import { InstagramMediaType } from "../../../constants/instagram-media-type";
 
-export const mediaType = pgEnum("media_type", [
-  InstagramMediaType.Image,
-  InstagramMediaType.Video,
-  InstagramMediaType.CarouselAlbum,
-]);
 export const rolesEnum = pgEnum("role", [
-  Roles.ADMIN,
-  Roles.ReferralCreator,
-  Roles.ManuallyVerified,
+  Roles.Admin,
+  Roles.Brand,
+  Roles.Agency,
+  Roles.Creator,
 ]);
 export const gendersEnum = pgEnum("genders", genders as [string, ...string[]]);
 export const categoriesEnum = pgEnum(
@@ -54,7 +49,7 @@ export const UserTable = pgTable(
     phone: text("phone"),
     photo: text("photo"),
     refreshTokens: text("refresh_tokens").array(),
-    roles: rolesEnum("role").array().notNull(),
+    role: rolesEnum("role").default(Roles.Creator).notNull(),
     stripeSubscriptionID: text("stripe_subscription_id"),
     location: integer("location").references(() => LocationTable.id),
     category: categoriesEnum("category"),
@@ -78,11 +73,6 @@ export const UserTable = pgTable(
   }),
 );
 
-export const OTPTable = pgTable("otp", {
-  id: serial("id").primaryKey(),
-  code: text("code"),
-  requestedAt: timestamp("requestedAt"),
-});
 export const LocationTable = pgTable("location", {
   id: serial("id").primaryKey(),
 

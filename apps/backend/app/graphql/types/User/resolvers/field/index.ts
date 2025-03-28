@@ -4,7 +4,6 @@ import type { UserDB } from "../../db/schema";
 import { FileGQL } from "../../../File/type";
 import { InstagramMedia, InstagramStats } from "../../../Instagram/type";
 import { PortfolioGQL } from "../../../Portfolio/type";
-import { AgencyMemberGQL, AgencyOnboardingGQL } from "../../../Agency/type";
 import { ReviewGQL } from "../../../Review/type";
 import { getIsOnboarded } from "./onboarding-data";
 import { getPictureUploadURL } from "./picture-upload-url";
@@ -12,24 +11,10 @@ import { getPricing } from "./pricing";
 import { getLocation, getLocationID } from "./location";
 import { getInstagramMedia, getInstagramStats } from "./instagram";
 import { getPortfolio } from "./portfolio";
-import { getAgencies, getOnboardingAgency } from "./agency";
 import { getReviews } from "./review";
 
 @Resolver(() => UserGQL)
 export class UserFieldResolver {
-  @Authorized()
-  @FieldResolver(() => AgencyOnboardingGQL, { nullable: true })
-  async onboardingAgency(
-    @Root() user: UserDB,
-  ): Promise<AgencyOnboardingGQL | undefined | null> {
-    return getOnboardingAgency(user);
-  }
-
-  @Authorized()
-  @FieldResolver(() => [AgencyMemberGQL])
-  async agencies(@Root() user: UserDB): Promise<AgencyMemberGQL[]> {
-    return getAgencies(user);
-  }
   @Authorized()
   @FieldResolver(() => FileGQL)
   async pictureUploadURL(@Root() user: UserDB): Promise<FileGQL> {

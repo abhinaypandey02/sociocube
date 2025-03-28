@@ -2,9 +2,10 @@ import "reflect-metadata";
 import { registerEnumType } from "type-graphql";
 
 export enum Roles {
-  ADMIN = "admin",
-  ReferralCreator = "referral_creator",
-  ManuallyVerified = "manually_verified",
+  Admin = "admin",
+  Brand = "brand",
+  Creator = "creator",
+  Agency = "agency",
 }
 
 registerEnumType(Roles, {

@@ -56,12 +56,24 @@ export function getUserIdFromRefreshToken(
     }
   return null;
 }
+export function getUserIdFromAccessToken(refreshToken?: string): number | null {
+  if (refreshToken && process.env.SIGNING_KEY)
+    try {
+      const decoded = verify(refreshToken, process.env.SIGNING_KEY);
+      if (typeof decoded !== "string" && typeof decoded.id === "number")
+        return decoded.id;
+    } catch (e) {
+      if (!(e instanceof JsonWebTokenError)) console.error(e, "errors");
+      return null;
+    }
+  return null;
+}
 
 export const BASE_REDIRECT_URI = `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/_auth/token`;
 
 interface ParamState {
-  refresh: string;
-  csrfToken: string;
+  token: string | null;
+  csrfToken: string | null;
 }
 
 export function createState(data: ParamState) {

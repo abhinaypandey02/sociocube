@@ -9,8 +9,8 @@ import { getReviewDeadline } from "../../utils";
 import { addPortfolio } from "../../../Portfolio/resolvers/mutation/add-portfolio";
 import GQLError from "../../../../constants/errors";
 import { PostingTable } from "../../../Posting/db/schema";
-import { AgencyTable } from "../../../Agency/db/schema";
 import { getCurrentUser } from "../../../User/utils";
+import { UserTable } from "../../../User/db/schema";
 
 @InputType("SendReviewByUserArgs")
 export class SendReviewByUserArgs {
@@ -39,16 +39,14 @@ export async function sendReviewByUser(
     .select()
     .from(PostingTable)
     .where(eq(PostingTable.id, args.posting))
-    .innerJoin(AgencyTable, eq(AgencyTable.id, PostingTable.agency));
-  if (!posting?.agency) throw GQLError(400, "Invalid posting");
-
+    .innerJoin(UserTable, eq(UserTable.id, PostingTable.agency));
+  if (!posting) return null;
   const portfolio = await addPortfolio(
     ctx,
     {
       imageURL: args.imageURL,
       caption: args.caption,
       link: args.link,
-      agency: posting.posting.agency,
     },
     true,
   );
@@ -72,7 +70,7 @@ export async function sendReviewByUser(
   void getCurrentUser(ctx)?.then((user) => {
     if (user)
       void fetch(
-        `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/revalidate-profile?username=${posting.agency.username},${user.username}`,
+        `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/revalidate-profile?username=${posting.user.username},${user.username}`,
       );
   });
   return true;

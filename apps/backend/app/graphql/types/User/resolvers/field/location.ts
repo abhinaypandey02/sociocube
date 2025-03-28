@@ -2,9 +2,8 @@ import { eq } from "drizzle-orm";
 import { LocationTable, UserDB } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
 import { CityTable, CountryTable } from "../../../Map/db/schema";
-import { AgencyDB } from "../../../Agency/db/schema";
 
-export async function getLocation(user: UserDB | AgencyDB) {
+export async function getLocation(user: UserDB) {
   if (user.location) {
     const [city] = await db
       .select()
@@ -26,7 +25,7 @@ export async function getLocation(user: UserDB | AgencyDB) {
   return null;
 }
 
-export async function getLocationID(user: UserDB | AgencyDB) {
+export async function getLocationID(user: UserDB) {
   if (user.location) {
     const [location] = await db
       .select()

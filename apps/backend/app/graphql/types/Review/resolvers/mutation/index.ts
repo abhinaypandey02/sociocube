@@ -5,8 +5,6 @@ import {
   SendReviewByAgencyArgs,
 } from "./send-review-by-agency";
 import { sendReviewByUser, SendReviewByUserArgs } from "./send-review-by-user";
-import { acceptPortfolio } from "./accept-portfolio";
-import { rejectPortfolio } from "./reject-portfolio";
 
 @Resolver()
 export class ReviewMutationResolver {
@@ -25,21 +23,5 @@ export class ReviewMutationResolver {
     @Arg("args") args: SendReviewByUserArgs,
   ) {
     return sendReviewByUser(ctx, args);
-  }
-  @Authorized()
-  @Mutation(() => Boolean)
-  acceptPortfolio(
-    @Ctx() ctx: AuthorizedContext,
-    @Arg("review") reviewID: number,
-  ) {
-    return acceptPortfolio(ctx, reviewID);
-  }
-  @Authorized()
-  @Mutation(() => Boolean)
-  rejectPortfolio(
-    @Ctx() ctx: AuthorizedContext,
-    @Arg("review") reviewID: number,
-  ) {
-    return rejectPortfolio(ctx, reviewID);
   }
 }

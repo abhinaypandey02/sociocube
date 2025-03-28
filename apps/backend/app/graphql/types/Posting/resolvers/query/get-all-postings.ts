@@ -10,7 +10,6 @@ import {
   isNull,
   lte,
   or,
-  sql,
 } from "drizzle-orm";
 import { Field, InputType, registerEnumType } from "type-graphql";
 import { MaxLength } from "class-validator";
@@ -18,7 +17,6 @@ import { NAME_MAX_LENGTH, USERNAME_MAX_LENGTH } from "commons/constraints";
 import { PostingTable } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
 import { PostingPlatforms } from "../../../../constants/platforms";
-import { AgencyTable } from "../../../Agency/db/schema";
 import { ApplicationTable } from "../../../Application/db/schema";
 import { PaginationArgs, withPagination } from "../../../../utils/pagination";
 
@@ -95,21 +93,6 @@ export async function getAllPostings(
                   gte(PostingTable.maximumAge, filters.age),
                 ),
               )
-            : undefined,
-        ),
-      )
-      .innerJoin(
-        AgencyTable,
-        and(
-          eq(AgencyTable.id, PostingTable.agency),
-          filters.agency ? eq(AgencyTable.username, filters.agency) : undefined,
-          filters.query
-            ? sql`(
-            to_tsvector('english', ${PostingTable.title}) || 
-            to_tsvector('english', ${PostingTable.description}) || 
-            to_tsvector('english', ${AgencyTable.username}) || 
-            to_tsvector('english', ${AgencyTable.name})
-        ) @@ plainto_tsquery('english', ${filters.query})`
             : undefined,
         ),
       )

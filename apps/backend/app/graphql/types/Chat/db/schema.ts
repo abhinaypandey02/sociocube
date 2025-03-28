@@ -7,7 +7,6 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { UserTable } from "../../User/db/schema";
-import { AgencyTable } from "../../Agency/db/schema";
 
 export const ConversationTable = pgTable("conversation", {
   id: serial("id").primaryKey(),
@@ -15,7 +14,7 @@ export const ConversationTable = pgTable("conversation", {
     .references(() => UserTable.id)
     .notNull(),
   agency: integer("agency")
-    .references(() => AgencyTable.id)
+    .references(() => UserTable.id)
     .notNull(),
   hasRead: boolean("has_read").default(false).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),

@@ -1,17 +1,14 @@
 import {
   and,
-  arrayContains,
   desc,
   eq,
   getTableColumns,
   inArray,
   isNotNull,
-  or,
 } from "drizzle-orm";
 import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
-import { Roles } from "../../../../constants/roles";
 
 export async function handleGetFeaturedSellers() {
   return db
@@ -36,10 +33,7 @@ export async function handleGetFeaturedSellers() {
       InstagramDetails,
       and(
         eq(InstagramDetails.id, UserTable.instagramDetails),
-        or(
-          isNotNull(InstagramDetails.accessToken),
-          arrayContains(UserTable.roles, [Roles.ManuallyVerified]),
-        ),
+        eq(InstagramDetails.isVerified, true),
       ),
     )
     .orderBy(desc(InstagramDetails.followers))

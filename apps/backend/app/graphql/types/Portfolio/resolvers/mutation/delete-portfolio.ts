@@ -3,7 +3,6 @@ import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { PortfolioTable } from "../../db/schema";
 import { deleteImage } from "../../../../../../lib/storage/aws-s3";
-import { AgencyMember } from "../../../Agency/db/schema";
 import GQLError from "../../../../constants/errors";
 import { ReviewTable } from "../../../Review/db/schema";
 
@@ -11,34 +10,15 @@ export async function deletePortfolio(ctx: AuthorizedContext, id: number) {
   const [portfolio] = await db
     .select()
     .from(PortfolioTable)
-    .where(eq(PortfolioTable.id, id))
-    .leftJoin(
-      AgencyMember,
-      and(
-        eq(AgencyMember.agency, PortfolioTable.agency),
-        eq(AgencyMember.user, ctx.userId),
-      ),
-    );
+    .where(eq(PortfolioTable.id, id));
   if (!portfolio) throw GQLError(404, "No portfolio found.");
-  if (
-    !(portfolio.portfolio.agency && portfolio.agency_member) &&
-    !(portfolio.portfolio.user && portfolio.portfolio.user === ctx.userId)
-  )
+  if (portfolio.user !== ctx.userId)
     throw GQLError(403, "You dont have permission for this agency");
-  if (portfolio.agency_member && portfolio.portfolio.user) {
+  if (portfolio.agency && portfolio.user) {
     await db
       .update(PortfolioTable)
       .set({
         agency: null,
-      })
-      .where(eq(PortfolioTable.id, id));
-    return true;
-  }
-  if (!portfolio.agency_member && portfolio.portfolio.agency) {
-    await db
-      .update(PortfolioTable)
-      .set({
-        user: null,
       })
       .where(eq(PortfolioTable.id, id));
     return true;

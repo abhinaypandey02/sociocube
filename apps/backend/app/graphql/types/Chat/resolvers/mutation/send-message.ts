@@ -4,7 +4,6 @@ import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { ConversationMessageTable, ConversationTable } from "../../db/schema";
 import { sendEvent } from "../../../../../../lib/socket/send-event";
-import { AgencyMember, AgencyTable } from "../../../Agency/db/schema";
 import GQLError from "../../../../constants/errors";
 
 export async function handleSendMessage(
@@ -12,28 +11,18 @@ export async function handleSendMessage(
   body: string,
   conversationID: number,
 ): Promise<boolean> {
-  const [agency] = await db
-    .select()
-    .from(AgencyTable)
-    .innerJoin(
-      AgencyMember,
-      and(
-        eq(AgencyMember.agency, AgencyTable.id),
-        eq(AgencyMember.user, ctx.userId),
-      ),
-    );
   const [conversation] = await db
     .update(ConversationTable)
     .set({
       hasRead: false,
     })
     .where(and(eq(ConversationTable.id, conversationID)))
-    .returning({ id: ConversationTable.id });
-  if (!conversation?.id) throw GQLError(404, "Conversation doesnt exist");
+    .returning({ agency: ConversationTable.agency });
+  if (!conversation?.agency) throw GQLError(404, "Conversation doesnt exist");
   const message = {
     conversation: conversationID,
     body,
-    byAgency: Boolean(agency?.agency_member.user === ctx.userId),
+    byAgency: Boolean(conversation.agency === ctx.userId),
   };
   await db.insert(ConversationMessageTable).values(message);
   void sendEvent(
@@ -42,5 +31,4 @@ export async function handleSendMessage(
     message,
   );
   return true;
-  return false;
 }

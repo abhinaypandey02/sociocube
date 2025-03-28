@@ -10,7 +10,6 @@ import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { PortfolioTable } from "../../db/schema";
 import GQLError from "../../../../constants/errors";
-import { AgencyMember } from "../../../Agency/db/schema";
 import { instagramRapidAPI } from "../../../../../../lib/rapidapi/instagram";
 import {
   getFileURL,
@@ -28,8 +27,6 @@ export class AddPortfolioArgs {
   @Field(() => String, { nullable: true })
   @IsUrl(undefined, { message: "Invalid URL" })
   link: string | null;
-  @Field(() => Number, { nullable: true })
-  agency: number | null;
 }
 
 async function getInstagramMediaURL(url: string, userId: string) {
@@ -73,30 +70,14 @@ export async function addPortfolio(
   args: AddPortfolioArgs,
   forReview?: true,
 ) {
-  if (args.agency && !forReview) {
-    const [user] = await db
-      .select()
-      .from(AgencyMember)
-      .where(
-        and(
-          eq(AgencyMember.user, ctx.userId),
-          eq(AgencyMember.agency, args.agency),
-        ),
-      );
-    if (!user) throw GQLError(403, "You dont have permission for this agency");
-  }
   if (!forReview) {
     const [portfolioCount] = await db
       .select({ count: count(PortfolioTable.id) })
       .from(PortfolioTable)
       .where(
         and(
-          args.agency
-            ? eq(PortfolioTable.agency, args.agency)
-            : eq(PortfolioTable.user, ctx.userId),
-          args.agency
-            ? isNull(PortfolioTable.user)
-            : isNull(PortfolioTable.agency),
+          eq(PortfolioTable.user, ctx.userId),
+          isNull(PortfolioTable.agency),
           isNotNull(PortfolioTable.imageURL),
         ),
       );
@@ -124,8 +105,7 @@ export async function addPortfolio(
       imageURL: args.imageURL,
       caption: args.caption,
       link: args.link,
-      user: args.agency && !forReview ? undefined : ctx.userId,
-      agency: args.agency,
+      user: ctx.userId,
     })
     .returning({ id: PortfolioTable.id });
   return portfolio?.id;

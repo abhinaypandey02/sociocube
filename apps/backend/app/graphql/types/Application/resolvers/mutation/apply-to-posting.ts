@@ -2,7 +2,6 @@ import { eq } from "drizzle-orm";
 import { getAge } from "commons/age";
 import { ArgsType, Field } from "type-graphql";
 import { IsEmail, IsNumberString, MaxLength } from "class-validator";
-import { REFERRAL_RATES } from "commons/referral";
 import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { ApplicationTable } from "../../db/schema";
@@ -10,8 +9,6 @@ import { PostingTable } from "../../../Posting/db/schema";
 import GQLError from "../../../../constants/errors";
 import { UserTable } from "../../../User/db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
-import { Roles } from "../../../../constants/roles";
-import { AgencyTable } from "../../../Agency/db/schema";
 import { getIsOnboarded } from "../../../User/resolvers/field/onboarding-data";
 
 @ArgsType()
@@ -46,13 +43,11 @@ export async function applyToPosting(
     );
   if (!user) throw GQLError(404, "User details not found");
   if (!getIsOnboarded(user.user)) throw GQLError(404, "User not onboarded");
-  const [result] = await db
+  const [posting] = await db
     .select()
     .from(PostingTable)
-    .where(eq(PostingTable.id, postingID))
-    .innerJoin(AgencyTable, eq(PostingTable.agency, AgencyTable.id));
-  if (!result) throw GQLError(404, "Posting not found");
-  const { posting, agency: owner } = result;
+    .where(eq(PostingTable.id, postingID));
+  if (!posting) throw GQLError(404, "Posting not found");
   if (!posting.open) throw GQLError(404, "Posting closed");
   if (
     posting.minimumFollowers &&
@@ -71,9 +66,6 @@ export async function applyToPosting(
     .update(UserTable)
     .set({ contactEmail: email, phone: phone || undefined })
     .where(eq(UserTable.id, ctx.userId));
-  const referralPrice = user.instagram_data.accessToken
-    ? REFERRAL_RATES.verified
-    : REFERRAL_RATES.others;
   await db.insert(ApplicationTable).values({
     posting: postingID,
     comment,
@@ -81,9 +73,7 @@ export async function applyToPosting(
     phone,
     external: Boolean(posting.externalLink),
     user: ctx.userId,
-    referralEarnings: owner.roles.includes(Roles.ReferralCreator)
-      ? referralPrice
-      : 0,
+    referralEarnings: 0,
   });
   return true;
 }

@@ -9,7 +9,6 @@ import {
 } from "drizzle-orm/pg-core";
 import { UserTable } from "../../User/db/schema";
 import { PostingTable } from "../../Posting/db/schema";
-import { AgencyTable } from "../../Agency/db/schema";
 import { PortfolioTable } from "../../Portfolio/db/schema";
 
 export const ReviewTable = pgTable(
@@ -22,7 +21,7 @@ export const ReviewTable = pgTable(
     userRating: real("user_rating").notNull(),
     userFeedback: text("user_feedback"),
     agency: integer("agency")
-      .references(() => AgencyTable.id)
+      .references(() => UserTable.id)
       .notNull(),
     agencyRating: real("agency_rating"),
     agencyFeedback: text("agency_feedback"),

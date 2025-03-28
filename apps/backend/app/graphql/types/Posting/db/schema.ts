@@ -11,7 +11,7 @@ import {
 import { sql } from "drizzle-orm";
 import { CountryTable } from "../../Map/db/schema";
 import { PostingPlatforms } from "../../../constants/platforms";
-import { AgencyTable } from "../../Agency/db/schema";
+import { UserTable } from "../../User/db/schema";
 
 export const platforms = pgEnum("platform", [
   PostingPlatforms.INSTAGRAM,
@@ -23,7 +23,7 @@ export const PostingTable = pgTable(
   {
     id: serial("id").primaryKey(),
     agency: integer("agency")
-      .references(() => AgencyTable.id)
+      .references(() => UserTable.id)
       .notNull(),
     title: text("title").notNull(),
     platforms: platforms("platforms").array().notNull().default([]),

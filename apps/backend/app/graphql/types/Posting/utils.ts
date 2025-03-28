@@ -3,7 +3,6 @@ import { and, eq } from "drizzle-orm";
 import GQLError from "../../constants/errors";
 import { AuthorizedContext } from "../../context";
 import { db } from "../../../../lib/db";
-import { AgencyMember } from "../Agency/db/schema";
 import { PostingTable } from "./db/schema";
 
 export function getCleanExternalLink(externalLink: string | null) {
@@ -29,14 +28,9 @@ export async function checkPermission(
   const [posting] = await db
     .select()
     .from(PostingTable)
-    .where(eq(PostingTable.id, postingID))
-    .innerJoin(
-      AgencyMember,
-      and(
-        eq(AgencyMember.agency, PostingTable.agency),
-        eq(AgencyMember.user, ctx.userId),
-      ),
+    .where(
+      and(eq(PostingTable.id, postingID), eq(PostingTable.agency, ctx.userId)),
     );
   if (!posting) throw GQLError(400, "You dont have permission for this agency");
-  return posting.posting.agency;
+  return true;
 }

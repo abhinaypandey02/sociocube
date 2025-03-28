@@ -4,7 +4,6 @@ import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { ConversationMessageTable, ConversationTable } from "../../db/schema";
 import { sendEvent } from "../../../../../../lib/socket/send-event";
-import { AgencyMember, AgencyTable } from "../../../Agency/db/schema";
 import GQLError from "../../../../constants/errors";
 
 export async function handleSendMessageToUser(
@@ -13,18 +12,6 @@ export async function handleSendMessageToUser(
   userID: number,
 ): Promise<boolean> {
   if (ctx.userId === userID) throw GQLError(400, "You cannot message yourself");
-  const [agency] = await db
-    .select()
-    .from(AgencyTable)
-    .innerJoin(
-      AgencyMember,
-      and(
-        eq(AgencyMember.agency, AgencyTable.id),
-        eq(AgencyMember.user, ctx.userId),
-      ),
-    );
-  const userAgencyID = agency?.agency.id;
-  if (!userAgencyID) throw GQLError(400, "You dont have an agency");
   const [conversation] = await db
     .update(ConversationTable)
     .set({
@@ -33,7 +20,7 @@ export async function handleSendMessageToUser(
     .where(
       and(
         eq(ConversationTable.user, userID),
-        eq(ConversationTable.agency, userAgencyID),
+        eq(ConversationTable.agency, ctx.userId),
       ),
     )
     .returning({ id: ConversationTable.id });
@@ -42,7 +29,7 @@ export async function handleSendMessageToUser(
     const [newConversation] = await db
       .insert(ConversationTable)
       .values({
-        agency: userAgencyID,
+        agency: ctx.userId,
         user: userID,
       })
       .returning();

@@ -1,11 +1,10 @@
 import { and, eq, isNotNull, lte, or } from "drizzle-orm";
-import { UserDB } from "../../db/schema";
+import { UserDB, UserTable } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
 import { ReviewTable } from "../../../Review/db/schema";
 import { getReviewDeadline } from "../../../Review/utils";
-import { AgencyDB, AgencyTable } from "../../../Agency/db/schema";
 
-export async function getReviews(user: UserDB | AgencyDB) {
+export async function getReviews(user: UserDB) {
   const data = await db
     .select()
     .from(ReviewTable)
@@ -18,13 +17,13 @@ export async function getReviews(user: UserDB | AgencyDB) {
         ),
       ),
     )
-    .innerJoin(AgencyTable, eq(AgencyTable.id, ReviewTable.agency));
+    .innerJoin(UserTable, eq(UserTable.id, ReviewTable.agency));
   return data.map((res) => ({
     rating: res.review.userRating,
     feedback: res.review.userFeedback,
-    name: res.agency.name || "",
-    photo: res.agency.photo,
-    username: res.agency.username,
+    name: res.user.name || "",
+    photo: res.user.photo,
+    username: res.user.username || "",
     portfolio: res.review.portfolio,
   }));
 }

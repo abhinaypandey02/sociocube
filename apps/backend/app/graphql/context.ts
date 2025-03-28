@@ -39,5 +39,5 @@ export const authChecker: AuthChecker<Context> = async (
   if (!ctx.userId) return false;
   if (roles.length === 0) return true;
   const user = await getUser(eq(UserTable.id, ctx.userId));
-  return Boolean(user?.roles.some((role) => roles.includes(role)));
+  return Boolean(user?.role && roles.includes(user.role));
 };

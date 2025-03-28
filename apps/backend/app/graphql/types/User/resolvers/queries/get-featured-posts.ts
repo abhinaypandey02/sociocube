@@ -2,7 +2,6 @@ import { and, desc, eq, isNotNull, ne } from "drizzle-orm";
 import { Field, ObjectType } from "type-graphql";
 import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../db/schema";
-import { Roles } from "../../../../constants/roles";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { InstagramMediaTable } from "../../../Instagram/db/schema2";
 
@@ -74,8 +73,6 @@ export async function handleGetFeaturedPosts(): Promise<
     creatorName: post.user.name || "",
     creatorUsername: post.user.username || "",
     creatorImage: post.user.photo || "",
-    creatorVerified:
-      post.user.roles.includes(Roles.ManuallyVerified) ||
-      Boolean(post.instagram_data.accessToken),
+    creatorVerified: post.instagram_data.isVerified,
   }));
 }

@@ -9,7 +9,6 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { AgencyTable } from "../../Agency/db/schema";
 import { UserTable } from "../../User/db/schema";
 
 export const InstagramMediaTable = pgTable(
@@ -26,8 +25,9 @@ export const InstagramMediaTable = pgTable(
     timestamp: date("timestamp").notNull(),
     isVideo: boolean("is_video").notNull(),
     er: real("er"),
-    user: integer("user").references(() => UserTable.id),
-    agency: integer("agency").references(() => AgencyTable.id),
+    user: integer("user")
+      .references(() => UserTable.id)
+      .notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (table) => ({

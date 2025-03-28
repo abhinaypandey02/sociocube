@@ -1,17 +1,32 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowSquareOut, SealCheck } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "ui/button";
 import Modal from "../../components/modal";
-import { Route } from "../../constants/routes";
 
 export default function GetVerifiedModal({
   isOpen,
   close,
+  token,
 }: {
   isOpen: boolean;
   close: () => void;
+  token: string | undefined;
 }) {
+  const [redirectURL, setRedirectURL] = useState<string | null>(null);
+  useEffect(() => {
+    if (token)
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+        .then((res) => res.text())
+        .then(setRedirectURL)
+        .catch(() => {
+          setRedirectURL(null);
+        });
+  }, [token]);
   return (
     <Modal close={close} open={isOpen}>
       <div className="flex flex-col items-center gap-2 pt-9">
@@ -22,11 +37,11 @@ export default function GetVerifiedModal({
           profile. This lets brands know that you are a verified instagram
           account and builds trust.
         </p>
-        <a
-          className="mt-5"
-          href={`/_auth/instagram?redirectURL=${Route.Onboarding}`}
-        >
-          <Button className="mx-auto flex items-center gap-2">
+        <a className="mt-5" href={redirectURL || "#"}>
+          <Button
+            className="mx-auto flex items-center gap-2"
+            disabled={!redirectURL}
+          >
             Verify Account <ArrowSquareOut weight="bold" />
           </Button>
         </a>

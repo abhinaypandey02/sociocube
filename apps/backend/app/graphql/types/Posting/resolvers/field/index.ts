@@ -5,8 +5,6 @@ import type { PostingDB } from "../../db/schema";
 import { db } from "../../../../../../lib/db";
 import { ApplicationTable } from "../../../Application/db/schema";
 import { CountryTable } from "../../../Map/db/schema";
-import { AgencyDB, AgencyTable } from "../../../Agency/db/schema";
-import { AgencyGQL } from "../../../Agency/type";
 import { ReviewGQL } from "../../../Review/type";
 import { ReviewTable } from "../../../Review/db/schema";
 import { UserTable } from "../../../User/db/schema";
@@ -14,16 +12,6 @@ import { PortfolioTable } from "../../../Portfolio/db/schema";
 
 @Resolver(() => PostingGQL)
 export class PostingFieldResolvers {
-  @FieldResolver(() => AgencyGQL)
-  async agency(
-    @Root() posting: PostingDB,
-  ): Promise<AgencyDB | undefined | null> {
-    const [agency] = await db
-      .select()
-      .from(AgencyTable)
-      .where(eq(AgencyTable.id, posting.agency));
-    return agency;
-  }
   @FieldResolver(() => String, { nullable: true })
   async currency(
     @Root() posting: PostingDB,

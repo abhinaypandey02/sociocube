@@ -18,8 +18,7 @@ export interface FetchedInstagramPost {
   thumbnail: string | undefined;
   caption: string;
   appID: string;
-  agency?: number;
-  user?: number;
+  user: number;
   er: number;
 }
 export interface SafeFetchedInstagramPost
@@ -53,10 +52,7 @@ export async function fetchInstagramGraphStats(accessToken: string) {
 export async function fetchInstagramGraphMedia(
   accessToken: string,
   followers: number,
-  extraDetails: {
-    agency?: number;
-    user?: number;
-  },
+  user: number,
 ): Promise<FetchedInstagramPost[] | undefined> {
   const fetchReq = await fetch(
     `${getGraphUrl("me/media", accessToken, [
@@ -101,7 +97,7 @@ export async function fetchInstagramGraphMedia(
       timestamp: media.timestamp,
       caption: media.caption,
       appID: media.id,
-      ...extraDetails,
+      user,
       er: getER(followers, media.like_count || 0, media.comments_count || -1),
     }));
 }
@@ -130,10 +126,7 @@ export async function fetchInstagramRapidStats(username: string) {
 export async function fetchInstagramRapidMedia(
   username: string,
   followers: number,
-  data: {
-    agency?: number;
-    user?: number;
-  },
+  user: number,
 ): Promise<FetchedInstagramPost[] | undefined> {
   const result = (await instagramRapidAPI(
     `reels?username_or_id_or_url=${username}&url_embed_safe=true`,
@@ -177,7 +170,7 @@ export async function fetchInstagramRapidMedia(
     timestamp: new Date(item.taken_at * 1000).toISOString(),
     caption: item.caption?.text || "",
     appID: item.id,
-    ...data,
+    user,
     er: getER(
       followers,
       item.like_count || 0,
@@ -246,10 +239,7 @@ export async function fetchInstagramClanConnectStats(username: string) {
 export async function fetchInstagramClanConnectMedia(
   username: string,
   followers: number,
-  data: {
-    agency?: number;
-    user?: number;
-  },
+  user: number,
 ): Promise<FetchedInstagramPost[] | undefined> {
   const result = await fetchInstagramClanConnect(username);
   if (result?.media_data)
@@ -263,21 +253,20 @@ export async function fetchInstagramClanConnectMedia(
       timestamp: media.timestamp,
       caption: media.caption,
       appID: media.id,
-      ...data,
+      user,
       er: getER(followers, media.like_count || 0, media.comments_count || -1),
     }));
 }
 
 export async function deleteOldPosts(
   id: number,
-  type: "agency" | "user",
   posts: SafeFetchedInstagramPost[],
 ) {
   return db
     .delete(InstagramMediaTable)
     .where(
       and(
-        eq(InstagramMediaTable[type], id),
+        eq(InstagramMediaTable.user, id),
         notInArray(
           InstagramMediaTable.thumbnail,
           posts.map((post) => post.thumbnail).slice(1),

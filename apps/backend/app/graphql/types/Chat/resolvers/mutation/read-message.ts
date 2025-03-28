@@ -2,7 +2,6 @@ import { and, eq, or } from "drizzle-orm";
 import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { ConversationMessageTable, ConversationTable } from "../../db/schema";
-import { AgencyMember } from "../../../Agency/db/schema";
 
 export async function handleReadMessage(
   ctx: AuthorizedContext,
@@ -11,20 +10,16 @@ export async function handleReadMessage(
   const [conversation] = await db
     .select()
     .from(ConversationTable)
-    .innerJoin(
-      AgencyMember,
-      and(
-        eq(AgencyMember.agency, ConversationTable.agency),
-        eq(ConversationTable.id, conversationID),
-      ),
-    )
     .where(
-      or(
-        eq(AgencyMember.user, ctx.userId),
-        eq(ConversationTable.user, ctx.userId),
+      and(
+        eq(ConversationTable.id, conversationID),
+        or(
+          eq(ConversationTable.agency, ctx.userId),
+          eq(ConversationTable.user, ctx.userId),
+        ),
       ),
     );
-  const isAgencyMember = ctx.userId === conversation?.agency_member.user;
+  const isAgencyMember = ctx.userId === conversation?.agency;
   const [lastMessage] = await db
     .select()
     .from(ConversationMessageTable)

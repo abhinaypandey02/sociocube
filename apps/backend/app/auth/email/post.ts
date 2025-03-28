@@ -35,7 +35,6 @@ export const POST = async (req: Request) => {
     ...body,
     refreshTokens: [],
     password: encryptedPassword,
-    roles: [],
   });
 
   if (newUser) {

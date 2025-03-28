@@ -13,7 +13,6 @@ import { AuthorizedContext } from "../../../../context";
 import { PostingPlatforms } from "../../../../constants/platforms";
 import { getCleanExternalLink, handleDuplicateLinkError } from "../../utils";
 import GQLError from "../../../../constants/errors";
-import { AgencyMember } from "../../../Agency/db/schema";
 
 @InputType("NewPostingInput")
 export class NewPostingInput {
@@ -51,17 +50,8 @@ const MAXIMUM_POSTINGS_DAY = 40;
 
 export async function createPosting(
   ctx: AuthorizedContext,
-  agency: number,
   newPosting: NewPostingInput,
 ): Promise<number | null> {
-  const [user] = await db
-    .select()
-    .from(AgencyMember)
-    .where(
-      and(eq(AgencyMember.user, ctx.userId), eq(AgencyMember.agency, agency)),
-    );
-  if (!user) throw GQLError(403, "You dont have permission for this agency");
-
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
 
@@ -70,7 +60,7 @@ export async function createPosting(
     .from(PostingTable)
     .where(
       and(
-        eq(PostingTable.agency, agency),
+        eq(PostingTable.agency, ctx.userId),
         gte(PostingTable.createdAt, yesterday),
       ),
     );
@@ -93,7 +83,7 @@ export async function createPosting(
       .values({
         ...newPosting,
         externalLink: getCleanExternalLink(newPosting.externalLink),
-        agency,
+        agency: ctx.userId,
       })
       .returning({ id: PostingTable.id });
     return posting?.id || null;

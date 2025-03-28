@@ -5,11 +5,9 @@ import { db } from "../../../../../lib/db";
 import { UserGQL } from "../../User/type";
 import { getUser } from "../../User/db/utils";
 import { UserTable } from "../../User/db/schema";
-import { AgencyTable } from "../../Agency/db/schema";
 import type { ConversationDB } from "../db/schema";
 import { ConversationMessageTable } from "../db/schema";
 import type { AuthorizedContext } from "../../../context";
-import { AgencyGQL } from "../../Agency/type";
 
 const CHAT_PAGE_SIZE = 20;
 
@@ -40,17 +38,5 @@ export class ChatFieldResolvers {
   async user(@Ctx("ctx") ctx: AuthorizedContext, @Root() chat: ConversationDB) {
     if (chat.user === ctx.userId) return null;
     return getUser(eq(UserTable.id, chat.user));
-  }
-  @FieldResolver(() => AgencyGQL, { nullable: true })
-  async agency(
-    @Ctx("ctx") ctx: AuthorizedContext,
-    @Root() chat: ConversationDB,
-  ) {
-    if (chat.user !== ctx.userId) return null;
-    const [agency] = await db
-      .select()
-      .from(AgencyTable)
-      .where(eq(AgencyTable.id, chat.agency));
-    return agency;
   }
 }

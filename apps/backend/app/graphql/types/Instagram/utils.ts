@@ -1,6 +1,5 @@
 import { eq } from "drizzle-orm";
 import { UserDB } from "../User/db/schema";
-import { AgencyDB } from "../Agency/db/schema";
 import { db } from "../../../../lib/db";
 import { uploadImage } from "../../../../lib/storage/aws-s3";
 import { median, normaliseDigits } from "../../utils/math";
@@ -17,7 +16,7 @@ import {
 } from "./fetch-utils";
 
 export async function fetchStats(
-  user: UserDB | AgencyDB,
+  user: UserDB,
   failedTries: number,
   accessToken?: string | null,
   username?: string,
@@ -72,14 +71,12 @@ export async function fetchPosts(
   userID: number,
   accessToken?: string | null,
   username?: string,
-  isAgency?: boolean,
 ) {
-  const extraData = isAgency ? { agency: userID } : { user: userID };
   if (accessToken) {
     const graphPosts = await fetchInstagramGraphMedia(
       accessToken,
       followers,
-      extraData,
+      userID,
     );
     if (graphPosts) {
       return graphPosts;
@@ -89,13 +86,13 @@ export async function fetchPosts(
     const clanConnectMedia = await fetchInstagramClanConnectMedia(
       username,
       followers,
-      extraData,
+      userID,
     );
     if (clanConnectMedia) return clanConnectMedia;
     const rapidMedia = await fetchInstagramRapidMedia(
       username,
       followers,
-      extraData,
+      userID,
     );
     if (rapidMedia) return rapidMedia;
   }
@@ -121,15 +118,8 @@ export async function fetchUploadedPostsAndStats(
   userID: number,
   accessToken?: string | null,
   username?: string,
-  isAgency?: boolean,
 ) {
-  const posts = await fetchPosts(
-    followers,
-    userID,
-    accessToken,
-    username,
-    isAgency,
-  );
+  const posts = await fetchPosts(followers, userID, accessToken, username);
   return {
     posts: await uploadPostMedia(
       posts

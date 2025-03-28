@@ -38,7 +38,7 @@ export const GET = async (req: NextRequest) => {
       ],
       state: createState({
         csrfToken: initialCsrfToken,
-        refresh: initialRefresh,
+        token: initialRefresh,
       }),
       include_granted_scopes: true,
       prompt: "consent",
@@ -48,7 +48,7 @@ export const GET = async (req: NextRequest) => {
   } else if (error) {
     return errorResponse(redirectURL);
   } else if (code && state) {
-    const { refresh, csrfToken } = getState(state);
+    const { token, csrfToken } = getState(state);
     const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
 
@@ -60,8 +60,8 @@ export const GET = async (req: NextRequest) => {
       .userinfo.get();
 
     const user = userInfoRequest.data;
-    if (user.email) {
-      const loggedInUserID = getUserIdFromRefreshToken(refresh);
+    if (user.email && token) {
+      const loggedInUserID = getUserIdFromRefreshToken(token);
       const existingUser = await getUser(eq(UserTable.email, user.email));
       let refreshToken;
       if (existingUser && loggedInUserID) {
@@ -87,7 +87,6 @@ export const GET = async (req: NextRequest) => {
           email: user.email,
           name: user.name,
           refreshTokens: [],
-          roles: [],
           emailVerified: true,
         });
         if (newUser) {

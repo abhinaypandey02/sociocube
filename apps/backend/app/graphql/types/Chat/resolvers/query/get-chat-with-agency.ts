@@ -2,8 +2,8 @@ import { and, eq, getTableColumns } from "drizzle-orm";
 import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { ConversationDB, ConversationTable } from "../../db/schema";
-import { AgencyTable } from "../../../Agency/db/schema";
 import GQLError from "../../../../constants/errors";
+import { UserTable } from "../../../User/db/schema";
 
 export async function handleGetChatWithAgency(
   ctx: AuthorizedContext,
@@ -11,10 +11,10 @@ export async function handleGetChatWithAgency(
 ): Promise<ConversationDB> {
   const [agency] = await db
     .select({
-      id: AgencyTable.id,
+      id: UserTable.id,
     })
-    .from(AgencyTable)
-    .where(eq(AgencyTable.username, username));
+    .from(UserTable)
+    .where(eq(UserTable.username, username));
   if (!agency?.id) throw GQLError(404, "Username does not exist");
   const [conversation] = await db
     .select(getTableColumns(ConversationTable))

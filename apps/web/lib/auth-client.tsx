@@ -60,6 +60,7 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
           setIsGetVerifiedModalOpen(false);
         }}
         isOpen={isGetVerifiedModalOpen}
+        token={token}
       />
       <Suspense>
         <ProgressLoader color="#F45B69" showSpinner={false} />
