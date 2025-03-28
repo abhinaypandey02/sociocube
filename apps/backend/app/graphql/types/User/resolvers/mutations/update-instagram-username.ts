@@ -3,12 +3,14 @@ import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../db/schema";
 import GQLError from "../../../../constants/errors";
-import { getInstagramDataExternalAPI } from "../../../../../auth/instagram/utils";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { getCurrentUser } from "../../utils";
 import { uploadImage } from "../../../../../../lib/storage/aws-s3";
 import { InstagramMediaTable } from "../../../Instagram/db/schema2";
-import { fetchUploadedPostsAndStats } from "../../../Instagram/utils";
+import {
+  fetchExternalInstagramDetails,
+  fetchUploadedPostsAndStats,
+} from "../../../Instagram/utils";
 
 export async function handleUpdateInstagramUsername(
   ctx: AuthorizedContext,
@@ -35,7 +37,7 @@ export async function handleUpdateInstagramUsername(
         .where(and(eq(UserTable.id, ctx.userId)));
     }
   }
-  const data = await getInstagramDataExternalAPI(username);
+  const data = await fetchExternalInstagramDetails(username);
   if (!data?.username) {
     throw GQLError(
       500,
@@ -44,7 +46,7 @@ export async function handleUpdateInstagramUsername(
   }
 
   const { posts, stats } = await fetchUploadedPostsAndStats(
-    data.follower_count,
+    data.followers,
     ctx.userId,
     undefined,
     data.username,
@@ -56,8 +58,8 @@ export async function handleUpdateInstagramUsername(
     .insert(InstagramDetails)
     .values({
       username: data.username,
-      followers: data.follower_count,
-      mediaCount: data.media_count,
+      followers: data.followers,
+      mediaCount: data.mediaCount,
       ...stats,
     })
     .returning({ id: InstagramDetails.id });
@@ -68,13 +70,13 @@ export async function handleUpdateInstagramUsername(
         instagramDetails: details.id,
         photo:
           user.photo ||
-          (data.profile_pic_url_hd &&
-            (await uploadImage(data.profile_pic_url_hd, [
+          (data.photo &&
+            (await uploadImage(data.photo, [
               "User",
               user.id.toString(),
               "photo",
             ]))),
-        bio: user.bio || data.biography,
+        bio: user.bio || data.bio,
       })
       .where(and(eq(UserTable.id, ctx.userId)));
   }

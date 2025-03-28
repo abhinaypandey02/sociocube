@@ -52,7 +52,7 @@ export class UserGQL {
   contactEmail?: string;
   @Field({ nullable: true })
   phone?: string;
-  @Field(() => Roles, { nullable: true })
+  @Field(() => Roles)
   role?: Roles;
   @Field({ nullable: true })
   isOnboarded?: boolean;

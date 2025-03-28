@@ -3,5 +3,6 @@ module.exports = {
   rules: {
     "@typescript-eslint/require-array-sort-compare": "off",
     "no-nested-ternary": "off",
+    "react/button-has-type": "off",
   },
 };

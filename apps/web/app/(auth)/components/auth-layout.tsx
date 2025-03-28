@@ -4,13 +4,11 @@ import Link from "next/link";
 import SocialBar from "./social-bar";
 
 export default function AuthLayout({
-  newUser,
   title,
   bottomHeading,
   children,
   redirectURL,
 }: PropsWithChildren<{
-  newUser?: boolean;
   title: string;
   bottomHeading?: {
     question: string;
@@ -46,7 +44,7 @@ export default function AuthLayout({
                 </div>
               </div>
 
-              <SocialBar isLogin={!newUser} redirectURL={redirectURL} />
+              <SocialBar redirectURL={redirectURL} />
             </div>
           ) : null}
         </div>

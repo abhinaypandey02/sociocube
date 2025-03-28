@@ -120,6 +120,8 @@ export async function fetchInstagramRapidStats(username: string) {
       followers: result.data.follower_count,
       mediaCount: result.data.media_count,
       username: result.data.username,
+      photo: result.data.profile_pic_url_hd,
+      bio: result.data.biography,
     };
 }
 
@@ -233,6 +235,8 @@ export async function fetchInstagramClanConnectStats(username: string) {
       followers: result.followers_count,
       mediaCount: result.total_media,
       username: result.insta_username,
+      photo: result.profile_picture_url,
+      bio: result.biography,
     };
 }
 

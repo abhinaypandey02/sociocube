@@ -28,14 +28,12 @@ export default function OnboardingBasicDetailsForm({
   defaultValues,
   nextStep,
   photoUpload,
+  showCreatorSteps,
 }: {
-  defaultValues: {
-    name: string;
-    photo: string;
-    bio: string;
-  };
+  defaultValues: FormFields;
   nextStep: () => void;
   photoUpload: StorageFile;
+  showCreatorSteps: boolean;
 }) {
   const form = useForm<FormFields>({ defaultValues });
   const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
@@ -49,7 +47,7 @@ export default function OnboardingBasicDetailsForm({
     : defaultValues.photo;
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    if (!data.gender || !data.category) return;
+    if (showCreatorSteps && (!data.gender || !data.category)) return;
     if (!data.photo && !profilePicture) {
       setMissingPhoto(true);
       return;
@@ -115,33 +113,38 @@ export default function OnboardingBasicDetailsForm({
       />
       <Input
         className="block"
-        label="About you"
+        label={`About you${!showCreatorSteps ? "r brand" : ""}`}
         name="bio"
         placeholder="Write a brief about you"
+        rows={showCreatorSteps ? 2 : 4}
         textarea
       />
-      <Input
-        className="block"
-        label="Category"
-        name="category"
-        options={categories.map(({ title }) => ({
-          label: title,
-          value: title,
-        }))}
-        placeholder="Select the category that best suits you"
-        rules={{ required: true }}
-      />
-      <Input
-        className="block"
-        label="Gender"
-        name="gender"
-        options={genders.map((gender) => ({
-          label: gender,
-          value: gender,
-        }))}
-        placeholder="Select your gender"
-        rules={{ required: true }}
-      />
+      {showCreatorSteps ? (
+        <>
+          <Input
+            className="block"
+            label="Category"
+            name="category"
+            options={categories.map(({ title }) => ({
+              label: title,
+              value: title,
+            }))}
+            placeholder="Select the category that best suits you"
+            rules={{ required: true }}
+          />
+          <Input
+            className="block"
+            label="Gender"
+            name="gender"
+            options={genders.map((gender) => ({
+              label: gender,
+              value: gender,
+            }))}
+            placeholder="Select your gender"
+            rules={{ required: true }}
+          />
+        </>
+      ) : null}
       <input
         accept={ALLOWED_IMAGE_TYPES.join(", ")}
         className="hidden"

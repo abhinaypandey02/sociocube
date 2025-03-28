@@ -65,7 +65,6 @@ export default function SignupForm() {
         link: getRoute("Login"),
         answer: "Sign in to your account!",
       }}
-      newUser
       redirectURL={redirectURL}
       title="Create a new account"
     >

@@ -12,11 +12,13 @@ import { UPDATE_USER } from "../../lib/mutations";
 export default function OnboardingPricingForm({
   nextStep,
   currency,
+  defaultValues,
 }: {
   nextStep: () => void;
   currency?: Currency | null;
+  defaultValues: Pricing | undefined;
 }) {
-  const form = useForm<Pricing>();
+  const form = useForm({ defaultValues });
   const [updatePricing, { loading }] = useAuthMutation(UPDATE_USER);
 
   const onSubmit: SubmitHandler<Pricing> = async (data) => {

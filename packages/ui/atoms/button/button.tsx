@@ -56,12 +56,16 @@ function Button({
       }
       {...rest}
     >
-      <span className="absolute left-1/2 -translate-x-1/2 ">
-        {loading ? (
-          <CircleNotch className=" animate-spin" size={24} weight="bold" />
-        ) : null}
-      </span>
-      <span className={loading ? "opacity-0" : "flex"}>{children}</span>
+      {loading ? (
+        <>
+          <span className="absolute left-1/2 -translate-x-1/2 ">
+            <CircleNotch className=" animate-spin" size={24} weight="bold" />
+          </span>
+          <span className="opacity-0">{children}</span>
+        </>
+      ) : (
+        children
+      )}
     </button>
   );
 }

@@ -4,5 +4,6 @@ module.exports = {
     "@typescript-eslint/consistent-type-imports": "off",
     "prefer-named-capture-group": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "no-await-in-loop": "off",
   },
 };

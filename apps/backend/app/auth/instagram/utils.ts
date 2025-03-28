@@ -1,5 +1,3 @@
-import { instagramRapidAPI } from "../../../lib/rapidapi/instagram";
-
 export const getInstagramAuthorizationUrl = (
   state: string,
   redirectURL: string,
@@ -67,20 +65,4 @@ export async function getLongLivedToken(code: string, redirectURL: string) {
       }
     }
   }
-}
-
-export async function getInstagramDataExternalAPI(username: string) {
-  const result = (await instagramRapidAPI(
-    `info?username_or_id_or_url=${username}`,
-  ).catch(() => ({}))) as {
-    data?: {
-      profile_pic_url_hd?: string;
-      username: string;
-      biography: string;
-      full_name: string;
-      follower_count: number;
-      media_count: number;
-    };
-  };
-  return result.data;
 }

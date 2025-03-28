@@ -575,6 +575,6 @@ type User {
   portfolio: [Portfolio!]!
   pricing: Pricing
   reviews: [Review!]!
-  role: ROLES
+  role: ROLES!
   username: String
 }

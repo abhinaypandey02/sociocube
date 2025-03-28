@@ -1,8 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Variants } from "ui/button";
 import {
-  ArrowRight,
   Calendar,
   CaretLeft,
   CaretRight,
@@ -13,14 +11,13 @@ import {
   PencilSimple,
   ShareNetwork,
 } from "@phosphor-icons/react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
-import Link from "next/link";
 import type {
   Currency,
   GetDefaultOnboardingDetailsQuery,
 } from "../../__generated__/graphql";
+import { Roles } from "../../__generated__/graphql";
 import { getRoute } from "../../constants/routes";
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
 import SocialsStatus from "./socials-status";
@@ -29,12 +26,16 @@ import OnboardingPricingForm from "./onboarding-pricing";
 import OnboardingStepper from "./stepper";
 import OnboardingDOB from "./onboarding-dob";
 import OnboardingUsername from "./onboarding-username";
+import OnboardingRole from "./onboarding-role";
 
 export function getStep(
   currentUser: GetDefaultOnboardingDetailsQuery["getCurrentUser"],
 ) {
   if (!currentUser) return 0;
-  if (!currentUser.instagramStats?.username) return 0;
+  if (!currentUser.instagramStats?.username) {
+    if (currentUser.role === Roles.Creator) return 0;
+    return 1;
+  }
   if (
     !currentUser.name ||
     !currentUser.bio ||
@@ -42,10 +43,12 @@ export function getStep(
     !currentUser.category
   )
     return 2;
-  if (!currentUser.dob) return 3;
-  if (!currentUser.location?.city) return 4;
-  if (!currentUser.pricing) return 4;
-  if (!currentUser.username) return 6;
+  if (currentUser.role === Roles.Creator && !currentUser.dob) return 3;
+  if (!currentUser.location?.city)
+    return 4 - (currentUser.role === Roles.Creator ? 0 : 1);
+  if (currentUser.role === Roles.Creator && !currentUser.pricing) return 5;
+  if (!currentUser.username)
+    return 6 - (currentUser.role === Roles.Creator ? 0 : 2);
   return 0;
 }
 
@@ -59,6 +62,7 @@ function OnboardingWizard({
   redirectURL: string | null;
 }) {
   const currentUser = data?.getCurrentUser;
+  const showCreatorSteps = !currentUser || currentUser.role === Roles.Creator;
   const router = useRouter();
   const [step, setStep] = useState(getStep(currentUser));
   const [maxTouchedStep, setMaxTouchedStep] = useState(getStep(currentUser));
@@ -68,7 +72,7 @@ function OnboardingWizard({
   const nextStep = useCallback(() => {
     setStep((o) => Math.min(o + 1, MAX_STEPS - 1));
     setMaxTouchedStep((o) => Math.max(o, step + 1));
-    if (step !== 0) router.refresh();
+    router.refresh();
   }, [step]);
 
   const steps = useMemo(
@@ -79,39 +83,7 @@ function OnboardingWizard({
         description: "",
         icon: FlagCheckered,
         component: (
-          <div
-            className="flex h-full flex-col justify-center pb-14 pt-10"
-            key={0}
-          >
-            <Image
-              alt="Start for sales"
-              className="mx-auto"
-              height={400}
-              loading="eager"
-              src="/onboarding-start.svg"
-              width={200}
-            />
-            <h2 className="mt-5 text-center font-poppins text-3xl font-bold text-gray-800">
-              Let's get you onboarded
-            </h2>
-            <small className="mx-auto mt-2 max-w-96 text-center text-gray-500">
-              With some simple steps you can onboard to become a creator on
-              Sociocube!
-            </small>
-            <Button
-              className="mx-auto mt-3 flex items-center gap-2 !font-medium"
-              onClick={nextStep}
-              variant={Variants.ACCENT}
-            >
-              Start now <ArrowRight weight="bold" />
-            </Button>
-            <Link
-              className="mt-5 text-center text-sm underline underline-offset-2"
-              href={getRoute("Home")}
-            >
-              No thanks!
-            </Link>
-          </div>
+          <OnboardingRole nextStep={nextStep} role={currentUser?.role} />
         ),
       },
       {
@@ -143,23 +115,36 @@ function OnboardingWizard({
               name: currentUser.name || "",
               photo: currentUser.photo || "",
               bio: currentUser.bio || "",
+              category: currentUser.category || undefined,
+              gender: currentUser.gender || undefined,
             }}
             key={currentUser.instagramStats?.username}
             nextStep={nextStep}
             photoUpload={currentUser.pictureUploadURL}
+            showCreatorSteps={showCreatorSteps}
           />
         ) : null,
       },
 
-      {
-        title: "Date of birth",
-        heading: "(Highly Recommended)",
-        description: "Add details about your age.",
-        longDescription:
-          "We don't display your age anywhere in the platform. Your date of birth is used by brands to find influencers of a particular age range. Not providing this would leave you out of age based discoveries.",
-        icon: Calendar,
-        component: <OnboardingDOB key={3} nextStep={nextStep} />,
-      },
+      ...(showCreatorSteps
+        ? [
+            {
+              title: "Date of birth",
+              heading: "(Highly Recommended)",
+              description: "Add details about your age.",
+              longDescription:
+                "We don't display your age anywhere in the platform. Your date of birth is used by brands to find influencers of a particular age range. Not providing this would leave you out of age based discoveries.",
+              icon: Calendar,
+              component: (
+                <OnboardingDOB
+                  defaultValues={{ dob: currentUser?.dob || undefined }}
+                  key={3}
+                  nextStep={nextStep}
+                />
+              ),
+            },
+          ]
+        : []),
       {
         title: "Location",
         heading: "Where are you based?",
@@ -169,27 +154,40 @@ function OnboardingWizard({
         icon: MapPin,
         component: (
           <OnboardingLocationForm
+            defaultValues={{
+              city: currentUser?.locationID?.city,
+              country: currentUser?.locationID?.country,
+              state: currentUser?.locationID?.state,
+            }}
             key={5}
             nextStep={nextStep}
             setCurrency={setCurrency}
           />
         ),
       },
-      {
-        title: "Pricing",
-        heading: "Your base price",
-        description: "Your starting price",
-        longDescription:
-          "Add a starting price you would like to charge for collaborations. This would be an approximation for potential brands",
-        icon: MoneyWavy,
-        component: (
-          <OnboardingPricingForm
-            currency={currency}
-            key={6}
-            nextStep={nextStep}
-          />
-        ),
-      },
+
+      ...(showCreatorSteps
+        ? [
+            {
+              title: "Pricing",
+              heading: "Your base price",
+              description: "Your starting price",
+              longDescription:
+                "Add a starting price you would like to charge for collaborations. This would be an approximation for potential brands",
+              icon: MoneyWavy,
+              exclusiveRole: Roles.Creator,
+              component: (
+                <OnboardingPricingForm
+                  currency={currency}
+                  defaultValues={currentUser?.pricing || undefined}
+                  key={6}
+                  nextStep={nextStep}
+                />
+              ),
+            },
+          ]
+        : []),
+
       {
         title: "Username",
         heading: "Personalised link",

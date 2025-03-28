@@ -15,8 +15,16 @@ import {
   SafeFetchedInstagramPost,
 } from "./fetch-utils";
 
+export async function fetchExternalInstagramDetails(username?: string) {
+  if (!username) return null;
+  const clanConnectStats = await fetchInstagramClanConnectStats(username);
+  if (clanConnectStats) return clanConnectStats;
+  const rapidStats = await fetchInstagramRapidStats(username);
+  if (rapidStats) return rapidStats;
+}
+
 export async function fetchStats(
-  user: UserDB,
+  user: UserDB | null,
   failedTries: number,
   accessToken?: string | null,
   username?: string,
@@ -24,7 +32,7 @@ export async function fetchStats(
   if (accessToken) {
     const graphStats = await fetchInstagramGraphStats(accessToken);
     if (graphStats?.username) return graphStats;
-    if (user.instagramDetails) {
+    if (user?.instagramDetails) {
       if (failedTries >= 5) {
         await db
           .update(InstagramDetails)
@@ -40,12 +48,7 @@ export async function fetchStats(
       }
     }
   }
-  if (username) {
-    const clanConnectStats = await fetchInstagramClanConnectStats(username);
-    if (clanConnectStats) return clanConnectStats;
-    const rapidStats = await fetchInstagramRapidStats(username);
-    if (rapidStats) return rapidStats;
-  }
+  return fetchExternalInstagramDetails(username);
 }
 
 async function uploadPostMedia(posts?: SafeFetchedInstagramPost[]) {

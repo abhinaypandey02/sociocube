@@ -38,6 +38,7 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
       email
       name
       photo
+      role
       isOnboarded
       instagramStats {
         username
@@ -61,6 +62,11 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
           name
           symbol
         }
+      }
+      locationID {
+        city
+        country
+        state
       }
     }
   }

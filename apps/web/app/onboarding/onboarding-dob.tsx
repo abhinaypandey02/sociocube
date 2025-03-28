@@ -10,8 +10,18 @@ import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
 import { ageValidation } from "../../constants/validations";
 import { UPDATE_USER } from "../../lib/mutations";
 
-export default function OnboardingDOB({ nextStep }: { nextStep: () => void }) {
-  const form = useForm<{ dob?: string }>();
+interface FormFields {
+  dob?: string;
+}
+
+export default function OnboardingDOB({
+  nextStep,
+  defaultValues,
+}: {
+  nextStep: () => void;
+  defaultValues: FormFields;
+}) {
+  const form = useForm({ defaultValues });
   const [updateDOB, { loading }] = useAuthMutation(UPDATE_USER);
 
   const dob = form.watch("dob");

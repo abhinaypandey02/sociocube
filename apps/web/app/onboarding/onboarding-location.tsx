@@ -23,11 +23,13 @@ interface FormFields {
 export default function OnboardingLocationForm({
   nextStep,
   setCurrency,
+  defaultValues,
 }: {
   nextStep: () => void;
   setCurrency: (currency: Currency) => void;
+  defaultValues: FormFields;
 }) {
-  const form = useForm<FormFields>();
+  const form = useForm({ defaultValues });
   const [updateBasicDetails, { loading }] =
     useAuthMutation(UPDATE_USER_LOCATION);
   const [fetchCountries, { data: countriesData, loading: loadingCountries }] =

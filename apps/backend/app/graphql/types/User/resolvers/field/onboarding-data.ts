@@ -1,11 +1,11 @@
 import { UserDB } from "../../db/schema";
+import { Roles } from "../../../../constants/roles";
 
 export function getIsOnboarded(user: UserDB) {
   return Boolean(
-    user.photo &&
+    (user.role !== Roles.Creator || (user.category && user.gender)) &&
+      user.photo &&
       user.name &&
-      user.category &&
-      user.gender &&
       user.instagramDetails &&
       user.username &&
       user.location,
