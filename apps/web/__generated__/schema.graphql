@@ -550,6 +550,7 @@ input UpdateUserInput {
   phone: String
   photo: String
   pricing: PricingInput
+  role: ROLES
   username: String
 }
 

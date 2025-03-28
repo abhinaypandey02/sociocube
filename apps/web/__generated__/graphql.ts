@@ -536,6 +536,7 @@ export type UpdateUserInput = {
   phone?: InputMaybe<Scalars['String']['input']>;
   photo?: InputMaybe<Scalars['String']['input']>;
   pricing?: InputMaybe<PricingInput>;
+  role?: InputMaybe<Roles>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 

@@ -31,10 +31,7 @@ export async function handleGetFeaturedSellers() {
     )
     .innerJoin(
       InstagramDetails,
-      and(
-        eq(InstagramDetails.id, UserTable.instagramDetails),
-        eq(InstagramDetails.isVerified, true),
-      ),
+      and(eq(InstagramDetails.id, UserTable.instagramDetails)),
     )
     .orderBy(desc(InstagramDetails.followers))
     .limit(9);
