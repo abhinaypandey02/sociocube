@@ -3,7 +3,7 @@ import { db } from "../../../../../../lib/db";
 import { UserTable } from "../../db/schema";
 
 export async function handleGetSeller(username: string) {
-  return db
+  const [seller] = await db
     .select()
     .from(UserTable)
     .where(
@@ -13,4 +13,5 @@ export async function handleGetSeller(username: string) {
       ),
     )
     .limit(1);
+  return seller;
 }

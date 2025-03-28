@@ -29,11 +29,7 @@ export const AUTHORISED_USER_NAVBAR_SECTIONS = {
   secondaryLinks: [
     {
       label: "Run a campaign",
-      href: getRoute("AgencyOnboarding"),
-    },
-    {
-      label: "Start an agency",
-      href: getRoute("AgencyOnboarding"),
+      href: getRoute("Onboarding"),
     },
 
     {

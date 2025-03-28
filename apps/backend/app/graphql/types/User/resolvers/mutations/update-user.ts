@@ -3,6 +3,7 @@ import { Field, InputType } from "type-graphql";
 import {
   IsDateString,
   IsEmail,
+  IsEnum,
   IsIn,
   IsNumberString,
   IsUrl,
@@ -23,6 +24,7 @@ import { PricingTable, UserTable } from "../../db/schema";
 import type { AuthorizedContext } from "../../../../context";
 import { Pricing } from "../../type";
 import GQLError from "../../../../constants/errors";
+import { Roles } from "../../../../constants/roles";
 
 @InputType("UpdateUserInput")
 export class UpdateUserInput {
@@ -50,6 +52,9 @@ export class UpdateUserInput {
   gender?: string;
   @Field({ nullable: true })
   pricing?: Pricing;
+  @Field({ nullable: true })
+  @IsEnum(Roles)
+  role?: Roles;
   @Field({ nullable: true })
   @Matches(USERNAME_REGEX)
   @MaxLength(USERNAME_MAX_LENGTH)
@@ -81,6 +86,7 @@ export async function handleUpdateUser(
       username: updatedUser.username,
       contactEmail: updatedUser.contactEmail,
       phone: updatedUser.phone,
+      role: updatedUser.role,
     })
     .where(eq(UserTable.id, ctx.userId))
     .returning();

@@ -53,7 +53,7 @@ export default function SocialsStatus({
         >
           <Input
             className="grow"
-            label="Username connection"
+            label="Username"
             name="username"
             placeholder="Instagram Username"
           />

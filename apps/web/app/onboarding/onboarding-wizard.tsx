@@ -105,21 +105,11 @@ function OnboardingWizard({
             >
               Start now <ArrowRight weight="bold" />
             </Button>
-            <small className="my-5 text-center">or</small>
-            <Link href={getRoute("AgencyOnboarding")}>
-              <Button
-                className="mx-auto mt-3 flex items-center gap-2 !text-sm !font-medium"
-                invert
-                variant={Variants.PRIMARY}
-              >
-                Start an agency/brand
-              </Button>
-            </Link>
             <Link
               className="mt-5 text-center text-sm underline underline-offset-2"
               href={getRoute("Home")}
             >
-              No thanks!, I am not an influencer.
+              No thanks!
             </Link>
           </div>
         ),
