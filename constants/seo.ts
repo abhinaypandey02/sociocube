@@ -22,7 +22,7 @@ export const getSEO = (title?: string, description?: string): Metadata => ({
   appleWebApp: {
     title: title ? title : SEO.title,
     capable: true,
-    startupImage: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/apple-icon.png`,
+    startupImage: `${process.env.NEXT_PUBLIC_BASE_URL}/apple-icon.png`,
   },
   applicationName: SEO.companyName,
   creator: SEO.companyName,

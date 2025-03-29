@@ -11,7 +11,7 @@ function getForgetLink(id: number) {
   const token = sign({ id }, process.env.SIGNING_KEY || "", {
     expiresIn: "1h",
   });
-  return `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/reset/${token}`;
+  return `${process.env.NEXT_PUBLIC_BASE_URL}/reset/${token}`;
 }
 
 export async function handleSendResetPasswordEmail(userEmail: string) {

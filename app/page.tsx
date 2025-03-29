@@ -33,10 +33,10 @@ async function HomePage() {
         data={{
           "@context": "https://schema.org",
           "@type": "Organization",
-          image: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image.png`,
-          url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL,
+          image: `${process.env.NEXT_PUBLIC_BASE_URL}/opengraph-image.png`,
+          url: process.env.NEXT_PUBLIC_BASE_URL,
           sameAs: ["https://instagram.com/thesociocube"],
-          logo: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/icon.png`,
+          logo: `${process.env.NEXT_PUBLIC_BASE_URL}/icon.png`,
           name: SEO.companyName,
           description: SEO.description,
           email: "abhinaypandey02@gmail.com",

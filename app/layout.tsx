@@ -95,7 +95,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
             "@context": "https://schema.org",
             "@type": "WebSite",
             name: "Sociocube",
-            url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL,
+            url: process.env.NEXT_PUBLIC_BASE_URL,
             alternateName: ["SocioCube", "Socio cube"],
           }}
           id="title"

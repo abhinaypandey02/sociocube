@@ -34,9 +34,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
           "@context": "https://schema.org",
           "@type": "BlogPosting",
           headline: blog.title,
-          image: [
-            `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/opengraph-image.png`,
-          ],
+          image: [`${process.env.NEXT_PUBLIC_BASE_URL}/opengraph-image.png`],
           datePublished: blog.date.toISOString(),
           dateModified: blog.date.toISOString(),
           author: [

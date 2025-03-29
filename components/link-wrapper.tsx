@@ -15,7 +15,7 @@ export default function LinkWrapper({
   if (!href) return children;
   if (
     external ||
-    (!href.startsWith(process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "/") &&
+    (!href.startsWith(process.env.NEXT_PUBLIC_BASE_URL || "/") &&
       !href.startsWith("/"))
   )
     return (

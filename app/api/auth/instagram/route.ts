@@ -2,17 +2,17 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { and, eq, ne } from "drizzle-orm";
 import { getUser } from "@graphql/types/User/db/utils";
-import { getUserIdFromAccessToken } from "../../lib/auth/token";
 import { UserTable } from "@graphql/types/User/db/schema";
-import { db } from "../../lib/db";
 import { InstagramDetails } from "@graphql/types/Instagram/db/schema";
+import { getUserIdFromAccessToken } from "../../lib/auth/token";
+import { db } from "../../lib/db";
 import { getGraphData, getLongLivedToken } from "./utils";
 
-const REDIRECT_URI = `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/auth/instagram`;
+const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/instagram`;
 
 const handleError = (message: string) =>
   NextResponse.redirect(
-    `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/account?error=${message}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/account?error=${message}`,
   );
 
 export const GET = async (req: NextRequest) => {
@@ -62,7 +62,5 @@ export const GET = async (req: NextRequest) => {
       ),
     );
 
-  return NextResponse.redirect(
-    `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/account`,
-  );
+  return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/account`);
 };

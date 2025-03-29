@@ -20,7 +20,7 @@ export enum Route {
 }
 
 export function getRoute(route: keyof typeof Route) {
-  return process.env.NEXT_PUBLIC_FRONTEND_BASE_URL + Route[route];
+  return process.env.NEXT_PUBLIC_BASE_URL + Route[route];
 }
 
 export function getMeURL(username: string, clean?: boolean) {

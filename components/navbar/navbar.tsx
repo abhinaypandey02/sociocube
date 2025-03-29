@@ -39,7 +39,7 @@ function Navbar({
       >
         <Link
           className="-m-1.5 p-1.5 font-madina text-5xl leading-none text-primary sm:text-6xl"
-          href={process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "/public"}
+          href={process.env.NEXT_PUBLIC_BASE_URL || "/public"}
         >
           <Image alt="Sociocube" height={48} src="/icon0.svg" width={48} />
         </Link>

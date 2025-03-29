@@ -59,7 +59,7 @@ export async function generateMetadata({
   return {
     alternates: {
       canonical: `${
-        process.env.NEXT_PUBLIC_FRONTEND_BASE_URL + Route.Profile
+        process.env.NEXT_PUBLIC_BASE_URL + Route.Profile
       }/${username}`,
     },
     ...getSEO(

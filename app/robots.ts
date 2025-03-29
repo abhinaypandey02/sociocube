@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       disallow: [Route.Login, Route.Account, Route.Chat],
     },
-    sitemap: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/sitemap.xml`,
+    sitemap: `${process.env.NEXT_PUBLIC_BASE_URL}/sitemap.xml`,
   };
 }

@@ -36,7 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
   const { users, campaigns } = (await fetch(
-    `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/get-sitemap-data`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-sitemap-data`,
   ).then((data) => data.json())) as {
     campaigns: number[];
     users: string[];
@@ -70,6 +70,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
   return routes.map((route) => ({
     ...route,
-    url: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL + route.url,
+    url: process.env.NEXT_PUBLIC_BASE_URL + route.url,
   }));
 }

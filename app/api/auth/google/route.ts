@@ -14,7 +14,7 @@ import { oauth2Client } from "./google-oauth";
 
 function errorResponse(redirectURL: string | null) {
   return NextResponse.redirect(
-    redirectURL || process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "",
+    redirectURL || process.env.NEXT_PUBLIC_BASE_URL || "",
   );
 }
 export const GET = async (req: NextRequest) => {
@@ -31,7 +31,7 @@ export const GET = async (req: NextRequest) => {
       state,
       include_granted_scopes: true,
       prompt: "consent",
-      redirect_uri: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/auth/google`,
+      redirect_uri: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/google`,
     });
     const res = NextResponse.redirect(authorizationUrl);
     res.cookies.set("state", state, {

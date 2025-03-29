@@ -70,7 +70,7 @@ export async function sendReviewByUser(
   void getCurrentUser(ctx)?.then((user) => {
     if (user)
       void fetch(
-        `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/revalidate-profile?username=${posting.user.username},${user.username}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate-profile?username=${posting.user.username},${user.username}`,
       );
   });
   return true;
