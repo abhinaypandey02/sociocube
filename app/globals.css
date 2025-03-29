@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+.link-accent{
+  @apply text-accent hover:brightness-125;
+}
+.image-filter{
+  filter: brightness(0) saturate(100%) invert(56%) sepia(49%) saturate(5029%) hue-rotate(322deg) brightness(101%) contrast(91%) opacity(10%);
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Viewport } from "next";
 import { Inter, Poppins } from "next/font/google";
-import "../globals.css";
 import type { PropsWithChildren } from "react";
 import React, { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
