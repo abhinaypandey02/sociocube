@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { Route } from "../constants/routes";
 import { getBlogPosts } from "./blogs/utils";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routes: MetadataRoute.Sitemap = [
     {
       url: Route.Home,
@@ -35,30 +35,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
   ];
-  // const { users, campaigns } = (await fetch(
-  //   `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/get-sitemap-data`,
-  // ).then((data) => data.json())) as {
-  //   campaigns: number[];
-  //   users: string[];
-  // };
-  // routes.push(
-  //   ...users.map((user) => ({
-  //     url: `${Route.Profile}/${user}`,
-  //     lastModified: new Date(),
-  //     changeFrequency:
-  //       "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
-  //     priority: 0.9,
-  //   })),
-  // );
-  // routes.push(
-  //   ...campaigns.map((user) => ({
-  //     url: `${Route.Postings}/${user}`,
-  //     lastModified: new Date(),
-  //     changeFrequency:
-  //       "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
-  //     priority: 0.9,
-  //   })),
-  // );
+  const { users, campaigns } = (await fetch(
+    `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/get-sitemap-data`,
+  ).then((data) => data.json())) as {
+    campaigns: number[];
+    users: string[];
+  };
+  routes.push(
+    ...users.map((user) => ({
+      url: `${Route.Profile}/${user}`,
+      lastModified: new Date(),
+      changeFrequency:
+        "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
+      priority: 0.9,
+    })),
+  );
+  routes.push(
+    ...campaigns.map((user) => ({
+      url: `${Route.Postings}/${user}`,
+      lastModified: new Date(),
+      changeFrequency:
+        "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
+      priority: 0.9,
+    })),
+  );
   getBlogPosts().forEach((post) => {
     routes.push({
       url: `${Route.Blogs}/${post?.id}`,

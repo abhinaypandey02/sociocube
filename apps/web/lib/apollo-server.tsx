@@ -13,16 +13,15 @@ import type { FC } from "react";
 import { Suspense } from "react";
 import { GET_CURRENT_USER } from "./queries";
 
-export const { query, PreloadQuery: PreloadQueryInternal } =
-  registerApolloClient(() => {
-    return new ApolloClient({
-      cache: new InMemoryCache(),
-      link: new HttpLink({
-        uri: `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/graphql`,
-        credentials: "include",
-      }),
-    });
+export const { query } = registerApolloClient(() => {
+  return new ApolloClient({
+    cache: new InMemoryCache(),
+    link: new HttpLink({
+      uri: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/graphql`,
+      credentials: "include",
+    }),
   });
+});
 
 type OmittedProps<Y> = Omit<Omit<Y, "loading">, "data">;
 
