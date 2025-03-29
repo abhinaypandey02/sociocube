@@ -1,4 +1,4 @@
-import { compare } from "bcrypt";
+import { compare } from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { UserTable } from "@graphql/types/User/db/schema";
 import { getUser } from "@graphql/types/User/db/utils";

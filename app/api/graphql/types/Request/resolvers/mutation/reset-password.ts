@@ -1,6 +1,6 @@
 import { and, eq } from "drizzle-orm";
 import { verify } from "jsonwebtoken";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { db } from "@backend/lib/db";
 import { UserTable } from "../../../User/db/schema";
 import { RequestTable, RequestType } from "../../db/schema";

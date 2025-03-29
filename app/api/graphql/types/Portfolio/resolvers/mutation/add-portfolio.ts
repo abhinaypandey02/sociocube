@@ -9,13 +9,13 @@ import {
 import type { AuthorizedContext } from "@graphql/context";
 import { db } from "@backend/lib/db";
 import { instagramRapidAPI } from "@backend/lib/rapidapi/instagram";
-import { PortfolioTable } from "../../db/schema";
-import GQLError from "../../../../constants/errors";
 import {
   getFileURL,
   getUploadFileURL,
   uploadImage,
 } from "@backend/lib/storage/aws-s3";
+import { PortfolioTable } from "../../db/schema";
+import GQLError from "../../../../constants/errors";
 
 @InputType("AddPortfolioArgs")
 export class AddPortfolioArgs {

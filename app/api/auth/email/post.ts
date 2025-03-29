@@ -1,4 +1,4 @@
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { UserTable } from "@graphql/types/User/db/schema";
 import { createUser, getUser } from "@graphql/types/User/db/utils";

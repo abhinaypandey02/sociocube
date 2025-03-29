@@ -19,6 +19,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           cache: 'pnpm'
+      - uses: jongwooo/next-cache@v1
       - name: Install packages
         run: pnpm install --frozen-lockfile
       - name: Build apps
