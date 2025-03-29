@@ -79,7 +79,7 @@ export function useSignUpWithEmail() {
       name: string,
       captchaToken: string,
     ) => {
-      const res = await fetch(`/_auth`, {
+      const res = await fetch(`/api/auth/email`, {
         method: "POST",
         body: JSON.stringify({
           email,

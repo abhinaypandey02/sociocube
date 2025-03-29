@@ -30,7 +30,6 @@ export async function getGif(file: File, duration: number) {
 
 export async function getProperSizedGif(file: File) {
   for (let currentDuration = 8; currentDuration > 0; currentDuration /= 2) {
-    // eslint-disable-next-line no-await-in-loop -- wtf
     const blob = await getGif(file, currentDuration);
     if (blob && blob.size <= MAXIMUM_FILE_SIZE) return blob;
   }

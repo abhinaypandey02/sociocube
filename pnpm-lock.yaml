@@ -144,6 +144,18 @@ importers:
       '@apollo/experimental-nextjs-app-support':
         specifier: 0.11.5
         version: 0.11.5(@apollo/client@3.11.8(@types/react@18.3.11)(graphql-ws@5.16.0(graphql@16.9.0))(graphql@16.9.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023))(next@15.0.0-canary.205(@babel/core@7.25.8)(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)
+      '@apollo/server':
+        specifier: ^4.11.0
+        version: 4.11.0(graphql@16.9.0)
+      '@as-integrations/next':
+        specifier: ^3.1.0
+        version: 3.1.0(@apollo/server@4.11.0(graphql@16.9.0))(next@15.0.0-canary.205(@babel/core@7.25.8)(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023))
+      '@aws-sdk/client-s3':
+        specifier: ^3.670.0
+        version: 3.670.0
+      '@aws-sdk/s3-request-presigner':
+        specifier: ^3.670.0
+        version: 3.670.0
       '@ffmpeg/ffmpeg':
         specifier: ^0.12.15
         version: 0.12.15
@@ -164,10 +176,13 @@ importers:
         version: 2.1.7(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)
       '@sentry/nextjs':
         specifier: ^9.8.0
-        version: 9.8.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(next@15.0.0-canary.205(@babel/core@7.25.8)(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13)))
+        version: 9.8.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(next@15.0.0-canary.205(@babel/core@7.25.8)(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13))(esbuild@0.19.12))
       '@tanstack/react-table':
         specifier: ^8.20.6
         version: 8.20.6(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)
+      bcrypt:
+        specifier: ^5.1.1
+        version: 5.1.1
       class-validator:
         specifier: ^0.14.1
         version: 0.14.1
@@ -177,9 +192,21 @@ importers:
       commons:
         specifier: workspace:*
         version: link:../../packages/commons
+      drizzle-kit:
+        specifier: ^0.24.2
+        version: 0.24.2
+      drizzle-orm:
+        specifier: ^0.33.0
+        version: 0.33.0(@neondatabase/serverless@0.9.5)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.3.11)(@vercel/postgres@0.9.0)(postgres@3.4.4)(react@19.0.0-rc-1631855f-20241023)
+      googleapis:
+        specifier: ^131.0.0
+        version: 131.0.0
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
+      jsonwebtoken:
+        specifier: ^9.0.2
+        version: 9.0.2
       multi-range-slider-react:
         specifier: ^2.0.7
         version: 2.0.7
@@ -189,6 +216,15 @@ importers:
       nextjs-progressloader:
         specifier: ^1.2.0
         version: 1.2.0(next@15.0.0-canary.205(@babel/core@7.25.8)(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023))(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)
+      nodemailer:
+        specifier: ^6.9.16
+        version: 6.9.16
+      postgres:
+        specifier: ^3.4.4
+        version: 3.4.4
+      pusher:
+        specifier: ^5.2.0
+        version: 5.2.0
       pusher-js:
         specifier: 8.4.0-rc2
         version: 8.4.0-rc2
@@ -210,9 +246,15 @@ importers:
       react-simple-star-rating:
         specifier: ^5.1.7
         version: 5.1.7(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
       swiper:
         specifier: ^11.1.15
         version: 11.1.15
+      type-graphql:
+        specifier: 2.0.0-rc.2
+        version: 2.0.0-rc.2(class-validator@0.14.1)(graphql-scalars@1.23.0(graphql@16.9.0))(graphql@16.9.0)
       ui:
         specifier: workspace:*
         version: link:../../packages/ui
@@ -244,12 +286,21 @@ importers:
       '@parcel/watcher':
         specifier: ^2.4.1
         version: 2.4.1
+      '@types/bcrypt':
+        specifier: ^5.0.2
+        version: 5.0.2
       '@types/cloudflare-turnstile':
         specifier: ^0.2.2
         version: 0.2.2
+      '@types/jsonwebtoken':
+        specifier: ^9.0.7
+        version: 9.0.7
       '@types/node':
         specifier: ^20.16.11
         version: 20.16.11
+      '@types/nodemailer':
+        specifier: ^6.4.17
+        version: 6.4.17
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.11
@@ -7444,6 +7495,7 @@ packages:
 
   lodash.get@4.4.2:
     resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
+    deprecated: This package is deprecated. Use the optional chaining (?.) operator instead.
 
   lodash.includes@4.3.0:
     resolution: {integrity: sha512-W3Bx6mdkRTGtlJISOvVD/lbqjTlPPUDTMnlXZFnVwi9NKJ6tiAk6LVdlhZMm17VZisqhKcgzpO5Wz91PCt5b0w==}
@@ -10215,6 +10267,11 @@ snapshots:
     dependencies:
       '@apollo/server': 4.11.0(graphql@16.9.0)
       next: 14.2.15(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+
+  '@as-integrations/next@3.1.0(@apollo/server@4.11.0(graphql@16.9.0))(next@15.0.0-canary.205(@babel/core@7.25.8)(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023))':
+    dependencies:
+      '@apollo/server': 4.11.0(graphql@16.9.0)
+      next: 15.0.0-canary.205(@babel/core@7.25.8)(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)
 
   '@aws-crypto/crc32@5.2.0':
     dependencies:
@@ -13693,7 +13750,7 @@ snapshots:
 
   '@sentry/core@9.8.0': {}
 
-  '@sentry/nextjs@9.8.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(next@15.0.0-canary.205(@babel/core@7.25.8)(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13)))':
+  '@sentry/nextjs@9.8.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(next@15.0.0-canary.205(@babel/core@7.25.8)(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13))(esbuild@0.19.12))':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/semantic-conventions': 1.30.0
@@ -13704,7 +13761,7 @@ snapshots:
       '@sentry/opentelemetry': 9.8.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.30.0)
       '@sentry/react': 9.8.0(react@19.0.0-rc-1631855f-20241023)
       '@sentry/vercel-edge': 9.8.0
-      '@sentry/webpack-plugin': 3.2.2(webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13)))
+      '@sentry/webpack-plugin': 3.2.2(webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13))(esbuild@0.19.12))
       chalk: 3.0.0
       next: 15.0.0-canary.205(@babel/core@7.25.8)(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)
       resolve: 1.22.8
@@ -13781,12 +13838,12 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@sentry/core': 9.8.0
 
-  '@sentry/webpack-plugin@3.2.2(webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13)))':
+  '@sentry/webpack-plugin@3.2.2(webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13))(esbuild@0.19.12))':
     dependencies:
       '@sentry/bundler-plugin-core': 3.2.2
       unplugin: 1.0.1
       uuid: 9.0.1
-      webpack: 5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13))
+      webpack: 5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13))(esbuild@0.19.12)
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -16773,6 +16830,16 @@ snapshots:
       '@vercel/postgres': 0.9.0
       postgres: 3.4.4
       react: 18.3.1
+
+  drizzle-orm@0.33.0(@neondatabase/serverless@0.9.5)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.3.11)(@vercel/postgres@0.9.0)(postgres@3.4.4)(react@19.0.0-rc-1631855f-20241023):
+    optionalDependencies:
+      '@neondatabase/serverless': 0.9.5
+      '@opentelemetry/api': 1.9.0
+      '@types/pg': 8.11.6
+      '@types/react': 18.3.11
+      '@vercel/postgres': 0.9.0
+      postgres: 3.4.4
+      react: 19.0.0-rc-1631855f-20241023
 
   dset@3.1.4: {}
 
@@ -21575,6 +21642,18 @@ snapshots:
     dependencies:
       memoizerific: 1.11.3
 
+  terser-webpack-plugin@5.3.10(@swc/core@1.7.36(@swc/helpers@0.5.13))(esbuild@0.19.12)(webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13))(esbuild@0.19.12)):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.25
+      jest-worker: 27.5.1
+      schema-utils: 3.3.0
+      serialize-javascript: 6.0.2
+      terser: 5.34.1
+      webpack: 5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13))(esbuild@0.19.12)
+    optionalDependencies:
+      '@swc/core': 1.7.36(@swc/helpers@0.5.13)
+      esbuild: 0.19.12
+
   terser-webpack-plugin@5.3.10(@swc/core@1.7.36(@swc/helpers@0.5.13))(esbuild@0.23.1)(webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13))(esbuild@0.23.1)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
@@ -21586,17 +21665,6 @@ snapshots:
     optionalDependencies:
       '@swc/core': 1.7.36(@swc/helpers@0.5.13)
       esbuild: 0.23.1
-
-  terser-webpack-plugin@5.3.10(@swc/core@1.7.36(@swc/helpers@0.5.13))(webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13))):
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.25
-      jest-worker: 27.5.1
-      schema-utils: 3.3.0
-      serialize-javascript: 6.0.2
-      terser: 5.34.1
-      webpack: 5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13))
-    optionalDependencies:
-      '@swc/core': 1.7.36(@swc/helpers@0.5.13)
 
   terser@5.34.1:
     dependencies:
@@ -22158,7 +22226,7 @@ snapshots:
 
   webpack-virtual-modules@0.6.2: {}
 
-  webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13)):
+  webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13))(esbuild@0.19.12):
     dependencies:
       '@types/estree': 1.0.6
       '@webassemblyjs/ast': 1.12.1
@@ -22180,7 +22248,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.10(@swc/core@1.7.36(@swc/helpers@0.5.13))(webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13)))
+      terser-webpack-plugin: 5.3.10(@swc/core@1.7.36(@swc/helpers@0.5.13))(esbuild@0.19.12)(webpack@5.95.0(@swc/core@1.7.36(@swc/helpers@0.5.13))(esbuild@0.19.12))
       watchpack: 2.4.2
       webpack-sources: 3.2.3
     transitivePeerDependencies:
