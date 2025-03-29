@@ -23,23 +23,8 @@ jobs:
           cache: 'pnpm'
       - name: Install packages
         run: pnpm install --frozen-lockfile
-      - name: Cache playwright binaries
-        uses: actions/cache@v3
-        id: playwright-cache
-        with:
-          path: |
-            ~/.cache/ms-playwright
-          key: playwright
-      - name: Install Playwright
-        run: pnpm dlx playwright install --with-deps
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Build apps
         run: pnpm build
-      - name: Serve Storybook
-        uses: Eun/http-server-action@v1
-        with:
-          directory: packages/ui/storybook-static
-          port: 6006
       - name: Cypress tests 🧪
         uses: cypress-io/github-action@v6
         with:
