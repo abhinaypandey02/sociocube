@@ -31,5 +31,3 @@ jobs:
           install: false
           start: pnpm start
           command: pnpm test-ci
-          wait-on: http://127.0.0.1:6006
-          wait-on-timeout: 10
