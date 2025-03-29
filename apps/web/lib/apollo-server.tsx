@@ -18,7 +18,7 @@ export const { query, PreloadQuery: PreloadQueryInternal } =
     return new ApolloClient({
       cache: new InMemoryCache(),
       link: new HttpLink({
-        uri: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/graphql`,
+        uri: `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/graphql`,
         credentials: "include",
       }),
     });

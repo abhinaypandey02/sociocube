@@ -12,7 +12,11 @@ import Image from "next/image";
 import { cookies } from "next/headers";
 import { IconButton } from "@/components/icon-button";
 import { getCurrentUser, Injector, queryGQL } from "../../../lib/apollo-server";
-import { GET_PORTFOLIO_UPLOAD_URL, GET_SELLER } from "../../../lib/queries";
+import {
+  GET_FEATURED_SELLERS_AND_POSTS,
+  GET_PORTFOLIO_UPLOAD_URL,
+  GET_SELLER,
+} from "../../../lib/queries";
 import { getSEO } from "../../../constants/seo";
 import { convertToAbbreviation } from "../../../lib/utils";
 import Schema from "../../components/schema";
@@ -31,12 +35,12 @@ export interface ProfilePage {
 
 export const dynamicParams = true;
 
-// export async function generateStaticParams() {
-//   const { sellers } = await queryGQL(GET_FEATURED_SELLERS_AND_POSTS);
-//   return sellers.map(({ username }) => ({
-//     username,
-//   }));
-// }
+export async function generateStaticParams() {
+  const { sellers } = await queryGQL(GET_FEATURED_SELLERS_AND_POSTS);
+  return sellers.map(({ username }) => ({
+    username,
+  }));
+}
 
 export async function generateMetadata({
   params,
