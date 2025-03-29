@@ -1,24 +1,30 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { eq, like } from "drizzle-orm";
-import { db } from "../lib/db";
 import {
   LocationTable,
   PricingTable,
   UserTable,
 } from "@graphql/types/User/db/schema";
-import { deleteImage } from "../lib/storage/aws-s3";
 import { InstagramDetails } from "@graphql/types/Instagram/db/schema";
 import { ApplicationTable } from "@graphql/types/Application/db/schema";
 import { InstagramMediaTable } from "@graphql/types/Instagram/db/schema2";
 import { RequestTable } from "@graphql/types/Request/db/schema";
 import { PortfolioTable } from "@graphql/types/Portfolio/db/schema";
 import { ReviewTable } from "@graphql/types/Review/db/schema";
+import { deleteImage } from "../lib/storage/aws-s3";
+import { db } from "../lib/db";
 
-export const GET = async () => {
+export const GET = async (req: NextRequest) => {
+  const email = req.nextUrl.searchParams.get("email");
+
   const users = await db
     .select()
     .from(UserTable)
-    .where(like(UserTable.email, "test%@gmail.com"));
+    .where(
+      email?.startsWith("test") && email.endsWith("@sociocube.com")
+        ? eq(UserTable.email, email)
+        : like(UserTable.email, "test%@sociocube.com"),
+    );
   for (const { id } of users) {
     await db
       .delete(InstagramMediaTable)
