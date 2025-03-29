@@ -27,5 +27,6 @@ jobs:
       - name: Cypress tests 🧪
         uses: cypress-io/github-action@v6
         with:
+          install: true
           start: pnpm start
           command: pnpm test-ci
