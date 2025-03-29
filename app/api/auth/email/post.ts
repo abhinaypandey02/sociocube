@@ -1,18 +1,15 @@
 import { hash } from "bcrypt";
 import { eq } from "drizzle-orm";
+import { UserTable } from "@graphql/types/User/db/schema";
+import { createUser, getUser } from "@graphql/types/User/db/utils";
+import { getVerificationLink } from "@graphql/types/Request/resolvers/mutation/send-verification-email";
 import {
   generateAccessToken,
+  generateRefreshToken,
   getTokenizedResponse,
 } from "../../lib/auth/token";
 import { ErrorResponses } from "../../lib/auth/error-responses";
-import { UserTable } from "@graphql/types/User/db/schema";
-import {
-  createUser,
-  getUser,
-  updateRefreshTokenAndScope,
-} from "@graphql/types/User/db/utils";
 import { sendTemplateEmail } from "../../lib/email/template";
-import { getVerificationLink } from "@graphql/types/Request/resolvers/mutation/send-verification-email";
 import { verifyCaptcha } from "./utils";
 
 export const POST = async (req: Request) => {
@@ -33,7 +30,6 @@ export const POST = async (req: Request) => {
   const encryptedPassword = await hash(body.password, 10);
   const newUser = await createUser({
     ...body,
-    refreshTokens: [],
     password: encryptedPassword,
   });
 
@@ -44,8 +40,10 @@ export const POST = async (req: Request) => {
         firstName: body.name.split(" ")[0] || "",
         verifyLink: link,
       });
-    const refreshToken = await updateRefreshTokenAndScope(newUser.id, []);
-    return getTokenizedResponse(generateAccessToken(newUser.id), refreshToken);
+    return getTokenizedResponse(
+      generateAccessToken(newUser.id),
+      generateRefreshToken(newUser.id),
+    );
   }
   return getTokenizedResponse();
 };

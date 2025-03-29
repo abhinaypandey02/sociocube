@@ -48,7 +48,6 @@ export const UserTable = pgTable(
     password: text("password"),
     phone: text("phone"),
     photo: text("photo"),
-    refreshTokens: text("refresh_tokens").array(),
     role: rolesEnum("role").default(Roles.Creator).notNull(),
     stripeSubscriptionID: text("stripe_subscription_id"),
     location: integer("location").references(() => LocationTable.id),

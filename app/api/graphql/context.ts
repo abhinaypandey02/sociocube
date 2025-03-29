@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import type { AuthChecker } from "type-graphql";
 import { eq } from "drizzle-orm";
 import { verify } from "jsonwebtoken";
-import { checkRefreshToken } from "../auth/email/get";
+import { getUserIdFromRefreshToken } from "@backend/lib/auth/token";
 import { getUser } from "./types/User/db/utils";
 import { UserTable } from "./types/User/db/schema";
 
@@ -15,9 +15,10 @@ export interface AuthorizedContext {
   onlyQuery?: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/require-await -- for graphql server
 export async function context(req: NextRequest): Promise<Context> {
   const refresh = req.cookies.get("refresh")?.value;
-  const userId = await checkRefreshToken(refresh);
+  const userId = getUserIdFromRefreshToken(refresh);
   if (userId) return { userId, onlyQuery: true };
   const bearer = req.headers.get("authorization");
   if (bearer && process.env.SIGNING_KEY) {

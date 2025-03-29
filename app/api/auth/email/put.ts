@@ -1,15 +1,13 @@
 import { compare } from "bcrypt";
 import { eq } from "drizzle-orm";
+import { UserTable } from "@graphql/types/User/db/schema";
+import { getUser } from "@graphql/types/User/db/utils";
 import {
   generateAccessToken,
+  generateRefreshToken,
   getTokenizedResponse,
 } from "../../lib/auth/token";
 import { ErrorResponses } from "../../lib/auth/error-responses";
-import { UserTable } from "@graphql/types/User/db/schema";
-import {
-  getUser,
-  updateRefreshTokenAndScope,
-} from "@graphql/types/User/db/utils";
 import { verifyCaptcha } from "./utils";
 
 export const PUT = async (req: Request) => {
@@ -31,11 +29,10 @@ export const PUT = async (req: Request) => {
     user.email &&
     (await compare(body.password, user.password))
   ) {
-    const refreshToken = await updateRefreshTokenAndScope(
-      user.id,
-      user.refreshTokens,
+    return getTokenizedResponse(
+      generateAccessToken(user.id),
+      generateRefreshToken(user.id),
     );
-    return getTokenizedResponse(generateAccessToken(user.id), refreshToken);
   }
   return ErrorResponses.wrongCredentials;
 };

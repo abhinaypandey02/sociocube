@@ -55,10 +55,7 @@ const server = new ApolloServer({
   status400ForVariableCoercionErrors: true,
 });
 const handler = startServerAndCreateNextHandler(server, {
-  context: (req: NextRequest) =>
-    new Promise((resolve) => {
-      resolve(context(req));
-    }),
+  context,
 });
 
 export async function GET(request: NextRequest) {

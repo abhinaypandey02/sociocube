@@ -3,12 +3,10 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { v4 } from "uuid";
-import {
-  createUser,
-  getUser,
-  updateRefreshTokenAndScope,
-} from "@graphql/types/User/db/utils";
+import { createUser } from "@graphql/types/User/db/utils";
 import { UserTable } from "@graphql/types/User/db/schema";
+import { generateRefreshToken } from "@backend/lib/auth/token";
+import { db } from "@backend/lib/db";
 import { getRoute } from "../../../../constants/routes";
 import { oauth2Client } from "./google-oauth";
 
@@ -59,23 +57,24 @@ export const GET = async (req: NextRequest) => {
 
     const user = userInfoRequest.data;
     if (user.email) {
-      const existingUser = await getUser(eq(UserTable.email, user.email));
+      const [existingUser] = await db
+        .update(UserTable)
+        .set({ emailVerified: true })
+        .where(eq(UserTable.email, user.email))
+        .returning({
+          id: UserTable.id,
+        });
       let refreshToken;
       if (existingUser) {
-        refreshToken = await updateRefreshTokenAndScope(
-          existingUser.id,
-          existingUser.refreshTokens,
-          { emailVerified: true },
-        );
+        refreshToken = generateRefreshToken(existingUser.id);
       } else if (user.name) {
         const newUser = await createUser({
           email: user.email,
           name: user.name,
-          refreshTokens: [],
           emailVerified: true,
         });
         if (newUser) {
-          refreshToken = await updateRefreshTokenAndScope(newUser.id, []);
+          refreshToken = generateRefreshToken(newUser.id);
         }
       }
 
