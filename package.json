@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000",
+    "dev": "next dev & drizzle-kit studio",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -11,7 +11,9 @@
     "watch": "graphql-codegen -w",
     "test": "cypress open",
     "test-ci": "cypress run",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "push-schema": "drizzle-kit push",
+    "db-studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
