@@ -23,8 +23,8 @@ jobs:
       - name: Install packages
         run: pnpm install --frozen-lockfile
       - name: Build apps
-        run: pnpm build
-      - run: pnpm test-ci
+        run: pnpm build --experimental-build-mode=compile
+      - run: pnpm prepare-ci
       - name: Cypress tests 🧪
         uses: cypress-io/github-action@v6
         with:

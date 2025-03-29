@@ -10,7 +10,7 @@
     "compile": "graphql-codegen",
     "watch": "graphql-codegen -w",
     "test": "cypress open",
-    "test-ci": "cypress install",
+    "prepare-ci": "cypress install",
     "tsc": "tsc",
     "push-schema": "drizzle-kit push",
     "db-studio": "drizzle-kit studio"
