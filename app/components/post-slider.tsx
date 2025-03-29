@@ -29,11 +29,7 @@ function PostSlide({
   const videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     if (active) {
-      try {
-        void videoRef.current?.play();
-      } catch (e) {
-        /* empty */
-      }
+      void videoRef.current?.play();
     } else {
       videoRef.current?.pause();
     }
