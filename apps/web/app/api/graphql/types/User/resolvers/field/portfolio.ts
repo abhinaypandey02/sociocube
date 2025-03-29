@@ -1,6 +1,6 @@
 import { and, eq, isNull } from "drizzle-orm";
 import type { UserDB } from "../../db/schema";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { PortfolioTable } from "../../../Portfolio/db/schema";
 
 export async function getPortfolio(user: UserDB) {

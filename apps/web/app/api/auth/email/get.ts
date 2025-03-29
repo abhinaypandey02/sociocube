@@ -4,8 +4,8 @@ import {
   generateAccessToken,
   getTokenizedResponse,
   getUserIdFromRefreshToken,
-} from "../../../../lib/auth/token";
-import { ErrorResponses } from "../../../../lib/auth/error-responses";
+} from "../../lib/auth/token";
+import { ErrorResponses } from "../../lib/auth/error-responses";
 import { UserTable } from "../../graphql/types/User/db/schema";
 import { getUser } from "../../graphql/types/User/db/utils";
 

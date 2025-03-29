@@ -5,7 +5,7 @@ import { ApplicationGQL } from "../../type";
 import type { ApplicationDB } from "../../db/schema";
 import { getCurrentUser } from "../../../User/utils";
 import type { UserDB } from "../../../User/db/schema";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { PostingGQL } from "../../../Posting/type";
 import { PostingTable } from "../../../Posting/db/schema";
 

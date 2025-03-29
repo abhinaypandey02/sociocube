@@ -3,15 +3,15 @@ import { eq } from "drizzle-orm";
 import {
   generateAccessToken,
   getTokenizedResponse,
-} from "../../../../lib/auth/token";
-import { ErrorResponses } from "../../../../lib/auth/error-responses";
+} from "../../lib/auth/token";
+import { ErrorResponses } from "../../lib/auth/error-responses";
 import { UserTable } from "../../graphql/types/User/db/schema";
 import {
   createUser,
   getUser,
   updateRefreshTokenAndScope,
 } from "../../graphql/types/User/db/utils";
-import { sendTemplateEmail } from "../../../../lib/email/template";
+import { sendTemplateEmail } from "../../lib/email/template";
 import { getVerificationLink } from "../../graphql/types/Request/resolvers/mutation/send-verification-email";
 import { verifyCaptcha } from "./utils";
 

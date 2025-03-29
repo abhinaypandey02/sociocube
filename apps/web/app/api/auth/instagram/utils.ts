@@ -1,8 +1,4 @@
-export const getInstagramAuthorizationUrl = (
-  state: string,
-  redirectURL: string,
-) =>
-  `https://www.instagram.com/oauth/authorize?client_id=${process.env.INSTAGRAM_CLIENT_ID}&state=${state}&response_type=code&enable_fb_login=0&force_authentication=1&scope=instagram_business_basic&redirect_uri=${redirectURL}`;
+export const INSTAGRAM_AUTHORIZATION_URL = `https://www.instagram.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_INSTAGRAM_CLIENT_ID}&response_type=code&enable_fb_login=0&force_authentication=1&scope=instagram_business_basic&redirect_uri=${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/auth/instagram`;
 
 export const getGraphUrl = (
   path: string,
@@ -32,7 +28,7 @@ export async function getRefreshedAccessToken(token: string) {
 
 export async function getLongLivedToken(code: string, redirectURL: string) {
   const formData = new FormData();
-  formData.set("client_id", process.env.INSTAGRAM_CLIENT_ID || "");
+  formData.set("client_id", process.env.NEXT_PUBLIC_INSTAGRAM_CLIENT_ID || "");
   formData.set("client_secret", process.env.INSTAGRAM_CLIENT_SECRET || "");
   formData.set("grant_type", "authorization_code");
   formData.set("redirect_uri", redirectURL);

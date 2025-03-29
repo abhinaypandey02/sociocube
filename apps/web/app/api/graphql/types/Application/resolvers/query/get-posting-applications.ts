@@ -1,5 +1,5 @@
 import { desc, eq } from "drizzle-orm";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { ApplicationTable } from "../../db/schema";
 import type { AuthorizedContext } from "../../../../context";
 import { checkPermission } from "../../../Posting/utils";

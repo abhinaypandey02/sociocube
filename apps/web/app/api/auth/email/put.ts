@@ -3,8 +3,8 @@ import { eq } from "drizzle-orm";
 import {
   generateAccessToken,
   getTokenizedResponse,
-} from "../../../../lib/auth/token";
-import { ErrorResponses } from "../../../../lib/auth/error-responses";
+} from "../../lib/auth/token";
+import { ErrorResponses } from "../../lib/auth/error-responses";
 import { UserTable } from "../../graphql/types/User/db/schema";
 import {
   getUser,

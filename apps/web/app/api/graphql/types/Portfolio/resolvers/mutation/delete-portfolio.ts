@@ -1,8 +1,8 @@
 import { and, eq, isNotNull, or } from "drizzle-orm";
 import type { AuthorizedContext } from "../../../../context";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { PortfolioTable } from "../../db/schema";
-import { deleteImage } from "../../../../../../../lib/storage/aws-s3";
+import { deleteImage } from "../../../../../lib/storage/aws-s3";
 import GQLError from "../../../../constants/errors";
 import { ReviewTable } from "../../../Review/db/schema";
 

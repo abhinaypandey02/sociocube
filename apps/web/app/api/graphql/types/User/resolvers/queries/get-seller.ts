@@ -1,5 +1,5 @@
 import { and, eq, isNotNull } from "drizzle-orm";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { UserTable } from "../../db/schema";
 
 export async function handleGetSeller(username: string) {

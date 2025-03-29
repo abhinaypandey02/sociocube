@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { PostingTable } from "../../db/schema";
 
 export async function getPosting(id: number) {

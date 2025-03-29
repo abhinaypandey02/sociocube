@@ -7,15 +7,15 @@ import {
 } from "commons/constraints";
 import { v4 } from "uuid";
 import type { AuthorizedContext } from "../../../../context";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { PortfolioTable } from "../../db/schema";
 import GQLError from "../../../../constants/errors";
-import { instagramRapidAPI } from "../../../../../../../lib/rapidapi/instagram";
+import { instagramRapidAPI } from "../../../../../lib/rapidapi/instagram";
 import {
   getFileURL,
   getUploadFileURL,
   uploadImage,
-} from "../../../../../../../lib/storage/aws-s3";
+} from "../../../../../lib/storage/aws-s3";
 
 @InputType("AddPortfolioArgs")
 export class AddPortfolioArgs {

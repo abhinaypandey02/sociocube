@@ -19,7 +19,7 @@ import {
   NAME_MAX_LENGTH,
   USERNAME_MAX_LENGTH,
 } from "commons/constraints";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { PricingTable, UserTable } from "../../db/schema";
 import type { AuthorizedContext } from "../../../../context";
 import { Pricing } from "../../type";

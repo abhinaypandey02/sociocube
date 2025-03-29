@@ -44,7 +44,7 @@ export default function AuthLayout({
                 </div>
               </div>
 
-              <SocialBar redirectURL={redirectURL} />
+              <SocialBar />
             </div>
           ) : null}
         </div>

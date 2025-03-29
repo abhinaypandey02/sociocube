@@ -3,7 +3,6 @@ import React from "react";
 import { Button } from "ui/button";
 import { useRouter } from "next/navigation";
 import { handleGQLErrors, useAuthMutation } from "../../../lib/apollo-client";
-import { Route } from "../../../constants/routes";
 import { DISCONNECT_INSTAGRAM } from "../../../lib/mutations";
 import ContentTemplate from "./content-template";
 import type { AccountSectionData } from "./account-view";
@@ -27,11 +26,7 @@ export default function ConnectionsSection({
               value: data.instagramStats?.isVerified
                 ? "Connected"
                 : "Not connected",
-              editComponent: !data.instagramStats?.isVerified ? (
-                <a href={`/_auth/instagram?redirectURL=${Route.Account}`}>
-                  <Button>Connect</Button>
-                </a>
-              ) : (
+              editComponent: !data.instagramStats?.isVerified ? null : (
                 <Button
                   disabled={Boolean(called)}
                   onClick={() => {

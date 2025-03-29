@@ -32,7 +32,3 @@ export const getUsernameInputRules = (
     },
   },
 });
-
-export function getInstagramVerifyURL() {
-  return `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/instagram`;
-}

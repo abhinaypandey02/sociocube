@@ -69,8 +69,6 @@ export function getUserIdFromAccessToken(refreshToken?: string): number | null {
   return null;
 }
 
-export const BASE_REDIRECT_URI = `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/_auth/token`;
-
 interface ParamState {
   token: string | null;
   csrfToken: string | null;

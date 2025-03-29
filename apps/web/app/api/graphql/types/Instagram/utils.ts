@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import type { UserDB } from "../User/db/schema";
-import { db } from "../../../../../lib/db";
-import { uploadImage } from "../../../../../lib/storage/aws-s3";
+import { db } from "../../../lib/db";
+import { uploadImage } from "../../../lib/storage/aws-s3";
 import { median, normaliseDigits } from "../../utils/math";
 import { InstagramDetails } from "./db/schema";
 import type {

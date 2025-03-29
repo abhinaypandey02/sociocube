@@ -4,7 +4,6 @@ import {
   InMemoryCache,
   type OperationVariables,
 } from "@apollo/client";
-import type { PreloadQueryProps } from "@apollo/experimental-nextjs-app-support";
 import { registerApolloClient } from "@apollo/experimental-nextjs-app-support";
 import type { GraphQLFormattedError } from "graphql/error";
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
@@ -19,7 +18,7 @@ export const { query, PreloadQuery: PreloadQueryInternal } =
     return new ApolloClient({
       cache: new InMemoryCache(),
       link: new HttpLink({
-        uri: `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/graphql`,
+        uri: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/graphql`,
         credentials: "include",
       }),
     });
@@ -60,36 +59,6 @@ async function InjectorSuspensed<T, Y>({
     <Suspense fallback={<Component loading {...((props || {}) as Y)} />}>
       <Component loading={false} {...((props || {}) as Y)} data={data} />
     </Suspense>
-  );
-}
-
-export async function PreloadQuery<
-  TData,
-  TVariables extends OperationVariables,
->(
-  props: PreloadQueryProps<TData, TVariables> & {
-    revalidate?: number;
-    sendCookies?: boolean;
-  },
-) {
-  return (
-    <PreloadQueryInternal
-      context={{
-        headers: {
-          Cookie: props.sendCookies ? await cookies() : undefined,
-        },
-        fetchOptions: {
-          cache:
-            props.revalidate === undefined && !props.sendCookies
-              ? "force-cache"
-              : undefined,
-          next: {
-            revalidate: props.revalidate,
-          },
-        },
-      }}
-      {...props}
-    />
   );
 }
 

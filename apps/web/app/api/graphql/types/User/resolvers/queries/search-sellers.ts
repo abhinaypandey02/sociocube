@@ -16,7 +16,7 @@ import categories from "commons/categories";
 import genders from "commons/genders";
 import { AGE_RANGES } from "commons/age";
 import { NAME_MAX_LENGTH } from "commons/constraints";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { LocationTable, PricingTable, UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 

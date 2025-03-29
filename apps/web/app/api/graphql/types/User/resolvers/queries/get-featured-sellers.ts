@@ -6,7 +6,7 @@ import {
   inArray,
   isNotNull,
 } from "drizzle-orm";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 

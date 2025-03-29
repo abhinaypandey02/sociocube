@@ -1,9 +1,9 @@
 import { and, eq } from "drizzle-orm";
 import { getConversationChannelName, NEW_MESSAGE } from "config/events";
 import type { AuthorizedContext } from "../../../../context";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { ConversationMessageTable, ConversationTable } from "../../db/schema";
-import { sendEvent } from "../../../../../../../lib/socket/send-event";
+import { sendEvent } from "../../../../../lib/socket/send-event";
 import GQLError from "../../../../constants/errors";
 
 export async function handleSendMessage(

@@ -1,7 +1,7 @@
 import { and, eq, isNotNull, lte, or } from "drizzle-orm";
 import type { UserDB } from "../../db/schema";
 import { UserTable } from "../../db/schema";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { ReviewTable } from "../../../Review/db/schema";
 import { getReviewDeadline } from "../../../Review/utils";
 

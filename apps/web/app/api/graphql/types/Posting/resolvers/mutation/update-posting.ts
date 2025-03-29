@@ -3,7 +3,7 @@ import { IsEnum, MaxLength } from "class-validator";
 import { eq } from "drizzle-orm";
 import { BIO_MAX_LENGTH, POSTING_BIO_MAX_LENGTH } from "commons/constraints";
 import type { PostgresError } from "postgres";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { PostingTable } from "../../db/schema";
 import type { AuthorizedContext } from "../../../../context";
 import { PostingPlatforms } from "../../../../constants/platforms";

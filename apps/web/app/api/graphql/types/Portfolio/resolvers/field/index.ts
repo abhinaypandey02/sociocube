@@ -2,7 +2,7 @@ import { FieldResolver, Resolver, Root } from "type-graphql";
 import { and, eq, isNotNull } from "drizzle-orm";
 import { PortfolioGQL } from "../../type";
 import type { PortfolioDB } from "../../db/schema";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import type { ReviewDB } from "../../../Review/db/schema";
 import { ReviewTable } from "../../../Review/db/schema";
 import { ReviewGQL } from "../../../Review/type";

@@ -7,7 +7,7 @@ import {
 } from "commons/constraints";
 import { and, eq, gte } from "drizzle-orm";
 import type { PostgresError } from "postgres";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { PostingTable } from "../../db/schema";
 import type { AuthorizedContext } from "../../../../context";
 import { PostingPlatforms } from "../../../../constants/platforms";

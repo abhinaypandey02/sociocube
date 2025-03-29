@@ -1,7 +1,7 @@
 import { Arg, Ctx, FieldResolver, Resolver, Root } from "type-graphql";
 import { desc, eq } from "drizzle-orm";
 import { ConversationGQL, MessageGQL } from "../type";
-import { db } from "../../../../../../lib/db";
+import { db } from "../../../../lib/db";
 import { UserGQL } from "../../User/type";
 import { getUser } from "../../User/db/utils";
 import { UserTable } from "../../User/db/schema";

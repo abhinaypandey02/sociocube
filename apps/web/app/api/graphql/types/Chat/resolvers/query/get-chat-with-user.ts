@@ -1,6 +1,6 @@
 import { and, eq, getTableColumns } from "drizzle-orm";
 import type { AuthorizedContext } from "../../../../context";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import type { ConversationDB } from "../../db/schema";
 import { ConversationTable } from "../../db/schema";
 import { UserTable } from "../../../User/db/schema";

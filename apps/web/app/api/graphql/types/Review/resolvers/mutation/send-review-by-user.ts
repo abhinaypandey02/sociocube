@@ -3,7 +3,7 @@ import { Field, InputType } from "type-graphql";
 import { IsUrl, MaxLength, Min } from "class-validator";
 import { PORTFOLIO_CAPTION_MAX_LENGTH } from "commons/constraints";
 import type { AuthorizedContext } from "../../../../context";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { ReviewTable } from "../../db/schema";
 import { getReviewDeadline } from "../../utils";
 import { addPortfolio } from "../../../Portfolio/resolvers/mutation/add-portfolio";

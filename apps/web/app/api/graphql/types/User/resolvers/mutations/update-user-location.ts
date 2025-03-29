@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { Field, InputType } from "type-graphql";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { LocationTable, UserTable } from "../../db/schema";
 import type { AuthorizedContext } from "../../../../context";
 import { getCurrentUser } from "../../utils";

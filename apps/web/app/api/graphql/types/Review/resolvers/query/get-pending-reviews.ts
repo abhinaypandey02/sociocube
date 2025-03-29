@@ -1,5 +1,5 @@
 import { and, eq, gt, isNull } from "drizzle-orm";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { ReviewTable } from "../../db/schema";
 import type { AuthorizedContext } from "../../../../context";
 import { getReviewDeadline } from "../../utils";

@@ -1,6 +1,6 @@
 import { and, eq, or } from "drizzle-orm";
 import type { AuthorizedContext } from "../../../../context";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import { ConversationMessageTable, ConversationTable } from "../../db/schema";
 
 export async function handleReadMessage(

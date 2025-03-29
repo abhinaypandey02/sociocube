@@ -1,8 +1,8 @@
 import type { SQL } from "drizzle-orm";
 import { eq } from "drizzle-orm";
-import { generateRefreshToken } from "../../../../../../lib/auth/token";
-import type { DBTransaction } from "../../../../../../lib/db";
-import { db } from "../../../../../../lib/db";
+import { generateRefreshToken } from "../../../../lib/auth/token";
+import type { DBTransaction } from "../../../../lib/db";
+import { db } from "../../../../lib/db";
 import type { UserDB, UserDBInsert } from "./schema";
 import { UserTable } from "./schema";
 

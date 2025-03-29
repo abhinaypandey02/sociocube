@@ -2,18 +2,14 @@ import { google } from "googleapis";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
+import { v4 } from "uuid";
 import {
   createUser,
   getUser,
   updateRefreshTokenAndScope,
 } from "../../graphql/types/User/db/utils";
-import {
-  BASE_REDIRECT_URI,
-  createState,
-  getState,
-  getUserIdFromRefreshToken,
-} from "../../../../lib/auth/token";
 import { UserTable } from "../../graphql/types/User/db/schema";
+import { getRoute } from "../../../../constants/routes";
 import { oauth2Client } from "./google-oauth";
 
 function errorResponse(redirectURL: string | null) {
@@ -24,31 +20,33 @@ function errorResponse(redirectURL: string | null) {
 export const GET = async (req: NextRequest) => {
   const code = req.nextUrl.searchParams.get("code");
   const error = req.nextUrl.searchParams.get("error");
-  const initialCsrfToken =
-    req.nextUrl.searchParams.get("csrf_token") || undefined;
-  const state = req.nextUrl.searchParams.get("state") || undefined;
-  const redirectURL = req.nextUrl.searchParams.get("redirectURL");
-  const initialRefresh = req.nextUrl.searchParams.get("refresh");
 
-  if (!code && !error && initialRefresh && initialCsrfToken) {
+  if (!code && !error) {
+    const state = v4();
     const authorizationUrl = oauth2Client.generateAuthUrl({
       scope: [
         "https://www.googleapis.com/auth/userinfo.profile",
         "https://www.googleapis.com/auth/userinfo.email",
       ],
-      state: createState({
-        csrfToken: initialCsrfToken,
-        token: initialRefresh,
-      }),
+      state,
       include_granted_scopes: true,
       prompt: "consent",
-      redirect_uri: `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/google`,
+      redirect_uri: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/auth/google`,
     });
-    return NextResponse.redirect(authorizationUrl);
-  } else if (error) {
-    return errorResponse(redirectURL);
-  } else if (code && state) {
-    const { token, csrfToken } = getState(state);
+    const res = NextResponse.redirect(authorizationUrl);
+    res.cookies.set("state", state, {
+      httpOnly: true,
+      secure: true,
+    });
+    return res;
+  }
+  if (error) {
+    return errorResponse(getRoute("SignUp"));
+  }
+  const state = req.nextUrl.searchParams.get("state") || undefined;
+  if (code && state) {
+    const localState = req.cookies.get("state")?.value;
+    if (localState !== state) return errorResponse(getRoute("SignUp"));
     const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
 
@@ -60,28 +58,15 @@ export const GET = async (req: NextRequest) => {
       .userinfo.get();
 
     const user = userInfoRequest.data;
-    if (user.email && token) {
-      const loggedInUserID = getUserIdFromRefreshToken(token);
+    if (user.email) {
       const existingUser = await getUser(eq(UserTable.email, user.email));
       let refreshToken;
-      if (existingUser && loggedInUserID) {
-        return NextResponse.redirect(
-          `${BASE_REDIRECT_URI}?error=Can't merge account, as it's already being used`,
-        );
-      } else if (existingUser) {
+      if (existingUser) {
         refreshToken = await updateRefreshTokenAndScope(
           existingUser.id,
           existingUser.refreshTokens,
           { emailVerified: true },
         );
-      } else if (loggedInUserID) {
-        const loggedInUser = await getUser(eq(UserTable.id, loggedInUserID));
-        if (loggedInUser) {
-          refreshToken = await updateRefreshTokenAndScope(
-            loggedInUser.id,
-            loggedInUser.refreshTokens,
-          );
-        }
       } else if (user.name) {
         const newUser = await createUser({
           email: user.email,
@@ -93,10 +78,20 @@ export const GET = async (req: NextRequest) => {
           refreshToken = await updateRefreshTokenAndScope(newUser.id, []);
         }
       }
-      return NextResponse.redirect(
-        `${BASE_REDIRECT_URI}?refresh=${refreshToken}&csrf_token=${csrfToken}`,
-      );
+
+      const res = NextResponse.redirect(getRoute("Home"));
+      if (refreshToken)
+        res.cookies.set("refresh", refreshToken, {
+          httpOnly: true,
+          secure: true,
+        });
+      res.cookies.set("state", "", {
+        httpOnly: true,
+        secure: true,
+        maxAge: 0,
+      });
+      return res;
     }
   }
-  return errorResponse(redirectURL);
+  return errorResponse(getRoute("SignUp"));
 };

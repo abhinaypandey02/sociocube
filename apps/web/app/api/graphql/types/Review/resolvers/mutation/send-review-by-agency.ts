@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { Field, InputType } from "type-graphql";
 import { Min } from "class-validator";
 import type { AuthorizedContext } from "../../../../context";
-import { db } from "../../../../../../../lib/db";
+import { db } from "../../../../../lib/db";
 import GQLError from "../../../../constants/errors";
 import {
   ApplicationStatus,
