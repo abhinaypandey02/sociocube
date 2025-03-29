@@ -1,7 +1,7 @@
 import { and, eq, gt, isNull } from "drizzle-orm";
 import { Field, InputType } from "type-graphql";
 import { IsUrl, MaxLength, Min } from "class-validator";
-import { PORTFOLIO_CAPTION_MAX_LENGTH } from "commons/constraints";
+import { PORTFOLIO_CAPTION_MAX_LENGTH } from "@/constants/constraints";
 import type { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../lib/db";
 import { ReviewTable } from "../../db/schema";

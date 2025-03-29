@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { MAX_CAMPAIGNS } from "commons/constraints";
+import { MAX_CAMPAIGNS } from "@/constants/constraints";
 import type {
   GetPortfolioUploadUrlQuery,
   GetSellerQuery,

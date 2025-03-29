@@ -1,7 +1,7 @@
 import React from "react";
-import { getAge } from "commons/age";
 import writeXlsxFile from "write-excel-file";
 import { DownloadSimple } from "@phosphor-icons/react";
+import { getAge } from "@/constants/age";
 import type { GetPostingApplicationsQuery } from "../../../../../__generated__/graphql";
 import { getRoute } from "../../../../../constants/routes";
 import { getStatusName } from "../utils";

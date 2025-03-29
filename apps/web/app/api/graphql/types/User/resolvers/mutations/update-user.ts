@@ -10,15 +10,15 @@ import {
   Matches,
   MaxLength,
 } from "class-validator";
-import categories from "commons/categories";
-import genders from "commons/genders";
-import { getAge, MAX_AGE, MIN_AGE } from "commons/age";
-import { USERNAME_REGEX } from "commons/regex";
+import categories from "@/constants/categories";
+import genders from "@/constants/genders";
+import { getAge, MAX_AGE, MIN_AGE } from "@/constants/age";
+import { USERNAME_REGEX } from "@/constants/regex";
 import {
   BIO_MAX_LENGTH,
   NAME_MAX_LENGTH,
   USERNAME_MAX_LENGTH,
-} from "commons/constraints";
+} from "@/constants/constraints";
 import { db } from "../../../../../lib/db";
 import { PricingTable, UserTable } from "../../db/schema";
 import type { AuthorizedContext } from "../../../../context";

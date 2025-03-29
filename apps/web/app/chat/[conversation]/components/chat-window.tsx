@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Pusher from "pusher-js";
-import { getConversationChannelName, NEW_MESSAGE } from "config/events";
+import { getConversationChannelName, NEW_MESSAGE } from "@backend/pusher/utils";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import type {

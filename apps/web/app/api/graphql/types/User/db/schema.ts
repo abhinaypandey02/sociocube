@@ -10,9 +10,9 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import categories from "commons/categories";
-import genders from "commons/genders";
 import { sql } from "drizzle-orm";
+import categories from "@/constants/categories";
+import genders from "@/constants/genders";
 import { Roles } from "../../../constants/roles";
 import { InstagramDetails } from "../../Instagram/db/schema";
 import { CityTable, CountryTable, StateTable } from "../../Map/db/schema";

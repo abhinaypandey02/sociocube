@@ -9,7 +9,7 @@ import {
   BIO_MAX_LENGTH,
   NAME_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
-} from "commons/constraints";
+} from "@/constants/constraints";
 import Form from "@/components/form";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";

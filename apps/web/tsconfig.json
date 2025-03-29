@@ -1,5 +1,4 @@
 {
-  "extends": "config/tsconfig.json",
   "include": [
     "next-env.d.ts",
     "**/*.ts",
@@ -7,6 +6,25 @@
     ".next/types/**/*.ts"
   ],
   "compilerOptions": {
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "noEmit": true,
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable"
+    ],
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "allowJs": true,
     "strictPropertyInitialization": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -27,5 +45,8 @@
         "name": "next"
       }
     ]
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

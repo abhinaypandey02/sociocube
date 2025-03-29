@@ -3,7 +3,6 @@ import React, { useCallback, useState } from "react";
 import type { CellContext } from "@tanstack/react-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
-import { getAge } from "commons/age";
 import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import {
   ChatCircleDots,
@@ -14,6 +13,7 @@ import {
 import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { getAge } from "@/constants/age";
 import Table from "@/components/table";
 import type { GetPostingApplicationsQuery } from "../../../../../__generated__/graphql";
 import { ApplicationStatus } from "../../../../../__generated__/graphql";

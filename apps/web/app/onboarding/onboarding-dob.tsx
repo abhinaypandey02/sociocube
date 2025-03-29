@@ -2,7 +2,7 @@
 import React from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { getAgeRange } from "commons/age";
+import { getAgeRange } from "@/constants/age";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import Form from "@/components/form";

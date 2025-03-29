@@ -1,5 +1,5 @@
 import { and, eq } from "drizzle-orm";
-import { getConversationChannelName, NEW_MESSAGE } from "config/events";
+import { getConversationChannelName, NEW_MESSAGE } from "@backend/pusher/utils";
 import type { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../lib/db";
 import { ConversationMessageTable, ConversationTable } from "../../db/schema";

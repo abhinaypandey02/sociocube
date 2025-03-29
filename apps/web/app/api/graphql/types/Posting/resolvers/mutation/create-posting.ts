@@ -1,12 +1,12 @@
 import { Field, InputType, Int } from "type-graphql";
 import { IsEnum, MaxLength } from "class-validator";
+import { and, eq, gte } from "drizzle-orm";
+import type { PostgresError } from "postgres";
 import {
   BIO_MAX_LENGTH,
   NAME_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
-} from "commons/constraints";
-import { and, eq, gte } from "drizzle-orm";
-import type { PostgresError } from "postgres";
+} from "@/constants/constraints";
 import { db } from "../../../../../lib/db";
 import { PostingTable } from "../../db/schema";
 import type { AuthorizedContext } from "../../../../context";

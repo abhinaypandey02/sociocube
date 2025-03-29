@@ -1,9 +1,7 @@
 import { and, eq } from "drizzle-orm";
-import { getConversationChannelName, NEW_MESSAGE } from "config/events";
 import { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../../lib/db";
 import { ConversationMessageTable, ConversationTable } from "../../db/schema";
-import { sendEvent } from "../../../../../../lib/socket/send-event";
 import GQLError from "../../../../constants/errors";
 
 export async function handleSendMessage(
@@ -25,10 +23,6 @@ export async function handleSendMessage(
     byAgency: Boolean(conversation.agency === ctx.userId),
   };
   await db.insert(ConversationMessageTable).values(message);
-  void sendEvent(
-    getConversationChannelName(conversationID),
-    NEW_MESSAGE,
-    message,
-  );
+
   return true;
 }

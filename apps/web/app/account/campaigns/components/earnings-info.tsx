@@ -1,5 +1,5 @@
 import React from "react";
-import { REFERRAL_RATES } from "commons/referral";
+import { REFERRAL_RATES } from "@/constants/referral";
 
 export default function EarningsInfo({
   title,

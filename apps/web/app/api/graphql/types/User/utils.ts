@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { USERNAME_REGEX } from "commons/regex";
+import { USERNAME_REGEX } from "@/constants/regex";
 import type { Context } from "../../context";
 import { UserTable } from "./db/schema";
 import { getUser } from "./db/utils";

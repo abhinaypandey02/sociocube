@@ -1,8 +1,8 @@
 "use client";
 import type { ChangeEvent, LegacyRef } from "react";
 import React from "react";
-import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "commons/file";
 import { toast } from "react-hot-toast";
+import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "@/constants/file";
 import { getProperSizedGif } from "./utils";
 
 export default function PortfolioImageHandler({

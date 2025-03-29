@@ -1,4 +1,4 @@
-import { getAge, MAX_AGE, MIN_AGE } from "commons/age";
+import { getAge, MAX_AGE, MIN_AGE } from "@/constants/age";
 
 export const EMAIL_REGEX = /^[^@]+@[^@]+\.[^@]+$/;
 

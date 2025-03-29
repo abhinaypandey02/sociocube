@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
-import { getAge } from "commons/age";
 import { ArgsType, Field } from "type-graphql";
 import { IsEmail, IsNumberString, MaxLength } from "class-validator";
+import { getAge } from "@/constants/age";
 import type { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../lib/db";
 import { ApplicationTable } from "../../db/schema";

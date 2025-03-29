@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { AGE_RANGES } from "commons/age";
+import { AGE_RANGES } from "@/constants/age";
 import { Input } from "@/components/input";
 import type { SearchSellersFilters } from "../../../__generated__/graphql";
 

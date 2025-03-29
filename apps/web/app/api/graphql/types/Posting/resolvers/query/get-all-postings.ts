@@ -13,7 +13,7 @@ import {
 } from "drizzle-orm";
 import { Field, InputType, registerEnumType } from "type-graphql";
 import { MaxLength } from "class-validator";
-import { NAME_MAX_LENGTH, USERNAME_MAX_LENGTH } from "commons/constraints";
+import { NAME_MAX_LENGTH, USERNAME_MAX_LENGTH } from "@/constants/constraints";
 import { PostingTable } from "../../db/schema";
 import { db } from "../../../../../lib/db";
 import { PostingPlatforms } from "../../../../constants/platforms";

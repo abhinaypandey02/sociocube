@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import genders from "commons/genders";
+import genders from "@/constants/genders";
 import { Input } from "@/components/input";
 import type { SearchSellersFilters } from "../../../__generated__/graphql";
 import TagsDisplay from "./tags-display";

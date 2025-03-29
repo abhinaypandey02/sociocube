@@ -2,9 +2,9 @@
 import type { ReactNode } from "react";
 import React, { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { getAge } from "commons/age";
 import Link from "next/link";
 import { Pencil, ShareNetwork } from "@phosphor-icons/react";
+import { getAge } from "@/constants/age";
 import Form from "@/components/form";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";

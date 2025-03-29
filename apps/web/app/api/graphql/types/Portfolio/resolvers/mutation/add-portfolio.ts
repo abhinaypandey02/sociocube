@@ -1,11 +1,11 @@
 import { and, count, eq, isNotNull, isNull } from "drizzle-orm";
 import { Field, InputType } from "type-graphql";
 import { IsUrl, MaxLength } from "class-validator";
+import { v4 } from "uuid";
 import {
   MAX_CAMPAIGNS,
   PORTFOLIO_CAPTION_MAX_LENGTH,
-} from "commons/constraints";
-import { v4 } from "uuid";
+} from "@/constants/constraints";
 import type { AuthorizedContext } from "../../../../context";
 import { db } from "../../../../../lib/db";
 import { PortfolioTable } from "../../db/schema";

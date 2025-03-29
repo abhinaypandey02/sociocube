@@ -12,10 +12,10 @@ import {
 } from "drizzle-orm";
 import { Field, InputType, Int, registerEnumType } from "type-graphql";
 import { IsIn, Max, MaxLength, Min } from "class-validator";
-import categories from "commons/categories";
-import genders from "commons/genders";
-import { AGE_RANGES } from "commons/age";
-import { NAME_MAX_LENGTH } from "commons/constraints";
+import categories from "@/constants/categories";
+import genders from "@/constants/genders";
+import { AGE_RANGES } from "@/constants/age";
+import { NAME_MAX_LENGTH } from "@/constants/constraints";
 import { db } from "../../../../../lib/db";
 import { LocationTable, PricingTable, UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";

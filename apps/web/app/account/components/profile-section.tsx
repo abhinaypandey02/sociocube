@@ -1,7 +1,7 @@
 import React, { type ChangeEvent, useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import categories from "commons/categories";
-import genders from "commons/genders";
+import categories from "@/constants/categories";
+import genders from "@/constants/genders";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import Form from "@/components/form";

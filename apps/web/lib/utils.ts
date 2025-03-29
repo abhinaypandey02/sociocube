@@ -1,5 +1,5 @@
-import { USERNAME_REGEX } from "commons/regex";
-import { USERNAME_MAX_LENGTH } from "commons/constraints";
+import { USERNAME_REGEX } from "@/constants/regex";
+import { USERNAME_MAX_LENGTH } from "@/constants/constraints";
 
 export function convertToAbbreviation(number: number) {
   // Create a new Intl.NumberFormat object with options
