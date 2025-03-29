@@ -1,6 +1,6 @@
 // PrivacyPolicy.js
 import React from "react";
-import { getSEO } from "../../constants/seo";
+import { getSEO } from "@/constants/seo";
 
 function PrivacyPolicy() {
   return (

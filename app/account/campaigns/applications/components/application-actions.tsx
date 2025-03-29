@@ -10,16 +10,16 @@ import { Button } from "@/components/button";
 import {
   ApplicationStatus,
   type GetPostingApplicationsQuery,
-} from "../../../../../__generated__/graphql";
+} from "@/__generated__/graphql";
 import {
   handleGQLErrors,
   useAuthMutation,
-} from "../../../../../lib/apollo-client";
+} from "@/lib/apollo-client";
 import {
   LIKE_APPLICATION,
   REJECT_APPLICATION,
   SEND_REVIEW_BY_AGENCY,
-} from "../../../../../lib/mutations";
+} from "@/lib/mutations";
 import Modal from "../../../../../components/modal";
 
 export default function ApplicationActions({

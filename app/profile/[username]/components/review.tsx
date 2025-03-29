@@ -7,8 +7,8 @@ import classNames from "classnames";
 import type {
   GetCurrentUserQuery,
   GetSellerQuery,
-} from "../../../../__generated__/graphql";
-import { getRoute } from "../../../../constants/routes";
+} from "@/__generated__/graphql";
+import { getRoute } from "@/constants/routes";
 import LinkWrapper from "../../../../components/link-wrapper";
 import DeletePortfolioButton from "./delete-portfolio-button";
 

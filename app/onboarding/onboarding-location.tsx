@@ -9,10 +9,10 @@ import {
   handleGQLErrors,
   useAuthMutation,
   useAuthQuery,
-} from "../../lib/apollo-client";
-import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "../../lib/queries";
-import type { Currency } from "../../__generated__/graphql";
-import { UPDATE_USER_LOCATION } from "../../lib/mutations";
+} from "@/lib/apollo-client";
+import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "@/lib/queries";
+import type { Currency } from "@/__generated__/graphql";
+import { UPDATE_USER_LOCATION } from "@/lib/mutations";
 
 interface FormFields {
   country?: number | null;

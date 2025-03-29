@@ -1,5 +1,5 @@
 import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
-import type { AuthorizedContext } from "../../../../context";
+import type { AuthorizedContext } from "@graphql/context";
 import { UserGQL } from "../../type";
 import { handleGetCurrentUser } from "./get-current-user";
 import { handleGetFeaturedSellers } from "./get-featured-sellers";

@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm";
-import { db } from "../../../../../lib/db";
+import { db } from "@backend/lib/db";
 import { PostingTable } from "../../db/schema";
-import type { AuthorizedContext } from "../../../../context";
+import type { AuthorizedContext } from "@graphql/context";
 import { checkPermission } from "../../utils";
 
 export async function resumePosting(

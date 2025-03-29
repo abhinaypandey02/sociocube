@@ -31,11 +31,11 @@ import { Input } from "@/components/input";
 import type {
   SearchSellersFilters,
   SearchSellersQuery,
-} from "../../../__generated__/graphql";
-import { SearchFilterSorting } from "../../../__generated__/graphql";
-import { getRoute } from "../../../constants/routes";
+} from "@/__generated__/graphql";
+import { SearchFilterSorting } from "@/__generated__/graphql";
+import { getRoute } from "@/constants/routes";
 import { SEARCH_FILTERS } from "../constants";
-import { convertToAbbreviation } from "../../../lib/utils";
+import { convertToAbbreviation } from "@/lib/utils";
 import SearchLoading from "./search-loading";
 
 const NoResults = dynamic(() => import("./no-results"));

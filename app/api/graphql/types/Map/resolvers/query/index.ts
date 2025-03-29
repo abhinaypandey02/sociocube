@@ -1,8 +1,8 @@
 import { Arg, Int, Query, Resolver } from "type-graphql";
 import { eq } from "drizzle-orm";
-import { db } from "../../../../../lib/db";
+import { db } from "@backend/lib/db";
 import { CityTable, CountryTable, StateTable } from "../../db/schema";
-import { SelectOption } from "../../../../utils/select-options";
+import { SelectOption } from "@graphql/utils/select-options";
 
 @Resolver()
 export class MapQueryResolvers {

@@ -2,8 +2,8 @@
 import React, { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
-import { Route } from "../constants/routes";
-import { useLogout } from "../lib/auth-client";
+import { Route } from "@/constants/routes";
+import { useLogout } from "@/lib/auth-client";
 
 export default function Error({ error }: { error: Error }) {
   const router = useRouter();

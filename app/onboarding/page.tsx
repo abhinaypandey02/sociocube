@@ -1,8 +1,8 @@
 import React from "react";
 import { cookies } from "next/headers";
-import { Injector, queryGQL } from "../../lib/apollo-server";
-import { GET_DEFAULT_ONBOARDING_DETAILS } from "../../lib/queries";
-import { getSEO } from "../../constants/seo";
+import { Injector, queryGQL } from "@/lib/apollo-server";
+import { GET_DEFAULT_ONBOARDING_DETAILS } from "@/lib/queries";
+import { getSEO } from "@/constants/seo";
 import OnboardingWizard from "./onboarding-wizard";
 
 export default async function AuthLayout({

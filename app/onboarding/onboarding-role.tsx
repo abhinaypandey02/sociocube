@@ -5,10 +5,10 @@ import { ArrowRight } from "@phosphor-icons/react";
 import Link from "next/link";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
-import { getRoute } from "../../constants/routes";
-import { Roles } from "../../__generated__/graphql";
-import { useAuthMutation } from "../../lib/apollo-client";
-import { UPDATE_USER } from "../../lib/mutations";
+import { getRoute } from "@/constants/routes";
+import { Roles } from "@/__generated__/graphql";
+import { useAuthMutation } from "@/lib/apollo-client";
+import { UPDATE_USER } from "@/lib/mutations";
 
 export default function OnboardingRole({
   nextStep,

@@ -8,11 +8,11 @@ import { toast } from "react-hot-toast";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
-import { useLoginWithEmail } from "../../../lib/auth-client";
-import { getRoute, Route } from "../../../constants/routes";
+import { useLoginWithEmail } from "@/lib/auth-client";
+import { getRoute, Route } from "@/constants/routes";
 import useTurnstileToken from "../use-turnstile-token";
 import AuthLayout from "../components/auth-layout";
-import { EMAIL_REGEX } from "../../../constants/validations";
+import { EMAIL_REGEX } from "@/constants/validations";
 
 const defaultValues = {
   email: "",

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import MultiRangeSlider from "multi-range-slider-react";
-import type { SearchSellersFilters } from "../../../__generated__/graphql";
+import type { SearchSellersFilters } from "@/__generated__/graphql";
 
 export default function FollowersFilter({
   onChange,

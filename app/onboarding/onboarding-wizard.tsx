@@ -16,9 +16,9 @@ import { Spinner } from "@phosphor-icons/react/dist/ssr";
 import type {
   Currency,
   GetDefaultOnboardingDetailsQuery,
-} from "../../__generated__/graphql";
-import { Roles } from "../../__generated__/graphql";
-import { getRoute } from "../../constants/routes";
+} from "@/__generated__/graphql";
+import { Roles } from "@/__generated__/graphql";
+import { getRoute } from "@/constants/routes";
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
 import SocialsStatus from "./socials-status";
 import OnboardingLocationForm from "./onboarding-location";

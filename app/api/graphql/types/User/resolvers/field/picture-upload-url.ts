@@ -2,7 +2,7 @@ import type { UserDB } from "../../db/schema";
 import {
   getFileURL,
   getUploadFileURL,
-} from "../../../../../lib/storage/aws-s3";
+} from "@backend/lib/storage/aws-s3";
 
 export async function getPictureUploadURL(user: UserDB) {
   return {

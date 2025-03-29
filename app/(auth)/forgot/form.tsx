@@ -8,10 +8,10 @@ import { useMutation } from "@apollo/client";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
-import { getRoute } from "../../../constants/routes";
+import { getRoute } from "@/constants/routes";
 import AuthLayout from "../components/auth-layout";
-import { SEND_RESET_PASSWORD_EMAIL } from "../../../lib/mutations";
-import { handleGQLErrors } from "../../../lib/apollo-client";
+import { SEND_RESET_PASSWORD_EMAIL } from "@/lib/mutations";
+import { handleGQLErrors } from "@/lib/apollo-client";
 
 const defaultValues = {
   email: "",

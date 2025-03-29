@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { db } from "../../../../../lib/db";
+import { db } from "@backend/lib/db";
 import { UserTable } from "../../db/schema";
 import { usernameAllowed } from "../../utils";
 

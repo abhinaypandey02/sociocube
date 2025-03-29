@@ -5,17 +5,17 @@ import { cookies } from "next/headers";
 import type { Metadata } from "next";
 import { SealCheck } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
-import { Injector, queryGQL } from "../../../lib/apollo-server";
+import { Injector, queryGQL } from "@/lib/apollo-server";
 import {
   GET_CURRENT_USER_APPLICATION_STATUS,
   GET_POSTING,
   GET_POSTING_REVIEWS,
-} from "../../../lib/queries";
-import { convertToAbbreviation } from "../../../lib/utils";
+} from "@/lib/queries";
+import { convertToAbbreviation } from "@/lib/utils";
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
-import { renderRichText } from "../../../lib/util-components";
-import { getSEO } from "../../../constants/seo";
-import { getRoute } from "../../../constants/routes";
+import { renderRichText } from "@/lib/util-components";
+import { getSEO } from "@/constants/seo";
+import { getRoute } from "@/constants/routes";
 import ApplyNowButton from "./apply-now-button";
 import PostingReviews from "./posting-reviews";
 

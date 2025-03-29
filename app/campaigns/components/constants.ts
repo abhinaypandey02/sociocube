@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import type { SearchPostingsFilters } from "../../../__generated__/graphql";
+import type { SearchPostingsFilters } from "@/__generated__/graphql";
 import PlatformsFilter from "./platforms-filter";
 import FollowersFilter from "./followers-filter";
 import AgeFilter from "./age-filter";

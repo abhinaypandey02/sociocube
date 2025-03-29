@@ -2,10 +2,10 @@ import React from "react";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import AccountPageWrapper from "../../../components/account-page-wrapper";
-import { queryGQL } from "../../../../../lib/apollo-server";
-import { GET_POSTING_APPLICATIONS } from "../../../../../lib/queries";
+import { queryGQL } from "@/lib/apollo-server";
+import { GET_POSTING_APPLICATIONS } from "@/lib/queries";
 import ApplicationsTable from "../components/applications-table";
-import { Route } from "../../../../../constants/routes";
+import { Route } from "@/constants/routes";
 import EarningsInfo from "../../components/earnings-info";
 
 export default async function AccountPostingApplicationsPage({

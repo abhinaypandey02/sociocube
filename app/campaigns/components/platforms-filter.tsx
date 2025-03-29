@@ -3,7 +3,7 @@ import { Input } from "@/components/input";
 import type {
   PostingPlatforms,
   SearchPostingsFilters,
-} from "../../../__generated__/graphql";
+} from "@/__generated__/graphql";
 import { POSTING_PLATFORMS } from "../constants";
 import TagsDisplay from "../../search/components/tags-display";
 

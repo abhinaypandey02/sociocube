@@ -16,7 +16,7 @@ import categories from "@/constants/categories";
 import genders from "@/constants/genders";
 import { AGE_RANGES } from "@/constants/age";
 import { NAME_MAX_LENGTH } from "@/constants/constraints";
-import { db } from "../../../../../lib/db";
+import { db } from "@backend/lib/db";
 import { LocationTable, PricingTable, UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 

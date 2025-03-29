@@ -1,5 +1,5 @@
 import type { UserDB } from "../../db/schema";
-import { Roles } from "../../../../constants/roles";
+import { Roles } from "@graphql/constants/roles";
 
 export function getIsOnboarded(user: UserDB) {
   return Boolean(

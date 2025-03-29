@@ -6,9 +6,9 @@ import { getAgeRange } from "@/constants/age";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
-import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
-import { ageValidation } from "../../constants/validations";
-import { UPDATE_USER } from "../../lib/mutations";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
+import { ageValidation } from "@/constants/validations";
+import { UPDATE_USER } from "@/lib/mutations";
 
 interface FormFields {
   dob?: string;

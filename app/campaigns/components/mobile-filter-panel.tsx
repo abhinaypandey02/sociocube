@@ -8,7 +8,7 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { Minus, Plus, X } from "@phosphor-icons/react";
-import type { SearchPostingsFilters } from "../../../__generated__/graphql";
+import type { SearchPostingsFilters } from "@/__generated__/graphql";
 import { SEARCH_POSTINGS_FILTERS } from "./constants";
 
 export default function MobileFilterPanel({

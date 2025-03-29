@@ -5,7 +5,7 @@ import {
   AUTHORISED_USER_NAVBAR_SECTIONS,
   UNAUTHORISED_NAVBAR_SECTIONS,
 } from "../constants";
-import { getCurrentUser } from "../../lib/apollo-server";
+import { getCurrentUser } from "@/lib/apollo-server";
 import VerifyEmailHeader from "./verify-email-header";
 
 export default async function OnboardedNavbar() {

@@ -30,11 +30,11 @@ import { Input } from "@/components/input";
 import type {
   GetAllPostingsQuery,
   SearchPostingsFilters,
-} from "../../../__generated__/graphql";
-import { SearchPostingsSorting } from "../../../__generated__/graphql";
-import { getRoute } from "../../../constants/routes";
+} from "@/__generated__/graphql";
+import { SearchPostingsSorting } from "@/__generated__/graphql";
+import { getRoute } from "@/constants/routes";
 import { getAgeGroup, getCurrency } from "../utils";
-import { convertToAbbreviation } from "../../../lib/utils";
+import { convertToAbbreviation } from "@/lib/utils";
 import SearchLoading from "./search-loading";
 import { SEARCH_POSTINGS_FILTERS } from "./constants";
 

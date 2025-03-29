@@ -1,6 +1,6 @@
 import { and, eq } from "drizzle-orm";
-import type { AuthorizedContext } from "../../../../context";
-import { db } from "../../../../../lib/db";
+import type { AuthorizedContext } from "@graphql/context";
+import { db } from "@backend/lib/db";
 import { ApplicationStatus, ApplicationTable } from "../../db/schema";
 import { PostingTable } from "../../../Posting/db/schema";
 import GQLError from "../../../../constants/errors";

@@ -1,5 +1,5 @@
 import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
-import type { AuthorizedContext } from "../../../../context";
+import type { AuthorizedContext } from "@graphql/context";
 import { ConversationGQL } from "../../type";
 import { handleGetChats } from "./get-chats";
 import { handleGetChat } from "./get-chat";

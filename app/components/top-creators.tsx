@@ -9,9 +9,9 @@ import {
   Dot,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
-import { getRoute } from "../../constants/routes";
-import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
-import { convertToAbbreviation } from "../../lib/utils";
+import { getRoute } from "@/constants/routes";
+import type { GetFeaturedSellersQuery } from "@/__generated__/graphql";
+import { convertToAbbreviation } from "@/lib/utils";
 import SectionWrapper from "./section-wrapper";
 
 export default function TopCreators({

@@ -2,8 +2,8 @@ import React from "react";
 import writeXlsxFile from "write-excel-file";
 import { DownloadSimple } from "@phosphor-icons/react";
 import { getAge } from "@/constants/age";
-import type { GetPostingApplicationsQuery } from "../../../../../__generated__/graphql";
-import { getRoute } from "../../../../../constants/routes";
+import type { GetPostingApplicationsQuery } from "@/__generated__/graphql";
+import { getRoute } from "@/constants/routes";
 import { getStatusName } from "../utils";
 
 export default function DownloadExcelButton({

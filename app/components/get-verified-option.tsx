@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { SealCheck } from "@phosphor-icons/react/dist/ssr";
-import { useToggleGetVerifiedModal } from "../../lib/auth-client";
+import { useToggleGetVerifiedModal } from "@/lib/auth-client";
 
 export default function GetVerifiedOption() {
   const toggle = useToggleGetVerifiedModal();

@@ -8,10 +8,10 @@ import { Button } from "@/components/button";
 import type {
   GetChatQuery,
   GetCurrentUserQuery,
-} from "../../../../__generated__/graphql";
-import { useAuthMutation } from "../../../../lib/apollo-client";
-import { READ_MESSAGE, SEND_CHAT } from "../../../../lib/mutations";
-import { useToken } from "../../../../lib/auth-client";
+} from "@/__generated__/graphql";
+import { useAuthMutation } from "@/lib/apollo-client";
+import { READ_MESSAGE, SEND_CHAT } from "@/lib/mutations";
+import { useToken } from "@/lib/auth-client";
 
 interface FormValues {
   text: string;

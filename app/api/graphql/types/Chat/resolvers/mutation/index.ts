@@ -1,5 +1,5 @@
 import { Arg, Authorized, Ctx, Int, Mutation, Resolver } from "type-graphql";
-import type { AuthorizedContext } from "../../../../context";
+import type { AuthorizedContext } from "@graphql/context";
 import { handleSendMessage } from "./send-message";
 import { handleReadMessage } from "./read-message";
 import { handleSendMessageToUser } from "./send-message-to-user";

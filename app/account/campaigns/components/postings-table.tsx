@@ -4,9 +4,9 @@ import { createColumnHelper } from "@tanstack/react-table";
 import Link from "next/link";
 import { ArrowSquareOut, PencilSimple } from "@phosphor-icons/react";
 import Table from "@/components/table";
-import type { GetUserPostingsQuery } from "../../../../__generated__/graphql";
-import { getCurrency } from "../../../campaigns/utils";
-import { Route } from "../../../../constants/routes";
+import type { GetUserPostingsQuery } from "@/__generated__/graphql";
+import { getCurrency } from "@/app/campaigns/utils";
+import { Route } from "@/constants/routes";
 
 type Posting = NonNullable<GetUserPostingsQuery["postings"]>[number];
 

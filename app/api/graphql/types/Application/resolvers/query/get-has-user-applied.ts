@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm";
-import { db } from "../../../../../lib/db";
+import { db } from "@backend/lib/db";
 import { ApplicationTable } from "../../db/schema";
-import type { AuthorizedContext } from "../../../../context";
+import type { AuthorizedContext } from "@graphql/context";
 
 export async function getHasUserApplied(
   ctx: AuthorizedContext,

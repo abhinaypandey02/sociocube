@@ -11,16 +11,16 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { cookies } from "next/headers";
 import { IconButton } from "@/components/icon-button";
-import { getCurrentUser, Injector, queryGQL } from "../../../lib/apollo-server";
+import { getCurrentUser, Injector, queryGQL } from "@/lib/apollo-server";
 import {
   GET_FEATURED_SELLERS_AND_POSTS,
   GET_PORTFOLIO_UPLOAD_URL,
   GET_SELLER,
-} from "../../../lib/queries";
-import { getSEO } from "../../../constants/seo";
-import { convertToAbbreviation } from "../../../lib/utils";
+} from "@/lib/queries";
+import { getSEO } from "@/constants/seo";
+import { convertToAbbreviation } from "@/lib/utils";
 import Schema from "../../components/schema";
-import { getMeURL, getRoute, Route } from "../../../constants/routes";
+import { getMeURL, getRoute, Route } from "@/constants/routes";
 import CopyLinkButton from "./components/copy-link-button";
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 import Portfolio from "./components/portfolio";

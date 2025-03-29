@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm";
 import { verify } from "jsonwebtoken";
 import { hash } from "bcrypt";
-import { db } from "../../../../../lib/db";
+import { db } from "@backend/lib/db";
 import { UserTable } from "../../../User/db/schema";
 import { RequestTable, RequestType } from "../../db/schema";
 import GQLError from "../../../../constants/errors";

@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import type { SearchSellersFilters } from "../../__generated__/graphql";
+import type { SearchSellersFilters } from "@/__generated__/graphql";
 import CountryFilter from "./components/country-filter";
 import GenderFilter from "./components/gender-filter";
 import CategoryFilter from "./components/category-filter";

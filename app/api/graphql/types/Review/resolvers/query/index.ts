@@ -1,5 +1,5 @@
 import { Authorized, Ctx, Query, Resolver } from "type-graphql";
-import type { AuthorizedContext } from "../../../../context";
+import type { AuthorizedContext } from "@graphql/context";
 import { getPendingReviews } from "./get-pending-reviews";
 
 @Resolver()

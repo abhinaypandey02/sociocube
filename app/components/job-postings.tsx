@@ -6,9 +6,9 @@ import {
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
-import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
-import { getRoute } from "../../constants/routes";
-import { convertToAbbreviation } from "../../lib/utils";
+import type { GetFeaturedSellersQuery } from "@/__generated__/graphql";
+import { getRoute } from "@/constants/routes";
+import { convertToAbbreviation } from "@/lib/utils";
 import { getAgeGroup, getCurrency } from "../campaigns/utils";
 import SectionWrapper from "./section-wrapper";
 

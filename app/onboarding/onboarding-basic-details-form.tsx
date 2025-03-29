@@ -12,9 +12,9 @@ import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "@/constants/file";
 import Form from "@/components/form";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
-import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
-import type { StorageFile } from "../../__generated__/graphql";
-import { UPDATE_USER } from "../../lib/mutations";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
+import type { StorageFile } from "@/__generated__/graphql";
+import { UPDATE_USER } from "@/lib/mutations";
 
 interface FormFields {
   name: string;

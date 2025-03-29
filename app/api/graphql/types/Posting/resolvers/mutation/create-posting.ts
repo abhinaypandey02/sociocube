@@ -7,10 +7,10 @@ import {
   NAME_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
 } from "@/constants/constraints";
-import { db } from "../../../../../lib/db";
+import { db } from "@backend/lib/db";
 import { PostingTable } from "../../db/schema";
-import type { AuthorizedContext } from "../../../../context";
-import { PostingPlatforms } from "../../../../constants/platforms";
+import type { AuthorizedContext } from "@graphql/context";
+import { PostingPlatforms } from "@graphql/constants/platforms";
 import { getCleanExternalLink, handleDuplicateLinkError } from "../../utils";
 import GQLError from "../../../../constants/errors";
 

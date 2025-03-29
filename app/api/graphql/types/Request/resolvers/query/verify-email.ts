@@ -1,10 +1,10 @@
 import { and, eq } from "drizzle-orm";
 import { verify } from "jsonwebtoken";
-import { db } from "../../../../../lib/db";
+import { db } from "@backend/lib/db";
 import { UserTable } from "../../../User/db/schema";
 import { RequestTable, RequestType } from "../../db/schema";
 import GQLError from "../../../../constants/errors";
-import { DAY } from "../../../../utils/time";
+import { DAY } from "@graphql/utils/time";
 
 export async function handleVerifyEmail(token: string) {
   const data = verify(token, process.env.SIGNING_KEY || "") as {

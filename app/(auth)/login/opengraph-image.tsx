@@ -1,4 +1,4 @@
-import { getOgImage } from "../../../lib/util-components";
+import { getOgImage } from "@/lib/util-components";
 
 export { size } from "../../../lib/util-components";
 

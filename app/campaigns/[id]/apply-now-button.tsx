@@ -13,11 +13,11 @@ import { Variants } from "@/components/constants";
 import type {
   GetCurrentUserApplicationStatusQuery,
   GetPostingQuery,
-} from "../../../__generated__/graphql";
-import { getRoute, Route } from "../../../constants/routes";
+} from "@/__generated__/graphql";
+import { getRoute, Route } from "@/constants/routes";
 import Modal from "../../../components/modal";
-import { handleGQLErrors, useAuthMutation } from "../../../lib/apollo-client";
-import { APPLY_NOW } from "../../../lib/mutations";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
+import { APPLY_NOW } from "@/lib/mutations";
 import LinkWrapper from "../../../components/link-wrapper";
 import { getShareText } from "./utils";
 

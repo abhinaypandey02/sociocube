@@ -4,7 +4,7 @@ import { Variants } from "@/components/constants";
 import type {
   GetPortfolioUploadUrlQuery,
   GetSellerQuery,
-} from "../../../../__generated__/graphql";
+} from "@/__generated__/graphql";
 import AddPortfolioButton from "./add-portfolio-button";
 import DeletePortfolioButton from "./delete-portfolio-button";
 

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { Route } from "../constants/routes";
+import { Route } from "@/constants/routes";
 import { getBlogPosts } from "./blogs/utils";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

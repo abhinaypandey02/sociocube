@@ -15,10 +15,10 @@ import Link from "next/link";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { getAge } from "@/constants/age";
 import Table from "@/components/table";
-import type { GetPostingApplicationsQuery } from "../../../../../__generated__/graphql";
-import { ApplicationStatus } from "../../../../../__generated__/graphql";
-import { getRoute } from "../../../../../constants/routes";
-import { convertToAbbreviation } from "../../../../../lib/utils";
+import type { GetPostingApplicationsQuery } from "@/__generated__/graphql";
+import { ApplicationStatus } from "@/__generated__/graphql";
+import { getRoute } from "@/constants/routes";
+import { convertToAbbreviation } from "@/lib/utils";
 import ApplicationActions from "./application-actions";
 import DownloadExcelButton from "./download-excel-button";
 

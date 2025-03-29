@@ -7,7 +7,7 @@ import { createUser } from "@graphql/types/User/db/utils";
 import { UserTable } from "@graphql/types/User/db/schema";
 import { generateRefreshToken } from "@backend/lib/auth/token";
 import { db } from "@backend/lib/db";
-import { getRoute } from "../../../../constants/routes";
+import { getRoute } from "@/constants/routes";
 import { oauth2Client } from "./google-oauth";
 
 function errorResponse(redirectURL: string | null) {

@@ -1,6 +1,6 @@
 import { and, desc, eq, isNotNull, ne } from "drizzle-orm";
 import { Field, ObjectType } from "type-graphql";
-import { db } from "../../../../../lib/db";
+import { db } from "@backend/lib/db";
 import { UserTable } from "../../db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { InstagramMediaTable } from "../../../Instagram/db/schema2";

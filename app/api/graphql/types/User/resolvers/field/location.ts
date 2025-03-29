@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import type { UserDB } from "../../db/schema";
 import { LocationTable } from "../../db/schema";
-import { db } from "../../../../../lib/db";
+import { db } from "@backend/lib/db";
 import { CityTable, CountryTable } from "../../../Map/db/schema";
 
 export async function getLocation(user: UserDB) {

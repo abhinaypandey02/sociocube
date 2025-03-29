@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import genders from "@/constants/genders";
 import { Input } from "@/components/input";
-import type { SearchSellersFilters } from "../../../__generated__/graphql";
+import type { SearchSellersFilters } from "@/__generated__/graphql";
 import TagsDisplay from "./tags-display";
 
 export default function GenderFilter({

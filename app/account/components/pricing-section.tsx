@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/input";
 import Form from "@/components/form";
-import { handleGQLErrors, useAuthMutation } from "../../../lib/apollo-client";
-import { UPDATE_USER } from "../../../lib/mutations";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
+import { UPDATE_USER } from "@/lib/mutations";
 import ContentTemplate from "./content-template";
 import type { AccountSectionData } from "./account-view";
 

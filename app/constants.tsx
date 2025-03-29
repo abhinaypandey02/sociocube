@@ -1,5 +1,5 @@
-import { getRoute } from "../constants/routes";
-import type { GetCurrentUserQuery } from "../__generated__/graphql";
+import { getRoute } from "@/constants/routes";
+import type { GetCurrentUserQuery } from "@/__generated__/graphql";
 import Logout from "./components/logout";
 import GetVerifiedOption from "./components/get-verified-option";
 

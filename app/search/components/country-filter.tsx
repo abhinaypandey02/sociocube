@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Input } from "@/components/input";
-import { useAuthQuery } from "../../../lib/apollo-client";
-import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "../../../lib/queries";
-import type { SearchSellersFilters } from "../../../__generated__/graphql";
+import { useAuthQuery } from "@/lib/apollo-client";
+import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "@/lib/queries";
+import type { SearchSellersFilters } from "@/__generated__/graphql";
 
 export default function CountryFilter({
   onChange,

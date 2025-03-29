@@ -1,4 +1,4 @@
-import { gql } from "../__generated__";
+import { gql } from "@/__generated__";
 
 export const UPDATE_INSTAGRAM_USERNAME = gql(`
   #graphql

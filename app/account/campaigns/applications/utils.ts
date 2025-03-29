@@ -1,4 +1,4 @@
-import { ApplicationStatus } from "../../../../__generated__/graphql";
+import { ApplicationStatus } from "@/__generated__/graphql";
 
 export function getStatusName(status: ApplicationStatus) {
   switch (status) {

@@ -3,9 +3,9 @@ import React from "react";
 import Image from "next/image";
 import { Rating } from "react-simple-star-rating";
 import Link from "next/link";
-import type { GetPostingReviewsQuery } from "../../../__generated__/graphql";
+import type { GetPostingReviewsQuery } from "@/__generated__/graphql";
 import LinkWrapper from "../../../components/link-wrapper";
-import { getRoute } from "../../../constants/routes";
+import { getRoute } from "@/constants/routes";
 
 export default function PostingReviews({
   data,

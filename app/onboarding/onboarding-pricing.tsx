@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
-import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
-import type { Currency, Pricing } from "../../__generated__/graphql";
-import { UPDATE_USER } from "../../lib/mutations";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
+import type { Currency, Pricing } from "@/__generated__/graphql";
+import { UPDATE_USER } from "@/lib/mutations";
 
 export default function OnboardingPricingForm({
   nextStep,

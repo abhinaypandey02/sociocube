@@ -19,12 +19,12 @@ import {
   NAME_MAX_LENGTH,
   USERNAME_MAX_LENGTH,
 } from "@/constants/constraints";
-import { db } from "../../../../../lib/db";
+import { db } from "@backend/lib/db";
 import { PricingTable, UserTable } from "../../db/schema";
-import type { AuthorizedContext } from "../../../../context";
+import type { AuthorizedContext } from "@graphql/context";
 import { Pricing } from "../../type";
 import GQLError from "../../../../constants/errors";
-import { Roles } from "../../../../constants/roles";
+import { Roles } from "@graphql/constants/roles";
 
 @InputType("UpdateUserInput")
 export class UpdateUserInput {

@@ -1,5 +1,5 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
-import type { AuthorizedContext } from "../../../../context";
+import type { AuthorizedContext } from "@graphql/context";
 import { createPosting, NewPostingInput } from "./create-posting";
 import { pausePosting } from "./pause-posting";
 import { deletePosting } from "./delete-posting";

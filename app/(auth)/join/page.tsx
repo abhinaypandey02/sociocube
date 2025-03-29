@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getSEO } from "../../../constants/seo";
+import { getSEO } from "@/constants/seo";
 import SignupForm from "./form";
 
 export default function SignUpPage() {

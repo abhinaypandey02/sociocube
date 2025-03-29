@@ -1,4 +1,4 @@
-import { getSEO } from "../../../constants/seo";
+import { getSEO } from "@/constants/seo";
 import ForgotPasswordForm from "./form";
 
 export default function ForgotPasswordPage() {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Input } from "@/components/input";
-import type { SearchPostingsFilters } from "../../../__generated__/graphql";
+import type { SearchPostingsFilters } from "@/__generated__/graphql";
 
 export default function AgeFilter({
   onChange,

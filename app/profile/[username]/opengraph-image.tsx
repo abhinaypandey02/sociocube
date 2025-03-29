@@ -1,7 +1,7 @@
-import { getOgImage } from "../../../lib/util-components";
-import { queryGQL } from "../../../lib/apollo-server";
-import { GET_SELLER } from "../../../lib/queries";
-import { convertToAbbreviation } from "../../../lib/utils";
+import { getOgImage } from "@/lib/util-components";
+import { queryGQL } from "@/lib/apollo-server";
+import { GET_SELLER } from "@/lib/queries";
+import { convertToAbbreviation } from "@/lib/utils";
 import type { ProfilePage } from "./page";
 import { getPostFrequency } from "./components/utils";
 

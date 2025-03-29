@@ -11,11 +11,11 @@ import {
   handleGQLErrors,
   useAuthMutation,
   useAuthQuery,
-} from "../../lib/apollo-client";
-import { IS_USERNAME_AVAILABLE } from "../../lib/queries";
-import { getUsernameInputRules } from "../../lib/utils";
-import { UPDATE_USER } from "../../lib/mutations";
-import { getRoute } from "../../constants/routes";
+} from "@/lib/apollo-client";
+import { IS_USERNAME_AVAILABLE } from "@/lib/queries";
+import { getUsernameInputRules } from "@/lib/utils";
+import { UPDATE_USER } from "@/lib/mutations";
+import { getRoute } from "@/constants/routes";
 
 export default function OnboardingUsername({
   defaultValues,

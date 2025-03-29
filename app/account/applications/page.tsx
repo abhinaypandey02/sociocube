@@ -4,9 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import AccountPageWrapper from "../components/account-page-wrapper";
-import { queryGQL } from "../../../lib/apollo-server";
-import { GET_USER_APPLICATIONS } from "../../../lib/queries";
-import { getRoute } from "../../../constants/routes";
+import { queryGQL } from "@/lib/apollo-server";
+import { GET_USER_APPLICATIONS } from "@/lib/queries";
+import { getRoute } from "@/constants/routes";
 import { getStatusColor, getStatusName } from "../campaigns/applications/utils";
 import SendReview from "../campaigns/applications/components/send-review";
 

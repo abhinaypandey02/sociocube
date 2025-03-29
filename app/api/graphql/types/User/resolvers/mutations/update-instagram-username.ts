@@ -1,11 +1,11 @@
 import { and, eq } from "drizzle-orm";
-import type { AuthorizedContext } from "../../../../context";
-import { db } from "../../../../../lib/db";
+import type { AuthorizedContext } from "@graphql/context";
+import { db } from "@backend/lib/db";
 import { UserTable } from "../../db/schema";
 import GQLError from "../../../../constants/errors";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { getCurrentUser } from "../../utils";
-import { uploadImage } from "../../../../../lib/storage/aws-s3";
+import { uploadImage } from "@backend/lib/storage/aws-s3";
 import { InstagramMediaTable } from "../../../Instagram/db/schema2";
 import {
   fetchExternalInstagramDetails,

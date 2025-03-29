@@ -2,12 +2,12 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
-import { getRoute } from "../../constants/routes";
+import { getRoute } from "@/constants/routes";
 import type {
   GetCurrentUserQuery,
   GetFeaturedSellersQuery,
-} from "../../__generated__/graphql";
-import { getCurrentUser, Injector } from "../../lib/apollo-server";
+} from "@/__generated__/graphql";
+import { getCurrentUser, Injector } from "@/lib/apollo-server";
 import PostSlider from "./post-slider";
 
 function SecondaryLink({ data }: { data?: GetCurrentUserQuery }) {

@@ -1,5 +1,5 @@
 import { Ctx, Query, Resolver } from "type-graphql";
-import type { AuthorizedContext } from "../../../../context";
+import type { AuthorizedContext } from "@graphql/context";
 import { FileGQL } from "../../../File/type";
 import { getPortfolioUploadURL } from "./portfolio-upload-url";
 

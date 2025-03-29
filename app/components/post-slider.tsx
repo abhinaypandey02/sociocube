@@ -7,12 +7,12 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { SealCheck } from "@phosphor-icons/react";
-import { getRoute } from "../../constants/routes";
-import type { GetFeaturedSellersQuery } from "../../__generated__/graphql";
+import { getRoute } from "@/constants/routes";
+import type { GetFeaturedSellersQuery } from "@/__generated__/graphql";
 
 import "swiper/css";
 import "swiper/css/effect-cards";
-import { convertToAbbreviation } from "../../lib/utils";
+import { convertToAbbreviation } from "@/lib/utils";
 
 function getRandomColor() {
   return `rgb(${Math.floor(Math.random() * 175) + 25},${Math.floor(Math.random() * 175) + 25},${Math.floor(Math.random() * 175) + 25})`;

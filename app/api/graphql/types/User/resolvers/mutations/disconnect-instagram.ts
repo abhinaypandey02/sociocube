@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
-import { db } from "../../../../../lib/db";
-import type { AuthorizedContext } from "../../../../context";
+import { db } from "@backend/lib/db";
+import type { AuthorizedContext } from "@graphql/context";
 import GQLError from "../../../../constants/errors";
 import { getCurrentUser } from "../../utils";
 import { InstagramDetails } from "../../../Instagram/db/schema";

@@ -5,13 +5,13 @@ import { TrashSimple } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import Modal from "../../../../components/modal";
-import type { GetSellerQuery } from "../../../../__generated__/graphql";
+import type { GetSellerQuery } from "@/__generated__/graphql";
 import {
   handleGQLErrors,
   useAuthMutation,
-} from "../../../../lib/apollo-client";
-import { DELETE_PORTFOLIO } from "../../../../lib/mutations";
-import { revalidateProfilePage } from "../../../../lib/revalidate";
+} from "@/lib/apollo-client";
+import { DELETE_PORTFOLIO } from "@/lib/mutations";
+import { revalidateProfilePage } from "@/lib/revalidate";
 
 export default function DeletePortfolioButton({
   work,

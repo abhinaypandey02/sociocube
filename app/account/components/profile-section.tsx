@@ -9,12 +9,12 @@ import {
   handleGQLErrors,
   useAuthMutation,
   useAuthQuery,
-} from "../../../lib/apollo-client";
-import { UPDATE_USER } from "../../../lib/mutations";
-import { ageValidation } from "../../../constants/validations";
-import { getUsernameInputRules } from "../../../lib/utils";
-import { IS_USERNAME_AVAILABLE } from "../../../lib/queries";
-import { getMeURL } from "../../../constants/routes";
+} from "@/lib/apollo-client";
+import { UPDATE_USER } from "@/lib/mutations";
+import { ageValidation } from "@/constants/validations";
+import { getUsernameInputRules } from "@/lib/utils";
+import { IS_USERNAME_AVAILABLE } from "@/lib/queries";
+import { getMeURL } from "@/constants/routes";
 import ContentTemplate from "./content-template";
 import type { AccountSectionData } from "./account-view";
 

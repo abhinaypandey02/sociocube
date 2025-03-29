@@ -1,7 +1,7 @@
 import { and, eq, gt, isNull } from "drizzle-orm";
-import { db } from "../../../../../lib/db";
+import { db } from "@backend/lib/db";
 import { ReviewTable } from "../../db/schema";
-import type { AuthorizedContext } from "../../../../context";
+import type { AuthorizedContext } from "@graphql/context";
 import { getReviewDeadline } from "../../utils";
 
 export async function getPendingReviews(ctx: AuthorizedContext) {

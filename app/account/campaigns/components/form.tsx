@@ -14,24 +14,24 @@ import Form from "@/components/form";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { Variants } from "@/components/constants";
-import { POSTING_PLATFORMS } from "../../../campaigns/constants";
+import { POSTING_PLATFORMS } from "@/app/campaigns/constants";
 import type {
   GetPostingQuery,
   PostingPlatforms,
-} from "../../../../__generated__/graphql";
+} from "@/__generated__/graphql";
 import {
   handleGQLErrors,
   useAuthMutation,
   useAuthQuery,
-} from "../../../../lib/apollo-client";
-import { GET_COUNTRIES } from "../../../../lib/queries";
-import { CREATE_POSTING, UPDATE_POSTING } from "../../../../lib/mutations";
+} from "@/lib/apollo-client";
+import { GET_COUNTRIES } from "@/lib/queries";
+import { CREATE_POSTING, UPDATE_POSTING } from "@/lib/mutations";
 import {
   revalidateOnlyPostingsPage,
   revalidatePosting,
-} from "../../../../lib/revalidate";
-import { getRoute } from "../../../../constants/routes";
-import { getTransformedPostingData } from "../../../../lib/server-actions";
+} from "@/lib/revalidate";
+import { getRoute } from "@/constants/routes";
+import { getTransformedPostingData } from "@/lib/server-actions";
 
 export interface CreatePostingFormFields {
   title: string;

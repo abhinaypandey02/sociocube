@@ -1,5 +1,5 @@
 import React from "react";
-import { getCurrentUser } from "../../../../lib/apollo-server";
+import { getCurrentUser } from "@/lib/apollo-server";
 import ChatButton from "./chat-button";
 
 export default async function ChatButtonInjector({ to }: { to: number }) {

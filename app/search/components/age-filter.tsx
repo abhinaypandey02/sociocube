@@ -2,7 +2,7 @@
 import React from "react";
 import { AGE_RANGES } from "@/constants/age";
 import { Input } from "@/components/input";
-import type { SearchSellersFilters } from "../../../__generated__/graphql";
+import type { SearchSellersFilters } from "@/__generated__/graphql";
 
 export default function AgeFilter({
   onChange,

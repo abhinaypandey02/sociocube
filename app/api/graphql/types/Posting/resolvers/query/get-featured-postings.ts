@@ -1,5 +1,5 @@
 import { and, count, desc, eq, getTableColumns } from "drizzle-orm";
-import { db } from "../../../../../lib/db";
+import { db } from "@backend/lib/db";
 import { PostingTable } from "../../db/schema";
 import { ApplicationTable } from "../../../Application/db/schema";
 

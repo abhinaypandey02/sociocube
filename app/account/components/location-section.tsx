@@ -9,9 +9,9 @@ import {
   handleGQLErrors,
   useAuthMutation,
   useAuthQuery,
-} from "../../../lib/apollo-client";
-import { UPDATE_USER_LOCATION } from "../../../lib/mutations";
-import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "../../../lib/queries";
+} from "@/lib/apollo-client";
+import { UPDATE_USER_LOCATION } from "@/lib/mutations";
+import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "@/lib/queries";
 import ContentTemplate from "./content-template";
 import type { AccountSectionData } from "./account-view";
 

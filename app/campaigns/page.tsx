@@ -1,10 +1,10 @@
-import { getSEO } from "../../constants/seo";
-import { Injector, queryGQL } from "../../lib/apollo-server";
-import { GET_ALL_POSTINGS } from "../../lib/queries";
+import { getSEO } from "@/constants/seo";
+import { Injector, queryGQL } from "@/lib/apollo-server";
+import { GET_ALL_POSTINGS } from "@/lib/queries";
 import type {
   PostingPlatforms,
   SearchPostingsSorting,
-} from "../../__generated__/graphql";
+} from "@/__generated__/graphql";
 import { parseParams } from "../search/constants";
 import SearchWindow from "./components/search-window";
 

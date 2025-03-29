@@ -2,8 +2,8 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/button";
-import { handleGQLErrors, useAuthMutation } from "../../../lib/apollo-client";
-import { DISCONNECT_INSTAGRAM } from "../../../lib/mutations";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
+import { DISCONNECT_INSTAGRAM } from "@/lib/mutations";
 import ContentTemplate from "./content-template";
 import type { AccountSectionData } from "./account-view";
 
