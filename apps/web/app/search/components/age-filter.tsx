@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import { Input } from "ui/input";
 import { AGE_RANGES } from "commons/age";
+import { Input } from "@/components/input";
 import type { SearchSellersFilters } from "../../../__generated__/graphql";
 
 export default function AgeFilter({

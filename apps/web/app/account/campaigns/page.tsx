@@ -1,8 +1,8 @@
 import React from "react";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { Button } from "ui/button";
 import { Plus } from "@phosphor-icons/react/dist/ssr";
+import { Button } from "@/components/button";
 import { queryGQL } from "../../../lib/apollo-server";
 import { GET_USER_POSTINGS } from "../../../lib/queries";
 import { Route } from "../../../constants/routes";

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { Input } from "ui/input";
 import categories from "commons/categories";
+import { Input } from "@/components/input";
 import type { SearchSellersFilters } from "../../../__generated__/graphql";
 import TagsDisplay from "./tags-display";
 

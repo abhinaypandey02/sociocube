@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { DialogTitle } from "@headlessui/react";
-import { Button, Variants } from "ui/button";
+import { Button } from "@/components/button";
+import { Variants } from "@/components/constants";
 import Modal from "../../../../components/modal";
 import CopyLinkButton from "./copy-link-button";
 

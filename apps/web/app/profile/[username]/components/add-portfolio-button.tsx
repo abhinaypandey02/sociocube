@@ -1,14 +1,15 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { Button, Variants } from "ui/button";
 import { ImageSquare, Plus } from "@phosphor-icons/react";
-import { Input } from "ui/input";
 import { useForm } from "react-hook-form";
-import Form from "ui/form";
 import { useRouter } from "next/navigation";
 import { PORTFOLIO_CAPTION_MAX_LENGTH } from "commons/constraints";
 import { isURL } from "class-validator";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
+import Form from "@/components/form";
+import { Input } from "@/components/input";
+import { Button } from "@/components/button";
+import { Variants } from "@/components/constants";
 import Modal from "../../../../components/modal";
 import type { StorageFile } from "../../../../__generated__/graphql";
 import {

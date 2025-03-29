@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { Input } from "ui/input";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import Form from "ui/form";
-import { Button } from "ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { Input } from "@/components/input";
+import Form from "@/components/form";
+import { Button } from "@/components/button";
 import {
   handleGQLErrors,
   useAuthMutation,

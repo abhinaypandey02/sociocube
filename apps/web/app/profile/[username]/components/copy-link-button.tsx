@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link, Check } from "@phosphor-icons/react";
 import { toast } from "react-hot-toast";
-import { IconButton } from "ui/icon-button";
+import { IconButton } from "@/components/icon-button";
 
 export default function CopyLinkButton({ url }: { url: string }) {
   const [copied, setCopied] = useState(false);

@@ -2,7 +2,7 @@ import React from "react";
 import Markdown from "react-markdown";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getBlogPost, getBlogPosts } from "../utils";
+import { getBlogPost } from "../utils";
 import { getSEO } from "../../../constants/seo";
 import { MARKDOWN_COMPONENTS } from "../markdown-components";
 import Schema from "../../components/schema";
@@ -18,10 +18,10 @@ export async function generateMetadata({
   return getSEO(blog?.title, blog?.description);
 }
 
-export function generateStaticParams() {
-  const blogs = getBlogPosts();
-  return blogs.map((blog) => ({ slug: blog?.id }));
-}
+// export function generateStaticParams() {
+//   const blogs = getBlogPosts();
+//   return blogs.map((blog) => ({ slug: blog?.id }));
+// }
 
 export default async function BlogPage({ params }: BlogPageProps) {
   const slug = (await params).slug;

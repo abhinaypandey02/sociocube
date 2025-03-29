@@ -1,9 +1,9 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { Button } from "ui/button";
-import { Input } from "ui/input";
 import { useRouter } from "next/navigation";
 import { TrashSimple } from "@phosphor-icons/react/dist/ssr";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 import Modal from "../../../../components/modal";
 import type { GetSellerQuery } from "../../../../__generated__/graphql";
 import {

@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Input } from "ui/input";
-import { Button } from "ui/button";
 import Pusher from "pusher-js";
 import { getConversationChannelName, NEW_MESSAGE } from "config/events";
+import { Input } from "@/components/input";
+import { Button } from "@/components/button";
 import type {
   GetChatQuery,
   GetCurrentUserQuery,

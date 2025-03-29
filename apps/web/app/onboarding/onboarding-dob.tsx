@@ -2,10 +2,10 @@
 import React from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { Input } from "ui/input";
-import { Button } from "ui/button";
-import Form from "ui/form";
 import { getAgeRange } from "commons/age";
+import { Input } from "@/components/input";
+import { Button } from "@/components/button";
+import Form from "@/components/form";
 import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
 import { ageValidation } from "../../constants/validations";
 import { UPDATE_USER } from "../../lib/mutations";

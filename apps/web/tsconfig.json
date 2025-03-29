@@ -11,6 +11,17 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "jsx": "preserve",
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "@backend/*": [
+        "./app/api/*"
+      ],
+      "@graphql/*": [
+        "./app/api/graphql/*"
+      ]
+    },
     "plugins": [
       {
         "name": "next"

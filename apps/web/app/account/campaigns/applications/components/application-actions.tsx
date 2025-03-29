@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Heart } from "@phosphor-icons/react/dist/ssr";
 import { Star, ThumbsDown } from "@phosphor-icons/react";
 import { Rating } from "react-simple-star-rating";
-import { Input } from "ui/input";
-import Form from "ui/form";
 import { useForm } from "react-hook-form";
-import { Button } from "ui/button";
 import Image from "next/image";
+import { Input } from "@/components/input";
+import Form from "@/components/form";
+import { Button } from "@/components/button";
 import {
   ApplicationStatus,
   type GetPostingApplicationsQuery,

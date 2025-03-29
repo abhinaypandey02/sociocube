@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { Button, Variants } from "ui/button";
+import { Button } from "@/components/button";
+import { Variants } from "@/components/constants";
 import { getRoute } from "../../constants/routes";
 import type {
   GetCurrentUserQuery,

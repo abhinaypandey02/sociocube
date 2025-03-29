@@ -1,8 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { Input, Variants } from "ui/input";
-import { Button } from "ui/button";
-import Form from "ui/form";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { MagicWand } from "@phosphor-icons/react";
@@ -13,6 +10,10 @@ import {
   NAME_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
 } from "commons/constraints";
+import Form from "@/components/form";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
+import { Variants } from "@/components/constants";
 import { POSTING_PLATFORMS } from "../../../campaigns/constants";
 import type {
   GetPostingQuery,

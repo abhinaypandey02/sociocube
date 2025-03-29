@@ -1,10 +1,10 @@
 import React, { type ChangeEvent, useCallback, useRef, useState } from "react";
-import { Input } from "ui/input";
 import { useForm } from "react-hook-form";
-import { Button } from "ui/button";
-import Form from "ui/form";
 import categories from "commons/categories";
 import genders from "commons/genders";
+import { Input } from "@/components/input";
+import { Button } from "@/components/button";
+import Form from "@/components/form";
 import {
   handleGQLErrors,
   useAuthMutation,

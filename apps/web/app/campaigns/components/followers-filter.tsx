@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "ui/input";
+import { Input } from "@/components/input";
 import type { SearchPostingsFilters } from "../../../__generated__/graphql";
 
 export default function FollowersFilter({

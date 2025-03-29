@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
-import { Input } from "ui/input";
 import { useForm } from "react-hook-form";
-import Form from "ui/form";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/input";
+import Form from "@/components/form";
 import { handleGQLErrors, useAuthMutation } from "../../../lib/apollo-client";
 import { UPDATE_USER } from "../../../lib/mutations";
 import ContentTemplate from "./content-template";

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { ArrowSquareOut, SealCheck } from "@phosphor-icons/react/dist/ssr";
-import { Button } from "ui/button";
+import { Button } from "@/components/button";
 import Modal from "../../components/modal";
 import { INSTAGRAM_AUTHORIZATION_URL } from "../api/auth/instagram/utils";
 

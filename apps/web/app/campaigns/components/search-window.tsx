@@ -22,11 +22,11 @@ import {
   X,
 } from "@phosphor-icons/react";
 import Link from "next/link";
-import { Input } from "ui/input";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/input";
 import type {
   GetAllPostingsQuery,
   SearchPostingsFilters,

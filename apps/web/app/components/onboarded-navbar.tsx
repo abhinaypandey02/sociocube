@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar } from "ui/navbar";
+import { Navbar } from "@/components/navbar";
 import {
   getOnboardedUserNavbarSections,
   AUTHORISED_USER_NAVBAR_SECTIONS,

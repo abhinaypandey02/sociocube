@@ -2,9 +2,9 @@
 import React, { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { Input } from "ui/input";
-import { Button } from "ui/button";
-import Form from "ui/form";
+import { Input } from "@/components/input";
+import { Button } from "@/components/button";
+import Form from "@/components/form";
 import {
   handleGQLErrors,
   useAuthMutation,

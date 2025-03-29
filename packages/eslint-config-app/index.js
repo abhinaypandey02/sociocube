@@ -16,6 +16,7 @@ module.exports = {
     "@vercel/style-guide/eslint/browser",
     "@vercel/style-guide/eslint/typescript",
     "@vercel/style-guide/eslint/react",
+    "@vercel/style-guide/eslint/next"
   ].map(require.resolve),
     "turbo",
     "prettier",
@@ -52,7 +53,14 @@ module.exports = {
     "eslint-disable-next-line eslint-comments/require-description": "off",
     "tailwindcss/no-custom-classname": "error",
     "tailwindcss/no-contradicting-classname": "error",
-    "@typescript-eslint/prefer-literal-enum-member": "off"
+    "@typescript-eslint/prefer-literal-enum-member": "off",
+    "@typescript-eslint/require-array-sort-compare": "off",
+    "no-nested-ternary": "off",
+    "react/button-has-type": "off",
+    "@typescript-eslint/consistent-type-imports": "off",
+    "prefer-named-capture-group": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "no-await-in-loop": "off",
   },
   "plugins": ["tailwindcss","prettier",'react-hooks','react-refresh']
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Button } from "ui/button";
+import { Button } from "@/components/button";
 import { getRoute } from "../../constants/routes";
 import { getCurrentUser, Injector } from "../../lib/apollo-server";
 import type { GetCurrentUserQuery } from "../../__generated__/graphql";

@@ -1,15 +1,16 @@
 "use client";
 import React, { useRef, useState } from "react";
-import Form from "ui/form";
 import { Rating } from "react-simple-star-rating";
-import { Input, Variants } from "ui/input";
-import { Button } from "ui/button";
 import { useForm } from "react-hook-form";
 import { ImageSquare, Star } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { isURL } from "class-validator";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
+import Form from "@/components/form";
+import { Variants } from "@/components/constants";
 import Modal from "../../../../../components/modal";
 import { SEND_REVIEW_BY_USER } from "../../../../../lib/mutations";
 import {

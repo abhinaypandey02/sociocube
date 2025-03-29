@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Variants } from "ui/button";
+import { Button } from "@/components/button";
+import { Variants } from "@/components/constants";
 import type {
   GetPortfolioUploadUrlQuery,
   GetSellerQuery,

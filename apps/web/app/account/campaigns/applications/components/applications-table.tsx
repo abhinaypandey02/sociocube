@@ -1,6 +1,5 @@
 "use client";
 import React, { useCallback, useState } from "react";
-import Table from "ui/table";
 import type { CellContext } from "@tanstack/react-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
@@ -15,6 +14,7 @@ import {
 import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import Table from "@/components/table";
 import type { GetPostingApplicationsQuery } from "../../../../../__generated__/graphql";
 import { ApplicationStatus } from "../../../../../__generated__/graphql";
 import { getRoute } from "../../../../../constants/routes";

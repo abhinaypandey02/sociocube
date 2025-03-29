@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input } from "ui/input";
+import { Input } from "@/components/input";
 import type {
   PostingPlatforms,
   SearchPostingsFilters,

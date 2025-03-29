@@ -22,12 +22,12 @@ import {
   MapPin,
 } from "@phosphor-icons/react";
 import Link from "next/link";
-import { Input } from "ui/input";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
+import { Input } from "@/components/input";
 import type {
   SearchSellersFilters,
   SearchSellersQuery,

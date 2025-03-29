@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { Button } from "ui/button";
 import Image from "next/image";
-import { Input } from "ui/input";
 import { useForm } from "react-hook-form";
-import Form from "ui/form";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
+import Form from "@/components/form";
 import { handleGQLErrors, useAuthMutation } from "../../lib/apollo-client";
 import { UPDATE_INSTAGRAM_USERNAME } from "../../lib/mutations";
 

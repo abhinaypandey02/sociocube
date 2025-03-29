@@ -1,14 +1,15 @@
 "use client";
 import type { ReactNode } from "react";
 import React, { useCallback, useMemo, useState } from "react";
-import { Button, Variants } from "ui/button";
-import { Input } from "ui/input";
-import Form from "ui/form";
 import { useForm } from "react-hook-form";
 import { getAge } from "commons/age";
 import Link from "next/link";
 import { Pencil, ShareNetwork } from "@phosphor-icons/react";
-import { IconButton } from "ui/icon-button";
+import Form from "@/components/form";
+import { Input } from "@/components/input";
+import { Button } from "@/components/button";
+import { IconButton } from "@/components/icon-button";
+import { Variants } from "@/components/constants";
 import type {
   GetCurrentUserApplicationStatusQuery,
   GetPostingQuery,
