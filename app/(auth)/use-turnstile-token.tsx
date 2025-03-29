@@ -9,6 +9,7 @@ declare global {
 
 function useTurnstileToken(containerID: string) {
   const [turnstileToken, setTurnstileToken] = useState<string>();
+  const [loading, setLoading] = useState(false);
 
   const resetTurnstileToken = () => {
     setTurnstileToken(undefined);
@@ -17,22 +18,32 @@ function useTurnstileToken(containerID: string) {
 
   useEffect(() => {
     window.onTurnstileLoad = () => {
-      turnstile.render(`#${containerID}`, {
-        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "",
-        callback(token: string) {
-          setTurnstileToken(token);
-        },
-      });
+      if (!loading && !turnstileToken) {
+        setLoading(true);
+        turnstile.render(`#${containerID}`, {
+          sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "",
+          callback(token: string) {
+            setLoading(false);
+            setTurnstileToken(token);
+          },
+        });
+      }
     };
-    if (typeof window.turnstile !== "undefined") {
+    if (
+      typeof window.turnstile !== "undefined" &&
+      !loading &&
+      !turnstileToken
+    ) {
+      setLoading(true);
       turnstile.execute(`#${containerID}`, {
         sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "",
         callback(token: string) {
+          setLoading(false);
           setTurnstileToken(token);
         },
       });
     }
-  }, []);
+  }, [loading, turnstileToken]);
   return { turnstileToken, resetTurnstileToken };
 }
 
