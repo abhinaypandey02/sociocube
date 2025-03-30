@@ -1,12 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getGroqResponse } from "@/lib/utils";
 
-export const GET = async (req: NextRequest) => {
-  if (
-    req.headers.get("Authorization") !== `Bearer ${process.env.CRON_SECRET}`
-  ) {
-    return new NextResponse("Unauthorized", { status: 401 });
-  }
+export const GET = async () => {
   const response = await getGroqResponse<{ posts: string[] }>(
     `You are a 21 year old, cool hardworking guy in Bangalore, India who is building an app called Sociocube as a side project. Sociocube is the linkedin for creators which connects brands to influencers. Influencers and brands connect on the platform and use AI tools to connect. 
 
