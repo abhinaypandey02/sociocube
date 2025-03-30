@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GoogleLogo } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { useToken } from "@/lib/auth-client";
@@ -7,9 +7,13 @@ import { getRoute } from "@/constants/routes";
 
 export default function SocialBar() {
   const token = useToken();
+  const [firstTry, setFirstTry] = useState(true);
   const router = useRouter();
   useEffect(() => {
-    if (token) {
+    if (firstTry && token !== undefined) {
+      setFirstTry(false);
+    }
+    if (firstTry && token) {
       router.push(getRoute("Account"));
       router.refresh();
     }

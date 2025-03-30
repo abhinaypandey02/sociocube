@@ -13,7 +13,7 @@ import { ProgressLoader } from "nextjs-progressloader";
 import GetVerifiedModal from "../app/components/get-verified-modal";
 
 const GlobalState = createContext<{
-  token?: string;
+  token?: string | null;
   setToken: (token?: string) => void;
   toggleIsGetVerifiedModalOpen: () => void;
 }>({
@@ -32,7 +32,7 @@ export function useToggleGetVerifiedModal() {
 }
 
 export function GlobalStateWrapper({ children }: PropsWithChildren) {
-  const [token, setToken] = useState<string>();
+  const [token, setToken] = useState<string | null>();
   const [isGetVerifiedModalOpen, setIsGetVerifiedModalOpen] =
     useState<boolean>(false);
 
@@ -42,8 +42,11 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
     })
       .then(async (res) => {
         if (res.ok) setToken(await res.text());
+        else setToken(null);
       })
-      .catch(console.error);
+      .catch(() => {
+        setToken(null);
+      });
   }, []);
   return (
     <GlobalState.Provider
