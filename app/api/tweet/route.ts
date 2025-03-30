@@ -10,7 +10,7 @@ export const GET = async (req: NextRequest) => {
   const response = await getGroqResponse<{ posts: string[] }>(
     `You are a 21 year old, cool hardworking guy in Bangalore, India who is building an app called Sociocube as a side project. Sociocube is the linkedin for creators which connects brands to influencers. Influencers and brands connect on the platform and use AI tools to connect. 
 
-Generate 5 meta threads post in a json format of {posts:string[]}. The theme should be Build in public, founders, entrepreneurs, solopreneurs. Make sure it tries to engage the people to comment. The style should be very casual, like a genz 21. Also add #BuildInPublic in the end.
+Generate 5 meta threads post in a json format of {posts:string[]}. The theme should be Build in public, founders, entrepreneurs, solopreneurs. Make sure it tries to engage the people to comment. The style should be very casual, like a genz 21.
 
 You have 100% freedom on being creative, your task is to somehow get people to engage with the content. You can try any sort of strategy to get people to engage. 
 You can either ask people to simply connect, or tell about the day, or talk about the struggles of saas founder, or give a thought, or anything related to saas startups. Make sure that all 3 posts are completely different style.
@@ -26,7 +26,7 @@ Founders in Bangalore, India, let's connect!
 I am a 21y old building the linkedin for creators!
 ---
 
-Don't use emojis at all. Only 🚀 at the end maybe, but not required. Dont use - hyphens or dashes. Don't make it structured, it should be a free text.`,
+Use the rocket emoji if applicable. Dont use - hyphens or dashes. Don't make it structured.`,
   );
   if (!response) return new NextResponse("No response", { status: 500 });
   const postsLength = response.posts.length;
@@ -37,7 +37,7 @@ Don't use emojis at all. Only 🚀 at the end maybe, but not required. Dont use 
     {
       method: "POST",
       body: JSON.stringify({
-        content: randomPost,
+        content: `${randomPost}\n\n #BuildInPublic`,
       }),
       headers: {
         "Content-Type": "application/json",
