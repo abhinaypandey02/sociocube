@@ -43,6 +43,7 @@ export default function OnboardingUsername({
       });
       if (res?.data?.updateUser) {
         router.push(`${getRoute("Profile")}/${data.username.toLowerCase()}`);
+        router.refresh();
       }
     }
   };
