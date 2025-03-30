@@ -72,8 +72,16 @@ function OnboardingWizard({
   const nextStep = useCallback(() => {
     setStep((o) => Math.min(o + 1, MAX_STEPS - 1));
     setMaxTouchedStep((o) => Math.max(o, step + 1));
-    router.refresh();
-  }, [step]);
+  }, [router, step]);
+
+  const fallbackToStep = useCallback(
+    (fallbackStep: number) => {
+      setStep(fallbackStep);
+      setMaxTouchedStep(fallbackStep);
+      router.refresh();
+    },
+    [router],
+  );
 
   const steps = useMemo(
     () => [
@@ -83,7 +91,13 @@ function OnboardingWizard({
         description: "",
         icon: FlagCheckered,
         component: (
-          <OnboardingRole nextStep={nextStep} role={currentUser?.role} />
+          <OnboardingRole
+            fallbackToStep={() => {
+              fallbackToStep(0);
+            }}
+            nextStep={nextStep}
+            role={currentUser?.role}
+          />
         ),
       },
       {
@@ -118,6 +132,9 @@ function OnboardingWizard({
               category: currentUser.category || undefined,
               gender: currentUser.gender || undefined,
             }}
+            fallbackToStep={() => {
+              fallbackToStep(2);
+            }}
             key={currentUser.instagramStats?.username}
             nextStep={nextStep}
             photoUpload={currentUser.pictureUploadURL}
@@ -138,6 +155,9 @@ function OnboardingWizard({
               component: (
                 <OnboardingDOB
                   defaultValues={{ dob: currentUser?.dob || undefined }}
+                  fallbackToStep={() => {
+                    fallbackToStep(3);
+                  }}
                   key={3}
                   nextStep={nextStep}
                 />
@@ -180,6 +200,9 @@ function OnboardingWizard({
                 <OnboardingPricingForm
                   currency={currency}
                   defaultValues={currentUser?.pricing || undefined}
+                  fallbackToStep={() => {
+                    fallbackToStep(3);
+                  }}
                   key={6}
                   nextStep={nextStep}
                 />

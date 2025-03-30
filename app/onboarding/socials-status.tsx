@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import Form from "@/components/form";
@@ -17,6 +18,7 @@ export default function SocialsStatus({
   redirectURL: string | null;
 }) {
   const form = useForm<{ username: string }>();
+  const router = useRouter();
   const connected = connections.instagram;
   const [updateInstagramUsername, { loading }] = useAuthMutation(
     UPDATE_INSTAGRAM_USERNAME,
@@ -27,6 +29,7 @@ export default function SocialsStatus({
         .then((res) => {
           if (res.data?.updateInstagramUsername) {
             nextStep();
+            router.refresh();
           }
         })
         .catch(handleGQLErrors);

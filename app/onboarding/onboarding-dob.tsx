@@ -2,6 +2,8 @@
 import React from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
+import { GraphQLError } from "graphql/error";
+import { useRouter } from "next/navigation";
 import { getAgeRange } from "@/constants/age";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
@@ -17,23 +19,32 @@ interface FormFields {
 export default function OnboardingDOB({
   nextStep,
   defaultValues,
+  fallbackToStep,
 }: {
   nextStep: () => void;
+  fallbackToStep: () => void;
   defaultValues: FormFields;
 }) {
   const form = useForm({ defaultValues });
   const [updateDOB, { loading }] = useAuthMutation(UPDATE_USER);
-
+  const router = useRouter();
   const dob = form.watch("dob");
   const ageRange = dob && getAgeRange(new Date(dob));
-  const onSubmit: SubmitHandler<{ dob?: string }> = async (data) => {
+  const onSubmit: SubmitHandler<{ dob?: string }> = (data) => {
     if (data.dob) {
-      const res = await updateDOB({
+      nextStep();
+      updateDOB({
         updatedUser: {
           dob: data.dob,
         },
-      }).catch(handleGQLErrors);
-      if (res?.data?.updateUser) nextStep();
+      })
+        .catch((e) => {
+          fallbackToStep();
+          handleGQLErrors(e as GraphQLError);
+        })
+        .finally(() => {
+          router.refresh();
+        });
     }
   };
   return (

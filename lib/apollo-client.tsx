@@ -41,6 +41,7 @@ export const tokenContext = (token?: string | null) => {
     headers: {
       authorization: `Bearer ${token}`,
     },
+    credentials: `omit`,
   };
 };
 

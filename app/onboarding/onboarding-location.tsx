@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
@@ -29,6 +30,7 @@ export default function OnboardingLocationForm({
   setCurrency: (currency: Currency) => void;
   defaultValues: FormFields;
 }) {
+  const router = useRouter();
   const form = useForm({ defaultValues });
   const [updateBasicDetails, { loading }] =
     useAuthMutation(UPDATE_USER_LOCATION);
@@ -81,6 +83,7 @@ export default function OnboardingLocationForm({
       if (res?.data?.updateUserLocation) {
         setCurrency(res.data.updateUserLocation);
         nextStep();
+        router.refresh();
       }
     }
   };

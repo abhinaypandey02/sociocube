@@ -3,23 +3,27 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { ArrowRight } from "@phosphor-icons/react";
 import Link from "next/link";
+import { GraphQLError } from "graphql/error";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import { getRoute } from "@/constants/routes";
 import { Roles } from "@/__generated__/graphql";
-import { useAuthMutation } from "@/lib/apollo-client";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { UPDATE_USER } from "@/lib/mutations";
 
 export default function OnboardingRole({
   nextStep,
+  fallbackToStep,
   role,
 }: {
   nextStep: () => void;
+  fallbackToStep: () => void;
   role?: Roles;
 }) {
   const [update] = useAuthMutation(UPDATE_USER);
   const [selectedRole, setSelectedRole] = useState<Roles | undefined>(role);
-
+  const router = useRouter();
   const handleRoleSelect = (newRole: Roles) => {
     setSelectedRole(newRole);
   };
@@ -27,11 +31,18 @@ export default function OnboardingRole({
   const handleSubmit = () => {
     nextStep();
     if (selectedRole !== role)
-      void update({
+      update({
         updatedUser: {
           role: selectedRole,
         },
-      });
+      })
+        .catch((e) => {
+          handleGQLErrors(e as GraphQLError);
+          fallbackToStep();
+        })
+        .finally(() => {
+          router.refresh();
+        });
   };
 
   const roleOptions = [

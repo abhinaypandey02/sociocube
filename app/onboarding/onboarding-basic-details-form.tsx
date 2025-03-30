@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { User } from "@phosphor-icons/react";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
+import { GraphQLError } from "graphql/error";
+import { useRouter } from "next/navigation";
 import categories from "@/constants/categories";
 import genders from "@/constants/genders";
 import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "@/constants/file";
@@ -27,11 +29,13 @@ interface FormFields {
 export default function OnboardingBasicDetailsForm({
   defaultValues,
   nextStep,
+  fallbackToStep,
   photoUpload,
   showCreatorSteps,
 }: {
   defaultValues: FormFields;
   nextStep: () => void;
+  fallbackToStep: () => void;
   photoUpload: StorageFile;
   showCreatorSteps: boolean;
 }) {
@@ -41,7 +45,7 @@ export default function OnboardingBasicDetailsForm({
   const [uploadingPicture, setUploadingPicture] = useState(false);
   const [missingPhoto, setMissingPhoto] = useState(false);
   const [updateBasicDetails, { loading }] = useAuthMutation(UPDATE_USER);
-
+  const router = useRouter();
   const displayURL = profilePicture
     ? URL.createObjectURL(profilePicture)
     : defaultValues.photo;
@@ -60,6 +64,7 @@ export default function OnboardingBasicDetailsForm({
       });
       if (!res.ok) return;
     }
+    nextStep();
     updateBasicDetails({
       updatedUser: {
         name: data.name,
@@ -69,12 +74,13 @@ export default function OnboardingBasicDetailsForm({
         gender: data.gender,
       },
     })
-      .then((res) => {
-        if (res.data?.updateUser) {
-          nextStep();
-        }
+      .catch((e) => {
+        fallbackToStep();
+        handleGQLErrors(e as GraphQLError);
       })
-      .catch(handleGQLErrors);
+      .finally(() => {
+        router.refresh();
+      });
   };
   return (
     <Form
