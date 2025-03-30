@@ -37,7 +37,7 @@ Use one emoji at max. Dont use - hyphens or dashes. Don't make it structured.`,
     {
       method: "POST",
       body: JSON.stringify({
-        content: `${randomPost.replaceAll("\n ", "\n")}\n\n #BuildInPublic`,
+        content: `${randomPost.replaceAll("\n ", "\n")}\n\n#BuildInPublic`,
       }),
       headers: {
         "Content-Type": "application/json",
