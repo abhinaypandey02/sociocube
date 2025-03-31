@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { GraphQLError } from "graphql/error";
@@ -15,11 +15,13 @@ export default function OnboardingPricingForm({
   nextStep,
   currency,
   defaultValues,
+  isActive,
 }: {
   fallbackToStep: () => void;
   nextStep: () => void;
   currency?: string | null;
   defaultValues: Pricing | undefined;
+  isActive: boolean;
 }) {
   const form = useForm({ defaultValues });
   const [updatePricing, { loading }] = useAuthMutation(UPDATE_USER);
@@ -39,6 +41,9 @@ export default function OnboardingPricingForm({
       });
     }
   };
+  useEffect(() => {
+    form.setFocus("starting");
+  }, [isActive]);
   return (
     <Form
       className="space-y-3"

@@ -24,17 +24,18 @@ export default function OnboardingRole({
 }) {
   const [update] = useAuthMutation(UPDATE_USER);
   const [selectedRole, setSelectedRole] = useState<Roles | undefined>(role);
-  const handleRoleSelect = (newRole: Roles) => {
-    setSelectedRole(newRole);
-  };
 
-  const handleSubmit = () => {
+  const handleSubmit = (newRole?: Roles) => {
     nextStep();
-    setShowCreatorSteps(selectedRole === Roles.Creator);
-    if (selectedRole !== role)
+    const newRoleSelected = newRole || selectedRole;
+    if (newRole) {
+      setSelectedRole(newRole);
+    }
+    setShowCreatorSteps(newRoleSelected === Roles.Creator);
+    if (newRoleSelected !== role)
       update({
         updatedUser: {
-          role: selectedRole,
+          role: newRoleSelected,
         },
       }).catch((e) => {
         handleGQLErrors(e as GraphQLError);
@@ -85,7 +86,7 @@ export default function OnboardingRole({
             } ${!i ? "col-span-2" : ""}`}
             key={option.role}
             onClick={() => {
-              handleRoleSelect(option.role);
+              handleSubmit(option.role);
             }}
           >
             <span className="font-medium text-gray-900">{option.title}</span>
@@ -94,8 +95,11 @@ export default function OnboardingRole({
         ))}
       </div>
       <Button
+        autoFocus
         className="mx-auto mt-6 flex items-center gap-2 !font-medium"
-        onClick={handleSubmit}
+        onClick={() => {
+          handleSubmit();
+        }}
         variant={Variants.ACCENT}
       >
         Start now <ArrowRight weight="bold" />

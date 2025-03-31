@@ -62,6 +62,7 @@ module.exports = {
     "prefer-named-capture-group": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "no-await-in-loop": "off",
+    "jsx-a11y/no-autofocus": "off",
   },
   plugins: [
     "tailwindcss",

@@ -82,6 +82,7 @@ export default function LoginForm({
           </label>
           <div className="mt-2">
             <Input
+              autoFocus
               className="block"
               name="email"
               placeholder="Email"

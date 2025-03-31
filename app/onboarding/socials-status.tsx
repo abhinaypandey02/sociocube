@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/button";
@@ -13,10 +13,12 @@ export default function SocialsStatus({
   connections,
   nextStep,
   setBasicDetails,
+  isActive,
 }: {
   connections: { instagram: boolean };
   nextStep: () => void;
   redirectURL: string | null;
+  isActive: boolean;
   setBasicDetails: (
     details: UpdateInstagramUsernameMutation["updateInstagramUsername"],
   ) => void;
@@ -39,6 +41,9 @@ export default function SocialsStatus({
         .catch(handleGQLErrors);
     }
   };
+  useEffect(() => {
+    form.setFocus("username");
+  }, [isActive]);
   return (
     <>
       <Image

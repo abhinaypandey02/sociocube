@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { GraphQLError } from "graphql/error";
@@ -19,10 +19,12 @@ export default function OnboardingDOB({
   nextStep,
   defaultValues,
   fallbackToStep,
+  isActive,
 }: {
   nextStep: () => void;
   fallbackToStep: () => void;
   defaultValues: FormFields;
+  isActive: boolean;
 }) {
   const form = useForm({ defaultValues });
   const [updateDOB, { loading }] = useAuthMutation(UPDATE_USER);
@@ -41,6 +43,9 @@ export default function OnboardingDOB({
       });
     }
   };
+  useEffect(() => {
+    form.setFocus("dob");
+  }, [isActive]);
   return (
     <Form
       className="space-y-3"

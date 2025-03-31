@@ -116,6 +116,7 @@ function OnboardingWizard({
         component: (
           <SocialsStatus
             connections={{ instagram: Boolean(currentUser?.instagramStats) }}
+            isActive={step === 1}
             key={1}
             nextStep={nextStep}
             redirectURL={redirectURL}
@@ -166,6 +167,7 @@ function OnboardingWizard({
                   fallbackToStep={() => {
                     fallbackToStep(3);
                   }}
+                  isActive={step === 3}
                   key={3}
                   nextStep={nextStep}
                 />
@@ -189,6 +191,7 @@ function OnboardingWizard({
             fallbackToStep={() => {
               fallbackToStep(showCreatorSteps ? 4 : 3);
             }}
+            isActive={step === (showCreatorSteps ? 4 : 3)}
             key={5}
             nextStep={nextStep}
             setCurrency={setCurrency}
@@ -214,6 +217,7 @@ function OnboardingWizard({
                   fallbackToStep={() => {
                     fallbackToStep(5);
                   }}
+                  isActive={step === 5}
                   key={6}
                   nextStep={nextStep}
                 />

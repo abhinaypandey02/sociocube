@@ -76,6 +76,7 @@ export default function SignupForm({
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <Input
+          autoFocus
           className="block"
           label="Full name"
           name="name"

@@ -29,6 +29,7 @@ export default function OnboardingLocationForm({
   setCurrency: (currency: string | null | undefined) => void;
   defaultValues: FormFields;
   fallbackToStep: () => void;
+  isActive: boolean;
 }) {
   const form = useForm({ defaultValues });
   const [updateBasicDetails, { loading }] =
