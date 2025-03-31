@@ -40,9 +40,13 @@ export const GET = async (req: NextRequest) => {
       .returning();
     if (!user) return new NextResponse(null, { status: 404 });
     if (user.instagramDetails)
-      await db
-        .delete(InstagramDetails)
-        .where(eq(InstagramDetails.id, user.instagramDetails));
+      try {
+        await db
+          .delete(InstagramDetails)
+          .where(eq(InstagramDetails.id, user.instagramDetails));
+      } catch (err) {
+        console.error("IN USE", err);
+      }
     if (user.location)
       await db.delete(LocationTable).where(eq(LocationTable.id, user.location));
     if (user.photo) await deleteImage(user.photo);
