@@ -35,10 +35,12 @@ export async function handleUpdateInstagramUsername(
       "Unable to fetch instagram profile, check username and ensure it's a public profile. Also try other method.",
     );
   }
+  const dataUsername = data.username.replaceAll(".", "_");
   waitUntil(
     (async () => {
       const user = await getCurrentUser(ctx);
       if (!user) throw GQLError(403, "User not found");
+      const updateUsername = user.username || dataUsername;
       const [existingDetails] = await db
         .select()
         .from(InstagramDetails)
@@ -63,6 +65,7 @@ export async function handleUpdateInstagramUsername(
                     "photo",
                   ]))),
               bio: user.bio || data.bio,
+              username: updateUsername,
             })
             .where(and(eq(UserTable.id, ctx.userId)));
         }
@@ -102,6 +105,7 @@ export async function handleUpdateInstagramUsername(
                     "photo",
                   ]))),
               bio: user.bio || data.bio,
+              username: updateUsername,
             })
             .where(and(eq(UserTable.id, ctx.userId)));
         }
@@ -112,6 +116,6 @@ export async function handleUpdateInstagramUsername(
   return {
     photo: data.photo,
     bio: data.bio,
-    username: data.username,
+    username: dataUsername,
   };
 }

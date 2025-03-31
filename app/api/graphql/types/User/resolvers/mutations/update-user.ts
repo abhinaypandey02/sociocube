@@ -22,6 +22,7 @@ import {
 import { db } from "@backend/lib/db";
 import type { AuthorizedContext } from "@graphql/context";
 import { Roles } from "@graphql/constants/roles";
+import { usernameAllowed } from "@graphql/types/User/utils";
 import { PricingTable, UserTable } from "../../db/schema";
 import { Pricing } from "../../type";
 import GQLError from "../../../../constants/errors";
@@ -68,6 +69,9 @@ export async function handleUpdateUser(
   ctx: AuthorizedContext,
   updatedUser: UpdateUserInput,
 ) {
+  if (updatedUser.username && !usernameAllowed(updatedUser.username)) {
+    throw GQLError(400, "Invalid username");
+  }
   if (updatedUser.dob) {
     const age = getAge(new Date(updatedUser.dob));
     if (age < MIN_AGE || age > MAX_AGE)

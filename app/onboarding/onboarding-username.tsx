@@ -19,8 +19,10 @@ import { getRoute } from "@/constants/routes";
 
 export default function OnboardingUsername({
   defaultValues,
+  isActive,
 }: {
-  defaultValues: { username?: string };
+  defaultValues: { username?: string | null };
+  isActive: boolean;
 }) {
   const router = useRouter();
   const form = useForm({ defaultValues, reValidateMode: "onSubmit" });
@@ -30,24 +32,31 @@ export default function OnboardingUsername({
     IS_USERNAME_AVAILABLE,
   );
   useEffect(() => {
-    if (defaultValues.username) {
+    if (defaultValues.username && isActive) {
       router.prefetch(`${getRoute("Profile")}/${defaultValues.username}`);
     }
-  }, [defaultValues.username]);
+  }, [defaultValues.username, isActive]);
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (data.username) {
       setLoading(true);
-      const res = await updateUsername({
-        updatedUser: {
-          username: data.username.toLowerCase(),
-        },
-      }).catch((e) => {
-        handleGQLErrors(e as GraphQLError);
-        setLoading(false);
-      });
-      if (res?.data?.updateUser) {
-        router.push(`${getRoute("Profile")}/${data.username.toLowerCase()}`);
+      if (data.username === defaultValues.username) {
+        router.push(`${getRoute("Profile")}/${defaultValues.username}`);
         router.refresh();
+      } else {
+        const res = await updateUsername({
+          updatedUser: {
+            username: data.username.toLowerCase(),
+          },
+        }).catch((e) => {
+          handleGQLErrors(e as GraphQLError);
+          setLoading(false);
+        });
+        if (res?.data?.updateUser) {
+          router.push(
+            `${getRoute("Profile")}/${data.username.toLowerCase()}?noCache=true`,
+          );
+          router.refresh();
+        }
       }
     }
   };

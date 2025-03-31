@@ -233,13 +233,9 @@ function OnboardingWizard({
         component: (
           <OnboardingUsername
             defaultValues={{
-              username: (
-                basicDetails?.username ||
-                currentUser?.username ||
-                currentUser?.instagramStats?.username ||
-                ""
-              ).replaceAll(".", "_"),
+              username: currentUser?.username || basicDetails?.username,
             }}
+            isActive={step === (showCreatorSteps ? 6 : 4)}
             key={4}
           />
         ),
