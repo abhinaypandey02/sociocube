@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
@@ -22,16 +22,18 @@ const defaultValues = {
 
 const CONTAINER_ID = "captcha-container";
 
-export default function SignupForm() {
+export default function SignupForm({
+  data: paramsRedirectURL,
+}: {
+  data?: string;
+}) {
   const form = useForm({ defaultValues });
   const router = useRouter();
   const { turnstileToken, resetTurnstileToken } =
     useTurnstileToken(CONTAINER_ID);
-  const params = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const signupWithEmail = useSignUpWithEmail();
-  const paramsRedirectURL = params.get("redirectURL");
   const redirectURL =
     Route.Onboarding +
     (paramsRedirectURL ? `?redirectURL=${paramsRedirectURL}` : "");

@@ -206,6 +206,7 @@ function OnboardingWizard({
                 "Add a starting price you would like to charge for collaborations. This would be an approximation for potential brands",
               icon: MoneyWavy,
               exclusiveRole: Roles.Creator,
+              key: currency,
               component: (
                 <OnboardingPricingForm
                   currency={currency}
@@ -228,10 +229,12 @@ function OnboardingWizard({
         longDescription:
           "Get a personalised sharing link. Select a unique username and get your own custom link that you can share easily!",
         icon: LinkIcon,
+        key: basicDetails?.username,
         component: (
           <OnboardingUsername
             defaultValues={{
               username: (
+                basicDetails?.username ||
                 currentUser?.username ||
                 currentUser?.instagramStats?.username ||
                 ""

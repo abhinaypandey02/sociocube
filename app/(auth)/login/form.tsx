@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { Input } from "@/components/input";
@@ -23,9 +23,12 @@ const defaultValues = {
 
 const CONTAINER_ID = "captcha-container";
 
-export default function LoginForm() {
+export default function LoginForm({
+  data: paramsRedirectURL,
+}: {
+  data?: string;
+}) {
   const form = useForm({ defaultValues });
-  const params = useSearchParams();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { turnstileToken, resetTurnstileToken } =
@@ -33,7 +36,7 @@ export default function LoginForm() {
   const [success, setSuccess] = useState(false);
 
   const loginWithEmail = useLoginWithEmail();
-  const redirectURL = params.get("redirect") || Route.Home;
+  const redirectURL = paramsRedirectURL || Route.Home;
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (!turnstileToken) {
       return;

@@ -20,6 +20,8 @@ export class UpdateInstagramUsernameResponse {
   photo?: string;
   @Field()
   bio: string;
+  @Field()
+  username: string;
 }
 
 export async function handleUpdateInstagramUsername(
@@ -110,5 +112,6 @@ export async function handleUpdateInstagramUsername(
   return {
     photo: data.photo,
     bio: data.bio,
+    username: data.username,
   };
 }

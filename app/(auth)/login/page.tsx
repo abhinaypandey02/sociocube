@@ -1,12 +1,18 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { getSEO } from "@/constants/seo";
+import { Injector } from "@/lib/apollo-server";
 import LoginForm from "./form";
 
-export default function LoginPage() {
+export default function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ redirectURL: string }>;
+}) {
   return (
-    <Suspense>
-      <LoginForm />
-    </Suspense>
+    <Injector
+      Component={LoginForm}
+      fetch={async () => (await searchParams).redirectURL}
+    />
   );
 }
 
