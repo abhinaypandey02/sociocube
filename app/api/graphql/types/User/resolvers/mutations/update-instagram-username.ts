@@ -28,19 +28,21 @@ export async function handleUpdateInstagramUsername(
   ctx: AuthorizedContext,
   username: string,
 ) {
-  const data = await fetchExternalInstagramDetails(username);
+  const [data, user] = await Promise.all([
+    fetchExternalInstagramDetails(username),
+    getCurrentUser(ctx),
+  ]);
   if (!data?.username) {
     throw GQLError(
       500,
       "Unable to fetch instagram profile, check username and ensure it's a public profile. Also try other method.",
     );
   }
-  const dataUsername = data.username.replaceAll(".", "_");
+  if (!user) throw GQLError(403, "User not found");
+
+  const updateUsername = user.username || data.username.replaceAll(".", "_");
   waitUntil(
     (async () => {
-      const user = await getCurrentUser(ctx);
-      if (!user) throw GQLError(403, "User not found");
-      const updateUsername = user.username || dataUsername;
       const [existingDetails] = await db
         .select()
         .from(InstagramDetails)
@@ -57,13 +59,12 @@ export async function handleUpdateInstagramUsername(
             .set({
               instagramDetails: existingDetails.id,
               photo:
-                user.photo ||
-                (data.photo &&
-                  (await uploadImage(data.photo, [
-                    "User",
-                    user.id.toString(),
-                    "photo",
-                  ]))),
+                data.photo &&
+                (await uploadImage(data.photo, [
+                  "User",
+                  ctx.userId.toString(),
+                  "photo",
+                ])),
               bio: user.bio || data.bio,
               username: updateUsername,
             })
@@ -97,13 +98,12 @@ export async function handleUpdateInstagramUsername(
             .set({
               instagramDetails: details.id,
               photo:
-                user.photo ||
-                (data.photo &&
-                  (await uploadImage(data.photo, [
-                    "User",
-                    user.id.toString(),
-                    "photo",
-                  ]))),
+                data.photo &&
+                (await uploadImage(data.photo, [
+                  "User",
+                  user.id.toString(),
+                  "photo",
+                ])),
               bio: user.bio || data.bio,
               username: updateUsername,
             })
@@ -115,7 +115,7 @@ export async function handleUpdateInstagramUsername(
 
   return {
     photo: data.photo,
-    bio: data.bio || "",
-    username: dataUsername,
+    bio: user.bio || data.bio || "",
+    username: updateUsername,
   };
 }

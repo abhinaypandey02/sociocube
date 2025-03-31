@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/button";
@@ -9,13 +9,17 @@ import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { UPDATE_INSTAGRAM_USERNAME } from "@/lib/mutations";
 import type { UpdateInstagramUsernameMutation } from "@/__generated__/graphql";
 
+interface FormFields {
+  instagram?: string;
+}
+
 export default function SocialsStatus({
-  connections,
+  defaultValues,
   nextStep,
   setBasicDetails,
   isActive,
 }: {
-  connections: { instagram: boolean };
+  defaultValues: FormFields;
   nextStep: () => void;
   redirectURL: string | null;
   isActive: boolean;
@@ -23,26 +27,28 @@ export default function SocialsStatus({
     details: UpdateInstagramUsernameMutation["updateInstagramUsername"],
   ) => void;
 }) {
-  const form = useForm<{ username: string }>();
-  const [connected, setConnected] = useState(connections.instagram);
+  const form = useForm({ defaultValues });
   const [updateInstagramUsername, { loading }] = useAuthMutation(
     UPDATE_INSTAGRAM_USERNAME,
   );
-  const handleManualConnection = (data: { username: null | string }) => {
-    if (data.username) {
-      updateInstagramUsername({ username: data.username.trim().toLowerCase() })
-        .then((res) => {
-          if (res.data?.updateInstagramUsername) {
-            setBasicDetails(res.data.updateInstagramUsername);
-            nextStep();
-            setConnected(true);
-          }
+  const handleManualConnection = (data: FormFields) => {
+    if (data.instagram) {
+      if (data.instagram !== defaultValues.instagram)
+        updateInstagramUsername({
+          username: data.instagram.trim().toLowerCase(),
         })
-        .catch(handleGQLErrors);
+          .then((res) => {
+            if (res.data?.updateInstagramUsername) {
+              setBasicDetails(res.data.updateInstagramUsername);
+              nextStep();
+            }
+          })
+          .catch(handleGQLErrors);
+      else nextStep();
     }
   };
   useEffect(() => {
-    form.setFocus("username");
+    form.setFocus("instagram");
   }, [isActive]);
   return (
     <>
@@ -53,27 +59,21 @@ export default function SocialsStatus({
         src="/instagram-logo.png"
         width={173}
       />
-      {connected ? (
-        <Button className=" mx-auto" onClick={nextStep}>
-          Next
+      <Form
+        className="flex items-end gap-3"
+        form={form}
+        onSubmit={form.handleSubmit(handleManualConnection)}
+      >
+        <Input
+          className="grow"
+          label="Username"
+          name="instagram"
+          placeholder="Instagram Username"
+        />
+        <Button loading={loading} type="submit">
+          Connect
         </Button>
-      ) : (
-        <Form
-          className="flex items-end gap-3"
-          form={form}
-          onSubmit={form.handleSubmit(handleManualConnection)}
-        >
-          <Input
-            className="grow"
-            label="Username"
-            name="username"
-            placeholder="Instagram Username"
-          />
-          <Button loading={loading} type="submit">
-            Connect
-          </Button>
-        </Form>
-      )}
+      </Form>
     </>
   );
 }

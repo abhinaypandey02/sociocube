@@ -115,7 +115,10 @@ function OnboardingWizard({
         icon: ShareNetwork,
         component: (
           <SocialsStatus
-            connections={{ instagram: Boolean(currentUser?.instagramStats) }}
+            defaultValues={{
+              instagram:
+                basicDetails?.username || currentUser?.instagramStats?.username,
+            }}
             isActive={step === 1}
             key={1}
             nextStep={nextStep}
