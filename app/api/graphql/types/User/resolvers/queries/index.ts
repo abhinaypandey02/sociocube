@@ -38,7 +38,10 @@ export class UserQueryResolver {
   }
   @Authorized()
   @Query(() => Boolean)
-  async isUsernameAvailable(@Arg("username") username: string) {
-    return handleIsUsernameAvailable(username);
+  async isUsernameAvailable(
+    @Ctx() ctx: AuthorizedContext,
+    @Arg("username") username: string,
+  ) {
+    return handleIsUsernameAvailable(ctx, username);
   }
 }
