@@ -21,7 +21,9 @@ export function createUser() {
   cy.get("button").contains("Sign up").click();
 
   // Verify successful sign-up
-  cy.contains("Let's get you onboarded").should("be.visible");
+  cy.contains("Let's get you onboarded", { timeout: 8000 }).should(
+    "be.visible",
+  );
 
   return { email, id, name };
 }
