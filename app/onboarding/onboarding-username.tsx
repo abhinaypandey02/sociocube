@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -29,7 +29,11 @@ export default function OnboardingUsername({
   const [isUsernameAvailable, { loading: loadingAvailability }] = useAuthQuery(
     IS_USERNAME_AVAILABLE,
   );
-
+  useEffect(() => {
+    if (defaultValues.username) {
+      router.prefetch(`${getRoute("Profile")}/${defaultValues.username}`);
+    }
+  }, [defaultValues.username]);
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (data.username) {
       setLoading(true);
