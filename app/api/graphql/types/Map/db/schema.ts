@@ -21,9 +21,9 @@ export const StateTable = pgTable("states", {
   fipsCode: varchar("fips_code", { length: 255 }),
   iso2: varchar("iso2", { length: 255 }),
   type: varchar("type", { length: 191 }),
-  latitude: numeric("latitude", { precision: 10, scale: 8 }),
-  longitude: numeric("longitude", { precision: 11, scale: 8 }),
-  createdAt: timestamp("created_at", { mode: "string" }),
+  latitude: numeric("latitude", { precision: 10, scale: 8 }).notNull(),
+  longitude: numeric("longitude", { precision: 11, scale: 8 }).notNull(),
+  createdAt: timestamp("created_at", { mode: "string" }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { mode: "string" }).defaultNow().notNull(),
   flag: smallint("flag")
     .default(sql`1`)
@@ -51,7 +51,7 @@ export const CityTable = pgTable(
     stateId: bigint("state_id", { mode: "number" })
       .notNull()
       .references(() => StateTable.id),
-    stateCode: varchar("state_code", { length: 255 }).notNull(),
+    stateCode: varchar("state_code", { length: 255 }),
     countryId: bigint("country_id", { mode: "number" })
       .notNull()
       .references(() => CountryTable.id),
@@ -59,7 +59,7 @@ export const CityTable = pgTable(
     latitude: numeric("latitude", { precision: 10, scale: 8 }).notNull(),
     longitude: numeric("longitude", { precision: 11, scale: 8 }).notNull(),
     createdAt: timestamp("created_at", { mode: "string" })
-      .default(sql`'2014-01-01 12:01:01'`)
+      .defaultNow()
       .notNull(),
     updatedAt: timestamp("updated_at", { mode: "string" })
       .defaultNow()
@@ -71,6 +71,7 @@ export const CityTable = pgTable(
   },
   (table) => ({
     countryIdx: index("country_idx").on(table.countryId),
+    countryCodeIdx: index("country_code_idx").on(table.countryCode),
     stateIdx: index("state_idx").on(table.stateId),
   }),
 );
@@ -80,12 +81,12 @@ export const CountryTable = pgTable("countries", {
   name: varchar("name", { length: 100 }).notNull(),
   iso3: char("iso3", { length: 3 }),
   numericCode: char("numeric_code", { length: 3 }),
-  iso2: char("iso2", { length: 2 }),
+  iso2: char("iso2", { length: 2 }).unique().notNull(),
   phonecode: varchar("phonecode", { length: 255 }),
   capital: varchar("capital", { length: 255 }),
   currency: varchar("currency", { length: 255 }),
   currencyName: varchar("currency_name", { length: 255 }),
-  currencySymbol: varchar("currency_symbol", { length: 255 }),
+  currencySymbol: varchar("currency_symbol", { length: 255 }).notNull(),
   tld: varchar("tld", { length: 255 }),
   native: varchar("native", { length: 255 }),
   region: varchar("region", { length: 255 }),

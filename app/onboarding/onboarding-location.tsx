@@ -1,8 +1,9 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { GraphQLError } from "graphql/error";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
@@ -11,8 +12,7 @@ import {
   useAuthMutation,
   useAuthQuery,
 } from "@/lib/apollo-client";
-import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "@/lib/queries";
-import type { Currency } from "@/__generated__/graphql";
+import { GET_CITIES, GET_COUNTRIES } from "@/lib/queries";
 import { UPDATE_USER_LOCATION } from "@/lib/mutations";
 
 interface FormFields {
@@ -25,10 +25,12 @@ export default function OnboardingLocationForm({
   nextStep,
   setCurrency,
   defaultValues,
+  fallbackToStep,
 }: {
   nextStep: () => void;
-  setCurrency: (currency: Currency) => void;
+  setCurrency: (currency: string | null | undefined) => void;
   defaultValues: FormFields;
+  fallbackToStep: () => void;
 }) {
   const router = useRouter();
   const form = useForm({ defaultValues });
@@ -36,55 +38,83 @@ export default function OnboardingLocationForm({
     useAuthMutation(UPDATE_USER_LOCATION);
   const [fetchCountries, { data: countriesData, loading: loadingCountries }] =
     useAuthQuery(GET_COUNTRIES);
-  const [fetchStates, { data: statesData, loading: loadingStates }] =
-    useAuthQuery(GET_STATES);
   const [fetchCities, { data: citiesData, loading: loadingCities }] =
     useAuthQuery(GET_CITIES);
+  const [countryCode, setCountryCode] = useState<string>();
+  const [cityName, setCityName] = useState<string>();
+
+  useEffect(() => {
+    fetch("https://ipinfo.io/json")
+      .then((res) => res.json())
+      .then((data: { country: string; city: string }) => {
+        setCountryCode(data.country);
+        setCityName(data.city);
+      })
+      .catch((e) => {
+        console.error(e, "Error fetching ip info");
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!form.getValues("country") && countryCode && countriesData) {
+      const selectedCountry = countriesData.countries.find(
+        (country) => country.countryCode === countryCode,
+      );
+      if (selectedCountry) form.setValue("country", selectedCountry.value);
+    }
+  }, [countryCode, countriesData]);
+
+  useEffect(() => {
+    if (!form.getValues("city") && cityName && citiesData) {
+      const selectedCity = citiesData.cities.find(
+        (city) => city.label.trim().toLowerCase() === cityName.toLowerCase(),
+      );
+      if (selectedCity) form.setValue("city", selectedCity.value);
+    }
+  }, [cityName, citiesData]);
 
   useEffect(() => {
     void fetchCountries();
-    const countryID = form.getValues("country"),
-      stateID = form.getValues("state");
+    const countryID = form.getValues("country");
     if (countryID)
-      void fetchStates({
+      void fetchCities({
         countryID,
       });
-    if (stateID)
-      void fetchCities({
-        stateID,
-      });
-  }, [fetchCountries, fetchStates, fetchCities]);
+  }, [fetchCountries, fetchCities]);
+
   useEffect(() => {
     const sub = form.watch((value, { name }) => {
-      if (name === "country" && value[name])
-        void fetchStates({
+      if (name === "country" && value[name]) {
+        void fetchCities({
           countryID: value[name],
         });
-      if (name === "state" && value[name])
-        void fetchCities({
-          stateID: value[name],
-        });
+        setCurrency(
+          countriesData?.countries.find((c) => c.value === value[name])
+            ?.currency,
+        );
+      }
     });
     return sub.unsubscribe;
-  }, [form.watch, fetchCities, form, fetchStates]);
+  }, [form.watch, fetchCities, form]);
 
   const countries = countriesData?.countries;
-  const states = statesData?.states;
   const cities = citiesData?.cities;
-  const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    if (data.state && data.country) {
-      const res = await updateBasicDetails({
+  const onSubmit: SubmitHandler<FormFields> = (data) => {
+    if (data.city && data.country) {
+      nextStep();
+      updateBasicDetails({
         updatedLocation: {
           city: data.city,
-          state: data.state,
           country: data.country,
         },
-      }).catch(handleGQLErrors);
-      if (res?.data?.updateUserLocation) {
-        setCurrency(res.data.updateUserLocation);
-        nextStep();
-        router.refresh();
-      }
+      })
+        .catch((e) => {
+          fallbackToStep();
+          handleGQLErrors(e as GraphQLError);
+        })
+        .finally(() => {
+          router.refresh();
+        });
     }
   };
   return (
@@ -101,16 +131,6 @@ export default function OnboardingLocationForm({
         placeholder="Select your country"
         rules={{ required: true }}
       />
-      {states ? (
-        <Input
-          className="block"
-          label="State"
-          name="state"
-          options={states}
-          placeholder="Select your state"
-          rules={{ required: true }}
-        />
-      ) : null}
       {cities ? (
         <Input
           className="block"
@@ -123,7 +143,7 @@ export default function OnboardingLocationForm({
       <Button
         className="ml-auto"
         disabled={!form.watch("city")}
-        loading={loading || loadingCountries || loadingCities || loadingStates}
+        loading={loading || loadingCountries || loadingCities}
         type="submit"
       >
         Next

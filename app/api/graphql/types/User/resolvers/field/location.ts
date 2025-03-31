@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
+import { db } from "@backend/lib/db";
 import type { UserDB } from "../../db/schema";
 import { LocationTable } from "../../db/schema";
-import { db } from "@backend/lib/db";
 import { CityTable, CountryTable } from "../../../Map/db/schema";
 
 export async function getLocation(user: UserDB) {
@@ -16,11 +16,7 @@ export async function getLocation(user: UserDB) {
       return {
         city: city.cities?.name,
         country: city.countries.name,
-        currency: {
-          symbol: city.countries.currencySymbol || undefined,
-          name: city.countries.currencyName || undefined,
-          code: city.countries.currency || undefined,
-        },
+        currency: city.countries.currencySymbol,
       };
   }
   return null;

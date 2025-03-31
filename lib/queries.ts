@@ -57,11 +57,7 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
       dob
       location {
         city
-        currency {
-          code
-          name
-          symbol
-        }
+        currency
       }
       locationID {
         city
@@ -153,11 +149,7 @@ export const GET_SELLER = gql(`
         location {
           city
           country
-          currency {
-            name
-            symbol
-            code
-          }
+          currency
         }
         category
         dob
@@ -271,23 +263,15 @@ export const GET_COUNTRIES = gql(`
     countries: getCountries {
       value
       label
+      countryCode
+      currency
     }
   }
 `);
-export const GET_STATES = gql(`
-  #graphql
-  query GetStates($countryID: Int!) {
-    states: getStates(countryID: $countryID) {
-      value
-      label
-    }
-  }
-`);
-
 export const GET_CITIES = gql(`
   #graphql
-  query GetCities($stateID: Int!) {
-    cities: getCities(stateID: $stateID) {
+  query GetCities($countryID: Int!) {
+    cities: getCities(countryID: $countryID) {
       value
       label
     }
@@ -313,10 +297,7 @@ export const SEARCH_SELLERS = gql(`
       location {
         city
         country
-        currency {
-          symbol
-          code
-        }
+        currency
       }
     }
   }

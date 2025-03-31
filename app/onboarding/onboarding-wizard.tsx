@@ -13,8 +13,8 @@ import {
 } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
+import classNames from "classnames";
 import type {
-  Currency,
   GetDefaultOnboardingDetailsQuery,
   UpdateInstagramUsernameMutation,
 } from "@/__generated__/graphql";
@@ -69,7 +69,7 @@ function OnboardingWizard({
   const [maxTouchedStep, setMaxTouchedStep] = useState(getStep(currentUser));
   const [basicDetails, setBasicDetails] =
     useState<UpdateInstagramUsernameMutation["updateInstagramUsername"]>();
-  const [currency, setCurrency] = useState<Currency | undefined | null>(
+  const [currency, setCurrency] = useState<string | undefined | null>(
     currentUser?.location?.currency,
   );
   const nextStep = useCallback(() => {
@@ -183,6 +183,9 @@ function OnboardingWizard({
               country: currentUser?.locationID?.country,
               state: currentUser?.locationID?.state,
             }}
+            fallbackToStep={() => {
+              fallbackToStep(showCreatorSteps ? 4 : 3);
+            }}
             key={5}
             nextStep={nextStep}
             setCurrency={setCurrency}
@@ -205,7 +208,7 @@ function OnboardingWizard({
                   currency={currency}
                   defaultValues={currentUser?.pricing || undefined}
                   fallbackToStep={() => {
-                    fallbackToStep(3);
+                    fallbackToStep(5);
                   }}
                   key={6}
                   nextStep={nextStep}
@@ -283,19 +286,23 @@ function OnboardingWizard({
                 </button>
               ) : null}
             </div>
-            <div className="h-full sm:px-6">
-              {currentStep?.heading ? (
+            {steps.map((stepValue, i) => (
+              <div
+                className={classNames(
+                  "h-full sm:px-6 ",
+                  i !== step && "hidden",
+                )}
+                key={stepValue.heading}
+              >
                 <h2 className="mb-1 mt-6 text-center font-poppins text-3xl font-semibold sm:mt-14">
-                  {currentStep.heading}
+                  {stepValue.heading}
                 </h2>
-              ) : null}
-              {currentStep?.longDescription ? (
                 <p className="mb-5 text-center text-gray-600 sm:mb-10">
-                  {currentStep.longDescription}
+                  {stepValue.longDescription}
                 </p>
-              ) : null}
-              {steps[step]?.component}
-            </div>
+                {stepValue.component}
+              </div>
+            ))}
           </div>
         )}
         {loading ? (

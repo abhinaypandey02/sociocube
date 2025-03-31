@@ -8,7 +8,7 @@ import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
-import type { Currency, Pricing } from "@/__generated__/graphql";
+import type { Pricing } from "@/__generated__/graphql";
 import { UPDATE_USER } from "@/lib/mutations";
 
 export default function OnboardingPricingForm({
@@ -19,7 +19,7 @@ export default function OnboardingPricingForm({
 }: {
   fallbackToStep: () => void;
   nextStep: () => void;
-  currency?: Currency | null;
+  currency?: string | null;
   defaultValues: Pricing | undefined;
 }) {
   const router = useRouter();
@@ -53,17 +53,10 @@ export default function OnboardingPricingForm({
     >
       <Input
         className="block"
-        disabled
-        label="Currency"
-        name="currency"
-        placeholder="Currency"
-        value={`${currency?.name} (${currency?.symbol})`}
-      />
-      <Input
-        className="block"
         label="Starting price"
         name="starting"
-        placeholder={`Enter your starting price in ${currency?.name}`}
+        placeholder="Enter your starting price"
+        prefix={currency || undefined}
         rules={{ required: true, valueAsNumber: true }}
       />
       <div className="!mt-6 flex justify-between">

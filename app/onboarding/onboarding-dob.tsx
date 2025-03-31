@@ -70,7 +70,7 @@ export default function OnboardingDOB({
         </p>
       ) : null}
       <div className="!mt-6 flex justify-between">
-        <Button invert onClick={nextStep} type="submit">
+        <Button invert onClick={nextStep}>
           Skip it
         </Button>
 

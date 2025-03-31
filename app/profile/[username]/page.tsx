@@ -12,15 +12,11 @@ import Image from "next/image";
 import { cookies } from "next/headers";
 import { IconButton } from "@/components/icon-button";
 import { getCurrentUser, Injector, queryGQL } from "@/lib/apollo-server";
-import {
-  GET_FEATURED_SELLERS_AND_POSTS,
-  GET_PORTFOLIO_UPLOAD_URL,
-  GET_SELLER,
-} from "@/lib/queries";
+import { GET_PORTFOLIO_UPLOAD_URL, GET_SELLER } from "@/lib/queries";
 import { getSEO } from "@/constants/seo";
 import { convertToAbbreviation } from "@/lib/utils";
-import Schema from "../../components/schema";
 import { getMeURL, getRoute, Route } from "@/constants/routes";
+import Schema from "../../components/schema";
 import CopyLinkButton from "./components/copy-link-button";
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 import Portfolio from "./components/portfolio";
@@ -31,15 +27,6 @@ import Review from "./components/review";
 export interface ProfilePage {
   params: Promise<{ username: string }>;
   searchParams: Promise<{ noCache?: string }>;
-}
-
-export const dynamicParams = true;
-
-export async function generateStaticParams() {
-  const { sellers } = await queryGQL(GET_FEATURED_SELLERS_AND_POSTS);
-  return sellers.map(({ username }) => ({
-    username,
-  }));
 }
 
 export async function generateMetadata({
@@ -152,8 +139,8 @@ export default async function ProfilePage({
           <p className="mb-3 mt-1 text-gray-900">
             <span className="mr-1 text-sm font-light italic">from</span>{" "}
             <span className=" ">
-              {user.location?.currency?.symbol}
-              {user.pricing.starting} {user.location?.currency?.code}
+              {user.location?.currency}
+              {user.pricing.starting}
             </span>
           </p>
         ) : null}

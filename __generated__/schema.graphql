@@ -258,6 +258,11 @@ enum ApplicationStatus {
   Rejected
 }
 
+type CitySelectOption {
+  label: String!
+  value: Int!
+}
+
 type Conversation {
   agency: User
   hasRead: Boolean!
@@ -267,10 +272,11 @@ type Conversation {
   user: User
 }
 
-type Currency {
-  code: String
-  name: String
-  symbol: String
+type CountrySelectOption {
+  countryCode: String!
+  currency: String!
+  label: String!
+  value: Int!
 }
 
 type GetFeaturedPostsResponse {
@@ -308,7 +314,7 @@ type InstagramStats {
 type Location {
   city: String
   country: String
-  currency: Currency
+  currency: String!
 }
 
 type LocationID {
@@ -346,7 +352,7 @@ type Mutation {
   updateInstagramUsername(username: String!): UpdateInstagramUsernameResponse!
   updatePosting(id: Float!, updatedPosting: UpdatePostingInput!): Boolean!
   updateUser(updatedUser: UpdateUserInput!): Boolean!
-  updateUserLocation(updatedLocation: UpdateLocation!): Currency!
+  updateUserLocation(updatedLocation: UpdateLocation!): Boolean!
 }
 
 input NewPostingInput {
@@ -420,8 +426,8 @@ type Query {
   getChatWithAgency(username: String!): Conversation
   getChatWithUser(username: String!): Conversation
   getChats: [Conversation!]!
-  getCities(stateID: Int!): [SelectOption!]!
-  getCountries: [SelectOption!]!
+  getCities(countryID: Int!): [CitySelectOption!]!
+  getCountries: [CountrySelectOption!]!
   getCurrentUser: User
   getFeaturedPostings: [Posting!]!
   getFeaturedPosts: [GetFeaturedPostsResponse!]!
@@ -432,7 +438,6 @@ type Query {
   getPosting(id: Int!): Posting
   getPostingApplications(postingID: Int!): [Application!]!
   getSeller(username: String!): User
-  getStates(countryID: Int!): [SelectOption!]!
   getUserApplications: [Application!]!
   getUserPostings: [Posting!]!
   isUsernameAvailable(username: String!): Boolean!
@@ -495,11 +500,6 @@ input SearchSellersFilters {
   states: [Int!]
 }
 
-type SelectOption {
-  label: String!
-  value: Int!
-}
-
 input SendReviewByAgencyArgs {
   application: Float!
   userFeedback: String
@@ -528,7 +528,6 @@ type UpdateInstagramUsernameResponse {
 input UpdateLocation {
   city: Float
   country: Float!
-  state: Float!
 }
 
 input UpdatePostingInput {

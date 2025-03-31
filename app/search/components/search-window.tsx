@@ -34,8 +34,8 @@ import type {
 } from "@/__generated__/graphql";
 import { SearchFilterSorting } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
-import { SEARCH_FILTERS } from "../constants";
 import { convertToAbbreviation } from "@/lib/utils";
+import { SEARCH_FILTERS } from "../constants";
 import SearchLoading from "./search-loading";
 
 const NoResults = dynamic(() => import("./no-results"));
@@ -321,9 +321,8 @@ export default function SearchWindow({
                                     {" "}
                                     •{" "}
                                     <span className="">
-                                      {person.location?.currency?.symbol}
-                                      {person.pricing.starting}{" "}
-                                      {person.location?.currency?.code}
+                                      {person.location?.currency}
+                                      {person.pricing.starting}
                                     </span>
                                   </>
                                 ) : null}

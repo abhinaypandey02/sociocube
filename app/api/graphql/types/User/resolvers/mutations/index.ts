@@ -1,6 +1,5 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "@graphql/context";
-import { Currency } from "../../type";
 import { handleUpdateUser, UpdateUserInput } from "./update-user";
 import { handleDisconnectInstagram } from "./disconnect-instagram";
 import {
@@ -31,11 +30,11 @@ export class UserMutationResolver {
     return handleUpdateUser(ctx, updatedUser);
   }
   @Authorized()
-  @Mutation(() => Currency)
+  @Mutation(() => Boolean)
   updateUserLocation(
     @Ctx() ctx: AuthorizedContext,
     @Arg("updatedLocation") updatedLocation: UpdateLocationInput,
-  ): Promise<Currency> {
+  ): Promise<boolean> {
     return handleUpdateLocation(ctx, updatedLocation);
   }
   @Authorized()

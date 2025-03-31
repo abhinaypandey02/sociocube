@@ -11,7 +11,7 @@ import {
   useAuthQuery,
 } from "@/lib/apollo-client";
 import { UPDATE_USER_LOCATION } from "@/lib/mutations";
-import { GET_CITIES, GET_COUNTRIES, GET_STATES } from "@/lib/queries";
+import { GET_CITIES, GET_COUNTRIES } from "@/lib/queries";
 import ContentTemplate from "./content-template";
 import type { AccountSectionData } from "./account-view";
 
@@ -31,24 +31,17 @@ export default function LocationSection({
   const router = useRouter();
   const [fetchCountries, { data: countriesData, loading: loadingCountries }] =
     useAuthQuery(GET_COUNTRIES);
-  const [fetchStates, { data: statesData, loading: loadingStates }] =
-    useAuthQuery(GET_STATES);
   const [fetchCities, { data: citiesData, loading: loadingCities }] =
     useAuthQuery(GET_CITIES);
 
   useEffect(() => {
     void fetchCountries();
-    const countryID = form.getValues("country"),
-      stateID = form.getValues("state");
+    const countryID = form.getValues("country");
     if (countryID)
-      void fetchStates({
+      void fetchCities({
         countryID,
       });
-    if (stateID)
-      void fetchCities({
-        stateID,
-      });
-  }, [fetchCountries, fetchStates, fetchCities]);
+  }, [fetchCountries, fetchCities]);
   const onSubmit: SubmitHandler<
     NonNullable<AccountSectionData["locationID"]>
   > = async ({ city, state, country }) => {
@@ -56,7 +49,6 @@ export default function LocationSection({
       await saveUserMutation({
         updatedLocation: {
           city,
-          state,
           country,
         },
       })
@@ -70,18 +62,13 @@ export default function LocationSection({
   useEffect(() => {
     const sub = form.watch((value, { name }) => {
       if (name === "country" && value[name])
-        void fetchStates({
-          countryID: value[name],
-        });
-      if (name === "state" && value[name])
         void fetchCities({
-          stateID: value[name],
+          countryID: value[name],
         });
     });
     return sub.unsubscribe;
-  }, [form.watch, fetchCities, form, fetchStates]);
+  }, [form.watch, fetchCities, form]);
   const countries = countriesData?.countries;
-  const states = statesData?.states;
   const cities = citiesData?.cities;
   return (
     <main className="px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20">
@@ -103,16 +90,6 @@ export default function LocationSection({
               placeholder="Select your country"
               rules={{ required: true }}
             />
-            {states ? (
-              <Input
-                className="block"
-                label="State"
-                name="state"
-                options={states}
-                placeholder="Select your state"
-                rules={{ required: true }}
-              />
-            ) : null}
             {cities ? (
               <Input
                 className="block"
@@ -125,9 +102,7 @@ export default function LocationSection({
             {form.watch("city") && (
               <Button
                 className="!mt-8 ml-auto block "
-                loading={
-                  loading || loadingCountries || loadingCities || loadingStates
-                }
+                loading={loading || loadingCountries || loadingCities}
                 type="submit"
               >
                 Save

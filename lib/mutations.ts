@@ -33,10 +33,7 @@ export const UPDATE_USER = gql(`
 export const UPDATE_USER_LOCATION = gql(`
   #graphql
   mutation UpdateUserLocation($updatedLocation: UpdateLocation!) {
-    updateUserLocation(updatedLocation: $updatedLocation){
-      name
-      symbol
-    }
+    updateUserLocation(updatedLocation: $updatedLocation)
   }
 `);
 

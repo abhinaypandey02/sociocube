@@ -7,15 +7,6 @@ export class Pricing {
   @Field(() => Number, { nullable: true })
   starting: number | null;
 }
-@ObjectType("Currency")
-export class Currency {
-  @Field({ nullable: true })
-  symbol?: string;
-  @Field({ nullable: true })
-  code?: string;
-  @Field({ nullable: true })
-  name?: string;
-}
 
 @ObjectType("Location")
 export class Location {
@@ -23,8 +14,8 @@ export class Location {
   city?: string;
   @Field({ nullable: true })
   country?: string;
-  @Field(() => Currency, { nullable: true })
-  currency?: Currency;
+  @Field()
+  currency: string;
 }
 @ObjectType("LocationID")
 export class LocationID {
