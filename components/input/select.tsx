@@ -64,6 +64,7 @@ function Select({ options, rules, ...rest }: SelectProps) {
               : { ref })}
             {...rest}
             className="hidden"
+            placeholder={undefined}
           />
           <input
             className={rest.className}

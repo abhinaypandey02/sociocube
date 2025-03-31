@@ -7,5 +7,12 @@ export default defineConfig({
       bundler: "webpack",
     },
   },
-  e2e: {},
+  e2e: {
+    setupNodeEvents(on) {
+      on("after:run", () => {
+        void fetch("http://localhost:3000/api/delete-user");
+      });
+    },
+    baseUrl: "http://localhost:3000",
+  },
 });

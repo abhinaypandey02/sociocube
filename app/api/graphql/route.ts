@@ -37,9 +37,9 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   plugins: [
-    process.env.NEXT_PUBLIC_DEVELOPMENT
-      ? ApolloServerPluginLandingPageLocalDefault()
-      : ApolloServerPluginLandingPageProductionDefault(),
+    process.env.NODE_ENV === "production"
+      ? ApolloServerPluginLandingPageProductionDefault()
+      : ApolloServerPluginLandingPageLocalDefault(),
     {
       // eslint-disable-next-line @typescript-eslint/require-await -- No async required
       async requestDidStart({ request, contextValue }) {

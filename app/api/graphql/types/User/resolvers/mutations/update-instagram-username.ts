@@ -40,9 +40,14 @@ export async function handleUpdateInstagramUsername(
   }
   if (!user) throw GQLError(403, "User not found");
 
-  const updateUsername = user.username || data.username.replaceAll(".", "_");
+  const fetchedUsername = data.username.replaceAll(".", "_");
+  const updateUsername = user.username || fetchedUsername;
   waitUntil(
     (async () => {
+      const [existingUsernameUser] = await db
+        .select()
+        .from(UserTable)
+        .where(eq(UserTable.username, fetchedUsername));
       const [existingDetails] = await db
         .select()
         .from(InstagramDetails)
@@ -66,7 +71,7 @@ export async function handleUpdateInstagramUsername(
                   "photo",
                 ])),
               bio: user.bio || data.bio,
-              username: updateUsername,
+              username: existingUsernameUser ? undefined : updateUsername,
             })
             .where(and(eq(UserTable.id, ctx.userId)));
         }
@@ -105,7 +110,7 @@ export async function handleUpdateInstagramUsername(
                   "photo",
                 ])),
               bio: user.bio || data.bio,
-              username: updateUsername,
+              username: existingUsernameUser ? undefined : updateUsername,
             })
             .where(and(eq(UserTable.id, ctx.userId)));
         }
