@@ -63,5 +63,11 @@ module.exports = {
     "@typescript-eslint/no-non-null-assertion": "off",
     "no-await-in-loop": "off",
   },
-  plugins: ["tailwindcss", "prettier", "react-hooks", "react-refresh"],
+  plugins: [
+    "tailwindcss",
+    "prettier",
+    "react-hooks",
+    "react-refresh",
+    "simple-import-sort",
+  ],
 };

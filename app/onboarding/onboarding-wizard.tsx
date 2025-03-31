@@ -130,6 +130,7 @@ function OnboardingWizard({
         longDescription:
           "Provide information about you so we can help you be found!",
         icon: PencilSimple,
+        key: String(basicDetails?.photo) + basicDetails?.bio,
         component: currentUser ? (
           <OnboardingBasicDetailsForm
             defaultValues={{
@@ -304,7 +305,7 @@ function OnboardingWizard({
                   "h-full sm:px-6 ",
                   i !== step && "hidden",
                 )}
-                key={stepValue.heading}
+                key={stepValue.key || stepValue.heading}
               >
                 <h2 className="mb-1 mt-6 text-center font-poppins text-3xl font-semibold sm:mt-14">
                   {stepValue.heading}
