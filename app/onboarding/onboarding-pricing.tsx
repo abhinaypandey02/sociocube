@@ -57,6 +57,7 @@ export default function OnboardingPricingForm({
         placeholder="Enter your starting price"
         prefix={currency || undefined}
         rules={{ required: true, valueAsNumber: true }}
+        type="number"
       />
       <div className="!mt-6 flex justify-between">
         <Button invert onClick={nextStep} type="submit">
