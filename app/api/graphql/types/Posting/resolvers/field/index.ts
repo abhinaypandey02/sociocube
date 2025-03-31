@@ -1,8 +1,8 @@
 import { FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
 import { and, count, eq, isNotNull, sum } from "drizzle-orm";
+import { db } from "@backend/lib/db";
 import { PostingGQL } from "../../type";
 import type { PostingDB } from "../../db/schema";
-import { db } from "@backend/lib/db";
 import { ApplicationTable } from "../../../Application/db/schema";
 import { CountryTable } from "../../../Map/db/schema";
 import { ReviewGQL } from "../../../Review/type";

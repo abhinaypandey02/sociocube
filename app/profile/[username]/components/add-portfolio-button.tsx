@@ -10,14 +10,11 @@ import Form from "@/components/form";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
-import Modal from "../../../../components/modal";
 import type { StorageFile } from "@/__generated__/graphql";
-import {
-  handleGQLErrors,
-  useAuthMutation,
-} from "@/lib/apollo-client";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { ADD_PORTFOLIO, ADD_PORTFOLIO_LINK } from "@/lib/mutations";
 import { revalidateProfilePage } from "@/lib/revalidate";
+import Modal from "../../../../components/modal";
 import PortfolioImageHandler from "./portfolio-image-handler";
 
 interface FormValues {

@@ -1,7 +1,7 @@
 import type { GetPostingQuery } from "@/__generated__/graphql";
-import { getAgeGroup, getCurrency } from "../utils";
 import { convertToAbbreviation } from "@/lib/utils";
 import { getRoute } from "@/constants/routes";
+import { getAgeGroup, getCurrency } from "../utils";
 
 export function getShareText(posting: NonNullable<GetPostingQuery["posting"]>) {
   return `*${posting.title}*

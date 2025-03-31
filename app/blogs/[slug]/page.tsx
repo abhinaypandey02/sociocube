@@ -2,8 +2,8 @@ import React from "react";
 import Markdown from "react-markdown";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getBlogPost, getBlogPosts } from "../utils";
 import { getSEO } from "@/constants/seo";
+import { getBlogPost, getBlogPosts } from "../utils";
 import { MARKDOWN_COMPONENTS } from "../markdown-components";
 import Schema from "../../components/schema";
 

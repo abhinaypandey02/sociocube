@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
-import { useAccountSections } from "../constants";
 import type { GetAccountDetailsQuery } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
+import { useAccountSections } from "../constants";
 
 export type AccountSectionData = NonNullable<GetAccountDetailsQuery["user"]>;
 

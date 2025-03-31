@@ -33,8 +33,8 @@ import type {
 } from "@/__generated__/graphql";
 import { SearchPostingsSorting } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
-import { getAgeGroup, getCurrency } from "../utils";
 import { convertToAbbreviation } from "@/lib/utils";
+import { getAgeGroup, getCurrency } from "../utils";
 import SearchLoading from "./search-loading";
 import { SEARCH_POSTINGS_FILTERS } from "./constants";
 

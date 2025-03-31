@@ -9,7 +9,6 @@ import Link from "next/link";
 import { SealCheck } from "@phosphor-icons/react";
 import { getRoute } from "@/constants/routes";
 import type { GetFeaturedSellersQuery } from "@/__generated__/graphql";
-
 import "swiper/css";
 import "swiper/css/effect-cards";
 import { convertToAbbreviation } from "@/lib/utils";

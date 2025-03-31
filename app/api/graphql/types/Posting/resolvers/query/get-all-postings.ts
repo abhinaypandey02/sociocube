@@ -14,12 +14,12 @@ import {
 import { Field, InputType, registerEnumType } from "type-graphql";
 import { MaxLength } from "class-validator";
 import { NAME_MAX_LENGTH, USERNAME_MAX_LENGTH } from "@/constants/constraints";
-import { PostingTable } from "../../db/schema";
 import { db } from "@backend/lib/db";
 import { PostingPlatforms } from "@graphql/constants/platforms";
-import { ApplicationTable } from "../../../Application/db/schema";
 import type { PaginationArgs } from "@graphql/utils/pagination";
 import { withPagination } from "@graphql/utils/pagination";
+import { ApplicationTable } from "../../../Application/db/schema";
+import { PostingTable } from "../../db/schema";
 
 enum SearchPostingsSorting {
   PriceDesc = "PRICE_DESC",

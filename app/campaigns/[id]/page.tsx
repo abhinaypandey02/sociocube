@@ -12,10 +12,10 @@ import {
   GET_POSTING_REVIEWS,
 } from "@/lib/queries";
 import { convertToAbbreviation } from "@/lib/utils";
-import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
 import { renderRichText } from "@/lib/util-components";
 import { getSEO } from "@/constants/seo";
 import { getRoute } from "@/constants/routes";
+import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
 import ApplyNowButton from "./apply-now-button";
 import PostingReviews from "./posting-reviews";
 

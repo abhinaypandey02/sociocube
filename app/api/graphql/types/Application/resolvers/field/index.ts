@@ -1,11 +1,11 @@
 import { FieldResolver, Resolver, Root } from "type-graphql";
 import { eq } from "drizzle-orm";
+import { db } from "@backend/lib/db";
 import { UserGQL } from "../../../User/type";
 import { ApplicationGQL } from "../../type";
 import type { ApplicationDB } from "../../db/schema";
 import { getCurrentUser } from "../../../User/utils";
 import type { UserDB } from "../../../User/db/schema";
-import { db } from "@backend/lib/db";
 import { PostingGQL } from "../../../Posting/type";
 import { PostingTable } from "../../../Posting/db/schema";
 

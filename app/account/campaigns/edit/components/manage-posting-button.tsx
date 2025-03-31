@@ -5,15 +5,8 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
 import type { GetPostingQuery } from "@/__generated__/graphql";
-import {
-  handleGQLErrors,
-  useAuthMutation,
-} from "@/lib/apollo-client";
-import {
-  DELETE_POSTING,
-  PAUSE_POSTING,
-  RESUME_POSTING,
-} from "@/lib/mutations";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
+import { DELETE_POSTING, PAUSE_POSTING, RESUME_POSTING } from "@/lib/mutations";
 import { revalidatePosting } from "@/lib/revalidate";
 import { getRoute } from "@/constants/routes";
 

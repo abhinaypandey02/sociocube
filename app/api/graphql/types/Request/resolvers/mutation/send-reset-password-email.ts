@@ -1,11 +1,11 @@
 import { and, eq } from "drizzle-orm";
 import { sign } from "jsonwebtoken";
 import { db } from "@backend/lib/db";
+import { sendTemplateEmail } from "@backend/lib/email/template";
+import { DAY } from "@graphql/utils/time";
 import { UserTable } from "../../../User/db/schema";
 import { RequestTable, RequestType } from "../../db/schema";
-import { sendTemplateEmail } from "@backend/lib/email/template";
 import GQLError from "../../../../constants/errors";
-import { DAY } from "@graphql/utils/time";
 
 function getForgetLink(id: number) {
   const token = sign({ id }, process.env.SIGNING_KEY || "", {

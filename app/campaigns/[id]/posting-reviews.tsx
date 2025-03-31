@@ -4,8 +4,8 @@ import Image from "next/image";
 import { Rating } from "react-simple-star-rating";
 import Link from "next/link";
 import type { GetPostingReviewsQuery } from "@/__generated__/graphql";
-import LinkWrapper from "../../../components/link-wrapper";
 import { getRoute } from "@/constants/routes";
+import LinkWrapper from "../../../components/link-wrapper";
 
 export default function PostingReviews({
   data,

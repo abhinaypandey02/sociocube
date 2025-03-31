@@ -11,16 +11,13 @@ import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import Form from "@/components/form";
 import { Variants } from "@/components/constants";
-import Modal from "../../../../../components/modal";
 import { SEND_REVIEW_BY_USER } from "@/lib/mutations";
-import {
-  handleGQLErrors,
-  useAuthMutation,
-} from "@/lib/apollo-client";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import type {
   GetUserApplicationsQuery,
   StorageFile,
 } from "@/__generated__/graphql";
+import Modal from "../../../../../components/modal";
 import PortfolioImageHandler from "../../../../profile/[username]/components/portfolio-image-handler";
 
 export default function SendReview({

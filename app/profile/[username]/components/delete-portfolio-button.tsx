@@ -4,14 +4,11 @@ import { useRouter } from "next/navigation";
 import { TrashSimple } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
-import Modal from "../../../../components/modal";
 import type { GetSellerQuery } from "@/__generated__/graphql";
-import {
-  handleGQLErrors,
-  useAuthMutation,
-} from "@/lib/apollo-client";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { DELETE_PORTFOLIO } from "@/lib/mutations";
 import { revalidateProfilePage } from "@/lib/revalidate";
+import Modal from "../../../../components/modal";
 
 export default function DeletePortfolioButton({
   work,

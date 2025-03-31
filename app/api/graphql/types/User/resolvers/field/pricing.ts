@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
+import { db } from "@backend/lib/db";
 import type { UserDB } from "../../db/schema";
 import { PricingTable } from "../../db/schema";
-import { db } from "@backend/lib/db";
 
 export async function getPricing(user: UserDB) {
   const [pricing] = await db

@@ -1,8 +1,5 @@
 import { v4 } from "uuid";
-import {
-  getFileURL,
-  getUploadFileURL,
-} from "@backend/lib/storage/aws-s3";
+import { getFileURL, getUploadFileURL } from "@backend/lib/storage/aws-s3";
 import type { AuthorizedContext } from "@graphql/context";
 
 export async function getPortfolioUploadURL(ctx: AuthorizedContext) {

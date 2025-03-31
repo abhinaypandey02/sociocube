@@ -15,9 +15,9 @@ import type {
   GetPostingQuery,
 } from "@/__generated__/graphql";
 import { getRoute, Route } from "@/constants/routes";
-import Modal from "../../../components/modal";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { APPLY_NOW } from "@/lib/mutations";
+import Modal from "../../../components/modal";
 import LinkWrapper from "../../../components/link-wrapper";
 import { getShareText } from "./utils";
 

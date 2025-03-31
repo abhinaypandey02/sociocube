@@ -7,9 +7,9 @@ import {
   POSTING_BIO_MAX_LENGTH,
 } from "@/constants/constraints";
 import { db } from "@backend/lib/db";
-import { PostingTable } from "../../db/schema";
 import type { AuthorizedContext } from "@graphql/context";
 import { PostingPlatforms } from "@graphql/constants/platforms";
+import { PostingTable } from "../../db/schema";
 import {
   checkPermission,
   getCleanExternalLink,

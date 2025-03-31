@@ -11,10 +11,7 @@ import {
   ApplicationStatus,
   type GetPostingApplicationsQuery,
 } from "@/__generated__/graphql";
-import {
-  handleGQLErrors,
-  useAuthMutation,
-} from "@/lib/apollo-client";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import {
   LIKE_APPLICATION,
   REJECT_APPLICATION,
