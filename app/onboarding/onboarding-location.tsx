@@ -57,7 +57,10 @@ export default function OnboardingLocationForm({
       const selectedCountry = countriesData.countries.find(
         (country) => country.countryCode === countryCode,
       );
-      if (selectedCountry) form.setValue("country", selectedCountry.value);
+      if (selectedCountry) {
+        form.setValue("country", selectedCountry.value);
+        setCurrency(selectedCountry.currency);
+      }
     }
   }, [countryCode, countriesData]);
 

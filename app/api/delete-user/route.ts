@@ -47,5 +47,12 @@ export const GET = async (req: NextRequest) => {
       await db.delete(LocationTable).where(eq(LocationTable.id, user.location));
     if (user.photo) await deleteImage(user.photo);
   }
-  return new NextResponse(null, { status: 200 });
+  return new NextResponse(
+    JSON.stringify({
+      status: 200,
+      success: true,
+      count: users.length,
+    }),
+    { status: 200 },
+  );
 };

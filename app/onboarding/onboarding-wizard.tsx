@@ -63,7 +63,9 @@ function OnboardingWizard({
   redirectURL: string | null;
 }) {
   const currentUser = data?.getCurrentUser;
-  const showCreatorSteps = !currentUser || currentUser.role === Roles.Creator;
+  const [showCreatorSteps, setShowCreatorSteps] = useState(
+    !currentUser || currentUser.role === Roles.Creator,
+  );
   const router = useRouter();
   const [step, setStep] = useState(getStep(currentUser));
   const [maxTouchedStep, setMaxTouchedStep] = useState(getStep(currentUser));
@@ -100,6 +102,7 @@ function OnboardingWizard({
             }}
             nextStep={nextStep}
             role={currentUser?.role}
+            setShowCreatorSteps={setShowCreatorSteps}
           />
         ),
       },
@@ -238,7 +241,14 @@ function OnboardingWizard({
         ),
       },
     ],
-    [currentUser, currentUser?.instagramStats?.username, nextStep, redirectURL],
+    [
+      currency,
+      currentUser,
+      nextStep,
+      redirectURL,
+      basicDetails,
+      showCreatorSteps,
+    ],
   );
 
   useEffect(() => {

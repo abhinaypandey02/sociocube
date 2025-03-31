@@ -14,10 +14,12 @@ import { UPDATE_USER } from "@/lib/mutations";
 export default function OnboardingRole({
   nextStep,
   fallbackToStep,
+  setShowCreatorSteps,
   role,
 }: {
   nextStep: () => void;
   fallbackToStep: () => void;
+  setShowCreatorSteps: (show: boolean) => void;
   role?: Roles;
 }) {
   const [update] = useAuthMutation(UPDATE_USER);
@@ -28,6 +30,7 @@ export default function OnboardingRole({
 
   const handleSubmit = () => {
     nextStep();
+    setShowCreatorSteps(selectedRole === Roles.Creator);
     if (selectedRole !== role)
       update({
         updatedUser: {
