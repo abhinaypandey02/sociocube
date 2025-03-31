@@ -3,7 +3,10 @@ import { gql } from "@/__generated__";
 export const UPDATE_INSTAGRAM_USERNAME = gql(`
   #graphql
   mutation UpdateInstagramUsername($username: String!) {
-    updateInstagramUsername(username: $username)
+    updateInstagramUsername(username: $username){
+        photo
+        bio
+    }
   }
 `);
 

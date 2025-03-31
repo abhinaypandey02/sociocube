@@ -146,7 +146,7 @@ export type Mutation = {
   sendReviewByAgency: Scalars['Boolean']['output'];
   sendReviewByUser: Scalars['Boolean']['output'];
   sendVerificationEmail: Scalars['Boolean']['output'];
-  updateInstagramUsername: Scalars['Boolean']['output'];
+  updateInstagramUsername: UpdateInstagramUsernameResponse;
   updatePosting: Scalars['Boolean']['output'];
   updateUser: Scalars['Boolean']['output'];
   updateUserLocation: Currency;
@@ -506,6 +506,12 @@ export type StorageFile = {
   url: Scalars['String']['output'];
 };
 
+export type UpdateInstagramUsernameResponse = {
+  __typename?: 'UpdateInstagramUsernameResponse';
+  bio: Scalars['String']['output'];
+  photo?: Maybe<Scalars['String']['output']>;
+};
+
 export type UpdateLocation = {
   city?: InputMaybe<Scalars['Float']['input']>;
   country: Scalars['Float']['input'];
@@ -571,7 +577,7 @@ export type UpdateInstagramUsernameMutationVariables = Exact<{
 }>;
 
 
-export type UpdateInstagramUsernameMutation = { __typename?: 'Mutation', updateInstagramUsername: boolean };
+export type UpdateInstagramUsernameMutation = { __typename?: 'Mutation', updateInstagramUsername: { __typename?: 'UpdateInstagramUsernameResponse', photo?: string | null, bio: string } };
 
 export type ReadMessageMutationVariables = Exact<{
   conversationID: Scalars['Int']['input'];
@@ -857,7 +863,7 @@ export type GetUserApplicationsQueryVariables = Exact<{ [key: string]: never; }>
 export type GetUserApplicationsQuery = { __typename?: 'Query', getPendingReviews: Array<number>, uploadURL?: { __typename?: 'StorageFile', uploadURL: string, url: string } | null, getUserApplications: Array<{ __typename?: 'Application', status: ApplicationStatus, comment?: string | null, email: string, phone?: string | null, createdAt: number, posting?: { __typename?: 'Posting', title: string, id: number, agency: { __typename?: 'User', name?: string | null, username?: string | null, photo?: string | null } } | null }> };
 
 
-export const UpdateInstagramUsernameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateInstagramUsername"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateInstagramUsername"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}}]}]}}]} as unknown as DocumentNode<UpdateInstagramUsernameMutation, UpdateInstagramUsernameMutationVariables>;
+export const UpdateInstagramUsernameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateInstagramUsername"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateInstagramUsername"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"photo"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}}]}}]}}]} as unknown as DocumentNode<UpdateInstagramUsernameMutation, UpdateInstagramUsernameMutationVariables>;
 export const ReadMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ReadMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"conversationID"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"readMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"conversationID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"conversationID"}}}]}]}}]} as unknown as DocumentNode<ReadMessageMutation, ReadMessageMutationVariables>;
 export const SendChatDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SendChat"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"conversationID"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"conversationID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"conversationID"}}},{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}]}]}}]} as unknown as DocumentNode<SendChatMutation, SendChatMutationVariables>;
 export const UpdateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updatedUser"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updatedUser"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updatedUser"}}}]}]}}]} as unknown as DocumentNode<UpdateUserMutation, UpdateUserMutationVariables>;

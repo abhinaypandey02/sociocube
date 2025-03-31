@@ -7,16 +7,19 @@ import {
   handleUpdateLocation,
   UpdateLocationInput,
 } from "./update-user-location";
-import { handleUpdateInstagramUsername } from "./update-instagram-username";
+import {
+  handleUpdateInstagramUsername,
+  UpdateInstagramUsernameResponse,
+} from "./update-instagram-username";
 
 @Resolver()
 export class UserMutationResolver {
   @Authorized()
-  @Mutation(() => Boolean)
+  @Mutation(() => UpdateInstagramUsernameResponse)
   updateInstagramUsername(
     @Arg("username") username: string,
     @Ctx() ctx: AuthorizedContext,
-  ): Promise<boolean> {
+  ): Promise<UpdateInstagramUsernameResponse> {
     return handleUpdateInstagramUsername(ctx, username);
   }
   @Authorized()

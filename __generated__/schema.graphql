@@ -343,7 +343,7 @@ type Mutation {
   sendReviewByAgency(args: SendReviewByAgencyArgs!): Boolean!
   sendReviewByUser(args: SendReviewByUserArgs!): Boolean!
   sendVerificationEmail: Boolean!
-  updateInstagramUsername(username: String!): Boolean!
+  updateInstagramUsername(username: String!): UpdateInstagramUsernameResponse!
   updatePosting(id: Float!, updatedPosting: UpdatePostingInput!): Boolean!
   updateUser(updatedUser: UpdateUserInput!): Boolean!
   updateUserLocation(updatedLocation: UpdateLocation!): Currency!
@@ -518,6 +518,11 @@ input SendReviewByUserArgs {
 type StorageFile {
   uploadURL: String!
   url: String!
+}
+
+type UpdateInstagramUsernameResponse {
+  bio: String!
+  photo: String
 }
 
 input UpdateLocation {

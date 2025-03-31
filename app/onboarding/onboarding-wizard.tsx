@@ -16,6 +16,7 @@ import { Spinner } from "@phosphor-icons/react/dist/ssr";
 import type {
   Currency,
   GetDefaultOnboardingDetailsQuery,
+  UpdateInstagramUsernameMutation,
 } from "@/__generated__/graphql";
 import { Roles } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
@@ -66,6 +67,8 @@ function OnboardingWizard({
   const router = useRouter();
   const [step, setStep] = useState(getStep(currentUser));
   const [maxTouchedStep, setMaxTouchedStep] = useState(getStep(currentUser));
+  const [basicDetails, setBasicDetails] =
+    useState<UpdateInstagramUsernameMutation["updateInstagramUsername"]>();
   const [currency, setCurrency] = useState<Currency | undefined | null>(
     currentUser?.location?.currency,
   );
@@ -113,6 +116,7 @@ function OnboardingWizard({
             key={1}
             nextStep={nextStep}
             redirectURL={redirectURL}
+            setBasicDetails={setBasicDetails}
           />
         ),
       },
@@ -127,8 +131,8 @@ function OnboardingWizard({
           <OnboardingBasicDetailsForm
             defaultValues={{
               name: currentUser.name || "",
-              photo: currentUser.photo || "",
-              bio: currentUser.bio || "",
+              photo: basicDetails?.photo || currentUser.photo || "",
+              bio: basicDetails?.bio || currentUser.bio || "",
               category: currentUser.category || undefined,
               gender: currentUser.gender || undefined,
             }}

@@ -8,14 +8,19 @@ import { Input } from "@/components/input";
 import Form from "@/components/form";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { UPDATE_INSTAGRAM_USERNAME } from "@/lib/mutations";
+import type { UpdateInstagramUsernameMutation } from "@/__generated__/graphql";
 
 export default function SocialsStatus({
   connections,
   nextStep,
+  setBasicDetails,
 }: {
   connections: { instagram: boolean };
   nextStep: () => void;
   redirectURL: string | null;
+  setBasicDetails: (
+    details: UpdateInstagramUsernameMutation["updateInstagramUsername"],
+  ) => void;
 }) {
   const form = useForm<{ username: string }>();
   const router = useRouter();
@@ -28,6 +33,7 @@ export default function SocialsStatus({
       updateInstagramUsername({ username: data.username.trim().toLowerCase() })
         .then((res) => {
           if (res.data?.updateInstagramUsername) {
+            setBasicDetails(res.data.updateInstagramUsername);
             nextStep();
             router.refresh();
           }

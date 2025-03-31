@@ -68,7 +68,7 @@ export default function OnboardingBasicDetailsForm({
     updateBasicDetails({
       updatedUser: {
         name: data.name,
-        photo: profilePicture ? photoUpload.url : data.photo,
+        photo: profilePicture ? photoUpload.url : defaultValues.photo,
         bio: data.bio,
         category: data.category,
         gender: data.gender,
