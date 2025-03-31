@@ -115,7 +115,7 @@ export async function handleUpdateInstagramUsername(
 
   return {
     photo: data.photo,
-    bio: data.bio,
+    bio: data.bio || "",
     username: dataUsername,
   };
 }
