@@ -320,7 +320,6 @@ type Location {
 type LocationID {
   city: Float
   country: Float
-  state: Float
 }
 
 type Message {

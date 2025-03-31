@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import Form from "@/components/form";
@@ -23,8 +22,7 @@ export default function SocialsStatus({
   ) => void;
 }) {
   const form = useForm<{ username: string }>();
-  const router = useRouter();
-  const connected = connections.instagram;
+  const [connected, setConnected] = useState(connections.instagram);
   const [updateInstagramUsername, { loading }] = useAuthMutation(
     UPDATE_INSTAGRAM_USERNAME,
   );
@@ -35,7 +33,7 @@ export default function SocialsStatus({
           if (res.data?.updateInstagramUsername) {
             setBasicDetails(res.data.updateInstagramUsername);
             nextStep();
-            router.refresh();
+            setConnected(true);
           }
         })
         .catch(handleGQLErrors);

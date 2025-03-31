@@ -181,7 +181,6 @@ function OnboardingWizard({
             defaultValues={{
               city: currentUser?.locationID?.city,
               country: currentUser?.locationID?.country,
-              state: currentUser?.locationID?.state,
             }}
             fallbackToStep={() => {
               fallbackToStep(showCreatorSteps ? 4 : 3);
@@ -228,8 +227,11 @@ function OnboardingWizard({
         component: (
           <OnboardingUsername
             defaultValues={{
-              username:
-                currentUser?.username || currentUser?.instagramStats?.username,
+              username: (
+                currentUser?.username ||
+                currentUser?.instagramStats?.username ||
+                ""
+              ).replaceAll(".", "_"),
             }}
             key={4}
           />

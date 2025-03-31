@@ -6,7 +6,7 @@
     "dev": "next dev & drizzle-kit studio",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --quiet",
     "compile": "graphql-codegen",
     "watch": "graphql-codegen -w",
     "test": "cypress open",

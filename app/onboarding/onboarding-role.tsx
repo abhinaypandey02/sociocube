@@ -4,7 +4,6 @@ import Image from "next/image";
 import { ArrowRight } from "@phosphor-icons/react";
 import Link from "next/link";
 import { GraphQLError } from "graphql/error";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import { getRoute } from "@/constants/routes";
@@ -23,7 +22,6 @@ export default function OnboardingRole({
 }) {
   const [update] = useAuthMutation(UPDATE_USER);
   const [selectedRole, setSelectedRole] = useState<Roles | undefined>(role);
-  const router = useRouter();
   const handleRoleSelect = (newRole: Roles) => {
     setSelectedRole(newRole);
   };
@@ -35,14 +33,10 @@ export default function OnboardingRole({
         updatedUser: {
           role: selectedRole,
         },
-      })
-        .catch((e) => {
-          handleGQLErrors(e as GraphQLError);
-          fallbackToStep();
-        })
-        .finally(() => {
-          router.refresh();
-        });
+      }).catch((e) => {
+        handleGQLErrors(e as GraphQLError);
+        fallbackToStep();
+      });
   };
 
   const roleOptions = [

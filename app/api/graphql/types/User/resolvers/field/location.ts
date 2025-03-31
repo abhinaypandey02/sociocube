@@ -31,7 +31,6 @@ export async function getLocationID(user: UserDB) {
     return {
       ...location,
       city: location?.city || undefined,
-      state: location?.state || undefined,
     };
   }
   return null;

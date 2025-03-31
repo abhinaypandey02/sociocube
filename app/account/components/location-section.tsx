@@ -23,7 +23,6 @@ export default function LocationSection({
   const form = useForm({
     defaultValues: data.locationID || {
       country: null,
-      state: null,
       city: null,
     },
   });
@@ -44,8 +43,8 @@ export default function LocationSection({
   }, [fetchCountries, fetchCities]);
   const onSubmit: SubmitHandler<
     NonNullable<AccountSectionData["locationID"]>
-  > = async ({ city, state, country }) => {
-    if (state && country) {
+  > = async ({ city, country }) => {
+    if (city && country) {
       await saveUserMutation({
         updatedLocation: {
           city,

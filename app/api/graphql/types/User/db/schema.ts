@@ -15,7 +15,7 @@ import categories from "@/constants/categories";
 import genders from "@/constants/genders";
 import { Roles } from "../../../constants/roles";
 import { InstagramDetails } from "../../Instagram/db/schema";
-import { CityTable, CountryTable, StateTable } from "../../Map/db/schema";
+import { CityTable, CountryTable } from "../../Map/db/schema";
 
 export const rolesEnum = pgEnum("role", [
   Roles.Admin,
@@ -76,7 +76,6 @@ export const LocationTable = pgTable("location", {
   id: serial("id").primaryKey(),
 
   city: integer("city").references(() => CityTable.id),
-  state: integer("state").references(() => StateTable.id),
   country: integer("country")
     .notNull()
     .references(() => CountryTable.id),

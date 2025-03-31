@@ -3,7 +3,6 @@ import React from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { GraphQLError } from "graphql/error";
-import { useRouter } from "next/navigation";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
@@ -22,7 +21,6 @@ export default function OnboardingPricingForm({
   currency?: string | null;
   defaultValues: Pricing | undefined;
 }) {
-  const router = useRouter();
   const form = useForm({ defaultValues });
   const [updatePricing, { loading }] = useAuthMutation(UPDATE_USER);
 
@@ -35,14 +33,10 @@ export default function OnboardingPricingForm({
             starting: data.starting,
           },
         },
-      })
-        .catch((e) => {
-          fallbackToStep();
-          handleGQLErrors(e as GraphQLError);
-        })
-        .finally(() => {
-          router.refresh();
-        });
+      }).catch((e) => {
+        fallbackToStep();
+        handleGQLErrors(e as GraphQLError);
+      });
     }
   };
   return (

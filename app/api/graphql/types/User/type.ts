@@ -23,8 +23,6 @@ export class LocationID {
   city?: number;
   @Field({ nullable: true })
   country?: number;
-  @Field({ nullable: true })
-  state?: number;
 }
 
 @ObjectType("User")

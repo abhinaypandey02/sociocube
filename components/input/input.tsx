@@ -12,7 +12,13 @@ function InputWrapper({
   error,
   children,
   suffix,
-}: PropsWithChildren<{ label?: string; error?: string; suffix?: string }>) {
+  prefix,
+}: PropsWithChildren<{
+  label?: string;
+  error?: string;
+  suffix?: string;
+  prefix?: string;
+}>) {
   return (
     <div className="w-full">
       {label ? (
@@ -21,9 +27,14 @@ function InputWrapper({
         </label>
       ) : null}
       <div className="flex items-stretch">
+        {prefix ? (
+          <div className="flex items-center rounded-l-xl bg-accent px-5 font-medium text-white">
+            {prefix}
+          </div>
+        ) : null}
         {children}
         {suffix ? (
-          <div className="flex items-center rounded-r-md bg-accent px-5 font-medium text-white">
+          <div className="flex items-center rounded-r-xl bg-accent px-5 font-medium text-white">
             {suffix}
           </div>
         ) : null}
@@ -40,6 +51,7 @@ function Input({
   label,
   error,
   suffix,
+  prefix,
   ...rest
 }: InputProps) {
   const formContext = useFormContext() as UseFormReturn | undefined;
@@ -51,13 +63,19 @@ function Input({
   const className = classNames(
     getBaseClassName(
       Boolean(suffix),
+      Boolean(prefix),
       rest.type === "checkbox" || rest.type === "radio",
     ),
     rest.className,
   );
   if (options)
     return (
-      <InputWrapper error={errorMessage} label={label} suffix={suffix}>
+      <InputWrapper
+        error={errorMessage}
+        label={label}
+        prefix={prefix}
+        suffix={suffix}
+      >
         <Select
           options={options}
           rules={rules}
@@ -68,7 +86,12 @@ function Input({
     );
   if (textarea)
     return (
-      <InputWrapper error={errorMessage} label={label} suffix={suffix}>
+      <InputWrapper
+        error={errorMessage}
+        label={label}
+        prefix={prefix}
+        suffix={suffix}
+      >
         <textarea
           {...(formContext?.register
             ? formContext.register(rest.name, rules)
@@ -79,7 +102,12 @@ function Input({
       </InputWrapper>
     );
   return (
-    <InputWrapper error={errorMessage} label={label} suffix={suffix}>
+    <InputWrapper
+      error={errorMessage}
+      label={label}
+      prefix={prefix}
+      suffix={suffix}
+    >
       <input
         {...(formContext?.register
           ? formContext.register(rest.name, rules)

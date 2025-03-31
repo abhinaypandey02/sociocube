@@ -62,7 +62,6 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
       locationID {
         city
         country
-        state
       }
     }
   }
@@ -244,7 +243,6 @@ export const GET_ACCOUNT_DETAILS = gql(`
       locationID {
         city
         country
-        state
       }
       pricing {
         starting

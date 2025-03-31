@@ -126,7 +126,6 @@ export function handleSearchSellers(filters: SearchSellersFiltersInput) {
       and(
         eq(LocationTable.id, UserTable.location),
         filters.cities && inArray(LocationTable.city, filters.cities),
-        filters.states && inArray(LocationTable.state, filters.states),
         filters.countries && inArray(LocationTable.country, filters.countries),
       ),
     )

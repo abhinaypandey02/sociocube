@@ -7,7 +7,6 @@ import { User } from "@phosphor-icons/react";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
 import { GraphQLError } from "graphql/error";
-import { useRouter } from "next/navigation";
 import categories from "@/constants/categories";
 import genders from "@/constants/genders";
 import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "@/constants/file";
@@ -45,7 +44,6 @@ export default function OnboardingBasicDetailsForm({
   const [uploadingPicture, setUploadingPicture] = useState(false);
   const [missingPhoto, setMissingPhoto] = useState(false);
   const [updateBasicDetails, { loading }] = useAuthMutation(UPDATE_USER);
-  const router = useRouter();
   const displayURL = profilePicture
     ? URL.createObjectURL(profilePicture)
     : defaultValues.photo;
@@ -73,14 +71,10 @@ export default function OnboardingBasicDetailsForm({
         category: data.category,
         gender: data.gender,
       },
-    })
-      .catch((e) => {
-        fallbackToStep();
-        handleGQLErrors(e as GraphQLError);
-      })
-      .finally(() => {
-        router.refresh();
-      });
+    }).catch((e) => {
+      fallbackToStep();
+      handleGQLErrors(e as GraphQLError);
+    });
   };
   return (
     <Form

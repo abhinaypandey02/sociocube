@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { GraphQLError } from "graphql/error";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
@@ -17,7 +16,6 @@ import { UPDATE_USER_LOCATION } from "@/lib/mutations";
 
 interface FormFields {
   country?: number | null;
-  state?: number | null;
   city?: number | null;
 }
 
@@ -32,7 +30,6 @@ export default function OnboardingLocationForm({
   defaultValues: FormFields;
   fallbackToStep: () => void;
 }) {
-  const router = useRouter();
   const form = useForm({ defaultValues });
   const [updateBasicDetails, { loading }] =
     useAuthMutation(UPDATE_USER_LOCATION);
@@ -107,14 +104,10 @@ export default function OnboardingLocationForm({
           city: data.city,
           country: data.country,
         },
-      })
-        .catch((e) => {
-          fallbackToStep();
-          handleGQLErrors(e as GraphQLError);
-        })
-        .finally(() => {
-          router.refresh();
-        });
+      }).catch((e) => {
+        fallbackToStep();
+        handleGQLErrors(e as GraphQLError);
+      });
     }
   };
   return (
