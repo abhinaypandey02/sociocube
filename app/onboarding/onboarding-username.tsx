@@ -39,25 +39,16 @@ export default function OnboardingUsername({
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (data.username) {
       setLoading(true);
-      if (data.username === defaultValues.username) {
-        router.push(`${getRoute("Profile")}/${defaultValues.username}`);
-        router.refresh();
-      } else {
-        const res = await updateUsername({
-          updatedUser: {
-            username: data.username.toLowerCase(),
-          },
-        }).catch((e) => {
-          handleGQLErrors(e as GraphQLError);
-          setLoading(false);
-        });
-        if (res?.data?.updateUser) {
-          router.push(
-            `${getRoute("Profile")}/${data.username.toLowerCase()}?noCache=true`,
-          );
-          router.refresh();
-        }
-      }
+      router.push(`${getRoute("Profile")}/${defaultValues.username}`);
+      router.refresh();
+      updateUsername({
+        updatedUser: {
+          username: data.username.toLowerCase(),
+        },
+      }).catch((e) => {
+        handleGQLErrors(e as GraphQLError);
+        setLoading(false);
+      });
     }
   };
   return (
