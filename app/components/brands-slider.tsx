@@ -49,28 +49,20 @@ const BRANDS = [
 
 export default function BrandsSlider() {
   return (
-    <div className="relative -z-10">
-      <Slider
-        blurBorderColor="#fff"
-        blurBorders
-        duration={40}
-        pauseOnHover
-        width="200px"
-      >
-        {BRANDS.map((brand) => (
-          <Slider.Slide key={brand.id}>
-            <Link href={`${getRoute("Postings")}/${brand.id}`}>
-              <Image
-                alt={brand.name}
-                className={`grayscale ${brand.className}`}
-                height={30}
-                src={brand.logo}
-                width={100}
-              />
-            </Link>
-          </Slider.Slide>
-        ))}
-      </Slider>
-    </div>
+    <Slider blurBorderColor="#fff" blurBorders duration={60} width="200px">
+      {BRANDS.map((brand) => (
+        <Slider.Slide key={brand.id}>
+          <Link href={`${getRoute("Postings")}/${brand.id}`}>
+            <Image
+              alt={brand.name}
+              className={`grayscale ${brand.className}`}
+              height={30}
+              src={brand.logo}
+              width={100}
+            />
+          </Link>
+        </Slider.Slide>
+      ))}
+    </Slider>
   );
 }
