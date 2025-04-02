@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import { MAX_CAMPAIGNS } from "@/constants/constraints";
 import type {
   GetPortfolioUploadUrlQuery,
@@ -42,7 +41,7 @@ export default function Portfolio({
             work.imageURL && (
               <div className="relative" key={work.link}>
                 <a href={work.link || undefined} rel="noopener" target="_blank">
-                  <Image
+                  <img
                     alt={work.caption || "portfolio"}
                     className="size-full rounded-md object-cover"
                     height={500}

@@ -1,5 +1,6 @@
 import React, { type ChangeEvent, useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import Image from "next/image";
 import categories from "@/constants/categories";
 import genders from "@/constants/genders";
 import { Input } from "@/components/input";
@@ -83,7 +84,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
               editComponent: (
                 <div>
                   {photoValue ? (
-                    <img
+                    <Image
                       alt={data.name || ""}
                       className="mt-6 rounded-md"
                       height={200}

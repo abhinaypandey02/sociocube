@@ -4,7 +4,6 @@ import React, { useRef, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { User } from "@phosphor-icons/react";
-import Image from "next/image";
 import { toast } from "react-hot-toast";
 import { GraphQLError } from "graphql/error";
 import categories from "@/constants/categories";
@@ -88,7 +87,7 @@ export default function OnboardingBasicDetailsForm({
         type="button"
       >
         {displayURL ? (
-          <Image
+          <img
             alt={defaultValues.name}
             className="size-full object-cover"
             height={300}

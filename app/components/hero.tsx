@@ -14,6 +14,7 @@ export default function Hero() {
           alt="girl on a sofa"
           className="absolute inset-x-0 top-0 -z-10 size-full object-cover"
           height={821}
+          priority
           src="/hero-bg.jpg"
           width={1232}
         />

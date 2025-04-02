@@ -11,6 +11,7 @@ import {
 import classNames from "classnames";
 import { List, User, X } from "@phosphor-icons/react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { Button } from "@/components/button";
 import Logo from "@/app/logo";
 import type { NavbarProps } from "./types";
@@ -89,10 +90,12 @@ function Navbar({
                         <User className="size-5 rounded-full" size={40} />
                       </div>
                     ) : (
-                      <img
+                      <Image
                         alt="logged in user"
                         className="size-8 rounded-full object-cover"
+                        height={32}
                         src={userImage}
+                        width={32}
                       />
                     )}
                   </MenuButton>

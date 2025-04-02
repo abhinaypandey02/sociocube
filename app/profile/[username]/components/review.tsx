@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { Rating } from "react-simple-star-rating";
-import Image from "next/image";
 import Link from "next/link";
 import classNames from "classnames";
 import type {
@@ -35,7 +34,7 @@ export default function Review({
               `${getRoute("Profile")}/${review.username}`
             }
           >
-            <Image
+            <img
               alt={review.name}
               className={classNames(
                 review.portfolio?.imageURL

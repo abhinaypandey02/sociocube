@@ -319,7 +319,7 @@ export default async function ProfilePage({
                   }}
                   id={`post-image-${i}`}
                 />
-                <Image
+                <img
                   alt={media.caption || `Post by ${user.name}`}
                   className="size-full rounded-md object-cover"
                   height={500}

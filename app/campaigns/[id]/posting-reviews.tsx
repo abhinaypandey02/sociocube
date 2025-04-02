@@ -27,7 +27,7 @@ export default function PostingReviews({
                 key={review.portfolio.imageURL}
               >
                 <LinkWrapper href={review.portfolio.link}>
-                  <Image
+                  <img
                     alt=""
                     className=" w-32 rounded-md"
                     height={130}
