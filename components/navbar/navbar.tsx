@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Menu,
@@ -11,8 +11,8 @@ import {
 import classNames from "classnames";
 import { List, User, X } from "@phosphor-icons/react";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 import { Button } from "@/components/button";
+import Logo from "@/app/logo";
 import type { NavbarProps } from "./types";
 
 function Navbar({
@@ -23,19 +23,39 @@ function Navbar({
   userImage,
 }: NavbarProps) {
   const activeHref = usePathname();
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    setScrollPosition(position);
+  };
 
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <header className="fixed top-0 z-10 w-full p-2">
       <Menu as="div" className="relative">
         <nav
           aria-label="Global"
-          className=" mx-auto flex max-w-7xl items-center justify-between rounded-xl bg-primary-bg  px-3 py-2 shadow sm:gap-x-6 sm:py-1"
+          className={classNames(
+            " mx-auto flex max-w-7xl ease-in-out transition-colors duration-300 items-center justify-between rounded-xl  px-3 py-2  sm:gap-x-6 sm:py-1",
+            scrollPosition > 50
+              ? "bg-primary-bg shadow text-gray-900"
+              : "bg-transparent text-white",
+          )}
         >
           <Link
-            className=" flex items-center gap-2  leading-none text-primary sm:text-6xl"
+            className={classNames(
+              " flex items-center gap-2 transition-colors ease-in-out duration-300 leading-none  sm:text-6xl",
+              scrollPosition > 50 ? "text-primary" : "text-white",
+            )}
             href={process.env.NEXT_PUBLIC_BASE_URL || "/public"}
           >
-            <Image alt="Sociocube" height={32} src="/icon0.svg" width={32} />
+            <Logo size={32} />
             <h1 className="translate-y-0.5 font-madina text-4xl">sociocube</h1>
           </Link>
           <div className="hidden lg:flex lg:gap-x-6">
@@ -44,7 +64,7 @@ function Navbar({
                 item.render || (
                   <Link
                     className={classNames(
-                      "text-base font-semibold leading-6 text-gray-900 hover:underline  hover:underline-offset-8 ",
+                      "text-base font-semibold leading-6  hover:underline  hover:underline-offset-8 ",
                       activeHref === item.href
                         ? "pointer-events-none underline-offset-8 underline"
                         : "",
