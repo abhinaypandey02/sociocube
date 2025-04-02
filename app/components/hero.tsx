@@ -8,7 +8,7 @@ import { getRoute } from "@/constants/routes";
 
 export default function Hero() {
   return (
-    <div className="relative isolate">
+    <div className="relative isolate bg-gray-800">
       <svg
         aria-hidden="true"
         className="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-gray-200 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
