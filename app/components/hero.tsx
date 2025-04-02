@@ -71,7 +71,7 @@ export default function Hero() {
         <div className="mt-10 flex items-center justify-center gap-x-4">
           <Link href={getRoute("Onboarding")}>
             <Button
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 !bg-primary/90 hover:!bg-primary hover:!brightness-100"
               variant={Variants.PRIMARY}
             >
               Join as a creator <ArrowRight />
@@ -79,7 +79,7 @@ export default function Hero() {
           </Link>
           <Link href={getRoute("Onboarding")}>
             <Button
-              className="flex items-center gap-1 !bg-white/90"
+              className="flex items-center gap-1 !bg-white/90 hover:!bg-white hover:!brightness-100"
               invert
               variant={Variants.PRIMARY}
             >
