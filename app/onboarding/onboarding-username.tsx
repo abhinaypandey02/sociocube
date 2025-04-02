@@ -36,7 +36,7 @@ export default function OnboardingUsername({
       router.prefetch(`${getRoute("Profile")}/${defaultValues.username}`);
     }
   }, [defaultValues.username, isActive]);
-  const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
+  const onSubmit: SubmitHandler<typeof defaultValues> = (data) => {
     if (data.username) {
       setLoading(true);
       router.push(`${getRoute("Profile")}/${defaultValues.username}`);

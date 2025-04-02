@@ -15,6 +15,7 @@ export function sendEmail(
   text: string,
   html?: string,
 ) {
+  if (to.endsWith("sociocube.com")) return;
   return transporter.sendMail({
     from: {
       name: "Sociocube",
