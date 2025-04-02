@@ -12,14 +12,14 @@ import {
   Transition,
 } from "@headlessui/react";
 import {
-  SlidersHorizontal,
+  Funnel,
   MagnifyingGlass,
+  MapPin,
   Minus,
   Plus,
-  Funnel,
-  X,
   SealCheck,
-  MapPin,
+  SlidersHorizontal,
+  X,
 } from "@phosphor-icons/react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -126,7 +126,7 @@ export default function SearchWindow({
         onSubmit={handleSubmit}
       >
         <div className="flex flex-wrap items-baseline justify-between gap-5 border-b border-gray-200 pb-6 pt-4 sm:pt-16">
-          <h2 className="font-poppins text-3xl font-semibold text-gray-900 sm:text-4xl sm:font-bold">
+          <h2 className="font-poppins text-3xl font-semibold text-gray-900 sm:text-4xl sm:font-semibold">
             Find influencers
           </h2>
 
@@ -200,7 +200,7 @@ export default function SearchWindow({
                     <MenuItem key={option.id}>
                       <button
                         className={classNames(
-                          variables.sortBy === option.id ? "font-bold" : "",
+                          variables.sortBy === option.id ? "font-semibold" : "",
                           " px-4 py-2 text-sm text-gray-700 hover:bg-gray-100",
                         )}
                         onClick={() => {

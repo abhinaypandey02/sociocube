@@ -7,32 +7,34 @@ interface MarkdownProps {
 
 export const MARKDOWN_COMPONENTS = {
   h1: (props: MarkdownProps) => (
-    <h2 className="mb-10 font-poppins text-3xl font-bold sm:text-5xl ">
+    <h2 className="mb-10 font-poppins text-3xl font-semibold sm:text-5xl ">
       {props.children}
     </h2>
   ),
   h2: (props: MarkdownProps) => (
-    <h3 className="my-5 font-poppins text-2xl font-bold sm:text-4xl">
+    <h3 className="my-5 font-poppins text-2xl font-semibold sm:text-4xl">
       {props.children}
     </h3>
   ),
   h3: (props: MarkdownProps) => (
-    <h4 className="my-5 font-poppins text-xl font-bold sm:text-2xl">
+    <h4 className="my-5 font-poppins text-xl font-semibold sm:text-2xl">
       {props.children}
     </h4>
   ),
   h4: (props: MarkdownProps) => (
-    <h5 className="my-5 font-poppins text-lg font-bold sm:text-xl">
+    <h5 className="my-5 font-poppins text-lg font-semibold sm:text-xl">
       {props.children}
     </h5>
   ),
   h5: (props: MarkdownProps) => (
-    <h6 className="my-5 font-poppins  font-bold sm:text-lg">
+    <h6 className="my-5 font-poppins  font-semibold sm:text-lg">
       {props.children}
     </h6>
   ),
   h6: (props: MarkdownProps) => (
-    <h6 className="my-5 font-poppins font-bold sm:text-lg">{props.children}</h6>
+    <h6 className="my-5 font-poppins font-semibold sm:text-lg">
+      {props.children}
+    </h6>
   ),
   ol: (props: MarkdownProps) => (
     <ol className="list-decimal">{props.children}</ol>

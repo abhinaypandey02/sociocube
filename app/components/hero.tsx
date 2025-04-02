@@ -1,51 +1,12 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import { getRoute } from "@/constants/routes";
-import type {
-  GetCurrentUserQuery,
-  GetFeaturedSellersQuery,
-} from "@/__generated__/graphql";
-import { getCurrentUser, Injector } from "@/lib/apollo-server";
-import PostSlider from "./post-slider";
 
-function SecondaryLink({ data }: { data?: GetCurrentUserQuery }) {
-  if (data?.user) {
-    if (data.user.isOnboarded) {
-      return (
-        <Link
-          className="text-sm font-semibold leading-6 text-gray-900"
-          href={`${getRoute("Profile")}/${data.user.username}`}
-        >
-          Your profile <span aria-hidden="true">→</span>
-        </Link>
-      );
-    }
-    return (
-      <Link
-        className="text-sm font-semibold leading-6 text-gray-900"
-        href={getRoute("Onboarding")}
-      >
-        Get listed <span aria-hidden="true">→</span>
-      </Link>
-    );
-  }
-  return (
-    <Link
-      className="text-sm font-semibold leading-6 text-gray-900"
-      href={getRoute("SignUp")}
-    >
-      Join Now <span aria-hidden="true">→</span>
-    </Link>
-  );
-}
-
-export default function Hero({
-  posts,
-}: {
-  posts: GetFeaturedSellersQuery["posts"];
-}) {
+export default function Hero() {
   return (
     <div className="relative isolate">
       <svg
@@ -89,29 +50,43 @@ export default function Hero({
           }}
         />
       </div>
-      <div className="mx-auto max-w-7xl px-6 pb-16 pt-4 sm:my-16 sm:pt-16 lg:px-8">
-        <div className="mx-auto max-w-2xl grid-cols-2 gap-x-14 lg:mx-0 lg:grid lg:max-w-none lg:items-center">
-          <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
-            <h2 className="font-poppins text-5xl font-bold text-gray-900 sm:text-7xl">
-              Connect. <br />
-              Collaborate. <br />
-              Create.
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
-              Sociocube bridges the gap between brands and influencers,
-              providing a seamless platform for authentic partnerships. Join us
-              today and take your collaborations to the next level!
-            </p>
-            <div className="mt-10 flex items-center gap-x-6">
-              <Link href={getRoute("Postings")}>
-                <Button variant={Variants.ACCENT}>Find Collaborations</Button>
-              </Link>
-              <Injector Component={SecondaryLink} fetch={getCurrentUser} />
-            </div>
-          </div>
-          <div className="mt-20 lg:mt-0">
-            <PostSlider posts={posts} />
-          </div>
+      <div className="mx-auto -mt-20 max-w-7xl overflow-hidden px-6 pb-32 pt-4 text-center sm:mb-16 sm:pt-48 lg:px-8">
+        <Image
+          alt="girl on a sofa"
+          className="absolute inset-x-0 top-0 -z-10 size-full object-cover"
+          height={821}
+          src="/hero-bg.jpg"
+          width={1232}
+        />
+        <p className="mb-3 font-medium tracking-wide text-gray-200">
+          BIGGEST INFLUENCER MARKETING PLATFORM
+        </p>
+        <h2 className="font-poppins text-5xl font-semibold text-white sm:text-7xl">
+          Connect. Collaborate. Create.
+        </h2>
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-200">
+          Sociocube bridges the gap between brands and influencers, providing a
+          seamless platform for authentic partnerships.
+        </p>
+        <div className="mt-10 flex items-center justify-center gap-x-4">
+          <Link href={getRoute("Postings")}>
+            <Button
+              className="flex items-center gap-1"
+              variant={Variants.PRIMARY}
+            >
+              Join as a creator <ArrowRight />
+            </Button>
+          </Link>
+          <Link href={getRoute("Postings")}>
+            <Button
+              className="flex items-center gap-1 !bg-white/90"
+              invert
+              variant={Variants.PRIMARY}
+            >
+              Start a campaign
+              <ArrowRight />
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

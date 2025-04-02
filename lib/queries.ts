@@ -83,17 +83,6 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
         isVerified
       }
     }
-    posts:getFeaturedPosts {
-      mediaURL
-      thumbnailURL
-      creatorImage
-      creatorName
-      creatorUsername
-      creatorVerified
-      postURL
-      likes
-      er
-    }
     postings: getFeaturedPostings {
       id
       price

@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Viewport } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Nunito_Sans as NunitoSans } from "next/font/google";
 import type { PropsWithChildren } from "react";
 import React, { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
@@ -24,13 +24,79 @@ const madina = localFont({
   display: "swap",
   variable: "--font-madina",
 });
-const inter = Inter({
-  subsets: ["latin"],
-});
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+
+const kansas = localFont({
+  src: [
+    {
+      path: "../fonts/New-Kansas/Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../fonts/New-Kansas/SemiBold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../fonts/New-Kansas/Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../fonts/New-Kansas/Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/New-Kansas/Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../fonts/New-Kansas/Thin.woff2",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "../fonts/New-Kansas/BlackItalic.woff2",
+      weight: "800",
+      style: "italic",
+    },
+    {
+      path: "../fonts/New-Kansas/BoldItalic.woff2",
+      weight: "700",
+      style: "italic",
+    },
+    {
+      path: "../fonts/New-Kansas/SemiBoldItalic.woff2",
+      weight: "600",
+      style: "italic",
+    },
+    {
+      path: "../fonts/New-Kansas/MediumItalic.woff2",
+      weight: "500",
+      style: "italic",
+    },
+    {
+      path: "../fonts/New-Kansas/RegularItalic.woff2",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../fonts/New-Kansas/LightItalic.woff2",
+      weight: "300",
+      style: "italic",
+    },
+    {
+      path: "../fonts/New-Kansas/ThinItalic.woff2",
+      weight: "200",
+      style: "italic",
+    },
+  ],
   variable: "--font-poppins",
+});
+const nunitoSans = NunitoSans({
+  subsets: ["latin"],
 });
 
 export const metadata = getSEO();
@@ -87,7 +153,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html className="scroll-smooth" lang="en">
       <body
-        className={`${inter.className} ${poppins.variable} ${madina.variable} flex min-h-screen flex-col  bg-primary-bg`}
+        className={`${nunitoSans.className} ${madina.variable} ${kansas.variable} flex min-h-screen flex-col bg-primary-bg pt-20`}
       >
         <Schema
           data={{

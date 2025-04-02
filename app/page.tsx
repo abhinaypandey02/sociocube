@@ -21,14 +21,14 @@ export function generateMetadata(): Metadata {
 }
 
 async function HomePage() {
-  const { sellers, posts, postings } = await queryGQL(
+  const { sellers, postings } = await queryGQL(
     GET_FEATURED_SELLERS_AND_POSTS,
     undefined,
     undefined,
     60,
   );
   return (
-    <main>
+    <>
       <Schema
         data={{
           "@context": "https://schema.org",
@@ -43,7 +43,7 @@ async function HomePage() {
         }}
         id="org"
       />
-      <Hero posts={posts} />
+      <Hero />
       <TopCreators sellers={sellers} />
       <JobPostings postings={postings} />
       <HowItWorks />
@@ -52,7 +52,7 @@ async function HomePage() {
       <AboutUs />
       <Faqs />
       <Cta />
-    </main>
+    </>
   );
 }
 

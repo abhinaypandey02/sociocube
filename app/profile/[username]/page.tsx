@@ -330,7 +330,7 @@ export default async function ProfilePage({
                   {media.caption}
                 </small>
                 {media.er ? (
-                  <div className="absolute left-0 top-0 flex items-center gap-2 p-2 text-center text-[10px] font-bold text-white backdrop-blur-sm">
+                  <div className="absolute left-0 top-0 flex items-center gap-2 p-2 text-center text-[10px] font-semibold text-white backdrop-blur-sm">
                     <TrendUp />
                     {Math.max(media.er, 1.1)}%
                   </div>

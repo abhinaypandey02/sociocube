@@ -20,7 +20,7 @@ export default function AuthLayout({
   return (
     <section className="mt-5  flex flex-1 flex-col justify-center pb-12 sm:px-6 sm:py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full ">
-        <h2 className="mt-6 text-center font-poppins text-3xl font-bold leading-9 text-gray-800 sm:text-5xl ">
+        <h2 className="mt-6 text-center font-poppins text-3xl font-semibold leading-9 text-gray-800 sm:text-5xl ">
           {title}
         </h2>
       </div>

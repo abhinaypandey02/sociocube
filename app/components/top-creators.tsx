@@ -1,12 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import {
-  InstagramLogo,
   ArrowRight,
-  MagnifyingGlass,
-  TrendUp,
-  SealCheck,
   Dot,
+  InstagramLogo,
+  MagnifyingGlass,
+  SealCheck,
+  TrendUp,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import { getRoute } from "@/constants/routes";
@@ -33,7 +33,7 @@ export default function TopCreators({
       id="sellers"
       title="Our Top Creators"
     >
-      <ul className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
+      <ul className="mx-auto grid max-w-2xl grid-cols-1 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
         {sellers.map(
           (person, i) =>
             person.instagramStats && (
@@ -47,13 +47,13 @@ export default function TopCreators({
                 >
                   <Image
                     alt={person.name || ""}
-                    className="aspect-[14/13] w-full rounded-2xl object-cover"
-                    height={260}
+                    className="mx-auto aspect-square w-48 rounded-full object-cover"
+                    height={150}
                     src={person.photo || ""}
-                    width={280}
+                    width={150}
                   />
                   <div className="mt-2">
-                    <div className="flex items-center gap-2 overflow-hidden text-xl">
+                    <div className="flex items-center justify-center gap-2 overflow-hidden text-xl">
                       <h3 className=" truncate font-poppins  font-semibold  ">
                         {person.name || ""}{" "}
                       </h3>
@@ -64,7 +64,7 @@ export default function TopCreators({
                         />
                       ) : null}
                     </div>
-                    <p className="mt-1 flex items-center text-xs font-medium text-gray-500">
+                    <p className="mt-1 flex items-center justify-center text-xs font-medium text-gray-500">
                       {person.category}
                       <Dot weight="bold" />
                       <InstagramLogo className="mr-1" size={16} />

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import type { AccessorColumnDef, PaginationState } from "@tanstack/react-table";
 import {
-  getPaginationRowModel,
-  getSortedRowModel,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import {
@@ -113,7 +113,7 @@ export default function Table<T>({
               <button
                 className={
                   pagination.pageIndex + 1 === 1
-                    ? "font-bold"
+                    ? "font-semibold"
                     : "cursor-pointer"
                 }
                 onClick={() => {
@@ -134,7 +134,7 @@ export default function Table<T>({
                 <button
                   className={
                     pagination.pageIndex + 1 === page
-                      ? "font-bold"
+                      ? "font-semibold"
                       : "cursor-pointer"
                   }
                   key={page}
@@ -152,7 +152,7 @@ export default function Table<T>({
               <button
                 className={
                   pagination.pageIndex + 1 === totalPages
-                    ? "font-bold"
+                    ? "font-semibold"
                     : "cursor-pointer"
                 }
                 onClick={() => {

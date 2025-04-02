@@ -61,7 +61,7 @@ export default async function JobPostingPage({
       <div className="px-4 sm:px-0">
         <div className="flex items-start justify-between gap-5 max-lg:flex-wrap">
           <div>
-            <h3 className="text-2xl font-bold leading-7 text-gray-800 sm:text-3xl">
+            <h3 className="text-2xl font-semibold leading-7 text-gray-800 sm:text-3xl">
               {posting.title}
             </h3>
             <Link

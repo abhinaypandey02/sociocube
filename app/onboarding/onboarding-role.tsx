@@ -70,7 +70,7 @@ export default function OnboardingRole({
         src="/onboarding-start.svg"
         width={200}
       />
-      <h2 className="mt-5 text-center font-poppins text-3xl font-bold text-gray-800">
+      <h2 className="mt-5 text-center font-poppins text-3xl font-semibold text-gray-800">
         Let's get you onboarded
       </h2>
       <small className="mx-auto mt-2 max-w-96 text-center text-gray-500">

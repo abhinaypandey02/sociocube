@@ -9,4 +9,5 @@ export type ButtonProps = {
   loading?: boolean;
   success?: boolean;
   square?: boolean;
+  compact?: boolean;
 } & ComponentProps<"button">;

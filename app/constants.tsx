@@ -1,3 +1,4 @@
+import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { getRoute } from "@/constants/routes";
 import type { GetCurrentUserQuery } from "@/__generated__/graphql";
 import Logout from "./components/logout";
@@ -19,7 +20,11 @@ export const UNAUTHORISED_NAVBAR_SECTIONS = {
   ],
   cta: {
     button: {
-      children: "Join Us",
+      children: (
+        <span className="flex items-center gap-1">
+          Join now <ArrowRight />
+        </span>
+      ),
     },
     href: getRoute("SignUp"),
   },

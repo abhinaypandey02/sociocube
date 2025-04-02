@@ -5,7 +5,7 @@ import { getSEO } from "@/constants/seo";
 function PrivacyPolicy() {
   return (
     <div className="mx-auto max-w-4xl px-6 py-8 text-gray-800 sm:py-16 lg:px-8">
-      <h2 className="mb-4 text-3xl font-bold">Privacy Policy</h2>
+      <h2 className="mb-4 text-3xl font-semibold">Privacy Policy</h2>
       <p className="mb-8 text-sm text-gray-500">
         Last updated: 06 November 2024
       </p>
