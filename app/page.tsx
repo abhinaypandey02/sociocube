@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_FEATURED_SELLERS_AND_POSTS } from "@/lib/queries";
 import { getSEO, SEO } from "@/constants/seo";
+import BrandsSlider from "@/app/components/brands-slider";
 import Hero from "./components/hero";
 import TopCreators from "./components/top-creators";
 import Schema from "./components/schema";
@@ -44,6 +45,7 @@ async function HomePage() {
         id="org"
       />
       <Hero />
+      <BrandsSlider />
       <TopCreators sellers={sellers} />
       <JobPostings postings={postings} />
       <HowItWorks />

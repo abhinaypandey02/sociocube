@@ -12,32 +12,7 @@ export default function Hero() {
       <svg
         aria-hidden="true"
         className="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-gray-200 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
-      >
-        <defs>
-          <pattern
-            height={200}
-            id="1f932ae7-37de-4c0a-a8b0-a6e3b4d44b84"
-            patternUnits="userSpaceOnUse"
-            width={200}
-            x="50%"
-            y={-1}
-          >
-            <path d="M.5 200V.5H200" fill="none" />
-          </pattern>
-        </defs>
-        <svg className="overflow-visible fill-gray-50" x="50%" y={-1}>
-          <path
-            d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
-            strokeWidth={0}
-          />
-        </svg>
-        <rect
-          fill="url(#1f932ae7-37de-4c0a-a8b0-a6e3b4d44b84)"
-          height="100%"
-          strokeWidth={0}
-          width="100%"
-        />
-      </svg>
+      />
       <div
         aria-hidden="true"
         className="absolute left-1/2 right-0 top-0 -z-10 -ml-24 transform-gpu overflow-hidden blur-3xl lg:ml-24 xl:ml-48"
