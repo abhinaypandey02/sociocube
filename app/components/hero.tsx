@@ -69,7 +69,7 @@ export default function Hero() {
           seamless platform for authentic partnerships.
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-4">
-          <Link href={getRoute("Postings")}>
+          <Link href={getRoute("Onboarding")}>
             <Button
               className="flex items-center gap-1"
               variant={Variants.PRIMARY}
@@ -77,7 +77,7 @@ export default function Hero() {
               Join as a creator <ArrowRight />
             </Button>
           </Link>
-          <Link href={getRoute("Postings")}>
+          <Link href={getRoute("Onboarding")}>
             <Button
               className="flex items-center gap-1 !bg-white/90"
               invert
