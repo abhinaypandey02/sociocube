@@ -1,4 +1,4 @@
-import { ClockCounterClockwise, Plus } from "@phosphor-icons/react/dist/ssr";
+import { CalendarCheck, PiggyBank } from "@phosphor-icons/react/dist/ssr";
 import { Route } from "@/constants/routes";
 import { NavItem } from "@/app/(dashboard)/type";
 
@@ -7,10 +7,10 @@ export const NAV_ITEMS: NavItem[] = [
     href: Route.Postings,
     navTitle: "Apply",
     heading: "Active Campaigns",
-    icon: Plus,
+    icon: PiggyBank,
   },
   {
-    icon: ClockCounterClockwise,
+    icon: CalendarCheck,
     heading: "Your Applications",
     navTitle: "Applications",
     href: Route.AccountApplications,

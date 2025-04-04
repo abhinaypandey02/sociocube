@@ -6,9 +6,11 @@ import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_USER_APPLICATIONS } from "@/lib/queries";
 import { getRoute } from "@/constants/routes";
-import AccountPageWrapper from "../components/account-page-wrapper";
-import { getStatusColor, getStatusName } from "../campaigns/applications/utils";
-import SendReview from "../campaigns/applications/components/send-review";
+import {
+  getStatusColor,
+  getStatusName,
+} from "../../account/campaigns/applications/utils";
+import SendReview from "../../account/campaigns/applications/components/send-review";
 
 export default async function MyApplications() {
   const { getUserApplications, getPendingReviews, uploadURL } = await queryGQL(
@@ -23,7 +25,7 @@ export default async function MyApplications() {
     isPendingReview: getPendingReviews.includes(app.posting?.id || -1),
   }));
   return (
-    <AccountPageWrapper title="Your applications">
+    <>
       {applications.length === 0 && (
         <div className="flex justify-center gap-1 pt-5 text-lg text-gray-700">
           You haven't applied to any campaigns yet.
@@ -104,6 +106,6 @@ export default async function MyApplications() {
             ),
         )}
       </ul>
-    </AccountPageWrapper>
+    </>
   );
 }

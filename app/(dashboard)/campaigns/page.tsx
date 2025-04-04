@@ -3,7 +3,7 @@ import { getSEO } from "@/constants/seo";
 import { Injector, queryGQL } from "@/lib/apollo-server";
 import { GET_ALL_POSTINGS } from "@/lib/queries";
 import SubpageRenderer from "@/app/(dashboard)/components/subpage-renderer";
-import MyApplications from "@/app/account/applications/page";
+import MyApplications from "@/app/(dashboard)/applications/page";
 import { Route } from "@/constants/routes";
 import SearchWindow from "./components/search-window";
 

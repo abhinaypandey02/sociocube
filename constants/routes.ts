@@ -13,7 +13,7 @@ export enum Route {
   TermsConditions = "/terms-and-conditions",
   Postings = "/campaigns",
   AccountPostings = `${Account}/campaigns`,
-  AccountApplications = `${Account}/applications`,
+  AccountApplications = `/applications`,
   AccountPostingsEdit = `${AccountPostings}/edit`,
   AccountPostingsNew = `${AccountPostings}/new`,
   AccountPostingsApplications = `${AccountPostings}/applications`,

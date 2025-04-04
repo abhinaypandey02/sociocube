@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev & drizzle-kit studio",
     "build": "next build",
+    "build-compile": "next build --experimental-build-mode=compile",
     "start": "next start",
     "lint": "next lint --quiet",
     "compile": "graphql-codegen",
