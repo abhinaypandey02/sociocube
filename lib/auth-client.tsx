@@ -1,29 +1,43 @@
 "use client";
 
-import type { PropsWithChildren } from "react";
+import type { Dispatch, PropsWithChildren, SetStateAction } from "react";
 import React, {
-  useEffect,
   createContext,
   Suspense,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { ProgressLoader } from "nextjs-progressloader";
+import { NavItem } from "@/app/(dashboard)/type";
 import GetVerifiedModal from "../app/components/get-verified-modal";
 
 const GlobalState = createContext<{
+  openSubPage?: NavItem["subPages"][number];
+  setOpenSubPage: Dispatch<
+    SetStateAction<NavItem["subPages"][number] | undefined>
+  >;
   token?: string | null;
-  setToken: (token?: string) => void;
+  setToken: Dispatch<SetStateAction<string | null | undefined>>;
   toggleIsGetVerifiedModalOpen: () => void;
 }>({
   setToken: () => null,
   toggleIsGetVerifiedModalOpen: () => null,
+  setOpenSubPage: () => null,
 });
 
 export function useToken() {
   const { token } = useContext(GlobalState);
   return token;
+}
+
+export function useSubPage() {
+  const { openSubPage, setOpenSubPage } = useContext(GlobalState);
+  return {
+    openSubPage,
+    setOpenSubPage,
+  };
 }
 
 export function useToggleGetVerifiedModal() {
@@ -32,6 +46,7 @@ export function useToggleGetVerifiedModal() {
 }
 
 export function GlobalStateWrapper({ children }: PropsWithChildren) {
+  const [openSubPage, setOpenSubPage] = useState<NavItem["subPages"][number]>();
   const [token, setToken] = useState<string | null>();
   const [isGetVerifiedModalOpen, setIsGetVerifiedModalOpen] =
     useState<boolean>(false);
@@ -51,6 +66,8 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
   return (
     <GlobalState.Provider
       value={{
+        openSubPage,
+        setOpenSubPage,
         token,
         setToken,
         toggleIsGetVerifiedModalOpen: () => {

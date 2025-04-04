@@ -17,8 +17,8 @@ import type {
   GetUserApplicationsQuery,
   StorageFile,
 } from "@/__generated__/graphql";
+import PortfolioImageHandler from "@/app/(public)/profile/[username]/components/portfolio-image-handler";
 import Modal from "../../../../../components/modal";
-import PortfolioImageHandler from "../../../../profile/[username]/components/portfolio-image-handler";
 
 export default function SendReview({
   posting,

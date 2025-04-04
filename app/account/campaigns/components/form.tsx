@@ -14,7 +14,7 @@ import Form from "@/components/form";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { Variants } from "@/components/constants";
-import { POSTING_PLATFORMS } from "@/app/campaigns/constants";
+import { POSTING_PLATFORMS } from "@/app/(dashboard)/campaigns/constants";
 import type {
   GetPostingQuery,
   PostingPlatforms,

@@ -12,6 +12,8 @@
 * {
   box-sizing: border-box;
   padding: 0;
+  scroll-behavior: smooth;
+
   margin: 0;
 }
 

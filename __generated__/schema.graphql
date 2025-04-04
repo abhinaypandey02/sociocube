@@ -369,11 +369,6 @@ input NewPostingInput {
   title: String!
 }
 
-input PaginationArgs {
-  page: Float = 1
-  pageSize: Float = 10
-}
-
 type Portfolio {
   caption: String
   id: Int!
@@ -420,7 +415,7 @@ input PricingInput {
 }
 
 type Query {
-  getAllPostings(filters: SearchPostingsFilters, pagination: PaginationArgs!): [Posting!]!
+  getAllPostings(page: Float!): [Posting!]!
   getChat(conversationID: Int!): Conversation
   getChatWithAgency(username: String!): Conversation
   getChatWithUser(username: String!): Conversation
@@ -467,21 +462,6 @@ enum SearchFilterSorting {
   FollowersDesc
   PriceAsc
   PriceDesc
-}
-
-input SearchPostingsFilters {
-  age: Float
-  agency: String
-  followers: Float
-  paidOnly: Boolean
-  platforms: [PostingPlatforms!]
-  query: String
-  sortBy: SearchPostingsSorting
-}
-
-enum SearchPostingsSorting {
-  PriceDesc
-  Trending
 }
 
 input SearchSellersFilters {

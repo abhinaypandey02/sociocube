@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const SEO = {
-  title: `Sociocube – Connecting Brands with Influencers`,
+  title: `Sociocube – Connecting Brands with Influencers` as const,
   description:
-    "Sociocube is your go-to platform for seamless influencer collaborations. Combine the flexibility of freelancing with the power of influencer marketing.",
-  companyName: "Sociocube",
-  themeColor: "#F45B69",
+    "Sociocube is your go-to platform for seamless influencer collaborations. Combine the flexibility of freelancing with the power of influencer marketing." as const,
+  companyName: "Sociocube" as const,
+  themeColor: "#F45B69" as const,
 };
 
 export const getSEO = (title?: string, description?: string): Metadata => ({

@@ -1,8 +1,15 @@
 import React from "react";
 
-export default function Logo({ size }: { size: number }) {
+export default function Logo({
+  size,
+  className,
+}: {
+  size: number;
+  className?: string;
+}) {
   return (
     <svg
+      className={className}
       fill="none"
       height={size}
       viewBox="0 0 1145 1321"

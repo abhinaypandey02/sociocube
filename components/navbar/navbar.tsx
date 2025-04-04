@@ -24,6 +24,7 @@ function Navbar({
   userImage,
 }: NavbarProps) {
   const activeHref = usePathname();
+  const darkOnTop = activeHref === "/";
   const [scrollPosition, setScrollPosition] = useState(0);
   const handleScroll = () => {
     const position = window.pageYOffset;
@@ -31,11 +32,13 @@ function Navbar({
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    if (darkOnTop) {
+      window.addEventListener("scroll", handleScroll, { passive: true });
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
   }, []);
   return (
     <header className="fixed top-0 z-10 w-full p-2">
@@ -44,7 +47,7 @@ function Navbar({
           aria-label="Global"
           className={classNames(
             " mx-auto flex max-w-7xl ease-in-out transition-colors duration-300 items-center justify-between rounded-xl  px-3 py-2  sm:gap-x-6 sm:py-1",
-            scrollPosition > 50
+            !darkOnTop || scrollPosition > 50
               ? "bg-primary-bg shadow text-gray-900"
               : "bg-transparent text-white",
           )}
@@ -52,7 +55,7 @@ function Navbar({
           <Link
             className={classNames(
               " flex items-center gap-2 transition-colors ease-in-out duration-300 leading-none  sm:text-6xl",
-              scrollPosition > 50 ? "text-primary" : "text-white",
+              !darkOnTop || scrollPosition > 50 ? "text-primary" : "text-white",
             )}
             href={process.env.NEXT_PUBLIC_BASE_URL || "/public"}
           >
