@@ -11,8 +11,8 @@ import { Button } from "@/components/button";
 import { IconButton } from "@/components/icon-button";
 import { Variants } from "@/components/constants";
 import type {
+  GetAllPostingsQuery,
   GetCurrentUserApplicationStatusQuery,
-  GetPostingQuery,
 } from "@/__generated__/graphql";
 import { getRoute, Route } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
@@ -34,7 +34,7 @@ export default function ApplyNowButton({
 }: {
   data?: GetCurrentUserApplicationStatusQuery;
   loading: boolean;
-  posting: GetPostingQuery["posting"];
+  posting: GetAllPostingsQuery["postings"][number];
 }) {
   const form = useForm<FormType>({
     defaultValues: {
@@ -49,9 +49,9 @@ export default function ApplyNowButton({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRouteLoading, setIsRouteLoading] = useState(false);
   const message: [ReactNode, string | null, boolean] = useMemo(() => {
-    if (appliedSuccess && !posting?.externalLink)
+    if (appliedSuccess && !posting.externalLink)
       return ["Applied!", null, true];
-    if (!posting?.open) return ["Closed", null, true];
+    if (!posting.open) return ["Closed", null, true];
     if (!data?.user)
       return [
         "Sign in to apply",
@@ -84,7 +84,7 @@ export default function ApplyNowButton({
     setIsModalOpen(false);
   };
   const openExternalLink = () => {
-    if (posting?.externalLink) window.open(posting.externalLink, "_blank");
+    if (posting.externalLink) window.open(posting.externalLink, "_blank");
   };
   const handleClick = useCallback(() => {
     if (appliedSuccess) {
@@ -94,11 +94,11 @@ export default function ApplyNowButton({
     if (message[1]) {
       setIsRouteLoading(true);
     } else setIsModalOpen(true);
-  }, [message, posting?.externalLink]);
+  }, [message, posting.externalLink]);
 
   const handleApply = (values: FormType) => {
     openExternalLink();
-    if (posting?.id) {
+    if (posting.id) {
       applyNow({
         email: values.email.toLowerCase(),
         postingID: posting.id,
@@ -114,9 +114,9 @@ export default function ApplyNowButton({
   };
 
   const loading = isRouteLoading || dataLoading || applyNowLoading;
-  const editable = data?.user === posting?.agency.id;
+  const editable = data?.user?.id === posting.agency.id;
   const canShare =
-    posting &&
+    typeof window !== "undefined" &&
     typeof navigator !== "undefined" &&
     navigator.canShare({
       text: getShareText(posting),
@@ -126,7 +126,7 @@ export default function ApplyNowButton({
       <Modal close={handleClose} open={isModalOpen}>
         <h3 className="mb-6 text-2xl font-semibold text-gray-700">Apply now</h3>
         <h4 className="mb-1 font-poppins font-medium">Campaign title</h4>
-        <p className="mb-4 text-sm">{posting?.title}</p>
+        <p className="mb-4 text-sm">{posting.title}</p>
         <Form form={form} onSubmit={form.handleSubmit(handleApply)}>
           <Input
             className="mb-4 placeholder:text-xs"
@@ -143,18 +143,18 @@ export default function ApplyNowButton({
             placeholder="Your contact phone number, Whatsapp preferred"
             type="tel"
           />
-          {!posting?.externalLink ? (
+          {!posting.externalLink ? (
             <Input
               className="mb-4 placeholder:text-xs"
               label={
-                posting?.extraDetails
+                posting.extraDetails
                   ? `${posting.extraDetails} *`
                   : "Add comments"
               }
               name="comment"
-              placeholder={`${posting?.extraDetails ? "" : "(Optional) "}Add a comment to add more information for the recruiter`}
-              required={Boolean(posting?.extraDetails)}
-              rules={{ required: Boolean(posting?.extraDetails) }}
+              placeholder={`${posting.extraDetails ? "" : "(Optional) "}Add a comment to add more information for the recruiter`}
+              required={Boolean(posting.extraDetails)}
+              rules={{ required: Boolean(posting.extraDetails) }}
               textarea
             />
           ) : null}
@@ -164,7 +164,7 @@ export default function ApplyNowButton({
             success={appliedSuccess}
             type="submit"
           >
-            {posting?.externalLink
+            {posting.externalLink
               ? appliedSuccess
                 ? "Open form"
                 : "Apply now"
@@ -173,7 +173,7 @@ export default function ApplyNowButton({
         </Form>
       </Modal>
       {editable ? (
-        <Link href={`${getRoute("AccountPostingsEdit")}/${posting?.id}`}>
+        <Link href={`${getRoute("AccountPostingsEdit")}/${posting.id}`}>
           <IconButton>
             <Pencil className="text-accent" size={24} weight="duotone" />
           </IconButton>

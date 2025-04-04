@@ -355,9 +355,13 @@ export const GET_ALL_POSTINGS = gql(`
       id
       maximumAge
       minimumFollowers
+      externalLink
+      extraDetails
       agency {
+          id
         name
         photo
+          username
         instagramStats {
           isVerified
         }
@@ -373,6 +377,7 @@ export const GET_ALL_POSTINGS = gql(`
       createdAt
       platforms
       updatedAt
+        deliverables
     }
   }
 `);

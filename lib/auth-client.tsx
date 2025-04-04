@@ -14,10 +14,8 @@ import { NavItem } from "@/app/(dashboard)/type";
 import GetVerifiedModal from "../app/components/get-verified-modal";
 
 const GlobalState = createContext<{
-  openSubPage?: NavItem["subPages"][number];
-  setOpenSubPage: Dispatch<
-    SetStateAction<NavItem["subPages"][number] | undefined>
-  >;
+  openSubPage?: NavItem;
+  setOpenSubPage: Dispatch<SetStateAction<NavItem | undefined>>;
   token?: string | null;
   setToken: Dispatch<SetStateAction<string | null | undefined>>;
   toggleIsGetVerifiedModalOpen: () => void;
@@ -46,7 +44,7 @@ export function useToggleGetVerifiedModal() {
 }
 
 export function GlobalStateWrapper({ children }: PropsWithChildren) {
-  const [openSubPage, setOpenSubPage] = useState<NavItem["subPages"][number]>();
+  const [openSubPage, setOpenSubPage] = useState<NavItem>();
   const [token, setToken] = useState<string | null>();
   const [isGetVerifiedModalOpen, setIsGetVerifiedModalOpen] =
     useState<boolean>(false);

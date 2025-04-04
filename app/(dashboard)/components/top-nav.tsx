@@ -9,12 +9,12 @@ export default function TopNav({
   subLinks,
 }: {
   title: string;
-  subLinks: NavItem["subPages"];
+  subLinks: NavItem[];
 }) {
   const { setOpenSubPage } = useSubPage();
 
   return (
-    <div className="flex w-full items-center justify-between p-4">
+    <div className="flex w-full items-center justify-between p-4 lg:hidden">
       <div className="flex items-center gap-3">
         <Logo className="text-primary" size={32} />
         <h2 className="font-poppins text-2xl font-semibold text-gray-800">
@@ -24,7 +24,7 @@ export default function TopNav({
       <div className="flex">
         {subLinks.map((page) => (
           <button
-            key={page.title}
+            key={page.heading}
             onClick={() => {
               setOpenSubPage(page);
             }}

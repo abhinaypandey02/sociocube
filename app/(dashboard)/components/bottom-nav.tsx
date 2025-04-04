@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import Link from "next/link";
 import classNames from "classnames";
 import { NavItem } from "@/app/(dashboard)/type";
-import { NAV_ITEMS } from "@/app/(dashboard)/constants";
+import { PRIMARY_NAV_ITEMS } from "@/app/(dashboard)/constants";
 
 export default function BottomNav({
   setActiveItem,
@@ -13,8 +13,8 @@ export default function BottomNav({
   activeItem?: NavItem;
 }) {
   return (
-    <div className="flex items-center justify-center border-t border-gray-200 py-3 shadow-xl">
-      {NAV_ITEMS.map((item) => (
+    <div className="flex items-center justify-center border-t border-gray-200 py-3 shadow-xl lg:hidden">
+      {PRIMARY_NAV_ITEMS.map((item) => (
         <Link
           className={classNames(
             "flex flex-col items-center",
@@ -27,7 +27,7 @@ export default function BottomNav({
           }}
         >
           <item.icon size={20} weight="bold" />
-          <p className="text-xs">{item.bottomTitle}</p>
+          <p className="text-xs">{item.navTitle}</p>
         </Link>
       ))}
       <div />

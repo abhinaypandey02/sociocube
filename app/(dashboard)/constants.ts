@@ -5,15 +5,17 @@ import { NavItem } from "@/app/(dashboard)/type";
 export const NAV_ITEMS: NavItem[] = [
   {
     href: Route.Postings,
-    bottomTitle: "Apply",
-    topTitle: "Campaigns",
+    navTitle: "Apply",
+    heading: "Active Campaigns",
     icon: Plus,
-    subPages: [
-      {
-        icon: ClockCounterClockwise,
-        title: "Your Applications",
-        id: 0,
-      },
-    ],
+  },
+  {
+    icon: ClockCounterClockwise,
+    heading: "Your Applications",
+    navTitle: "Applications",
+    href: Route.AccountApplications,
+    parent: Route.Postings,
   },
 ];
+
+export const PRIMARY_NAV_ITEMS = NAV_ITEMS.filter((item) => !item.parent);

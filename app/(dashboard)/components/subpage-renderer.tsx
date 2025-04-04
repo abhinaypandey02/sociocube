@@ -3,21 +3,22 @@ import React, { PropsWithChildren } from "react";
 import classNames from "classnames";
 import { CaretLeft } from "@phosphor-icons/react";
 import { useSubPage } from "@/lib/auth-client";
+import { Route } from "@/constants/routes";
 
 export default function SubpageRenderer({
   children,
-  id,
+  href,
 }: PropsWithChildren<{
-  id: number;
+  href: Route;
 }>) {
   const { openSubPage, setOpenSubPage } = useSubPage();
   return (
     <div
       className={classNames(
         "absolute inset-0 z-10 size-full  bg-primary-bg transition-transform",
-        openSubPage?.id !== id && "translate-x-full",
+        openSubPage?.href !== href && "translate-x-full",
       )}
-      key={id}
+      key={href}
     >
       <div className="flex items-center gap-2 p-4">
         <button
@@ -28,7 +29,7 @@ export default function SubpageRenderer({
           <CaretLeft size={22} weight="bold" />
         </button>
         <h2 className="font-poppins text-2xl font-semibold text-gray-800">
-          {openSubPage?.title}
+          {openSubPage?.heading}
         </h2>
       </div>
       {children}
