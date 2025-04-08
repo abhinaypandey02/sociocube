@@ -17,10 +17,10 @@
     "db-studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@apollo/client": "^3.11.8",
-    "@apollo/experimental-nextjs-app-support": "0.11.5",
-    "@apollo/server": "^4.11.0",
-    "@as-integrations/next": "^3.1.0",
+    "@apollo/client": "^3.13.6",
+    "@apollo/experimental-nextjs-app-support": "^0.12.1",
+    "@apollo/server": "^4.12.0",
+    "@as-integrations/next": "^3.2.0",
     "@aws-sdk/client-s3": "^3.670.0",
     "@aws-sdk/s3-request-presigner": "^3.670.0",
     "@ffmpeg/ffmpeg": "^0.12.15",
@@ -29,7 +29,7 @@
     "@headlessui/react": "^2.1.10",
     "@next/third-parties": "^15.0.3",
     "@phosphor-icons/react": "^2.1.7",
-    "@sentry/nextjs": "^9.8.0",
+    "@sentry/nextjs": "^9.11.0",
     "@tanstack/react-table": "^8.20.6",
     "@vercel/functions": "^2.0.0",
     "bcryptjs": "^3.0.2",
@@ -41,15 +41,15 @@
     "gray-matter": "^4.0.3",
     "jsonwebtoken": "^9.0.2",
     "multi-range-slider-react": "^2.0.7",
-    "next": "15.0.0-canary.205",
+    "next": "15.3.0-canary.43",
     "nextjs-progressloader": "^1.2.0",
     "nodemailer": "^6.9.16",
     "postgres": "^3.4.4",
     "pusher": "^5.2.0",
     "pusher-js": "8.4.0-rc2",
-    "react": "19.0.0-rc-1631855f-20241023",
-    "react-dom": "19.0.0-rc-1631855f-20241023",
-    "react-hook-form": "7.53.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.53.0",
     "react-hot-toast": "^2.4.1",
     "react-infinite-logo-slider": "^1.1.4",
     "react-markdown": "^9.0.1",
@@ -90,6 +90,6 @@
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.14",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.2"
   }
 }
