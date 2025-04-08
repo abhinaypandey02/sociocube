@@ -14,10 +14,10 @@ export default function Hero() {
         <Image
           alt="girl on a sofa"
           className="absolute inset-x-0 top-0 -z-10 size-full object-cover"
-          height={821}
+          height={598}
           priority
-          src="/hero-bg.jpg"
-          width={1232}
+          src="/hero-bg.webp"
+          width={1000}
         />
         <p className="mb-3 font-medium tracking-wide text-gray-200">
           BIGGEST INFLUENCER MARKETING PLATFORM
