@@ -5,11 +5,7 @@ import { toast } from "react-hot-toast";
 import { Input } from "@/components/input";
 import Form from "@/components/form";
 import { Button } from "@/components/button";
-import {
-  handleGQLErrors,
-  useAuthMutation,
-  useAuthQuery,
-} from "@/lib/apollo-client";
+import { handleGQLErrors, useAuthMutation, useAuthQuery } from "@/lib/apollo-client";
 import { UPDATE_USER_LOCATION } from "@/lib/mutations";
 import { GET_CITIES, GET_COUNTRIES } from "@/lib/queries";
 import ContentTemplate from "./content-template";
@@ -100,7 +96,7 @@ export default function LocationSection({
             ) : null}
             {form.watch("city") && (
               <Button
-                className="!mt-8 ml-auto block "
+                className="mt-8! ml-auto block "
                 loading={loading || loadingCountries || loadingCities}
                 type="submit"
               >

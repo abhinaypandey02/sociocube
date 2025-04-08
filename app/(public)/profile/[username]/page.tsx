@@ -1,12 +1,6 @@
 import React, { Suspense } from "react";
 import type { Metadata } from "next";
-import {
-  ArrowSquareOut,
-  InstagramLogo,
-  SealCheck,
-  Sparkle,
-  TrendUp,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowSquareOut, InstagramLogo, SealCheck, Sparkle, TrendUp } from "@phosphor-icons/react/dist/ssr";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { cookies } from "next/headers";
@@ -74,7 +68,7 @@ export default async function ProfilePage({
   );
   if (!user?.name || !user.instagramStats) return notFound();
   return (
-    <div className="mx-auto max-w-2xl px-6 pt-6 sm:mt-8 lg:grid lg:max-w-screen-2xl lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
+    <div className="mx-auto max-w-2xl px-6 pt-6 sm:mt-8 lg:grid lg:max-w-(--breakpoint-2xl) lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
       <Suspense>
         <OnboardingCompletedModal url={getMeURL(username, true)} />
       </Suspense>
@@ -326,11 +320,11 @@ export default async function ProfilePage({
                   src={media.thumbnail}
                   width={500}
                 />
-                <small className="absolute bottom-0  w-full truncate rounded-b-md bg-[rgba(0,0,0,0.15)] p-2 text-center text-[10px] italic text-white backdrop-blur-sm">
+                <small className="absolute bottom-0  w-full truncate rounded-b-md bg-[rgba(0,0,0,0.15)] p-2 text-center text-[10px] italic text-white backdrop-blur-xs">
                   {media.caption}
                 </small>
                 {media.er ? (
-                  <div className="absolute left-0 top-0 flex items-center gap-2 p-2 text-center text-[10px] font-semibold text-white backdrop-blur-sm">
+                  <div className="absolute left-0 top-0 flex items-center gap-2 p-2 text-center text-[10px] font-semibold text-white backdrop-blur-xs">
                     <TrendUp />
                     {Math.max(media.er, 1.1)}%
                   </div>

@@ -7,11 +7,7 @@ import type { GraphQLError } from "graphql/error";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
-import {
-  handleGQLErrors,
-  useAuthMutation,
-  useAuthQuery,
-} from "@/lib/apollo-client";
+import { handleGQLErrors, useAuthMutation, useAuthQuery } from "@/lib/apollo-client";
 import { IS_USERNAME_AVAILABLE } from "@/lib/queries";
 import { getUsernameInputRules } from "@/lib/utils";
 import { UPDATE_USER } from "@/lib/mutations";
@@ -72,7 +68,7 @@ export default function OnboardingUsername({
         suffix=".sociocube.me"
       />
 
-      <div className="!mt-6 flex justify-end">
+      <div className="mt-6! flex justify-end">
         <Button loading={loading || loadingAvailability} type="submit">
           Next
         </Button>

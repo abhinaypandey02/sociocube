@@ -59,7 +59,7 @@ export default function OnboardingPricingForm({
         rules={{ required: true, valueAsNumber: true }}
         type="number"
       />
-      <div className="!mt-6 flex justify-between">
+      <div className="mt-6! flex justify-between">
         <Button invert onClick={nextStep} type="submit">
           Skip
         </Button>

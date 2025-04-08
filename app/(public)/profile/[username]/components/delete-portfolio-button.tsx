@@ -92,7 +92,7 @@ export default function DeletePortfolioButton({
         </div>
       </Modal>
       <button
-        className="absolute right-0 top-0  flex size-5 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-gray-50 text-red-500 shadow hover:bg-gray-200"
+        className="absolute right-0 top-0  flex size-5 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-gray-50 text-red-500 shadow-sm hover:bg-gray-200"
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();

@@ -36,7 +36,7 @@ export default function PostingReviews({
                   />
                 </LinkWrapper>
                 <Link
-                  className="absolute bottom-0 flex w-full items-center justify-center gap-2 rounded-b-md bg-[rgba(0,0,0,0.15)] py-1 text-xs text-white backdrop-blur-sm"
+                  className="absolute bottom-0 flex w-full items-center justify-center gap-2 rounded-b-md bg-[rgba(0,0,0,0.15)] py-1 text-xs text-white backdrop-blur-xs"
                   href={`${getRoute("Profile")}/${review.username}`}
                 >
                   {review.photo ? (

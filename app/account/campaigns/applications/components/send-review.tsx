@@ -13,10 +13,7 @@ import Form from "@/components/form";
 import { Variants } from "@/components/constants";
 import { SEND_REVIEW_BY_USER } from "@/lib/mutations";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
-import type {
-  GetUserApplicationsQuery,
-  StorageFile,
-} from "@/__generated__/graphql";
+import type { GetUserApplicationsQuery, StorageFile } from "@/__generated__/graphql";
 import PortfolioImageHandler from "@/app/(public)/profile/[username]/components/portfolio-image-handler";
 import Modal from "../../../../../components/modal";
 
@@ -179,7 +176,7 @@ export default function SendReview({
             />
           ) : null}
           <Button
-            className="!mt-10"
+            className="mt-10!"
             disabled={!rating || (!imageURL && !manualURL)}
             loading={loading}
             type="submit"

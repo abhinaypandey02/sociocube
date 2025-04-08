@@ -10,10 +10,7 @@ import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import { IconButton } from "@/components/icon-button";
 import { Variants } from "@/components/constants";
-import type {
-  GetAllPostingsQuery,
-  GetCurrentUserApplicationStatusQuery,
-} from "@/__generated__/graphql";
+import type { GetAllPostingsQuery, GetCurrentUserApplicationStatusQuery } from "@/__generated__/graphql";
 import { getRoute, Route } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { APPLY_NOW } from "@/lib/mutations";
@@ -159,7 +156,7 @@ export default function ApplyNowButton({
             />
           ) : null}
           <Button
-            className="ml-auto mt-3 !px-3 py-1 text-sm"
+            className="ml-auto mt-3 px-3! py-1 text-sm"
             loading={loading}
             success={appliedSuccess}
             type="submit"

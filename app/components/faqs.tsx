@@ -1,10 +1,6 @@
 "use client";
 import React from "react";
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from "@headlessui/react";
+import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
 import { Minus, Plus } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
 import Schema from "./schema";
@@ -65,7 +61,7 @@ const faqs = [
 function Faqs() {
   return (
     <SectionWrapper
-      headerClassName="!mb-6"
+      headerClassName="mb-6!"
       id="faq"
       title="Frequently asked questions"
     >

@@ -8,7 +8,7 @@ const stats = [
 
 export default function AboutUs() {
   return (
-    <SectionWrapper headerClassName="!mb-6 " id="about-us" title="About Us">
+    <SectionWrapper headerClassName="mb-6! " id="about-us" title="About Us">
       <div className=" flex flex-col gap-x-8 gap-y-10 lg:flex-row">
         <div className="lg:w-full lg:max-w-2xl lg:flex-auto">
           <p className="text-justify text-xl leading-8 text-gray-600">

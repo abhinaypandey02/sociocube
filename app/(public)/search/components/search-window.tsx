@@ -9,18 +9,9 @@ import {
   MenuButton,
   MenuItem,
   MenuItems,
-  Transition,
+  Transition
 } from "@headlessui/react";
-import {
-  Funnel,
-  MagnifyingGlass,
-  MapPin,
-  Minus,
-  Plus,
-  SealCheck,
-  SlidersHorizontal,
-  X,
-} from "@phosphor-icons/react";
+import { Funnel, MagnifyingGlass, MapPin, Minus, Plus, SealCheck, SlidersHorizontal, X } from "@phosphor-icons/react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -28,10 +19,7 @@ import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import { Input } from "@/components/input";
-import type {
-  SearchSellersFilters,
-  SearchSellersQuery,
-} from "@/__generated__/graphql";
+import type { SearchSellersFilters, SearchSellersQuery } from "@/__generated__/graphql";
 import { SearchFilterSorting } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
 import { convertToAbbreviation } from "@/lib/utils";
@@ -181,7 +169,7 @@ export default function SearchWindow({
               >
                 <MenuItems
                   anchor="bottom end"
-                  className=" mt-2 flex flex-col rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  className=" mt-2 flex flex-col rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-hidden"
                 >
                   {variables.sortBy ? (
                     <MenuItem>
@@ -255,7 +243,7 @@ export default function SearchWindow({
                     <span className="ml-6 flex items-center">
                       <Plus
                         aria-hidden="true"
-                        className="size-5 group-data-[open]:hidden"
+                        className="size-5 group-data-open:hidden"
                       />
                       <Minus
                         aria-hidden="true"
@@ -284,7 +272,7 @@ export default function SearchWindow({
                   data?.sellers?.map((person) => (
                     <li key={person.name || ""}>
                       <Link
-                        className="flex items-center gap-3 rounded-md px-4 py-3 hover:shadow"
+                        className="flex items-center gap-3 rounded-md px-4 py-3 hover:shadow-sm"
                         href={`${getRoute("Profile")}/${person.username}`}
                       >
                         <Image

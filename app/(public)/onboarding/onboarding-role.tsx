@@ -96,7 +96,7 @@ export default function OnboardingRole({
       </div>
       <Button
         autoFocus
-        className="mx-auto mt-6 flex items-center gap-2 !font-medium"
+        className="mx-auto mt-6 flex items-center gap-2 font-medium!"
         onClick={() => {
           handleSubmit();
         }}

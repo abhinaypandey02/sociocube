@@ -167,7 +167,7 @@ export default function OnboardingBasicDetailsForm({
         type="file"
       />
       <Button
-        className="!mb-5 !mt-8 ml-auto block"
+        className="mb-5! mt-8! ml-auto block"
         loading={loading || uploadingPicture}
         type="submit"
       >

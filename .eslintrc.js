@@ -20,7 +20,6 @@ module.exports = {
       "@vercel/style-guide/eslint/next",
     ].map(require.resolve),
     "prettier",
-    "plugin:tailwindcss/recommended",
   ],
   parserOptions: {
     project,
@@ -52,8 +51,6 @@ module.exports = {
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/ban-types": "warn",
     "eslint-disable-next-line eslint-comments/require-description": "off",
-    "tailwindcss/no-custom-classname": "error",
-    "tailwindcss/no-contradicting-classname": "error",
     "@typescript-eslint/prefer-literal-enum-member": "off",
     "@typescript-eslint/require-array-sort-compare": "off",
     "no-nested-ternary": "off",

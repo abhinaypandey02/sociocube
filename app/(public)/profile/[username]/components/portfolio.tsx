@@ -1,9 +1,6 @@
 import React from "react";
 import { MAX_CAMPAIGNS } from "@/constants/constraints";
-import type {
-  GetPortfolioUploadUrlQuery,
-  GetSellerQuery,
-} from "@/__generated__/graphql";
+import type { GetPortfolioUploadUrlQuery, GetSellerQuery } from "@/__generated__/graphql";
 import AddPortfolioButton from "./add-portfolio-button";
 import DeletePortfolioButton from "./delete-portfolio-button";
 
@@ -50,7 +47,7 @@ export default function Portfolio({
                   />
                 </a>
                 {work.caption ? (
-                  <small className="absolute bottom-0 w-full rounded-b-md bg-[rgba(0,0,0,0.15)] text-center text-[10px] italic text-white backdrop-blur-sm">
+                  <small className="absolute bottom-0 w-full rounded-b-md bg-[rgba(0,0,0,0.15)] text-center text-[10px] italic text-white backdrop-blur-xs">
                     <div className="my-2 line-clamp-2 px-2">{work.caption}</div>
                   </small>
                 ) : null}

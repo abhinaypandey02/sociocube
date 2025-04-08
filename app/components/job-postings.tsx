@@ -1,8 +1,4 @@
-import {
-  ArrowRight,
-  MagnifyingGlass,
-  SealCheck,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, MagnifyingGlass, SealCheck } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
@@ -35,7 +31,7 @@ export default function JobPostings({
       <ul className="mx-auto max-w-6xl divide-y divide-gray-100 ">
         {postings.map((posting) => (
           <li
-            className="relative flex justify-between gap-x-6 rounded-xl px-5 py-7 transition-all duration-300 hover:bg-white hover:shadow"
+            className="relative flex justify-between gap-x-6 rounded-xl px-5 py-7 transition-all duration-300 hover:bg-white hover:shadow-sm"
             key={posting.id}
           >
             <div className="flex min-w-0 gap-x-4">

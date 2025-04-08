@@ -24,7 +24,7 @@ function Button({
   return (
     <button
       className={classNames(
-        "relative ring-0 border  duration-200 flex justify-center transition-all  font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
+        "relative ring-0 border  duration-200 flex justify-center transition-all  font-semibold leading-6 shadow-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
         borderless && "border-none shadow-none",
         square ? "p-3" : compact ? "px-3 py-1 " : "px-4 py-2 ",
         compact ? "rounded-lg" : "rounded-xl",

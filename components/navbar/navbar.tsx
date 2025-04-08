@@ -1,13 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Transition,
-} from "@headlessui/react";
+import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
 import classNames from "classnames";
 import { List, User, X } from "@phosphor-icons/react";
 import { usePathname } from "next/navigation";
@@ -48,7 +42,7 @@ function Navbar({
           className={classNames(
             " mx-auto flex max-w-7xl ease-in-out transition-colors duration-300 items-center justify-between rounded-xl  px-3 py-2  sm:gap-x-6 sm:py-1",
             !darkOnTop || scrollPosition > 50
-              ? "bg-primary-bg shadow text-gray-900"
+              ? "bg-primary-bg shadow-sm text-gray-900"
               : "bg-transparent text-white",
           )}
         >
@@ -85,7 +79,7 @@ function Navbar({
             {userImage ? (
               <Menu as="div" className="relative max-lg:hidden">
                 <div>
-                  <MenuButton className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                  <MenuButton className="relative flex rounded-full bg-white text-sm focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2">
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">Open user menu</span>
                     {userImage === "loading" ? (
@@ -111,7 +105,7 @@ function Navbar({
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-hidden">
                     {secondaryLinks.map((item) => (
                       <MenuItem key={item.href}>
                         {({ focus }) =>
@@ -160,7 +154,7 @@ function Navbar({
                 />
               </Link>
             ) : null}
-            <MenuButton className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:hidden">
+            <MenuButton className="relative flex rounded-full bg-white text-sm focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:hidden">
               {({ open }) => (
                 <>
                   <span className="sr-only">Open user menu</span>
@@ -182,7 +176,7 @@ function Navbar({
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <MenuItems className="absolute inset-x-0 z-10 mt-2 origin-top rounded-xl bg-white py-2 font-medium  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <MenuItems className="absolute inset-x-0 z-10 mt-2 origin-top rounded-xl bg-white py-2 font-medium  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-hidden">
             {primaryLinks.map((item) => (
               <MenuItem key={item.href}>
                 {({ focus }) =>

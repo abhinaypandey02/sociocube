@@ -1,13 +1,6 @@
 "use client";
 import React from "react";
-import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from "@headlessui/react";
+import { Dialog, DialogBackdrop, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
 import { Minus, Plus, X } from "@phosphor-icons/react";
 import type { SearchSellersFilters } from "@/__generated__/graphql";
 import { SEARCH_FILTERS } from "../constants";
@@ -26,13 +19,13 @@ export default function MobileFilterPanel({
   return (
     <Dialog className="relative z-40 lg:hidden" onClose={close} open={isOpen}>
       <DialogBackdrop
-        className="fixed inset-0 bg-black/25 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
+        className="fixed inset-0 bg-black/25 transition-opacity duration-300 ease-linear data-closed:opacity-0"
         transition
       />
 
       <div className=" fixed inset-0 z-40 flex">
         <DialogPanel
-          className="relative ml-auto flex size-full max-w-xs flex-col overflow-y-auto bg-primary-bg py-4 pb-12 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full"
+          className="relative ml-auto flex size-full max-w-xs flex-col overflow-y-auto bg-primary-bg py-4 pb-12 shadow-xl transition duration-300 ease-in-out data-closed:translate-x-full"
           transition
         >
           <div className="flex items-center justify-between px-4">
@@ -63,7 +56,7 @@ export default function MobileFilterPanel({
                     <span className="ml-6 flex items-center">
                       <Plus
                         aria-hidden="true"
-                        className="size-5 group-data-[open]:hidden"
+                        className="size-5 group-data-open:hidden"
                       />
                       <Minus
                         aria-hidden="true"

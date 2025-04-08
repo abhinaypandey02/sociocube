@@ -4,12 +4,7 @@ import type { CellContext } from "@tanstack/react-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
-import {
-  ChatCircleDots,
-  EnvelopeSimple,
-  Phone,
-  SealCheck,
-} from "@phosphor-icons/react";
+import { ChatCircleDots, EnvelopeSimple, Phone, SealCheck } from "@phosphor-icons/react";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
@@ -216,7 +211,7 @@ export default function ApplicationsTable({
                   </PopoverButton>
                   <PopoverPanel
                     anchor="top"
-                    className="flex w-80 -translate-y-2 flex-col rounded-xl border border-gray-200 bg-white px-5 py-3 text-center text-sm font-light shadow"
+                    className="flex w-80 -translate-y-2 flex-col rounded-xl border border-gray-200 bg-white px-5 py-3 text-center text-sm font-light shadow-sm"
                   >
                     {val.getValue()}
                   </PopoverPanel>

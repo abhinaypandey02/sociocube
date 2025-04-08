@@ -26,7 +26,7 @@ export default function AuthLayout({
       </div>
 
       <div className="sm:mx-auto sm:mt-20 sm:w-full sm:max-w-[480px]">
-        <div className=" px-6 py-12 sm:rounded-lg sm:bg-white sm:px-12 sm:shadow">
+        <div className=" px-6 py-12 sm:rounded-lg sm:bg-white sm:px-12 sm:shadow-sm">
           {children}
           {redirectURL ? (
             <div>

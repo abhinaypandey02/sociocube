@@ -196,7 +196,7 @@ export default function AddPortfolioButton({
         </Form>
       </Modal>
       <Button
-        className="flex items-center gap-1 !px-3 !text-xs"
+        className="flex items-center gap-1 px-3! text-xs!"
         invert
         onClick={() => {
           setImage(undefined);
