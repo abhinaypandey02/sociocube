@@ -8,4 +8,4 @@ export const PostingResolvers = [
   PostingFieldResolvers,
   PostingQueryResolvers,
   PostingMutationResolvers,
-] as NonEmptyArray<Function>;
+];

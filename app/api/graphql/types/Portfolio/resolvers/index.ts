@@ -8,4 +8,4 @@ export const PortfolioResolvers = [
   PortfolioQueryResolver,
   PortfolioMutationResolver,
   PortfolioFieldResolvers,
-] as NonEmptyArray<Function>;
+];

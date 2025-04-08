@@ -8,4 +8,4 @@ export const ChatResolvers = [
   ChatQueryResolvers,
   ChatMutationResolvers,
   ChatFieldResolvers,
-] as NonEmptyArray<Function>;
+];

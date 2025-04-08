@@ -21,6 +21,7 @@ import { ReviewResolvers } from "./types/Review/resolvers";
 import { UserResolvers } from "./types/User/resolvers";
 
 const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
+  // @ts-expect-error -- This is needed as the type Function is hardcoded
   resolvers: [
     ...UserResolvers,
     ...ChatResolvers,

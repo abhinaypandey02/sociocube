@@ -21,7 +21,7 @@ export default function Table<T>({
   pageSize = 25,
 }: {
   data: T[];
-
+  // eslint-disable-next-line -- needed package deps
   columns: AccessorColumnDef<T, any>[];
   pageSize?: number;
 }) {

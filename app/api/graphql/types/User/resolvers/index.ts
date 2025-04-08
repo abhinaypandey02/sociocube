@@ -8,4 +8,4 @@ export const UserResolvers = [
   UserQueryResolver,
   UserMutationResolver,
   UserFieldResolver,
-] as NonEmptyArray<Function>;
+];

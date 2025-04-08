@@ -8,4 +8,4 @@ export const ApplicationResolvers = [
   ApplicationFieldResolvers,
   ApplicationMutationResolver,
   ApplicationQueryResolver,
-] as NonEmptyArray<Function>;
+];
