@@ -4,7 +4,7 @@ import {
   InMemoryCache,
   type OperationVariables,
 } from "@apollo/client";
-import { registerApolloClient } from "@apollo/experimental-nextjs-app-support";
+import { registerApolloClient } from "@apollo/client-integration-nextjs";
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import type { GraphQLFormattedError } from "graphql/error";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";

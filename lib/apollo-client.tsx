@@ -10,7 +10,7 @@ import {
   ApolloClient,
   ApolloNextAppProvider,
   InMemoryCache,
-} from "@apollo/experimental-nextjs-app-support";
+} from "@apollo/client-integration-nextjs";
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import type { GraphQLError } from "graphql/error";
 import type { PropsWithChildren } from "react";
