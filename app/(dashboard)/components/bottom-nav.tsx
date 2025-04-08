@@ -1,9 +1,10 @@
 "use client";
-import React, { Dispatch, SetStateAction } from "react";
-import Link from "next/link";
 import classNames from "classnames";
-import { NavItem } from "@/app/(dashboard)/type";
+import Link from "next/link";
+import React, { Dispatch, SetStateAction } from "react";
+
 import { PRIMARY_NAV_ITEMS } from "@/app/(dashboard)/constants";
+import { NavItem } from "@/app/(dashboard)/type";
 
 export default function BottomNav({
   setActiveItem,

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import React from "react";
+
 import type { ContentTemplateItemT } from "./content-template-item";
 import ContentTemplateItem from "./content-template-item";
 

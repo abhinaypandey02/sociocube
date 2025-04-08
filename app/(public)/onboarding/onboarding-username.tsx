@@ -1,17 +1,22 @@
 "use client";
+import type { GraphQLError } from "graphql/error";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import type { GraphQLError } from "graphql/error";
-import { Input } from "@/components/input";
+
 import { Button } from "@/components/button";
 import Form from "@/components/form";
-import { handleGQLErrors, useAuthMutation, useAuthQuery } from "@/lib/apollo-client";
+import { Input } from "@/components/input";
+import { getRoute } from "@/constants/routes";
+import {
+  handleGQLErrors,
+  useAuthMutation,
+  useAuthQuery,
+} from "@/lib/apollo-client";
+import { UPDATE_USER } from "@/lib/mutations";
 import { IS_USERNAME_AVAILABLE } from "@/lib/queries";
 import { getUsernameInputRules } from "@/lib/utils";
-import { UPDATE_USER } from "@/lib/mutations";
-import { getRoute } from "@/constants/routes";
 
 export default function OnboardingUsername({
   defaultValues,

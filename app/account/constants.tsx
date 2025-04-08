@@ -3,13 +3,15 @@ import { MapPin, MoneyWavy, ShareNetwork } from "@phosphor-icons/react";
 import { SignOut, UserCircle } from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
-import { useLogout } from "@/lib/auth-client";
+
 import { getRoute } from "@/constants/routes";
-import ProfileSection from "./components/profile-section";
+import { useLogout } from "@/lib/auth-client";
+
 import type { AccountSectionData } from "./components/account-view";
-import PricingSection from "./components/pricing-section";
-import LocationSection from "./components/location-section";
 import ConnectionsSection from "./components/connections-section";
+import LocationSection from "./components/location-section";
+import PricingSection from "./components/pricing-section";
+import ProfileSection from "./components/profile-section";
 
 export function useAccountSections() {
   const logout = useLogout();

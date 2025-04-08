@@ -1,5 +1,6 @@
-import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
 import { getRoute } from "@/constants/routes";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_CURRENT_USER } from "@/lib/queries";

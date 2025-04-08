@@ -9,6 +9,7 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
+
 import { UserTable } from "../../User/db/schema";
 
 export const InstagramMediaTable = pgTable(

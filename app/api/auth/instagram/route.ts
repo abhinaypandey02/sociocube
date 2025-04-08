@@ -1,9 +1,10 @@
+import { InstagramDetails } from "@graphql/types/Instagram/db/schema";
+import { UserTable } from "@graphql/types/User/db/schema";
+import { getUser } from "@graphql/types/User/db/utils";
+import { and, eq, ne } from "drizzle-orm";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { and, eq, ne } from "drizzle-orm";
-import { getUser } from "@graphql/types/User/db/utils";
-import { UserTable } from "@graphql/types/User/db/schema";
-import { InstagramDetails } from "@graphql/types/Instagram/db/schema";
+
 import { getUserIdFromAccessToken } from "../../lib/auth/token";
 import { db } from "../../lib/db";
 import { getGraphData, getLongLivedToken } from "./utils";

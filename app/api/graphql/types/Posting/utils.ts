@@ -1,8 +1,9 @@
-import type { PostgresError } from "postgres";
 import { and, eq } from "drizzle-orm";
+import type { PostgresError } from "postgres";
+
+import { db } from "../../../lib/db";
 import GQLError from "../../constants/errors";
 import type { AuthorizedContext } from "../../context";
-import { db } from "../../../lib/db";
 import { PostingTable } from "./db/schema";
 
 export function getCleanExternalLink(externalLink: string | null) {

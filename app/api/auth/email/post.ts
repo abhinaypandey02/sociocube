@@ -1,14 +1,15 @@
-import { hash } from "bcryptjs";
-import { eq } from "drizzle-orm";
+import { getVerificationLink } from "@graphql/types/Request/resolvers/mutation/send-verification-email";
 import { UserTable } from "@graphql/types/User/db/schema";
 import { createUser, getUser } from "@graphql/types/User/db/utils";
-import { getVerificationLink } from "@graphql/types/Request/resolvers/mutation/send-verification-email";
+import { hash } from "bcryptjs";
+import { eq } from "drizzle-orm";
+
+import { ErrorResponses } from "../../lib/auth/error-responses";
 import {
   generateAccessToken,
   generateRefreshToken,
   getTokenizedResponse,
 } from "../../lib/auth/token";
-import { ErrorResponses } from "../../lib/auth/error-responses";
 import { sendTemplateEmail } from "../../lib/email/template";
 import { verifyCaptcha } from "./utils";
 

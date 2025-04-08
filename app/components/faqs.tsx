@@ -1,8 +1,13 @@
 "use client";
-import React from "react";
-import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react";
 import { Minus, Plus } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
+import React from "react";
+
 import Schema from "./schema";
 import SectionWrapper from "./section-wrapper";
 

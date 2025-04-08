@@ -1,6 +1,7 @@
-import type { SQL } from "drizzle-orm";
 import type { DBTransaction } from "@backend/lib/db";
 import { db } from "@backend/lib/db";
+import type { SQL } from "drizzle-orm";
+
 import type { UserDBInsert } from "./schema";
 import { UserTable } from "./schema";
 

@@ -1,7 +1,8 @@
+import type { SearchFilterSorting } from "@/__generated__/graphql";
 import { getSEO } from "@/constants/seo";
 import { Injector, queryGQL } from "@/lib/apollo-server";
 import { SEARCH_SELLERS } from "@/lib/queries";
-import type { SearchFilterSorting } from "@/__generated__/graphql";
+
 import SearchWindow from "./components/search-window";
 import { parseParams } from "./constants";
 

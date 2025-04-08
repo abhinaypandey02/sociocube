@@ -1,9 +1,10 @@
 "use client";
-import React, { PropsWithChildren } from "react";
-import classNames from "classnames";
 import { CaretLeft } from "@phosphor-icons/react";
-import { useSubPage } from "@/lib/auth-client";
+import classNames from "classnames";
+import React, { PropsWithChildren } from "react";
+
 import { Route } from "@/constants/routes";
+import { useSubPage } from "@/lib/auth-client";
 
 export default function SubpageRenderer({
   children,

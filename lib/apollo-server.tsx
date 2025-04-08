@@ -5,12 +5,13 @@ import {
   type OperationVariables,
 } from "@apollo/client";
 import { registerApolloClient } from "@apollo/experimental-nextjs-app-support";
-import type { GraphQLFormattedError } from "graphql/error";
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
+import type { GraphQLFormattedError } from "graphql/error";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
 import type { FC } from "react";
 import { Suspense } from "react";
+
 import { GET_CURRENT_USER } from "./queries";
 
 export const { query } = registerApolloClient(() => {

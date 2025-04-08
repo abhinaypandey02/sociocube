@@ -1,3 +1,5 @@
+import { db } from "@backend/lib/db";
+import { IsIn, Max, MaxLength, Min } from "class-validator";
 import {
   and,
   desc,
@@ -11,14 +13,14 @@ import {
   sql,
 } from "drizzle-orm";
 import { Field, InputType, Int, registerEnumType } from "type-graphql";
-import { IsIn, Max, MaxLength, Min } from "class-validator";
-import categories from "@/constants/categories";
-import genders from "@/constants/genders";
+
 import { AGE_RANGES } from "@/constants/age";
+import categories from "@/constants/categories";
 import { NAME_MAX_LENGTH } from "@/constants/constraints";
-import { db } from "@backend/lib/db";
-import { LocationTable, PricingTable, UserTable } from "../../db/schema";
+import genders from "@/constants/genders";
+
 import { InstagramDetails } from "../../../Instagram/db/schema";
+import { LocationTable, PricingTable, UserTable } from "../../db/schema";
 
 enum SearchFilterSorting {
   PriceAsc = "PRICE_ASC",

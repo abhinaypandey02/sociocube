@@ -1,14 +1,16 @@
-import React from "react";
+import { Plus } from "@phosphor-icons/react/dist/ssr";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { Plus } from "@phosphor-icons/react/dist/ssr";
+import React from "react";
+
 import { Button } from "@/components/button";
+import { Route } from "@/constants/routes";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_USER_POSTINGS } from "@/lib/queries";
-import { Route } from "@/constants/routes";
+
 import AccountPageWrapper from "../components/account-page-wrapper";
-import PostingsTable from "./components/postings-table";
 import EarningsInfo from "./components/earnings-info";
+import PostingsTable from "./components/postings-table";
 
 export default async function PostingsPage() {
   const { postings } = await queryGQL(

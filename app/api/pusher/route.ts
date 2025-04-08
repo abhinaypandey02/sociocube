@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import { eq, or } from "drizzle-orm";
 import { context } from "@graphql/context";
 import { ConversationTable } from "@graphql/types/Chat/db/schema";
+import { eq, or } from "drizzle-orm";
+import { NextRequest, NextResponse } from "next/server";
+
 import { db } from "../lib/db";
 import { pusher } from "../lib/socket/send-event";
 

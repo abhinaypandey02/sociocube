@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
+
+import { NavItem } from "@/app/(dashboard)/type";
 import Logo from "@/app/logo";
 import { useSubPage } from "@/lib/auth-client";
-import { NavItem } from "@/app/(dashboard)/type";
 
 export default function TopNav({
   title,

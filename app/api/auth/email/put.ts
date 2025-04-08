@@ -1,13 +1,14 @@
-import { compare } from "bcryptjs";
-import { eq } from "drizzle-orm";
 import { UserTable } from "@graphql/types/User/db/schema";
 import { getUser } from "@graphql/types/User/db/utils";
+import { compare } from "bcryptjs";
+import { eq } from "drizzle-orm";
+
+import { ErrorResponses } from "../../lib/auth/error-responses";
 import {
   generateAccessToken,
   generateRefreshToken,
   getTokenizedResponse,
 } from "../../lib/auth/token";
-import { ErrorResponses } from "../../lib/auth/error-responses";
 import { verifyCaptcha } from "./utils";
 
 export const PUT = async (req: Request) => {

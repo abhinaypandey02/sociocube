@@ -1,11 +1,13 @@
 import type { ComponentType } from "react";
+
 import type { SearchSellersFilters } from "@/__generated__/graphql";
-import CountryFilter from "./components/country-filter";
-import GenderFilter from "./components/gender-filter";
-import CategoryFilter from "./components/category-filter";
-import PriceFilter from "./components/price-filter";
-import FollowersFilter from "./components/followers-filter";
+
 import AgeFilter from "./components/age-filter";
+import CategoryFilter from "./components/category-filter";
+import CountryFilter from "./components/country-filter";
+import FollowersFilter from "./components/followers-filter";
+import GenderFilter from "./components/gender-filter";
+import PriceFilter from "./components/price-filter";
 
 export const SEARCH_FILTERS: {
   name: string;

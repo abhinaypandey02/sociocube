@@ -1,10 +1,11 @@
-import { Arg, Int, Query, Resolver } from "type-graphql";
-import { eq } from "drizzle-orm";
 import { db } from "@backend/lib/db";
 import {
   CitySelectOption,
   CountrySelectOption,
 } from "@graphql/utils/select-options";
+import { eq } from "drizzle-orm";
+import { Arg, Int, Query, Resolver } from "type-graphql";
+
 import { CityTable, CountryTable } from "../../db/schema";
 
 @Resolver()

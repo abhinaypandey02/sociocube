@@ -1,5 +1,7 @@
-import { eq } from "drizzle-orm";
-import { Field, InputType } from "type-graphql";
+import { db } from "@backend/lib/db";
+import { Roles } from "@graphql/constants/roles";
+import type { AuthorizedContext } from "@graphql/context";
+import { usernameAllowed } from "@graphql/types/User/utils";
 import {
   IsDateString,
   IsEmail,
@@ -10,22 +12,22 @@ import {
   Matches,
   MaxLength,
 } from "class-validator";
-import categories from "@/constants/categories";
-import genders from "@/constants/genders";
+import { eq } from "drizzle-orm";
+import { Field, InputType } from "type-graphql";
+
 import { getAge, MAX_AGE, MIN_AGE } from "@/constants/age";
-import { USERNAME_REGEX } from "@/constants/regex";
+import categories from "@/constants/categories";
 import {
   BIO_MAX_LENGTH,
   NAME_MAX_LENGTH,
   USERNAME_MAX_LENGTH,
 } from "@/constants/constraints";
-import { db } from "@backend/lib/db";
-import type { AuthorizedContext } from "@graphql/context";
-import { Roles } from "@graphql/constants/roles";
-import { usernameAllowed } from "@graphql/types/User/utils";
+import genders from "@/constants/genders";
+import { USERNAME_REGEX } from "@/constants/regex";
+
+import GQLError from "../../../../constants/errors";
 import { PricingTable, UserTable } from "../../db/schema";
 import { Pricing } from "../../type";
-import GQLError from "../../../../constants/errors";
 
 @InputType("UpdateUserInput")
 export class UpdateUserInput {

@@ -1,7 +1,7 @@
-import type { PropsWithChildren, ReactNode } from "react";
-import React from "react";
 import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import type { PropsWithChildren, ReactNode } from "react";
+import React from "react";
 
 export default function AccountPageWrapper({
   title,

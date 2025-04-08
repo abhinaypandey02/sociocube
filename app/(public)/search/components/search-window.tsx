@@ -1,6 +1,4 @@
 "use client";
-import type { FormEvent } from "react";
-import React, { useEffect, useState } from "react";
 import {
   Disclosure,
   DisclosureButton,
@@ -9,23 +7,38 @@ import {
   MenuButton,
   MenuItem,
   MenuItems,
-  Transition
+  Transition,
 } from "@headlessui/react";
-import { Funnel, MagnifyingGlass, MapPin, Minus, Plus, SealCheck, SlidersHorizontal, X } from "@phosphor-icons/react";
-import Link from "next/link";
+import {
+  Funnel,
+  MagnifyingGlass,
+  MapPin,
+  Minus,
+  Plus,
+  SealCheck,
+  SlidersHorizontal,
+  X,
+} from "@phosphor-icons/react";
+import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
+import classNames from "classnames";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import classNames from "classnames";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
-import { Input } from "@/components/input";
-import type { SearchSellersFilters, SearchSellersQuery } from "@/__generated__/graphql";
+import type { FormEvent } from "react";
+import React, { useEffect, useState } from "react";
+
+import type {
+  SearchSellersFilters,
+  SearchSellersQuery,
+} from "@/__generated__/graphql";
 import { SearchFilterSorting } from "@/__generated__/graphql";
+import { Input } from "@/components/input";
 import { getRoute } from "@/constants/routes";
 import { convertToAbbreviation } from "@/lib/utils";
+
 import { SEARCH_FILTERS } from "../constants";
 import SearchLoading from "./search-loading";
-
 const NoResults = dynamic(() => import("./no-results"));
 const MobileFilterPanel = dynamic(() => import("./mobile-filter-panel"));
 
@@ -228,10 +241,10 @@ export default function SearchWindow({
                             e.stopPropagation();
                             const newVariables = { ...variables };
                             section.keys.forEach(
-                              // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- i can do it
                               (key) => delete newVariables[key],
                             );
                             setVariables(newVariables);
+
                             handleUpdateParams(newVariables);
                           }}
                           type="button"

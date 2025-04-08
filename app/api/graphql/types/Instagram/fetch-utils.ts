@@ -1,10 +1,11 @@
 import { and, eq } from "drizzle-orm";
 import { notInArray } from "drizzle-orm/sql/expressions/conditions";
+
 import { getGraphUrl } from "../../../auth/instagram/utils";
+import { db } from "../../../lib/db";
 import { instagramRapidAPI } from "../../../lib/rapidapi/instagram";
 import { InstagramMediaType } from "../../constants/instagram-media-type";
 import { getER } from "../../utils/math";
-import { db } from "../../../lib/db";
 import { InstagramDetails } from "./db/schema";
 import { InstagramMediaTable } from "./db/schema2";
 

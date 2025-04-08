@@ -1,8 +1,17 @@
 "use client";
-import React from "react";
-import { Dialog, DialogBackdrop, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react";
 import { Minus, Plus, X } from "@phosphor-icons/react";
+import React from "react";
+
 import type { SearchSellersFilters } from "@/__generated__/graphql";
+
 import { SEARCH_FILTERS } from "../constants";
 
 export default function MobileFilterPanel({

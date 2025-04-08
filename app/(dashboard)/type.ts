@@ -1,4 +1,5 @@
 import { ElementType } from "react";
+
 import { Route } from "@/constants/routes";
 
 export interface NavItem {

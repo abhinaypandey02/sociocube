@@ -1,13 +1,14 @@
 "use client";
-import React, { useEffect } from "react";
 import Image from "next/image";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+
+import type { UpdateInstagramUsernameMutation } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
-import { Input } from "@/components/input";
 import Form from "@/components/form";
+import { Input } from "@/components/input";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { UPDATE_INSTAGRAM_USERNAME } from "@/lib/mutations";
-import type { UpdateInstagramUsernameMutation } from "@/__generated__/graphql";
 
 interface FormFields {
   instagram?: string;

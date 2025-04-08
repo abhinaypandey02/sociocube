@@ -1,5 +1,6 @@
-import React, { PropsWithChildren, Suspense } from "react";
 import Script from "next/script";
+import React, { PropsWithChildren, Suspense } from "react";
+
 import AuthChecker from "@/app/(auth)/components/auth-checker";
 
 export default function AuthLayout({ children }: PropsWithChildren) {

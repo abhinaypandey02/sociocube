@@ -1,8 +1,9 @@
-import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "@graphql/context";
+import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
+
 import { addPortfolio, AddPortfolioArgs } from "./add-portfolio";
-import { deletePortfolio } from "./delete-portfolio";
 import { addPortfolioLink, AddPortfolioLinkArgs } from "./add-portfolio-link";
+import { deletePortfolio } from "./delete-portfolio";
 
 @Resolver()
 export class PortfolioMutationResolver {

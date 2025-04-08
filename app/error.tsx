@@ -1,7 +1,8 @@
 "use client";
-import React, { useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+
 import { Route } from "@/constants/routes";
 import { useLogout } from "@/lib/auth-client";
 

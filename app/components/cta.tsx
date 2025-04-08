@@ -1,9 +1,10 @@
-import React from "react";
 import Link from "next/link";
+import React from "react";
+
+import type { GetCurrentUserQuery } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
 import { getRoute } from "@/constants/routes";
 import { getCurrentUser, Injector } from "@/lib/apollo-server";
-import type { GetCurrentUserQuery } from "@/__generated__/graphql";
 
 function PrimaryButton({ data }: { data?: GetCurrentUserQuery }) {
   if (data?.user) {

@@ -1,19 +1,26 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import {
+  ChatCircleDots,
+  EnvelopeSimple,
+  Phone,
+  SealCheck,
+} from "@phosphor-icons/react";
+import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import type { CellContext } from "@tanstack/react-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
-import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
-import { ChatCircleDots, EnvelopeSimple, Phone, SealCheck } from "@phosphor-icons/react";
-import { toast } from "react-hot-toast";
 import Link from "next/link";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import { getAge } from "@/constants/age";
-import Table from "@/components/table";
+import React, { useCallback, useState } from "react";
+import { toast } from "react-hot-toast";
+
 import type { GetPostingApplicationsQuery } from "@/__generated__/graphql";
 import { ApplicationStatus } from "@/__generated__/graphql";
+import Table from "@/components/table";
+import { getAge } from "@/constants/age";
 import { getRoute } from "@/constants/routes";
 import { convertToAbbreviation } from "@/lib/utils";
+
 import ApplicationActions from "./application-actions";
 import DownloadExcelButton from "./download-excel-button";
 
@@ -193,7 +200,7 @@ export default function ApplicationsTable({
       : [
           colHelper.accessor("comment", {
             header: posting?.extraDetails || "Comment",
-            // eslint-disable-next-line react/no-unstable-nested-components -- needed
+
             cell: (val) => {
               const comment = val.getValue();
               if (!comment) return null;

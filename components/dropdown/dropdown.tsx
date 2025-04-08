@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
 import classNames from "classnames";
+import React, { useEffect, useState } from "react";
+
 import type { DropdownProps } from "./types";
 
 function Dropdown({ trigger, children, onOpen }: DropdownProps) {

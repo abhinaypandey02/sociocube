@@ -1,15 +1,16 @@
-import { desc, eq } from "drizzle-orm";
 import { db } from "@backend/lib/db";
-import { normaliseDigits } from "@graphql/utils/math";
 import { deleteImage } from "@backend/lib/storage/aws-s3";
-import type { UserDB } from "../../db/schema";
+import { normaliseDigits } from "@graphql/utils/math";
+import { desc, eq } from "drizzle-orm";
+
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { InstagramMediaTable } from "../../../Instagram/db/schema2";
+import { deleteOldPosts } from "../../../Instagram/fetch-utils";
 import {
   fetchStats,
   fetchUploadedPostsAndStats,
 } from "../../../Instagram/utils";
-import { deleteOldPosts } from "../../../Instagram/fetch-utils";
+import type { UserDB } from "../../db/schema";
 
 function cacheAlive(d: Date) {
   const time = (new Date().getTime() - d.getTime()) / (1000 * 60 * 60);

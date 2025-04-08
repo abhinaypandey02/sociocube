@@ -1,10 +1,11 @@
-import { and, eq } from "drizzle-orm";
-import { getConversationChannelName, NEW_MESSAGE } from "@backend/pusher/utils";
-import type { AuthorizedContext } from "@graphql/context";
 import { db } from "@backend/lib/db";
 import { sendEvent } from "@backend/lib/socket/send-event";
-import { ConversationMessageTable, ConversationTable } from "../../db/schema";
+import { getConversationChannelName, NEW_MESSAGE } from "@backend/pusher/utils";
+import type { AuthorizedContext } from "@graphql/context";
+import { and, eq } from "drizzle-orm";
+
 import GQLError from "../../../../constants/errors";
+import { ConversationMessageTable, ConversationTable } from "../../db/schema";
 
 export async function handleSendMessage(
   ctx: AuthorizedContext,

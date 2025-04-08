@@ -1,10 +1,11 @@
-import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "@graphql/context";
+import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
+
 import { PostingGQL } from "../../type";
-import { getUserPostings } from "./get-user-postings";
 import { getAllPostings } from "./get-all-postings";
-import { getPosting } from "./get-posting";
 import { getFeaturedPostings } from "./get-featured-postings";
+import { getPosting } from "./get-posting";
+import { getUserPostings } from "./get-user-postings";
 
 @Resolver()
 export class PostingQueryResolvers {

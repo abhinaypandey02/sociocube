@@ -1,8 +1,10 @@
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
-import { getRoute } from "@/constants/routes";
+
 import type { GetCurrentUserQuery } from "@/__generated__/graphql";
-import Logout from "./components/logout";
+import { getRoute } from "@/constants/routes";
+
 import GetVerifiedOption from "./components/get-verified-option";
+import Logout from "./components/logout";
 
 export const NAVBAR_COMMON_ROUTES = [
   { label: "Home", href: getRoute("Home") },

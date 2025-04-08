@@ -1,10 +1,11 @@
 import type { NextRequest } from "next/server";
+
+import { ErrorResponses } from "../../lib/auth/error-responses";
 import {
   generateAccessToken,
   getTokenizedResponse,
   getUserIdFromRefreshToken,
 } from "../../lib/auth/token";
-import { ErrorResponses } from "../../lib/auth/error-responses";
 
 export const GET = (req: NextRequest) => {
   const refresh = req.cookies.get("refresh")?.value;

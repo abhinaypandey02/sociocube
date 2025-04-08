@@ -1,17 +1,18 @@
 "use client";
+import { getConversationChannelName, NEW_MESSAGE } from "@backend/pusher/utils";
+import Pusher from "pusher-js";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import Pusher from "pusher-js";
-import { getConversationChannelName, NEW_MESSAGE } from "@backend/pusher/utils";
-import { Input } from "@/components/input";
-import { Button } from "@/components/button";
+
 import type {
   GetChatQuery,
   GetCurrentUserQuery,
 } from "@/__generated__/graphql";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 import { useAuthMutation } from "@/lib/apollo-client";
-import { READ_MESSAGE, SEND_CHAT } from "@/lib/mutations";
 import { useToken } from "@/lib/auth-client";
+import { READ_MESSAGE, SEND_CHAT } from "@/lib/mutations";
 
 interface FormValues {
   text: string;

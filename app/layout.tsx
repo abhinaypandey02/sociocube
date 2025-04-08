@@ -1,16 +1,19 @@
 import "./globals.css";
+
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Viewport } from "next";
 import { Nunito_Sans as NunitoSans } from "next/font/google";
+import localFont from "next/font/local";
 import type { PropsWithChildren } from "react";
 import React, { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import localFont from "next/font/local";
+
+import { getSEO, SEO } from "@/constants/seo";
 import { ApolloWrapper } from "@/lib/apollo-client";
 import { GlobalStateWrapper } from "@/lib/auth-client";
-import { getSEO, SEO } from "@/constants/seo";
-import Schema from "./components/schema";
+
 import ErrorToaster from "./components/error-toaster";
+import Schema from "./components/schema";
 
 const madina = localFont({
   src: "./madina.woff2",

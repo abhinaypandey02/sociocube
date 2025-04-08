@@ -1,16 +1,18 @@
-import React from "react";
-import { cookies } from "next/headers";
-import Link from "next/link";
-import Image from "next/image";
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { cookies } from "next/headers";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+
+import { getRoute } from "@/constants/routes";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_USER_APPLICATIONS } from "@/lib/queries";
-import { getRoute } from "@/constants/routes";
+
+import SendReview from "../../account/campaigns/applications/components/send-review";
 import {
   getStatusColor,
   getStatusName,
 } from "../../account/campaigns/applications/utils";
-import SendReview from "../../account/campaigns/applications/components/send-review";
 
 export default async function MyApplications() {
   const { getUserApplications, getPendingReviews, uploadURL } = await queryGQL(

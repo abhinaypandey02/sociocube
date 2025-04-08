@@ -1,4 +1,5 @@
 import { getOgImage } from "@/lib/util-components";
+
 import { getBlogPost } from "../utils";
 import type { BlogPageProps } from "./page";
 

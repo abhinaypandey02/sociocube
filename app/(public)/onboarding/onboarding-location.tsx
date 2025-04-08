@@ -1,18 +1,19 @@
 "use client";
+import { GraphQLError } from "graphql/error";
 import React, { useEffect, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { GraphQLError } from "graphql/error";
-import { Input } from "@/components/input";
+
 import { Button } from "@/components/button";
 import Form from "@/components/form";
+import { Input } from "@/components/input";
 import {
   handleGQLErrors,
   useAuthMutation,
   useAuthQuery,
 } from "@/lib/apollo-client";
-import { GET_CITIES, GET_COUNTRIES } from "@/lib/queries";
 import { UPDATE_USER_LOCATION } from "@/lib/mutations";
+import { GET_CITIES, GET_COUNTRIES } from "@/lib/queries";
 
 interface FormFields {
   country?: number | null;

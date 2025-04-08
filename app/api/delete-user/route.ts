@@ -1,18 +1,19 @@
-import { NextRequest, NextResponse } from "next/server";
-import { eq, like } from "drizzle-orm";
+import { ApplicationTable } from "@graphql/types/Application/db/schema";
+import { InstagramDetails } from "@graphql/types/Instagram/db/schema";
+import { InstagramMediaTable } from "@graphql/types/Instagram/db/schema2";
+import { PortfolioTable } from "@graphql/types/Portfolio/db/schema";
+import { RequestTable } from "@graphql/types/Request/db/schema";
+import { ReviewTable } from "@graphql/types/Review/db/schema";
 import {
   LocationTable,
   PricingTable,
   UserTable,
 } from "@graphql/types/User/db/schema";
-import { InstagramDetails } from "@graphql/types/Instagram/db/schema";
-import { ApplicationTable } from "@graphql/types/Application/db/schema";
-import { InstagramMediaTable } from "@graphql/types/Instagram/db/schema2";
-import { RequestTable } from "@graphql/types/Request/db/schema";
-import { PortfolioTable } from "@graphql/types/Portfolio/db/schema";
-import { ReviewTable } from "@graphql/types/Review/db/schema";
-import { deleteImage } from "../lib/storage/aws-s3";
+import { eq, like } from "drizzle-orm";
+import { NextRequest, NextResponse } from "next/server";
+
 import { db } from "../lib/db";
+import { deleteImage } from "../lib/storage/aws-s3";
 
 export const GET = async (req: NextRequest) => {
   const email = req.nextUrl.searchParams.get("email");

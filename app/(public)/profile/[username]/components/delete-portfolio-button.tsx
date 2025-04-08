@@ -1,13 +1,15 @@
 "use client";
-import React, { useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { TrashSimple } from "@phosphor-icons/react/dist/ssr";
+import { useRouter } from "next/navigation";
+import React, { useRef, useState } from "react";
+
+import type { GetSellerQuery } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
-import type { GetSellerQuery } from "@/__generated__/graphql";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { DELETE_PORTFOLIO } from "@/lib/mutations";
 import { revalidateProfilePage } from "@/lib/revalidate";
+
 import Modal from "../../../../../components/modal";
 
 export default function DeletePortfolioButton({

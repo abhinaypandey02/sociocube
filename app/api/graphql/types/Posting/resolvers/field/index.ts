@@ -1,16 +1,17 @@
-import { FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
-import { and, count, eq, isNotNull, sum } from "drizzle-orm";
 import { db } from "@backend/lib/db";
-import { PostingGQL } from "../../type";
-import type { PostingDB } from "../../db/schema";
+import { and, count, eq, isNotNull, sum } from "drizzle-orm";
+import { FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
+
 import { ApplicationTable } from "../../../Application/db/schema";
 import { CountryTable } from "../../../Map/db/schema";
-import { ReviewGQL } from "../../../Review/type";
+import { PortfolioTable } from "../../../Portfolio/db/schema";
 import { ReviewTable } from "../../../Review/db/schema";
+import { ReviewGQL } from "../../../Review/type";
 import type { UserDB } from "../../../User/db/schema";
 import { UserTable } from "../../../User/db/schema";
-import { PortfolioTable } from "../../../Portfolio/db/schema";
 import { UserGQL } from "../../../User/type";
+import type { PostingDB } from "../../db/schema";
+import { PostingGQL } from "../../type";
 
 @Resolver(() => PostingGQL)
 export class PostingFieldResolvers {

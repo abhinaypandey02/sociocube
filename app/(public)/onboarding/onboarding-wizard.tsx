@@ -1,5 +1,4 @@
 "use client";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Calendar,
   CaretLeft,
@@ -11,23 +10,26 @@ import {
   PencilSimple,
   ShareNetwork,
 } from "@phosphor-icons/react";
-import { useRouter } from "next/navigation";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
 import classNames from "classnames";
+import { useRouter } from "next/navigation";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+
 import type {
   GetDefaultOnboardingDetailsQuery,
   UpdateInstagramUsernameMutation,
 } from "@/__generated__/graphql";
 import { Roles } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
+
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
-import SocialsStatus from "./socials-status";
+import OnboardingDOB from "./onboarding-dob";
 import OnboardingLocationForm from "./onboarding-location";
 import OnboardingPricingForm from "./onboarding-pricing";
-import OnboardingStepper from "./stepper";
-import OnboardingDOB from "./onboarding-dob";
-import OnboardingUsername from "./onboarding-username";
 import OnboardingRole from "./onboarding-role";
+import OnboardingUsername from "./onboarding-username";
+import SocialsStatus from "./socials-status";
+import OnboardingStepper from "./stepper";
 
 export function getStep(
   currentUser: GetDefaultOnboardingDetailsQuery["getCurrentUser"],

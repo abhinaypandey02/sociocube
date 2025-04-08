@@ -1,4 +1,5 @@
 import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+
 import { UserTable } from "../../User/db/schema";
 
 export const PortfolioTable = pgTable("portfolio", {

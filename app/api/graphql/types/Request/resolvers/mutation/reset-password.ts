@@ -1,10 +1,11 @@
+import { db } from "@backend/lib/db";
+import { hash } from "bcryptjs";
 import { and, eq } from "drizzle-orm";
 import { verify } from "jsonwebtoken";
-import { hash } from "bcryptjs";
-import { db } from "@backend/lib/db";
+
+import GQLError from "../../../../constants/errors";
 import { UserTable } from "../../../User/db/schema";
 import { RequestTable, RequestType } from "../../db/schema";
-import GQLError from "../../../../constants/errors";
 
 export async function handleResetPassword(token: string, newPassword: string) {
   const data = verify(token, process.env.SIGNING_KEY || "") as {

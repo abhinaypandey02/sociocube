@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, {
   useCallback,
   useEffect,
@@ -5,10 +6,10 @@ import React, {
   useRef,
   useState,
 } from "react";
-import classNames from "classnames";
 import { useFormContext, type UseFormReturn } from "react-hook-form";
+
 import Dropdown from "../dropdown/dropdown";
-import type { SelectProps, SelectOption } from "./types";
+import type { SelectOption, SelectProps } from "./types";
 
 export function isTouchDevice() {
   if (typeof window !== "undefined")

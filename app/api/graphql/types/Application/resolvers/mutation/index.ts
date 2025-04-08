@@ -1,5 +1,6 @@
-import { Arg, Args, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "@graphql/context";
+import { Arg, Args, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
+
 import { applyToPosting, ApplyToPostingArgs } from "./apply-to-posting";
 import { likeApplication } from "./like-application";
 import { rejectApplication } from "./reject-application";

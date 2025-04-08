@@ -1,10 +1,11 @@
-import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "@graphql/context";
+import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
+
 import { ConversationGQL } from "../../type";
-import { handleGetChats } from "./get-chats";
 import { handleGetChat } from "./get-chat";
-import { handleGetChatWithUser } from "./get-chat-with-user";
 import { handleGetChatWithAgency } from "./get-chat-with-agency";
+import { handleGetChatWithUser } from "./get-chat-with-user";
+import { handleGetChats } from "./get-chats";
 
 @Resolver()
 export class ChatQueryResolvers {

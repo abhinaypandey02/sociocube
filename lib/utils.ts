@@ -1,5 +1,5 @@
-import { USERNAME_REGEX } from "@/constants/regex";
 import { USERNAME_MAX_LENGTH } from "@/constants/constraints";
+import { USERNAME_REGEX } from "@/constants/regex";
 
 export async function getGroqResponse<T>(system: string, message?: string) {
   const data = await fetch("https://api.groq.com/openai/v1/chat/completions", {

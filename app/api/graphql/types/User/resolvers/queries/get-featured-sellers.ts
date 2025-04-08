@@ -1,3 +1,4 @@
+import { db } from "@backend/lib/db";
 import {
   and,
   desc,
@@ -6,9 +7,9 @@ import {
   inArray,
   isNotNull,
 } from "drizzle-orm";
-import { db } from "@backend/lib/db";
-import { UserTable } from "../../db/schema";
+
 import { InstagramDetails } from "../../../Instagram/db/schema";
+import { UserTable } from "../../db/schema";
 
 export async function handleGetFeaturedSellers() {
   return db

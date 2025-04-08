@@ -1,6 +1,7 @@
 "use client";
-import React from "react";
 import MultiRangeSlider from "multi-range-slider-react";
+import React from "react";
+
 import type { SearchSellersFilters } from "@/__generated__/graphql";
 
 export default function PriceFilter({

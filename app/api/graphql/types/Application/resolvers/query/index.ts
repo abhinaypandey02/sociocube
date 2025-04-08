@@ -1,9 +1,10 @@
-import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
 import type { AuthorizedContext, Context } from "@graphql/context";
+import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
+
 import { ApplicationGQL } from "../../type";
-import { getUserApplications } from "./get-user-applications";
-import { getPostingApplications } from "./get-posting-applications";
 import { getHasUserApplied } from "./get-has-user-applied";
+import { getPostingApplications } from "./get-posting-applications";
+import { getUserApplications } from "./get-user-applications";
 
 @Resolver()
 export class ApplicationQueryResolver {

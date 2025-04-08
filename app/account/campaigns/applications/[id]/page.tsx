@@ -1,12 +1,14 @@
-import React from "react";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import React from "react";
+
+import { Route } from "@/constants/routes";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_POSTING_APPLICATIONS } from "@/lib/queries";
-import { Route } from "@/constants/routes";
-import ApplicationsTable from "../components/applications-table";
+
 import AccountPageWrapper from "../../../components/account-page-wrapper";
 import EarningsInfo from "../../components/earnings-info";
+import ApplicationsTable from "../components/applications-table";
 
 export default async function AccountPostingApplicationsPage({
   params,

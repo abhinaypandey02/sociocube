@@ -1,4 +1,5 @@
 import { Field, InputType, ObjectType } from "type-graphql";
+
 import { Roles } from "../../constants/roles";
 
 @ObjectType("Pricing")

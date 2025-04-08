@@ -1,10 +1,12 @@
 import React from "react";
-import { Button } from "@/components/button";
-import { Variants } from "@/components/constants";
+
 import type {
   GetPortfolioUploadUrlQuery,
   GetSellerQuery,
 } from "@/__generated__/graphql";
+import { Button } from "@/components/button";
+import { Variants } from "@/components/constants";
+
 import AddPortfolioButton from "./add-portfolio-button";
 import DeletePortfolioButton from "./delete-portfolio-button";
 

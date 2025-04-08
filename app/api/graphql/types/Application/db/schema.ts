@@ -9,8 +9,9 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { registerEnumType } from "type-graphql";
-import { UserTable } from "../../User/db/schema";
+
 import { PostingTable } from "../../Posting/db/schema";
+import { UserTable } from "../../User/db/schema";
 
 export enum ApplicationStatus {
   Applied = "APPLIED",

@@ -1,8 +1,9 @@
-import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 import type { Context } from "@graphql/context";
+import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
+
+import { handleResetPassword } from "./reset-password";
 import { handleSendResetPasswordEmail } from "./send-reset-password-email";
 import { handleSendVerificationEmail } from "./send-verification-email";
-import { handleResetPassword } from "./reset-password";
 
 @Resolver()
 export class RequestMutationResolver {

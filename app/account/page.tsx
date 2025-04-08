@@ -1,10 +1,12 @@
-import React from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { queryGQL } from "@/lib/apollo-server";
-import { GET_ACCOUNT_DETAILS } from "@/lib/queries";
+import React from "react";
+
 import { getRoute } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
+import { queryGQL } from "@/lib/apollo-server";
+import { GET_ACCOUNT_DETAILS } from "@/lib/queries";
+
 import AccountView from "./components/account-view";
 
 export default async function Page({

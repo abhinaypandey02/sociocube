@@ -1,8 +1,10 @@
-import type { GraphQLError } from "graphql/error";
 import { CheckCircle, WarningCircle } from "@phosphor-icons/react/dist/ssr";
+import type { GraphQLError } from "graphql/error";
+
+import { getSEO } from "@/constants/seo";
 import { queryGQL } from "@/lib/apollo-server";
 import { VERIFY_EMAIL } from "@/lib/queries";
-import { getSEO } from "@/constants/seo";
+
 import AuthLayout from "../../../(auth)/components/auth-layout";
 
 export default async function VerifyEmailPage({

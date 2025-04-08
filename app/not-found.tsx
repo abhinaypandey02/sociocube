@@ -1,4 +1,5 @@
 import React from "react";
+
 import { getRoute } from "@/constants/routes";
 
 export default function NotFound() {

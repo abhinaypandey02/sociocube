@@ -1,15 +1,21 @@
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { Input } from "@/components/input";
-import Form from "@/components/form";
+
 import { Button } from "@/components/button";
-import { handleGQLErrors, useAuthMutation, useAuthQuery } from "@/lib/apollo-client";
+import Form from "@/components/form";
+import { Input } from "@/components/input";
+import {
+  handleGQLErrors,
+  useAuthMutation,
+  useAuthQuery,
+} from "@/lib/apollo-client";
 import { UPDATE_USER_LOCATION } from "@/lib/mutations";
 import { GET_CITIES, GET_COUNTRIES } from "@/lib/queries";
-import ContentTemplate from "./content-template";
+
 import type { AccountSectionData } from "./account-view";
+import ContentTemplate from "./content-template";
 
 export default function LocationSection({
   data,

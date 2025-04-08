@@ -1,15 +1,17 @@
+import { db } from "@backend/lib/db";
+import type { AuthorizedContext } from "@graphql/context";
+import { IsEmail, IsNumberString, MaxLength } from "class-validator";
 import { eq } from "drizzle-orm";
 import { ArgsType, Field } from "type-graphql";
-import { IsEmail, IsNumberString, MaxLength } from "class-validator";
+
 import { getAge } from "@/constants/age";
-import type { AuthorizedContext } from "@graphql/context";
-import { db } from "@backend/lib/db";
-import { ApplicationTable } from "../../db/schema";
-import { PostingTable } from "../../../Posting/db/schema";
+
 import GQLError from "../../../../constants/errors";
-import { UserTable } from "../../../User/db/schema";
 import { InstagramDetails } from "../../../Instagram/db/schema";
+import { PostingTable } from "../../../Posting/db/schema";
+import { UserTable } from "../../../User/db/schema";
 import { getIsOnboarded } from "../../../User/resolvers/field/onboarding-data";
+import { ApplicationTable } from "../../db/schema";
 
 @ArgsType()
 export class ApplyToPostingArgs {

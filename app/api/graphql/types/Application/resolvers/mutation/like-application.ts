@@ -1,9 +1,10 @@
-import { and, eq } from "drizzle-orm";
-import type { AuthorizedContext } from "@graphql/context";
 import { db } from "@backend/lib/db";
-import { ApplicationStatus, ApplicationTable } from "../../db/schema";
-import { PostingTable } from "../../../Posting/db/schema";
+import type { AuthorizedContext } from "@graphql/context";
+import { and, eq } from "drizzle-orm";
+
 import GQLError from "../../../../constants/errors";
+import { PostingTable } from "../../../Posting/db/schema";
+import { ApplicationStatus, ApplicationTable } from "../../db/schema";
 
 export async function likeApplication(ctx: AuthorizedContext, id: number) {
   const [res] = await db

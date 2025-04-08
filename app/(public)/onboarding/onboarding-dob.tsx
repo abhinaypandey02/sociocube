@@ -1,14 +1,15 @@
 "use client";
+import { GraphQLError } from "graphql/error";
 import React from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { GraphQLError } from "graphql/error";
-import { getAgeRange } from "@/constants/age";
-import { Input } from "@/components/input";
+
 import { Button } from "@/components/button";
 import Form from "@/components/form";
-import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
+import { Input } from "@/components/input";
+import { getAgeRange } from "@/constants/age";
 import { ageValidation } from "@/constants/validations";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { UPDATE_USER } from "@/lib/mutations";
 
 interface FormFields {

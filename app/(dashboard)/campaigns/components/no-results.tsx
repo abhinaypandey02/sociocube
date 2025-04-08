@@ -1,5 +1,5 @@
-import React from "react";
 import { SmileyXEyes } from "@phosphor-icons/react";
+import React from "react";
 
 export default function NoResults() {
   return (

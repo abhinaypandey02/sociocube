@@ -1,5 +1,6 @@
 import { getSEO } from "@/constants/seo";
 import { Injector } from "@/lib/apollo-server";
+
 import SignupForm from "./form";
 
 export default function SignUpPage({

@@ -1,36 +1,37 @@
 "use client";
+import { MagicWand } from "@phosphor-icons/react";
+import type { GraphQLError } from "graphql/error";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { MagicWand } from "@phosphor-icons/react";
 import { toast } from "react-hot-toast";
-import type { GraphQLError } from "graphql/error";
+
+import type {
+  GetPostingQuery,
+  PostingPlatforms,
+} from "@/__generated__/graphql";
+import { POSTING_PLATFORMS } from "@/app/(dashboard)/campaigns/constants";
+import { Button } from "@/components/button";
+import { Variants } from "@/components/constants";
+import Form from "@/components/form";
+import { Input } from "@/components/input";
 import {
   BIO_MAX_LENGTH,
   NAME_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
 } from "@/constants/constraints";
-import Form from "@/components/form";
-import { Button } from "@/components/button";
-import { Input } from "@/components/input";
-import { Variants } from "@/components/constants";
-import { POSTING_PLATFORMS } from "@/app/(dashboard)/campaigns/constants";
-import type {
-  GetPostingQuery,
-  PostingPlatforms,
-} from "@/__generated__/graphql";
+import { getRoute } from "@/constants/routes";
 import {
   handleGQLErrors,
   useAuthMutation,
   useAuthQuery,
 } from "@/lib/apollo-client";
-import { GET_COUNTRIES } from "@/lib/queries";
 import { CREATE_POSTING, UPDATE_POSTING } from "@/lib/mutations";
+import { GET_COUNTRIES } from "@/lib/queries";
 import {
   revalidateOnlyPostingsPage,
   revalidatePosting,
 } from "@/lib/revalidate";
-import { getRoute } from "@/constants/routes";
 import { getTransformedPostingData } from "@/lib/server-actions";
 
 export interface CreatePostingFormFields {

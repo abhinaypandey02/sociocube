@@ -1,5 +1,3 @@
-import React from "react";
-import Link from "next/link";
 import {
   ArrowRight,
   Dot,
@@ -9,9 +7,13 @@ import {
   TrendUp,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
-import { getRoute } from "@/constants/routes";
+import Link from "next/link";
+import React from "react";
+
 import type { GetFeaturedSellersQuery } from "@/__generated__/graphql";
+import { getRoute } from "@/constants/routes";
 import { convertToAbbreviation } from "@/lib/utils";
+
 import SectionWrapper from "./section-wrapper";
 
 export default function TopCreators({

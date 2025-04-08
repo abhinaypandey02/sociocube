@@ -1,6 +1,6 @@
+import classNames from "classnames";
 import type { PropsWithChildren, ReactNode } from "react";
 import React from "react";
-import classNames from "classnames";
 
 export default function SectionWrapper({
   children,

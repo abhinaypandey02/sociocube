@@ -1,11 +1,13 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import React from "react";
 import Markdown from "react-markdown";
-import { notFound } from "next/navigation";
-import type { Metadata } from "next";
+
 import { getSEO } from "@/constants/seo";
-import { getBlogPost } from "../utils";
-import { MARKDOWN_COMPONENTS } from "../markdown-components";
+
 import Schema from "../../../components/schema";
+import { MARKDOWN_COMPONENTS } from "../markdown-components";
+import { getBlogPost } from "../utils";
 
 export interface BlogPageProps {
   params: Promise<{ slug: string }>;

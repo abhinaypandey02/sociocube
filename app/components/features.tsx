@@ -1,11 +1,12 @@
 import {
   Binoculars,
+  ChartLine,
   ChatsTeardrop,
   PiggyBank,
-  UserCheck,
-  ChartLine,
   Smiley,
+  UserCheck,
 } from "@phosphor-icons/react/dist/ssr";
+
 import SectionWrapper from "./section-wrapper";
 
 const features = [

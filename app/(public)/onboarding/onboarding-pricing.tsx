@@ -1,13 +1,14 @@
 "use client";
+import { GraphQLError } from "graphql/error";
 import React, { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { GraphQLError } from "graphql/error";
-import { Input } from "@/components/input";
+
+import type { Pricing } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
+import { Input } from "@/components/input";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
-import type { Pricing } from "@/__generated__/graphql";
 import { UPDATE_USER } from "@/lib/mutations";
 
 export default function OnboardingPricingForm({

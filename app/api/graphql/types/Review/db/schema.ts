@@ -7,9 +7,10 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { UserTable } from "../../User/db/schema";
-import { PostingTable } from "../../Posting/db/schema";
+
 import { PortfolioTable } from "../../Portfolio/db/schema";
+import { PostingTable } from "../../Posting/db/schema";
+import { UserTable } from "../../User/db/schema";
 
 export const ReviewTable = pgTable(
   "review",

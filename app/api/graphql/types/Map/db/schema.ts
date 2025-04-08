@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   bigint,
   char,
@@ -9,7 +10,6 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
 
 export const StateTable = pgTable("states", {
   id: bigint("id", { mode: "number" }).primaryKey().notNull(),

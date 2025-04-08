@@ -1,14 +1,16 @@
-import { Field, InputType, Int } from "type-graphql";
+import { db } from "@backend/lib/db";
+import { PostingPlatforms } from "@graphql/constants/platforms";
+import type { AuthorizedContext } from "@graphql/context";
 import { IsEnum, MaxLength } from "class-validator";
 import { eq } from "drizzle-orm";
 import type { PostgresError } from "postgres";
+import { Field, InputType, Int } from "type-graphql";
+
 import {
   BIO_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
 } from "@/constants/constraints";
-import { db } from "@backend/lib/db";
-import type { AuthorizedContext } from "@graphql/context";
-import { PostingPlatforms } from "@graphql/constants/platforms";
+
 import { PostingTable } from "../../db/schema";
 import {
   checkPermission,

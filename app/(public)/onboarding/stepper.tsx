@@ -1,7 +1,7 @@
-import React from "react";
 import type { Icon } from "@phosphor-icons/react";
 import { Check } from "@phosphor-icons/react/dist/ssr";
 import classNames from "classnames";
+import React from "react";
 
 export default function OnboardingStepper({
   steps,

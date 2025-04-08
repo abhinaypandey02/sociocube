@@ -1,7 +1,7 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 import type { TablesRelationalConfig } from "drizzle-orm";
 import type { PgQueryResultHKT, PgTransaction } from "drizzle-orm/pg-core";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 
 export const db = drizzle(
   postgres(process.env.POSTGRES_URL || "", {

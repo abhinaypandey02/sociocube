@@ -1,19 +1,21 @@
 "use client";
-import React, { useRef, useState } from "react";
 import { ImageSquare, Plus } from "@phosphor-icons/react";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { isURL } from "class-validator";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
-import { PORTFOLIO_CAPTION_MAX_LENGTH } from "@/constants/constraints";
-import Form from "@/components/form";
-import { Input } from "@/components/input";
+import { isURL } from "class-validator";
+import { useRouter } from "next/navigation";
+import React, { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+
+import type { StorageFile } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
-import type { StorageFile } from "@/__generated__/graphql";
+import Form from "@/components/form";
+import { Input } from "@/components/input";
+import { PORTFOLIO_CAPTION_MAX_LENGTH } from "@/constants/constraints";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { ADD_PORTFOLIO, ADD_PORTFOLIO_LINK } from "@/lib/mutations";
 import { revalidateProfilePage } from "@/lib/revalidate";
+
 import Modal from "../../../../../components/modal";
 import PortfolioImageHandler from "./portfolio-image-handler";
 

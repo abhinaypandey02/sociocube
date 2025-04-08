@@ -1,16 +1,17 @@
 import { Authorized, FieldResolver, Resolver, Root } from "type-graphql";
-import { Location, LocationID, Pricing, UserGQL } from "../../type";
-import type { UserDB } from "../../db/schema";
+
 import { FileGQL } from "../../../File/type";
 import { InstagramMedia, InstagramStats } from "../../../Instagram/type";
 import { PortfolioGQL } from "../../../Portfolio/type";
 import { ReviewGQL } from "../../../Review/type";
+import type { UserDB } from "../../db/schema";
+import { Location, LocationID, Pricing, UserGQL } from "../../type";
+import { getInstagramMedia, getInstagramStats } from "./instagram";
+import { getLocation, getLocationID } from "./location";
 import { getIsOnboarded } from "./onboarding-data";
 import { getPictureUploadURL } from "./picture-upload-url";
-import { getPricing } from "./pricing";
-import { getLocation, getLocationID } from "./location";
-import { getInstagramMedia, getInstagramStats } from "./instagram";
 import { getPortfolio } from "./portfolio";
+import { getPricing } from "./pricing";
 import { getReviews } from "./review";
 
 @Resolver(() => UserGQL)

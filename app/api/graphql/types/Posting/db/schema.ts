@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   boolean,
   index,
@@ -8,9 +9,9 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
-import { CountryTable } from "../../Map/db/schema";
+
 import { PostingPlatforms } from "../../../constants/platforms";
+import { CountryTable } from "../../Map/db/schema";
 import { UserTable } from "../../User/db/schema";
 
 export const platforms = pgEnum("platform", [

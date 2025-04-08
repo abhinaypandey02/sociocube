@@ -1,5 +1,6 @@
-import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "@graphql/context";
+import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
+
 import {
   sendReviewByAgency,
   SendReviewByAgencyArgs,

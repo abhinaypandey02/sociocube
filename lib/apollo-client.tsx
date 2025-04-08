@@ -11,11 +11,12 @@ import {
   ApolloNextAppProvider,
   InMemoryCache,
 } from "@apollo/experimental-nextjs-app-support";
-import type { PropsWithChildren } from "react";
-import React, { useCallback, useEffect } from "react";
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import type { GraphQLError } from "graphql/error";
+import type { PropsWithChildren } from "react";
+import React, { useCallback, useEffect } from "react";
 import { toast } from "react-hot-toast";
+
 import { useToken } from "./auth-client";
 
 function makeClient() {

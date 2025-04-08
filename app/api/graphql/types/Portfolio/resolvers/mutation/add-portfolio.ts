@@ -1,12 +1,3 @@
-import { and, count, eq, isNotNull, isNull } from "drizzle-orm";
-import { Field, InputType } from "type-graphql";
-import { IsUrl, MaxLength } from "class-validator";
-import { v4 } from "uuid";
-import {
-  MAX_CAMPAIGNS,
-  PORTFOLIO_CAPTION_MAX_LENGTH,
-} from "@/constants/constraints";
-import type { AuthorizedContext } from "@graphql/context";
 import { db } from "@backend/lib/db";
 import { instagramRapidAPI } from "@backend/lib/rapidapi/instagram";
 import {
@@ -14,8 +5,19 @@ import {
   getUploadFileURL,
   uploadImage,
 } from "@backend/lib/storage/aws-s3";
-import { PortfolioTable } from "../../db/schema";
+import type { AuthorizedContext } from "@graphql/context";
+import { IsUrl, MaxLength } from "class-validator";
+import { and, count, eq, isNotNull, isNull } from "drizzle-orm";
+import { Field, InputType } from "type-graphql";
+import { v4 } from "uuid";
+
+import {
+  MAX_CAMPAIGNS,
+  PORTFOLIO_CAPTION_MAX_LENGTH,
+} from "@/constants/constraints";
+
 import GQLError from "../../../../constants/errors";
+import { PortfolioTable } from "../../db/schema";
 
 @InputType("AddPortfolioArgs")
 export class AddPortfolioArgs {

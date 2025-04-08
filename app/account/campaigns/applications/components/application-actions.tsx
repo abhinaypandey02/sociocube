@@ -1,22 +1,24 @@
-import React, { useState } from "react";
-import { Heart } from "@phosphor-icons/react/dist/ssr";
 import { Star, ThumbsDown } from "@phosphor-icons/react";
-import { Rating } from "react-simple-star-rating";
-import { useForm } from "react-hook-form";
+import { Heart } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
-import { Input } from "@/components/input";
-import Form from "@/components/form";
-import { Button } from "@/components/button";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Rating } from "react-simple-star-rating";
+
 import {
   ApplicationStatus,
   type GetPostingApplicationsQuery,
 } from "@/__generated__/graphql";
+import { Button } from "@/components/button";
+import Form from "@/components/form";
+import { Input } from "@/components/input";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import {
   LIKE_APPLICATION,
   REJECT_APPLICATION,
   SEND_REVIEW_BY_AGENCY,
 } from "@/lib/mutations";
+
 import Modal from "../../../../../components/modal";
 
 export default function ApplicationActions({

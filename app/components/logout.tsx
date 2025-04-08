@@ -1,6 +1,7 @@
 "use client";
-import React from "react";
 import { useRouter } from "next/navigation";
+import React from "react";
+
 import { useLogout } from "@/lib/auth-client";
 
 export default function Logout() {

@@ -1,11 +1,13 @@
 "use client";
-import React from "react";
 import { useRouter } from "next/navigation";
+import React from "react";
+
 import { Button } from "@/components/button";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { DISCONNECT_INSTAGRAM } from "@/lib/mutations";
-import ContentTemplate from "./content-template";
+
 import type { AccountSectionData } from "./account-view";
+import ContentTemplate from "./content-template";
 
 export default function ConnectionsSection({
   data,

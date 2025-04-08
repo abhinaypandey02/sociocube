@@ -1,13 +1,14 @@
 "use client";
-import React, { useState } from "react";
-import Image from "next/image";
 import { ArrowRight } from "@phosphor-icons/react";
-import Link from "next/link";
 import { GraphQLError } from "graphql/error";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useState } from "react";
+
+import { Roles } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import { getRoute } from "@/constants/routes";
-import { Roles } from "@/__generated__/graphql";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { UPDATE_USER } from "@/lib/mutations";
 

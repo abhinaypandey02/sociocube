@@ -1,4 +1,5 @@
 import { Arg, Query, Resolver } from "type-graphql";
+
 import { handleVerifyEmail } from "./verify-email";
 
 @Resolver()

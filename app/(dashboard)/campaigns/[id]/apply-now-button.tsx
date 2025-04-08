@@ -1,21 +1,26 @@
 "use client";
+import { Pencil, ShareNetwork } from "@phosphor-icons/react";
+import Link from "next/link";
 import type { ReactNode } from "react";
 import React, { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import Link from "next/link";
-import { Pencil, ShareNetwork } from "@phosphor-icons/react";
-import { getAge } from "@/constants/age";
-import Form from "@/components/form";
-import { Input } from "@/components/input";
+
+import type {
+  GetAllPostingsQuery,
+  GetCurrentUserApplicationStatusQuery,
+} from "@/__generated__/graphql";
 import { Button } from "@/components/button";
-import { IconButton } from "@/components/icon-button";
 import { Variants } from "@/components/constants";
-import type { GetAllPostingsQuery, GetCurrentUserApplicationStatusQuery } from "@/__generated__/graphql";
+import Form from "@/components/form";
+import { IconButton } from "@/components/icon-button";
+import { Input } from "@/components/input";
+import { getAge } from "@/constants/age";
 import { getRoute, Route } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { APPLY_NOW } from "@/lib/mutations";
-import Modal from "../../../../components/modal";
+
 import LinkWrapper from "../../../../components/link-wrapper";
+import Modal from "../../../../components/modal";
 import { getShareText } from "./utils";
 
 interface FormType {

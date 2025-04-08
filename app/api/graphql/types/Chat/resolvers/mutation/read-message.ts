@@ -1,6 +1,7 @@
-import { and, eq, or } from "drizzle-orm";
-import type { AuthorizedContext } from "@graphql/context";
 import { db } from "@backend/lib/db";
+import type { AuthorizedContext } from "@graphql/context";
+import { and, eq, or } from "drizzle-orm";
+
 import { ConversationMessageTable, ConversationTable } from "../../db/schema";
 
 export async function handleReadMessage(

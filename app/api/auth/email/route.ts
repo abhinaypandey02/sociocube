@@ -1,4 +1,4 @@
-export { POST } from "./post";
-export { GET } from "./get";
-export { PUT } from "./put";
 export { DELETE } from "./delete";
+export { GET } from "./get";
+export { POST } from "./post";
+export { PUT } from "./put";

@@ -1,18 +1,19 @@
-import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "@graphql/context";
+import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
+
 import { UserGQL } from "../../type";
 import { handleGetCurrentUser } from "./get-current-user";
-import { handleGetFeaturedSellers } from "./get-featured-sellers";
-import { handleGetSeller } from "./get-seller";
-import {
-  handleSearchSellers,
-  SearchSellersFiltersInput,
-} from "./search-sellers";
-import { handleIsUsernameAvailable } from "./is-username-available";
 import {
   GetFeaturedPostsResponse,
   handleGetFeaturedPosts,
 } from "./get-featured-posts";
+import { handleGetFeaturedSellers } from "./get-featured-sellers";
+import { handleGetSeller } from "./get-seller";
+import { handleIsUsernameAvailable } from "./is-username-available";
+import {
+  handleSearchSellers,
+  SearchSellersFiltersInput,
+} from "./search-sellers";
 
 @Resolver()
 export class UserQueryResolver {

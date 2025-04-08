@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
-import Slider from "react-infinite-logo-slider";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
+import Slider from "react-infinite-logo-slider";
+
 import { getRoute } from "@/constants/routes";
 
 const BRANDS = [

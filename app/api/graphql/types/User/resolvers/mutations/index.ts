@@ -1,15 +1,16 @@
-import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 import type { AuthorizedContext } from "@graphql/context";
-import { handleUpdateUser, UpdateUserInput } from "./update-user";
+import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
+
 import { handleDisconnectInstagram } from "./disconnect-instagram";
-import {
-  handleUpdateLocation,
-  UpdateLocationInput,
-} from "./update-user-location";
 import {
   handleUpdateInstagramUsername,
   UpdateInstagramUsernameResponse,
 } from "./update-instagram-username";
+import { handleUpdateUser, UpdateUserInput } from "./update-user";
+import {
+  handleUpdateLocation,
+  UpdateLocationInput,
+} from "./update-user-location";
 
 @Resolver()
 export class UserMutationResolver {

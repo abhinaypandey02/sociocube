@@ -1,5 +1,5 @@
-import React, { type ReactNode, useState } from "react";
 import { useRouter } from "next/navigation";
+import React, { type ReactNode, useState } from "react";
 
 export interface ContentTemplateItemT {
   label: string;

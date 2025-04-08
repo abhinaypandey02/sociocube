@@ -1,8 +1,9 @@
-import { eq } from "drizzle-orm";
 import { db } from "@backend/lib/db";
+import { eq } from "drizzle-orm";
+
+import { CityTable, CountryTable } from "../../../Map/db/schema";
 import type { UserDB } from "../../db/schema";
 import { LocationTable } from "../../db/schema";
-import { CityTable, CountryTable } from "../../../Map/db/schema";
 
 export async function getLocation(user: UserDB) {
   if (user.location) {

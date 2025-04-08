@@ -1,10 +1,11 @@
-import { and, eq, getTableColumns } from "drizzle-orm";
-import type { AuthorizedContext } from "@graphql/context";
 import { db } from "@backend/lib/db";
+import type { AuthorizedContext } from "@graphql/context";
+import { and, eq, getTableColumns } from "drizzle-orm";
+
+import GQLError from "../../../../constants/errors";
+import { UserTable } from "../../../User/db/schema";
 import type { ConversationDB } from "../../db/schema";
 import { ConversationTable } from "../../db/schema";
-import { UserTable } from "../../../User/db/schema";
-import GQLError from "../../../../constants/errors";
 
 export async function handleGetChatWithUser(
   ctx: AuthorizedContext,

@@ -1,11 +1,12 @@
+import classNames from "classnames";
 import type { PropsWithChildren } from "react";
 import React from "react";
-import classNames from "classnames";
 import type { UseFormReturn } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
-import type { InputProps } from "./types";
-import Select from "./select";
+
 import { getBaseClassName, getInputErrorMessages } from "./constants";
+import Select from "./select";
+import type { InputProps } from "./types";
 
 function InputWrapper({
   label,

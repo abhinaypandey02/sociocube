@@ -1,7 +1,8 @@
-import { eq } from "drizzle-orm";
-import { Field, InputType } from "type-graphql";
 import { db } from "@backend/lib/db";
 import type { AuthorizedContext } from "@graphql/context";
+import { eq } from "drizzle-orm";
+import { Field, InputType } from "type-graphql";
+
 import { LocationTable, UserTable } from "../../db/schema";
 import { getCurrentUser } from "../../utils";
 

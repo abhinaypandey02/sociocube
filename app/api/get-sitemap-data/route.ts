@@ -1,7 +1,8 @@
-import { eq, isNotNull } from "drizzle-orm";
-import { NextResponse } from "next/server";
 import { PostingTable } from "@graphql/types/Posting/db/schema";
 import { UserTable } from "@graphql/types/User/db/schema";
+import { eq, isNotNull } from "drizzle-orm";
+import { NextResponse } from "next/server";
+
 import { db } from "../lib/db";
 
 export const GET = async () => {

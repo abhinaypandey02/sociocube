@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+
 import { ButtonProps } from "@/components/button/types";
 
 export interface NavbarProps {

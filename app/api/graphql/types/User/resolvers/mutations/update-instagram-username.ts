@@ -1,18 +1,19 @@
-import { and, eq } from "drizzle-orm";
-import { Field, ObjectType } from "type-graphql";
-import { waitUntil } from "@vercel/functions";
-import type { AuthorizedContext } from "@graphql/context";
 import { db } from "@backend/lib/db";
 import { uploadImage } from "@backend/lib/storage/aws-s3";
-import { UserTable } from "../../db/schema";
+import type { AuthorizedContext } from "@graphql/context";
+import { waitUntil } from "@vercel/functions";
+import { and, eq } from "drizzle-orm";
+import { Field, ObjectType } from "type-graphql";
+
 import GQLError from "../../../../constants/errors";
 import { InstagramDetails } from "../../../Instagram/db/schema";
-import { getCurrentUser } from "../../utils";
 import { InstagramMediaTable } from "../../../Instagram/db/schema2";
 import {
   fetchExternalInstagramDetails,
   fetchUploadedPostsAndStats,
 } from "../../../Instagram/utils";
+import { UserTable } from "../../db/schema";
+import { getCurrentUser } from "../../utils";
 
 @ObjectType("UpdateInstagramUsernameResponse")
 export class UpdateInstagramUsernameResponse {

@@ -1,8 +1,10 @@
+import { CircleNotch } from "@phosphor-icons/react/dist/ssr";
+import classNames from "classnames";
 import type { PropsWithChildren } from "react";
 import React from "react";
-import classNames from "classnames";
-import { CircleNotch } from "@phosphor-icons/react/dist/ssr";
+
 import { Variants } from "@/components/constants";
+
 import type { ButtonProps } from "./types";
 
 /**

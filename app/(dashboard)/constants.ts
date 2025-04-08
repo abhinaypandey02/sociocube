@@ -1,6 +1,7 @@
 import { CalendarCheck, PiggyBank } from "@phosphor-icons/react/dist/ssr";
-import { Route } from "@/constants/routes";
+
 import { NavItem } from "@/app/(dashboard)/type";
+import { Route } from "@/constants/routes";
 
 export const NAV_ITEMS: NavItem[] = [
   {

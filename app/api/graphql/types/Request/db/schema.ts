@@ -5,6 +5,7 @@ import {
   serial,
   timestamp,
 } from "drizzle-orm/pg-core";
+
 import { UserTable } from "../../User/db/schema";
 
 export enum RequestType {

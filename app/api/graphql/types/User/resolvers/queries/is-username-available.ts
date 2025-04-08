@@ -1,6 +1,7 @@
-import { and, eq, ne } from "drizzle-orm";
 import { db } from "@backend/lib/db";
 import { AuthorizedContext } from "@graphql/context";
+import { and, eq, ne } from "drizzle-orm";
+
 import { UserTable } from "../../db/schema";
 import { usernameAllowed } from "../../utils";
 

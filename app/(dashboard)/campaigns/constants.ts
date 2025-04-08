@@ -1,4 +1,5 @@
 import { InstagramLogo, YoutubeLogo } from "@phosphor-icons/react/dist/ssr";
+
 import { PostingPlatforms } from "@/__generated__/graphql";
 
 export const POSTING_PLATFORMS = [

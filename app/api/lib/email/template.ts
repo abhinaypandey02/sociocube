@@ -1,9 +1,9 @@
 import { sendEmail } from "./nodemailer";
-import { WelcomeUser } from "./templates/welcome";
-import { VerifyEmail } from "./templates/verify";
+import { AcceptInvite } from "./templates/accept-invite";
 import { BASE_TEMPLATE } from "./templates/base";
 import { ResetPassword } from "./templates/reset-password";
-import { AcceptInvite } from "./templates/accept-invite";
+import { VerifyEmail } from "./templates/verify";
+import { WelcomeUser } from "./templates/welcome";
 
 export const Template = {
   WelcomeUser,

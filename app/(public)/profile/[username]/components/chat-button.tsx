@@ -1,5 +1,6 @@
-import React from "react";
 import Link from "next/link";
+import React from "react";
+
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import { getRoute } from "@/constants/routes";

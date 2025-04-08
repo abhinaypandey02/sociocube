@@ -1,9 +1,10 @@
-import { eq } from "drizzle-orm";
 import { db } from "@backend/lib/db";
 import type { AuthorizedContext } from "@graphql/context";
-import { PostingTable } from "../../db/schema";
-import { ApplicationTable } from "../../../Application/db/schema";
+import { eq } from "drizzle-orm";
+
 import GQLError from "../../../../constants/errors";
+import { ApplicationTable } from "../../../Application/db/schema";
+import { PostingTable } from "../../db/schema";
 import { checkPermission } from "../../utils";
 
 export async function deletePosting(

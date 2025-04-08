@@ -1,10 +1,11 @@
-import { eq } from "drizzle-orm";
 import { db } from "@backend/lib/db";
 import type { AuthorizedContext } from "@graphql/context";
+import { eq } from "drizzle-orm";
+
 import GQLError from "../../../../constants/errors";
-import { getCurrentUser } from "../../utils";
 import { InstagramDetails } from "../../../Instagram/db/schema";
 import { UserTable } from "../../db/schema";
+import { getCurrentUser } from "../../utils";
 
 export async function handleDisconnectInstagram(ctx: AuthorizedContext) {
   const user = await getCurrentUser(ctx);

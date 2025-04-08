@@ -1,16 +1,18 @@
 "use client";
+import { useMutation } from "@apollo/client";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { useMutation } from "@apollo/client";
-import { Input } from "@/components/input";
+
 import { Button } from "@/components/button";
 import Form from "@/components/form";
+import { Input } from "@/components/input";
 import { getRoute } from "@/constants/routes";
-import { RESET_PASSWORD } from "@/lib/mutations";
 import { handleGQLErrors } from "@/lib/apollo-client";
+import { RESET_PASSWORD } from "@/lib/mutations";
+
 import AuthLayout from "../../../(auth)/components/auth-layout";
 
 const defaultValues = {

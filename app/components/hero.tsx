@@ -1,7 +1,8 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import { getRoute } from "@/constants/routes";

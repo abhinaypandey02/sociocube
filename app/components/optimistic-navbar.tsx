@@ -1,6 +1,8 @@
-import React, { Suspense } from "react";
 import { cookies } from "next/headers";
+import React, { Suspense } from "react";
+
 import { Navbar } from "@/components/navbar";
+
 import {
   AUTHORISED_USER_NAVBAR_SECTIONS,
   UNAUTHORISED_NAVBAR_SECTIONS,

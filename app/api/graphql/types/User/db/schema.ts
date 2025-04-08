@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   boolean,
   date,
@@ -10,9 +11,10 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
+
 import categories from "@/constants/categories";
 import genders from "@/constants/genders";
+
 import { Roles } from "../../../constants/roles";
 import { InstagramDetails } from "../../Instagram/db/schema";
 import { CityTable, CountryTable } from "../../Map/db/schema";

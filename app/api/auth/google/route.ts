@@ -1,13 +1,15 @@
+import { generateRefreshToken } from "@backend/lib/auth/token";
+import { db } from "@backend/lib/db";
+import { UserTable } from "@graphql/types/User/db/schema";
+import { createUser } from "@graphql/types/User/db/utils";
+import { eq } from "drizzle-orm";
 import { google } from "googleapis";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
 import { v4 } from "uuid";
-import { createUser } from "@graphql/types/User/db/utils";
-import { UserTable } from "@graphql/types/User/db/schema";
-import { generateRefreshToken } from "@backend/lib/auth/token";
-import { db } from "@backend/lib/db";
+
 import { getRoute } from "@/constants/routes";
+
 import { oauth2Client } from "./google-oauth";
 
 function errorResponse(redirectURL: string | null) {

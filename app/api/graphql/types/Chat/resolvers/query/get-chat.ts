@@ -1,6 +1,7 @@
-import { and, eq, getTableColumns, or } from "drizzle-orm";
-import type { AuthorizedContext } from "@graphql/context";
 import { db } from "@backend/lib/db";
+import type { AuthorizedContext } from "@graphql/context";
+import { and, eq, getTableColumns, or } from "drizzle-orm";
+
 import { ConversationTable } from "../../db/schema";
 import type { ConversationGQL } from "../../type";
 

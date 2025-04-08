@@ -1,13 +1,21 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
-import classNames from "classnames";
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Transition,
+} from "@headlessui/react";
 import { List, User, X } from "@phosphor-icons/react";
-import { usePathname } from "next/navigation";
+import classNames from "classnames";
 import Image from "next/image";
-import { Button } from "@/components/button";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
+
 import Logo from "@/app/logo";
+import { Button } from "@/components/button";
+
 import type { NavbarProps } from "./types";
 
 function Navbar({

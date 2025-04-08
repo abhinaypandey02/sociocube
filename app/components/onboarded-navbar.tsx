@@ -1,9 +1,11 @@
 import React from "react";
+
 import { Navbar } from "@/components/navbar";
 import { getCurrentUser } from "@/lib/apollo-server";
+
 import {
-  getOnboardedUserNavbarSections,
   AUTHORISED_USER_NAVBAR_SECTIONS,
+  getOnboardedUserNavbarSections,
   UNAUTHORISED_NAVBAR_SECTIONS,
 } from "../constants";
 import VerifyEmailHeader from "./verify-email-header";

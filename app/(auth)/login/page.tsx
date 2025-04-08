@@ -1,6 +1,8 @@
 import React from "react";
+
 import { getSEO } from "@/constants/seo";
 import { Injector } from "@/lib/apollo-server";
+
 import LoginForm from "./form";
 
 export default function LoginPage({

@@ -1,6 +1,7 @@
-import { desc, eq } from "drizzle-orm";
 import { db } from "@backend/lib/db";
 import type { Context } from "@graphql/context";
+import { desc, eq } from "drizzle-orm";
+
 import { ApplicationTable } from "../../db/schema";
 
 export function getUserApplications(ctx: Context) {

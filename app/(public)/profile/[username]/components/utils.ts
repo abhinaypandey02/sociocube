@@ -1,7 +1,8 @@
-import { fetchFile } from "@ffmpeg/util";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
-import { MAXIMUM_FILE_SIZE } from "@/constants/file";
+import { fetchFile } from "@ffmpeg/util";
+
 import type { GetSellerQuery } from "@/__generated__/graphql";
+import { MAXIMUM_FILE_SIZE } from "@/constants/file";
 
 const ffmpeg = typeof window !== "undefined" ? new FFmpeg() : null;
 

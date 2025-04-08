@@ -1,5 +1,6 @@
 "use client";
 
+import { ProgressLoader } from "nextjs-progressloader";
 import type { Dispatch, PropsWithChildren, SetStateAction } from "react";
 import React, {
   createContext,
@@ -9,8 +10,9 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { ProgressLoader } from "nextjs-progressloader";
+
 import { NavItem } from "@/app/(dashboard)/type";
+
 import GetVerifiedModal from "../app/components/get-verified-modal";
 
 const GlobalState = createContext<{

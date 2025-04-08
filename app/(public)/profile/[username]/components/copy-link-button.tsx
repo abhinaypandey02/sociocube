@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
 import { Check, Link } from "@phosphor-icons/react";
+import React, { useState } from "react";
 import { toast } from "react-hot-toast";
+
 import { IconButton } from "@/components/icon-button";
 
 export default function CopyLinkButton({ url }: { url: string }) {

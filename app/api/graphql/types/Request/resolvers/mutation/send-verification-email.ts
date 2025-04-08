@@ -1,11 +1,12 @@
-import { and, eq } from "drizzle-orm";
-import { sign } from "jsonwebtoken";
 import { db } from "@backend/lib/db";
 import { sendTemplateEmail } from "@backend/lib/email/template";
 import { HOUR } from "@graphql/utils/time";
+import { and, eq } from "drizzle-orm";
+import { sign } from "jsonwebtoken";
+
+import GQLError from "../../../../constants/errors";
 import { UserTable } from "../../../User/db/schema";
 import { RequestTable, RequestType } from "../../db/schema";
-import GQLError from "../../../../constants/errors";
 
 function getVerifyLink(id: number) {
   const token = sign({ id }, process.env.SIGNING_KEY || "", {

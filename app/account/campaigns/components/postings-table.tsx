@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import { ArrowSquareOut, PencilSimple } from "@phosphor-icons/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import Link from "next/link";
-import { ArrowSquareOut, PencilSimple } from "@phosphor-icons/react";
-import Table from "@/components/table";
+import React from "react";
+
 import type { GetUserPostingsQuery } from "@/__generated__/graphql";
 import { getCurrency } from "@/app/(dashboard)/campaigns/utils";
+import Table from "@/components/table";
 import { Route } from "@/constants/routes";
 
 type Posting = NonNullable<GetUserPostingsQuery["postings"]>[number];

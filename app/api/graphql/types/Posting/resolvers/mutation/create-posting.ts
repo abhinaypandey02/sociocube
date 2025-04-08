@@ -1,18 +1,20 @@
-import { Field, InputType, Int } from "type-graphql";
+import { db } from "@backend/lib/db";
+import { PostingPlatforms } from "@graphql/constants/platforms";
+import type { AuthorizedContext } from "@graphql/context";
 import { IsEnum, MaxLength } from "class-validator";
 import { and, eq, gte } from "drizzle-orm";
 import type { PostgresError } from "postgres";
+import { Field, InputType, Int } from "type-graphql";
+
 import {
   BIO_MAX_LENGTH,
   NAME_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
 } from "@/constants/constraints";
-import { db } from "@backend/lib/db";
-import type { AuthorizedContext } from "@graphql/context";
-import { PostingPlatforms } from "@graphql/constants/platforms";
+
+import GQLError from "../../../../constants/errors";
 import { PostingTable } from "../../db/schema";
 import { getCleanExternalLink, handleDuplicateLinkError } from "../../utils";
-import GQLError from "../../../../constants/errors";
 
 @InputType("NewPostingInput")
 export class NewPostingInput {

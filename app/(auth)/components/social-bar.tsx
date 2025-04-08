@@ -1,5 +1,5 @@
-import React from "react";
 import { GoogleLogo } from "@phosphor-icons/react/dist/ssr";
+import React from "react";
 
 export default function SocialBar() {
   return (

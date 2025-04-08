@@ -1,6 +1,6 @@
+import classNames from "classnames";
 import type { ComponentProps, PropsWithChildren } from "react";
 import React from "react";
-import classNames from "classnames";
 
 /**
  * Represents a navbar.

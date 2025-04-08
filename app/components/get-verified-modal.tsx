@@ -1,8 +1,10 @@
 "use client";
-import React from "react";
-import { ArrowSquareOut, SealCheck } from "@phosphor-icons/react/dist/ssr";
-import { Button } from "@/components/button";
 import { INSTAGRAM_AUTHORIZATION_URL } from "@backend/auth/instagram/utils";
+import { ArrowSquareOut, SealCheck } from "@phosphor-icons/react/dist/ssr";
+import React from "react";
+
+import { Button } from "@/components/button";
+
 import Modal from "../../components/modal";
 
 export default function GetVerifiedModal({

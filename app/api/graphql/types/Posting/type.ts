@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from "type-graphql";
+
 import { PostingPlatforms } from "../../constants/platforms";
 
 @ObjectType("Posting")

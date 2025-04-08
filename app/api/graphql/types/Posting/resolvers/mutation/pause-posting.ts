@@ -1,6 +1,7 @@
-import { and, eq } from "drizzle-orm";
 import { db } from "@backend/lib/db";
 import type { AuthorizedContext } from "@graphql/context";
+import { and, eq } from "drizzle-orm";
+
 import { PostingTable } from "../../db/schema";
 import { checkPermission } from "../../utils";
 

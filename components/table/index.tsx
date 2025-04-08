@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import {
+  ArrowDown,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUp,
+} from "@phosphor-icons/react";
 import type { AccessorColumnDef, PaginationState } from "@tanstack/react-table";
 import {
   flexRender,
@@ -7,13 +12,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUp,
-} from "@phosphor-icons/react";
 import classNames from "classnames";
+import React, { useState } from "react";
 
 export default function Table<T>({
   data,
@@ -21,7 +21,7 @@ export default function Table<T>({
   pageSize = 25,
 }: {
   data: T[];
-  // eslint-disable-next-line -- dynamic
+
   columns: AccessorColumnDef<T, any>[];
   pageSize?: number;
 }) {

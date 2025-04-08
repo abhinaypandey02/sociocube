@@ -1,6 +1,6 @@
-import { getOgImage } from "@/lib/util-components";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_POSTING } from "@/lib/queries";
+import { getOgImage } from "@/lib/util-components";
 
 export default async function Image({
   params,

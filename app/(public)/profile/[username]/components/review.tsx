@@ -1,13 +1,15 @@
 "use client";
+import classNames from "classnames";
+import Link from "next/link";
 import React from "react";
 import { Rating } from "react-simple-star-rating";
-import Link from "next/link";
-import classNames from "classnames";
+
 import type {
   GetCurrentUserQuery,
   GetSellerQuery,
 } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
+
 import LinkWrapper from "../../../../../components/link-wrapper";
 import DeletePortfolioButton from "./delete-portfolio-button";
 

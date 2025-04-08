@@ -1,5 +1,6 @@
-import { eq } from "drizzle-orm";
 import { db } from "@backend/lib/db";
+import { eq } from "drizzle-orm";
+
 import { PostingTable } from "../../db/schema";
 
 export async function getPosting(id: number) {

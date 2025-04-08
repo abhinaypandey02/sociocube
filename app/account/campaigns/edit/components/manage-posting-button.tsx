@@ -1,14 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import { Pause, Play, Trash } from "@phosphor-icons/react";
-import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+
 import type { GetPostingQuery } from "@/__generated__/graphql";
+import { getRoute } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { DELETE_POSTING, PAUSE_POSTING, RESUME_POSTING } from "@/lib/mutations";
 import { revalidatePosting } from "@/lib/revalidate";
-import { getRoute } from "@/constants/routes";
 
 export default function ManagePostingButton({
   posting,

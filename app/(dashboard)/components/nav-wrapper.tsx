@@ -1,13 +1,14 @@
 "use client";
-import React, { PropsWithChildren, useMemo, useState } from "react";
-import { usePathname } from "next/navigation";
 import classNames from "classnames";
-import TopNav from "@/app/(dashboard)/components/top-nav";
+import { usePathname } from "next/navigation";
+import React, { PropsWithChildren, useMemo, useState } from "react";
+
 import BottomNav from "@/app/(dashboard)/components/bottom-nav";
-import { SEO } from "@/constants/seo";
-import { NAV_ITEMS } from "@/app/(dashboard)/constants";
-import { useSubPage } from "@/lib/auth-client";
 import SideNav from "@/app/(dashboard)/components/side-nav";
+import TopNav from "@/app/(dashboard)/components/top-nav";
+import { NAV_ITEMS } from "@/app/(dashboard)/constants";
+import { SEO } from "@/constants/seo";
+import { useSubPage } from "@/lib/auth-client";
 
 export default function NavWrapper({ children }: PropsWithChildren) {
   const pathname = usePathname();

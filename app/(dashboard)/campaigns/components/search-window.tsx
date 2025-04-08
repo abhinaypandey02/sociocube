@@ -1,20 +1,22 @@
-import React from "react";
 import { SealCheck } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
+import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
-import { cookies } from "next/headers";
+import React from "react";
+
 import type { GetAllPostingsQuery } from "@/__generated__/graphql";
-import { convertToAbbreviation } from "@/lib/utils";
+import ApplyNowButton from "@/app/(dashboard)/campaigns/[id]/apply-now-button";
+import PostingReviews from "@/app/(dashboard)/campaigns/[id]/posting-reviews";
 import { getRoute } from "@/constants/routes";
 import { Injector, queryGQL } from "@/lib/apollo-server";
-import ApplyNowButton from "@/app/(dashboard)/campaigns/[id]/apply-now-button";
 import {
   GET_CURRENT_USER_APPLICATION_STATUS,
   GET_POSTING_REVIEWS,
 } from "@/lib/queries";
-import PostingReviews from "@/app/(dashboard)/campaigns/[id]/posting-reviews";
 import { renderRichText } from "@/lib/util-components";
+import { convertToAbbreviation } from "@/lib/utils";
+
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
 import SearchLoading from "./search-loading";
 

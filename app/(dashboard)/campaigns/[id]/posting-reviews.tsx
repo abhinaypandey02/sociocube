@@ -1,10 +1,12 @@
 "use client";
-import React from "react";
 import Image from "next/image";
-import { Rating } from "react-simple-star-rating";
 import Link from "next/link";
+import React from "react";
+import { Rating } from "react-simple-star-rating";
+
 import type { GetPostingReviewsQuery } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
+
 import LinkWrapper from "../../../../components/link-wrapper";
 
 export default function PostingReviews({

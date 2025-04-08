@@ -1,23 +1,25 @@
+import Image from "next/image";
 import React, { type ChangeEvent, useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import Image from "next/image";
-import categories from "@/constants/categories";
-import genders from "@/constants/genders";
-import { Input } from "@/components/input";
+
 import { Button } from "@/components/button";
 import Form from "@/components/form";
+import { Input } from "@/components/input";
+import categories from "@/constants/categories";
+import genders from "@/constants/genders";
+import { getMeURL } from "@/constants/routes";
+import { ageValidation } from "@/constants/validations";
 import {
   handleGQLErrors,
   useAuthMutation,
   useAuthQuery,
 } from "@/lib/apollo-client";
 import { UPDATE_USER } from "@/lib/mutations";
-import { ageValidation } from "@/constants/validations";
-import { getUsernameInputRules } from "@/lib/utils";
 import { IS_USERNAME_AVAILABLE } from "@/lib/queries";
-import { getMeURL } from "@/constants/routes";
-import ContentTemplate from "./content-template";
+import { getUsernameInputRules } from "@/lib/utils";
+
 import type { AccountSectionData } from "./account-view";
+import ContentTemplate from "./content-template";
 
 export default function ProfileSection({ data }: { data: AccountSectionData }) {
   const form = useForm({

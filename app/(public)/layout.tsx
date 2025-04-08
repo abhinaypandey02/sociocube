@@ -1,12 +1,13 @@
 import type { PropsWithChildren } from "react";
 import React, { Suspense } from "react";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
-import { getRoute } from "@/constants/routes";
+
 import type { GetCurrentUserQuery } from "@/__generated__/graphql";
-import { getCurrentUser, Injector } from "@/lib/apollo-server";
 import OptimisticNavbar from "@/app/components/optimistic-navbar";
 import { UNAUTHORISED_NAVBAR_SECTIONS } from "@/app/constants";
+import { Footer } from "@/components/footer";
+import { Navbar } from "@/components/navbar";
+import { getRoute } from "@/constants/routes";
+import { getCurrentUser, Injector } from "@/lib/apollo-server";
 
 function AuthFooter({ data }: { data?: GetCurrentUserQuery }) {
   if (data?.user) {

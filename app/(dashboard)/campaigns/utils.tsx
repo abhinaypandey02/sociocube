@@ -1,5 +1,7 @@
 import React from "react";
+
 import type { PostingPlatforms } from "@/__generated__/graphql";
+
 import { POSTING_PLATFORMS } from "./constants";
 
 export function getCurrency(

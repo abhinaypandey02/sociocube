@@ -1,10 +1,12 @@
-import React from "react";
-import { notFound, redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import Image from "next/image";
+import { notFound, redirect } from "next/navigation";
+import React from "react";
+
+import { Route } from "@/constants/routes";
 import { getCurrentUser, queryGQL } from "@/lib/apollo-server";
 import { GET_CHAT } from "@/lib/queries";
-import { Route } from "@/constants/routes";
+
 import ChatWindow from "./components/chat-window";
 
 interface ChatPage {

@@ -1,5 +1,5 @@
-import { Field, InputType } from "type-graphql";
 import { Max } from "class-validator";
+import { Field, InputType } from "type-graphql";
 
 @InputType("PaginationArgs")
 export class PaginationArgs {

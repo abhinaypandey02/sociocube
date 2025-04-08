@@ -1,13 +1,14 @@
-import { Arg, Ctx, FieldResolver, Resolver, Root } from "type-graphql";
-import { desc, eq } from "drizzle-orm";
 import { db } from "@backend/lib/db";
-import { ConversationGQL, MessageGQL } from "../type";
-import { UserGQL } from "../../User/type";
-import { getUser } from "../../User/db/utils";
-import { UserTable } from "../../User/db/schema";
-import { ConversationMessageTable } from "../db/schema";
-import type { ConversationDB } from "../db/schema";
+import { desc, eq } from "drizzle-orm";
+import { Arg, Ctx, FieldResolver, Resolver, Root } from "type-graphql";
+
 import type { AuthorizedContext } from "../../../context";
+import { UserTable } from "../../User/db/schema";
+import { getUser } from "../../User/db/utils";
+import { UserGQL } from "../../User/type";
+import type { ConversationDB } from "../db/schema";
+import { ConversationMessageTable } from "../db/schema";
+import { ConversationGQL, MessageGQL } from "../type";
 
 const CHAT_PAGE_SIZE = 20;
 

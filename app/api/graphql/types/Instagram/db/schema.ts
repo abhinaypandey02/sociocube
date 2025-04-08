@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   boolean,
   index,
@@ -8,7 +9,6 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
 
 export const InstagramDetails = pgTable(
   "instagram_data",

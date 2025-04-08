@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import genders from "@/constants/genders";
-import { Input } from "@/components/input";
+
 import type { SearchSellersFilters } from "@/__generated__/graphql";
+import { Input } from "@/components/input";
+import genders from "@/constants/genders";
+
 import TagsDisplay from "./tags-display";
 
 export default function GenderFilter({

@@ -1,22 +1,30 @@
-import React, { Suspense } from "react";
+import {
+  ArrowSquareOut,
+  InstagramLogo,
+  SealCheck,
+  Sparkle,
+  TrendUp,
+} from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
-import { ArrowSquareOut, InstagramLogo, SealCheck, Sparkle, TrendUp } from "@phosphor-icons/react/dist/ssr";
-import { notFound } from "next/navigation";
-import Image from "next/image";
 import { cookies } from "next/headers";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import React, { Suspense } from "react";
+
 import { IconButton } from "@/components/icon-button";
+import { getMeURL, getRoute, Route } from "@/constants/routes";
+import { getSEO } from "@/constants/seo";
 import { getCurrentUser, Injector, queryGQL } from "@/lib/apollo-server";
 import { GET_PORTFOLIO_UPLOAD_URL, GET_SELLER } from "@/lib/queries";
-import { getSEO } from "@/constants/seo";
 import { convertToAbbreviation } from "@/lib/utils";
-import { getMeURL, getRoute, Route } from "@/constants/routes";
+
 import Schema from "../../../components/schema";
 import CopyLinkButton from "./components/copy-link-button";
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 import Portfolio from "./components/portfolio";
 import PortfolioLinks from "./components/portfolio-links";
-import { getPostFrequency } from "./components/utils";
 import Review from "./components/review";
+import { getPostFrequency } from "./components/utils";
 
 export interface ProfilePage {
   params: Promise<{ username: string }>;

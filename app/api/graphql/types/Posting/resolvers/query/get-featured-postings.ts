@@ -1,7 +1,8 @@
-import { and, count, desc, eq, getTableColumns } from "drizzle-orm";
 import { db } from "@backend/lib/db";
-import { PostingTable } from "../../db/schema";
+import { and, count, desc, eq, getTableColumns } from "drizzle-orm";
+
 import { ApplicationTable } from "../../../Application/db/schema";
+import { PostingTable } from "../../db/schema";
 
 export async function getFeaturedPostings() {
   return db

@@ -1,10 +1,12 @@
-import React from "react";
 import { notFound } from "next/navigation";
+import React from "react";
+
+import { Route } from "@/constants/routes";
 import { getCurrentUser, queryGQL } from "@/lib/apollo-server";
 import { GET_POSTING } from "@/lib/queries";
-import { Route } from "@/constants/routes";
-import CreateNewPostingForm from "../../components/form";
+
 import AccountPageWrapper from "../../../components/account-page-wrapper";
+import CreateNewPostingForm from "../../components/form";
 import ManagePostingButton from "../components/manage-posting-button";
 
 export default async function CreateNewPostingPage({
