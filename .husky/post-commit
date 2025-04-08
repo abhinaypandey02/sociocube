@@ -1,1 +1,2 @@
+git remote set-url origin git@github.com:abhinaypandey02/sociocube.git
 git push
