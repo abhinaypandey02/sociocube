@@ -16,6 +16,7 @@ export default function Hero() {
           className="absolute inset-x-0 top-0 -z-10 size-full object-cover"
           height={598}
           priority
+          sizes={"100vw"}
           src="/hero-bg.webp"
           width={1000}
         />
