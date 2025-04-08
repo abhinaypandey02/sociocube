@@ -15,7 +15,6 @@ function useTurnstileToken(containerID: string) {
     setTurnstileToken(undefined);
     turnstile.reset();
   };
-
   useEffect(() => {
     window.onTurnstileLoad = () => {
       if (!loading && !turnstileToken) {
