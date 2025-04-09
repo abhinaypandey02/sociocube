@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast";
 
 import type {
   GetPostingQuery,
+  GetUserCurrencyQuery,
   PostingPlatforms,
 } from "@/__generated__/graphql";
 import { POSTING_PLATFORMS } from "@/app/(dashboard)/campaigns/constants";
@@ -51,10 +52,10 @@ export interface CreatePostingFormFields {
 
 export default function CreateNewPostingForm({
   existingPosting,
-  currencyCountry,
+  data,
 }: {
   existingPosting?: GetPostingQuery["posting"];
-  currencyCountry?: number | null;
+  data?: GetUserCurrencyQuery;
 }) {
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
@@ -69,8 +70,7 @@ export default function CreateNewPostingForm({
       minimumFollowers: existingPosting?.minimumFollowers || undefined,
       price: existingPosting?.price || undefined,
       title: existingPosting?.title,
-      currencyCountry:
-        existingPosting?.currencyCountry || currencyCountry || undefined,
+      currencyCountry: existingPosting?.currencyCountry || undefined,
       externalLink: existingPosting?.externalLink || undefined,
       extraDetails: existingPosting?.extraDetails || undefined,
     },
@@ -87,6 +87,11 @@ export default function CreateNewPostingForm({
   useEffect(() => {
     void fetchCountries();
   }, [fetchCountries]);
+  useEffect(() => {
+    if (data?.user?.locationID?.country && !form.getValues("currencyCountry")) {
+      form.setValue("currencyCountry", data.user.locationID.country);
+    }
+  }, [data]);
   const onSubmit = (formData: CreatePostingFormFields) => {
     setLoading(true);
 
@@ -107,7 +112,7 @@ export default function CreateNewPostingForm({
         .then((res) => {
           if (res.data?.updatePosting) {
             void revalidatePosting(existingPosting.id);
-            router.push(getRoute("AccountPostings"));
+            router.push(getRoute("YourCampaigns"));
           } else setLoading(false);
         })
         .catch((e: GraphQLError) => {
@@ -128,7 +133,7 @@ export default function CreateNewPostingForm({
         .then((res) => {
           if (res.data?.createPosting) {
             void revalidateOnlyPostingsPage();
-            router.push(`${getRoute("Postings")}/${res.data.createPosting}`);
+            router.push(`${getRoute("Campaigns")}/${res.data.createPosting}`);
           } else setLoading(false);
         })
         .catch((e: GraphQLError) => {

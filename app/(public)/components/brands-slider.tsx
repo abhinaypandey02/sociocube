@@ -53,7 +53,7 @@ export default function BrandsSlider() {
     <Slider blurBorderColor="#fff" blurBorders duration={60} width="200px">
       {BRANDS.map((brand) => (
         <Slider.Slide key={brand.id}>
-          <Link href={`${getRoute("Postings")}/${brand.id}`}>
+          <Link href={`${getRoute("Campaigns")}/${brand.id}`}>
             <Image
               alt={brand.name}
               className={`grayscale ${brand.className}`}

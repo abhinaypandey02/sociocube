@@ -11,6 +11,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 
+import Schema from "@/app/(public)/components/schema";
 import { IconButton } from "@/components/icon-button";
 import { getMeURL, getRoute, Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
@@ -18,7 +19,6 @@ import { getCurrentUser, Injector, queryGQL } from "@/lib/apollo-server";
 import { GET_PORTFOLIO_UPLOAD_URL, GET_SELLER } from "@/lib/queries";
 import { convertToAbbreviation } from "@/lib/utils";
 
-import Schema from "../../../components/schema";
 import CopyLinkButton from "./components/copy-link-button";
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 import Portfolio from "./components/portfolio";

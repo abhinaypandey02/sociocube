@@ -14,7 +14,7 @@ export default function BottomNav({
   activeItem?: NavItem;
 }) {
   return (
-    <div className="flex items-center justify-center border-t border-gray-200 py-3 shadow-xl lg:hidden">
+    <div className="flex items-center justify-around border-t border-gray-200 py-3 px-7 gap-4 shadow-xl lg:hidden">
       {PRIMARY_NAV_ITEMS.map((item) => (
         <Link
           className={classNames(
@@ -27,11 +27,12 @@ export default function BottomNav({
             setActiveItem(item);
           }}
         >
-          <item.icon size={20} weight="bold" />
-          <p className="text-xs">{item.navTitle}</p>
+          <item.icon
+            size={30}
+            weight={activeItem?.href === item.href ? "fill" : "duotone"}
+          />
         </Link>
       ))}
-      <div />
     </div>
   );
 }

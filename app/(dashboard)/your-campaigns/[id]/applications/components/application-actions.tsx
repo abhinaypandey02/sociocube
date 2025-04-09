@@ -19,7 +19,7 @@ import {
   SEND_REVIEW_BY_AGENCY,
 } from "@/lib/mutations";
 
-import Modal from "../../../../../components/modal";
+import Modal from "../../../../../../components/modal";
 
 export default function ApplicationActions({
   status,

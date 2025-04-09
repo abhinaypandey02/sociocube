@@ -1,5 +1,5 @@
-import type { AuthorizedContext } from "@graphql/context";
-import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
+import type { Context } from "@graphql/context";
+import { Arg, Ctx, Int, Query, Resolver } from "type-graphql";
 
 import { PostingGQL } from "../../type";
 import { getAllPostings } from "./get-all-postings";
@@ -9,9 +9,8 @@ import { getUserPostings } from "./get-user-postings";
 
 @Resolver()
 export class PostingQueryResolvers {
-  @Authorized()
   @Query(() => [PostingGQL])
-  getUserPostings(@Ctx() ctx: AuthorizedContext): Promise<PostingGQL[]> {
+  getUserPostings(@Ctx() ctx: Context): Promise<PostingGQL[]> {
     return getUserPostings(ctx);
   }
   @Query(() => [PostingGQL])

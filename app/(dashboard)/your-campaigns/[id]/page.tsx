@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
 import React from "react";
 
+import AccountPageWrapper from "@/app/(dashboard)/profile/components/account-page-wrapper";
 import { Route } from "@/constants/routes";
 import { getCurrentUser, queryGQL } from "@/lib/apollo-server";
 import { GET_POSTING } from "@/lib/queries";
 
-import AccountPageWrapper from "../../../components/account-page-wrapper";
-import CreateNewPostingForm from "../../components/form";
+import CreateNewPostingForm from "../components/form";
 import ManagePostingButton from "../components/manage-posting-button";
 
 export default async function CreateNewPostingPage({
@@ -27,7 +27,7 @@ export default async function CreateNewPostingPage({
   return (
     <AccountPageWrapper
       backRoute={{
-        route: Route.AccountPostings,
+        route: Route.YourCampaigns,
         title: "Campaigns",
       }}
       cta={<ManagePostingButton posting={posting} />}

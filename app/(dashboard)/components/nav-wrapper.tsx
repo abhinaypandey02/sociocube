@@ -1,7 +1,7 @@
 "use client";
 import classNames from "classnames";
 import { usePathname } from "next/navigation";
-import React, { PropsWithChildren, useMemo, useState } from "react";
+import React, { PropsWithChildren, useEffect, useMemo, useState } from "react";
 
 import BottomNav from "@/app/(dashboard)/components/bottom-nav";
 import SideNav from "@/app/(dashboard)/components/side-nav";
@@ -10,12 +10,20 @@ import { NAV_ITEMS } from "@/app/(dashboard)/constants";
 import { SEO } from "@/constants/seo";
 import { useSubPage } from "@/lib/auth-client";
 
+const getActiveItem = (pathname: string) =>
+  NAV_ITEMS.find(
+    (item) =>
+      String(item.href) === pathname || String(item.parent) === pathname,
+  );
+
 export default function NavWrapper({ children }: PropsWithChildren) {
   const pathname = usePathname();
   const { openSubPage } = useSubPage();
-  const [activeItem, setActiveItem] = useState(
-    NAV_ITEMS.find((item) => String(item.href) === pathname),
-  );
+  const [activeItem, setActiveItem] = useState(getActiveItem(pathname));
+  useEffect(() => {
+    const activeItem = getActiveItem(pathname);
+    if (activeItem) setActiveItem(activeItem);
+  }, [pathname]);
   const subPages = useMemo(
     () => NAV_ITEMS.filter((item) => item.parent === activeItem?.href),
     [activeItem],

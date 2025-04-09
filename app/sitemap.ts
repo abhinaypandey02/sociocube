@@ -17,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: Route.Postings,
+      url: Route.Campaigns,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 1,
@@ -52,7 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
   routes.push(
     ...campaigns.map((user) => ({
-      url: `${Route.Postings}/${user}`,
+      url: `${Route.Campaigns}/${user}`,
       lastModified: new Date(),
       changeFrequency:
         "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],

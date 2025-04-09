@@ -20,7 +20,7 @@ import { Input } from "@/components/input";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { SEND_REVIEW_BY_USER } from "@/lib/mutations";
 
-import Modal from "../../../../../components/modal";
+import Modal from "../../../../../../components/modal";
 
 export default function SendReview({
   posting,

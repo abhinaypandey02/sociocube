@@ -2,22 +2,25 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import React from "react";
 
-import BrandsSlider from "@/app/components/brands-slider";
+import BrandsSlider from "@/app/(public)/components/brands-slider";
+import Faqs from "@/app/(public)/components/faqs";
+import Hero from "@/app/(public)/components/hero";
+import JobPostings from "@/app/(public)/components/job-postings";
+import Schema from "@/app/(public)/components/schema";
+import TopCreators from "@/app/(public)/components/top-creators";
 import { getSEO, SEO } from "@/constants/seo";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_FEATURED_SELLERS_AND_POSTS } from "@/lib/queries";
 
-import Faqs from "../components/faqs";
-import Hero from "../components/hero";
-import JobPostings from "../components/job-postings";
-import Schema from "../components/schema";
-import TopCreators from "../components/top-creators";
-
-const HowItWorks = dynamic(() => import("../components/how-it-works"));
-const Cta = dynamic(() => import("../components/cta"));
-const Features = dynamic(() => import("../components/features"));
-const AboutUs = dynamic(() => import("../components/about-us"));
-const FiltersList = dynamic(() => import("../components/filters-list"));
+const HowItWorks = dynamic(
+  () => import("@/app/(public)/components/how-it-works"),
+);
+const Cta = dynamic(() => import("@/app/(public)/components/cta"));
+const Features = dynamic(() => import("@/app/(public)/components/features"));
+const AboutUs = dynamic(() => import("@/app/(public)/components/about-us"));
+const FiltersList = dynamic(
+  () => import("@/app/(public)/components/filters-list"),
+);
 
 export function generateMetadata(): Metadata {
   return getSEO();

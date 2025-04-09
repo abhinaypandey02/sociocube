@@ -2,8 +2,8 @@ import type { PropsWithChildren } from "react";
 import React, { Suspense } from "react";
 
 import type { GetCurrentUserQuery } from "@/__generated__/graphql";
-import OptimisticNavbar from "@/app/components/optimistic-navbar";
-import { UNAUTHORISED_NAVBAR_SECTIONS } from "@/app/constants";
+import OptimisticNavbar from "@/app/(public)/components/optimistic-navbar";
+import { UNAUTHORISED_NAVBAR_SECTIONS } from "@/app/(public)/constants";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { getRoute } from "@/constants/routes";
@@ -16,7 +16,7 @@ function AuthFooter({ data }: { data?: GetCurrentUserQuery }) {
         <Footer
           links={[
             { name: "Search", href: getRoute("Search") },
-            { name: "Account", href: getRoute("Account") },
+            { name: "Profile", href: getRoute("Profile") },
             { name: "How it works", href: "/#how-it-works" },
             { name: "Features", href: "/#features" },
             { name: "Terms", href: getRoute("TermsConditions") },

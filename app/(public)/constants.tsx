@@ -1,15 +1,14 @@
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 
 import type { GetCurrentUserQuery } from "@/__generated__/graphql";
+import GetVerifiedOption from "@/app/(public)/components/get-verified-option";
+import Logout from "@/app/(public)/components/logout";
 import { getRoute } from "@/constants/routes";
-
-import GetVerifiedOption from "./components/get-verified-option";
-import Logout from "./components/logout";
 
 export const NAVBAR_COMMON_ROUTES = [
   { label: "Home", href: getRoute("Home") },
   { label: "Search", href: getRoute("Search") },
-  { label: "Campaigns", href: getRoute("Postings") },
+  { label: "Campaigns", href: getRoute("Campaigns") },
 ];
 
 export const UNAUTHORISED_NAVBAR_SECTIONS = {
@@ -41,11 +40,11 @@ export const AUTHORISED_USER_NAVBAR_SECTIONS = {
 
     {
       label: "Settings",
-      href: getRoute("Account"),
+      href: getRoute("Profile"),
     },
     {
       label: "Logout",
-      href: getRoute("Account"),
+      href: getRoute("Home"),
       render: <Logout />,
     },
   ],
@@ -70,7 +69,7 @@ export const getOnboardedUserNavbarSections = (
           },
           {
             label: "Your applications",
-            href: getRoute("AccountApplications"),
+            href: getRoute("Applications"),
           },
         ]
       : []),
@@ -85,11 +84,11 @@ export const getOnboardedUserNavbarSections = (
         ]),
     {
       label: "Settings",
-      href: getRoute("Account"),
+      href: getRoute("Profile"),
     },
     {
       label: "Logout",
-      href: getRoute("Account"),
+      href: getRoute("Home"),
       render: <Logout />,
     },
   ],

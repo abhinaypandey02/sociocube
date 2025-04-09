@@ -5,7 +5,7 @@ import React from "react";
 
 import { Button } from "@/components/button";
 
-import Modal from "../../components/modal";
+import Modal from "../../../components/modal";
 
 export default function GetVerifiedModal({
   isOpen,

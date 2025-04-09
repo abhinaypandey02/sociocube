@@ -10,13 +10,13 @@ import { GET_ALL_POSTINGS } from "@/lib/queries";
 import SearchWindow from "./components/search-window";
 
 export function generateMetadata() {
-  return getSEO("Find influencer campaigns");
+  return getSEO("Find influencer your-campaigns");
 }
 
 export default function SearchPage() {
   return (
     <>
-      <SubpageRenderer href={Route.AccountApplications}>
+      <SubpageRenderer href={Route.Applications}>
         <Suspense>
           <MyApplications />
         </Suspense>

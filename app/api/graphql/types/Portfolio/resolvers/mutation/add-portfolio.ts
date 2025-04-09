@@ -87,7 +87,7 @@ export async function addPortfolio(
       throw GQLError(500, "Internal error! Please try again!");
 
     if (portfolioCount.count >= MAX_CAMPAIGNS)
-      throw GQLError(400, "Maximum no. of campaigns reached");
+      throw GQLError(400, "Maximum no. of your-campaigns reached");
   }
   const isInstagramMediaURL = args.imageURL.includes("instagram.com");
   if (isInstagramMediaURL) {

@@ -8,4 +8,5 @@ export interface NavItem {
   heading: string;
   icon: ElementType;
   parent?: Route;
+  onlyOnMobile?: boolean;
 }

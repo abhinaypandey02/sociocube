@@ -25,7 +25,7 @@ export default function JobPostings({
       headerElements={
         <Link
           className="z-10 flex items-center gap-2 pt-2 text-lg font-medium text-accent max-md:hidden"
-          href={getRoute("Postings")}
+          href={getRoute("Campaigns")}
         >
           See all postings
           <ArrowRight />
@@ -52,7 +52,7 @@ export default function JobPostings({
               ) : null}
               <div className="min-w-0 flex-auto">
                 <p className="text-lg font-semibold leading-6 text-gray-900">
-                  <Link href={`${getRoute("Postings")}/${posting.id}`}>
+                  <Link href={`${getRoute("Campaigns")}/${posting.id}`}>
                     <span className="absolute inset-x-0 -top-px bottom-0" />
                     {posting.title}
                   </Link>
@@ -109,7 +109,7 @@ export default function JobPostings({
         <MagnifyingGlass weight="bold" /> Looking for more?
         <Link
           className="flex items-center gap-2  font-medium text-accent "
-          href={getRoute("Postings")}
+          href={getRoute("Campaigns")}
         >
           See all postings <ArrowRight />
         </Link>

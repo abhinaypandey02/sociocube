@@ -4,15 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { getRoute } from "@/constants/routes";
-import { queryGQL } from "@/lib/apollo-server";
-import { GET_USER_APPLICATIONS } from "@/lib/queries";
-
-import SendReview from "../../account/campaigns/applications/components/send-review";
+import SendReview from "@/app/(dashboard)/your-campaigns/[id]/applications/components/send-review";
 import {
   getStatusColor,
   getStatusName,
-} from "../../account/campaigns/applications/utils";
+} from "@/app/(dashboard)/your-campaigns/[id]/applications/utils";
+import { getRoute } from "@/constants/routes";
+import { queryGQL } from "@/lib/apollo-server";
+import { GET_USER_APPLICATIONS } from "@/lib/queries";
 
 export default async function MyApplications() {
   const { getUserApplications, getPendingReviews, uploadURL } = await queryGQL(
@@ -33,7 +32,7 @@ export default async function MyApplications() {
           You haven't applied to any campaigns yet.
           <Link
             className="flex items-center gap-2 font-medium underline underline-offset-4"
-            href={getRoute("Postings")}
+            href={getRoute("Campaigns")}
           >
             Apply now <MagnifyingGlass />
           </Link>
@@ -59,7 +58,7 @@ export default async function MyApplications() {
                     <div>
                       <Link
                         className="hover:underline"
-                        href={`${getRoute("Postings")}/${posting.id}`}
+                        href={`${getRoute("Campaigns")}/${posting.id}`}
                       >
                         <h3 className="  gap-1.5  text-lg font-semibold  ">
                           {posting.title}

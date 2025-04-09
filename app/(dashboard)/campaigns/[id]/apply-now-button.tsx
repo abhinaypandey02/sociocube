@@ -57,14 +57,14 @@ export default function ApplyNowButton({
     if (!data?.user)
       return [
         "Sign in to apply",
-        `${getRoute("SignUp")}?redirectURL=${Route.Postings}/${posting.id}`,
+        `${getRoute("SignUp")}?redirectURL=${Route.Campaigns}/${posting.id}`,
         false,
       ];
 
     if (!data.user.isOnboarded)
       return [
         "Onboard to apply",
-        `${getRoute("Onboarding")}?redirectURL=${Route.Postings}/${posting.id}`,
+        `${getRoute("Onboarding")}?redirectURL=${Route.Campaigns}/${posting.id}`,
         false,
       ];
     if (
@@ -74,7 +74,7 @@ export default function ApplyNowButton({
       return ["Not enough followers", null, true];
     if (posting.minimumAge || posting.maximumAge) {
       if (!data.user.dob)
-        return ["Add your DOB to apply", getRoute("Account"), false];
+        return ["Add your DOB to apply", getRoute("Profile"), false];
       const age = getAge(new Date(data.user.dob));
       if (age < (posting.minimumAge || 0) || age > (posting.maximumAge || 1000))
         return ["Not your age group", null, true];
@@ -175,7 +175,7 @@ export default function ApplyNowButton({
         </Form>
       </Modal>
       {editable ? (
-        <Link href={`${getRoute("AccountPostingsEdit")}/${posting.id}`}>
+        <Link href={`${getRoute("YourCampaigns")}/${posting.id}`}>
           <IconButton>
             <Pencil className="text-accent" size={24} weight="duotone" />
           </IconButton>

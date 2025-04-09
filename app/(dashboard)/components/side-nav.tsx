@@ -15,8 +15,10 @@ export default function SideNav({
   setActiveItem: Dispatch<SetStateAction<NavItem | undefined>>;
   activeItem?: NavItem;
 }) {
+  if (activeItem?.onlyOnMobile)
+    activeItem = NAV_ITEMS.find((item) => item.href === activeItem?.parent);
   return (
-    <ul className="space-y-1 border-r border-gray-200 px-3 py-6 max-lg:hidden ">
+    <ul className="space-y-1 shrink-0 border-r border-gray-200 px-3 py-6 max-lg:hidden ">
       <Link
         className="mb-8 block text-primary"
         href={Route.Home}
@@ -24,11 +26,11 @@ export default function SideNav({
       >
         <Logo className="ml-3" size={38} />
       </Link>
-      {NAV_ITEMS.map((item) => (
+      {NAV_ITEMS.filter((item) => !item.onlyOnMobile).map((item) => (
         <Link
           className={classNames(
             "flex gap-2.5 items-center py-3 pl-3 pr-14 hover:bg-gray-100 rounded-lg",
-            activeItem?.href === item.href && "bg-gray-100",
+            activeItem?.href === item.href && "bg-gray-100 text-primary",
           )}
           href={item.href}
           key={item.href}

@@ -18,7 +18,7 @@ const columns = [
     cell: (val) => (
       <Link
         className="hover:underline"
-        href={`${Route.Postings}/${val.row.original.id}`}
+        href={`${Route.Campaigns}/${val.row.original.id}`}
       >
         {val.getValue()}
       </Link>
@@ -39,15 +39,10 @@ const columns = [
     cell: (val) => (
       <Link
         className="flex items-center gap-1"
-        href={`${Route.AccountPostingsApplications}/${val.row.original.id}`}
+        href={`${Route.YourCampaigns}/${val.row.original.id}${Route.Applications}`}
       >
         {val.getValue()}&nbsp;
-        <Link
-          className="text-primary hover:underline"
-          href={`${Route.AccountPostingsApplications}/${val.row.original.id}`}
-        >
-          View
-        </Link>
+        <span className="text-primary hover:underline">View</span>
       </Link>
     ),
   }),
@@ -61,13 +56,13 @@ const columns = [
       <div className="flex gap-2">
         <Link
           className="text-accent"
-          href={`${Route.AccountPostingsEdit}/${val.getValue()}`}
+          href={`${Route.YourCampaigns}/${val.getValue()}`}
         >
           <PencilSimple size={18} />
         </Link>
         <Link
           className="text-accent"
-          href={`${Route.Postings}/${val.row.original.id}`}
+          href={`${Route.Campaigns}/${val.row.original.id}`}
         >
           <ArrowSquareOut size={18} />
         </Link>

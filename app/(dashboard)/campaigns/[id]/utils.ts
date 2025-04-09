@@ -38,5 +38,5 @@ ${
 ${getAgeGroup(posting.minimumAge, posting.maximumAge)}`
     : ""
 }
-Apply now 🚀 ${getRoute("Postings")}/${posting.id}`;
+Apply now 🚀 ${getRoute("Campaigns")}/${posting.id}`;
 }

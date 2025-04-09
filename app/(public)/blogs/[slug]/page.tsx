@@ -3,9 +3,9 @@ import { notFound } from "next/navigation";
 import React from "react";
 import Markdown from "react-markdown";
 
+import Schema from "@/app/(public)/components/schema";
 import { getSEO } from "@/constants/seo";
 
-import Schema from "../../../components/schema";
 import { MARKDOWN_COMPONENTS } from "../markdown-components";
 import { getBlogPost } from "../utils";
 

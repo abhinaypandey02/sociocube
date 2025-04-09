@@ -44,7 +44,7 @@ export default function AccountView({
                       item.onClick();
                     } else {
                       setSelectedSection(i);
-                      router.push(`${getRoute("Account")}/?section=${i}`);
+                      router.push(`${getRoute("Profile")}/?section=${i}`);
                     }
                   }}
                   type="button"

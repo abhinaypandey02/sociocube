@@ -8,15 +8,14 @@ import type { PropsWithChildren } from "react";
 import React, { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 
+import ErrorToaster from "@/app/(public)/components/error-toaster";
+import Schema from "@/app/(public)/components/schema";
 import { getSEO, SEO } from "@/constants/seo";
 import { ApolloWrapper } from "@/lib/apollo-client";
 import { GlobalStateWrapper } from "@/lib/auth-client";
 
-import ErrorToaster from "./components/error-toaster";
-import Schema from "./components/schema";
-
 const madina = localFont({
-  src: "./madina.woff2",
+  src: "../fonts/madina.woff2",
   display: "swap",
   variable: "--font-madina",
 });

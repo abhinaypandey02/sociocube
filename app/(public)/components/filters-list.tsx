@@ -11,7 +11,7 @@ const features = [
   {
     name: "Gender",
     description:
-      "Filter by gender to ensure your campaigns resonate with the right demographics. We are inclusive of all genders <3",
+      "Filter by gender to ensure your your-campaigns resonate with the right demographics. We are inclusive of all genders <3",
   },
   {
     name: "Categories",

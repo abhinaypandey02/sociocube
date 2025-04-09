@@ -12,8 +12,7 @@ import React, {
 } from "react";
 
 import { NavItem } from "@/app/(dashboard)/type";
-
-import GetVerifiedModal from "../app/components/get-verified-modal";
+import GetVerifiedModal from "@/app/(public)/components/get-verified-modal";
 
 const GlobalState = createContext<{
   openSubPage?: NavItem;

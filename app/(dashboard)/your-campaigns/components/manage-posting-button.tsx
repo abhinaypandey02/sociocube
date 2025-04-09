@@ -75,7 +75,7 @@ export default function ManagePostingButton({
             setIsLoading(true);
             deletePosting({ postingID: posting.id })
               .then(() => {
-                router.push(getRoute("AccountPostings"));
+                router.push(getRoute("YourCampaigns"));
               })
               .catch(handleGQLErrors);
           }}
