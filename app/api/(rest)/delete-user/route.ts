@@ -8,8 +8,8 @@ import { LocationTable, PricingTable, UserTable } from "@graphql/User/db";
 import { eq, like } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-import { db } from "../lib/db";
-import { deleteImage } from "../lib/storage/aws-s3";
+import { db } from "../../lib/db";
+import { deleteImage } from "../../lib/storage/aws-s3";
 
 export const GET = async (req: NextRequest) => {
   const email = req.nextUrl.searchParams.get("email");

@@ -1,5 +1,5 @@
 "use client";
-import { INSTAGRAM_AUTHORIZATION_URL } from "@backend/auth/instagram/utils";
+import { INSTAGRAM_AUTHORIZATION_URL } from "@backend/(auth)/instagram/utils";
 import { ArrowSquareOut, SealCheck } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
 

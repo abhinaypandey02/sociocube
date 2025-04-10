@@ -3,8 +3,8 @@ import { ConversationTable } from "@graphql/Chat/db";
 import { eq, or } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-import { db } from "../lib/db";
-import { pusher } from "../lib/socket/send-event";
+import { db } from "../../lib/db";
+import { pusher } from "../../lib/socket/send-event";
 
 export const POST = async (req: NextRequest) => {
   const params = new URLSearchParams(await req.text());

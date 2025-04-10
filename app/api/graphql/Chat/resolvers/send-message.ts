@@ -1,8 +1,11 @@
+import {
+  getConversationChannelName,
+  NEW_MESSAGE,
+} from "@backend/(rest)/pusher/utils";
 import type { AuthorizedContext } from "@backend/lib/auth/context";
 import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
 import { sendEvent } from "@backend/lib/socket/send-event";
-import { getConversationChannelName, NEW_MESSAGE } from "@backend/pusher/utils";
 import { and, eq } from "drizzle-orm";
 
 import { ConversationMessageTable, ConversationTable } from "../db";

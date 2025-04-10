@@ -31,7 +31,7 @@ export const GET = async (req: NextRequest) => {
       state,
       include_granted_scopes: true,
       prompt: "consent",
-      redirect_uri: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/google`,
+      redirect_uri: `${process.env.NEXT_PUBLIC_BASE_URL}/api/google`,
     });
     const res = NextResponse.redirect(authorizationUrl);
     res.cookies.set("state", state, {

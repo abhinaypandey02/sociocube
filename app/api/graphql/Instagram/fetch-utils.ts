@@ -1,9 +1,9 @@
+import { getGraphUrl } from "@backend/(auth)/instagram/utils";
 import { InstagramMediaType } from "@backend/lib/constants/instagram-media-type";
 import { getER } from "@backend/lib/utils/math";
 import { and, eq } from "drizzle-orm";
 import { notInArray } from "drizzle-orm/sql/expressions/conditions";
 
-import { getGraphUrl } from "../../auth/instagram/utils";
 import { db } from "../../lib/db";
 import { instagramRapidAPI } from "../../lib/rapidapi/instagram";
 import { InstagramDetails } from "./db";

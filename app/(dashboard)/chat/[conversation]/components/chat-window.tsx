@@ -1,5 +1,8 @@
 "use client";
-import { getConversationChannelName, NEW_MESSAGE } from "@backend/pusher/utils";
+import {
+  getConversationChannelName,
+  NEW_MESSAGE,
+} from "@backend/(rest)/pusher/utils";
 import Pusher from "pusher-js";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

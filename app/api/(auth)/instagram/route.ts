@@ -9,7 +9,7 @@ import { getUserIdFromAccessToken } from "../../lib/auth/token";
 import { db } from "../../lib/db";
 import { getGraphData, getLongLivedToken } from "./utils";
 
-const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/instagram`;
+const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BASE_URL}/api/instagram`;
 
 const handleError = (message: string) =>
   NextResponse.redirect(

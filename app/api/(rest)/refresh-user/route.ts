@@ -3,7 +3,7 @@
 // import { db } from "../../../lib/db";
 // import { UserTable } from "../../graphql/types/User/db/schema";
 // import { InstagramDetails } from "../../graphql/types/Instagram/db/schema";
-// import { getRefreshedAccessToken } from "../../auth/instagram/utils";
+// import { getRefreshedAccessToken } from "../../(auth)/instagram/utils";
 //
 // export const POST = async () => {
 //   const currentDate = new Date();

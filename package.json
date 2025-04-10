@@ -34,7 +34,6 @@
     "bcryptjs": "^3.0.2",
     "class-validator": "^0.14.1",
     "class-variance-authority": "^0.7.1",
-    "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "drizzle-kit": "^0.24.2",
     "drizzle-orm": "^0.33.0",
