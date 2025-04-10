@@ -50,7 +50,7 @@ const BRANDS = [
 
 export default function BrandsSlider() {
   return (
-    <Slider blurBorderColor="#f9f8f4" blurBorders duration={60} width="200px">
+    <Slider blurBorderColor="#fdfcfb" blurBorders duration={60} width="200px">
       {BRANDS.map((brand) => (
         <Slider.Slide key={brand.id}>
           <Link href={`${getRoute("Campaigns")}/${brand.id}`}>
