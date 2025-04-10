@@ -10,7 +10,7 @@ import { getRoute } from "@/constants/routes";
 
 export default function Hero() {
   return (
-    <div className="relative isolate bg-linear-to-b to-transparent from-0% to-100% via-80% via-accent-bg/75 from-accent-bg">
+    <div className="relative isolate bg-linear-to-b to-transparent from-0% to-100% via-60% via-accent-bg/80 from-accent-bg">
       <div className="mx-auto -mt-20 max-w-7xl overflow-hidden px-6 pb-5 pt-4 text-center sm:mb-16 sm:pt-48 lg:px-8">
         <p className="mb-3 font-medium tracking-wide text-gray-800">
           BIGGEST INFLUENCER MARKETING PLATFORM
