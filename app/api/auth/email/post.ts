@@ -1,6 +1,6 @@
-import { getVerificationLink } from "@graphql/types/Request/resolvers/mutation/send-verification-email";
-import { UserTable } from "@graphql/types/User/db/schema";
-import { createUser, getUser } from "@graphql/types/User/db/utils";
+import { getVerificationLink } from "@graphql/Request/resolvers/send-verification-email";
+import { UserTable } from "@graphql/User/db";
+import { createUser, getUser } from "@graphql/User/utils";
 import { hash } from "bcryptjs";
 import { eq } from "drizzle-orm";
 

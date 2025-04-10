@@ -1,6 +1,6 @@
-import { InstagramDetails } from "@graphql/types/Instagram/db/schema";
-import { UserTable } from "@graphql/types/User/db/schema";
-import { getUser } from "@graphql/types/User/db/utils";
+import { InstagramDetails } from "@graphql/Instagram/db";
+import { UserTable } from "@graphql/User/db";
+import { getUser } from "@graphql/User/utils";
 import { and, eq, ne } from "drizzle-orm";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";

@@ -1,14 +1,10 @@
-import { ApplicationTable } from "@graphql/types/Application/db/schema";
-import { InstagramDetails } from "@graphql/types/Instagram/db/schema";
-import { InstagramMediaTable } from "@graphql/types/Instagram/db/schema2";
-import { PortfolioTable } from "@graphql/types/Portfolio/db/schema";
-import { RequestTable } from "@graphql/types/Request/db/schema";
-import { ReviewTable } from "@graphql/types/Review/db/schema";
-import {
-  LocationTable,
-  PricingTable,
-  UserTable,
-} from "@graphql/types/User/db/schema";
+import { ApplicationTable } from "@graphql/Application/db";
+import { InstagramDetails } from "@graphql/Instagram/db";
+import { InstagramMediaTable } from "@graphql/Instagram/db2";
+import { PortfolioTable } from "@graphql/Portfolio/db";
+import { RequestTable } from "@graphql/Request/db";
+import { ReviewTable } from "@graphql/Review/db";
+import { LocationTable, PricingTable, UserTable } from "@graphql/User/db";
 import { eq, like } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 

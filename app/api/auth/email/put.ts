@@ -1,5 +1,5 @@
-import { UserTable } from "@graphql/types/User/db/schema";
-import { getUser } from "@graphql/types/User/db/utils";
+import { UserTable } from "@graphql/User/db";
+import { getUser } from "@graphql/User/utils";
 import { compare } from "bcryptjs";
 import { eq } from "drizzle-orm";
 

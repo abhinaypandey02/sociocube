@@ -6,31 +6,56 @@ import {
   ApolloServerPluginLandingPageProductionDefault,
 } from "@apollo/server/plugin/landingPage/default";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
+import { ApplicationFieldResolvers } from "@graphql/Application/fields";
+import { ApplicationMutationResolver } from "@graphql/Application/mutations";
+import { ApplicationQueryResolver } from "@graphql/Application/queries";
+import { ChatFieldResolvers } from "@graphql/Chat/fields";
+import { ChatMutationResolvers } from "@graphql/Chat/mutations";
+import { ChatQueryResolvers } from "@graphql/Chat/queries";
+import { MapQueryResolvers } from "@graphql/Map/queries";
+import { PortfolioFieldResolvers } from "@graphql/Portfolio/fields";
+import { PortfolioMutationResolver } from "@graphql/Portfolio/mutations";
+import { PortfolioQueryResolver } from "@graphql/Portfolio/queries";
+import { PostingFieldResolvers } from "@graphql/Posting/fields";
+import { PostingMutationResolvers } from "@graphql/Posting/mutations";
+import { PostingQueryResolvers } from "@graphql/Posting/queries";
+import { RequestMutationResolver } from "@graphql/Request/mutations";
+import { RequestQueryResolver } from "@graphql/Request/queries";
+import { ReviewFieldResolvers } from "@graphql/Review/fields";
+import { ReviewMutationResolver } from "@graphql/Review/mutations";
+import { ReviewQueryResolver } from "@graphql/Review/queries";
+import { UserFieldResolver } from "@graphql/User/fields";
+import { UserMutationResolver } from "@graphql/User/mutations";
+import { UserQueryResolver } from "@graphql/User/queries";
 import type { NextRequest } from "next/server";
 import { buildTypeDefsAndResolvers } from "type-graphql";
 
-import type { AuthorizedContext, Context } from "./context";
-import { authChecker, context } from "./context";
-import { ApplicationResolvers } from "./types/Application/resolvers";
-import { ChatResolvers } from "./types/Chat/resolvers";
-import { MapResolvers } from "./types/Map/resolvers";
-import { PortfolioResolvers } from "./types/Portfolio/resolvers";
-import { PostingResolvers } from "./types/Posting/resolvers";
-import { RequestResolvers } from "./types/Request/resolvers";
-import { ReviewResolvers } from "./types/Review/resolvers";
-import { UserResolvers } from "./types/User/resolvers";
+import type { AuthorizedContext, Context } from "../lib/auth/context";
+import { authChecker, context } from "../lib/auth/context";
 
 const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
-  // @ts-expect-error -- This is needed as the type Function is hardcoded
   resolvers: [
-    ...UserResolvers,
-    ...ChatResolvers,
-    ...MapResolvers,
-    ...PostingResolvers,
-    ...ApplicationResolvers,
-    ...RequestResolvers,
-    ...PortfolioResolvers,
-    ...ReviewResolvers,
+    ApplicationFieldResolvers,
+    ApplicationMutationResolver,
+    ApplicationQueryResolver,
+    ChatQueryResolvers,
+    ChatMutationResolvers,
+    ChatFieldResolvers,
+    MapQueryResolvers,
+    PortfolioQueryResolver,
+    PortfolioMutationResolver,
+    PortfolioFieldResolvers,
+    PostingFieldResolvers,
+    PostingQueryResolvers,
+    PostingMutationResolvers,
+    RequestMutationResolver,
+    RequestQueryResolver,
+    ReviewFieldResolvers,
+    ReviewMutationResolver,
+    ReviewQueryResolver,
+    UserQueryResolver,
+    UserMutationResolver,
+    UserFieldResolver,
   ],
   authChecker,
   validate: true,

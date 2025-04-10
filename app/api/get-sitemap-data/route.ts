@@ -1,5 +1,5 @@
-import { PostingTable } from "@graphql/types/Posting/db/schema";
-import { UserTable } from "@graphql/types/User/db/schema";
+import { PostingTable } from "@graphql/Posting/db";
+import { UserTable } from "@graphql/User/db";
 import { eq, isNotNull } from "drizzle-orm";
 import { NextResponse } from "next/server";
 

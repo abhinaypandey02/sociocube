@@ -1,7 +1,7 @@
 import { generateRefreshToken } from "@backend/lib/auth/token";
 import { db } from "@backend/lib/db";
-import { UserTable } from "@graphql/types/User/db/schema";
-import { createUser } from "@graphql/types/User/db/utils";
+import { UserTable } from "@graphql/User/db";
+import { createUser } from "@graphql/User/utils";
 import { eq } from "drizzle-orm";
 import { google } from "googleapis";
 import type { NextRequest } from "next/server";

@@ -1,5 +1,5 @@
-import { context } from "@graphql/context";
-import { ConversationTable } from "@graphql/types/Chat/db/schema";
+import { context } from "@backend/lib/auth/context";
+import { ConversationTable } from "@graphql/Chat/db";
 import { eq, or } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
