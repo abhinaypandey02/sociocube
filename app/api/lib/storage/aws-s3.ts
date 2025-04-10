@@ -52,7 +52,7 @@ export async function uploadImage(url: string, key: string[], blob?: Blob) {
       body: photoBlob,
     });
     if (res.ok) return getFileURL(key);
-  } catch (e) {
+  } catch {
     return null;
   }
 }

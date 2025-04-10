@@ -63,7 +63,7 @@ export default function AddPortfolioButton({
             method: "PUT",
             body: image,
           });
-        } catch (e) {
+        } catch {
           setImage(undefined);
           setLoading(false);
           return;

@@ -1,5 +1,4 @@
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 

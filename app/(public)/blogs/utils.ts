@@ -28,7 +28,7 @@ export function getBlogPost(id: string) {
       description: matterResult.data.description as string,
       content: matterResult.content,
     };
-  } catch (e) {
+  } catch {
     return null;
   }
 }

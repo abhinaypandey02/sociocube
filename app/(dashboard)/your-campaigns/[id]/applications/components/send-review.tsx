@@ -80,7 +80,7 @@ export default function SendReview({
                   method: "PUT",
                   body: image,
                 });
-              } catch (e) {
+              } catch {
                 setImage(undefined);
                 setLoading(false);
                 return;

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import React from "react";
 
-import BrandsSlider from "@/app/(public)/components/brands-slider";
 import Faqs from "@/app/(public)/components/faqs";
 import Hero from "@/app/(public)/components/hero";
 import JobPostings from "@/app/(public)/components/job-postings";

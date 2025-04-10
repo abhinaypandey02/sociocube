@@ -43,7 +43,7 @@ export async function getGroqResponse<T>(system: string, message?: string) {
   if (!json) return null;
   try {
     return JSON.parse(json) as T;
-  } catch (e) {
+  } catch {
     return null;
   }
 }
