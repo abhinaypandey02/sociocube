@@ -51,7 +51,7 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
     useState<boolean>(false);
 
   useEffect(() => {
-    fetch(`/api/auth/email`, {
+    fetch(`/api/email`, {
       credentials: "include",
     })
       .then(async (res) => {
@@ -97,7 +97,7 @@ export function useSignUpWithEmail() {
       name: string,
       captchaToken: string,
     ) => {
-      const res = await fetch(`/api/auth/email`, {
+      const res = await fetch(`/api/email`, {
         method: "POST",
         body: JSON.stringify({
           email,
@@ -120,7 +120,7 @@ export function useLoginWithEmail() {
   const { setToken } = useContext(GlobalState);
   return useCallback(
     async (email: string, password: string, captchaToken: string) => {
-      const res = await fetch(`/api/auth/email`, {
+      const res = await fetch(`/api/email`, {
         method: "PUT",
         body: JSON.stringify({
           email,
@@ -141,7 +141,7 @@ export function useLoginWithEmail() {
 export function useLogout() {
   const { setToken } = useContext(GlobalState);
   return useCallback(async () => {
-    const res = await fetch(`/api/auth/email`, {
+    const res = await fetch(`/api/email`, {
       method: "DELETE",
       credentials: "include",
     });
