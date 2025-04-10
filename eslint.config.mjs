@@ -17,8 +17,8 @@ export default [
     rules: {
       "no-console": ["error", { allow: ["warn", "error"] }],
       "react/no-unescaped-entities": 0,
-      "simple-import-sort/imports": "error",
-      "simple-import-sort/exports": "error",
+      "simple-import-sort/imports": "warn",
+      "simple-import-sort/exports": "warn",
     },
   },
   prettierConfig,
