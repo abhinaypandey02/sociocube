@@ -6,6 +6,7 @@
   --color-accent: #6358de;
   --color-dark: #141414;
   --color-primary-bg: #fff;
+  --color-accent-bg: #f5f3ea;
 
   --radius-primary: 4px;
 
@@ -21,6 +22,7 @@
   --shadow-elevation-1: 0 1px 2px 0 #0000004d, 0 1px 3px 1px #00000026;
   --shadow-elevation-2: 0 1px 2px 0 #0000004d, 0 2px 6px 2px #00000026;
   --shadow-elevation-3: 0 1px 3px 0 #0000004d, 0 4px 8px 3px #00000026;
+  --shadow-light-button: 0px 16px 16px -8px rgba(25, 26, 26, 0.02), 0px 8px 8px -4px rgba(25, 26, 26, 0.02), 0px 4px 4px -2px rgba(25, 26, 26, 0.02), 0px 2px 2px -1px rgba(25, 26, 26, 0.03), 0px 1px 1px -0.5px rgba(25, 26, 26, 0.03), 0px 0px 0px 1.25px rgba(25, 26, 26, 0.10);
 
   --font-poppins: var(--font-poppins);
   --font-madina: var(--font-madina);

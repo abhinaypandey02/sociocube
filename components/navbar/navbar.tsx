@@ -48,16 +48,15 @@ function Navbar({
         <nav
           aria-label="Global"
           className={classNames(
-            " mx-auto flex max-w-7xl ease-in-out transition-colors duration-300 items-center justify-between rounded-xl  px-3 py-2  sm:gap-x-6 sm:py-1",
+            " mx-auto flex max-w-7xl ease-in-out text-gray-900 transition-colors duration-300 items-center justify-between rounded-xl  px-3 py-2  sm:gap-x-6 sm:py-1",
             !darkOnTop || scrollPosition > 50
-              ? "bg-primary-bg shadow-sm text-gray-900"
-              : "bg-transparent text-white",
+              ? "bg-primary-bg shadow-sm "
+              : "bg-transparent",
           )}
         >
           <Link
             className={classNames(
-              " flex items-center gap-2 transition-colors ease-in-out duration-300 leading-none  sm:text-6xl",
-              !darkOnTop || scrollPosition > 50 ? "text-primary" : "text-white",
+              " flex items-center gap-2 transition-colors ease-in-out duration-300 leading-none text-primary sm:text-6xl",
             )}
             href={process.env.NEXT_PUBLIC_BASE_URL || "/public"}
           >

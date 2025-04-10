@@ -31,7 +31,7 @@ async function HomePage() {
     GET_FEATURED_SELLERS_AND_POSTS,
     undefined,
     undefined,
-    60,
+    3600,
   );
   return (
     <>
@@ -50,7 +50,6 @@ async function HomePage() {
         id="org"
       />
       <Hero />
-      <BrandsSlider />
       <TopCreators sellers={sellers} />
       <JobPostings postings={postings} />
       <HowItWorks />

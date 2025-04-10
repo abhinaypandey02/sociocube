@@ -26,8 +26,8 @@ function Button({
   return (
     <button
       className={classNames(
-        "relative disabled:brightness-80 ring-0 duration-200 flex justify-center transition-all cursor-pointer font-semibold leading-6 shadow-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
-        borderless && "border-none shadow-none",
+        "relative disabled:brightness-80 ring-0 duration-200 flex justify-center transition-all cursor-pointer font-semibold leading-6 focus-visible:outline-2 focus-visible:outline-offset-2",
+        borderless ? "border-none" : "shadow-sm",
         square ? "p-3" : compact ? "px-3 py-1 " : "px-4 py-2 ",
         compact ? "rounded-lg" : "rounded-xl",
         variant === Variants.PRIMARY && {
@@ -44,7 +44,7 @@ function Button({
         },
         !disabled && !loading && "active:brightness-95",
         !invert && "hover:brightness-90 transition-[filter] text-white",
-        invert && "border ",
+        invert && "border shadow-light-button",
         loading ? "cursor-progress" : "disabled:cursor-not-allowed",
         className,
       )}
