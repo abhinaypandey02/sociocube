@@ -39,7 +39,7 @@ export default function SearchWindow({
       {!loading &&
         data?.postings.map((posting) => (
           <div className="h-full snap-start py-5" key={posting.id}>
-            <div className="h-full border-gray-200 bg-primary-bg px-4 lg:rounded-xl lg:border lg:p-8 lg:shadow-md">
+            <div className="h-full border-gray-200 bg-background px-4 lg:rounded-xl lg:border lg:p-8 lg:shadow-md">
               <div className="px-4 sm:px-0">
                 <div className="flex items-start justify-between gap-5 max-lg:flex-wrap">
                   <div>

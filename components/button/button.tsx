@@ -1,9 +1,9 @@
 import { CircleNotch } from "@phosphor-icons/react/dist/ssr";
-import classNames from "classnames";
 import type { PropsWithChildren } from "react";
 import React from "react";
 
 import { Variants } from "@/components/constants";
+import { cn } from "@/lib/utils";
 
 import type { ButtonProps } from "./types";
 
@@ -25,7 +25,7 @@ function Button({
 }: PropsWithChildren<ButtonProps>) {
   return (
     <button
-      className={classNames(
+      className={cn(
         "relative disabled:brightness-80 ring-0 duration-200 flex justify-center transition-all cursor-pointer font-semibold leading-6 focus-visible:outline-2 focus-visible:outline-offset-2",
         borderless ? "border-none" : "shadow-sm",
         square ? "p-3" : compact ? "px-4 py-1 " : "px-4 py-2 ",

@@ -12,8 +12,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import classNames from "classnames";
 import React, { useState } from "react";
+
+import { cn } from "@/lib/utils";
 
 export default function Table<T>({
   data,
@@ -52,7 +53,7 @@ export default function Table<T>({
               {headerGroup.headers.map((header) => {
                 return (
                   <th
-                    className={classNames(
+                    className={cn(
                       "py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3",
                       header.column.getCanSort() && "cursor-pointer",
                     )}

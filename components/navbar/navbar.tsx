@@ -7,7 +7,6 @@ import {
   Transition,
 } from "@headlessui/react";
 import { List, User, X } from "@phosphor-icons/react";
-import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,6 +14,7 @@ import React, { useEffect, useState } from "react";
 
 import Logo from "@/app/logo";
 import { Button } from "@/components/button";
+import { cn } from "@/lib/utils";
 
 import type { NavbarProps } from "./types";
 
@@ -47,15 +47,15 @@ function Navbar({
       <Menu as="div" className="relative">
         <nav
           aria-label="Global"
-          className={classNames(
+          className={cn(
             " mx-auto flex max-w-7xl ease-in-out text-gray-900 transition-colors duration-300 items-center justify-between rounded-xl  px-3 py-2  sm:gap-x-6 sm:py-1",
             !darkOnTop || scrollPosition > 50
-              ? "bg-primary-bg shadow-sm "
+              ? "bg-background shadow-sm "
               : "bg-transparent",
           )}
         >
           <Link
-            className={classNames(
+            className={cn(
               " flex items-center gap-2 transition-colors ease-in-out duration-300 leading-none text-primary sm:text-6xl",
             )}
             href={process.env.NEXT_PUBLIC_BASE_URL || "/public"}
@@ -68,7 +68,7 @@ function Navbar({
               (item) =>
                 item.render || (
                   <Link
-                    className={classNames(
+                    className={cn(
                       "text-base font-semibold leading-6  hover:underline  hover:underline-offset-8 ",
                       activeHref === item.href
                         ? "pointer-events-none underline-offset-8 underline"
@@ -118,7 +118,7 @@ function Navbar({
                         {({ focus }) =>
                           item.render || (
                             <Link
-                              className={classNames(
+                              className={cn(
                                 focus ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700",
                               )}
@@ -137,7 +137,7 @@ function Navbar({
             ) : (
               secondaryLinks.map((item) => (
                 <Link
-                  className={classNames(
+                  className={cn(
                     "max-lg:hidden lg:text-base lg:font-medium lg:leading-6 hover:underline hover:underline-offset-8 ",
                     activeHref === item.href
                       ? "pointer-events-none underline-offset-8 underline"
@@ -156,7 +156,7 @@ function Navbar({
                 <Button
                   compact
                   {...cta.button}
-                  className={classNames(cta.button.className, "max-sm:text-sm")}
+                  className={cn(cta.button.className, "max-sm:text-sm")}
                   disabled={disableCTA}
                 />
               </Link>
@@ -189,7 +189,7 @@ function Navbar({
                 {({ focus }) =>
                   item.render || (
                     <Link
-                      className={classNames(
+                      className={cn(
                         focus ? "bg-gray-100" : "",
                         "block px-4 py-3  text-gray-700",
                       )}
@@ -207,7 +207,7 @@ function Navbar({
                 {({ focus }) =>
                   item.render || (
                     <Link
-                      className={classNames(
+                      className={cn(
                         focus ? "bg-gray-100" : "",
                         "block px-4 py-3  text-gray-700",
                       )}

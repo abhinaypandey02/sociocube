@@ -1,8 +1,9 @@
-import classNames from "classnames";
 import type { PropsWithChildren } from "react";
 import React from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
+
+import { cn } from "@/lib/utils";
 
 import { getBaseClassName, getInputErrorMessages } from "./constants";
 import Select from "./select";
@@ -61,7 +62,7 @@ function Input({
     error ||
     formError?.message?.toString() ||
     getInputErrorMessages(formError?.type?.toString());
-  const className = classNames(
+  const className = cn(
     getBaseClassName(
       Boolean(suffix),
       Boolean(prefix),

@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import React, {
   useCallback,
   useEffect,
@@ -7,6 +6,8 @@ import React, {
   useState,
 } from "react";
 import { useFormContext, type UseFormReturn } from "react-hook-form";
+
+import { cn } from "@/lib/utils";
 
 import Dropdown from "../dropdown/dropdown";
 import type { SelectOption, SelectProps } from "./types";
@@ -84,7 +85,7 @@ function Select({ options, rules, ...rest }: SelectProps) {
         ) : (
           filteredOptions.map((option) => (
             <button
-              className={classNames(
+              className={cn(
                 `focus:bg-primary hover:bg-primary my-1 block w-full rounded-primary px-3 py-1 text-sm text-left transition-colors outline-0 focus:bg-opacity-5 hover:bg-opacity-5`,
               )}
               key={option.value}

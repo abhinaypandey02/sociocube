@@ -1,10 +1,10 @@
 "use client";
 import { CaretLeft } from "@phosphor-icons/react";
-import classNames from "classnames";
 import React, { PropsWithChildren } from "react";
 
 import { Route } from "@/constants/routes";
 import { useSubPage } from "@/lib/auth-client";
+import { cn } from "@/lib/utils";
 
 export default function SubpageRenderer({
   children,
@@ -15,8 +15,8 @@ export default function SubpageRenderer({
   const { openSubPage, setOpenSubPage } = useSubPage();
   return (
     <div
-      className={classNames(
-        "absolute inset-0 z-10 size-full  bg-primary-bg transition-transform",
+      className={cn(
+        "absolute inset-0 z-10 size-full  bg-background transition-transform",
         openSubPage?.href !== href && "translate-x-full",
       )}
       key={href}

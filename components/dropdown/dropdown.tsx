@@ -1,5 +1,6 @@
-import classNames from "classnames";
 import React, { useEffect, useState } from "react";
+
+import { cn } from "@/lib/utils";
 
 import type { DropdownProps } from "./types";
 
@@ -31,7 +32,7 @@ function Dropdown({ trigger, children, onOpen }: DropdownProps) {
       </div>
       {isOpen ? (
         <div
-          className={classNames(
+          className={cn(
             "shadow-elevation-1 z-10 duration-300 absolute left-0 transition-opacity top-full max-h-60 overflow-auto min-w-full w-max translate-y-2 rounded-primary bg-white p-2 ",
             isOpenFresh ? "opacity-100" : "opacity-0",
           )}

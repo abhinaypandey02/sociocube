@@ -20,7 +20,6 @@ import {
   X,
 } from "@phosphor-icons/react";
 import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
-import classNames from "classnames";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,10 +34,11 @@ import type {
 import { SearchFilterSorting } from "@/__generated__/graphql";
 import { Input } from "@/components/input";
 import { getRoute } from "@/constants/routes";
-import { convertToAbbreviation } from "@/lib/utils";
+import { cn, convertToAbbreviation } from "@/lib/utils";
 
 import { SEARCH_FILTERS } from "../constants";
 import SearchLoading from "./search-loading";
+
 const NoResults = dynamic(() => import("./no-results"));
 const MobileFilterPanel = dynamic(() => import("./mobile-filter-panel"));
 
@@ -200,7 +200,7 @@ export default function SearchWindow({
                   {SORT_OPTIONS.map((option) => (
                     <MenuItem key={option.id}>
                       <button
-                        className={classNames(
+                        className={cn(
                           variables.sortBy === option.id ? "font-semibold" : "",
                           " px-4 py-2 text-sm text-gray-700 hover:bg-gray-100",
                         )}

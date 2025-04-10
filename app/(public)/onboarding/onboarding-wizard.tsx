@@ -11,7 +11,6 @@ import {
   ShareNetwork,
 } from "@phosphor-icons/react";
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
-import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -21,6 +20,7 @@ import type {
 } from "@/__generated__/graphql";
 import { Roles } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
+import { cn } from "@/lib/utils";
 
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
 import OnboardingDOB from "./onboarding-dob";
@@ -309,10 +309,7 @@ function OnboardingWizard({
             </div>
             {steps.map((stepValue, i) => (
               <div
-                className={classNames(
-                  "h-full sm:px-6 ",
-                  i !== step && "hidden",
-                )}
+                className={cn("h-full sm:px-6 ", i !== step && "hidden")}
                 key={stepValue.key || stepValue.heading}
               >
                 <h2 className="mb-1 mt-6 text-center font-poppins text-3xl font-semibold sm:mt-14">

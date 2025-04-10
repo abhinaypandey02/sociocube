@@ -1,10 +1,10 @@
 "use client";
-import classNames from "classnames";
 import Link from "next/link";
 import React, { Dispatch, SetStateAction } from "react";
 
 import { PRIMARY_NAV_ITEMS } from "@/app/(dashboard)/constants";
 import { NavItem } from "@/app/(dashboard)/type";
+import { cn } from "@/lib/utils";
 
 export default function BottomNav({
   setActiveItem,
@@ -17,7 +17,7 @@ export default function BottomNav({
     <div className="flex items-center justify-around border-t border-gray-200 py-3 px-7 gap-4 shadow-xl lg:hidden">
       {PRIMARY_NAV_ITEMS.map((item) => (
         <Link
-          className={classNames(
+          className={cn(
             "flex flex-col items-center",
             activeItem?.href === item.href && "text-accent",
           )}

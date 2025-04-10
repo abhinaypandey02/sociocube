@@ -1,6 +1,7 @@
-import classNames from "classnames";
 import type { PropsWithChildren, ReactNode } from "react";
 import React from "react";
+
+import { cn } from "@/lib/utils";
 
 export default function SectionWrapper({
   children,
@@ -28,7 +29,7 @@ export default function SectionWrapper({
       id={id}
     >
       <div
-        className={classNames(
+        className={cn(
           "mb-10 flex items-start sm:mb-20 justify-between",
           {
             "sm:justify-center": center,

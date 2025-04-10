@@ -1,5 +1,4 @@
 "use client";
-import classNames from "classnames";
 import Link from "next/link";
 import React from "react";
 import { Rating } from "react-simple-star-rating";
@@ -9,6 +8,7 @@ import type {
   GetSellerQuery,
 } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
+import { cn } from "@/lib/utils";
 
 import LinkWrapper from "../../../../../components/link-wrapper";
 import DeletePortfolioButton from "./delete-portfolio-button";
@@ -38,7 +38,7 @@ export default function Review({
           >
             <img
               alt={review.name}
-              className={classNames(
+              className={cn(
                 review.portfolio?.imageURL
                   ? "rounded-md size-14"
                   : "rounded-full size-12",

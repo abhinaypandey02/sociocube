@@ -197,7 +197,7 @@ export default function CreateNewPostingForm({
       {!existingPosting && (
         <div className="relative my-12">
           <hr />
-          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary-bg px-2 font-poppins font-medium">
+          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 font-poppins font-medium">
             or
           </span>
         </div>

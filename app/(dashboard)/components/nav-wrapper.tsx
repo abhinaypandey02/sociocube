@@ -1,5 +1,4 @@
 "use client";
-import classNames from "classnames";
 import { usePathname } from "next/navigation";
 import React, { PropsWithChildren, useEffect, useMemo, useState } from "react";
 
@@ -9,6 +8,7 @@ import TopNav from "@/app/(dashboard)/components/top-nav";
 import { NAV_ITEMS } from "@/app/(dashboard)/constants";
 import { SEO } from "@/constants/seo";
 import { useSubPage } from "@/lib/auth-client";
+import { cn } from "@/lib/utils";
 
 const getActiveItem = (pathname: string) =>
   NAV_ITEMS.find(
@@ -31,13 +31,13 @@ export default function NavWrapper({ children }: PropsWithChildren) {
   return (
     <>
       <div
-        className={classNames(
+        className={cn(
           "mx-auto flex w-full  max-w-7xl grow",
           openSubPage ? "overflow-hidden" : "overflow-auto",
         )}
       >
         <SideNav activeItem={activeItem} setActiveItem={setActiveItem} />
-        <div className={classNames("relative w-full grow flex flex-col ")}>
+        <div className={cn("relative w-full grow flex flex-col ")}>
           <TopNav
             subLinks={subPages}
             title={activeItem?.heading || SEO.companyName}

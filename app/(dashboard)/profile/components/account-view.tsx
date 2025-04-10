@@ -1,10 +1,10 @@
 "use client";
-import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import type { GetAccountDetailsQuery } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
+import { cn } from "@/lib/utils";
 
 import { useAccountSections } from "../constants";
 
@@ -33,7 +33,7 @@ export default function AccountView({
             {ACCOUNT_SECTIONS.map((item, i) => (
               <li key={item.title}>
                 <button
-                  className={classNames(
+                  className={cn(
                     selectedSection === i
                       ? "bg-gray-50 text-accent"
                       : "text-gray-700 hover:text-accent hover:bg-gray-50",
@@ -51,7 +51,7 @@ export default function AccountView({
                 >
                   <item.icon
                     aria-hidden="true"
-                    className={classNames(
+                    className={cn(
                       selectedSection === i
                         ? "text-accent"
                         : "text-gray-400 group-hover:text-accent",

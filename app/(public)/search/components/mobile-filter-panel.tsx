@@ -34,7 +34,7 @@ export default function MobileFilterPanel({
 
       <div className=" fixed inset-0 z-40 flex">
         <DialogPanel
-          className="relative ml-auto flex size-full max-w-xs flex-col overflow-y-auto bg-primary-bg py-4 pb-12 shadow-xl transition duration-300 ease-in-out data-closed:translate-x-full"
+          className="relative ml-auto flex size-full max-w-xs flex-col overflow-y-auto bg-background py-4 pb-12 shadow-xl transition duration-300 ease-in-out data-closed:translate-x-full"
           transition
         >
           <div className="flex items-center justify-between px-4">

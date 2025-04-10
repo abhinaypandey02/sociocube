@@ -1,5 +1,4 @@
 "use client";
-import classNames from "classnames";
 import Link from "next/link";
 import React, { Dispatch, SetStateAction } from "react";
 
@@ -7,6 +6,7 @@ import { NAV_ITEMS } from "@/app/(dashboard)/constants";
 import { NavItem } from "@/app/(dashboard)/type";
 import Logo from "@/app/logo";
 import { Route } from "@/constants/routes";
+import { cn } from "@/lib/utils";
 
 export default function SideNav({
   setActiveItem,
@@ -28,7 +28,7 @@ export default function SideNav({
       </Link>
       {NAV_ITEMS.filter((item) => !item.onlyOnMobile).map((item) => (
         <Link
-          className={classNames(
+          className={cn(
             "flex gap-2.5 items-center py-3 pl-3 pr-14 hover:bg-gray-100 rounded-lg",
             activeItem?.href === item.href && "bg-gray-100 text-primary",
           )}
