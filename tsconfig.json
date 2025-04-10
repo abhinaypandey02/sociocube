@@ -37,7 +37,7 @@
         "./app/api/*"
       ],
       "@graphql/*": [
-        "./app/api/graphql/*"
+        "./app/api/(graphql)/*"
       ]
     },
     "plugins": [
