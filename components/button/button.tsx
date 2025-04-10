@@ -26,29 +26,25 @@ function Button({
   return (
     <button
       className={classNames(
-        "relative ring-0 border  duration-200 flex justify-center transition-all  font-semibold leading-6 shadow-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
+        "relative disabled:brightness-80 ring-0 duration-200 flex justify-center transition-all cursor-pointer font-semibold leading-6 shadow-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
         borderless && "border-none shadow-none",
         square ? "p-3" : compact ? "px-3 py-1 " : "px-4 py-2 ",
         compact ? "rounded-lg" : "rounded-xl",
         variant === Variants.PRIMARY && {
-          "focus-visible:outline-primary bg-primary": true,
-          "border-primary": !borderless,
-          "text-primary ": invert,
+          "focus-visible:outline-primary bg-gradient-primary ": !invert,
+          "text-primary border-primary hover:bg-primary/10": invert,
         },
         variant === Variants.ACCENT && {
-          "focus-visible:outline-accent bg-accent": true,
-          "border-accent": !borderless,
-          "text-accent ": invert,
+          "focus-visible:outline-accent bg-gradient-accent": !invert,
+          "text-accent border-accent hover:bg-accent/10": invert,
         },
         variant === Variants.DARK && {
-          "focus-visible:outline-dark bg-dark": true,
-          "border-dark": !borderless,
-          "text-dark ": invert,
+          "focus-visible:outline-dark bg-gradient-dark": !invert,
+          "text-dark border-dark hover:bg-dark/10": invert,
         },
-        !disabled && !loading && "active:brightness-110",
-        !invert &&
-          "disabled:bg-opacity-50 disabled:border-opacity-0 hover:brightness-95 transition-[filter] text-white",
-        invert && " bg-opacity-0 hover:bg-opacity-10 disabled:text-opacity-80",
+        !disabled && !loading && "active:brightness-95",
+        !invert && "hover:brightness-90 transition-[filter] text-white",
+        invert && "border ",
         loading ? "cursor-progress" : "disabled:cursor-not-allowed",
         className,
       )}

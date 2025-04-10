@@ -1,15 +1,17 @@
 @import 'tailwindcss';
-@source '../components'
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-primary: #5b9364;
   --color-accent: #6358de;
-  --color-dark: #011627;
+  --color-dark: #141414;
   --color-primary-bg: #fff;
 
   --radius-primary: 4px;
 
+  --background-image-gradient-primary: linear-gradient(180deg, #65b071 0%, #508959 100%);
+  --background-image-gradient-accent: linear-gradient(180deg, #7b70ff 0%, #5d53cb 100%);
+  --background-image-gradient-dark: linear-gradient(180deg, #404040 0%, #141414 100%);
   --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
   --background-image-gradient-conic: conic-gradient(
     from 180deg at 50% 50%,
