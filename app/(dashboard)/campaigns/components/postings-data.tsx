@@ -193,7 +193,7 @@ export default function PostingsData({
               </div>
 
               <a
-                className={"absolute bottom-5 right-5"}
+                className={"absolute bottom-20 lg:bottom-5 right-5"}
                 href={"#" + data?.postings[i + 1]?.id}
               >
                 <Button loading={i === postings.length - 1 && fetchingMore}>

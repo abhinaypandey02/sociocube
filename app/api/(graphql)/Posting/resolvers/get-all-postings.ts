@@ -7,7 +7,7 @@ import { InstagramDetails } from "@graphql/Instagram/db";
 import { PostingGQL } from "@graphql/Posting/type";
 import { UserTable } from "@graphql/User/db";
 import { getIsOnboarded } from "@graphql/User/resolvers/onboarding-data";
-import { and, desc, eq, getTableColumns, isNull, lte, or } from "drizzle-orm";
+import { and, desc, eq, getTableColumns, gte, isNull, lte, or } from "drizzle-orm";
 
 import { getAge } from "@/constants/age";
 
@@ -47,7 +47,7 @@ export async function getValidPostings({
           ),
           or(
             isNull(PostingTable.maximumAge),
-            lte(PostingTable.minimumAge, age),
+            gte(PostingTable.maximumAge, age),
           ),
           eq(PostingTable.open, true),
           postingID ? eq(PostingTable.id, postingID) : undefined,
@@ -61,7 +61,7 @@ export async function getValidPostings({
         ),
       )
       .groupBy(PostingTable.id, ApplicationTable.id)
-      .orderBy(desc(ApplicationTable.id)),
+      .orderBy(desc(ApplicationTable.id), desc(PostingTable.id)),
     {
       page: page ?? 1,
       pageSize: pageSize ?? 1,
@@ -102,7 +102,7 @@ export async function getAllPostings(
       const [posting] = await db
         .select()
         .from(PostingTable)
-        .where(eq(PostingTable.id, postingID));
+        .where(eq(PostingTable.id, postingID)).orderBy(desc(PostingTable.id));
       if (posting) results.push(posting);
     }
   }

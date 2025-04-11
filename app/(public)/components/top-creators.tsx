@@ -35,7 +35,7 @@ export default function TopCreators({
       id="sellers"
       title="Our Top Creators"
     >
-      <ul className="mx-auto grid max-w-2xl gap-y-8 sm:gap-y-16 gap-x-14 grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
+      <ul className="mx-auto grid max-w-2xl gap-y-8 sm:gap-y-16 max-sm:gap-x-14 grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
         {sellers.map(
           (person, i) =>
             person.instagramStats && (
