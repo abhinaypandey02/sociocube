@@ -26,7 +26,7 @@ function Button({
   return (
     <button
       className={cn(
-        "relative disabled:brightness-80 ring-0 duration-200 flex justify-center transition-all cursor-pointer font-semibold leading-6 focus-visible:outline-2 focus-visible:outline-offset-2",
+        "relative disabled:brightness-80 ring-0 duration-200 flex justify-center transition-all font-semibold leading-6 focus-visible:outline-2 focus-visible:outline-offset-2",
         borderless ? "border-none" : "shadow-sm",
         square ? "p-3" : compact ? "px-4 py-1 " : "px-4 py-2 ",
         compact ? "rounded-lg" : "rounded-xl",
@@ -57,7 +57,7 @@ function Button({
           <span className="absolute left-1/2 -translate-x-1/2 ">
             <CircleNotch className=" animate-spin" size={24} weight="bold" />
           </span>
-          <span className="opacity-0">{children}</span>
+          <span className="opacity-0 flex">{children}</span>
         </>
       ) : (
         children

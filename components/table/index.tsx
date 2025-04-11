@@ -55,7 +55,7 @@ export default function Table<T>({
                   <th
                     className={cn(
                       "py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3",
-                      header.column.getCanSort() && "cursor-pointer",
+                      !header.column.getCanSort() && "cursor-default",
                     )}
                     key={header.id}
                     onClick={header.column.getToggleSortingHandler()}
@@ -115,7 +115,7 @@ export default function Table<T>({
                 className={
                   pagination.pageIndex + 1 === 1
                     ? "font-semibold"
-                    : "cursor-pointer"
+                    : ""
                 }
                 onClick={() => {
                   table.setPageIndex(0);
@@ -135,8 +135,8 @@ export default function Table<T>({
                 <button
                   className={
                     pagination.pageIndex + 1 === page
-                      ? "font-semibold"
-                      : "cursor-pointer"
+                      ? "font-semibold cursor-default"
+                      : ""
                   }
                   key={page}
                   onClick={() => {
@@ -153,8 +153,8 @@ export default function Table<T>({
               <button
                 className={
                   pagination.pageIndex + 1 === totalPages
-                    ? "font-semibold"
-                    : "cursor-pointer"
+                    ? "font-semibold cursor-default"
+                    : ""
                 }
                 onClick={() => {
                   table.setPageIndex(totalPages - 1);

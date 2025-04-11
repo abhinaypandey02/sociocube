@@ -83,7 +83,7 @@ export default function OnboardingBasicDetailsForm({
       onSubmit={form.handleSubmit(onSubmit)}
     >
       <button
-        className="mx-auto mb-3 flex size-28 cursor-pointer items-center justify-center overflow-hidden rounded-full border object-cover "
+        className="mx-auto mb-3 flex size-28 items-center justify-center overflow-hidden rounded-full border object-cover "
         onClick={() => ref.current?.click()}
         type="button"
       >

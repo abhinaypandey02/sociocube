@@ -2,10 +2,11 @@
 @import "tw-animate-css";
 @custom-variant dark (&:where(.dark, .dark *));
 
-.link-accent{
+.link-accent {
   @apply text-accent hover:brightness-125;
 }
-.image-filter{
+
+.image-filter {
   filter: brightness(0) saturate(100%) invert(56%) sepia(49%) saturate(5029%) hue-rotate(322deg) brightness(101%) contrast(91%) opacity(10%);
 }
 
@@ -17,33 +18,37 @@ body {
   overscroll-behavior-y: none;
 }
 
-.thumb::before{
+.thumb::before {
   @apply shadow-md! border! border-gray-200!;
 }
 
-.caption *{
+.caption * {
   @apply bg-primary! shadow-md!;
 }
 
-.multi-range-slider{
-  padding: 0!important;
-  box-shadow: none!important;
-  border: none!important;
+.multi-range-slider {
+  padding: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
 }
-.multi-range-slider .ruler{
-  display: none!important;
+
+.multi-range-slider .ruler {
+  display: none !important;
 }
-.multi-range-slider .bar-inner{
-  border: none!important;
-  box-shadow: none!important;
+
+.multi-range-slider .bar-inner {
+  border: none !important;
+  box-shadow: none !important;
 }
-.multi-range-slider .bar-right{
-  border: none!important;
-  box-shadow: none!important;
+
+.multi-range-slider .bar-right {
+  border: none !important;
+  box-shadow: none !important;
 }
-.multi-range-slider .bar-left{
-  border: none!important;
-  box-shadow: none!important;
+
+.multi-range-slider .bar-left {
+  border: none !important;
+  box-shadow: none !important;
 }
 
 @theme inline {
@@ -144,7 +149,7 @@ body {
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
-  --accent:#6358de;
+  --accent: #6358de;
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
@@ -166,16 +171,25 @@ body {
 }
 
 @layer base {
+
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   /* Hide scrollbar for IE, Edge and Firefox */
   .no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  button {
+    cursor: pointer;
   }
 }

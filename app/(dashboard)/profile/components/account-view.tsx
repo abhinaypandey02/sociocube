@@ -37,7 +37,7 @@ export default function AccountView({
                     selectedSection === i
                       ? "bg-gray-50 text-accent"
                       : "text-gray-700 hover:text-accent hover:bg-gray-50",
-                    "group cursor-pointer flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold",
+                    "group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold",
                   )}
                   onClick={() => {
                     if (item.onClick) {

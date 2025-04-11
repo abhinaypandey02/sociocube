@@ -69,18 +69,18 @@ export default function TopCreators({
                     <p className="mt-1 gap-y-0.5 flex flex-wrap items-center justify-center text-xs font-medium text-gray-500">
                       {person.category}
                       <Dot weight="bold" />
-                      <div className="flex items-center gap-1">
+                      <span className="flex items-center gap-1">
                         <InstagramLogo size={16} />
                         {convertToAbbreviation(
                           person.instagramStats.followers || 0,
                         )}
-                      </div>
+                      </span>
                       <Dot weight="bold" />
 
-                      <div className="flex items-center gap-1">
+                      <span className="flex items-center gap-1">
                         <TrendUp size={16} />
                         {Math.max(person.instagramStats.er, 1.1)}%
-                      </div>
+                      </span>
                     </p>
                   </div>
                 </Link>

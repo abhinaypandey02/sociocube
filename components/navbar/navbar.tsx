@@ -45,101 +45,32 @@ function Navbar({
   }, []);
   return (
     <header className="fixed top-0 z-10 w-full p-2">
-      <Menu as="div" className="relative">
-        <nav
-          aria-label="Global"
+
+      <nav
+        aria-label="Global"
+        className={cn(
+          " mx-auto flex max-w-7xl ease-in-out text-gray-900 transition-colors duration-300 items-center justify-between rounded-xl  px-3 py-2  sm:gap-x-6 sm:py-1",
+          !darkOnTop || scrollPosition > 25
+            ? "bg-background shadow-sm "
+            : "bg-transparent",
+        )}
+      >
+        <Link
           className={cn(
-            " mx-auto flex max-w-7xl ease-in-out text-gray-900 transition-colors duration-300 items-center justify-between rounded-xl  px-3 py-2  sm:gap-x-6 sm:py-1",
-            !darkOnTop || scrollPosition > 25
-              ? "bg-background shadow-sm "
-              : "bg-transparent",
+            " flex items-center gap-2 transition-colors ease-in-out duration-300 leading-none text-primary sm:text-6xl",
           )}
+          href={process.env.NEXT_PUBLIC_BASE_URL || "/public"}
         >
-          <Link
-            className={cn(
-              " flex items-center gap-2 transition-colors ease-in-out duration-300 leading-none text-primary sm:text-6xl",
-            )}
-            href={process.env.NEXT_PUBLIC_BASE_URL || "/public"}
-          >
-            <Logo size={32} />
-            <h1 className="translate-y-0.5 font-madina text-4xl">sociocube</h1>
-          </Link>
-          <div className="hidden lg:flex lg:gap-x-6">
-            {primaryLinks.map(
-              (item) =>
-                item.render || (
-                  <Link
-                    className={cn(
-                      "text-base font-semibold leading-6  hover:underline  hover:underline-offset-8 ",
-                      activeHref === item.href
-                        ? "pointer-events-none underline-offset-8 underline"
-                        : "",
-                    )}
-                    href={item.href}
-                    key={item.label}
-                  >
-                    {item.label}
-                  </Link>
-                ),
-            )}
-          </div>
-          <div className="flex items-center gap-4">
-            {userImage ? (
-              <Menu as="div" className="relative max-lg:hidden">
-                <div>
-                  <MenuButton className="relative flex rounded-full bg-white text-sm focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2">
-                    <span className="absolute -inset-1.5" />
-                    <span className="sr-only">Open user menu</span>
-                    {userImage === "loading" ? (
-                      <div className="flex size-8 items-center justify-center rounded-full border border-gray-100">
-                        <User className="size-5 rounded-full" size={40} />
-                      </div>
-                    ) : (
-                      <Image
-                        alt="logged in user"
-                        className="size-8 rounded-full object-cover"
-                        height={32}
-                        src={userImage}
-                        width={32}
-                      />
-                    )}
-                  </MenuButton>
-                </div>
-                <Transition
-                  enter="transition ease-out duration-200"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-hidden">
-                    {secondaryLinks.map((item) => (
-                      <MenuItem key={item.href}>
-                        {({ focus }) =>
-                          item.render || (
-                            <Link
-                              className={cn(
-                                focus ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700",
-                              )}
-                              href={item.href}
-                              key={item.label}
-                            >
-                              {item.label}
-                            </Link>
-                          )
-                        }
-                      </MenuItem>
-                    ))}
-                  </MenuItems>
-                </Transition>
-              </Menu>
-            ) : (
-              secondaryLinks.map((item) => (
+          <Logo size={32} />
+          <h1 className="translate-y-0.5 font-madina text-4xl">sociocube</h1>
+        </Link>
+        <div className="hidden lg:flex gap-x-6">
+          {primaryLinks.map(
+            (item) =>
+              item.render || (
                 <Link
                   className={cn(
-                    "max-lg:hidden lg:text-base lg:font-medium lg:leading-6 hover:underline hover:underline-offset-8 ",
+                    "text-base font-semibold leading-6  hover:underline  hover:underline-offset-8 ",
                     activeHref === item.href
                       ? "pointer-events-none underline-offset-8 underline"
                       : "",
@@ -149,81 +80,110 @@ function Navbar({
                 >
                   {item.label}
                 </Link>
-              ))
-            )}
-
-            {cta ? (
-              <Link href={cta.href}>
-                <Button
-                  compact
-                  {...cta.button}
-                  className={cn(cta.button.className, "max-sm:text-sm")}
-                  disabled={disableCTA}
-                />
-              </Link>
-            ) : null}
-            <MenuButton className="relative flex rounded-full bg-white text-sm focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:hidden">
+              ),
+          )}
+        </div>
+        <div className="flex items-center">
+          {cta ? (
+            <Link href={cta.href}>
+              <Button
+                compact
+                {...cta.button}
+                className={cn(cta.button.className, "max-sm:text-sm")}
+                disabled={disableCTA}
+              />
+            </Link>
+          ) : null}
+          <Menu as="div" className="relative ml-3.5">
+            <MenuButton className="relative flex rounded-full text-sm focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2">
               {({ open }) => (
                 <>
+                  <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
-                  {open ? (
+                  {userImage ? userImage !== "loading" ? (
+                    <div className="flex size-8 items-center justify-center rounded-full border border-gray-100">
+                      <User className="size-5 rounded-full" size={40} />
+                    </div>
+                  ) : (
+                    <Image
+                      alt="logged in user"
+                      className="size-8 rounded-full object-cover"
+                      height={32}
+                      src={userImage}
+                      width={32}
+                    />
+                  ) : open ? (
                     <X className="size-5 rounded-full" size={40} />
                   ) : (
-                    <List className="size-5 rounded-full" size={40} />
+                    <List className="size-5 rounded-full sm:hidden" size={40} />
                   )}
                 </>
               )}
             </MenuButton>
-          </div>
-        </nav>
-        <Transition
-          enter="transition ease-out duration-200"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-        >
-          <MenuItems className="absolute inset-x-0 z-10 mt-2 origin-top rounded-xl bg-white py-2 font-medium  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-hidden">
-            {primaryLinks.map((item) => (
-              <MenuItem key={item.href}>
-                {({ focus }) =>
-                  item.render || (
-                    <Link
-                      className={cn(
-                        focus ? "bg-gray-100" : "",
-                        "block px-4 py-3  text-gray-700",
-                      )}
-                      href={item.href}
-                      key={item.label}
-                    >
-                      {item.label}
-                    </Link>
-                  )
-                }
-              </MenuItem>
-            ))}
-            {secondaryLinks.map((item) => (
-              <MenuItem key={item.href}>
-                {({ focus }) =>
-                  item.render || (
-                    <Link
-                      className={cn(
-                        focus ? "bg-gray-100" : "",
-                        "block px-4 py-3  text-gray-700",
-                      )}
-                      href={item.href}
-                      key={item.label}
-                    >
-                      {item.label}
-                    </Link>
-                  )
-                }
-              </MenuItem>
-            ))}
-          </MenuItems>
-        </Transition>
-      </Menu>
+            <Transition
+              enter="transition ease-out duration-200"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 ring-black/5 focus:outline-hidden">
+                {primaryLinks.map((item) => (
+                  <MenuItem className="sm:hidden" key={item.href}>
+                    {({ focus }) =>
+                      item.render || (
+                        <Link
+                          className={cn(
+                            focus ? "bg-gray-100" : "",
+                            "block px-4 py-1.5 sm:py-3 max-sm:text-sm text-gray-700",
+                          )}
+                          href={item.href}
+                          key={item.label}
+                        >
+                          {item.label}
+                        </Link>
+                      )
+                    }
+                  </MenuItem>
+                ))}
+                {secondaryLinks.map((item) => (
+                  <MenuItem key={item.href}>
+                    {({ focus }) =>
+                      item.render || (
+                        <Link
+                          className={cn(
+                            focus ? "bg-gray-100" : "",
+                            "block px-4 py-1.5 sm:py-3 max-sm:text-sm text-gray-700",
+                          )}
+                          href={item.href}
+                          key={item.label}
+                        >
+                          {item.label}
+                        </Link>
+                      )
+                    }
+                  </MenuItem>
+                ))}
+              </MenuItems>
+            </Transition>
+          </Menu>
+          {!userImage && secondaryLinks.map((item) => (
+            <Link
+              className={cn(
+                "max-lg:hidden lg:text-base lg:font-medium lg:leading-6 hover:underline hover:underline-offset-8 ",
+                activeHref === item.href
+                  ? "pointer-events-none underline-offset-8 underline"
+                  : "",
+              )}
+              href={item.href}
+              key={item.label}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      </nav>
     </header>
   );
 }
