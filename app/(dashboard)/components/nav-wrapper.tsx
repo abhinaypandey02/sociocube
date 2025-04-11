@@ -29,12 +29,12 @@ export default function NavWrapper({ children }: PropsWithChildren) {
     <>
       <div
         className={cn(
-          "mx-auto flex w-full max-lg:pb-10 max-w-7xl grow overflow-x-hidden no-scrollbar",
+          "mx-auto flex w-full max-w-7xl grow overflow-x-hidden no-scrollbar",
           openSubPage ? "overflow-y-hidden" : "overflow-y-auto",
         )}
       >
         <SideNav activeItem={activeItem} setActiveItem={setActiveItem} />
-        <div className={cn("relative w-full grow flex flex-col ")}>
+        <div className={cn("relative w-full grow flex flex-col")}>
           <TopNav
             subLinks={subPages}
             title={activeItem?.heading || SEO.companyName}

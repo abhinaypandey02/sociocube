@@ -104,7 +104,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html className="scroll-smooth" lang="en">
       <body
-        className={`${nunitoSans.className} ${madina.variable} ${kansas.variable} flex min-h-screen flex-col bg-background `}
+        className={`${nunitoSans.className} ${madina.variable} ${kansas.variable} flex flex-col bg-background `}
       >
         <Schema
           data={{

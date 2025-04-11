@@ -10,12 +10,14 @@ export function generateMetadata() {
   return getSEO("Find influencer your-campaigns");
 }
 
-export default function SearchPage() {
+export default async function SearchPage() {
+  const Cookie = await cookies()
+  const token = Cookie.get('refresh')
   return (
     <Injector
       Component={PostingsData}
       fetch={async () =>
-        queryGQL(GET_ALL_POSTINGS, { page: 1 }, await cookies(), 120)
+        queryGQL(GET_ALL_POSTINGS, { page: 1 }, token ? Cookie : undefined, 120)
       }
     />
   );

@@ -87,14 +87,17 @@ export default function ApplyNowButton({
 
   const loading = isRouteLoading || applyNowLoading;
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      typeof navigator !== "undefined" &&
-      navigator.canShare({
-        text: "",
-      })
-    )
-      setCanShare(true);
+    try {
+
+      if (
+        typeof window !== "undefined" &&
+        typeof navigator !== "undefined" &&
+        navigator.canShare({
+          text: "",
+        })
+      )
+        setCanShare(true);
+    } catch { }
   }, []);
   return (
     <>

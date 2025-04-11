@@ -4,24 +4,24 @@ import Link from "next/link";
 import React from "react";
 import { Rating } from "react-simple-star-rating";
 
-import type { GetPostingReviewsQuery } from "@/__generated__/graphql";
+import type { GetAllPostingsQuery, GetPostingReviewsQuery } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
 
 import LinkWrapper from "../../../../components/link-wrapper";
 
 export default function PostingReviews({
-  data,
+  reviews,
 }: {
-  data?: GetPostingReviewsQuery;
+  reviews?: NonNullable<GetAllPostingsQuery['postings'][number]>['reviews'];
 }) {
-  if (!data?.posting?.reviews.length) return null;
+  if (!reviews?.length) return null;
   return (
     <div className="mt-10 px-4 sm:px-0">
       <h3 className="text-sm font-medium leading-6 text-gray-900">
         Submissions
       </h3>
       <div className="mt-2 flex w-full gap-4 overflow-auto">
-        {data.posting.reviews.map(
+        {reviews.map(
           (review) =>
             review.portfolio?.imageURL && (
               <div

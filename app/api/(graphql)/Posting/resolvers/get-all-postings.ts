@@ -7,7 +7,16 @@ import { InstagramDetails } from "@graphql/Instagram/db";
 import { PostingGQL } from "@graphql/Posting/type";
 import { UserTable } from "@graphql/User/db";
 import { getIsOnboarded } from "@graphql/User/resolvers/onboarding-data";
-import { and, desc, eq, getTableColumns, gte, isNull, lte, or } from "drizzle-orm";
+import {
+  and,
+  desc,
+  eq,
+  getTableColumns,
+  gte,
+  isNull,
+  lte,
+  or,
+} from "drizzle-orm";
 
 import { getAge } from "@/constants/age";
 
@@ -102,7 +111,8 @@ export async function getAllPostings(
       const [posting] = await db
         .select()
         .from(PostingTable)
-        .where(eq(PostingTable.id, postingID)).orderBy(desc(PostingTable.id));
+        .where(eq(PostingTable.id, postingID))
+        .orderBy(desc(PostingTable.id));
       if (posting) results.push(posting);
     }
   }
