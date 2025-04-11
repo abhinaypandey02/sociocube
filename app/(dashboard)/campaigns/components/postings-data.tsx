@@ -34,6 +34,15 @@ export default function PostingsData({
       (entries) => {
         const target = entries[0];
         if (target?.isIntersecting && !loading) {
+          fetchPostings({
+            page: page + 1,
+          }).then(({ data }) => {
+            if (data?.postings) {
+              setPostings((prev) =>
+                [...prev, ...data.postings].slice(-10),
+              );
+            }
+          });
           setPage((prev) => prev + 1);
         }
       },
@@ -56,18 +65,6 @@ export default function PostingsData({
       observer.disconnect();
     };
   }, [loading, postings]);
-
-  useEffect(() => {
-    if (page > 1) {
-      fetchPostings({
-        page,
-      }).then(({ data }) => {
-        if (data?.postings) {
-          setPostings((prev) => [...prev, ...data.postings]);
-        }
-      });
-    }
-  }, [fetchPostings, page]);
 
   return (
     <ul
