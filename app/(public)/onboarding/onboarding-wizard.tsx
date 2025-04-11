@@ -161,10 +161,10 @@ function OnboardingWizard({
         ? [
             {
               title: "Date of birth",
-              heading: "(Highly Recommended)",
+              heading: "Age verification",
               description: "Add details about your age.",
               longDescription:
-                "We don't display your age anywhere in the platform. Your date of birth is used by brands to find influencers of a particular age range. Not providing this would leave you out of age based discoveries.",
+                "We need to ensure you are 13 years or older. We don't display your age anywhere in the platform, only your age group is visible to brands you apply for.",
               icon: Calendar,
               component: (
                 <OnboardingDOB

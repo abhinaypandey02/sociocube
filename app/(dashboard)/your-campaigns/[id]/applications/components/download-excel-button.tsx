@@ -46,11 +46,11 @@ export default function DownloadExcelButton({
               },
               {
                 type: String,
-                value: app.email || "",
+                value: app.user?.email || "",
               },
               {
                 type: String,
-                value: app.phone || "",
+                value: app.user?.phone || "",
               },
               {
                 type: Number,

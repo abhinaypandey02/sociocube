@@ -14,9 +14,9 @@ export class ApplicationMutationResolver {
   @Mutation(() => Boolean)
   applyToPosting(
     @Ctx() ctx: AuthorizedContext,
-    @Args() { postingID, email, comment, phone }: ApplyToPostingArgs,
+    @Args() { postingID, comment }: ApplyToPostingArgs,
   ) {
-    return applyToPosting(ctx, postingID, email, comment, phone);
+    return applyToPosting(ctx, postingID, comment);
   }
   @Authorized()
   @Mutation(() => Boolean)

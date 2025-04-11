@@ -5,7 +5,6 @@ import { db } from "@backend/lib/db";
 import { usernameAllowed } from "@graphql/User/utils";
 import {
   IsDateString,
-  IsEmail,
   IsEnum,
   IsIn,
   IsNumberString,
@@ -34,9 +33,6 @@ export class UpdateUserInput {
   @MaxLength(NAME_MAX_LENGTH)
   @Field({ nullable: true })
   name?: string;
-  @IsEmail()
-  @Field({ nullable: true })
-  contactEmail?: string;
   @MaxLength(15)
   @IsNumberString()
   @Field({ nullable: true })
@@ -90,7 +86,6 @@ export async function handleUpdateUser(
       gender: updatedUser.gender,
       dob: updatedUser.dob,
       username: updatedUser.username,
-      contactEmail: updatedUser.contactEmail,
       phone: updatedUser.phone,
       role: updatedUser.role,
     })

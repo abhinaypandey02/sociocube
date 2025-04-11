@@ -20,6 +20,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  optimizePackageImports: ["motion"],
   images: {
     remotePatterns: [
       {

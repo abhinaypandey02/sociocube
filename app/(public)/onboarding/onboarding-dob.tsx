@@ -65,11 +65,7 @@ export default function OnboardingDOB({
           You will come under <b>{ageRange.title}</b> category.
         </p>
       ) : null}
-      <div className="mt-6! flex justify-between">
-        <Button invert onClick={nextStep}>
-          Skip it
-        </Button>
-
+      <div className="mt-6! flex justify-end">
         <Button loading={loading} type="submit">
           Next
         </Button>

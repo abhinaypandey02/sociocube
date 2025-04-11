@@ -1,3 +1,4 @@
+import { Eligibility } from "@backend/lib/constants/eligibility";
 import { PostingPlatforms } from "@backend/lib/constants/platforms";
 import { Field, Int, ObjectType } from "type-graphql";
 
@@ -33,6 +34,10 @@ export class PostingGQL {
   createdAt: Date;
   @Field(() => Number)
   updatedAt: Date;
+  @Field({ nullable: true })
+  hasApplied?: boolean;
+  @Field(() => Eligibility, { nullable: true })
+  eligibility?: Eligibility;
   @Field(() => Int, { nullable: true })
   currencyCountry: number | null;
 }

@@ -43,23 +43,30 @@ const DEFAULT_COLUMNS = [
         <button
           className="text-accent"
           onClick={async () => {
-            if (val.row.original.email) {
-              await navigator.clipboard.writeText(val.row.original.email);
-              toast.success(`Copied ${val.row.original.email} to clipboard`);
+            if (val.row.original.user?.email) {
+              await navigator.clipboard.writeText(val.row.original.user?.email);
+              toast.success(
+                `Copied ${val.row.original.user?.email} to clipboard`,
+              );
             }
           }}
         >
           <EnvelopeSimple size={20} />
         </button>
-        {val.row.original.phone ? (
+        {val.row.original.user?.phone ? (
           <button
             className="text-accent"
             onClick={async () => {
-              if (val.row.original.phone) {
-                await navigator.clipboard.writeText(val.row.original.phone);
-                toast.success(`Copied ${val.row.original.phone} to clipboard`, {
-                  duration: 5000,
-                });
+              if (val.row.original.user?.phone) {
+                await navigator.clipboard.writeText(
+                  val.row.original.user?.phone,
+                );
+                toast.success(
+                  `Copied ${val.row.original.user?.phone} to clipboard`,
+                  {
+                    duration: 5000,
+                  },
+                );
               }
             }}
             type="button"

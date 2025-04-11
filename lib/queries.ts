@@ -218,7 +218,6 @@ export const GET_ACCOUNT_DETAILS = gql(`
     user: getCurrentUser {
       id
       name
-      contactEmail
       bio
       photo
       phone
@@ -350,8 +349,8 @@ export const GET_POSTING_REVIEWS = gql(`
 `);
 export const GET_ALL_POSTINGS = gql(`
   #graphql
-  query GetAllPostings($page:Float!) {
-    postings:getAllPostings(page:$page) {
+  query GetAllPostings($page:Float!, $posting:Float) {
+    postings:getAllPostings(page:$page, posting:$posting) {
       id
       maximumAge
       minimumFollowers
@@ -376,28 +375,20 @@ export const GET_ALL_POSTINGS = gql(`
       price
       createdAt
       platforms
+      hasApplied
+      eligibility
       updatedAt
         deliverables
+        reviews {
+            portfolio {
+                imageURL
+                link
+            }
+            rating
+            photo
+            username
+        }  
     }
-  }
-`);
-
-export const GET_CURRENT_USER_APPLICATION_STATUS = gql(`
-  #graphql
-  query GetCurrentUserApplicationStatus($postingID:Float!) {
-    user: getCurrentUser {
-      id
-      email
-      name
-      isOnboarded
-      instagramStats {
-        followers
-      }
-      contactEmail
-      dob
-      phone
-    }
-    hasApplied: getHasUserApplied(postingID: $postingID)
   }
 `);
 
@@ -441,9 +432,7 @@ export const GET_POSTING_APPLICATIONS = gql(`
       externalLink
     }
     applications:getPostingApplications(postingID: $postingID) {
-      email
       referralEarnings
-      phone
       status
       createdAt
       id
@@ -452,6 +441,7 @@ export const GET_POSTING_APPLICATIONS = gql(`
         photo
         dob
         email
+        phone
         gender
         bio
         username
@@ -501,8 +491,6 @@ export const GET_USER_APPLICATIONS = gql(`
     getUserApplications {
       status
       comment
-      email
-      phone
       createdAt
       posting {
         title

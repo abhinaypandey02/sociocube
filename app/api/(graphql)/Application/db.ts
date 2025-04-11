@@ -39,8 +39,6 @@ export const ApplicationTable = pgTable(
     posting: integer("posting")
       .references(() => PostingTable.id)
       .notNull(),
-    email: text("email").notNull(),
-    phone: text("phone"),
     comment: text("comment"),
     status: applicationStatusEnum("status")
       .default(ApplicationStatus.Applied)

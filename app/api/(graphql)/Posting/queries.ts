@@ -15,10 +15,11 @@ export class PostingQueryResolvers {
   }
   @Query(() => [PostingGQL])
   getAllPostings(
+    @Ctx() ctx: Context,
     @Arg("page") page: number,
     @Arg("posting", { nullable: true }) postingID?: number,
   ): Promise<PostingGQL[]> {
-    return getAllPostings(page, postingID);
+    return getAllPostings(ctx, page, postingID);
   }
   @Query(() => [PostingGQL])
   getFeaturedPostings(): Promise<PostingGQL[]> {

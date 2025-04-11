@@ -15,6 +15,7 @@ export default [
   ...tsLint.configs.recommended,
   {
     rules: {
+      "prettier/prettier": "error",
       "no-console": ["error", { allow: ["warn", "error"] }],
       "react/no-unescaped-entities": 0,
       "simple-import-sort/imports": "warn",

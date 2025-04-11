@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -38,10 +39,10 @@ export default async function JobPostingPage({
     GET_ALL_POSTINGS,
     {
       page: 1,
-      postingID: id,
+      posting: id,
     },
-    undefined,
-    undefined,
+    await cookies(),
+    0,
     ["posting"],
   );
   if (!data.postings.length) return notFound();

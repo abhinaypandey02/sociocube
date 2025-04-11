@@ -47,8 +47,8 @@ export const DISCONNECT_INSTAGRAM = gql(`
 
 export const APPLY_NOW = gql(`
   #graphql
-  mutation ApplyNow($postingID:Float!, $email:String!, $comment:String, $phone:String) {
-    applyToPosting(postingID: $postingID, email: $email, comment: $comment, phone: $phone)  
+  mutation ApplyNow($postingID:Float!, $comment:String) {
+    applyToPosting(postingID: $postingID, comment: $comment)  
   }
 `);
 

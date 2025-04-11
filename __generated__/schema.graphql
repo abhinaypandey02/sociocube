@@ -242,9 +242,7 @@ input AddPortfolioLinkArgs {
 type Application {
   comment: String
   createdAt: Float!
-  email: String!
   id: Float!
-  phone: String
   posting: Posting
   referralEarnings: Float!
   status: ApplicationStatus!
@@ -277,6 +275,15 @@ type CountrySelectOption {
   currency: String!
   label: String!
   value: Int!
+}
+
+enum Eligibility {
+  Closed
+  Eligible
+  LessFollowers
+  NotAgeGroup
+  NotOnboarded
+  Unauthorized
 }
 
 type GetFeaturedPostsResponse {
@@ -331,7 +338,7 @@ type Message {
 type Mutation {
   addPortfolio(data: AddPortfolioArgs!): Boolean!
   addPortfolioLink(data: AddPortfolioLinkArgs!): Boolean!
-  applyToPosting(comment: String, email: String!, phone: String, postingID: Float!): Boolean!
+  applyToPosting(comment: String, postingID: Float!): Boolean!
   createPosting(newPosting: NewPostingInput!): Float
   deletePortfolio(id: Float!): Boolean!
   deletePosting(postingID: Float!): Boolean!
@@ -386,8 +393,10 @@ type Posting {
   currencyCountry: Int
   deliverables: [String!]
   description: String!
+  eligibility: Eligibility
   externalLink: String
   extraDetails: String
+  hasApplied: Boolean
   id: Float!
   maximumAge: Int
   minimumAge: Int
@@ -527,7 +536,6 @@ input UpdatePostingInput {
 input UpdateUserInput {
   bio: String
   category: String
-  contactEmail: String
   dob: String
   gender: String
   name: String
@@ -541,7 +549,6 @@ input UpdateUserInput {
 type User {
   bio: String
   category: String
-  contactEmail: String
   dob: String
   email: String
   emailVerified: Boolean!

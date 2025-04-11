@@ -1,3 +1,5 @@
+import { cookies } from "next/headers";
+
 import { getSEO } from "@/constants/seo";
 import { Injector, queryGQL } from "@/lib/apollo-server";
 import { GET_ALL_POSTINGS } from "@/lib/queries";
@@ -12,7 +14,9 @@ export default function SearchPage() {
   return (
     <Injector
       Component={PostingsData}
-      fetch={() => queryGQL(GET_ALL_POSTINGS, { page: 1 }, undefined, 120)}
+      fetch={async () =>
+        queryGQL(GET_ALL_POSTINGS, { page: 1 }, await cookies(), 120)
+      }
     />
   );
 }

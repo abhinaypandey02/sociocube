@@ -1,20 +1,14 @@
 "use client";
-import { Pencil, ShareNetwork } from "@phosphor-icons/react";
-import Link from "next/link";
-import { ReactNode, useEffect } from "react";
-import React, { useCallback, useMemo, useState } from "react";
+import { ArrowSquareOut, ShareNetwork } from "@phosphor-icons/react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import type {
-  GetAllPostingsQuery,
-  GetCurrentUserApplicationStatusQuery,
-} from "@/__generated__/graphql";
+import { Eligibility, GetAllPostingsQuery } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import Form from "@/components/form";
 import { IconButton } from "@/components/icon-button";
 import { Input } from "@/components/input";
-import { getAge } from "@/constants/age";
 import { getRoute, Route } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { APPLY_NOW } from "@/lib/mutations";
@@ -23,65 +17,39 @@ import LinkWrapper from "../../../../components/link-wrapper";
 import Modal from "../../../../components/modal";
 import { getShareText } from "./utils";
 
+const BUTTON_MESSAGE = {
+  [Eligibility.Unauthorized]: "Sign in to apply",
+  [Eligibility.NotAgeGroup]: "Not your age group",
+  [Eligibility.Eligible]: "Apply now",
+  [Eligibility.Closed]: "Campaign over",
+  [Eligibility.LessFollowers]: "Not enough followers",
+  [Eligibility.NotOnboarded]: "Onboard to apply",
+};
+
 interface FormType {
-  email: string;
-  phone: string | undefined | null;
   comment?: string;
 }
 
 export default function ApplyNowButton({
-  data,
-  loading: dataLoading,
   posting,
 }: {
-  data?: GetCurrentUserApplicationStatusQuery;
-  loading: boolean;
   posting: GetAllPostingsQuery["postings"][number];
 }) {
-  const form = useForm<FormType>({
-    defaultValues: {
-      email: data?.user?.contactEmail || data?.user?.email || "",
-      phone: data?.user?.phone,
-    },
-  });
+  const form = useForm<FormType>();
   const [appliedSuccess, setAppliedSuccess] = useState(
-    Boolean(data?.hasApplied),
+    Boolean(posting.hasApplied),
   );
   const [canShare, setCanShare] = useState(false);
   const [applyNow, { loading: applyNowLoading }] = useAuthMutation(APPLY_NOW);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRouteLoading, setIsRouteLoading] = useState(false);
-  const message: [ReactNode, string | null, boolean] = useMemo(() => {
-    if (appliedSuccess && !posting.externalLink)
-      return ["Applied!", null, true];
-    if (!posting.open) return ["Closed", null, true];
-    if (!data?.user)
-      return [
-        "Sign in to apply",
-        `${getRoute("SignUp")}?redirectURL=${Route.Campaigns}/${posting.id}`,
-        false,
-      ];
 
-    if (!data.user.isOnboarded)
-      return [
-        "Onboard to apply",
-        `${getRoute("Onboarding")}?redirectURL=${Route.Campaigns}/${posting.id}`,
-        false,
-      ];
-    if (
-      (data.user.instagramStats?.followers || 0) <
-      (posting.minimumFollowers || 0)
-    )
-      return ["Not enough followers", null, true];
-    if (posting.minimumAge || posting.maximumAge) {
-      if (!data.user.dob)
-        return ["Add your DOB to apply", getRoute("Profile"), false];
-      const age = getAge(new Date(data.user.dob));
-      if (age < (posting.minimumAge || 0) || age > (posting.maximumAge || 1000))
-        return ["Not your age group", null, true];
-    }
-    return ["Apply Now", null, false];
-  }, [appliedSuccess, data?.user, posting]);
+  const buttonURL = useMemo(() => {
+    if (posting.eligibility === Eligibility.Unauthorized)
+      return `${getRoute("SignUp")}?redirectURL=${Route.Campaigns}/${posting.id}`;
+    if (posting.eligibility === Eligibility.NotOnboarded)
+      return `${getRoute("Onboarding")}?redirectURL=${Route.Campaigns}/${posting.id}`;
+  }, [posting]);
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -94,19 +62,20 @@ export default function ApplyNowButton({
       openExternalLink();
       return;
     }
-    if (message[1]) {
+    if (buttonURL) {
       setIsRouteLoading(true);
-    } else setIsModalOpen(true);
-  }, [message, posting.externalLink]);
+    } else {
+      if (!posting.externalLink) setIsModalOpen(true);
+      else handleApply({});
+    }
+  }, [buttonURL, posting.externalLink]);
 
   const handleApply = (values: FormType) => {
     openExternalLink();
     if (posting.id) {
       applyNow({
-        email: values.email.toLowerCase(),
         postingID: posting.id,
         comment: values.comment,
-        phone: values.phone || undefined,
       })
         .then(() => {
           setAppliedSuccess(true);
@@ -116,8 +85,7 @@ export default function ApplyNowButton({
     }
   };
 
-  const loading = isRouteLoading || dataLoading || applyNowLoading;
-  const editable = data?.user?.id === posting.agency.id;
+  const loading = isRouteLoading || applyNowLoading;
   useEffect(() => {
     if (
       typeof window !== "undefined" &&
@@ -135,21 +103,6 @@ export default function ApplyNowButton({
         <h4 className="mb-1 font-poppins font-medium">Campaign title</h4>
         <p className="mb-4 text-sm">{posting.title}</p>
         <Form form={form} onSubmit={form.handleSubmit(handleApply)}>
-          <Input
-            className="mb-4 placeholder:text-xs"
-            label="Contact email *"
-            name="email"
-            placeholder="Email for the recruiter to reach out to you"
-            required
-            type="email"
-          />
-          <Input
-            className="mb-4 placeholder:text-xs"
-            label="Contact phone (Whatsapp)"
-            name="phone"
-            placeholder="Your contact phone number, Whatsapp preferred"
-            type="tel"
-          />
           {!posting.externalLink ? (
             <Input
               className="mb-4 placeholder:text-xs"
@@ -179,26 +132,27 @@ export default function ApplyNowButton({
           </Button>
         </Form>
       </Modal>
-      {editable ? (
-        <Link href={`${getRoute("YourCampaigns")}/${posting.id}`}>
-          <IconButton>
-            <Pencil className="text-accent" size={24} weight="duotone" />
-          </IconButton>
-        </Link>
-      ) : (
-        <LinkWrapper className="max-sm:w-full" href={message[1]}>
-          <Button
-            className="w-full"
-            disabled={message[2]}
-            invert={message[2]}
-            loading={loading}
-            onClick={handleClick}
-            variant={Variants.ACCENT}
-          >
-            {message[0]}
-          </Button>
-        </LinkWrapper>
-      )}
+
+      <LinkWrapper className="max-sm:w-full" href={buttonURL}>
+        <Button
+          className="w-full flex items-center gap-2"
+          disabled={
+            !buttonURL &&
+            !posting.externalLink &&
+            posting.eligibility !== Eligibility.Eligible
+          }
+          invert={appliedSuccess}
+          loading={loading}
+          onClick={handleClick}
+          variant={Variants.ACCENT}
+        >
+          {appliedSuccess
+            ? "Applied"
+            : BUTTON_MESSAGE[posting.eligibility || Eligibility.Eligible]}
+          {posting.externalLink && <ArrowSquareOut />}
+        </Button>
+      </LinkWrapper>
+
       <IconButton
         disabled={canShare}
         className="max-lg:translate-x-3"

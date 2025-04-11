@@ -38,8 +38,6 @@ export class UserGQL {
   @Field({ nullable: true })
   email?: string;
   @Field({ nullable: true })
-  contactEmail?: string;
-  @Field({ nullable: true })
   phone?: string;
   @Field(() => Roles)
   role?: Roles;

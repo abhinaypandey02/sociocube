@@ -155,12 +155,6 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
               onSubmit: handleSave("username"),
             },
             {
-              label: "Contact email",
-              value: data.contactEmail || "",
-              editComponent: <Input name="contactEmail" type="email" />,
-              onSubmit: handleSave("contactEmail"),
-            },
-            {
               label: "Contact number",
               value: data.phone || "",
               editComponent: <Input name="phone" type="tel" />,

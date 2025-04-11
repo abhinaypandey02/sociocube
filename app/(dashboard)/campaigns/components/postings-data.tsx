@@ -1,27 +1,20 @@
+"use client";
 import { Cake, SealCheck, Users, Wallet } from "@phosphor-icons/react/dist/ssr";
-import dynamic from "next/dynamic";
-import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import type { GetAllPostingsQuery } from "@/__generated__/graphql";
 import ApplyNowButton from "@/app/(dashboard)/campaigns/[id]/apply-now-button";
-import PostingReviews from "@/app/(dashboard)/campaigns/[id]/posting-reviews";
+import NoResults from "@/app/(dashboard)/campaigns/components/no-results";
 import { Button } from "@/components/button";
 import { getRoute } from "@/constants/routes";
-import { Injector, queryGQL } from "@/lib/apollo-server";
-import {
-  GET_CURRENT_USER_APPLICATION_STATUS,
-  GET_POSTING_REVIEWS,
-} from "@/lib/queries";
-import { renderRichText } from "@/lib/util-components";
+import { useAuthQuery } from "@/lib/apollo-client";
+import { GET_ALL_POSTINGS } from "@/lib/queries";
 import { convertToAbbreviation } from "@/lib/utils";
 
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
 import SearchLoading from "./search-loading";
-
-const NoResults = dynamic(() => import("./no-results"));
 
 export default function PostingsData({
   data,
@@ -30,21 +23,65 @@ export default function PostingsData({
   data: GetAllPostingsQuery | null;
   loading: boolean;
 }) {
+  const [postings, setPostings] = useState(data?.postings || []);
+  const [page, setPage] = useState(1);
+  const [fetchPostings] = useAuthQuery(GET_ALL_POSTINGS);
+  const observerTarget = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const target = entries[0];
+        if (target?.isIntersecting && !loading) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "100px",
+        threshold: 0.1,
+      },
+    );
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+
+    return () => {
+      if (observerTarget.current) {
+        observer.unobserve(observerTarget.current);
+      }
+    };
+  }, [loading, postings]);
+
+  useEffect(() => {
+    if (page > 1) {
+      fetchPostings({
+        page,
+      }).then(({ data }) => {
+        if (data?.postings) {
+          setPostings((prev) => [...prev, ...data.postings]);
+        }
+      });
+    }
+  }, [fetchPostings, page]);
+
   return (
     <ul
       aria-labelledby="products-heading"
       className="h-full snap-y snap-mandatory snap-always overflow-auto no-scrollbar"
     >
       {loading ? <SearchLoading /> : null}
-      {data?.postings.length === 0 && !loading && <NoResults />}
+      {postings.length === 0 && !loading && <NoResults />}
       {!loading &&
-        data?.postings.map((posting, i) => (
+        postings.map((posting, i) => (
           <div
             id={posting.id.toString()}
-            className="h-full relative snap-start py-5"
+            className="h-full snap-start py-5"
             key={posting.id}
+            ref={i === postings.length - 2 ? observerTarget : undefined}
           >
-            <div className="h-full border-gray-200 bg-background px-4 lg:rounded-xl lg:border lg:p-8 lg:shadow-md">
+            <div className="h-full relative border-gray-200 bg-background px-4 lg:rounded-xl lg:border lg:p-8 lg:shadow-md">
               <div className="px-4 sm:px-0">
                 <div className="flex items-start justify-between gap-3 max-lg:flex-wrap">
                   <div>
@@ -109,18 +146,7 @@ export default function PostingsData({
                   </div>
                   <div className="flex shrink-0 flex-col gap-3 max-sm:w-full max-sm:gap-3">
                     <div className="flex items-center lg:flex-row-reverse lg:gap-4">
-                      <Injector
-                        Component={ApplyNowButton}
-                        fetch={async () =>
-                          queryGQL(
-                            GET_CURRENT_USER_APPLICATION_STATUS,
-                            { postingID: posting.id },
-                            await cookies(),
-                            0,
-                          )
-                        }
-                        props={{ posting }}
-                      />
+                      <ApplyNowButton posting={posting} />
                     </div>
                     {posting.applicationsCount ? (
                       <div className="flex items-center gap-2 sm:justify-end">
@@ -137,17 +163,7 @@ export default function PostingsData({
                   </div>
                 </div>
               </div>
-              <Injector
-                Component={PostingReviews}
-                fetch={() =>
-                  queryGQL(
-                    GET_POSTING_REVIEWS,
-                    { id: posting.id },
-                    undefined,
-                    120,
-                  )
-                }
-              />
+              {/*<PostingReviews />*/}
               <div>
                 <dl className="grid grid-cols-1 sm:grid-cols-2">
                   {posting.deliverables ? (
@@ -171,7 +187,7 @@ export default function PostingsData({
                     <dd
                       className="mt-1 max-w-4xl text-sm leading-6 text-gray-600 sm:mt-2"
                       dangerouslySetInnerHTML={{
-                        __html: renderRichText(posting.description),
+                        __html: posting.description,
                       }}
                     />
                   </div>

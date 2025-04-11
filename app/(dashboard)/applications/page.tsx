@@ -73,12 +73,7 @@ export default async function MyApplications() {
                         </Link>
                       </div>
                       <p className="mt-2 flex flex-wrap items-center gap-1 truncate text-xs leading-6 text-gray-700">
-                        {[
-                          new Date(app.createdAt).toDateString(),
-                          app.phone,
-                          app.email,
-                          app.comment,
-                        ]
+                        {[new Date(app.createdAt).toDateString(), app.comment]
                           .filter(Boolean)
                           .join(" • ")}
                       </p>
