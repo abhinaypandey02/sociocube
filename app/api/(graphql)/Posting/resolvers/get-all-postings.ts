@@ -111,7 +111,7 @@ export async function getAllPostings(
       const [posting] = await db
         .select()
         .from(PostingTable)
-        .where(eq(PostingTable.id, postingID))
+        .where(eq(PostingTable.id, postingID));
 
       if (posting) results.push(posting);
     }
@@ -129,7 +129,11 @@ export async function getAllPostings(
   } else {
     results.push(
       ...(await withPagination(
-        db.select().from(PostingTable).where(eq(PostingTable.open, true)).orderBy(desc(PostingTable.id)),
+        db
+          .select()
+          .from(PostingTable)
+          .where(eq(PostingTable.open, true))
+          .orderBy(desc(PostingTable.id)),
         {
           page,
           pageSize: 5 - results.length,
