@@ -51,7 +51,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
   const [isUsernameAvailable] = useAuthQuery(IS_USERNAME_AVAILABLE);
   const photoValue = form.watch("photo");
   return (
-    <main className="px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20">
+    <div className="px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20">
       <input
         className="hidden"
         onChange={(e) => {
@@ -212,6 +212,6 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
           title="Basic Info"
         />
       </Form>
-    </main>
+    </div>
   );
 }

@@ -35,7 +35,7 @@ export default function TopCreators({
       id="sellers"
       title="Our Top Creators"
     >
-      <ul className="mx-auto grid max-w-2xl grid-cols-1 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
+      <ul className="mx-auto grid max-w-2xl gap-y-8 sm:gap-y-16 gap-x-14 grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
         {sellers.map(
           (person, i) =>
             person.instagramStats && (
@@ -66,16 +66,21 @@ export default function TopCreators({
                         />
                       ) : null}
                     </div>
-                    <p className="mt-1 flex items-center justify-center text-xs font-medium text-gray-500">
+                    <p className="mt-1 gap-y-0.5 flex flex-wrap items-center justify-center text-xs font-medium text-gray-500">
                       {person.category}
                       <Dot weight="bold" />
-                      <InstagramLogo className="mr-1" size={16} />
-                      {convertToAbbreviation(
-                        person.instagramStats.followers || 0,
-                      )}
+                      <div className="flex items-center gap-1">
+                        <InstagramLogo size={16} />
+                        {convertToAbbreviation(
+                          person.instagramStats.followers || 0,
+                        )}
+                      </div>
                       <Dot weight="bold" />
-                      <TrendUp className="mr-1" size={16} />
-                      {Math.max(person.instagramStats.er, 1.1)}%
+
+                      <div className="flex items-center gap-1">
+                        <TrendUp size={16} />
+                        {Math.max(person.instagramStats.er, 1.1)}%
+                      </div>
                     </p>
                   </div>
                 </Link>

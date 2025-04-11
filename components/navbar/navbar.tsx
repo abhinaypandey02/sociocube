@@ -29,12 +29,13 @@ function Navbar({
   const darkOnTop = activeHref === "/";
   const [scrollPosition, setScrollPosition] = useState(0);
   const handleScroll = () => {
-    const position = window.pageYOffset;
+    const position = window.scrollY;
     setScrollPosition(position);
   };
 
   useEffect(() => {
     if (darkOnTop) {
+      setScrollPosition(window.scrollY)
       window.addEventListener("scroll", handleScroll, { passive: true });
 
       return () => {
@@ -49,7 +50,7 @@ function Navbar({
           aria-label="Global"
           className={cn(
             " mx-auto flex max-w-7xl ease-in-out text-gray-900 transition-colors duration-300 items-center justify-between rounded-xl  px-3 py-2  sm:gap-x-6 sm:py-1",
-            !darkOnTop || scrollPosition > 50
+            !darkOnTop || scrollPosition > 25
               ? "bg-background shadow-sm "
               : "bg-transparent",
           )}

@@ -50,20 +50,49 @@ const BRANDS = [
 
 export default function BrandsSlider() {
   return (
-    <Slider blurBorderColor="#fdfcfb" blurBorders duration={60} width="200px">
-      {BRANDS.map((brand) => (
-        <Slider.Slide key={brand.id}>
-          <Link href={`${getRoute("Campaigns")}/${brand.id}`}>
-            <Image
-              alt={brand.name}
-              className={`grayscale ${brand.className}`}
-              height={30}
-              src={brand.logo}
-              width={100}
-            />
-          </Link>
-        </Slider.Slide>
-      ))}
-    </Slider>
+    <>
+      <div className="sm:hidden">
+        <Slider duration={30} width="130px">
+          {BRANDS.map((brand) => (
+            // @ts-expect-error -- type not defined in package
+            <Slider.Slide key={brand.id} className="self-end">
+              <Link href={`${getRoute("Campaigns")}/${brand.id}`}>
+                <Image
+                  alt={brand.name}
+                  className={`grayscale ${brand.className}`}
+                  height={30}
+                  src={brand.logo}
+                  width={100}
+                />
+              </Link>
+            </Slider.Slide>
+          ))}
+        </Slider>
+      </div>
+
+      <div className="max-sm:hidden">
+        <Slider
+          blurBorderColor="#fdfcfb"
+          blurBorders
+          duration={60}
+          width="200px"
+        >
+          {BRANDS.map((brand) => (
+            // @ts-expect-error -- type not defined in package
+            <Slider.Slide key={brand.id} className="self-end">
+              <Link href={`${getRoute("Campaigns")}/${brand.id}`}>
+                <Image
+                  alt={brand.name}
+                  className={`grayscale ${brand.className}`}
+                  height={30}
+                  src={brand.logo}
+                  width={100}
+                />
+              </Link>
+            </Slider.Slide>
+          ))}
+        </Slider>
+      </div>
+    </>
   );
 }
