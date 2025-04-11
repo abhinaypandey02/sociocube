@@ -10,6 +10,7 @@ import TopCreators from "@/app/(public)/components/top-creators";
 import { getSEO, SEO } from "@/constants/seo";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_FEATURED_SELLERS_AND_POSTS } from "@/lib/queries";
+import BrandsSlider from "./components/brands-slider";
 
 const HowItWorks = dynamic(
   () => import("@/app/(public)/components/how-it-works"),
@@ -49,6 +50,7 @@ async function HomePage() {
         id="org"
       />
       <Hero />
+      <BrandsSlider />
       <TopCreators sellers={sellers} />
       <JobPostings postings={postings} />
       <HowItWorks />
