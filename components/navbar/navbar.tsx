@@ -35,7 +35,7 @@ function Navbar({
 
   useEffect(() => {
     if (darkOnTop) {
-      setScrollPosition(window.scrollY)
+      setScrollPosition(window.scrollY);
       window.addEventListener("scroll", handleScroll, { passive: true });
 
       return () => {

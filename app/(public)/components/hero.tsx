@@ -1,4 +1,4 @@
-import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import React from "react";
 
@@ -22,12 +22,12 @@ export default function Hero() {
           seamless platform for authentic partnerships.
         </p>
         <div className="mt-10 mb-16 sm:mb-28 flex items-center justify-center items-stretch gap-4 max-sm:flex-col">
-          <Link href={getRoute("Onboarding")}>
+          <Link href={getRoute("Campaigns")}>
             <Button
-              className="flex items-center gap-1 w-full"
+              className="flex items-center gap-2 w-full"
               variant={Variants.PRIMARY}
             >
-              Join as a creator <ArrowRight />
+              Find campaigns <MagnifyingGlass />
             </Button>
           </Link>
           <Link href={getRoute("Onboarding")}>
