@@ -45,7 +45,6 @@ function Navbar({
   }, []);
   return (
     <header className="fixed top-0 z-10 w-full p-2">
-
       <nav
         aria-label="Global"
         className={cn(
@@ -100,18 +99,20 @@ function Navbar({
                 <>
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
-                  {userImage ? userImage !== "loading" ? (
-                    <div className="flex size-8 items-center justify-center rounded-full border border-gray-100">
-                      <User className="size-5 rounded-full" size={40} />
-                    </div>
-                  ) : (
-                    <Image
-                      alt="logged in user"
-                      className="size-8 rounded-full object-cover"
-                      height={32}
-                      src={userImage}
-                      width={32}
-                    />
+                  {userImage ? (
+                    userImage !== "loading" ? (
+                      <div className="flex size-8 items-center justify-center rounded-full border border-gray-100">
+                        <User className="size-5 rounded-full" size={40} />
+                      </div>
+                    ) : (
+                      <Image
+                        alt="logged in user"
+                        className="size-8 rounded-full object-cover"
+                        height={32}
+                        src={userImage}
+                        width={32}
+                      />
+                    )
                   ) : open ? (
                     <X className="size-5 rounded-full" size={40} />
                   ) : (
@@ -130,6 +131,7 @@ function Navbar({
             >
               <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 ring-black/5 focus:outline-hidden">
                 {primaryLinks.map((item) => (
+                  // @ts-expect-error -- type missing
                   <MenuItem className="sm:hidden" key={item.href}>
                     {({ focus }) =>
                       item.render || (
@@ -168,20 +170,21 @@ function Navbar({
               </MenuItems>
             </Transition>
           </Menu>
-          {!userImage && secondaryLinks.map((item) => (
-            <Link
-              className={cn(
-                "max-lg:hidden lg:text-base lg:font-medium lg:leading-6 hover:underline hover:underline-offset-8 ",
-                activeHref === item.href
-                  ? "pointer-events-none underline-offset-8 underline"
-                  : "",
-              )}
-              href={item.href}
-              key={item.label}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {!userImage &&
+            secondaryLinks.map((item) => (
+              <Link
+                className={cn(
+                  "max-lg:hidden lg:text-base lg:font-medium lg:leading-6 hover:underline hover:underline-offset-8 ",
+                  activeHref === item.href
+                    ? "pointer-events-none underline-offset-8 underline"
+                    : "",
+                )}
+                href={item.href}
+                key={item.label}
+              >
+                {item.label}
+              </Link>
+            ))}
         </div>
       </nav>
     </header>

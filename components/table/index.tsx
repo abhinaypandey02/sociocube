@@ -113,9 +113,7 @@ export default function Table<T>({
             {pagination.pageIndex > 1 && (
               <button
                 className={
-                  pagination.pageIndex + 1 === 1
-                    ? "font-semibold"
-                    : ""
+                  pagination.pageIndex + 1 === 1 ? "font-semibold" : ""
                 }
                 onClick={() => {
                   table.setPageIndex(0);
