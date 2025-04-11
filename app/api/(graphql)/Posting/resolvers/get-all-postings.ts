@@ -112,7 +112,7 @@ export async function getAllPostings(
         .select()
         .from(PostingTable)
         .where(eq(PostingTable.id, postingID))
-        .orderBy(desc(PostingTable.id));
+
       if (posting) results.push(posting);
     }
   }
@@ -129,7 +129,7 @@ export async function getAllPostings(
   } else {
     results.push(
       ...(await withPagination(
-        db.select().from(PostingTable).where(eq(PostingTable.open, true)),
+        db.select().from(PostingTable).where(eq(PostingTable.open, true)).orderBy(desc(PostingTable.id)),
         {
           page,
           pageSize: 5 - results.length,

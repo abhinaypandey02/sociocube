@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { Rating } from "react-simple-star-rating";
 
-import type { GetAllPostingsQuery, GetPostingReviewsQuery } from "@/__generated__/graphql";
+import type { GetAllPostingsQuery } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
 
 import LinkWrapper from "../../../../components/link-wrapper";
@@ -12,7 +12,7 @@ import LinkWrapper from "../../../../components/link-wrapper";
 export default function PostingReviews({
   reviews,
 }: {
-  reviews?: NonNullable<GetAllPostingsQuery['postings'][number]>['reviews'];
+  reviews?: NonNullable<GetAllPostingsQuery["postings"][number]>["reviews"];
 }) {
   if (!reviews?.length) return null;
   return (

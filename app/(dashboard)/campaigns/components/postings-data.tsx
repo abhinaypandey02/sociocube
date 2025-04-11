@@ -1,4 +1,5 @@
 "use client";
+import { format } from "@flasd/whatsapp-formatting";
 import { Cake, SealCheck, Users, Wallet } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,17 +9,15 @@ import type { GetAllPostingsQuery } from "@/__generated__/graphql";
 import ApplyNowButton from "@/app/(dashboard)/campaigns/[id]/apply-now-button";
 import NoResults from "@/app/(dashboard)/campaigns/components/no-results";
 import { Button } from "@/components/button";
+import Modal from "@/components/modal";
 import { getRoute } from "@/constants/routes";
 import { useAuthQuery } from "@/lib/apollo-client";
 import { GET_ALL_POSTINGS } from "@/lib/queries";
 import { cn, convertToAbbreviation } from "@/lib/utils";
 
+import PostingReviews from "../[id]/posting-reviews";
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
 import SearchLoading from "./search-loading";
-import PostingReviews from "../[id]/posting-reviews";
-import { format } from "@flasd/whatsapp-formatting";
-import Modal from "@/components/modal";
-
 
 export function renderRichText(text: string) {
   const renderedText = format(text);
@@ -54,7 +53,7 @@ export default function PostingsData({
 }) {
   const [postings, setPostings] = useState(data?.postings || []);
   const [page, setPage] = useState(1);
-  const [description, setDescription] = useState<string>()
+  const [description, setDescription] = useState<string>();
   const [fetchPostings, { loading: fetchingMore }] =
     useAuthQuery(GET_ALL_POSTINGS);
   const observerTarget = useRef<HTMLDivElement>(null);
@@ -200,14 +199,19 @@ export default function PostingsData({
                         Deliverables
                       </dt>
                       <dd className="mt-1 max-w-4xl text-sm leading-6 text-gray-600 sm:mt-2">
-                        {posting.deliverables.join(', ')}
+                        {posting.deliverables.join(", ")}
                       </dd>
                     </div>
                   ) : null}
                   <div className="px-4 pt-3 sm:col-span-2 sm:px-0 sm:pt-10">
                     <dt className="font-semibold leading-6 text-gray-900 flex justify-between">
                       About
-                      <button onClick={() => setDescription(posting.description)} className="text-xs underline text-accent">Read full description</button>
+                      <button
+                        onClick={() => setDescription(posting.description)}
+                        className="text-xs underline text-accent"
+                      >
+                        Read full description
+                      </button>
                     </dt>
                     <dd
                       className="mt-1 max-w-4xl text-sm leading-6 text-gray-600 sm:mt-2 line-clamp-6"
@@ -234,13 +238,15 @@ export default function PostingsData({
         <dt className="font-bold mb-2 leading-6 text-lg text-gray-900 flex justify-between">
           About
         </dt>
-        {description && <dd
-          className=" leading-6 text-gray-600"
-          dangerouslySetInnerHTML={{
-            __html: renderRichText(description),
-          }}
-        />}
+        {description && (
+          <dd
+            className=" leading-6 text-gray-600"
+            dangerouslySetInnerHTML={{
+              __html: renderRichText(description),
+            }}
+          />
+        )}
       </Modal>
-    </ul >
+    </ul>
   );
 }

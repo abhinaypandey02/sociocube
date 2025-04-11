@@ -11,8 +11,8 @@ export function generateMetadata() {
 }
 
 export default async function SearchPage() {
-  const Cookie = await cookies()
-  const token = Cookie.get('refresh')
+  const Cookie = await cookies();
+  const token = Cookie.get("refresh");
   return (
     <Injector
       Component={PostingsData}

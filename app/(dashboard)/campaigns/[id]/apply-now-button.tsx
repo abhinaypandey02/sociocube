@@ -88,7 +88,6 @@ export default function ApplyNowButton({
   const loading = isRouteLoading || applyNowLoading;
   useEffect(() => {
     try {
-
       if (
         typeof window !== "undefined" &&
         typeof navigator !== "undefined" &&
@@ -97,7 +96,7 @@ export default function ApplyNowButton({
         })
       )
         setCanShare(true);
-    } catch { }
+    } catch {}
   }, []);
   return (
     <>

@@ -15,7 +15,10 @@ export default function TopNav({
   const { setOpenSubPage } = useSubPage();
 
   return (
-    <div onScroll={e => e.stopPropagation()} className="flex w-full items-center justify-between p-4 lg:hidden sticky top-0">
+    <div
+      onScroll={(e) => e.stopPropagation()}
+      className="flex w-full items-center justify-between p-4 lg:hidden sticky top-0"
+    >
       <div className="flex items-center gap-3">
         <Logo className="text-primary" size={32} />
         <h2 className="font-poppins text-2xl font-semibold text-gray-800">
