@@ -63,25 +63,16 @@ export const getOnboardedUserNavbarSections = (
   secondaryLinks: [
     ...(user?.isOnboarded
       ? [
-          {
-            label: "Your profile",
-            href: `${getRoute("Profile")}/${user.username}`,
-          },
-          {
-            label: "Your applications",
-            href: getRoute("Applications"),
-          },
-        ]
+        {
+          label: "Your profile",
+          href: `${getRoute("Profile")}/${user.username}`,
+        },
+        {
+          label: "Campaigns",
+          href: getRoute("Campaigns"),
+        },
+      ]
       : []),
-    ...(!user?.isOnboarded || user.instagramStats?.isVerified
-      ? []
-      : [
-          {
-            label: "Verify",
-            href: getRoute("Home"),
-            render: <GetVerifiedOption />,
-          },
-        ]),
     {
       label: "Settings",
       href: getRoute("Profile"),

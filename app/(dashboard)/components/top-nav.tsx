@@ -4,6 +4,8 @@ import React from "react";
 import { NavItem } from "@/app/(dashboard)/type";
 import Logo from "@/app/logo";
 import { useSubPage } from "@/lib/auth-client";
+import Link from "next/link";
+import { getRoute } from "@/constants/routes";
 
 export default function TopNav({
   title,
@@ -20,7 +22,9 @@ export default function TopNav({
       className="flex w-full items-center justify-between p-4 lg:hidden sticky top-0"
     >
       <div className="flex items-center gap-3">
-        <Logo className="text-primary" size={32} />
+        <Link href={getRoute("Home")}>
+          <Logo className="text-primary" size={32} />
+        </Link>
         <h2 className="font-poppins text-2xl font-semibold text-gray-800">
           {title}
         </h2>

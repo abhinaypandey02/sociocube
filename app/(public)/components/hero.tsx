@@ -14,7 +14,7 @@ export default function Hero() {
         <p className="mb-3 max-sm:text-sm font-medium tracking-wide text-gray-800">
           BIGGEST INFLUENCER MARKETING PLATFORM
         </p>
-        <h2 className="font-poppins text-6xl font-semibold  sm:text-7xl">
+        <h2 className="font-poppins text-5xl font-semibold  sm:text-7xl">
           Connect. Collaborate. Create.
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-800">

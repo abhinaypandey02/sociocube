@@ -48,39 +48,43 @@ function Navbar({
       <nav
         aria-label="Global"
         className={cn(
-          " mx-auto flex max-w-7xl ease-in-out text-gray-900 transition-colors duration-300 items-center justify-between rounded-xl  px-3 py-2  sm:gap-x-6 sm:py-1",
+          " mx-auto flex max-w-7xl ease-in-out text-gray-900 transition-colors duration-300 items-center justify-between rounded-xl  px-3 py-2  sm:gap-x-6",
           !darkOnTop || scrollPosition > 25
             ? "bg-background shadow-sm "
             : "bg-transparent",
         )}
       >
-        <Link
-          className={cn(
-            " flex items-center gap-2 transition-colors ease-in-out duration-300 leading-none text-primary sm:text-6xl",
-          )}
-          href={process.env.NEXT_PUBLIC_BASE_URL || "/public"}
-        >
-          <Logo size={32} />
-          <h1 className="translate-y-0.5 font-madina text-4xl">sociocube</h1>
-        </Link>
-        <div className="hidden lg:flex gap-x-6">
-          {primaryLinks.map(
-            (item) =>
-              item.render || (
-                <Link
-                  className={cn(
-                    "text-base font-semibold leading-6  hover:underline  hover:underline-offset-8 ",
-                    activeHref === item.href
-                      ? "pointer-events-none underline-offset-8 underline"
-                      : "",
-                  )}
-                  href={item.href}
-                  key={item.label}
-                >
-                  {item.label}
-                </Link>
-              ),
-          )}
+        <div className="flex items-center gap-5">
+
+          <Link
+            className={cn(
+              " flex items-center gap-2 transition-colors ease-in-out duration-300 leading-none text-primary sm:text-6xl",
+            )}
+            href={process.env.NEXT_PUBLIC_BASE_URL || "/public"}
+          >
+            <Logo size={32} />
+            <h1 className="translate-y-0.5 font-madina text-4xl sm:hidden">sociocube</h1>
+          </Link>
+          <div className="h-5 w-0.5 bg-gray-200 max-sm:hidden" />
+          <div className="hidden lg:flex gap-x-3.5">
+            {primaryLinks.map(
+              (item) =>
+                item.render || (
+                  <Link
+                    className={cn(
+                      "text-base leading-6  hover:underline  hover:underline-offset-8 ",
+                      activeHref === item.href
+                        ? "pointer-events-none underline-offset-8 underline"
+                        : "",
+                    )}
+                    href={item.href}
+                    key={item.label}
+                  >
+                    {item.label}
+                  </Link>
+                ),
+            )}
+          </div>
         </div>
         <div className="flex items-center">
           {cta ? (
@@ -100,7 +104,7 @@ function Navbar({
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
                   {userImage ? (
-                    userImage !== "loading" ? (
+                    userImage === "loading" ? (
                       <div className="flex size-8 items-center justify-center rounded-full border border-gray-100">
                         <User className="size-5 rounded-full" size={40} />
                       </div>
@@ -138,7 +142,7 @@ function Navbar({
                         <Link
                           className={cn(
                             focus ? "bg-gray-100" : "",
-                            "block px-4 py-1.5 sm:py-3 max-sm:text-sm text-gray-700",
+                            "block px-4 py-1.5 sm:py-3 text-gray-700",
                           )}
                           href={item.href}
                           key={item.label}
@@ -156,7 +160,7 @@ function Navbar({
                         <Link
                           className={cn(
                             focus ? "bg-gray-100" : "",
-                            "block px-4 py-1.5 sm:py-3 max-sm:text-sm text-gray-700",
+                            "block px-4 py-1.5 sm:py-3  text-gray-700",
                           )}
                           href={item.href}
                           key={item.label}
