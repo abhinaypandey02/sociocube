@@ -71,7 +71,7 @@ export default function ChatWindow({
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY || "", {
       cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "",
       channelAuthorization: {
-        endpoint: `${process.env.NEXT_PUBLIC_BASE_URL}/api/pusher`,
+        endpoint: `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/pusher`,
         transport: "ajax",
         headers: { Authorization: `Bearer ${token}` },
       },

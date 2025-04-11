@@ -1,6 +1,5 @@
 /* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -363,6 +362,7 @@ export type Query = {
 
 export type QueryGetAllPostingsArgs = {
   page: Scalars['Float']['input'];
+  posting?: InputMaybe<Scalars['Float']['input']>;
 };
 
 

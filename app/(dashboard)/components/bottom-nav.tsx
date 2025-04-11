@@ -14,7 +14,7 @@ export default function BottomNav({
   activeItem?: NavItem;
 }) {
   return (
-    <div className="flex items-center justify-around border-t border-gray-200 py-3 px-7 gap-4 shadow-xl lg:hidden">
+    <div className="flex items-center justify-around border-t bg-background border-gray-200 py-3 px-7 gap-4 shadow-xl lg:hidden fixed bottom-0 w-full">
       {PRIMARY_NAV_ITEMS.map((item) => (
         <Link
           className={cn(

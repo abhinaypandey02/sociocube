@@ -1,13 +1,8 @@
-import { Suspense } from "react";
-
-import MyApplications from "@/app/(dashboard)/applications/page";
-import SubpageRenderer from "@/app/(dashboard)/components/subpage-renderer";
-import { Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
 import { Injector, queryGQL } from "@/lib/apollo-server";
 import { GET_ALL_POSTINGS } from "@/lib/queries";
 
-import SearchWindow from "./components/search-window";
+import PostingsData from "./components/postings-data";
 
 export function generateMetadata() {
   return getSEO("Find influencer your-campaigns");
@@ -15,16 +10,9 @@ export function generateMetadata() {
 
 export default function SearchPage() {
   return (
-    <>
-      <SubpageRenderer href={Route.Applications}>
-        <Suspense>
-          <MyApplications />
-        </Suspense>
-      </SubpageRenderer>
-      <Injector
-        Component={SearchWindow}
-        fetch={() => queryGQL(GET_ALL_POSTINGS, { page: 1 }, undefined, 120)}
-      />
-    </>
+    <Injector
+      Component={PostingsData}
+      fetch={() => queryGQL(GET_ALL_POSTINGS, { page: 1 }, undefined, 120)}
+    />
   );
 }

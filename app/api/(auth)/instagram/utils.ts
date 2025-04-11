@@ -1,4 +1,4 @@
-export const INSTAGRAM_AUTHORIZATION_URL = `https://www.instagram.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_INSTAGRAM_CLIENT_ID}&response_type=code&enable_fb_login=0&force_authentication=1&scope=instagram_business_basic&redirect_uri=${process.env.NEXT_PUBLIC_BASE_URL}/api/instagram`;
+export const INSTAGRAM_AUTHORIZATION_URL = `https://www.instagram.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_INSTAGRAM_CLIENT_ID}&response_type=code&enable_fb_login=0&force_authentication=1&scope=instagram_business_basic&redirect_uri=${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/instagram`;
 
 export const getGraphUrl = (
   path: string,

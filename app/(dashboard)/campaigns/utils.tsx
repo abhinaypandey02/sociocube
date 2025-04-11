@@ -25,7 +25,7 @@ export function getPlatforms(platforms: PostingPlatforms[]) {
     const Icon = POSTING_PLATFORMS.find(
       (platform) => platform.value === item,
     )?.icon;
-    if (Icon) return <Icon key={item} size={20} />;
+    if (Icon) return <Icon key={item} />;
     return null;
   });
 }

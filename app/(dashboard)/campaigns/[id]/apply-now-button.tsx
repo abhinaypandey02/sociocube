@@ -1,7 +1,7 @@
 "use client";
 import { Pencil, ShareNetwork } from "@phosphor-icons/react";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import React, { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -47,6 +47,7 @@ export default function ApplyNowButton({
   const [appliedSuccess, setAppliedSuccess] = useState(
     Boolean(data?.hasApplied),
   );
+  const [canShare, setCanShare] = useState(false);
   const [applyNow, { loading: applyNowLoading }] = useAuthMutation(APPLY_NOW);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRouteLoading, setIsRouteLoading] = useState(false);
@@ -117,12 +118,16 @@ export default function ApplyNowButton({
 
   const loading = isRouteLoading || dataLoading || applyNowLoading;
   const editable = data?.user?.id === posting.agency.id;
-  const canShare =
-    typeof window !== "undefined" &&
-    typeof navigator !== "undefined" &&
-    navigator.canShare({
-      text: getShareText(posting),
-    });
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      typeof navigator !== "undefined" &&
+      navigator.canShare({
+        text: "",
+      })
+    )
+      setCanShare(true);
+  }, []);
   return (
     <>
       <Modal close={handleClose} open={isModalOpen}>
@@ -194,18 +199,17 @@ export default function ApplyNowButton({
           </Button>
         </LinkWrapper>
       )}
-      {canShare ? (
-        <IconButton
-          className="max-lg:translate-x-3"
-          onClick={() =>
-            navigator.share({
-              text: getShareText(posting),
-            })
-          }
-        >
-          <ShareNetwork className="text-accent" size={24} weight="duotone" />
-        </IconButton>
-      ) : null}
+      <IconButton
+        disabled={canShare}
+        className="max-lg:translate-x-3"
+        onClick={() =>
+          navigator.share({
+            text: getShareText(posting),
+          })
+        }
+      >
+        <ShareNetwork className="text-accent" size={24} weight="duotone" />
+      </IconButton>
     </>
   );
 }

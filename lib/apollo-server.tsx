@@ -18,7 +18,7 @@ export const { query } = registerApolloClient(() => {
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: new HttpLink({
-      uri: `${process.env.NEXT_PUBLIC_BASE_URL}/api`,
+      uri: `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}`,
       credentials: "include",
     }),
   });

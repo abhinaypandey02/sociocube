@@ -14,8 +14,11 @@ export class PostingQueryResolvers {
     return getUserPostings(ctx);
   }
   @Query(() => [PostingGQL])
-  getAllPostings(@Arg("page") page: number): Promise<PostingGQL[]> {
-    return getAllPostings(page);
+  getAllPostings(
+    @Arg("page") page: number,
+    @Arg("posting", { nullable: true }) postingID?: number,
+  ): Promise<PostingGQL[]> {
+    return getAllPostings(page, postingID);
   }
   @Query(() => [PostingGQL])
   getFeaturedPostings(): Promise<PostingGQL[]> {
