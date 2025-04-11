@@ -38,9 +38,7 @@ export default function PostingsData({
             page: page + 1,
           }).then(({ data }) => {
             if (data?.postings) {
-              setPostings((prev) =>
-                [...prev, ...data.postings].slice(-10),
-              );
+              setPostings((prev) => [...prev, ...data.postings]);
             }
           });
           setPage((prev) => prev + 1);
