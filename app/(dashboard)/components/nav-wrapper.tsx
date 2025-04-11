@@ -29,7 +29,7 @@ export default function NavWrapper({ children }: PropsWithChildren) {
     <>
       <div
         className={cn(
-          "mx-auto flex w-full max-sm:pb-10 max-w-7xl grow overflow-x-hidden no-scrollbar",
+          "mx-auto flex w-full max-lg:pb-10 max-w-7xl grow overflow-x-hidden no-scrollbar",
           openSubPage ? "overflow-y-hidden" : "overflow-y-auto",
         )}
       >

@@ -25,7 +25,8 @@ export default function PostingsData({
 }) {
   const [postings, setPostings] = useState(data?.postings || []);
   const [page, setPage] = useState(1);
-  const [fetchPostings] = useAuthQuery(GET_ALL_POSTINGS);
+  const [fetchPostings, { loading: fetchingMore }] =
+    useAuthQuery(GET_ALL_POSTINGS);
   const observerTarget = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function PostingsData({
       (entries) => {
         const target = entries[0];
         if (target?.isIntersecting && !loading) {
-          setPage((prevPage) => prevPage + 1);
+          setPage((prev) => prev + 1);
         }
       },
       {
@@ -43,14 +44,16 @@ export default function PostingsData({
       },
     );
 
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
+    const currentTarget = observerTarget.current;
+    if (currentTarget) {
+      observer.observe(currentTarget);
     }
 
     return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
       }
+      observer.disconnect();
     };
   }, [loading, postings]);
 
@@ -198,7 +201,9 @@ export default function PostingsData({
                 className={"absolute bottom-5 right-5"}
                 href={"#" + data?.postings[i + 1]?.id}
               >
-                <Button>Next</Button>
+                <Button loading={i === postings.length - 1 && fetchingMore}>
+                  Next
+                </Button>
               </a>
             </div>
           </div>
