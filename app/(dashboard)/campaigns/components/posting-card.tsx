@@ -7,12 +7,9 @@ import React, { useEffect, useRef, useState } from "react";
 
 import type { GetAllPostingsQuery } from "@/__generated__/graphql";
 import ApplyNowButton from "@/app/(dashboard)/campaigns/[id]/apply-now-button";
-import NoResults from "@/app/(dashboard)/campaigns/components/no-results";
 import { Button } from "@/components/button";
 import Modal from "@/components/modal";
 import { getRoute } from "@/constants/routes";
-import { useAuthQuery } from "@/lib/apollo-client";
-import { GET_ALL_POSTINGS } from "@/lib/queries";
 import { cn, convertToAbbreviation } from "@/lib/utils";
 
 import PostingReviews from "../[id]/posting-reviews";

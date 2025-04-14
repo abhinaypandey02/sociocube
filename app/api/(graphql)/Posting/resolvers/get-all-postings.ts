@@ -127,7 +127,6 @@ export async function getAllPostings(
       })),
     );
   } else {
-    console.log(results, page);
     results.push(
       ...(await withPagination(
         db
