@@ -35,14 +35,16 @@ export default async function JobPostingPage({
   params: Promise<{ id: string }>;
 }) {
   const id = parseInt((await params).id);
+  const Cookie = await cookies();
+  const token = Cookie.get("refresh")?.value;
   const data = await queryGQL(
     GET_ALL_POSTINGS,
     {
       page: 1,
       posting: id,
     },
-    await cookies(),
-    0,
+    Cookie,
+    token ? 0 : 3600 * 24,
     ["posting"],
   );
   if (!data.postings.length) return notFound();
