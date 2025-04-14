@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 import { getSEO } from "@/constants/seo";
-import { Injector, queryGQL } from "@/lib/apollo-server";
+import { queryGQL } from "@/lib/apollo-server";
 import { GET_ALL_POSTINGS } from "@/lib/queries";
 
 import PostingsData from "./components/postings-data";
