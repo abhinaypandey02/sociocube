@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import type { GetAllPostingsQuery } from "@/__generated__/graphql";
 import NoResults from "@/app/(dashboard)/campaigns/components/no-results";
@@ -18,7 +18,7 @@ export default function PostingsData({
 }) {
   const [postings, setPostings] = useState(data?.postings || []);
   const [page, setPage] = useState(1);
-
+  const ref = useRef<HTMLUListElement>(null);
   const [fetchPostings, { loading: fetchingMore }] =
     useAuthQuery(GET_ALL_POSTINGS);
   const fetchMore = () => {
@@ -33,8 +33,16 @@ export default function PostingsData({
       });
     }
   };
+  const gotoNext = () => {
+    if (ref.current) {
+      ref.current.scrollBy({
+        top: ref.current.clientHeight,
+      });
+    }
+  };
   return (
     <ul
+      ref={ref}
       aria-labelledby="products-heading"
       className="h-full snap-y snap-mandatory snap-always overflow-auto no-scrollbar"
     >
@@ -43,6 +51,7 @@ export default function PostingsData({
       {!loading &&
         postings.map((posting, i) => (
           <PostingCard
+            gotoNext={gotoNext}
             key={posting.id}
             fetchMore={i === postings.length - 2 ? fetchMore : undefined}
             posting={posting}
