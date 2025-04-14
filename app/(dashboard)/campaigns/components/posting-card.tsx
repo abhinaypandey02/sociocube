@@ -10,7 +10,7 @@ import ApplyNowButton from "@/app/(dashboard)/campaigns/[id]/apply-now-button";
 import { Button } from "@/components/button";
 import Modal from "@/components/modal";
 import { getRoute } from "@/constants/routes";
-import { cn, convertToAbbreviation } from "@/lib/utils";
+import { convertToAbbreviation } from "@/lib/utils";
 
 import PostingReviews from "../[id]/posting-reviews";
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
