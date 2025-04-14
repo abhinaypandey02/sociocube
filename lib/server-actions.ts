@@ -12,8 +12,8 @@ export async function getTransformedPostingData(message: string) {
     `We need to convert UGC job posting text messages into structured json. It should convert into a form data for entering into a website. The form is built with typescript and here is the interface for form data:
     
     export enum PostingPlatforms {
-      Instagram = '''INSTAGRAM''',
-      Youtube = '''YOUTUBE'''
+      Instagram = INSTAGRAM,
+      Youtube = YOUTUBE
     }
       
     interface FormFields {
