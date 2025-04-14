@@ -137,7 +137,7 @@ export default function PostingsData({
                         ) : null}
                       </p>
                     </Link>
-                    <div className={"flex items-center gap-3 mt-3 text-sm"}>
+                    <div className={"flex flex-wrap items-center gap-3 mt-3 text-sm"}>
                       <div>{getPlatforms(posting.platforms)}</div>
                       <span className={"text-[10px] text-gray-500"}>•</span>
                       <div className={"flex items-center gap-1"}>

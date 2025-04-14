@@ -29,7 +29,7 @@ export async function getTransformedPostingData(message: string) {
       platforms: PostingPlatforms;
     }
       
-    The user will provide a text message sent by the marketing agency, return a JSON with the data filled.\n`,
+    The user will provide a text message sent by the marketing agency, return a JSON with the data filled.`,
     message,
   );
 }

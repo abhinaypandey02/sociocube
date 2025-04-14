@@ -55,7 +55,6 @@ function Navbar({
         )}
       >
         <div className="flex items-center gap-5">
-
           <Link
             className={cn(
               " flex items-center gap-2 transition-colors ease-in-out duration-300 leading-none text-primary sm:text-6xl",
@@ -63,7 +62,9 @@ function Navbar({
             href={process.env.NEXT_PUBLIC_BASE_URL || "/public"}
           >
             <Logo size={32} />
-            <h1 className="translate-y-0.5 font-madina text-4xl sm:hidden">sociocube</h1>
+            <h1 className="translate-y-0.5 font-madina text-4xl sm:hidden">
+              sociocube
+            </h1>
           </Link>
           <div className="h-5 w-0.5 bg-gray-200 max-sm:hidden" />
           <div className="hidden lg:flex gap-x-3.5">

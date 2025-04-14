@@ -1,7 +1,6 @@
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 
 import type { GetCurrentUserQuery } from "@/__generated__/graphql";
-import GetVerifiedOption from "@/app/(public)/components/get-verified-option";
 import Logout from "@/app/(public)/components/logout";
 import { getRoute } from "@/constants/routes";
 
@@ -63,15 +62,15 @@ export const getOnboardedUserNavbarSections = (
   secondaryLinks: [
     ...(user?.isOnboarded
       ? [
-        {
-          label: "Your profile",
-          href: `${getRoute("Profile")}/${user.username}`,
-        },
-        {
-          label: "Campaigns",
-          href: getRoute("Campaigns"),
-        },
-      ]
+          {
+            label: "Your profile",
+            href: `${getRoute("Profile")}/${user.username}`,
+          },
+          {
+            label: "Campaigns",
+            href: getRoute("Campaigns"),
+          },
+        ]
       : []),
     {
       label: "Settings",
