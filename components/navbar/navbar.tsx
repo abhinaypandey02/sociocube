@@ -48,7 +48,7 @@ function Navbar({
       <nav
         aria-label="Global"
         className={cn(
-          " mx-auto flex max-w-7xl ease-in-out text-gray-900 transition-colors duration-300 items-center justify-between rounded-xl  px-3 py-2  sm:gap-x-6",
+          "relative mx-auto flex max-w-7xl ease-in-out text-gray-900 transition-colors duration-300 items-center justify-between rounded-xl  px-3 py-2  sm:gap-x-6",
           !darkOnTop || scrollPosition > 25
             ? "bg-background shadow-sm "
             : "bg-transparent",
@@ -57,17 +57,17 @@ function Navbar({
         <div className="flex items-center gap-5">
           <Link
             className={cn(
-              " flex items-center gap-2 transition-colors ease-in-out duration-300 leading-none text-primary sm:text-6xl",
+              " flex items-center gap-2 transition-colors ease-in-out duration-300 leading-none text-primary",
             )}
             href={process.env.NEXT_PUBLIC_BASE_URL || "/public"}
           >
-            <Logo size={32} />
-            <h1 className="translate-y-0.5 font-madina text-4xl sm:hidden">
+            <Logo size={36} />
+            <h1 className="translate-y-0.5 font-madina text-4xl leading-none  sm:hidden">
               sociocube
             </h1>
           </Link>
           <div className="h-5 w-0.5 bg-gray-200 max-sm:hidden" />
-          <div className="hidden lg:flex gap-x-3.5">
+          <div className="hidden sm:flex gap-x-3.5">
             {primaryLinks.map(
               (item) =>
                 item.render || (
@@ -98,7 +98,7 @@ function Navbar({
               />
             </Link>
           ) : null}
-          <Menu as="div" className="relative ml-3.5">
+          <Menu as="div" className=" ml-3.5">
             <MenuButton className="relative flex rounded-full text-sm focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2">
               {({ open }) => (
                 <>
@@ -107,7 +107,7 @@ function Navbar({
                   {userImage ? (
                     userImage === "loading" ? (
                       <div className="flex size-8 items-center justify-center rounded-full border border-gray-100">
-                        <User className="size-5 rounded-full" size={40} />
+                        <User size={24} />
                       </div>
                     ) : (
                       <Image
@@ -119,9 +119,9 @@ function Navbar({
                       />
                     )
                   ) : open ? (
-                    <X className="size-5 rounded-full" size={40} />
+                    <X size={24} />
                   ) : (
-                    <List className="size-5 rounded-full sm:hidden" size={40} />
+                    <List className="sm:hidden" size={24} />
                   )}
                 </>
               )}
@@ -134,7 +134,7 @@ function Navbar({
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 ring-black/5 focus:outline-hidden">
+              <MenuItems className="absolute shadow-sm top-full right-0 z-10 mt-2 w-full sm:w-48 origin-top rounded-md bg-white py-3 ring-1 ring-black/5 focus:outline-hidden">
                 {primaryLinks.map((item) => (
                   // @ts-expect-error -- type missing
                   <MenuItem className="sm:hidden" key={item.href}>
@@ -179,7 +179,7 @@ function Navbar({
             secondaryLinks.map((item) => (
               <Link
                 className={cn(
-                  "max-lg:hidden lg:text-base lg:font-medium lg:leading-6 hover:underline hover:underline-offset-8 ",
+                  "max-sm:hidden text-base font-medium leading-6 hover:underline hover:underline-offset-8 ",
                   activeHref === item.href
                     ? "pointer-events-none underline-offset-8 underline"
                     : "",

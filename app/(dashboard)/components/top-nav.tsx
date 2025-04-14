@@ -19,11 +19,11 @@ export default function TopNav({
   return (
     <div
       onScroll={(e) => e.stopPropagation()}
-      className="flex w-full items-center justify-between p-4 lg:hidden sticky top-0"
+      className="flex w-full items-center justify-between py-4 px-5 lg:hidden sticky top-0"
     >
       <div className="flex items-center gap-3">
         <Link href={getRoute("Home")}>
-          <Logo className="text-primary" size={32} />
+          <Logo className="text-primary" size={36} />
         </Link>
         <h2 className="font-poppins text-2xl font-semibold text-gray-800">
           {title}
@@ -37,7 +37,7 @@ export default function TopNav({
               setOpenSubPage(page);
             }}
           >
-            <page.icon size={22} weight="bold" />
+            <page.icon size={24} />
           </button>
         ))}
       </div>

@@ -21,7 +21,7 @@ ${posting.deliverables.map((deliverable) => `- ${deliverable.trim()}`).join("\n"
 ${posting.platforms.join(", ")}
         
 *Payment* 💳
-${getCurrency(posting.barter, posting.currency, posting.price)}
+${getCurrency(posting.barter, posting.currency, posting.price) || "N/A"}
         
 ${
   posting.minimumFollowers

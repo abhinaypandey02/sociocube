@@ -18,13 +18,17 @@ export default function SideNav({
   if (activeItem?.onlyOnMobile)
     activeItem = NAV_ITEMS.find((item) => item.href === activeItem?.parent);
   return (
-    <ul className="space-y-1 shrink-0 border-r border-gray-200 px-3 py-6 max-lg:hidden ">
+    <ul className="space-y-1 shrink-0 border-r border-gray-200 px-3 py-4 max-lg:hidden ">
       <Link
-        className="mb-8 block text-primary"
+        className="mb-8 gap-2 flex items-center text-primary"
         href={Route.Home}
         key={Route.Home}
       >
-        <Logo className="ml-3" size={38} />
+        <Logo size={36} />
+
+        <h1 className="translate-y-0.5 font-madina text-4xl leading-none">
+          sociocube
+        </h1>
       </Link>
       {NAV_ITEMS.filter((item) => !item.onlyOnMobile).map((item) => (
         <Link
