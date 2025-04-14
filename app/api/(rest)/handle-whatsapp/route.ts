@@ -16,10 +16,7 @@ export const POST = async (req: NextRequest) => {
     const posting = await getTransformedPostingData(body);
     if (posting) {
       if (!posting.title && !posting.description) {
-        return new NextResponse(
-          "No title or desription",
-          { status: 200 },
-        );
+        return new NextResponse("No title or desription", { status: 200 });
       }
       const res = await createPosting(
         { userId: 134 },
@@ -48,7 +45,10 @@ export const POST = async (req: NextRequest) => {
         );
       }
     } else {
-      return new NextResponse("GROK not working proeprly. " + JSON.stringify(posting), { status: 500 });
+      return new NextResponse(
+        "GROK not working proeprly. " + JSON.stringify(posting),
+        { status: 500 },
+      );
     }
   } catch (e: unknown) {
     return new NextResponse((e as Error).message, { status: 500 });
