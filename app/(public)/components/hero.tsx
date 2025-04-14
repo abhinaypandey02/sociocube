@@ -17,11 +17,11 @@ export default function Hero() {
         <h2 className="font-poppins text-5xl font-semibold  sm:text-7xl">
           Connect. Collaborate. Create.
         </h2>
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-800">
+        <p className="mx-auto mt-4 sm:mt-6 max-w-2xl text-lg leading-8 text-gray-800">
           Sociocube bridges the gap between brands and influencers, providing a
           seamless platform for authentic partnerships.
         </p>
-        <div className="mt-10 mb-16 sm:mb-28 flex items-center justify-center items-stretch gap-4 max-sm:flex-col">
+        <div className="mt-6 sm:mt-10 mb-10 sm:mb-28 flex items-center justify-center items-stretch gap-4 max-sm:flex-col">
           <Link href={getRoute("Campaigns")}>
             <Button
               className="flex items-center gap-2 w-full"

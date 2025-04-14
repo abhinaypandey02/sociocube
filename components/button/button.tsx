@@ -26,8 +26,8 @@ function Button({
   return (
     <button
       className={cn(
-        "relative disabled:brightness-80 ring-0 duration-200 flex justify-center transition-all font-semibold leading-6 focus-visible:outline-2 focus-visible:outline-offset-2",
-        borderless ? "border-none" : "shadow-sm",
+        "relative disabled:brightness-80 duration-200 flex justify-center transition-all font-semibold leading-6 focus-visible:outline-2 focus-visible:outline-offset-2",
+        borderless ? "border-none" : !invert && "shadow-sm",
         square ? "p-3" : compact ? "px-4 py-1 " : "px-4 py-2 ",
         compact ? "rounded-lg" : "rounded-xl",
         variant === Variants.PRIMARY && {
