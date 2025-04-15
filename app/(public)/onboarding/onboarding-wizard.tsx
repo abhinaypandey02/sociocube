@@ -58,13 +58,15 @@ export function getStep(
 function OnboardingWizard({
   data,
   loading: dataLoading,
-  redirectURL,
 }: {
-  data?: GetDefaultOnboardingDetailsQuery;
+  data?: {
+    user: GetDefaultOnboardingDetailsQuery["getCurrentUser"];
+    redirectURL: string | null;
+  };
   loading?: boolean;
-  redirectURL: string | null;
 }) {
-  const currentUser = data?.getCurrentUser;
+  const currentUser = data?.user;
+  const redirectURL = data?.redirectURL;
   const [showCreatorSteps, setShowCreatorSteps] = useState(
     !currentUser || currentUser.role === Roles.Creator,
   );
@@ -79,7 +81,7 @@ function OnboardingWizard({
   const nextStep = useCallback(() => {
     setStep((o) => Math.min(o + 1, MAX_STEPS - 1));
     setMaxTouchedStep((o) => Math.max(o, step + 1));
-  }, [router, step]);
+  }, [step]);
 
   const fallbackToStep = useCallback(
     (fallbackStep: number) => {
@@ -262,7 +264,7 @@ function OnboardingWizard({
 
   useEffect(() => {
     if (!currentUser && !dataLoading) {
-      router.push(redirectURL || getRoute("SignUp"));
+      router.replace(redirectURL || getRoute("SignUp"));
     }
     if (currentUser?.isOnboarded) {
       if (currentUser.username)

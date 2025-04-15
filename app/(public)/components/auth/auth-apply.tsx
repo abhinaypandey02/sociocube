@@ -11,6 +11,7 @@ export default function AuthApply({
 }) {
   const [, setUser] = useUser();
   useEffect(() => {
+    console.log("SETTING");
     setUser(user);
   }, [user, setUser]);
   return null;

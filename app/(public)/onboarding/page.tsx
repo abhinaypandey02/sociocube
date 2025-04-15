@@ -12,15 +12,23 @@ export default async function OnboardingPage({
 }: {
   searchParams: Promise<{ redirectURL: string | null }>;
 }) {
-  const { redirectURL } = await searchParams;
   return (
     <div className="mx-auto flex min-h-[83vh] w-full max-w-7xl  px-6 sm:px-8 sm:pt-10">
       <Injector
         Component={OnboardingWizard}
-        fetch={async () =>
-          queryGQL(GET_DEFAULT_ONBOARDING_DETAILS, {}, await cookies(), 0)
-        }
-        props={{ redirectURL }}
+        fetch={async () => {
+          const { redirectURL } = await searchParams;
+          const { getCurrentUser } = await queryGQL(
+            GET_DEFAULT_ONBOARDING_DETAILS,
+            {},
+            await cookies(),
+            0,
+          );
+          return {
+            redirectURL,
+            user: getCurrentUser,
+          };
+        }}
       />
     </div>
   );
