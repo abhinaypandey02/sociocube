@@ -49,7 +49,7 @@ export default function LoginForm({
     const error = await loginWithEmail(
       data.email.toLowerCase(),
       data.password,
-      turnstileToken,
+      turnstileToken
     );
     if (error === null) {
       setSuccess(true);
@@ -73,48 +73,30 @@ export default function LoginForm({
       title="Login to your account"
     >
       <Form
-        className="space-y-6"
+        className="space-y-4"
         form={form}
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div>
-          <label
-            className="block text-sm font-medium leading-6 text-gray-900"
-            htmlFor="email"
-          >
-            Email address
-          </label>
-          <div className="mt-2">
-            <Input
-              autoFocus
-              className="block"
-              name="email"
-              placeholder="Email"
-              rules={{
-                required: true,
-                pattern: { value: EMAIL_REGEX, message: "Invalid email" },
-              }}
-            />
-          </div>
-        </div>
+        <Input
+          autoFocus
+          label="Email address"
+          className="block"
+          name="email"
+          placeholder="Your email"
+          rules={{
+            required: true,
+            pattern: { value: EMAIL_REGEX, message: "Invalid email" },
+          }}
+        />
 
-        <div>
-          <label
-            className="block text-sm font-medium leading-6 text-gray-900"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <div className="mt-2">
-            <Input
-              className="block"
-              name="password"
-              placeholder="Password"
-              rules={{ required: true }}
-              type="password"
-            />
-          </div>
-        </div>
+        <Input
+          label="Password"
+          className="block"
+          name="password"
+          placeholder="Password"
+          rules={{ required: true }}
+          type="password"
+        />
 
         <div className="flex items-center justify-between">
           <div className="text-sm leading-6">

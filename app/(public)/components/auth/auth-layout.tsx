@@ -20,20 +20,20 @@ export default function AuthLayout({
   redirectURL?: string;
 }>) {
   return (
-    <section className="mt-5  flex flex-1 flex-col justify-center pb-12 sm:px-6 sm:py-12 lg:px-8">
+    <section className="flex flex-1 flex-col justify-center py-3 sm:px-6 sm:py-8 lg:px-8">
       <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" />
       <div className="sm:mx-auto sm:w-full ">
-        <h2 className="mt-6 text-center font-poppins text-3xl font-semibold leading-9 text-gray-800 sm:text-5xl ">
+        <h2 className="text-center font-poppins text-3xl font-semibold leading-9 text-gray-800 sm:text-5xl ">
           {title}
         </h2>
       </div>
 
-      <div className="sm:mx-auto sm:mt-20 sm:w-full sm:max-w-[480px]">
-        <div className=" px-6 py-12 sm:rounded-lg sm:bg-white sm:px-12 sm:shadow-sm">
+      <div className="sm:mx-auto sm:mt-20 sm:w-full sm:max-w-[480px] mt-8">
+        <div className=" px-4 sm:rounded-lg sm:bg-white sm:px-12 sm:shadow-sm">
           {children}
           {redirectURL ? (
-            <div>
-              <div className="relative mt-10">
+            <>
+              <div className="relative my-6">
                 <div
                   aria-hidden="true"
                   className="absolute inset-0 flex items-center"
@@ -48,12 +48,12 @@ export default function AuthLayout({
               </div>
 
               <SocialBar />
-            </div>
+            </>
           ) : null}
         </div>
 
         {bottomHeading ? (
-          <p className="mt-10 text-center text-sm text-gray-500">
+          <p className="mt-4 text-center text-sm text-gray-500">
             {bottomHeading.question}&nbsp;
             <Link
               className="link-accent font-semibold leading-6"

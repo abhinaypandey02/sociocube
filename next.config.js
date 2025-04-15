@@ -2,6 +2,7 @@
 const nextConfig = {
   experimental: {
     ppr: true,
+    optimizePackageImports: ["motion"],
   },
   async redirects() {
     return [
@@ -20,7 +21,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  optimizePackageImports: ["motion"],
   images: {
     remotePatterns: [
       {
