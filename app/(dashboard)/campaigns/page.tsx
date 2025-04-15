@@ -11,14 +11,19 @@ export function generateMetadata() {
 }
 
 export default async function SearchPage() {
-  const Cookie = await cookies();
-  const token = Cookie.get("refresh")?.value;
   return (
     <Injector
       Component={PostingsData}
-      fetch={async () =>
-        queryGQL(GET_ALL_POSTINGS, { page: 1 }, Cookie, token ? 0 : 3600)
-      }
+      fetch={async () => {
+        const Cookie = await cookies();
+        const token = Cookie.get("refresh")?.value;
+        return queryGQL(
+          GET_ALL_POSTINGS,
+          { page: 1 },
+          Cookie,
+          token ? 0 : 3600,
+        );
+      }}
     />
   );
 }

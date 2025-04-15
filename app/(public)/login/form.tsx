@@ -6,6 +6,7 @@ import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
+import useHandleAuthorized from "@/app/(public)/components/auth/handle-authorized";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
 import { Input } from "@/components/input";
@@ -13,8 +14,8 @@ import { getRoute, Route } from "@/constants/routes";
 import { EMAIL_REGEX } from "@/constants/validations";
 import { useLoginWithEmail } from "@/lib/auth-client";
 
-import AuthLayout from "../components/auth-layout";
-import useTurnstileToken from "../use-turnstile-token";
+import AuthLayout from "../components/auth/auth-layout";
+import useTurnstileToken from "../components/auth/use-turnstile-token";
 
 const defaultValues = {
   email: "",
@@ -30,6 +31,7 @@ export default function LoginForm({
 }: {
   data?: string;
 }) {
+  useHandleAuthorized();
   const form = useForm({ defaultValues });
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);

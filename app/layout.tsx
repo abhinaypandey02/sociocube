@@ -14,6 +14,8 @@ import { getSEO, SEO } from "@/constants/seo";
 import { ApolloWrapper } from "@/lib/apollo-client";
 import { GlobalStateWrapper } from "@/lib/auth-client";
 
+import AuthChecker from "./(public)/components/auth/auth-checker";
+
 const madina = localFont({
   src: "../fonts/madina.woff2",
   display: "swap",
@@ -121,7 +123,12 @@ export default function RootLayout({ children }: PropsWithChildren) {
           <ErrorToaster />
         </Suspense>
         <ApolloWrapper>
-          <GlobalStateWrapper>{children}</GlobalStateWrapper>
+          <GlobalStateWrapper>
+            <Suspense>
+              <AuthChecker />
+            </Suspense>
+            {children}
+          </GlobalStateWrapper>
         </ApolloWrapper>
       </body>
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />

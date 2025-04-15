@@ -11,20 +11,31 @@ import React, {
   useState,
 } from "react";
 
+import { GetCurrentUserQuery } from "@/__generated__/graphql";
 import { NavItem } from "@/app/(dashboard)/type";
 import GetVerifiedModal from "@/app/(public)/components/get-verified-modal";
+
+type CurrentUser = GetCurrentUserQuery["user"];
 
 const GlobalState = createContext<{
   openSubPage?: NavItem;
   setOpenSubPage: Dispatch<SetStateAction<NavItem | undefined>>;
   token?: string | null;
   setToken: Dispatch<SetStateAction<string | null | undefined>>;
+  user?: CurrentUser;
+  setUser: Dispatch<SetStateAction<CurrentUser>>;
   toggleIsGetVerifiedModalOpen: () => void;
 }>({
   setToken: () => null,
+  setUser: () => null,
   toggleIsGetVerifiedModalOpen: () => null,
   setOpenSubPage: () => null,
 });
+
+export function useUser() {
+  const { user, setUser } = useContext(GlobalState);
+  return [user, setUser] as const;
+}
 
 export function useToken() {
   const { token } = useContext(GlobalState);
@@ -47,6 +58,7 @@ export function useToggleGetVerifiedModal() {
 export function GlobalStateWrapper({ children }: PropsWithChildren) {
   const [openSubPage, setOpenSubPage] = useState<NavItem>();
   const [token, setToken] = useState<string | null>();
+  const [user, setUser] = useState<CurrentUser>();
   const [isGetVerifiedModalOpen, setIsGetVerifiedModalOpen] =
     useState<boolean>(false);
 
@@ -65,6 +77,8 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
   return (
     <GlobalState.Provider
       value={{
+        user,
+        setUser,
         openSubPage,
         setOpenSubPage,
         token,
