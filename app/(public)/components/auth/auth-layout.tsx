@@ -29,11 +29,11 @@ export default function AuthLayout({
       </div>
 
       <div className="sm:mx-auto sm:mt-20 sm:w-full sm:max-w-[480px] mt-8">
-        <div className=" px-4 sm:rounded-lg sm:bg-white sm:px-12 sm:shadow-sm">
+        <div className=" px-4 sm:rounded-lg sm:bg-white sm:px-8 py-8 sm:shadow-sm">
           {children}
           {redirectURL ? (
             <>
-              <div className="relative my-6">
+              <div className="relative my-4">
                 <div
                   aria-hidden="true"
                   className="absolute inset-0 flex items-center"

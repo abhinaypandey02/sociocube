@@ -1,16 +1,14 @@
+import { Button } from "@/components/button";
 import { GoogleLogo } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
 
 export default function SocialBar() {
   return (
-    <div className="flex gap-3">
-      <a
-        className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
-        href="/api/google"
-      >
-        <GoogleLogo size={20} />
+    <a className="w-full" href="/api/google">
+      <Button className="w-full items-center gap-2" invert>
+        <GoogleLogo weight="bold" size={20} />
         <span className="text-sm font-semibold leading-6">Google</span>
-      </a>
-    </div>
+      </Button>
+    </a>
   );
 }
