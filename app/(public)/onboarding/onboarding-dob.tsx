@@ -26,7 +26,11 @@ export default function OnboardingDOB({
   defaultValues: FormFields;
   isActive: boolean;
 }) {
-  const form = useForm({ defaultValues });
+  const form = useForm({
+    defaultValues: {
+      dob: defaultValues.dob || "2000-01-01",
+    },
+  });
   const [updateDOB, { loading }] = useAuthMutation(UPDATE_USER);
   const dob = form.watch("dob");
   const ageRange = dob && getAgeRange(new Date(dob));
@@ -53,7 +57,7 @@ export default function OnboardingDOB({
         className="block"
         label="Date of Birth"
         name="dob"
-        placeholder="Enter your date of birth"
+        placeholder="2000-01-01"
         rules={{
           required: true,
           validate: ageValidation,
