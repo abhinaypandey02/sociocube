@@ -129,7 +129,7 @@ export default function PostingCard({
               >
                 <div>{getPlatforms(posting.platforms)}</div>
 
-                {price && (
+                {price ? (
                   <>
                     <span className={"text-[10px] text-gray-500"}>•</span>
                     <div className={"flex items-center gap-1"}>
@@ -137,8 +137,8 @@ export default function PostingCard({
                       {price}
                     </div>
                   </>
-                )}
-                {posting.minimumFollowers && (
+                ) : null}
+                {posting.minimumFollowers ? (
                   <>
                     <span className={"text-[10px] text-gray-500"}>•</span>
                     <div className={"flex items-center gap-1"}>
@@ -146,7 +146,7 @@ export default function PostingCard({
                       {convertToAbbreviation(posting.minimumFollowers)}+
                     </div>
                   </>
-                )}
+                ) : null}
                 {posting.minimumAge || posting.maximumAge ? (
                   <>
                     <span className={"text-[10px] text-gray-500"}>•</span>
