@@ -1,6 +1,7 @@
-import { Button } from "@/components/button";
 import { GoogleLogo } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
+
+import { Button } from "@/components/button";
 
 export default function SocialBar() {
   return (

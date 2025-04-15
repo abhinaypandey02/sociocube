@@ -12,8 +12,7 @@ import { Input } from "@/components/input";
 import { getRoute } from "@/constants/routes";
 import { handleGQLErrors } from "@/lib/apollo-client";
 import { RESET_PASSWORD } from "@/lib/mutations";
-
-import AuthLayout from "../../../(auth)/components/auth-layout";
+import AuthLayout from "../../components/auth/auth-layout";
 
 const defaultValues = {
   password: "",

@@ -4,8 +4,7 @@ import type { GraphQLError } from "graphql/error";
 import { getSEO } from "@/constants/seo";
 import { queryGQL } from "@/lib/apollo-server";
 import { VERIFY_EMAIL } from "@/lib/queries";
-
-import AuthLayout from "../../../(auth)/components/auth-layout";
+import AuthLayout from "../../components/auth/auth-layout";
 
 export default async function VerifyEmailPage({
   params,

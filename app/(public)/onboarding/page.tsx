@@ -7,7 +7,7 @@ import { GET_DEFAULT_ONBOARDING_DETAILS } from "@/lib/queries";
 
 import OnboardingWizard from "./onboarding-wizard";
 
-export default async function AuthLayout({
+export default async function OnboardingPage({
   searchParams,
 }: {
   searchParams: Promise<{ redirectURL: string | null }>;

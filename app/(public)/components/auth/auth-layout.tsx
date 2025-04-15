@@ -20,7 +20,7 @@ export default function AuthLayout({
   redirectURL?: string;
 }>) {
   return (
-    <section className="flex flex-1 flex-col justify-center py-3 sm:px-6 sm:py-8 lg:px-8">
+    <section className="flex flex-1 flex-col justify-center pt-3 sm:pt-12">
       <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" />
       <div className="sm:mx-auto sm:w-full ">
         <h2 className="text-center font-poppins text-3xl font-semibold leading-9 text-gray-800 sm:text-5xl ">
@@ -28,7 +28,7 @@ export default function AuthLayout({
         </h2>
       </div>
 
-      <div className="sm:mx-auto sm:mt-20 sm:w-full sm:max-w-[480px] mt-8">
+      <div className="sm:mx-auto sm:mt-12 sm:w-full sm:max-w-[480px] mt-8">
         <div className=" px-4 sm:rounded-lg sm:bg-white sm:px-8 py-8 sm:shadow-sm">
           {children}
           {redirectURL ? (

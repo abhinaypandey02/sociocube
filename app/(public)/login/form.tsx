@@ -49,7 +49,7 @@ export default function LoginForm({
     const error = await loginWithEmail(
       data.email.toLowerCase(),
       data.password,
-      turnstileToken
+      turnstileToken,
     );
     if (error === null) {
       setSuccess(true);
