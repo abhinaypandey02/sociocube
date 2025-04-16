@@ -11,7 +11,7 @@ import type { UserDB } from "../db";
 
 function cacheAlive(d: Date) {
   const time = (new Date().getTime() - d.getTime()) / (1000 * 60 * 60);
-  return time < 16;
+  return time < 36;
 }
 
 export async function getInstagramStats(user: UserDB) {

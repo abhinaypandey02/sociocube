@@ -71,7 +71,7 @@ export default async function ProfilePage({
       username,
     },
     undefined,
-    noCache ? 0 : 60 * 10,
+    noCache ? 0 : 60 * 60 * 40,
     [`profile-${username}`],
   );
   if (!user?.name || !user.instagramStats) return notFound();
