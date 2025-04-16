@@ -5,6 +5,7 @@ import {
   UserCircle,
 } from "@phosphor-icons/react/dist/ssr";
 
+import { Roles } from "@/__generated__/graphql";
 import { NavItem } from "@/app/(dashboard)/type";
 import { Route } from "@/constants/routes";
 
@@ -14,6 +15,7 @@ export const NAV_ITEMS: NavItem[] = [
     navTitle: "Apply",
     heading: "Active Campaigns",
     icon: MagnifyingGlassPlus,
+    roles: [Roles.Creator],
   },
   {
     icon: CalendarCheck,
@@ -21,12 +23,14 @@ export const NAV_ITEMS: NavItem[] = [
     navTitle: "Applications",
     href: Route.Applications,
     parent: Route.Campaigns,
+    roles: [Roles.Creator],
   },
   {
     icon: Handshake,
     heading: "Your Campaigns",
     navTitle: "Your Campaigns",
     href: Route.YourCampaigns,
+    roles: [Roles.Brand, Roles.Agency],
   },
   {
     icon: MagnifyingGlassPlus,
@@ -35,6 +39,7 @@ export const NAV_ITEMS: NavItem[] = [
     href: Route.NewCampaign,
     onlyOnMobile: true,
     parent: Route.YourCampaigns,
+    roles: [Roles.Brand, Roles.Agency],
   },
   {
     icon: UserCircle,

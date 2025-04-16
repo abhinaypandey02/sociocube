@@ -1,5 +1,6 @@
 import { ElementType } from "react";
 
+import { Roles } from "@/__generated__/graphql";
 import { Route } from "@/constants/routes";
 
 export interface NavItem {
@@ -9,4 +10,5 @@ export interface NavItem {
   icon: ElementType;
   parent?: Route;
   onlyOnMobile?: boolean;
+  roles?: Roles[];
 }

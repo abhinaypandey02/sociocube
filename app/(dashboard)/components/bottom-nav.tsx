@@ -2,9 +2,10 @@
 import Link from "next/link";
 import React, { Dispatch, SetStateAction } from "react";
 
-import { PRIMARY_NAV_ITEMS } from "@/app/(dashboard)/constants";
 import { NavItem } from "@/app/(dashboard)/type";
 import { cn } from "@/lib/utils";
+
+import { useUserNavItems } from "./useUserNavItems";
 
 export default function BottomNav({
   setActiveItem,
@@ -13,9 +14,10 @@ export default function BottomNav({
   setActiveItem: Dispatch<SetStateAction<NavItem | undefined>>;
   activeItem?: NavItem;
 }) {
+  const { primary } = useUserNavItems();
   return (
     <div className="flex items-center justify-around border-t bg-background border-gray-200 py-3 px-7 gap-4 shadow-xl lg:hidden fixed bottom-0 w-full">
-      {PRIMARY_NAV_ITEMS.map((item) => (
+      {primary.map((item) => (
         <Link
           className={cn(
             "flex flex-col items-center",

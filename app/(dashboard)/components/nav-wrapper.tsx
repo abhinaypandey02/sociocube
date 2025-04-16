@@ -10,6 +10,8 @@ import { SEO } from "@/constants/seo";
 import { useSubPage } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
+import { useUserNavItems } from "./useUserNavItems";
+
 const getActiveItem = (pathname: string) =>
   NAV_ITEMS.find((item) => String(item.href) === pathname);
 
@@ -21,9 +23,10 @@ export default function NavWrapper({ children }: PropsWithChildren) {
     const activeItem = getActiveItem(pathname);
     if (activeItem) setActiveItem(activeItem);
   }, [pathname]);
+  const { all } = useUserNavItems();
   const subPages = useMemo(
-    () => NAV_ITEMS.filter((item) => item.parent === activeItem?.href),
-    [activeItem],
+    () => all.filter((item) => item.parent === activeItem?.href),
+    [activeItem, all],
   );
   return (
     <>

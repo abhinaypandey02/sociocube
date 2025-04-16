@@ -8,6 +8,8 @@ import Logo from "@/app/logo";
 import { Route } from "@/constants/routes";
 import { cn } from "@/lib/utils";
 
+import { useUserNavItems } from "./useUserNavItems";
+
 export default function SideNav({
   setActiveItem,
   activeItem,
@@ -17,6 +19,8 @@ export default function SideNav({
 }) {
   if (activeItem?.onlyOnMobile)
     activeItem = NAV_ITEMS.find((item) => item.href === activeItem?.parent);
+  const { all } = useUserNavItems();
+
   return (
     <ul className="space-y-1 shrink-0 border-r border-gray-200 px-3 py-4 max-lg:hidden ">
       <Link
@@ -30,25 +34,27 @@ export default function SideNav({
           sociocube
         </h1>
       </Link>
-      {NAV_ITEMS.filter((item) => !item.onlyOnMobile).map((item) => (
-        <Link
-          className={cn(
-            "flex gap-2.5 items-center py-3 pl-3 pr-14 hover:bg-gray-100 rounded-lg",
-            activeItem?.href === item.href && "bg-gray-100 text-primary",
-          )}
-          href={item.href}
-          key={item.href}
-          onClick={() => {
-            setActiveItem(item);
-          }}
-        >
-          <item.icon
-            size={28}
-            weight={activeItem?.href === item.href ? "fill" : "duotone"}
-          />
-          <h4 className="text-lg font-medium">{item.navTitle}</h4>
-        </Link>
-      ))}
+      {all
+        .filter((item) => !item.onlyOnMobile)
+        .map((item) => (
+          <Link
+            className={cn(
+              "flex gap-2.5 items-center py-3 pl-3 pr-14 hover:bg-gray-100 rounded-lg",
+              activeItem?.href === item.href && "bg-gray-100 text-primary",
+            )}
+            href={item.href}
+            key={item.href}
+            onClick={() => {
+              setActiveItem(item);
+            }}
+          >
+            <item.icon
+              size={28}
+              weight={activeItem?.href === item.href ? "fill" : "duotone"}
+            />
+            <h4 className="text-lg font-medium">{item.navTitle}</h4>
+          </Link>
+        ))}
       <div />
     </ul>
   );

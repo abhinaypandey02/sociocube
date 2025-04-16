@@ -47,7 +47,14 @@ export default function OnboardingUsername({
       router.replace(
         redirectURL ?? `${getRoute("Profile")}/${defaultValues.username}`,
       );
-      setUser((prev) => prev && { ...prev, isOnboarded: true });
+      setUser(
+        (prev) =>
+          prev && {
+            ...prev,
+            isOnboarded: true,
+            username: data.username?.toLowerCase(),
+          },
+      );
       updateUsername({
         updatedUser: {
           username: data.username.toLowerCase(),
