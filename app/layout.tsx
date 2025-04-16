@@ -1,6 +1,5 @@
 import "./globals.css";
 
-import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Viewport } from "next";
 import { Nunito_Sans as NunitoSans } from "next/font/google";
 import localFont from "next/font/local";
@@ -27,67 +26,62 @@ const kansas = localFont({
   src: [
     {
       path: "../fonts/New-Kansas/Bold.woff2",
-      weight: "700",
+      weight: "800",
       style: "normal",
     },
     {
       path: "../fonts/New-Kansas/SemiBold.woff2",
-      weight: "600",
+      weight: "700",
       style: "normal",
     },
     {
       path: "../fonts/New-Kansas/Medium.woff2",
-      weight: "500",
+      weight: "600",
       style: "normal",
     },
     {
       path: "../fonts/New-Kansas/Regular.woff2",
-      weight: "400",
+      weight: "500",
       style: "normal",
     },
     {
       path: "../fonts/New-Kansas/Light.woff2",
-      weight: "300",
+      weight: "400",
       style: "normal",
     },
     {
       path: "../fonts/New-Kansas/Thin.woff2",
-      weight: "200",
+      weight: "300",
       style: "normal",
     },
     {
-      path: "../fonts/New-Kansas/BlackItalic.woff2",
+      path: "../fonts/New-Kansas/BoldItalic.woff2",
       weight: "800",
       style: "italic",
     },
     {
-      path: "../fonts/New-Kansas/BoldItalic.woff2",
+      path: "../fonts/New-Kansas/SemiBoldItalic.woff2",
       weight: "700",
       style: "italic",
     },
     {
-      path: "../fonts/New-Kansas/SemiBoldItalic.woff2",
+      path: "../fonts/New-Kansas/MediumItalic.woff2",
       weight: "600",
       style: "italic",
     },
     {
-      path: "../fonts/New-Kansas/MediumItalic.woff2",
+      path: "../fonts/New-Kansas/RegularItalic.woff2",
       weight: "500",
       style: "italic",
     },
     {
-      path: "../fonts/New-Kansas/RegularItalic.woff2",
+      path: "../fonts/New-Kansas/LightItalic.woff2",
       weight: "400",
       style: "italic",
     },
     {
-      path: "../fonts/New-Kansas/LightItalic.woff2",
-      weight: "300",
-      style: "italic",
-    },
-    {
       path: "../fonts/New-Kansas/ThinItalic.woff2",
-      weight: "200",
+      weight: "300",
       style: "italic",
     },
   ],
@@ -135,7 +129,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           </GlobalStateWrapper>
         </ApolloWrapper>
       </body>
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
+      {/* <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} /> */}
     </html>
   );
 }
