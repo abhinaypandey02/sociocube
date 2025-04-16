@@ -7,6 +7,7 @@ export const UPDATE_INSTAGRAM_USERNAME = gql(`
       photo
       bio
       username
+      name
     }
   }
 `);

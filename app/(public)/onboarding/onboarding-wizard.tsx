@@ -141,7 +141,7 @@ function OnboardingWizard({
         component: currentUser ? (
           <OnboardingBasicDetailsForm
             defaultValues={{
-              name: currentUser.name || "",
+              name: basicDetails?.name || currentUser.name || "",
               photo: basicDetails?.photo || currentUser.photo || "",
               bio: basicDetails?.bio || currentUser.bio || "",
               category: currentUser.category || undefined,

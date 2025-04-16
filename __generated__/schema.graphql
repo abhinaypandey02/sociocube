@@ -510,6 +510,7 @@ type StorageFile {
 
 type UpdateInstagramUsernameResponse {
   bio: String!
+  name: String!
   photo: String
   username: String!
 }

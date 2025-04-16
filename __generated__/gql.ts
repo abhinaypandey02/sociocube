@@ -13,7 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  #graphql\n  mutation UpdateInstagramUsername($username: String!) {\n    updateInstagramUsername(username: $username){\n      photo\n      bio\n      username\n    }\n  }\n": types.UpdateInstagramUsernameDocument,
+    "\n  #graphql\n  mutation UpdateInstagramUsername($username: String!) {\n    updateInstagramUsername(username: $username){\n      photo\n      bio\n      username\n      name\n    }\n  }\n": types.UpdateInstagramUsernameDocument,
     "\n  #graphql\n  mutation ReadMessage($conversationID:Int!) {\n    readMessage(conversationID: $conversationID)\n  }\n": types.ReadMessageDocument,
     "\n  #graphql\n  mutation SendChat($conversationID: Int!, $body:String!) {\n    sendMessage(conversationID: $conversationID, body: $body)\n  }\n": types.SendChatDocument,
     "\n  #graphql\n  mutation UpdateUser($updatedUser: UpdateUserInput!) {\n    updateUser(updatedUser: $updatedUser)\n  }\n": types.UpdateUserDocument,
@@ -74,7 +74,7 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  mutation UpdateInstagramUsername($username: String!) {\n    updateInstagramUsername(username: $username){\n      photo\n      bio\n      username\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdateInstagramUsername($username: String!) {\n    updateInstagramUsername(username: $username){\n      photo\n      bio\n      username\n    }\n  }\n"];
+export function gql(source: "\n  #graphql\n  mutation UpdateInstagramUsername($username: String!) {\n    updateInstagramUsername(username: $username){\n      photo\n      bio\n      username\n      name\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdateInstagramUsername($username: String!) {\n    updateInstagramUsername(username: $username){\n      photo\n      bio\n      username\n      name\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
