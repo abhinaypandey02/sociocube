@@ -35,7 +35,7 @@ export default function TopCreators({
       id="sellers"
       title="Our Top Creators"
     >
-      <ul className="mx-auto grid max-w-2xl gap-y-10 sm:gap-y-16 max-sm:gap-x-14 grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
+      <ul className="mx-auto grid max-w-2xl gap-y-10 sm:gap-y-16 max-sm:gap-x-10 grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
         {sellers.map(
           (person, i) =>
             person.instagramStats && (
@@ -49,7 +49,7 @@ export default function TopCreators({
                 >
                   <Image
                     alt={person.name || ""}
-                    className="mx-auto aspect-square w-48 rounded-full object-cover"
+                    className="mx-auto aspect-square w-32 sm:w-48 rounded-full object-cover"
                     height={150}
                     src={person.photo || ""}
                     width={150}
@@ -66,22 +66,23 @@ export default function TopCreators({
                         />
                       ) : null}
                     </div>
-                    <p className="sm:mt-1 gap-y-0.5 flex flex-wrap items-center justify-center text-xs font-medium text-gray-500">
+                    <div className="font-medium text-gray-500 text-sm text-center">
                       {person.category}
-                      <Dot className="max-sm:hidden" weight="bold" />
-                      <span className="flex items-center justify-center gap-1 max-sm:w-full">
+                    </div>
+
+                    <div className="mt-1 items-center justify-center text-xs text-gray-600 flex">
+                      <span className="flex items-center gap-1">
                         <InstagramLogo size={16} />
                         {convertToAbbreviation(
                           person.instagramStats.followers || 0,
                         )}
                       </span>
-                      <Dot weight="bold" className="max-sm:hidden" />
-
-                      <span className="flex items-center gap-1 max-sm:hidden">
+                      <Dot weight="bold" />
+                      <span className="flex items-center gap-1">
                         <TrendUp size={16} />
                         {Math.max(person.instagramStats.er, 1.1)}%
                       </span>
-                    </p>
+                    </div>
                   </div>
                 </Link>
               </li>
