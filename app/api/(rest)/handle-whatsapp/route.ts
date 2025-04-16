@@ -15,7 +15,11 @@ export const POST = async (req: NextRequest) => {
   try {
     const posting = await getTransformedPostingData(body);
     if (posting) {
-      if (!posting.title && !posting.description) {
+      if (
+        !posting.title ||
+        !posting.description ||
+        !posting.externalLink?.includes("form")
+      ) {
         return new NextResponse("No title or desription", { status: 200 });
       }
       const res = await createPosting(
