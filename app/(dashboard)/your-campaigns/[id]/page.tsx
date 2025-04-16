@@ -3,6 +3,7 @@ import React from "react";
 
 import AccountPageWrapper from "@/app/(dashboard)/profile/components/account-page-wrapper";
 import { Route } from "@/constants/routes";
+import { queryGQL } from "@/lib/apollo-server";
 import { GET_POSTING } from "@/lib/queries";
 
 import CreateNewPostingForm from "../components/form";
