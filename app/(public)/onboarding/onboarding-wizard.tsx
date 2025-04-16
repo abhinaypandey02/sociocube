@@ -126,7 +126,6 @@ function OnboardingWizard({
             isActive={step === 1}
             key={1}
             nextStep={nextStep}
-            redirectURL={redirectURL}
             setBasicDetails={setBasicDetails}
           />
         ),
@@ -246,6 +245,7 @@ function OnboardingWizard({
             defaultValues={{
               username: currentUser?.username || basicDetails?.username,
             }}
+            redirectURL={redirectURL}
             isActive={step === (showCreatorSteps ? 6 : 4)}
             key={4}
           />

@@ -22,7 +22,6 @@ export default function SocialsStatus({
 }: {
   defaultValues: FormFields;
   nextStep: () => void;
-  redirectURL?: string | null;
   isActive: boolean;
   setBasicDetails: (
     details: UpdateInstagramUsernameMutation["updateInstagramUsername"],

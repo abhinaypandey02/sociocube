@@ -21,9 +21,11 @@ import { getUsernameInputRules } from "@/lib/utils";
 export default function OnboardingUsername({
   defaultValues,
   isActive,
+  redirectURL,
 }: {
   defaultValues: { username?: string | null };
   isActive: boolean;
+  redirectURL?: string | null;
 }) {
   const router = useRouter();
   const form = useForm({ defaultValues, reValidateMode: "onSubmit" });
@@ -33,14 +35,16 @@ export default function OnboardingUsername({
     IS_USERNAME_AVAILABLE,
   );
   useEffect(() => {
-    if (defaultValues.username && isActive) {
+    if (defaultValues.username && isActive && !redirectURL) {
       router.prefetch(`${getRoute("Profile")}/${defaultValues.username}`);
     }
   }, [defaultValues.username, isActive]);
   const onSubmit: SubmitHandler<typeof defaultValues> = (data) => {
     if (data.username) {
       setLoading(true);
-      router.push(`${getRoute("Profile")}/${defaultValues.username}`);
+      router.replace(
+        redirectURL ?? `${getRoute("Profile")}/${defaultValues.username}`,
+      );
       router.refresh();
       updateUsername({
         updatedUser: {
