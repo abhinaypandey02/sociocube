@@ -22,7 +22,7 @@ function Navbar({
   primaryLinks,
   secondaryLinks,
   cta,
-  disableCTA,
+  hideCTA,
   userImage,
 }: NavbarProps) {
   const activeHref = usePathname();
@@ -88,13 +88,12 @@ function Navbar({
           </div>
         </div>
         <div className="flex items-center">
-          {cta ? (
+          {cta && !hideCTA ? (
             <Link href={cta.href}>
               <Button
                 compact
                 {...cta.button}
                 className={cn(cta.button.className, "max-sm:text-sm")}
-                disabled={disableCTA}
               />
             </Link>
           ) : null}
@@ -106,8 +105,8 @@ function Navbar({
                   <span className="sr-only">Open user menu</span>
                   {userImage ? (
                     userImage === "loading" ? (
-                      <div className="flex size-8 items-center justify-center rounded-full border border-gray-100">
-                        <User size={24} />
+                      <div className="flex size-8 items-center justify-center rounded-full border border-gray-500">
+                        <User />
                       </div>
                     ) : (
                       <Image

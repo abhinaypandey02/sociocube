@@ -15,6 +15,7 @@ import { ApolloWrapper } from "@/lib/apollo-client";
 import { GlobalStateWrapper } from "@/lib/auth-client";
 
 import AuthChecker from "./(public)/components/auth/auth-checker";
+import TokenChecker from "./(public)/components/auth/token-checker";
 
 const madina = localFont({
   src: "../fonts/madina.woff2",
@@ -126,6 +127,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
           <GlobalStateWrapper>
             <Suspense>
               <AuthChecker />
+            </Suspense>
+            <Suspense>
+              <TokenChecker />
             </Suspense>
             {children}
           </GlobalStateWrapper>

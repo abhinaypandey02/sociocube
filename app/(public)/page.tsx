@@ -26,12 +26,7 @@ export function generateMetadata(): Metadata {
 }
 
 async function HomePage() {
-  const { sellers, postings } = await queryGQL(
-    GET_FEATURED_SELLERS_AND_POSTS,
-    undefined,
-    undefined,
-    3600,
-  );
+  const { sellers, postings } = await queryGQL(GET_FEATURED_SELLERS_AND_POSTS);
   return (
     <>
       <Schema

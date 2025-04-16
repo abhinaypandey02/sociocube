@@ -9,7 +9,7 @@ export interface NavbarProps {
     button: ButtonProps;
     href: string;
   };
-  disableCTA?: boolean;
+  hideCTA?: boolean;
   userImage?: string;
 }
 interface NavbarLink {

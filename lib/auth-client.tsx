@@ -7,7 +7,6 @@ import React, {
   Suspense,
   useCallback,
   useContext,
-  useEffect,
   useState,
 } from "react";
 
@@ -41,6 +40,10 @@ export function useToken() {
   const { token } = useContext(GlobalState);
   return token;
 }
+export function useSetToken() {
+  const { setToken } = useContext(GlobalState);
+  return setToken;
+}
 
 export function useSubPage() {
   const { openSubPage, setOpenSubPage } = useContext(GlobalState);
@@ -62,18 +65,6 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
   const [isGetVerifiedModalOpen, setIsGetVerifiedModalOpen] =
     useState<boolean>(false);
 
-  useEffect(() => {
-    fetch(`/api/email`, {
-      credentials: "include",
-    })
-      .then(async (res) => {
-        if (res.ok) setToken(await res.text());
-        else setToken(null);
-      })
-      .catch(() => {
-        setToken(null);
-      });
-  }, []);
   return (
     <GlobalState.Provider
       value={{

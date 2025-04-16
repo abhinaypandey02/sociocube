@@ -3,7 +3,6 @@ import React from "react";
 
 import AccountPageWrapper from "@/app/(dashboard)/profile/components/account-page-wrapper";
 import { Route } from "@/constants/routes";
-import { getCurrentUser, queryGQL } from "@/lib/apollo-server";
 import { GET_POSTING } from "@/lib/queries";
 
 import CreateNewPostingForm from "../components/form";
@@ -16,14 +15,13 @@ export default async function CreateNewPostingPage({
 }) {
   const { id } = await params;
   const numericID = parseInt(id);
-  const { user } = await getCurrentUser();
   const { posting } = await queryGQL(
     GET_POSTING,
     { id: numericID },
     undefined,
     0,
   );
-  if (!posting || !user?.id) return notFound();
+  if (!posting) return notFound();
   return (
     <AccountPageWrapper
       backRoute={{

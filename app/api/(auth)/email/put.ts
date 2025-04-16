@@ -1,4 +1,4 @@
-import { UserTable } from "@graphql/User/db";
+import { UserDB, UserTable } from "@graphql/User/db";
 import { getUser } from "@graphql/User/utils";
 import { compare } from "bcryptjs";
 import { eq } from "drizzle-orm";
@@ -10,6 +10,11 @@ import {
   getTokenizedResponse,
 } from "../../lib/auth/token";
 import { verifyCaptcha } from "./utils";
+
+export function verifyUser(user: UserDB, password: string) {
+  if (!user.password) return false;
+  return compare(password, user.password);
+}
 
 export const PUT = async (req: Request) => {
   const body = (await req.json()) as {
@@ -25,11 +30,7 @@ export const PUT = async (req: Request) => {
   const user = await getUser(eq(UserTable.email, body.email));
   if (!user) return ErrorResponses.wrongCredentials;
 
-  if (
-    user.password &&
-    user.email &&
-    (await compare(body.password, user.password))
-  ) {
+  if (await verifyUser(user, body.password)) {
     return getTokenizedResponse(
       generateAccessToken(user.id),
       generateRefreshToken(user.id),
