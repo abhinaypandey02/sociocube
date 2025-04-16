@@ -1,12 +1,6 @@
-export const WelcomeUser = ({
-  firstName,
-  verifyLink,
-}: {
-  firstName: string;
-  verifyLink: string;
-}) => ({
-  subject: `Verify your email ${firstName}! Welcome to Sociocube!`,
-  text: `Hi ${firstName}!,
+export const WelcomeUser = ({ verifyLink }: { verifyLink: string }) => ({
+  subject: `Verify your email! Welcome to Sociocube!`,
+  text: `Hi there!,
 Welcome to Sociocube! 🎉 We’re thrilled to have you onboard as part of our growing community of influencers. 🌟
 
 Let's start by verifying your email. Click on the link below to verify your email:
@@ -32,7 +26,7 @@ Warm regards,
 The Sociocube Team
 sociocube.com`,
   html: `
-  <p style="font-size: 16px; color: #555; margin-bottom: 20px;">Hi ${firstName},</p>
+  <p style="font-size: 16px; color: #555; margin-bottom: 20px;">Hi there!</p>
         <p style="font-size: 16px; color: #555; margin-bottom: 20px;">Welcome to Sociocube! 🎉 We’re thrilled to have you onboard as part of our growing community of influencers. 🌟</p>
         <p style="font-size: 16px; color: #555; margin-bottom: 20px;">Let's start by verifying your email. Click on the link below to verify your email:</p>
         <a href="${verifyLink}" style="color: #007bff; text-decoration: none; margin-bottom: 20px;">${verifyLink}</a>

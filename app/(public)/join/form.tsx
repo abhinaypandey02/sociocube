@@ -80,18 +80,10 @@ export default function SignupForm({
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <Input
-          autoFocus
-          className="block"
-          label="Full name"
-          name="name"
-          placeholder="Name"
-          rules={{ required: true }}
-        />
-        <Input
           className="block"
           label="Email"
           name="email"
-          placeholder="Email"
+          placeholder="Your Email"
           rules={{
             required: true,
             pattern: { value: EMAIL_REGEX, message: "Invalid email" },
@@ -103,25 +95,10 @@ export default function SignupForm({
           className="block"
           label="Password"
           name="password"
-          placeholder="Password"
+          placeholder="Setup a password"
           rules={{ required: true }}
           type="password"
         />
-        <Input
-          className="block"
-          label="Confirm password"
-          name="c_password"
-          placeholder="Confirm Password"
-          rules={{
-            required: true,
-            validate: {
-              passwordMatch: (value, formValues) =>
-                value === formValues.password,
-            },
-          }}
-          type="password"
-        />
-
         <div id={CONTAINER_ID} />
         <Button
           className="w-full"

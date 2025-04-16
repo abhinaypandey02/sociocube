@@ -55,9 +55,9 @@ export default function TopCreators({
                     width={150}
                   />
                   <div className="mt-2">
-                    <div className="flex items-center justify-center gap-2 overflow-hidden sm:text-xl">
+                    <div className="flex items-center justify-center gap-2 overflow-hidden text-lg sm:text-2xl">
                       <h3 className=" truncate font-poppins  font-semibold  ">
-                        {person.name || ""}{" "}
+                        {person.name?.split(" ")[0] || ""}{" "}
                       </h3>
                       {person.instagramStats.isVerified ? (
                         <SealCheck
@@ -66,10 +66,10 @@ export default function TopCreators({
                         />
                       ) : null}
                     </div>
-                    <p className="mt-1 gap-y-0.5 flex flex-wrap items-center justify-center text-xs font-medium text-gray-500">
+                    <p className="sm:mt-1 gap-y-0.5 flex flex-wrap items-center justify-center text-xs font-medium text-gray-500">
                       {person.category}
-                      <Dot weight="bold" />
-                      <span className="flex items-center gap-1">
+                      <Dot className="max-sm:hidden" weight="bold" />
+                      <span className="flex items-center justify-center gap-1 max-sm:w-full">
                         <InstagramLogo size={16} />
                         {convertToAbbreviation(
                           person.instagramStats.followers || 0,

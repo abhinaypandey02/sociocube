@@ -17,11 +17,10 @@ export const POST = async (req: Request) => {
   const body = (await req.json()) as {
     email?: string;
     password?: string;
-    name?: string;
     captchaToken?: string;
   };
 
-  if (!body.email || !body.password || !body.name || !body.captchaToken)
+  if (!body.email || !body.password || !body.captchaToken)
     return ErrorResponses.missingBodyFields;
   if (!(await verifyCaptcha(body.captchaToken)))
     return ErrorResponses.invalidCaptcha;
@@ -38,7 +37,6 @@ export const POST = async (req: Request) => {
     const link = await getVerificationLink(newUser.id);
     if (link)
       await sendTemplateEmail(body.email, "WelcomeUser", {
-        firstName: body.name.split(" ")[0] || "",
         verifyLink: link,
       });
     return getTokenizedResponse(
