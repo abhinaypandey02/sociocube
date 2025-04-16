@@ -24,14 +24,14 @@ export function getTokenizedResponse(
   });
   if (!accessToken) {
     response.cookies.set("refresh", "", {
-      secure: true,
+      secure: false,
       httpOnly: true,
       expires: 0,
     });
   }
   if (refreshToken !== undefined) {
     response.cookies.set("refresh", refreshToken, {
-      secure: true,
+      secure: false,
       httpOnly: true,
       expires:
         refreshToken === ""

@@ -145,13 +145,15 @@ export function useLoginWithEmail() {
 }
 export function useLogout() {
   const { setToken } = useContext(GlobalState);
+  const [, setUser] = useUser();
   return useCallback(async () => {
     const res = await fetch(`/api/email`, {
       method: "DELETE",
       credentials: "include",
     });
     if (res.ok) {
+      setUser(null);
       setToken(undefined);
     }
-  }, [setToken]);
+  }, [setToken, setUser]);
 }

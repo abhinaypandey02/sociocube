@@ -16,11 +16,12 @@ export interface AuthorizedContext {
 }
 
 export async function context(req: NextRequest): Promise<Context> {
-  const refresh = req.cookies.get("refresh")?.value;
-  const userId = getUserIdFromRefreshToken(refresh);
-  if (userId) return { userId, onlyQuery: true };
   const bearer = req.headers.get("authorization");
-  if (bearer && process.env.SIGNING_KEY) {
+  if (!bearer) {
+    const refresh = req.cookies.get("refresh")?.value;
+    const userId = getUserIdFromRefreshToken(refresh);
+    if (userId) return { userId, onlyQuery: true };
+  } else if (process.env.SIGNING_KEY) {
     const token = bearer.slice(7);
     try {
       const res = verify(token, process.env.SIGNING_KEY);

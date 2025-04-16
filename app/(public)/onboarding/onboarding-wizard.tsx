@@ -20,6 +20,7 @@ import type {
 } from "@/__generated__/graphql";
 import { Roles } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
+import { useUser } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
@@ -70,6 +71,7 @@ function OnboardingWizard({
   const [showCreatorSteps, setShowCreatorSteps] = useState(
     !currentUser || currentUser.role === Roles.Creator,
   );
+  const [, setUser] = useUser();
   const router = useRouter();
   const [step, setStep] = useState(getStep(currentUser));
   const [maxTouchedStep, setMaxTouchedStep] = useState(getStep(currentUser));
@@ -126,7 +128,19 @@ function OnboardingWizard({
             isActive={step === 1}
             key={1}
             nextStep={nextStep}
-            setBasicDetails={setBasicDetails}
+            setBasicDetails={(val) => {
+              setUser((prev) =>
+                prev
+                  ? {
+                      ...prev,
+                      name: val.name,
+                      photo: val.photo,
+                      username: val.username,
+                    }
+                  : prev,
+              );
+              setBasicDetails(val);
+            }}
           />
         ),
       },

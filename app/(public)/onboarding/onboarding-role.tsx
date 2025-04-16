@@ -10,6 +10,7 @@ import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import { getRoute } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
+import { useUser } from "@/lib/auth-client";
 import { UPDATE_USER } from "@/lib/mutations";
 
 export default function OnboardingRole({
@@ -25,7 +26,7 @@ export default function OnboardingRole({
 }) {
   const [update] = useAuthMutation(UPDATE_USER);
   const [selectedRole, setSelectedRole] = useState<Roles | undefined>(role);
-
+  const [, setUser] = useUser();
   const handleSubmit = (newRole?: Roles) => {
     nextStep();
     const newRoleSelected = newRole || selectedRole;
@@ -33,6 +34,8 @@ export default function OnboardingRole({
       setSelectedRole(newRole);
     }
     setShowCreatorSteps(newRoleSelected === Roles.Creator);
+    if (newRoleSelected)
+      setUser((prev) => (prev ? { ...prev, role: newRoleSelected } : prev));
     if (newRoleSelected !== role)
       update({
         updatedUser: {

@@ -14,6 +14,7 @@ import {
   useAuthMutation,
   useAuthQuery,
 } from "@/lib/apollo-client";
+import { useUser } from "@/lib/auth-client";
 import { UPDATE_USER } from "@/lib/mutations";
 import { IS_USERNAME_AVAILABLE } from "@/lib/queries";
 import { getUsernameInputRules } from "@/lib/utils";
@@ -30,6 +31,7 @@ export default function OnboardingUsername({
   const router = useRouter();
   const form = useForm({ defaultValues, reValidateMode: "onSubmit" });
   const [updateUsername] = useAuthMutation(UPDATE_USER);
+  const [, setUser] = useUser();
   const [loading, setLoading] = useState(false);
   const [isUsernameAvailable, { loading: loadingAvailability }] = useAuthQuery(
     IS_USERNAME_AVAILABLE,
@@ -45,7 +47,7 @@ export default function OnboardingUsername({
       router.replace(
         redirectURL ?? `${getRoute("Profile")}/${defaultValues.username}`,
       );
-      router.refresh();
+      setUser((prev) => prev && { ...prev, isOnboarded: true });
       updateUsername({
         updatedUser: {
           username: data.username.toLowerCase(),

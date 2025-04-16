@@ -15,6 +15,7 @@ import categories from "@/constants/categories";
 import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "@/constants/file";
 import genders from "@/constants/genders";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
+import { useUser } from "@/lib/auth-client";
 import { UPDATE_USER } from "@/lib/mutations";
 
 interface FormFields {
@@ -38,6 +39,7 @@ export default function OnboardingBasicDetailsForm({
   photoUpload: StorageFile;
   showCreatorSteps: boolean;
 }) {
+  const [, setUser] = useUser();
   const form = useForm<FormFields>({ defaultValues });
   const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
   const [profilePicture, setProfilePicture] = useState<File>();
@@ -63,10 +65,12 @@ export default function OnboardingBasicDetailsForm({
       if (!res.ok) return;
     }
     nextStep();
+    const newPhoto = profilePicture ? photoUpload.url : defaultValues.photo;
+    setUser((prev) => prev && { ...prev, name: data.name, photo: newPhoto });
     updateBasicDetails({
       updatedUser: {
         name: data.name,
-        photo: profilePicture ? photoUpload.url : defaultValues.photo,
+        photo: newPhoto,
         bio: data.bio,
         category: data.category,
         gender: data.gender,
