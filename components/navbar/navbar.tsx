@@ -134,7 +134,7 @@ function Navbar({
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <MenuItems className="absolute shadow-sm top-full right-0 z-10 mt-2 w-full sm:w-48 origin-top rounded-md bg-white py-3 ring-1 ring-black/5 focus:outline-hidden">
+              <MenuItems className="absolute shadow-sm top-full right-0 z-10 mt-2 w-full sm:w-48 origin-top rounded-md bg-white py-2 ring-1 ring-black/5 focus:outline-hidden">
                 {primaryLinks.map((item) => (
                   // @ts-expect-error -- type missing
                   <MenuItem className="sm:hidden" key={item.href}>
@@ -143,7 +143,7 @@ function Navbar({
                         <Link
                           className={cn(
                             focus ? "bg-gray-100" : "",
-                            "block px-4 py-1.5 sm:py-3 text-gray-700",
+                            "block px-4 py-1.5 sm:py-2 text-gray-700",
                           )}
                           href={item.href}
                           key={item.label}
@@ -161,7 +161,7 @@ function Navbar({
                         <Link
                           className={cn(
                             focus ? "bg-gray-100" : "",
-                            "block px-4 py-1.5 sm:py-3  text-gray-700",
+                            "block px-4 py-1.5 sm:py-2  text-gray-700",
                           )}
                           href={item.href}
                           key={item.label}

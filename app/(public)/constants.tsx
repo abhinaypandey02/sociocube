@@ -66,10 +66,6 @@ export const getOnboardedUserNavbarSections = (
             label: "Your profile",
             href: `${getRoute("Profile")}/${user.username}`,
           },
-          {
-            label: "Campaigns",
-            href: getRoute("Campaigns"),
-          },
         ]
       : []),
     {
