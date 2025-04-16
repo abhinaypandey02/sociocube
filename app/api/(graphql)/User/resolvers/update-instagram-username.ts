@@ -36,7 +36,7 @@ export async function handleUpdateInstagramUsername(
   if (!data?.username) {
     throw GQLError(
       500,
-      "Unable to fetch instagram profile, check username and ensure it's a public profile. Also try other method.",
+      "Unable to fetch instagram profile, check username and ensure it's a public profile. Contact @thesociocube on instagram.",
     );
   }
   if (!user) throw GQLError(403, "User not found");
@@ -73,6 +73,7 @@ export async function handleUpdateInstagramUsername(
                 ])),
               bio: user.bio || data.bio,
               username: existingUsernameUser ? undefined : updateUsername,
+              name: data.name,
             })
             .where(and(eq(UserTable.id, ctx.userId)));
         }
@@ -112,6 +113,7 @@ export async function handleUpdateInstagramUsername(
                 ])),
               bio: user.bio || data.bio,
               username: existingUsernameUser ? undefined : updateUsername,
+              name: data.name,
             })
             .where(and(eq(UserTable.id, ctx.userId)));
         }

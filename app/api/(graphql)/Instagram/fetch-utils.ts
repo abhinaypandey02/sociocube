@@ -123,6 +123,7 @@ export async function fetchInstagramRapidStats(username: string) {
       username: result.data.username,
       photo: result.data.profile_pic_url_hd,
       bio: result.data.biography,
+      name: result.data.full_name,
     };
 }
 
@@ -238,6 +239,7 @@ export async function fetchInstagramClanConnectStats(username: string) {
       username: result.insta_username,
       photo: result.profile_picture_url,
       bio: result.biography,
+      name: result.name,
     };
 }
 
