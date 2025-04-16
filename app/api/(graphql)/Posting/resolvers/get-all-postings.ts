@@ -46,18 +46,26 @@ export async function getValidPostings({
       .from(PostingTable)
       .where(
         and(
-          or(
-            isNull(PostingTable.minimumFollowers),
-            lte(PostingTable.minimumFollowers, followers),
-          ),
-          or(
-            isNull(PostingTable.minimumAge),
-            lte(PostingTable.minimumAge, age),
-          ),
-          or(
-            isNull(PostingTable.maximumAge),
-            gte(PostingTable.maximumAge, age),
-          ),
+          ...(followers
+            ? [
+                or(
+                  isNull(PostingTable.minimumFollowers),
+                  lte(PostingTable.minimumFollowers, followers),
+                ),
+              ]
+            : []),
+          ...(age
+            ? [
+                or(
+                  isNull(PostingTable.minimumAge),
+                  lte(PostingTable.minimumAge, age),
+                ),
+                or(
+                  isNull(PostingTable.maximumAge),
+                  gte(PostingTable.maximumAge, age),
+                ),
+              ]
+            : []),
           eq(PostingTable.open, true),
           postingID ? eq(PostingTable.id, postingID) : undefined,
         ),
@@ -90,7 +98,7 @@ export async function getAllPostings(
       .select()
       .from(UserTable)
       .where(eq(UserTable.id, ctx.userId))
-      .innerJoin(
+      .leftJoin(
         InstagramDetails,
         eq(InstagramDetails.id, UserTable.instagramDetails),
       );
@@ -103,7 +111,7 @@ export async function getAllPostings(
         ...(await getValidPostings({
           userId: ctx.userId,
           age,
-          followers: user?.instagram_data.followers || 0,
+          followers: user?.instagram_data?.followers || 0,
           postingID,
         })),
       );
@@ -121,7 +129,7 @@ export async function getAllPostings(
       ...(await getValidPostings({
         userId: ctx.userId,
         age,
-        followers: user?.instagram_data.followers || 0,
+        followers: user?.instagram_data?.followers || 0,
         page,
         pageSize: 5 - results.length,
       })),
@@ -146,7 +154,7 @@ export async function getAllPostings(
     if (!ctx.userId || !user) return Eligibility.Unauthorized;
     if (!isOnboarded) return Eligibility.NotOnboarded;
     if (posting.minimumFollowers) {
-      if (user.instagram_data.followers < posting.minimumFollowers)
+      if ((user.instagram_data?.followers || 0) < posting.minimumFollowers)
         return Eligibility.LessFollowers;
     }
     if (posting.minimumAge || posting.minimumAge) {
