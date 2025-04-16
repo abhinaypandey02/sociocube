@@ -68,7 +68,7 @@ export default function ApplyNowButton({
       if (!posting.externalLink) setIsModalOpen(true);
       else handleApply({});
     }
-  }, [buttonURL, posting.externalLink]);
+  }, [appliedSuccess, buttonURL, posting.externalLink]);
 
   const handleApply = (values: FormType) => {
     openExternalLink();
@@ -149,7 +149,9 @@ export default function ApplyNowButton({
           variant={Variants.ACCENT}
         >
           {appliedSuccess
-            ? "Applied"
+            ? posting.externalLink
+              ? "Opened"
+              : "Applied"
             : BUTTON_MESSAGE[posting.eligibility || Eligibility.Eligible]}
           {posting.externalLink && <ArrowSquareOut />}
         </Button>
