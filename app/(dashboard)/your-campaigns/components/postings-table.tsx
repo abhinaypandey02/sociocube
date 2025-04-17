@@ -1,13 +1,22 @@
 "use client";
-import { ArrowSquareOut, PencilSimple } from "@phosphor-icons/react";
+import {
+  ArrowRight,
+  ArrowSquareOut,
+  PencilSimple,
+  SmileyXEyes,
+} from "@phosphor-icons/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import Link from "next/link";
 import React from "react";
 
 import type { GetUserPostingsQuery } from "@/__generated__/graphql";
 import { getCurrency } from "@/app/(dashboard)/campaigns/utils";
+import { NAV_ITEMS } from "@/app/(dashboard)/constants";
+import { Button } from "@/components/button";
+import LoaderSkeleton from "@/components/loader-skeleton";
 import Table from "@/components/table";
 import { Route } from "@/constants/routes";
+import { useSubPage } from "@/lib/auth-client";
 
 type Posting = NonNullable<GetUserPostingsQuery["postings"]>[number];
 
@@ -72,25 +81,35 @@ const columns = [
 ];
 
 export default function PostingsTable({
-  postings,
-  showEarnings,
+  data,
+  loading,
 }: {
-  postings: GetUserPostingsQuery["postings"];
-  showEarnings: boolean;
+  data?: GetUserPostingsQuery;
+  loading?: boolean;
 }) {
-  return (
-    <Table
-      columns={[
-        ...columns,
-        ...(showEarnings
-          ? [
-              columnHelper.accessor("referralEarnings", {
-                header: "Earnings",
-              }),
-            ]
-          : []),
-      ]}
-      data={postings}
-    />
-  );
+  const { setOpenSubPage } = useSubPage();
+
+  const postings = data?.postings;
+  if (loading) return <LoaderSkeleton className={"mt-10"} />;
+  if (!postings || postings.length === 0)
+    return (
+      <LoaderSkeleton
+        className={"mt-10"}
+        title={"You haven't created any campaigns"}
+        subtitle={
+          <Button
+            onClick={() =>
+              setOpenSubPage(
+                NAV_ITEMS.find((item) => item.href === Route.NewCampaign),
+              )
+            }
+            className={"items-center gap-1"}
+          >
+            Start your first campaign <ArrowRight />
+          </Button>
+        }
+        Icon={SmileyXEyes}
+      />
+    );
+  return <Table columns={columns} data={postings} />;
 }
