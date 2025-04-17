@@ -130,11 +130,7 @@ export default function SearchWindow({
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
         onSubmit={handleSubmit}
       >
-        <div className="flex flex-wrap items-baseline justify-between gap-5 border-b border-gray-200 pb-6 pt-4 sm:pt-16">
-          <h2 className="font-poppins text-3xl font-semibold text-gray-900 sm:text-4xl sm:font-semibold">
-            Find influencers
-          </h2>
-
+        <div className="flex flex-wrap items-baseline justify-between gap-5 border-b border-gray-200 pb-6 pt-4">
           <div className="flex w-72 items-center max-md:w-full">
             <Input
               className="grow"

@@ -19,7 +19,7 @@ export default function TopNav({
   return (
     <div
       onScroll={(e) => e.stopPropagation()}
-      className="flex w-full items-center justify-between py-4 px-5 lg:hidden sticky top-0"
+      className="flex w-full items-center justify-between py-4 px-5 lg:hidden sticky top-0 bg-background"
     >
       <div className="flex items-center gap-3">
         <Link href={getRoute("Home")}>

@@ -42,6 +42,14 @@ export const NAV_ITEMS: NavItem[] = [
     roles: [Roles.Brand, Roles.Agency],
   },
   {
+    icon: MagnifyingGlassPlus,
+    heading: "Find Creators",
+    navTitle: "Search",
+    href: Route.Search,
+    onlyOnMobile: true,
+    roles: [Roles.Brand, Roles.Agency],
+  },
+  {
     icon: UserCircle,
     heading: "Your Profile",
     navTitle: "Profile",
