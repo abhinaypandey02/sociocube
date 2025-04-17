@@ -65,17 +65,22 @@ export default function SearchWindow({
   data,
   filters,
 }: {
-  data: SearchSellersQuery | null;
-  filters: SearchSellersFilters;
+  data?: {
+    response: SearchSellersQuery | null;
+    filters: SearchSellersFilters;
+  };
 }) {
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [variables, setVariables] = useState<SearchSellersFilters>(filters);
+  const [variables, setVariables] = useState<SearchSellersFilters>({});
   const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout>();
 
   useEffect(() => {
-    if (data) setLoading(false);
+    if (data) {
+      setLoading(false);
+      setVariables(data.filters)
+    }
   }, [data]);
 
   function handleUpdateParams(vars: SearchSellersFilters) {
@@ -92,7 +97,7 @@ export default function SearchWindow({
     setSearchTimeout(
       setTimeout(() => {
         handleUpdateParams(newVars);
-      }, 1000),
+      }, 1000)
     );
   }
 
@@ -202,7 +207,7 @@ export default function SearchWindow({
                       <button
                         className={cn(
                           variables.sortBy === option.id ? "font-semibold" : "",
-                          " px-4 py-2 text-sm text-gray-700 hover:bg-gray-100",
+                          " px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         )}
                         onClick={() => {
                           handleSort(option.id);
@@ -241,7 +246,7 @@ export default function SearchWindow({
                             e.stopPropagation();
                             const newVariables = { ...variables };
                             section.keys.forEach(
-                              (key) => delete newVariables[key],
+                              (key) => delete newVariables[key]
                             );
                             setVariables(newVariables);
 
@@ -279,10 +284,10 @@ export default function SearchWindow({
             {/* Product grid */}
             <div className=" lg:col-span-3">
               {loading ? <SearchLoading /> : null}
-              {data?.sellers?.length === 0 && !loading && <NoResults />}
+              {data?.response?.sellers?.length === 0 && !loading && <NoResults />}
               <ul className="space-y-5">
                 {!loading &&
-                  data?.sellers?.map((person) => (
+                  data?.response?.sellers?.map((person) => (
                     <li key={person.name || ""}>
                       <Link
                         className="flex items-center gap-3 rounded-md px-4 py-3 hover:shadow-sm"
@@ -314,7 +319,7 @@ export default function SearchWindow({
                               <p className="mt-1 flex flex-wrap items-center gap-1 truncate text-sm leading-6 text-gray-800">
                                 <InstagramLogo weight="bold" />
                                 {convertToAbbreviation(
-                                  person.instagramStats?.followers || 0,
+                                  person.instagramStats?.followers || 0
                                 )}
 
                                 {person.pricing ? (

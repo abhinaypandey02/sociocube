@@ -36,9 +36,11 @@ export default function SearchPage({
           query: parseParams(params.query) as string,
           sortBy: parseParams(params.sortBy) as SearchFilterSorting,
         };
-        queryGQL(SEARCH_SELLERS, { filters }, undefined, 120);
+        return {
+          response: await queryGQL(SEARCH_SELLERS, { filters }, undefined, 120),
+          filters
+        }
       }}
-      props={{ filters }}
     />
   );
 }
