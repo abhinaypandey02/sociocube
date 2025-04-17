@@ -5,7 +5,7 @@ export const SEO = {
   description:
     "Sociocube is your go-to platform for seamless influencer collaborations. Combine the flexibility of freelancing with the power of influencer marketing." as const,
   companyName: "Sociocube" as const,
-  themeColor: "#F45B69" as const,
+  themeColor: "#5b9364" as const,
 };
 
 export const getSEO = (title?: string, description?: string): Metadata => ({

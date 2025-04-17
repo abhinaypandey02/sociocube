@@ -86,7 +86,7 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
         isOpen={isGetVerifiedModalOpen}
       />
       <Suspense>
-        <ProgressLoader color="#F45B69" showSpinner={false} />
+        <ProgressLoader color="#5b9364" showSpinner={false} />
       </Suspense>
       {children}
     </GlobalState.Provider>

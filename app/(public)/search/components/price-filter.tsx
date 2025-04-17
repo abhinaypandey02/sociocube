@@ -13,7 +13,7 @@ export default function PriceFilter({
 }) {
   return (
     <MultiRangeSlider
-      barInnerColor="#F45B69"
+      barInnerColor="#5b9364"
       labels={["<10", "7k", "15k", "22k", "", "36k", "", ">100k"]}
       max={50000}
       maxValue={variables.generalPriceTo || 50000}

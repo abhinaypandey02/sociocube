@@ -13,7 +13,7 @@ export default function FollowersFilter({
 }) {
   return (
     <MultiRangeSlider
-      barInnerColor="#F45B69"
+      barInnerColor="#5b9364"
       labels={["<10", "12k", "25k", "", "50k", "", "75k", "", ">100k"]}
       max={100000}
       maxValue={variables.followersTo || 100000}
