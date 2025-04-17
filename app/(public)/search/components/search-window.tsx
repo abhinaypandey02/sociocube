@@ -63,7 +63,6 @@ const SORT_OPTIONS = [
 
 export default function SearchWindow({
   data,
-  filters,
 }: {
   data?: {
     response: SearchSellersQuery | null;
@@ -79,7 +78,7 @@ export default function SearchWindow({
   useEffect(() => {
     if (data) {
       setLoading(false);
-      setVariables(data.filters)
+      setVariables(data.filters);
     }
   }, [data]);
 
@@ -97,7 +96,7 @@ export default function SearchWindow({
     setSearchTimeout(
       setTimeout(() => {
         handleUpdateParams(newVars);
-      }, 1000)
+      }, 1000),
     );
   }
 
@@ -207,7 +206,7 @@ export default function SearchWindow({
                       <button
                         className={cn(
                           variables.sortBy === option.id ? "font-semibold" : "",
-                          " px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          " px-4 py-2 text-sm text-gray-700 hover:bg-gray-100",
                         )}
                         onClick={() => {
                           handleSort(option.id);
@@ -246,7 +245,7 @@ export default function SearchWindow({
                             e.stopPropagation();
                             const newVariables = { ...variables };
                             section.keys.forEach(
-                              (key) => delete newVariables[key]
+                              (key) => delete newVariables[key],
                             );
                             setVariables(newVariables);
 
@@ -284,7 +283,9 @@ export default function SearchWindow({
             {/* Product grid */}
             <div className=" lg:col-span-3">
               {loading ? <SearchLoading /> : null}
-              {data?.response?.sellers?.length === 0 && !loading && <NoResults />}
+              {data?.response?.sellers?.length === 0 && !loading && (
+                <NoResults />
+              )}
               <ul className="space-y-5">
                 {!loading &&
                   data?.response?.sellers?.map((person) => (
@@ -319,7 +320,7 @@ export default function SearchWindow({
                               <p className="mt-1 flex flex-wrap items-center gap-1 truncate text-sm leading-6 text-gray-800">
                                 <InstagramLogo weight="bold" />
                                 {convertToAbbreviation(
-                                  person.instagramStats?.followers || 0
+                                  person.instagramStats?.followers || 0,
                                 )}
 
                                 {person.pricing ? (

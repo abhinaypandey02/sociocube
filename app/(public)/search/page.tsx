@@ -27,19 +27,19 @@ export default function SearchPage({
           followersTo: parseParams(params.followersTo, "NUMBER") as number,
           generalPriceFrom: parseParams(
             params.generalPriceFrom,
-            "NUMBER"
+            "NUMBER",
           ) as number,
           generalPriceTo: parseParams(
             params.generalPriceTo,
-            "NUMBER"
+            "NUMBER",
           ) as number,
           query: parseParams(params.query) as string,
           sortBy: parseParams(params.sortBy) as SearchFilterSorting,
         };
         return {
           response: await queryGQL(SEARCH_SELLERS, { filters }, undefined, 120),
-          filters
-        }
+          filters,
+        };
       }}
     />
   );
