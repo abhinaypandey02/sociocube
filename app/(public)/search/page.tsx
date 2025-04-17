@@ -6,7 +6,7 @@ import { SEARCH_SELLERS } from "@/lib/queries";
 import SearchWindow from "./components/search-window";
 import { parseParams } from "./constants";
 
-export default async function SearchPage({
+export default function SearchPage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string>>;
@@ -14,7 +14,7 @@ export default async function SearchPage({
   return (
     <Injector
       Component={SearchWindow}
-      fetch={() => {
+      fetch={async () => {
         const params = await searchParams;
         const filters = {
           ageRange: parseParams(params.ageRange, "NUMBER") as number,
