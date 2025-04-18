@@ -78,7 +78,7 @@ export default function OnboardingBasicDetailsForm({
         name: data.name,
         photo: profilePicture ? photoUpload.url : undefined,
         bio: data.bio,
-        category: data.category,
+        category: data.category || undefined,
         gender: data.gender,
       },
     }).catch((e) => {
