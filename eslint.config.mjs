@@ -5,22 +5,29 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import prettierConfig from "eslint-plugin-prettier/recommended";
+import unusedImports from "eslint-plugin-unused-imports";
 const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-export default [
+const config = [
   ...compat.extends("next", "next/core-web-vitals"),
   ...compat.plugins("react-refresh", "simple-import-sort", "tailwindcss"),
   ...tsLint.configs.recommended,
   {
+    plugins: {
+      "unused-imports": unusedImports,
+    },
     rules: {
       "prettier/prettier": "error",
       "no-console": ["error", { allow: ["warn", "error"] }],
       "react/no-unescaped-entities": 0,
       "simple-import-sort/imports": "warn",
       "simple-import-sort/exports": "warn",
+      "unused-imports/no-unused-imports": "warn",
     },
   },
   prettierConfig,
 ];
+
+export default config;
