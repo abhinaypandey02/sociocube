@@ -65,12 +65,18 @@ export default function OnboardingBasicDetailsForm({
       if (!res.ok) return;
     }
     nextStep();
-    const newPhoto = profilePicture ? photoUpload.url : defaultValues.photo;
-    setUser((prev) => prev && { ...prev, name: data.name, photo: newPhoto });
+    setUser(
+      (prev) =>
+        prev && {
+          ...prev,
+          name: data.name,
+          photo: profilePicture ? photoUpload.url : defaultValues.photo,
+        },
+    );
     updateBasicDetails({
       updatedUser: {
         name: data.name,
-        photo: newPhoto,
+        photo: profilePicture ? photoUpload.url : undefined,
         bio: data.bio,
         category: data.category,
         gender: data.gender,

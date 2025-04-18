@@ -118,7 +118,7 @@ function Navbar({
                       />
                     )
                   ) : open ? (
-                    <X size={24} />
+                    <X className="sm:hidden" size={24} />
                   ) : (
                     <List className="sm:hidden" size={24} />
                   )}
