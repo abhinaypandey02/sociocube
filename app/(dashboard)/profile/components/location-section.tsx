@@ -73,7 +73,7 @@ export default function LocationSection({
   const cities = citiesData?.cities;
   return (
     <div className="lg:flex-auto">
-      <div className="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
+      <div className="space-y-16 sm:space-y-20">
         <ContentTemplate
           description="Add or update details about your location"
           title="Location"

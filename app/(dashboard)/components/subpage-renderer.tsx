@@ -33,7 +33,7 @@ export default function SubpageRenderer({
           {openSubPage?.heading}
         </h2>
       </div>
-      {children}
+      <div className="lg:px-6">{children}</div>
     </div>
   );
 }

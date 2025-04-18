@@ -65,10 +65,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
         ref={ref}
         type="file"
       />
-      <Form
-        className="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none"
-        form={form}
-      >
+      <Form className="space-y-16 sm:space-y-20" form={form}>
         <ContentTemplate
           description="Fill the basic details about yourself!"
           items={[
