@@ -1,7 +1,9 @@
 import {
-  CalendarCheck,
+  Binoculars,
+  ClockCounterClockwise,
   Handshake,
-  MagnifyingGlassPlus,
+  MoneyWavy,
+  PlusCircle,
   UserCircle,
 } from "@phosphor-icons/react/dist/ssr";
 
@@ -14,11 +16,11 @@ export const NAV_ITEMS: NavItem[] = [
     href: Route.Campaigns,
     navTitle: "Apply",
     heading: "Active Campaigns",
-    icon: MagnifyingGlassPlus,
+    icon: MoneyWavy,
     roles: [Roles.Creator],
   },
   {
-    icon: CalendarCheck,
+    icon: ClockCounterClockwise,
     heading: "Your Applications",
     navTitle: "Applications",
     href: Route.Applications,
@@ -33,7 +35,7 @@ export const NAV_ITEMS: NavItem[] = [
     roles: [Roles.Brand, Roles.Agency],
   },
   {
-    icon: MagnifyingGlassPlus,
+    icon: PlusCircle,
     heading: "New Campaign",
     navTitle: "New Campaign",
     href: Route.NewCampaign,
@@ -42,7 +44,7 @@ export const NAV_ITEMS: NavItem[] = [
     roles: [Roles.Brand, Roles.Agency],
   },
   {
-    icon: MagnifyingGlassPlus,
+    icon: Binoculars,
     heading: "Find Creators",
     navTitle: "Search",
     href: Route.Search,

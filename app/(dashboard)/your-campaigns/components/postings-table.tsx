@@ -11,12 +11,12 @@ import React from "react";
 
 import type { GetUserPostingsQuery } from "@/__generated__/graphql";
 import { getCurrency } from "@/app/(dashboard)/campaigns/utils";
-import { NAV_ITEMS } from "@/app/(dashboard)/constants";
+import { useSetSubPage } from "@/app/(dashboard)/utils";
 import { Button } from "@/components/button";
+import { Variants } from "@/components/constants";
 import LoaderSkeleton from "@/components/loader-skeleton";
 import Table from "@/components/table";
 import { Route } from "@/constants/routes";
-import { useSubPage } from "@/lib/auth-client";
 
 type Posting = NonNullable<GetUserPostingsQuery["postings"]>[number];
 
@@ -87,22 +87,18 @@ export default function PostingsTable({
   data?: GetUserPostingsQuery;
   loading?: boolean;
 }) {
-  const { setOpenSubPage } = useSubPage();
+  const setSubPage = useSetSubPage();
 
   const postings = data?.postings;
-  if (loading) return <LoaderSkeleton className={"mt-10"} />;
+  if (loading) return <LoaderSkeleton />;
   if (!postings || postings.length === 0)
     return (
       <LoaderSkeleton
-        className={"mt-10"}
         title={"You haven't created any campaigns"}
         subtitle={
           <Button
-            onClick={() =>
-              setOpenSubPage(
-                NAV_ITEMS.find((item) => item.href === Route.NewCampaign),
-              )
-            }
+            variant={Variants.DARK}
+            onClick={() => setSubPage(Route.NewCampaign)}
             className={"items-center gap-1"}
           >
             Start your first campaign <ArrowRight />

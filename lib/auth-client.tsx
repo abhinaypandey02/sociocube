@@ -1,7 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { ProgressLoader } from "nextjs-progressloader";
-import type { Dispatch, PropsWithChildren, SetStateAction } from "react";
+import { Dispatch, PropsWithChildren, SetStateAction, useEffect } from "react";
 import React, {
   createContext,
   Suspense,
@@ -47,6 +48,10 @@ export function useSetToken() {
 
 export function useSubPage() {
   const { openSubPage, setOpenSubPage } = useContext(GlobalState);
+  const router = useRouter();
+  useEffect(() => {
+    setOpenSubPage(undefined);
+  }, [router]);
   return {
     openSubPage,
     setOpenSubPage,

@@ -19,7 +19,7 @@ export default function LoaderSkeleton({
   return (
     <div
       {...props}
-      className={cn("flex flex-col items-center", props.className)}
+      className={cn("flex flex-col items-center mt-20", props.className)}
     >
       {Icon && !loading ? (
         <Icon size={32} />

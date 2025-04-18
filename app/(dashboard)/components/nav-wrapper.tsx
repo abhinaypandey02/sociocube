@@ -6,6 +6,7 @@ import BottomNav from "@/app/(dashboard)/components/bottom-nav";
 import SideNav from "@/app/(dashboard)/components/side-nav";
 import TopNav from "@/app/(dashboard)/components/top-nav";
 import { NAV_ITEMS } from "@/app/(dashboard)/constants";
+import { Button } from "@/components/button";
 import { SEO } from "@/constants/seo";
 import { useSubPage } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
@@ -17,7 +18,7 @@ const getActiveItem = (pathname: string) =>
 
 export default function NavWrapper({ children }: PropsWithChildren) {
   const pathname = usePathname();
-  const { openSubPage } = useSubPage();
+  const { openSubPage, setOpenSubPage } = useSubPage();
   const [activeItem, setActiveItem] = useState(getActiveItem(pathname));
   useEffect(() => {
     const activeItem = getActiveItem(pathname);
@@ -42,11 +43,29 @@ export default function NavWrapper({ children }: PropsWithChildren) {
             subLinks={subPages}
             title={activeItem?.heading || SEO.companyName}
           />
-
-          <h2 className="px-8 py-10 font-poppins text-4xl font-semibold text-gray-800 max-lg:hidden">
-            {activeItem?.heading}
-          </h2>
-          <div className="min-h-0 w-full lg:px-8">{children}</div>
+          <div
+            className={
+              "flex items-center justify-between px-8 py-7 max-lg:hidden"
+            }
+          >
+            <h2 className=" font-poppins text-4xl font-semibold text-gray-800 pl-0.5">
+              {activeItem?.heading}
+            </h2>
+            <div className={"flex gap-1 items-center"}>
+              {subPages
+                .filter((item) => item.onlyOnMobile)
+                .map((item) => (
+                  <Button
+                    onClick={() => setOpenSubPage(item)}
+                    key={item.href}
+                    className={"flex gap-1 items-center text-sm"}
+                  >
+                    {item.navTitle} <item.icon />
+                  </Button>
+                ))}
+            </div>
+          </div>
+          <div className="min-h-0 w-full px-4 lg:px-8">{children}</div>
         </div>
       </div>
       <BottomNav activeItem={activeItem} setActiveItem={setActiveItem} />

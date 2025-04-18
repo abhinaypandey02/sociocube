@@ -126,10 +126,7 @@ export default function SearchWindow({
         isOpen={mobileFiltersOpen}
         variables={variables}
       />
-      <form
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-        onSubmit={handleSubmit}
-      >
+      <form className="" onSubmit={handleSubmit}>
         <div className="flex flex-wrap items-baseline justify-between gap-5 border-b border-gray-200 pb-6 pt-4">
           <div className="flex w-72 items-center max-md:w-full">
             <Input

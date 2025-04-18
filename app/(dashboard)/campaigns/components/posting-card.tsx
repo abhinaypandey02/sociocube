@@ -88,12 +88,12 @@ export default function PostingCard({
 
   return (
     <>
-      <div className="h-full snap-start pt-3 pb-5">
+      <div className="h-full snap-start pb-5">
         <div
           id={posting.id.toString()}
           key={posting.id}
           ref={mainRef}
-          className="h-full snap-start pt-3 pb-5 flex flex-col overflow-hidden relative border-gray-200 bg-background px-4 lg:rounded-xl lg:border lg:p-8 lg:shadow-md"
+          className="h-full snap-start pt-3 pb-5 flex flex-col overflow-hidden relative border-gray-200 bg-background lg:rounded-xl lg:border lg:p-8 lg:shadow-md"
         >
           <div className="flex items-start justify-between gap-3 max-lg:flex-wrap">
             <div>

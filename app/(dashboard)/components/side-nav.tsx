@@ -22,15 +22,15 @@ export default function SideNav({
   const { all } = useUserNavItems();
 
   return (
-    <ul className="space-y-1 shrink-0 border-r border-gray-200 px-3 py-4 max-lg:hidden ">
+    <ul className="space-y-1 shrink-0 border-r border-gray-200 px-3 max-lg:hidden ">
       <Link
-        className="mb-8 gap-2 flex items-center text-primary"
+        className="my-7 pl-2 gap-2 flex items-center text-primary"
         href={Route.Home}
         key={Route.Home}
       >
         <Logo size={36} />
 
-        <h1 className="translate-y-0.5 font-madina text-4xl leading-none">
+        <h1 className="translate-y-0.5 font-madina text-5xl leading-0">
           sociocube
         </h1>
       </Link>
