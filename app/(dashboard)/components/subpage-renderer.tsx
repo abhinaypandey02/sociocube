@@ -16,8 +16,8 @@ export default function SubpageRenderer({
   return (
     <div
       className={cn(
-        "absolute inset-0 px-4 pb-8 pt-20 z-10 size-full bg-background duration-300 ease-in-out transition-transform overflow-auto",
-        openSubPage?.href !== href && "translate-x-full",
+        "absolute inset-0 px-4 pb-8 pt-20 z-10 size-full bg-background duration-300 ease-in-out transition-transform",
+        openSubPage?.href !== href ? "translate-x-full" : "overflow-auto",
       )}
       key={href}
     >

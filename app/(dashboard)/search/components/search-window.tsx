@@ -38,7 +38,6 @@ import { getRoute } from "@/constants/routes";
 import { cn, convertToAbbreviation } from "@/lib/utils";
 
 import { SEARCH_FILTERS } from "../constants";
-import SearchLoading from "./search-loading";
 
 const NoResults = dynamic(() => import("./no-results"));
 const MobileFilterPanel = dynamic(() => import("./mobile-filter-panel"));
@@ -276,22 +275,24 @@ export default function SearchWindow({
 
             {/* Product grid */}
             <div className=" lg:col-span-3">
-              {loading ? <SearchLoading /> : null}
+              {loading ? <LoaderSkeleton /> : null}
               {data?.response?.sellers?.length === 0 && !loading && (
                 <NoResults />
               )}
               <ul className="space-y-5">
-                <div className="text-sm text-center">
-                  Search is limited to <strong>5</strong> creators.{" "}
-                  <br className="sm:hidden" />
-                  <Link
-                    href={getRoute("Campaigns")}
-                    className="underline underline-offset-4"
-                  >
-                    Create a free campaign
-                  </Link>{" "}
-                  for limitless search
-                </div>
+                {!loading && (
+                  <div className="text-sm text-center">
+                    Search is limited to <strong>5</strong> creators.{" "}
+                    <br className="sm:hidden" />
+                    <Link
+                      href={getRoute("YourCampaigns")}
+                      className="underline underline-offset-4"
+                    >
+                      Create a free campaign
+                    </Link>{" "}
+                    for limitless search
+                  </div>
+                )}
                 {!loading &&
                   data?.response?.sellers?.map((person) => (
                     <li key={person.name || ""}>
@@ -355,22 +356,6 @@ export default function SearchWindow({
                       </Link>
                     </li>
                   ))}
-                <LoaderSkeleton
-                  title="Looking to find 1000s more?"
-                  Icon={MagnifyingGlass}
-                  className="mt-8"
-                  subtitle={
-                    <>
-                      <Link
-                        href={getRoute("Campaigns")}
-                        className="underline underline-offset-4"
-                      >
-                        Start a campaign
-                      </Link>{" "}
-                      to connect with all creators
-                    </>
-                  }
-                />
               </ul>
             </div>
           </div>
