@@ -1,3 +1,4 @@
+"use client";
 import { MagnifyingGlass, SmileySad } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,15 +11,16 @@ import {
   getStatusName,
 } from "@/app/(dashboard)/your-campaigns/[id]/applications/utils";
 import { Button } from "@/components/button";
+import { Variants } from "@/components/constants";
 import LoaderSkeleton from "@/components/loader-skeleton";
 import { getRoute } from "@/constants/routes";
 import { useSubPage } from "@/lib/auth-client";
 
 export default function MyApplications({
-  data: { applications, uploadURL },
+  data,
   loading,
 }: {
-  data: {
+  data?: {
     applications: (GetUserApplicationsQuery["getUserApplications"][number] & {
       isPendingReview: boolean;
     })[];
@@ -26,19 +28,25 @@ export default function MyApplications({
   };
   loading: boolean;
 }) {
+  const applications = data?.applications;
+  const uploadURL = data?.uploadURL;
   const { setOpenSubPage } = useSubPage();
   if (loading) {
     return <LoaderSkeleton />;
   }
   return (
     <div>
-      {applications.length === 0 && (
+      {applications?.length === 0 && (
         <LoaderSkeleton
           Icon={SmileySad}
           title={"You haven't applied to any campaigns yet."}
           subtitle={
             <Link href={getRoute("Campaigns")}>
-              <Button onClick={() => setOpenSubPage(undefined)}>
+              <Button
+                variant={Variants.DARK}
+                className="gap-1"
+                onClick={() => setOpenSubPage(undefined)}
+              >
                 Apply now <MagnifyingGlass />
               </Button>
             </Link>
@@ -46,7 +54,7 @@ export default function MyApplications({
         />
       )}
       <ul className="space-y-5">
-        {applications.map(
+        {applications?.map(
           ({ posting, ...app }) =>
             posting && (
               <li
