@@ -147,5 +147,5 @@ export function handleSearchSellers(filters: SearchSellersFiltersInput) {
       ),
     )
     .orderBy(getOrderBy(filters.sortBy))
-    .limit(12);
+    .limit(5);
 }

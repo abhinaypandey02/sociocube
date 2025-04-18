@@ -33,6 +33,7 @@ import type {
 } from "@/__generated__/graphql";
 import { SearchFilterSorting } from "@/__generated__/graphql";
 import { Input } from "@/components/input";
+import LoaderSkeleton from "@/components/loader-skeleton";
 import { getRoute } from "@/constants/routes";
 import { cn, convertToAbbreviation } from "@/lib/utils";
 
@@ -216,7 +217,7 @@ export default function SearchWindow({
           </div>
         </div>
 
-        <section aria-labelledby="products-heading" className="pb-24 pt-6">
+        <section aria-labelledby="products-heading" className="pt-6 pb-16">
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
             {/* Filters */}
             <div className="-mt-4 hidden lg:block">
@@ -280,6 +281,17 @@ export default function SearchWindow({
                 <NoResults />
               )}
               <ul className="space-y-5">
+                <div className="text-sm text-center">
+                  Search is limited to <strong>5</strong> creators.{" "}
+                  <br className="sm:hidden" />
+                  <Link
+                    href={getRoute("Campaigns")}
+                    className="underline underline-offset-4"
+                  >
+                    Create a free campaign
+                  </Link>{" "}
+                  for limitless search
+                </div>
                 {!loading &&
                   data?.response?.sellers?.map((person) => (
                     <li key={person.name || ""}>
@@ -343,6 +355,22 @@ export default function SearchWindow({
                       </Link>
                     </li>
                   ))}
+                <LoaderSkeleton
+                  title="Looking to find 1000s more?"
+                  Icon={MagnifyingGlass}
+                  className="mt-8"
+                  subtitle={
+                    <>
+                      <Link
+                        href={getRoute("Campaigns")}
+                        className="underline underline-offset-4"
+                      >
+                        Start a campaign
+                      </Link>{" "}
+                      to connect with all creators
+                    </>
+                  }
+                />
               </ul>
             </div>
           </div>
