@@ -328,12 +328,16 @@ function OnboardingWizard({
                 className={cn("h-full sm:px-6 ", i !== step && "hidden")}
                 key={stepValue.key || stepValue.heading}
               >
-                <h2 className="mb-1 mt-6 text-center font-poppins text-3xl font-semibold sm:mt-14">
-                  {stepValue.heading}
-                </h2>
-                <p className="mb-5 text-center text-gray-600 sm:mb-10">
-                  {stepValue.longDescription}
-                </p>
+                {stepValue.heading && (
+                  <h2 className="mb-1 mt-6 text-center font-poppins text-3xl font-semibold sm:mt-14">
+                    {stepValue.heading}
+                  </h2>
+                )}
+                {stepValue.longDescription && (
+                  <p className="mb-5 text-center text-gray-600 sm:mb-10">
+                    {stepValue.longDescription}
+                  </p>
+                )}
                 {stepValue.component}
               </div>
             ))}

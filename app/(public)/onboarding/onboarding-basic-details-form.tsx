@@ -129,31 +129,29 @@ export default function OnboardingBasicDetailsForm({
         rows={showCreatorSteps ? 2 : 4}
         textarea
       />
+      <Input
+        className="block"
+        label="Category"
+        name="category"
+        options={categories.map(({ title }) => ({
+          label: title,
+          value: title,
+        }))}
+        placeholder="Select the category that best suits you"
+        rules={{ required: showCreatorSteps }}
+      />
       {showCreatorSteps ? (
-        <>
-          <Input
-            className="block"
-            label="Category"
-            name="category"
-            options={categories.map(({ title }) => ({
-              label: title,
-              value: title,
-            }))}
-            placeholder="Select the category that best suits you"
-            rules={{ required: true }}
-          />
-          <Input
-            className="block"
-            label="Gender"
-            name="gender"
-            options={genders.map((gender) => ({
-              label: gender,
-              value: gender,
-            }))}
-            placeholder="Select your gender"
-            rules={{ required: true }}
-          />
-        </>
+        <Input
+          className="block"
+          label="Gender"
+          name="gender"
+          options={genders.map((gender) => ({
+            label: gender,
+            value: gender,
+          }))}
+          placeholder="Select your gender"
+          rules={{ required: true }}
+        />
       ) : null}
       <input
         accept={ALLOWED_IMAGE_TYPES.join(", ")}
