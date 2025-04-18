@@ -1,4 +1,4 @@
-import { PropsWithChildren, Suspense } from "react";
+import { PropsWithChildren } from "react";
 
 import MyApplications from "@/app/(dashboard)/applications/page";
 import SubpageRenderer from "@/app/(dashboard)/components/subpage-renderer";
@@ -13,9 +13,7 @@ export default function SearchPage({ children }: PropsWithChildren) {
   return (
     <>
       <SubpageRenderer href={Route.Applications}>
-        <Suspense>
-          <MyApplications />
-        </Suspense>
+        <MyApplications />
       </SubpageRenderer>
       {children}
     </>

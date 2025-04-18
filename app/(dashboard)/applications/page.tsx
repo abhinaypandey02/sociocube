@@ -4,7 +4,9 @@ import React from "react";
 import { Injector, queryGQL } from "@/lib/apollo-server";
 import { GET_USER_APPLICATIONS } from "@/lib/queries";
 
-export default async function MyApplications() {
+import MyApplications from "./components/my-applications";
+
+export default async function MyApplicationsPage() {
   return (
     <Injector
       fetch={async () => {
