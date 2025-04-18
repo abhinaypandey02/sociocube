@@ -41,6 +41,7 @@ export const PostingTable = pgTable(
     minimumAge: integer("minimum_age"),
     maximumAge: integer("maximum_age"),
     open: boolean("open").default(true).notNull(),
+    inReview: boolean("in_review").default(true).notNull(),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
     updatedAt: timestamp("updatedAt").defaultNow().notNull(),
   },

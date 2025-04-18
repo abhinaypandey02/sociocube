@@ -67,6 +67,7 @@ export async function getValidPostings({
               ]
             : []),
           eq(PostingTable.open, true),
+          eq(PostingTable.inReview, false),
           postingID ? eq(PostingTable.id, postingID) : undefined,
         ),
       )
@@ -140,7 +141,9 @@ export async function getAllPostings(
         db
           .select()
           .from(PostingTable)
-          .where(eq(PostingTable.open, true))
+          .where(
+            and(eq(PostingTable.open, true), eq(PostingTable.inReview, false)),
+          )
           .orderBy(desc(PostingTable.id)),
         {
           page,
