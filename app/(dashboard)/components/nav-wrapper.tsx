@@ -65,7 +65,9 @@ export default function NavWrapper({ children }: PropsWithChildren) {
                 ))}
             </div>
           </div>
-          <div className="min-h-0 w-full px-4 lg:px-8">{children}</div>
+          <div className="min-h-0 w-full px-4 lg:px-8 overflow-auto snap-y snap-mandatory snap-always">
+            {children}
+          </div>
         </div>
       </div>
       <BottomNav activeItem={activeItem} setActiveItem={setActiveItem} />

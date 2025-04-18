@@ -24,12 +24,12 @@ export default function AccountView({
   const ACCOUNT_SECTIONS = useAccountSections();
   const SelectedComponent = ACCOUNT_SECTIONS[selectedSection]?.component;
   return (
-    <div className="mx-auto max-w-7xl lg:flex lg:gap-x-16 lg:px-8">
+    <div className="pb-10">
       <h2 className="sr-only">General Settings</h2>
 
-      <aside className="flex overflow-x-auto border-b border-gray-900/5 py-4 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-20">
-        <nav className="flex-none px-4 sm:px-6 lg:px-0">
-          <ul className="flex gap-x-3 gap-y-1 whitespace-nowrap lg:flex-col">
+      <aside className="flex overflow-x-auto border-b border-gray-900/5 py-4 mb-5">
+        <nav className="flex-none">
+          <ul className="flex gap-x-3 gap-y-1 whitespace-nowrap">
             {ACCOUNT_SECTIONS.map((item, i) => (
               <li key={item.title}>
                 <button

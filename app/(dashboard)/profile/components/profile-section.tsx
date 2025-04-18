@@ -51,7 +51,7 @@ export default function ProfileSection({ data }: { data: AccountSectionData }) {
   const [isUsernameAvailable] = useAuthQuery(IS_USERNAME_AVAILABLE);
   const photoValue = form.watch("photo");
   return (
-    <div className="px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20">
+    <div className="lg:flex-auto">
       <input
         className="hidden"
         onChange={(e) => {

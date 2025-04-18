@@ -44,7 +44,7 @@ export default function PostingsData({
     <ul
       ref={ref}
       aria-labelledby="products-heading"
-      className="h-full snap-y snap-mandatory snap-always overflow-auto no-scrollbar"
+      className="h-full no-scrollbar"
     >
       {loading ? (
         <LoaderSkeleton title={"Getting the perfect campaigns for you"} />

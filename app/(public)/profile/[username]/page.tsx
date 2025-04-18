@@ -2,7 +2,6 @@ import {
   ArrowSquareOut,
   InstagramLogo,
   SealCheck,
-  Sparkle,
   TrendUp,
 } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
@@ -76,7 +75,7 @@ export default async function ProfilePage({
   );
   if (!user?.name || !user.instagramStats) return notFound();
   return (
-    <div className="mx-auto max-w-2xl px-6 pt-6 sm:mt-8 lg:grid lg:max-w-(--breakpoint-2xl) lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
+    <div className="mx-auto max-w-2xl px-6 lg:grid lg:max-w-(--breakpoint-2xl) lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
       <Suspense>
         <OnboardingCompletedModal url={getMeURL(username, true)} />
       </Suspense>
@@ -178,28 +177,22 @@ export default async function ProfilePage({
             />
           </>
         ) : null}
-        <div className="mt-7">
-          <h2 className="text-sm font-medium text-gray-900">Reviews</h2>
+        {user.reviews.length > 0 && (
+          <div className="mt-7">
+            <h2 className="text-sm font-medium text-gray-900">Reviews</h2>
 
-          <div className="mt-5 space-y-4 ">
-            {user.reviews.map((review) => (
-              <Injector
-                Component={Review}
-                fetch={getCurrentUser}
-                key={review.username}
-                props={{ review, username }}
-              />
-            ))}
-            {user.reviews.length === 0 ? (
-              <div className="text-gray-500">
-                <div className="flex items-center justify-center gap-1 text-sm">
-                  No reviews yet.
-                  <Sparkle size={20} />
-                </div>
-              </div>
-            ) : null}
+            <div className="mt-5 space-y-4 ">
+              {user.reviews.map((review) => (
+                <Injector
+                  Component={Review}
+                  fetch={getCurrentUser}
+                  key={review.username}
+                  props={{ review, username }}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="mt-6 lg:col-span-8">
