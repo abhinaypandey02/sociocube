@@ -10,5 +10,6 @@ export interface NavItem {
   icon: ElementType;
   parent?: Route;
   onlyOnMobile?: boolean;
+  requireAuth?: boolean;
   roles?: Roles[];
 }

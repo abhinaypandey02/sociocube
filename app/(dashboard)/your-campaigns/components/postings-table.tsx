@@ -14,9 +14,11 @@ import { getCurrency } from "@/app/(dashboard)/campaigns/utils";
 import { useSetSubPage } from "@/app/(dashboard)/utils";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
+import LinkWrapper from "@/components/link-wrapper";
 import LoaderSkeleton from "@/components/loader-skeleton";
 import Table from "@/components/table";
-import { Route } from "@/constants/routes";
+import { getRoute, Route } from "@/constants/routes";
+import { useToken } from "@/lib/auth-client";
 
 type Posting = NonNullable<GetUserPostingsQuery["postings"]>[number];
 
@@ -88,7 +90,7 @@ export default function PostingsTable({
   loading?: boolean;
 }) {
   const setSubPage = useSetSubPage();
-
+  const token = useToken();
   const postings = data?.postings;
   if (loading) return <LoaderSkeleton />;
   if (!postings || postings.length === 0)
@@ -96,13 +98,17 @@ export default function PostingsTable({
       <LoaderSkeleton
         title={"You haven't created any campaigns"}
         subtitle={
-          <Button
-            variant={Variants.DARK}
-            onClick={() => setSubPage(Route.NewCampaign)}
-            className={"items-center gap-1"}
-          >
-            Start your first campaign <ArrowRight />
-          </Button>
+          <LinkWrapper href={!token ? getRoute("SignUp") : undefined}>
+            <Button
+              variant={Variants.DARK}
+              onClick={() => {
+                if (token) setSubPage(Route.NewCampaign);
+              }}
+              className={"items-center gap-1"}
+            >
+              Start your first campaign <ArrowRight />
+            </Button>
+          </LinkWrapper>
         }
         Icon={SmileyXEyes}
       />

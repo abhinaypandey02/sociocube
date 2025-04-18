@@ -42,6 +42,7 @@ export const NAV_ITEMS: NavItem[] = [
     onlyOnMobile: true,
     parent: Route.YourCampaigns,
     roles: [Roles.Brand, Roles.Agency],
+    requireAuth: true,
   },
   {
     icon: Binoculars,
@@ -56,6 +57,7 @@ export const NAV_ITEMS: NavItem[] = [
     heading: "Your Profile",
     navTitle: "Profile",
     href: Route.Profile,
+    requireAuth: true,
   },
 ];
 

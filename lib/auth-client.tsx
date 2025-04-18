@@ -51,7 +51,7 @@ export function useSubPage() {
   const router = useRouter();
   useEffect(() => {
     setOpenSubPage(undefined);
-  }, [router]);
+  }, [router, setOpenSubPage]);
   return {
     openSubPage,
     setOpenSubPage,

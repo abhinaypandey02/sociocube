@@ -4,8 +4,9 @@ import React from "react";
 
 import { NavItem } from "@/app/(dashboard)/type";
 import Logo from "@/app/logo";
+import LinkWrapper from "@/components/link-wrapper";
 import { getRoute } from "@/constants/routes";
-import { useSubPage } from "@/lib/auth-client";
+import { useSubPage, useToken } from "@/lib/auth-client";
 
 export default function TopNav({
   title,
@@ -15,7 +16,7 @@ export default function TopNav({
   subLinks: NavItem[];
 }) {
   const { setOpenSubPage } = useSubPage();
-
+  const token = useToken();
   return (
     <div
       onScroll={(e) => e.stopPropagation()}
@@ -31,14 +32,19 @@ export default function TopNav({
       </div>
       <div className="flex">
         {subLinks.map((page) => (
-          <button
+          <LinkWrapper
             key={page.heading}
-            onClick={() => {
-              setOpenSubPage(page);
-            }}
+            href={page.requireAuth && !token ? getRoute("SignUp") : undefined}
           >
-            <page.icon size={24} />
-          </button>
+            <button
+              onClick={() => {
+                if (page.requireAuth && !token) return;
+                setOpenSubPage(page);
+              }}
+            >
+              <page.icon size={24} />
+            </button>
+          </LinkWrapper>
         ))}
       </div>
     </div>

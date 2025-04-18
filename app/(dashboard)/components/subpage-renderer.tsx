@@ -16,12 +16,12 @@ export default function SubpageRenderer({
   return (
     <div
       className={cn(
-        "absolute inset-0 z-10 size-full  bg-background transition-transform",
+        "absolute inset-0 px-4 pb-8 pt-20 z-10 size-full bg-background transition-transform",
         openSubPage?.href !== href && "translate-x-full",
       )}
       key={href}
     >
-      <div className="flex items-center gap-2 p-4">
+      <div className="flex fixed top-0 items-center gap-2 py-4 bg-background w-full z-10">
         <button
           onClick={() => {
             setOpenSubPage(undefined);
@@ -33,7 +33,7 @@ export default function SubpageRenderer({
           {openSubPage?.heading}
         </h2>
       </div>
-      {children}
+      <div className="overflow-auto">{children}</div>
     </div>
   );
 }
