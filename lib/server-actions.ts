@@ -33,7 +33,8 @@ export async function getTransformedPostingData(message: string) {
     message,
   );
 }
-export const text = `
+// eslint-disable-next-line
+const _text = `
 You are the point of contact for a marketing agency website. Your job is to talk to brands who want to run a campaign on your website. To run a campaign you need the following details:
 
 export enum PostingPlatforms {
