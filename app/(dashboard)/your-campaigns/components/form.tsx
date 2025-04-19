@@ -1,5 +1,5 @@
 "use client";
-import { MagicWand } from "@phosphor-icons/react";
+import { MagicWand, Pen } from "@phosphor-icons/react";
 import type { GraphQLError } from "graphql/error";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
@@ -27,13 +27,16 @@ import {
   useAuthMutation,
   useAuthQuery,
 } from "@/lib/apollo-client";
+import { useUser } from "@/lib/auth-client";
 import { CREATE_POSTING, UPDATE_POSTING } from "@/lib/mutations";
 import { GET_COUNTRIES } from "@/lib/queries";
 import {
   revalidateOnlyPostingsPage,
   revalidatePosting,
 } from "@/lib/revalidate";
-import { getTransformedPostingData } from "@/lib/server-actions";
+import { getCreatePostingQuestions } from "@/lib/server-actions";
+
+const DEFAULT_AI_QUESTIONS = ["Describe the campaign and the requirements"];
 
 export interface CreatePostingFormFields {
   title: string;
@@ -57,6 +60,7 @@ export default function CreateNewPostingForm({
   existingPosting?: GetPostingQuery["posting"];
   data?: GetUserCurrencyQuery;
 }) {
+  const [user] = useUser();
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
   const form = useForm<CreatePostingFormFields>({
@@ -75,7 +79,10 @@ export default function CreateNewPostingForm({
       extraDetails: existingPosting?.extraDetails || undefined,
     },
   });
-  const aiForm = useForm<{ message: string }>();
+  const [showManualForm, setShowManualForm] = useState(!!existingPosting);
+  const aiForm = useForm<{ answers: string[] }>();
+  const [aiQuestions, setAIQuestions] =
+    useState<string[]>(DEFAULT_AI_QUESTIONS);
   const [fetchCountries, { data: countriesData, loading: loadingCountries }] =
     useAuthQuery(GET_COUNTRIES);
   const [createPosting, { loading: creatingPost }] =
@@ -143,29 +150,49 @@ export default function CreateNewPostingForm({
     }
   };
 
-  const handleAiSubmit = async (data: { message: string }) => {
+  useEffect(() => {
+    if (showManualForm) ref.current?.scrollIntoView();
+  }, [showManualForm]);
+
+  const handleAiSubmit = async (data: { answers: string[] }) => {
     setLoading(true);
-    const res = await getTransformedPostingData(data.message);
-    if (res) {
+    const res = await getCreatePostingQuestions(
+      aiQuestions.map((question, i) => ({
+        question,
+        answer: data.answers[i] || "",
+      })),
+      { name: user?.name, bio: user?.bio },
+    );
+    if (res?.additionalQuestion) {
+      const additionalQuestion = res.additionalQuestion;
+      setAIQuestions((prev) => [...prev, additionalQuestion]);
+    } else if (res?.postingData) {
+      setShowManualForm(true);
+      const postingData = res.postingData;
       form.reset({
-        barter: res.barter,
-        description: res.description.slice(0, POSTING_BIO_MAX_LENGTH),
-        deliverables: res.deliverables.slice(0, BIO_MAX_LENGTH),
-        externalLink: res.externalLink,
-        extraDetails: res.extraDetails,
-        maximumAge: res.maximumAge || undefined,
-        title: res.title.slice(0, NAME_MAX_LENGTH * 2),
-        platforms: res.platforms,
-        minimumAge: res.minimumAge || undefined,
-        minimumFollowers: res.minimumFollowers || undefined,
-        price: res.price || undefined,
+        barter: postingData.barter,
+        description: postingData.description.slice(0, POSTING_BIO_MAX_LENGTH),
+        deliverables: postingData.deliverables.slice(0, BIO_MAX_LENGTH),
+        externalLink: postingData.externalLink,
+        extraDetails: postingData.extraDetails,
+        maximumAge: postingData.maximumAge || undefined,
+        title: postingData.title.slice(0, NAME_MAX_LENGTH * 2),
+        platforms: postingData.platforms,
+        minimumAge: postingData.minimumAge || undefined,
+        minimumFollowers: postingData.minimumFollowers || undefined,
+        price: postingData.price || undefined,
       });
       toast.success("Autofilled the form!");
-      ref.current?.scrollIntoView();
+      aiForm.resetField("answers");
+      setTimeout(() => {
+        setAIQuestions(DEFAULT_AI_QUESTIONS);
+      }, 1000);
     } else {
       toast.error("An error occurred with AI, please fill form manually!");
+      aiForm.resetField("answers");
+      setAIQuestions(DEFAULT_AI_QUESTIONS);
     }
-    aiForm.resetField("message");
+
     setLoading(false);
   };
   return (
@@ -176,38 +203,50 @@ export default function CreateNewPostingForm({
           form={aiForm}
           onSubmit={aiForm.handleSubmit(handleAiSubmit)}
         >
-          <Input
-            label="About the opening / Brand message (Optional)"
-            name="message"
-            placeholder="Paste the message from the brand, or describe the opportunity yourself and let AI handle the auto filling!"
-            required
-            rows={8}
-            textarea
-          />
+          {aiQuestions.map((question, i) => (
+            <Input
+              key={question}
+              label={question}
+              name={"answers." + i}
+              placeholder="Answer the question in detail to use AI to autofill your form."
+              required
+              rows={6}
+              textarea={i === aiQuestions.length - 1}
+            />
+          ))}
           <Button
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 ml-auto max-sm:w-full"
             loading={isLoading}
             type="submit"
             variant={Variants.ACCENT}
           >
-            Autofill with AI <MagicWand />
+            {aiQuestions.length > 1 ? "Submit answer" : "Autofill with AI"}{" "}
+            <MagicWand />
           </Button>
         </Form>
       )}
       {!existingPosting && (
-        <div className="relative my-12">
+        <div ref={ref} className="relative my-12 scroll-m-6">
           <hr />
           <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 font-poppins font-medium">
             or
           </span>
         </div>
       )}
+      {!showManualForm && (
+        <Button
+          invert
+          className="flex items-center gap-2 w-full"
+          onClick={() => setShowManualForm(true)}
+        >
+          Enter details manually <Pen />
+        </Button>
+      )}
       <Form
-        className="space-y-6"
+        className={"space-y-6 " + (showManualForm ? "" : "hidden")}
         form={form}
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div ref={ref} />
         <Input
           disabled={Boolean(existingPosting)}
           label="Title"

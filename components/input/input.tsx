@@ -24,7 +24,7 @@ function InputWrapper({
   return (
     <div className="w-full">
       {label ? (
-        <label className="mb-1.5 block pl-0.5 font-poppins font-semibold">
+        <label className="mb-1.5 block pl-0.5 font-poppins font-medium">
           {label}
         </label>
       ) : null}

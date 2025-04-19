@@ -30,7 +30,7 @@ export async function getGroqResponse<T>(system: string, message?: string) {
             ]
           : []),
       ],
-      model: "llama-3.3-70b-versatile",
+      model: "meta-llama/llama-4-scout-17b-16e-instruct",
       temperature: 1,
       max_completion_tokens: 1024,
       top_p: 1,
