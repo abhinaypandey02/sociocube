@@ -49,7 +49,6 @@ export const NAV_ITEMS: NavItem[] = [
     heading: "Find Creators",
     navTitle: "Search",
     href: Route.Search,
-    onlyOnMobile: true,
     roles: [Roles.Brand, Roles.Agency],
   },
   {

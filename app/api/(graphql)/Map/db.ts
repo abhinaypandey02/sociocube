@@ -73,6 +73,10 @@ export const CityTable = pgTable(
     countryIdx: index("country_idx").on(table.countryId),
     countryCodeIdx: index("country_code_idx").on(table.countryCode),
     stateIdx: index("state_idx").on(table.stateId),
+    nameFuzzyIndex: index("name_fuzzy_idx").using(
+      "gin",
+      sql`(unaccent(${table.name}) gin_trgm_ops)`,
+    ),
   }),
 );
 

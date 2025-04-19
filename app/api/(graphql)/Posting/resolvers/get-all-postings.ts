@@ -107,23 +107,12 @@ export async function getAllPostings(
   const isOnboarded = user ? getIsOnboarded(user.user) : false;
   const age = user?.user.dob ? getAge(new Date(user.user.dob)) : 0;
   if (postingID) {
-    if (ctx.userId && isOnboarded) {
-      results.push(
-        ...(await getValidPostings({
-          userId: ctx.userId,
-          age,
-          followers: user?.instagram_data?.followers || 0,
-          postingID,
-        })),
-      );
-    } else {
-      const [posting] = await db
-        .select()
-        .from(PostingTable)
-        .where(eq(PostingTable.id, postingID));
+    const [posting] = await db
+      .select()
+      .from(PostingTable)
+      .where(eq(PostingTable.id, postingID));
 
-      if (posting) results.push(posting);
-    }
+    if (posting) results.push(posting);
   }
   if (ctx.userId && isOnboarded) {
     results.push(

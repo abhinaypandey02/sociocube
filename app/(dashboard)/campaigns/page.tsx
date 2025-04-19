@@ -7,7 +7,7 @@ import { GET_ALL_POSTINGS } from "@/lib/queries";
 import PostingsData from "./components/postings-data";
 
 export function generateMetadata() {
-  return getSEO("Find influencer your-campaigns");
+  return getSEO("Find campaign opportunites for content creators");
 }
 
 export default async function SearchPage() {
