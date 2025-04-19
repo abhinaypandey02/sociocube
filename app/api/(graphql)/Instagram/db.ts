@@ -35,9 +35,9 @@ export const InstagramDetails = pgTable(
     isVerified: boolean("is_verified").default(false).notNull(),
   },
   (table) => ({
-    instagramSearchIndex: index("instagram_search_index").using(
+    instagramSearchIndex: index("insta_username_search_index").using(
       "gin",
-      sql`to_tsvector('english', ${table.username})`,
+      sql`${table.username} gin_trgm_ops`,
     ),
     followersIdx: index("followers_idx").on(table.followers),
   }),

@@ -10,6 +10,7 @@ import {
   inArray,
   isNotNull,
   lte,
+  or,
   sql,
 } from "drizzle-orm";
 import { Field, InputType, Int, registerEnumType } from "type-graphql";
@@ -114,12 +115,11 @@ export function handleSearchSellers(filters: SearchSellersFiltersInput) {
             )
           : undefined,
         filters.query
-          ? sql`(
-            to_tsvector('english', ${InstagramDetails.username}) || 
-            to_tsvector('english', ${UserTable.name}) || 
-            to_tsvector('english', ${UserTable.username}) || 
-            to_tsvector('english', ${UserTable.bio})
-        ) @@ plainto_tsquery('english', ${filters.query})`
+          ? or(
+              sql`to_tsvector('english', ${UserTable.bio}) @@ plainto_tsquery('english', ${filters.query})`,
+              sql`(${UserTable.name} || ' ' || ${UserTable.username}) % ${filters.query}`,
+              sql`${InstagramDetails.username} % ${filters.query}`,
+            )
           : undefined,
       ),
     )

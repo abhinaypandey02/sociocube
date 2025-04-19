@@ -58,12 +58,13 @@ export const UserTable = pgTable(
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (table) => ({
-    userSearchIndex: index("user_search_index").using(
+    userSearchBioIndex: index("user_search_index").using(
       "gin",
-      sql`(
-        to_tsvector('english', ${table.name}) || 
-        to_tsvector('english', ${table.bio})
-        )`,
+      sql`(to_tsvector('english', ${table.bio}))`,
+    ),
+    userSearchNameIndex: index("user_search_name_index").using(
+      "gin",
+      sql`(${table.name} || ' ' || ${table.username}) gin_trgm_ops`,
     ),
     categoryIdx: index("category_idx").on(table.category),
     genderIdx: index("gender_idx").on(table.gender),
