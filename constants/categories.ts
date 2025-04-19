@@ -1,4 +1,4 @@
-export default [
+const categories = [
   { id: 2, title: "Fashion & Style" },
   { id: 5, title: "Beauty & Makeup" },
   { id: 7, title: "Lifestyle" },
@@ -24,3 +24,4 @@ export default [
   { id: 21, title: "Marketplace / Store" },
   { id: 22, title: "Entertainment" },
 ];
+export default categories;

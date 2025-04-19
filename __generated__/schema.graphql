@@ -466,26 +466,8 @@ type Review {
   username: String!
 }
 
-enum SearchFilterSorting {
-  FollowersAsc
-  FollowersDesc
-  PriceAsc
-  PriceDesc
-}
-
 input SearchSellersFilters {
-  ageRange: Int
-  categories: [String!]
-  cities: [Int!]
-  countries: [Int!]
-  followersFrom: Int
-  followersTo: Int
-  genders: [String!]
-  generalPriceFrom: Float
-  generalPriceTo: Float
   query: String
-  sortBy: SearchFilterSorting
-  states: [Int!]
 }
 
 input SendReviewByAgencyArgs {

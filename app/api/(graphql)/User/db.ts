@@ -64,7 +64,15 @@ export const UserTable = pgTable(
     ),
     userSearchNameIndex: index("user_search_name_index").using(
       "gin",
-      sql`(${table.name} || ' ' || ${table.username}) gin_trgm_ops`,
+      sql`${table.name} gin_trgm_ops`,
+    ),
+    userSearchUserNameIndex: index("user_search_username_index").using(
+      "gin",
+      sql`${table.username} gin_trgm_ops`,
+    ),
+    userSearchCategoryIndex: index("user_search_category_index").using(
+      "gin",
+      sql`immutable_categories(${table.category}) gin_trgm_ops`,
     ),
     categoryIdx: index("category_idx").on(table.category),
     genderIdx: index("gender_idx").on(table.gender),

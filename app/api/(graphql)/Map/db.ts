@@ -11,25 +11,38 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-export const StateTable = pgTable("states", {
-  id: bigint("id", { mode: "number" }).primaryKey().notNull(),
-  name: varchar("name", { length: 255 }).notNull(),
-  countryId: bigint("country_id", { mode: "number" })
-    .notNull()
-    .references(() => CountryTable.id),
-  countryCode: char("country_code", { length: 2 }).notNull(),
-  fipsCode: varchar("fips_code", { length: 255 }),
-  iso2: varchar("iso2", { length: 255 }),
-  type: varchar("type", { length: 191 }),
-  latitude: numeric("latitude", { precision: 10, scale: 8 }).notNull(),
-  longitude: numeric("longitude", { precision: 11, scale: 8 }).notNull(),
-  createdAt: timestamp("created_at", { mode: "string" }).defaultNow().notNull(),
-  updatedAt: timestamp("updated_at", { mode: "string" }).defaultNow().notNull(),
-  flag: smallint("flag")
-    .default(sql`1`)
-    .notNull(),
-  wikiDataId: varchar("wikiDataId", { length: 255 }),
-});
+export const StateTable = pgTable(
+  "states",
+  {
+    id: bigint("id", { mode: "number" }).primaryKey().notNull(),
+    name: varchar("name", { length: 255 }).notNull(),
+    countryId: bigint("country_id", { mode: "number" })
+      .notNull()
+      .references(() => CountryTable.id),
+    countryCode: char("country_code", { length: 2 }).notNull(),
+    fipsCode: varchar("fips_code", { length: 255 }),
+    iso2: varchar("iso2", { length: 255 }),
+    type: varchar("type", { length: 191 }),
+    latitude: numeric("latitude", { precision: 10, scale: 8 }).notNull(),
+    longitude: numeric("longitude", { precision: 11, scale: 8 }).notNull(),
+    createdAt: timestamp("created_at", { mode: "string" })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp("updated_at", { mode: "string" })
+      .defaultNow()
+      .notNull(),
+    flag: smallint("flag")
+      .default(sql`1`)
+      .notNull(),
+    wikiDataId: varchar("wikiDataId", { length: 255 }),
+  },
+  (table) => ({
+    stateNameFuzzyIndex: index("state_name_fuzzy_idx").using(
+      "gin",
+      sql`noaccent(${table.name}) gin_trgm_ops`,
+    ),
+  }),
+);
 
 export const RegionTable = pgTable("regions", {
   id: bigint("id", { mode: "number" }).primaryKey().notNull(),

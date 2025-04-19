@@ -1,11 +1,9 @@
 import { db } from "@backend/lib/db";
-import { IsIn, Max, MaxLength, Min } from "class-validator";
+import { MaxLength } from "class-validator";
 import {
   and,
-  desc,
   eq,
   getTableColumns,
-  gt,
   gte,
   inArray,
   isNotNull,
@@ -13,139 +11,182 @@ import {
   or,
   sql,
 } from "drizzle-orm";
-import { Field, InputType, Int, registerEnumType } from "type-graphql";
+import { Field, InputType } from "type-graphql";
 
-import { AGE_RANGES } from "@/constants/age";
-import categories from "@/constants/categories";
-import { NAME_MAX_LENGTH } from "@/constants/constraints";
-import genders from "@/constants/genders";
+import { BIO_MAX_LENGTH } from "@/constants/constraints";
+import { getGroqResponse } from "@/lib/utils";
 
 import { InstagramDetails } from "../../Instagram/db";
+import { CityTable, CountryTable, StateTable } from "../../Map/db";
 import { LocationTable, PricingTable, UserTable } from "../db";
-
-enum SearchFilterSorting {
-  PriceAsc = "PRICE_ASC",
-  PriceDesc = "PRICE_DESC",
-  FollowersDesc = "FOLLOWERS_DESC",
-  FollowersAsc = "FOLLOWERS_ASC",
-}
-
-registerEnumType(SearchFilterSorting, { name: "SearchFilterSorting" });
 
 @InputType("SearchSellersFilters")
 export class SearchSellersFiltersInput {
   @Field({ nullable: true })
-  @MaxLength(NAME_MAX_LENGTH)
-  query?: string;
-  @Field(() => [Int], { nullable: true })
-  cities?: number[];
-  @Field(() => [Int], { nullable: true })
-  states?: number[];
-  @Field(() => [Int], { nullable: true })
-  countries?: number[];
-  @Field(() => [String], { nullable: true })
-  @IsIn(categories.map(({ title }) => title), { each: true })
-  categories?: string[];
-  @Field(() => [String], { nullable: true })
-  @IsIn(genders, { each: true })
-  genders?: string[];
-  @Field(() => Int, { nullable: true })
-  @Min(0)
-  @Max(AGE_RANGES.length - 1)
-  ageRange?: number;
-  @Field(() => Int, { nullable: true })
+  @MaxLength(BIO_MAX_LENGTH)
+  query: string;
+}
+
+interface TransformedSearchResponse {
+  username?: string;
+  name?: string;
+  niche?: string;
+  description?: string;
+  cities?: string[];
+  states?: string[];
+  countries?: string[];
+  gender?: string;
+  minimumAge?: number;
+  maximumAge?: number;
   followersFrom?: number;
-  @Field(() => Int, { nullable: true })
   followersTo?: number;
-  @Field({ nullable: true })
   generalPriceFrom?: number;
-  @Field({ nullable: true })
   generalPriceTo?: number;
-  @Field(() => SearchFilterSorting, { nullable: true })
-  sortBy?: SearchFilterSorting;
 }
 
-function getOrderBy(sortBy?: SearchFilterSorting) {
-  switch (sortBy) {
-    case SearchFilterSorting.PriceAsc:
-      return PricingTable.starting;
-    case SearchFilterSorting.PriceDesc:
-      return desc(PricingTable.starting);
-    case SearchFilterSorting.FollowersAsc:
-      return InstagramDetails.followers;
-    default:
-      return desc(InstagramDetails.followers);
+export async function handleSearchSellers({
+  query,
+}: SearchSellersFiltersInput) {
+  const filters = await getGroqResponse<TransformedSearchResponse>(
+    PROMPT,
+    query,
+  );
+  if (!filters) return [];
+  let ageFromDate: Date | undefined = undefined;
+  let ageToDate: Date | undefined = undefined;
+  if (filters.minimumAge) {
+    ageFromDate = new Date();
+    ageFromDate.setFullYear(ageFromDate.getFullYear() - filters.minimumAge - 1);
   }
-}
+  if (filters.maximumAge) {
+    ageToDate = new Date();
+    ageToDate.setFullYear(ageToDate.getFullYear() - filters.maximumAge - 1);
+  }
+  let countries: number[] = [],
+    cities: number[] = [],
+    states: number[] = [];
 
-export function handleSearchSellers(filters: SearchSellersFiltersInput) {
-  const ageFromDate = new Date();
-  const ageToDate = new Date();
-  if (filters.ageRange) {
-    const range = AGE_RANGES[filters.ageRange];
-    if (range) {
-      ageFromDate.setFullYear(
-        ageFromDate.getFullYear() - (range.maximum || 0) - 1,
-      );
-      ageToDate.setFullYear(ageToDate.getFullYear() - (range.minimum || 0));
-    }
+  if (filters.countries?.length) {
+    const res = await db.select({ id: CountryTable.id }).from(CountryTable)
+      .where(sql`EXISTS (
+          SELECT 1
+          FROM unnest(${sql.raw(`ARRAY[${filters.countries.map((c) => `'${c}'`).join(", ")}]`)}) AS city_input
+          WHERE noaccent(${CountryTable.iso2}) % noaccent(city_input)
+        )`);
+    countries = res.map(({ id }) => id);
   }
-  return db
+  if (filters.cities?.length) {
+    const res = await db.select({ id: CityTable.id }).from(CityTable)
+      .where(sql`EXISTS (
+          SELECT 1
+          FROM unnest(${sql.raw(`ARRAY[${filters.cities.map((c) => `'${c}'`).join(", ")}]`)}) AS city_input
+          WHERE noaccent(${CityTable.name}) % noaccent(city_input)
+        )`);
+    cities = res.map(({ id }) => id);
+  }
+  if (filters.states?.length) {
+    const res = await db.select({ id: StateTable.id }).from(StateTable)
+      .where(sql`EXISTS (
+          SELECT 1
+          FROM unnest(${sql.raw(`ARRAY[${filters.states.map((c) => `'${c}'`).join(", ")}]`)}) AS city_input
+          WHERE noaccent(${StateTable.name}) % noaccent(city_input)
+        )`);
+    states = res.map(({ id }) => id);
+  }
+  const sqlQuery = db
     .select(getTableColumns(UserTable))
     .from(UserTable)
+    .where(
+      and(
+        isNotNull(UserTable.photo),
+        isNotNull(UserTable.instagramDetails),
+        isNotNull(UserTable.name),
+        ageFromDate
+          ? gte(UserTable.dob, ageFromDate.toDateString())
+          : undefined,
+        ageToDate ? lte(UserTable.dob, ageToDate.toDateString()) : undefined,
+      ),
+    )
     .innerJoin(
       InstagramDetails,
       and(
         eq(InstagramDetails.id, UserTable.instagramDetails),
-        isNotNull(UserTable.photo),
-        isNotNull(UserTable.instagramDetails),
-        isNotNull(UserTable.name),
-        filters.categories && inArray(UserTable.category, filters.categories),
-        filters.genders && inArray(UserTable.gender, filters.genders),
+        filters.gender ? eq(UserTable.gender, filters.gender) : undefined,
         filters.followersFrom
           ? gte(InstagramDetails.followers, filters.followersFrom)
           : undefined,
         filters.followersTo
           ? lte(InstagramDetails.followers, filters.followersTo)
           : undefined,
-        filters.ageRange || filters.ageRange === 0
-          ? and(
-              gte(UserTable.dob, ageFromDate.toDateString()),
-              lte(UserTable.dob, ageToDate.toDateString()),
+        filters.username
+          ? or(
+              sql`${UserTable.username} % ${filters.username}`,
+              sql`${InstagramDetails.username} % ${filters.username}`,
             )
           : undefined,
-        filters.query
-          ? or(
-              sql`to_tsvector('english', ${UserTable.bio}) @@ plainto_tsquery('english', ${filters.query})`,
-              sql`(${UserTable.name} || ' ' || ${UserTable.username}) % ${filters.query}`,
-              sql`${InstagramDetails.username} % ${filters.query}`,
-            )
+        filters.name ? sql`${UserTable.name} % ${filters.name}` : undefined,
+        filters.niche
+          ? sql`${UserTable.category} % ${filters.niche}`
           : undefined,
       ),
     )
-    .innerJoin(
+    .limit(5);
+  if (countries.length || cities.length || states.length) {
+    sqlQuery.innerJoin(
       LocationTable,
       and(
         eq(LocationTable.id, UserTable.location),
-        filters.cities && inArray(LocationTable.city, filters.cities),
-        filters.countries && inArray(LocationTable.country, filters.countries),
+        countries.length
+          ? inArray(LocationTable.country, countries)
+          : undefined,
+        cities.length ? inArray(LocationTable.city, cities) : undefined,
+        states.length ? inArray(LocationTable.country, countries) : undefined,
       ),
-    )
-    .leftJoin(PricingTable, and(eq(PricingTable.user, UserTable.id)))
-    .where(
+    );
+    if (states.length) {
+      sqlQuery.innerJoin(
+        CityTable,
+        and(
+          eq(LocationTable.city, CityTable.id),
+          inArray(CityTable.stateId, states),
+        ),
+      );
+    }
+  }
+  if (filters.generalPriceFrom || filters.generalPriceTo) {
+    sqlQuery.leftJoin(
+      PricingTable,
       and(
+        eq(PricingTable.user, UserTable.id),
+
         filters.generalPriceFrom
           ? gte(PricingTable.starting, filters.generalPriceFrom)
           : undefined,
         filters.generalPriceTo
           ? lte(PricingTable.starting, filters.generalPriceTo)
           : undefined,
-        filters.sortBy === SearchFilterSorting.PriceAsc ||
-          filters.sortBy === SearchFilterSorting.PriceDesc
-          ? gt(PricingTable.starting, 0)
-          : undefined,
       ),
-    )
-    .orderBy(getOrderBy(filters.sortBy))
-    .limit(5);
+    );
+  }
+  return sqlQuery;
 }
+
+const PROMPT = `Need to transform the given search query into the following JSON format
+export class SearchSellersFiltersInput {
+  username?: string; // If any username is specified in the query
+  name?: string; // if the name of the creator is specified in the query
+  niche?: string; // if the niche of the creator is specified in the query. (Ex- "Travel", "Beauty", "education", "Business")
+  description?: string; // Descriptive keywords like "creators", "influencer" etc used in the query.
+  cities?: string[]; // The names of the cities mentioned in the query if any. These should be full official names and NOT acronyms like NYC, LA
+  states?: string[]; // The names of the states mentioned in the query if any. These should be full official names and NOT acronyms like NYC, LA
+  countries?: string[]; // The ISO2 code of the country mentioned in the query if any.
+  gender?: string; // Only if provided. One of "Male" or "Female" 
+  minimumAge?: number; // can only be multiples of 5
+  maximumAge?: number; // can only be multiples of 5
+  followersFrom?: number;
+  followersTo?: number;
+  generalPriceFrom?: number;
+  generalPriceTo?: number;
+}
+  For age, followers, price ranges: If any details are provided about age group or follower range or price then add a relaxed range
+`;

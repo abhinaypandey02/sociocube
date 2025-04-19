@@ -444,26 +444,8 @@ export type Review = {
   username: Scalars['String']['output'];
 };
 
-export enum SearchFilterSorting {
-  FollowersAsc = 'FollowersAsc',
-  FollowersDesc = 'FollowersDesc',
-  PriceAsc = 'PriceAsc',
-  PriceDesc = 'PriceDesc'
-}
-
 export type SearchSellersFilters = {
-  ageRange?: InputMaybe<Scalars['Int']['input']>;
-  categories?: InputMaybe<Array<Scalars['String']['input']>>;
-  cities?: InputMaybe<Array<Scalars['Int']['input']>>;
-  countries?: InputMaybe<Array<Scalars['Int']['input']>>;
-  followersFrom?: InputMaybe<Scalars['Int']['input']>;
-  followersTo?: InputMaybe<Scalars['Int']['input']>;
-  genders?: InputMaybe<Array<Scalars['String']['input']>>;
-  generalPriceFrom?: InputMaybe<Scalars['Float']['input']>;
-  generalPriceTo?: InputMaybe<Scalars['Float']['input']>;
   query?: InputMaybe<Scalars['String']['input']>;
-  sortBy?: InputMaybe<SearchFilterSorting>;
-  states?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 export type SendReviewByAgencyArgs = {
