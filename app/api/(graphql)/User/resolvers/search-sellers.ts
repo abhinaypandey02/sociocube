@@ -2,6 +2,7 @@ import { db } from "@backend/lib/db";
 import { MaxLength } from "class-validator";
 import {
   and,
+  desc,
   eq,
   getTableColumns,
   gte,
@@ -47,6 +48,22 @@ interface TransformedSearchResponse {
 export async function handleSearchSellers({
   query,
 }: SearchSellersFiltersInput) {
+  if (!query)
+    return db
+      .select(getTableColumns(UserTable))
+      .from(UserTable)
+      .where(
+        and(
+          isNotNull(UserTable.photo),
+          isNotNull(UserTable.instagramDetails),
+          isNotNull(UserTable.name),
+        ),
+      )
+      .innerJoin(
+        InstagramDetails,
+        eq(UserTable.instagramDetails, InstagramDetails.id),
+      )
+      .orderBy(desc(InstagramDetails.followers));
   const filters = await getGroqResponse<TransformedSearchResponse>(
     PROMPT,
     query,
@@ -130,6 +147,7 @@ export async function handleSearchSellers({
           : undefined,
       ),
     )
+    .orderBy(desc(InstagramDetails.followers))
     .limit(5);
   if (countries.length || cities.length || states.length) {
     sqlQuery.innerJoin(
