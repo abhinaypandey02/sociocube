@@ -57,6 +57,7 @@ export async function handleSearchSellers({
           isNotNull(UserTable.photo),
           isNotNull(UserTable.instagramDetails),
           isNotNull(UserTable.name),
+          isNotNull(UserTable.location),
         ),
       )
       .innerJoin(
