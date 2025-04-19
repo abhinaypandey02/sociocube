@@ -1,4 +1,4 @@
-import type { AuthorizedContext } from "@backend/lib/auth/context";
+import type { AuthorizedContext, Context } from "@backend/lib/auth/context";
 import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
 
 import { handleGetCurrentUser } from "./resolvers/get-current-user";
@@ -34,8 +34,11 @@ export class UserQueryResolver {
     return handleGetSeller(username);
   }
   @Query(() => [UserGQL], { nullable: true })
-  async searchSellers(@Arg("filters") filters: SearchSellersFiltersInput) {
-    return handleSearchSellers(filters);
+  async searchSellers(
+    @Arg("filters") filters: SearchSellersFiltersInput,
+    @Ctx() ctx: Context,
+  ) {
+    return handleSearchSellers(ctx, filters);
   }
   @Authorized()
   @Query(() => Boolean)

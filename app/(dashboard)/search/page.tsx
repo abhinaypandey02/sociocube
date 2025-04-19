@@ -1,5 +1,3 @@
-import { cookies } from "next/headers";
-
 import { getSEO } from "@/constants/seo";
 import { Injector, queryGQL } from "@/lib/apollo-server";
 import { SEARCH_SELLERS } from "@/lib/queries";
@@ -23,8 +21,8 @@ export default function SearchPage({
           response: await queryGQL(
             SEARCH_SELLERS,
             { filters },
-            await cookies(),
-            120,
+            undefined,
+            3600 * 24 * 7,
           ),
           filters,
         };

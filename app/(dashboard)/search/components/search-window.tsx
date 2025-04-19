@@ -15,8 +15,10 @@ import type {
 } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
+import LinkWrapper from "@/components/link-wrapper";
 import LoaderSkeleton from "@/components/loader-skeleton";
 import { getRoute } from "@/constants/routes";
+import { useToken } from "@/lib/auth-client";
 import { convertToAbbreviation } from "@/lib/utils";
 
 const NoResults = dynamic(() => import("./no-results"));
@@ -28,6 +30,7 @@ export default function SearchWindow({
     filters: SearchSellersFilters;
   };
 }) {
+  const token = useToken();
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
   const [variables, setVariables] = useState<SearchSellersFilters>(
@@ -70,11 +73,12 @@ export default function SearchWindow({
               placeholder="Describe your requirements to the AI"
               value={variables.query || ""}
             />
-
-            <Button className="shrink-0 gap-1" type="submit">
-              AI Search
-              <MagicWand />
-            </Button>
+            <LinkWrapper href={token ? undefined : getRoute("SignUp")}>
+              <Button className="shrink-0 gap-1" type="submit">
+                AI Search
+                <MagicWand />
+              </Button>
+            </LinkWrapper>
           </div>
         </div>
 

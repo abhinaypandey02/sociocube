@@ -14,6 +14,7 @@ import {
 } from "drizzle-orm";
 import { Field, InputType } from "type-graphql";
 
+import { Context } from "@/app/api/lib/auth/context";
 import { BIO_MAX_LENGTH } from "@/constants/constraints";
 import { getGroqResponse } from "@/lib/utils";
 
@@ -45,10 +46,11 @@ interface TransformedSearchResponse {
   generalPriceTo?: number;
 }
 
-export async function handleSearchSellers({
-  query,
-}: SearchSellersFiltersInput) {
-  if (!query)
+export async function handleSearchSellers(
+  ctx: Context,
+  { query }: SearchSellersFiltersInput,
+) {
+  if (!query || !ctx.userId)
     return db
       .select(getTableColumns(UserTable))
       .from(UserTable)
@@ -58,6 +60,13 @@ export async function handleSearchSellers({
           isNotNull(UserTable.instagramDetails),
           isNotNull(UserTable.name),
           isNotNull(UserTable.location),
+        ),
+      )
+      .innerJoin(
+        LocationTable,
+        and(
+          eq(UserTable.location, LocationTable.id),
+          eq(LocationTable.country, 233),
         ),
       )
       .innerJoin(
