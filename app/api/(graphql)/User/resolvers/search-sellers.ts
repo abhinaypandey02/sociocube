@@ -15,6 +15,7 @@ import {
 import { Field, InputType } from "type-graphql";
 
 import { Context } from "@/app/api/lib/auth/context";
+import categories from "@/constants/categories";
 import { BIO_MAX_LENGTH } from "@/constants/constraints";
 import { getGroqResponse } from "@/lib/utils";
 
@@ -46,40 +47,43 @@ interface TransformedSearchResponse {
   generalPriceTo?: number;
 }
 
+function getDefaultCreators() {
+  return db
+    .select(getTableColumns(UserTable))
+    .from(UserTable)
+    .where(
+      and(
+        isNotNull(UserTable.photo),
+        isNotNull(UserTable.instagramDetails),
+        isNotNull(UserTable.name),
+        isNotNull(UserTable.location),
+      ),
+    )
+    .innerJoin(
+      LocationTable,
+      and(
+        eq(UserTable.location, LocationTable.id),
+        eq(LocationTable.country, 233),
+      ),
+    )
+    .innerJoin(
+      InstagramDetails,
+      eq(UserTable.instagramDetails, InstagramDetails.id),
+    )
+    .orderBy(desc(InstagramDetails.followers))
+    .limit(5);
+}
+
 export async function handleSearchSellers(
   ctx: Context,
   { query }: SearchSellersFiltersInput,
 ) {
-  if (!query || !ctx.userId)
-    return db
-      .select(getTableColumns(UserTable))
-      .from(UserTable)
-      .where(
-        and(
-          isNotNull(UserTable.photo),
-          isNotNull(UserTable.instagramDetails),
-          isNotNull(UserTable.name),
-          isNotNull(UserTable.location),
-        ),
-      )
-      .innerJoin(
-        LocationTable,
-        and(
-          eq(UserTable.location, LocationTable.id),
-          eq(LocationTable.country, 233),
-        ),
-      )
-      .innerJoin(
-        InstagramDetails,
-        eq(UserTable.instagramDetails, InstagramDetails.id),
-      )
-      .orderBy(desc(InstagramDetails.followers))
-      .limit(5);
+  if (!query || !ctx.userId) return getDefaultCreators();
   const filters = await getGroqResponse<TransformedSearchResponse>(
     PROMPT,
     query,
   );
-  if (!filters) return [];
+  if (!filters) return getDefaultCreators();
   let ageFromDate: Date | undefined = undefined;
   let ageToDate: Date | undefined = undefined;
   if (filters.minimumAge) {
@@ -154,7 +158,7 @@ export async function handleSearchSellers(
           : undefined,
         filters.name ? sql`${UserTable.name} % ${filters.name}` : undefined,
         filters.niche
-          ? sql`${UserTable.category} % ${filters.niche}`
+          ? sql`immutable_categories(${UserTable.category}) % ${filters.niche}`
           : undefined,
       ),
     )
@@ -203,7 +207,7 @@ export async function handleSearchSellers(
 const PROMPT = `Need to transform the given search query into the following JSON format
 export class SearchSellersFiltersInput {
   username?: string; // If any username is specified in the query
-  name?: string; // if the name of the creator is specified in the query
+  name?: string; // if the human name of the creator is specified in the query. Must be a real human name
   niche?: string; // if the niche of the creator is specified in the query. (Ex- "Travel", "Beauty", "education", "Business")
   description?: string; // Descriptive keywords like "creators", "influencer" etc used in the query.
   cities?: string[]; // The names of the cities mentioned in the query if any. These should be full official names and NOT acronyms like NYC, LA
@@ -217,5 +221,8 @@ export class SearchSellersFiltersInput {
   generalPriceFrom?: number;
   generalPriceTo?: number;
 }
+
+  niche can be one of ${categories.map(({ title }) => title).join(",")}
+
   For age, followers, price ranges: If any details are provided about age group or follower range or price then add a relaxed range
 `;

@@ -22,7 +22,7 @@ export default function SearchPage({
             SEARCH_SELLERS,
             { filters },
             undefined,
-            3600 * 24 * 7,
+            params.query ? 0 : 3600 * 24 * 7,
           ),
           filters,
         };
