@@ -98,10 +98,12 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {
-  // eslint-disable-next-line -- Message for public
+  if (process.env.NODE_ENV === "production") {
+    // eslint-disable-next-line -- Message for public
   console.log(
-    "BRO PLEASE DON'T TRY TO HACK. I AM BUILDING THIS ALONE, I AM NOT A BIG TECH COMPANY, JUST A SOLO DEVELOPER LIKE YOU, I AM MIGHT HAVE LEFT SOME LOOPHOLES. BE A GOOD HUMAN. I AM TRYING TO SAVE FOR MASTERS IN USA JUST LEAVE ME ALONE BRO I AM JUST 21 WTF IS WRONG WITH YOU.",
-  );
+      "BRO PLEASE DON'T TRY TO HACK. I AM BUILDING THIS ALONE, I AM NOT A BIG TECH COMPANY, JUST A SOLO DEVELOPER LIKE YOU, I AM MIGHT HAVE LEFT SOME LOOPHOLES. BE A GOOD HUMAN. I AM TRYING TO SAVE FOR MASTERS IN USA JUST LEAVE ME ALONE BRO I AM JUST 21 WTF IS WRONG WITH YOU.",
+    );
+  }
   return (
     <html className="scroll-smooth" lang="en">
       <body
