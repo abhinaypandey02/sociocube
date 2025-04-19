@@ -64,7 +64,8 @@ export async function handleSearchSellers({
         InstagramDetails,
         eq(UserTable.instagramDetails, InstagramDetails.id),
       )
-      .orderBy(desc(InstagramDetails.followers));
+      .orderBy(desc(InstagramDetails.followers))
+      .limit(5);
   const filters = await getGroqResponse<TransformedSearchResponse>(
     PROMPT,
     query,
