@@ -101,6 +101,7 @@ export default function PostingCard({
                 {posting.title}
               </h3>
               <Link
+                prefetch={false}
                 className="group mt-2 sm:mt-4 flex items-center gap-3"
                 href={`${getRoute("Profile")}/${posting.agency.username}`}
               >

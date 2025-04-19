@@ -72,6 +72,7 @@ export default function MyApplications({
                   <div className="flex flex-wrap items-start justify-between">
                     <div>
                       <Link
+                        prefetch={false}
                         className="hover:underline"
                         href={`${getRoute("Campaigns")}/${posting.id}`}
                       >
@@ -81,6 +82,7 @@ export default function MyApplications({
                       </Link>
                       <div className="mt-0.5 flex items-center gap-3 text-sm  max-sm:w-full">
                         <Link
+                          prefetch={false}
                           className="font-poppins  font-semibold text-primary hover:underline"
                           href={`${getRoute("Profile")}/${posting.agency.username}`}
                         >

@@ -28,6 +28,7 @@ const columns = [
     header: "Title",
     cell: (val) => (
       <Link
+        prefetch={false}
         className="hover:underline"
         href={`${Route.Campaigns}/${val.row.original.id}`}
       >
@@ -49,6 +50,7 @@ const columns = [
     header: "Applications",
     cell: (val) => (
       <Link
+        prefetch={false}
         className="flex items-center gap-1"
         href={`${Route.YourCampaigns}/${val.row.original.id}${Route.Applications}`}
       >
@@ -66,12 +68,14 @@ const columns = [
     cell: (val) => (
       <div className="flex gap-2">
         <Link
+          prefetch={false}
           className="text-accent"
           href={`${Route.YourCampaigns}/${val.getValue()}`}
         >
           <PencilSimple size={18} />
         </Link>
         <Link
+          prefetch={false}
           className="text-accent"
           href={`${Route.Campaigns}/${val.row.original.id}`}
         >
