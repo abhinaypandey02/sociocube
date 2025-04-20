@@ -23,7 +23,7 @@ export default function SearchPage({
           response: await queryGQL(
             SEARCH_SELLERS,
             { filters },
-            await cookies(),
+            params.query ? await cookies() : undefined,
             params.query ? 3600 * 24 : 3600 * 24 * 7,
           ),
           filters,
