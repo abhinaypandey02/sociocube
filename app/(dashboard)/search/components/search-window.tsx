@@ -107,7 +107,7 @@ export default function SearchWindow({
                       width={80}
                     />
                     <div className="min-w-0 grow">
-                      <div className="flex flex-wrap items-start justify-between">
+                      <div className="flex flex-wrap items-stretch justify-between">
                         <div>
                           <h3 className=" flex items-center gap-1.5  text-lg font-semibold  ">
                             {person.name || ""}
