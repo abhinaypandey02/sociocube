@@ -37,6 +37,7 @@ export const POST = async (req: NextRequest) => {
             ? [posting.platforms.toLowerCase() as PostingPlatforms]
             : [PostingPlatforms.INSTAGRAM],
         },
+        true,
       );
       if (res) {
         return new NextResponse(
