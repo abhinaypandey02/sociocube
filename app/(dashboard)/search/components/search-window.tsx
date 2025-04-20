@@ -63,7 +63,7 @@ export default function SearchWindow({
     <>
       <form className="" onSubmit={handleSubmit}>
         <div className="flex flex-wrap items-baseline justify-between gap-5 border-b border-gray-200 pb-6 pt-4">
-          <div className="flex items-center w-full gap-2">
+          <div className="flex items-stretch w-full gap-2">
             <Input
               className="grow"
               name="query"
@@ -75,8 +75,8 @@ export default function SearchWindow({
             />
             <LinkWrapper href={token ? undefined : getRoute("SignUp")}>
               <Button className="shrink-0 gap-1" type="submit">
-                AI Search
-                <MagicWand />
+                <span className="max-sm:hidden">AI Search</span>
+                <MagicWand className="shrink-0" />
               </Button>
             </LinkWrapper>
           </div>
