@@ -34,9 +34,10 @@ export default function PostingsData({
     }
   };
   const gotoNext = () => {
-    if (ref.current) {
-      ref.current.scrollBy({
-        top: ref.current.clientHeight,
+    const wrapper = document.getElementById("dashboard-wrapper-container");
+    if (wrapper) {
+      wrapper.scrollBy({
+        top: wrapper.clientHeight,
       });
     }
   };
