@@ -1,7 +1,7 @@
 import {
-  Binoculars,
   ClockCounterClockwise,
   Handshake,
+  MagnifyingGlass,
   MoneyWavy,
   PlusCircle,
   UserCircle,
@@ -17,6 +17,7 @@ export const NAV_ITEMS: NavItem[] = [
     navTitle: "Apply",
     heading: "Active Campaigns",
     icon: MoneyWavy,
+    roles: [Roles.Creator],
   },
   {
     icon: ClockCounterClockwise,
@@ -44,10 +45,11 @@ export const NAV_ITEMS: NavItem[] = [
     requireAuth: true,
   },
   {
-    icon: Binoculars,
+    icon: MagnifyingGlass,
     heading: "Find Creators",
     navTitle: "Search",
     href: Route.Search,
+    roles: [Roles.Brand, Roles.Agency],
   },
   {
     icon: UserCircle,
