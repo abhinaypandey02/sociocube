@@ -12,6 +12,7 @@ import { Button } from "@/components/button";
 import Form from "@/components/form";
 import { Input } from "@/components/input";
 import categories from "@/constants/categories";
+import { BIO_MAX_LENGTH, NAME_MAX_LENGTH } from "@/constants/constraints";
 import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "@/constants/file";
 import genders from "@/constants/genders";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
@@ -119,7 +120,8 @@ export default function OnboardingBasicDetailsForm({
         label="Full name"
         name="name"
         placeholder="Enter your name"
-        rules={{ required: true }}
+        rules={{ required: true, maxLength: NAME_MAX_LENGTH }}
+        maxLength={NAME_MAX_LENGTH}
       />
       <Input
         className="block"
@@ -128,6 +130,10 @@ export default function OnboardingBasicDetailsForm({
         placeholder="Write a brief about you"
         rows={showCreatorSteps ? 2 : 4}
         textarea
+        maxLength={BIO_MAX_LENGTH}
+        rules={{
+          maxLength: BIO_MAX_LENGTH,
+        }}
       />
       <Input
         className="block"

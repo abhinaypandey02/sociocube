@@ -129,7 +129,12 @@ export async function fetchUploadedPostsAndStats(
   return {
     posts: await uploadPostMedia(
       posts
-        ?.filter(filterThumbnails)
+        ?.map((post) => ({
+          ...post,
+          thumbnail:
+            post.thumbnail || (post.isVideo ? undefined : post.mediaURL),
+        }))
+        .filter(filterThumbnails)
         .sort((a, b) => b.er - a.er)
         .slice(0, 4),
     ),

@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
 import { Input } from "@/components/input";
+import { USERNAME_MAX_LENGTH } from "@/constants/constraints";
 import { getRoute } from "@/constants/routes";
 import {
   handleGQLErrors,
@@ -84,6 +85,7 @@ export default function OnboardingUsername({
           return Boolean(result.data?.isUsernameAvailable);
         })}
         suffix=".sociocube.me"
+        maxLength={USERNAME_MAX_LENGTH}
       />
 
       <div className="mt-6! flex justify-end">

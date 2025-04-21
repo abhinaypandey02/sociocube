@@ -86,7 +86,7 @@ export async function handleUpdateInstagramUsername(
           undefined,
           data.username,
         );
-        if (posts) {
+        if (posts?.length) {
           await db
             .insert(InstagramMediaTable)
             .values(posts)
