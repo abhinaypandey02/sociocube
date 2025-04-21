@@ -88,6 +88,7 @@ export async function createPosting(
         ...newPosting,
         externalLink: getCleanExternalLink(newPosting.externalLink),
         agency: ctx.userId,
+        inReview: !force,
       })
       .returning({ id: PostingTable.id });
     return posting?.id || null;
