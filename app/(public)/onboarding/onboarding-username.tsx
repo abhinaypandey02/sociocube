@@ -45,9 +45,7 @@ export default function OnboardingUsername({
   const onSubmit: SubmitHandler<typeof defaultValues> = (data) => {
     if (data.username) {
       setLoading(true);
-      router.replace(
-        redirectURL ?? `${getRoute("Profile")}/${defaultValues.username}`,
-      );
+      router.replace(redirectURL ?? `${getRoute("Profile")}/${data.username}`);
       setUser(
         (prev) =>
           prev && {

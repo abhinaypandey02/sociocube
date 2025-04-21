@@ -41,7 +41,7 @@ export const UserTable = pgTable(
     name: text("name"),
     bio: text("bio"),
     username: text("username").unique(),
-    email: text("email").unique(),
+    email: text("email").unique().notNull(),
     emailVerified: boolean("email_verified").default(false),
     instagramDetails: integer("instagram_details").references(
       () => InstagramDetails.id,

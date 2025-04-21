@@ -17,7 +17,7 @@ import { verifyCaptcha } from "./utils";
 
 export const POST = async (req: Request) => {
   const body = (await req.json()) as {
-    email?: string;
+    email: string;
     password?: string;
     captchaToken?: string;
   };
