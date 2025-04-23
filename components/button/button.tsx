@@ -27,7 +27,7 @@ function Button({
     <button
       className={cn(
         "relative disabled:brightness-80 duration-200 flex justify-center items-center transition-all font-semibold leading-6 focus-visible:outline-2 focus-visible:outline-offset-2",
-        borderless ? "border-none" : !invert && "shadow-sm",
+        borderless && "border-none",
         square ? "p-3" : compact ? "px-4 py-1 " : "px-4 py-2 ",
         compact ? "rounded-lg" : "rounded-xl",
         variant === Variants.PRIMARY && {
@@ -44,7 +44,7 @@ function Button({
         },
         !disabled && !loading && "active:brightness-95",
         !invert && "hover:brightness-90 transition-[filter] text-white",
-        invert && "border shadow-light-button",
+        invert && !borderless && "shadow-light-button border",
         loading ? "cursor-progress" : "disabled:cursor-not-allowed",
         className,
       )}

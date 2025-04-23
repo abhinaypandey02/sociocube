@@ -2,8 +2,6 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import React from "react";
 
-import AccountPageWrapper from "@/app/(dashboard)/profile/components/account-page-wrapper";
-import { Route } from "@/constants/routes";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_POSTING_APPLICATIONS } from "@/lib/queries";
 
@@ -30,18 +28,10 @@ export default async function AccountPostingApplicationsPage({
     0,
   );
   return (
-    <AccountPageWrapper
-      backRoute={{
-        route: Route.YourCampaigns,
-        title: "Campaigns",
-      }}
-      title={`Applications for ${posting.title}`}
-    >
-      <ApplicationsTable
-        applications={applications.filter((app) => Boolean(app.user))}
-        posting={posting}
-        showEarnings={Boolean(totalEarnings)}
-      />
-    </AccountPageWrapper>
+    <ApplicationsTable
+      applications={applications.filter((app) => Boolean(app.user))}
+      posting={posting}
+      showEarnings={Boolean(totalEarnings)}
+    />
   );
 }

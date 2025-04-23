@@ -45,10 +45,10 @@ export default function NavWrapper({ children }: PropsWithChildren) {
           />
           <div
             className={
-              "flex items-center justify-between px-8 py-7 max-lg:hidden"
+              "flex items-center justify-between px-8 pt-4 pb-7 max-lg:hidden"
             }
           >
-            <h2 className=" font-poppins text-4xl font-semibold text-gray-800 pl-0.5">
+            <h2 className=" font-poppins text-3xl font-medium text-gray-800 pl-0.5">
               {activeItem?.heading}
             </h2>
             <div className={"flex gap-1 items-center"}>

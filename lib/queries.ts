@@ -219,22 +219,104 @@ export const GET_ACCOUNT_DETAILS = gql(`
     user: getCurrentUser {
       id
       name
+      email
       bio
       photo
       phone
       category
       gender
+      role
       dob
       username
+      emailVerified
+      portfolio {
+          caption
+          id
+          link
+          imageURL
+        }
       instagramStats {
+        username
         isVerified
+        followers
+        mediaCount
+        er
+        averageLikes
+        averageComments
       }
       locationID {
         city
         country
       }
+
+      location {
+        city
+        country
+      }
       pricing {
         starting
+      }
+      pictureUploadURL {
+        uploadURL
+        url
+      }
+    }
+  }
+`);
+
+export const GET_ACCOUNT_PORTFOLIO_DETAILS = gql(`
+  #graphql
+  query GetAccountPortfolioDetails {
+    user: getCurrentUser {
+      portfolio {
+          caption
+          id
+          link
+          imageURL
+        }
+    }
+  }
+`);
+
+export const GET_ACCOUNT_SOCIAL_DETAILS = gql(`
+  #graphql
+  query GetAccountSocialDetails {
+    user: getCurrentUser {
+      instagramStats {
+        username
+        isVerified
+        followers
+        mediaCount
+        er
+        averageLikes
+        averageComments
+      }
+    }
+  }
+`);
+
+export const GET_ACCOUNT_PROFILE_DETAILS = gql(`
+  #graphql
+  query GetAccountProfileDetails {
+    user: getCurrentUser {
+      name
+      email
+      emailVerified
+      bio
+      photo
+      phone
+      category
+      gender
+      role
+      dob
+      username
+      locationID {
+        city
+        country
+      }
+      location {
+        city
+        country
       }
       pictureUploadURL {
         uploadURL

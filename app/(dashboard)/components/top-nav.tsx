@@ -24,9 +24,9 @@ export default function TopNav({
     >
       <div className="flex items-center gap-3">
         <Link href={getRoute("Home")}>
-          <Logo className="text-primary" size={36} />
+          <Logo className="text-primary" size={32} />
         </Link>
-        <h2 className="font-poppins text-2xl font-semibold text-gray-800">
+        <h2 className="font-poppins text-2xl font-medium text-gray-800">
           {title}
         </h2>
       </div>
