@@ -318,10 +318,6 @@ export const GET_ACCOUNT_PROFILE_DETAILS = gql(`
         city
         country
       }
-      pictureUploadURL {
-        uploadURL
-        url
-      }
     }
   }
 `);

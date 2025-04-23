@@ -10,7 +10,7 @@ export interface NavbarProps {
     href: string;
   };
   hideCTA?: boolean;
-  userImage?: string;
+  user?: { photo?: string | null };
 }
 interface NavbarLink {
   label: string;

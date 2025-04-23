@@ -13,18 +13,12 @@ import {
 export default function OnboardedNavbar() {
   const [user] = useUser();
   if (user === undefined) {
-    return (
-      <Navbar
-        hideCTA
-        userImage="loading"
-        {...AUTHORISED_USER_NAVBAR_SECTIONS}
-      />
-    );
+    return <Navbar hideCTA user={{}} {...AUTHORISED_USER_NAVBAR_SECTIONS} />;
   }
   if (!user) return <Navbar {...UNAUTHORISED_NAVBAR_SECTIONS} />;
   return (
     <Navbar
-      userImage={user.photo || "loading"}
+      user={user}
       {...(user.isOnboarded
         ? getOnboardedUserNavbarSections(user)
         : AUTHORISED_USER_NAVBAR_SECTIONS)}

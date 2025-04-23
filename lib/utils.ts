@@ -8,6 +8,23 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export enum HandleImageUploadType {
+  PROFILE_PICTURE,
+}
+export async function handleImageUpload(
+  file: FormData,
+  token: string,
+  key?: HandleImageUploadType,
+) {
+  return fetch("/api/handle-image-upload" + (key ? `?key=${key}` : ""), {
+    method: "PUT",
+    body: file,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(async (res) => (await res.text()) || null);
+}
+
 export async function getGroqResponse<T>(system: string, message?: string) {
   const data = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",

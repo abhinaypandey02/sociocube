@@ -6,8 +6,7 @@ import {
   MenuItems,
   Transition,
 } from "@headlessui/react";
-import { List, User, X } from "@phosphor-icons/react";
-import Image from "next/image";
+import { List, X } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -16,6 +15,7 @@ import Logo from "@/app/logo";
 import { Button } from "@/components/button";
 import { cn } from "@/lib/utils";
 
+import UserImage from "../user-image";
 import type { NavbarProps } from "./types";
 
 function Navbar({
@@ -23,7 +23,7 @@ function Navbar({
   secondaryLinks,
   cta,
   hideCTA,
-  userImage,
+  user,
 }: NavbarProps) {
   const activeHref = usePathname();
   const darkOnTop = activeHref === "/";
@@ -103,20 +103,8 @@ function Navbar({
                 <>
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
-                  {userImage ? (
-                    userImage === "loading" ? (
-                      <div className="flex size-8 items-center justify-center rounded-full border border-gray-500">
-                        <User />
-                      </div>
-                    ) : (
-                      <Image
-                        alt="logged in user"
-                        className="size-8 rounded-full object-cover"
-                        height={32}
-                        src={userImage}
-                        width={32}
-                      />
-                    )
+                  {user ? (
+                    <UserImage photo={user.photo} />
                   ) : open ? (
                     <X className="sm:hidden" size={24} />
                   ) : (
@@ -174,7 +162,7 @@ function Navbar({
               </MenuItems>
             </Transition>
           </Menu>
-          {!userImage &&
+          {!user &&
             secondaryLinks.map((item) => (
               <Link
                 className={cn(

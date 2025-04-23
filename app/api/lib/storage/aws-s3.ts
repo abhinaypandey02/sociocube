@@ -32,7 +32,8 @@ export async function getUploadFileURL(keys: string[], isPublic?: boolean) {
   });
   return getSignedUrl(client, command, { expiresIn: 300 });
 }
-export function getFileURL(keys: string[]) {
+export function getFileURL(keys: string | string[]) {
+  if (typeof keys === "string") return `${URL_PREFIX}${keys}`;
   return `${URL_PREFIX}${getHash(keys)}`;
 }
 export async function getSignedFileURL(keys: string[]) {
@@ -73,4 +74,18 @@ export async function deleteImage(url: string) {
     }
   }
   return false;
+}
+
+export async function uploadFile(file: File, key: string) {
+  const fileBuffer = await file.arrayBuffer();
+  return client.send(
+    new PutObjectCommand({
+      Bucket: BUCKET_NAME,
+      Key: key,
+      ACL: "public-read",
+      Body: Buffer.from(fileBuffer),
+      ContentType: file.type,
+      ContentLength: file.size,
+    }),
+  );
 }
