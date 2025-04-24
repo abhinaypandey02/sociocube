@@ -1,10 +1,11 @@
 import { waitUntil } from "@vercel/functions";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 } from "uuid";
 
 import { HandleImageUploadType } from "@/lib/utils";
 
+import { PortfolioTable } from "../../(graphql)/Portfolio/db";
 import { UserTable } from "../../(graphql)/User/db";
 import { getCurrentUser } from "../../(graphql)/User/utils";
 import { context } from "../../lib/auth/context";
@@ -28,6 +29,44 @@ export const PUT = async (req: NextRequest) => {
   const handleKeyProcessing = async () => {
     if (file) await uploadFile(file, imageKey);
     switch (key) {
+      case HandleImageUploadType.PORTFOLIO:
+        waitUntil(
+          (async () => {
+            if (!ctx.userId || !url) return;
+            const id = formData.get("id") as string;
+            if (!id) {
+              await deleteImage(url);
+              return;
+            }
+            const [existingPortfolio] = await db
+              .select()
+              .from(PortfolioTable)
+              .where(
+                and(
+                  eq(PortfolioTable.id, parseInt(id)),
+                  eq(PortfolioTable.user, ctx.userId),
+                ),
+              );
+            if (!existingPortfolio) {
+              await deleteImage(url);
+              return;
+            }
+            if (existingPortfolio.imageURL)
+              await deleteImage(existingPortfolio.imageURL);
+            await db
+              .update(PortfolioTable)
+              .set({
+                imageURL: url,
+              })
+              .where(
+                and(
+                  eq(PortfolioTable.id, parseInt(id)),
+                  eq(PortfolioTable.user, ctx.userId),
+                ),
+              );
+          })(),
+        );
+        break;
       default:
         waitUntil(
           (async () => {

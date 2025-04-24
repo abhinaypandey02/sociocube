@@ -10,6 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export enum HandleImageUploadType {
   PROFILE_PICTURE,
+  PORTFOLIO,
 }
 export async function handleImageUpload(
   file: FormData,

@@ -17,6 +17,7 @@ const documents = {
     "\n  #graphql\n  mutation ReadMessage($conversationID:Int!) {\n    readMessage(conversationID: $conversationID)\n  }\n": types.ReadMessageDocument,
     "\n  #graphql\n  mutation SendChat($conversationID: Int!, $body:String!) {\n    sendMessage(conversationID: $conversationID, body: $body)\n  }\n": types.SendChatDocument,
     "\n  #graphql\n  mutation UpdateUser($updatedUser: UpdateUserInput!) {\n    updateUser(updatedUser: $updatedUser)\n  }\n": types.UpdateUserDocument,
+    "\n  #graphql\n  mutation UpdatePortfolio($updatedPortfolio: UpdatePortfolioArgs!) {\n    updatePortfolio(data: $updatedPortfolio)\n  }\n": types.UpdatePortfolioDocument,
     "\n  #graphql\n  mutation UpdateUserLocation($updatedLocation: UpdateLocation!) {\n    updateUserLocation(updatedLocation: $updatedLocation)\n  }\n": types.UpdateUserLocationDocument,
     "\n  #graphql\n  mutation DisconnectInstagram {\n    disconnectInstagram\n  }\n": types.DisconnectInstagramDocument,
     "\n  #graphql\n  mutation ApplyNow($postingID:Float!, $comment:String) {\n    applyToPosting(postingID: $postingID, comment: $comment)  \n  }\n": types.ApplyNowDocument,
@@ -90,6 +91,10 @@ export function gql(source: "\n  #graphql\n  mutation SendChat($conversationID: 
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  #graphql\n  mutation UpdateUser($updatedUser: UpdateUserInput!) {\n    updateUser(updatedUser: $updatedUser)\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdateUser($updatedUser: UpdateUserInput!) {\n    updateUser(updatedUser: $updatedUser)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  #graphql\n  mutation UpdatePortfolio($updatedPortfolio: UpdatePortfolioArgs!) {\n    updatePortfolio(data: $updatedPortfolio)\n  }\n"): (typeof documents)["\n  #graphql\n  mutation UpdatePortfolio($updatedPortfolio: UpdatePortfolioArgs!) {\n    updatePortfolio(data: $updatedPortfolio)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

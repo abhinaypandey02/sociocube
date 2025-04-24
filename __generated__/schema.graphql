@@ -230,7 +230,7 @@ schema {
 
 input AddPortfolioArgs {
   caption: String
-  imageURL: String!
+  imageURL: String
   link: String
 }
 
@@ -336,7 +336,7 @@ type Message {
 }
 
 type Mutation {
-  addPortfolio(data: AddPortfolioArgs!): Boolean!
+  addPortfolio(data: AddPortfolioArgs!): Float!
   addPortfolioLink(data: AddPortfolioLinkArgs!): Boolean!
   applyToPosting(comment: String, postingID: Float!): Boolean!
   createPosting(newPosting: NewPostingInput!): Float
@@ -356,6 +356,7 @@ type Mutation {
   sendReviewByUser(args: SendReviewByUserArgs!): Boolean!
   sendVerificationEmail: Boolean!
   updateInstagramUsername(username: String!): UpdateInstagramUsernameResponse!
+  updatePortfolio(data: UpdatePortfolioArgs!): Boolean!
   updatePosting(id: Float!, updatedPosting: UpdatePostingInput!): Boolean!
   updateUser(updatedUser: UpdateUserInput!): Boolean!
   updateUserLocation(updatedLocation: UpdateLocation!): Boolean!
@@ -500,6 +501,12 @@ type UpdateInstagramUsernameResponse {
 input UpdateLocation {
   city: Float
   country: Float!
+}
+
+input UpdatePortfolioArgs {
+  caption: String
+  id: Float!
+  link: String
 }
 
 input UpdatePostingInput {

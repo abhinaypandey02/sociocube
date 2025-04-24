@@ -120,6 +120,7 @@ function ProfileForm({
         defaultPhoto={user.photo}
         onNewURL={(url) => {
           setUser({ ...user, photo: url });
+          form.setValue("photo", url);
         }}
       >
         <User weight="thin" size={56} />
@@ -265,7 +266,6 @@ export default function ProfileSection({
             <Button
               onClick={() => setIsEditing(true)}
               invert
-              compact
               className="text-xs gap-1.5"
             >
               Edit Profile
@@ -273,7 +273,7 @@ export default function ProfileSection({
             {user.username && (
               <a target="_blank" href={getMeURL(user.username)} className="">
                 <Button borderless invert compact className="h-full gap-1 px-1">
-                  <ArrowSquareOut />
+                  <ArrowSquareOut size={18} />
                 </Button>
               </a>
             )}

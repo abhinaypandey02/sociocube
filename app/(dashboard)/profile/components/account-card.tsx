@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -7,10 +7,12 @@ export default function AccountCard({
   className,
   title,
   subtitle,
+  cta,
 }: PropsWithChildren<{
   className?: string;
   title?: string;
   subtitle?: string;
+  cta?: ReactNode;
 }>) {
   return (
     <section
@@ -19,8 +21,15 @@ export default function AccountCard({
         className,
       )}
     >
-      {title && <h2 className="text-xl font-poppins font-medium">{title}</h2>}
-      {subtitle && <p className="text-sm text-gray-500 mb-4">{subtitle}</p>}
+      <div className="flex justify-between items-start">
+        <div>
+          {title && (
+            <h2 className="text-xl font-poppins font-medium">{title}</h2>
+          )}
+          {subtitle && <p className="text-sm text-gray-500 mb-4">{subtitle}</p>}
+        </div>
+        {cta && cta}
+      </div>
       {children}
     </section>
   );

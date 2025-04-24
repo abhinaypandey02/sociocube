@@ -5,7 +5,6 @@ import {
   TrendUp,
 } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
@@ -14,8 +13,8 @@ import Schema from "@/app/(public)/components/schema";
 import { IconButton } from "@/components/icon-button";
 import { getMeURL, getRoute, Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
-import { getCurrentUser, Injector, queryGQL } from "@/lib/apollo-server";
-import { GET_PORTFOLIO_UPLOAD_URL, GET_SELLER } from "@/lib/queries";
+import { queryGQL } from "@/lib/apollo-server";
+import { GET_SELLER } from "@/lib/queries";
 import { convertToAbbreviation } from "@/lib/utils";
 
 import CopyLinkButton from "./components/copy-link-button";
@@ -183,12 +182,7 @@ export default async function ProfilePage({
 
             <div className="mt-5 space-y-4 ">
               {user.reviews.map((review) => (
-                <Injector
-                  Component={Review}
-                  fetch={getCurrentUser}
-                  key={review.username}
-                  props={{ review, username }}
-                />
+                <Review key={review.username} review={review} />
               ))}
             </div>
           </div>
@@ -226,34 +220,8 @@ export default async function ProfilePage({
             </div>
           </div>
         ) : null}
-        <Injector
-          Component={PortfolioLinks}
-          fetch={async () =>
-            queryGQL(GET_PORTFOLIO_UPLOAD_URL, undefined, await cookies(), 0)
-          }
-          props={{
-            isAgency: !user,
-            portfolio: user.portfolio
-              .filter((work) => !work.imageURL && work.caption && work.link)
-              .toReversed(),
-            id: user.id,
-            username,
-          }}
-        />
-        <Injector
-          Component={Portfolio}
-          fetch={async () =>
-            queryGQL(GET_PORTFOLIO_UPLOAD_URL, undefined, await cookies(), 0)
-          }
-          props={{
-            isAgency: !user,
-            portfolio: user.portfolio
-              .filter((work) => Boolean(work.imageURL))
-              .toReversed(),
-            id: user.id,
-            username,
-          }}
-        />
+        <PortfolioLinks portfolio={user.portfolio} isAgency={!user} />
+        <Portfolio portfolio={user.portfolio} />
 
         <div className="mt-8">
           <div className="flex justify-between">

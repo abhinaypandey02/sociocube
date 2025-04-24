@@ -7,11 +7,22 @@ import {
   AddPortfolioLinkArgs,
 } from "./resolvers/add-portfolio-link";
 import { deletePortfolio } from "./resolvers/delete-portfolio";
-
+import {
+  updatePortfolio,
+  UpdatePortfolioArgs,
+} from "./resolvers/update-portfolio";
 @Resolver()
 export class PortfolioMutationResolver {
   @Authorized()
   @Mutation(() => Boolean)
+  updatePortfolio(
+    @Ctx() ctx: AuthorizedContext,
+    @Arg("data") args: UpdatePortfolioArgs,
+  ) {
+    return updatePortfolio(ctx, args);
+  }
+  @Authorized()
+  @Mutation(() => Number)
   addPortfolio(
     @Ctx() ctx: AuthorizedContext,
     @Arg("data") args: AddPortfolioArgs,

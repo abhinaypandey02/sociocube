@@ -32,6 +32,12 @@ export const UPDATE_USER = gql(`
     updateUser(updatedUser: $updatedUser)
   }
 `);
+export const UPDATE_PORTFOLIO = gql(`
+  #graphql
+  mutation UpdatePortfolio($updatedPortfolio: UpdatePortfolioArgs!) {
+    updatePortfolio(data: $updatedPortfolio)
+  }
+`);
 export const UPDATE_USER_LOCATION = gql(`
   #graphql
   mutation UpdateUserLocation($updatedLocation: UpdateLocation!) {

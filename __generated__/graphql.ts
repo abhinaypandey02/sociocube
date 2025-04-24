@@ -18,7 +18,7 @@ export type Scalars = {
 
 export type AddPortfolioArgs = {
   caption?: InputMaybe<Scalars['String']['input']>;
-  imageURL: Scalars['String']['input'];
+  imageURL?: InputMaybe<Scalars['String']['input']>;
   link?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -140,7 +140,7 @@ export type Message = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addPortfolio: Scalars['Boolean']['output'];
+  addPortfolio: Scalars['Float']['output'];
   addPortfolioLink: Scalars['Boolean']['output'];
   applyToPosting: Scalars['Boolean']['output'];
   createPosting?: Maybe<Scalars['Float']['output']>;
@@ -160,6 +160,7 @@ export type Mutation = {
   sendReviewByUser: Scalars['Boolean']['output'];
   sendVerificationEmail: Scalars['Boolean']['output'];
   updateInstagramUsername: UpdateInstagramUsernameResponse;
+  updatePortfolio: Scalars['Boolean']['output'];
   updatePosting: Scalars['Boolean']['output'];
   updateUser: Scalars['Boolean']['output'];
   updateUserLocation: Scalars['Boolean']['output'];
@@ -257,6 +258,11 @@ export type MutationSendReviewByUserArgs = {
 
 export type MutationUpdateInstagramUsernameArgs = {
   username: Scalars['String']['input'];
+};
+
+
+export type MutationUpdatePortfolioArgs = {
+  data: UpdatePortfolioArgs;
 };
 
 
@@ -482,6 +488,12 @@ export type UpdateLocation = {
   country: Scalars['Float']['input'];
 };
 
+export type UpdatePortfolioArgs = {
+  caption?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['Float']['input'];
+  link?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UpdatePostingInput = {
   barter: Scalars['Boolean']['input'];
   currencyCountry?: InputMaybe<Scalars['Int']['input']>;
@@ -562,6 +574,13 @@ export type UpdateUserMutationVariables = Exact<{
 
 
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: boolean };
+
+export type UpdatePortfolioMutationVariables = Exact<{
+  updatedPortfolio: UpdatePortfolioArgs;
+}>;
+
+
+export type UpdatePortfolioMutation = { __typename?: 'Mutation', updatePortfolio: boolean };
 
 export type UpdateUserLocationMutationVariables = Exact<{
   updatedLocation: UpdateLocation;
@@ -644,7 +663,7 @@ export type AddPortfolioMutationVariables = Exact<{
 }>;
 
 
-export type AddPortfolioMutation = { __typename?: 'Mutation', addPortfolio: boolean };
+export type AddPortfolioMutation = { __typename?: 'Mutation', addPortfolio: number };
 
 export type AddPortfolioLinkMutationVariables = Exact<{
   portfolio: AddPortfolioLinkArgs;
@@ -829,6 +848,7 @@ export const UpdateInstagramUsernameDocument = {"kind":"Document","definitions":
 export const ReadMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ReadMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"conversationID"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"readMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"conversationID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"conversationID"}}}]}]}}]} as unknown as DocumentNode<ReadMessageMutation, ReadMessageMutationVariables>;
 export const SendChatDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SendChat"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"conversationID"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"conversationID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"conversationID"}}},{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}]}]}}]} as unknown as DocumentNode<SendChatMutation, SendChatMutationVariables>;
 export const UpdateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updatedUser"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updatedUser"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updatedUser"}}}]}]}}]} as unknown as DocumentNode<UpdateUserMutation, UpdateUserMutationVariables>;
+export const UpdatePortfolioDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdatePortfolio"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updatedPortfolio"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdatePortfolioArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updatePortfolio"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updatedPortfolio"}}}]}]}}]} as unknown as DocumentNode<UpdatePortfolioMutation, UpdatePortfolioMutationVariables>;
 export const UpdateUserLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateUserLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updatedLocation"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateLocation"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateUserLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updatedLocation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updatedLocation"}}}]}]}}]} as unknown as DocumentNode<UpdateUserLocationMutation, UpdateUserLocationMutationVariables>;
 export const DisconnectInstagramDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DisconnectInstagram"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"disconnectInstagram"}}]}}]} as unknown as DocumentNode<DisconnectInstagramMutation, DisconnectInstagramMutationVariables>;
 export const ApplyNowDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ApplyNow"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"postingID"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"comment"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"applyToPosting"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"postingID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"postingID"}}},{"kind":"Argument","name":{"kind":"Name","value":"comment"},"value":{"kind":"Variable","name":{"kind":"Name","value":"comment"}}}]}]}}]} as unknown as DocumentNode<ApplyNowMutation, ApplyNowMutationVariables>;

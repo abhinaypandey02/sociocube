@@ -1,42 +1,20 @@
 import React from "react";
 
-import type {
-  GetPortfolioUploadUrlQuery,
-  GetSellerQuery,
-} from "@/__generated__/graphql";
+import type { GetSellerQuery } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 
-import AddPortfolioButton from "./add-portfolio-button";
-import DeletePortfolioButton from "./delete-portfolio-button";
-
 export default function PortfolioLinks({
   portfolio,
-  username,
   isAgency,
-  data,
-  id,
 }: {
-  data: GetPortfolioUploadUrlQuery | null;
-  id: number;
-  username: string;
-  isAgency: boolean;
   portfolio: NonNullable<NonNullable<GetSellerQuery["getSeller"]>>["portfolio"];
+  isAgency: boolean;
 }) {
-  const isAuthor = data && id === data.user?.id;
-  if (portfolio.length === 0 && !isAuthor) return null;
   return (
     <div className="mt-8">
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-medium text-gray-900">Links</h2>
-        {isAuthor && data.uploadURL && portfolio.length < 6 ? (
-          <AddPortfolioButton
-            imageUploadURL={data.uploadURL}
-            isAgency={isAgency}
-            isLink
-            username={username}
-          />
-        ) : null}
       </div>
       <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3 ">
         {portfolio.map((work) => (
@@ -55,9 +33,6 @@ export default function PortfolioLinks({
                 {work.caption}
               </Button>
             </a>
-            {isAuthor ? (
-              <DeletePortfolioButton isLink username={username} work={work} />
-            ) : null}
           </div>
         ))}
       </div>

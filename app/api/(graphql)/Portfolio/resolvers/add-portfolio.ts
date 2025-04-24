@@ -21,8 +21,8 @@ import { PortfolioTable } from "../db";
 
 @InputType("AddPortfolioArgs")
 export class AddPortfolioArgs {
-  @Field()
-  imageURL: string;
+  @Field(() => String, { nullable: true })
+  imageURL: string | null;
   @Field(() => String, { nullable: true })
   @MaxLength(PORTFOLIO_CAPTION_MAX_LENGTH)
   caption: string | null;
@@ -89,8 +89,8 @@ export async function addPortfolio(
     if (portfolioCount.count >= MAX_CAMPAIGNS)
       throw GQLError(400, "Maximum no. of your-campaigns reached");
   }
-  const isInstagramMediaURL = args.imageURL.includes("instagram.com");
-  if (isInstagramMediaURL) {
+  const isInstagramMediaURL = args.imageURL?.includes("instagram.com");
+  if (isInstagramMediaURL && args.imageURL) {
     args.link = args.imageURL;
     const newImageURL = await getInstagramMediaURL(
       args.imageURL,
