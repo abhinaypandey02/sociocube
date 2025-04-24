@@ -438,7 +438,6 @@ type Query {
   getFeaturedSellers: [User!]!
   getHasUserApplied(postingID: Float!): Boolean!
   getPendingReviews: [Float!]!
-  getPortfolioUploadURL: StorageFile
   getPosting(id: Int!): Posting
   getPostingApplications(postingID: Int!): [Application!]!
   getSeller(username: String!): User
@@ -481,14 +480,8 @@ input SendReviewByUserArgs {
   agencyFeedback: String
   agencyRating: Float!
   caption: String
-  imageURL: String!
   link: String
   posting: Float!
-}
-
-type StorageFile {
-  uploadURL: String!
-  url: String!
 }
 
 type UpdateInstagramUsernameResponse {
@@ -552,7 +545,6 @@ type User {
   name: String
   phone: String
   photo: String
-  pictureUploadURL: StorageFile!
   portfolio: [Portfolio!]!
   pricing: Pricing
   reviews: [Review!]!

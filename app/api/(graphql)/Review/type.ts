@@ -12,5 +12,4 @@ export class ReviewGQL {
   username: string;
   @Field(() => String, { nullable: true })
   photo: string | null;
-  portfolio: number | null;
 }

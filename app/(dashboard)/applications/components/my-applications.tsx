@@ -24,12 +24,10 @@ export default function MyApplications({
     applications: (GetUserApplicationsQuery["getUserApplications"][number] & {
       isPendingReview: boolean;
     })[];
-    uploadURL: GetUserApplicationsQuery["uploadURL"];
   };
   loading: boolean;
 }) {
   const applications = data?.applications;
-  const uploadURL = data?.uploadURL;
   const { setOpenSubPage } = useSubPage();
   if (loading) {
     return <LoaderSkeleton />;
@@ -96,11 +94,8 @@ export default function MyApplications({
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      {app.isPendingReview && uploadURL ? (
-                        <SendReview
-                          imageUploadURL={uploadURL}
-                          posting={posting}
-                        />
+                      {app.isPendingReview ? (
+                        <SendReview posting={posting} />
                       ) : (
                         <div
                           className="mt-0.5 gap-1 rounded-md px-3 py-1.5 text-sm font-medium  sm:text-end"

@@ -13,15 +13,12 @@ import { ChatFieldResolvers } from "@graphql/Chat/fields";
 import { ChatMutationResolvers } from "@graphql/Chat/mutations";
 import { ChatQueryResolvers } from "@graphql/Chat/queries";
 import { MapQueryResolvers } from "@graphql/Map/queries";
-import { PortfolioFieldResolvers } from "@graphql/Portfolio/fields";
 import { PortfolioMutationResolver } from "@graphql/Portfolio/mutations";
-import { PortfolioQueryResolver } from "@graphql/Portfolio/queries";
 import { PostingFieldResolvers } from "@graphql/Posting/fields";
 import { PostingMutationResolvers } from "@graphql/Posting/mutations";
 import { PostingQueryResolvers } from "@graphql/Posting/queries";
 import { RequestMutationResolver } from "@graphql/Request/mutations";
 import { RequestQueryResolver } from "@graphql/Request/queries";
-import { ReviewFieldResolvers } from "@graphql/Review/fields";
 import { ReviewMutationResolver } from "@graphql/Review/mutations";
 import { ReviewQueryResolver } from "@graphql/Review/queries";
 import { UserFieldResolver } from "@graphql/User/fields";
@@ -42,15 +39,12 @@ const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
     ChatMutationResolvers,
     ChatFieldResolvers,
     MapQueryResolvers,
-    PortfolioQueryResolver,
     PortfolioMutationResolver,
-    PortfolioFieldResolvers,
     PostingFieldResolvers,
     PostingQueryResolvers,
     PostingMutationResolvers,
     RequestMutationResolver,
     RequestQueryResolver,
-    ReviewFieldResolvers,
     ReviewMutationResolver,
     ReviewQueryResolver,
     UserQueryResolver,

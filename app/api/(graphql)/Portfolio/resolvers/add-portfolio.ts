@@ -7,8 +7,10 @@ import {
   getUploadFileURL,
   uploadImage,
 } from "@backend/lib/storage/aws-s3";
+import { waitUntil } from "@vercel/functions";
 import { IsUrl, MaxLength } from "class-validator";
 import { and, count, eq, isNotNull, isNull } from "drizzle-orm";
+import { revalidateTag } from "next/cache";
 import { Field, InputType } from "type-graphql";
 import { v4 } from "uuid";
 
@@ -17,6 +19,7 @@ import {
   PORTFOLIO_CAPTION_MAX_LENGTH,
 } from "@/constants/constraints";
 
+import { getCurrentUser } from "../../User/utils";
 import { PortfolioTable } from "../db";
 
 @InputType("AddPortfolioArgs")
@@ -110,5 +113,11 @@ export async function addPortfolio(
       user: ctx.userId,
     })
     .returning({ id: PortfolioTable.id });
+  waitUntil(
+    (async () => {
+      const user = await getCurrentUser(ctx);
+      if (user) revalidateTag(`profile-${user.username}`);
+    })(),
+  );
   return portfolio?.id;
 }

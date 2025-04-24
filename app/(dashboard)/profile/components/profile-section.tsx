@@ -1,6 +1,7 @@
 "use client";
 import { User } from "@phosphor-icons/react";
 import { ArrowSquareOut, Dot, SealCheck } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -23,7 +24,7 @@ import {
 } from "@/constants/constraints";
 import countries from "@/constants/countries";
 import genders from "@/constants/genders";
-import { getMeURL } from "@/constants/routes";
+import { getMeURL, getRoute } from "@/constants/routes";
 import { useAuthMutation, useAuthQuery } from "@/lib/apollo-client";
 import { UPDATE_USER, UPDATE_USER_LOCATION } from "@/lib/mutations";
 import { GET_CITIES, IS_USERNAME_AVAILABLE } from "@/lib/queries";
@@ -271,11 +272,11 @@ export default function ProfileSection({
               Edit Profile
             </Button>
             {user.username && (
-              <a target="_blank" href={getMeURL(user.username)} className="">
-                <Button borderless invert compact className="h-full gap-1 px-1">
+              <Link href={getRoute("Profile") + "/" + user.username}>
+                <Button borderless invert square className="h-full gap-1">
                   <ArrowSquareOut size={18} />
                 </Button>
-              </a>
+              </Link>
             )}
           </div>
         </div>

@@ -26,6 +26,5 @@ export async function getReviews(user: UserDB) {
     name: res.user.name || "",
     photo: res.user.photo,
     username: res.user.username || "",
-    portfolio: res.review.portfolio,
   }));
 }

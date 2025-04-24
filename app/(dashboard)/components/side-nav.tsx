@@ -51,7 +51,7 @@ export default function SideNav({
           >
             <item.icon
               size={28}
-              weight={activeItem?.href === item.href ? "fill" : "duotone"}
+              weight={activeItem?.href === item.href ? "bold" : "regular"}
             />
             <h4 className="text-lg font-medium">{item.navTitle}</h4>
           </Link>

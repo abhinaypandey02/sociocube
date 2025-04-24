@@ -1,5 +1,4 @@
 import type { AuthorizedContext } from "@backend/lib/auth/context";
-import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
 import { IsUrl, MaxLength, Min } from "class-validator";
 import { and, eq, gt, isNull } from "drizzle-orm";
@@ -7,7 +6,6 @@ import { Field, InputType } from "type-graphql";
 
 import { PORTFOLIO_CAPTION_MAX_LENGTH } from "@/constants/constraints";
 
-import { addPortfolio } from "../../Portfolio/resolvers/add-portfolio";
 import { PostingTable } from "../../Posting/db";
 import { UserTable } from "../../User/db";
 import { getCurrentUser } from "../../User/utils";
@@ -21,8 +19,6 @@ export class SendReviewByUserArgs {
   agencyRating: number;
   @Field({ nullable: true })
   agencyFeedback: string;
-  @Field()
-  imageURL: string;
   @Field(() => String, { nullable: true })
   @MaxLength(PORTFOLIO_CAPTION_MAX_LENGTH)
   caption: string | null;
@@ -43,22 +39,11 @@ export async function sendReviewByUser(
     .where(eq(PostingTable.id, args.posting))
     .innerJoin(UserTable, eq(UserTable.id, PostingTable.agency));
   if (!posting) return null;
-  const portfolio = await addPortfolio(
-    ctx,
-    {
-      imageURL: args.imageURL,
-      caption: args.caption,
-      link: args.link,
-    },
-    true,
-  );
-  if (!portfolio) throw GQLError(500, "Error saving your work");
   await db
     .update(ReviewTable)
     .set({
       agencyRating: args.agencyRating,
       agencyFeedback: args.agencyFeedback,
-      portfolio,
     })
     .where(
       and(

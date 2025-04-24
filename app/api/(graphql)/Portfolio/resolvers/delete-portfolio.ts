@@ -2,9 +2,11 @@ import type { AuthorizedContext } from "@backend/lib/auth/context";
 import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
 import { deleteImage } from "@backend/lib/storage/aws-s3";
+import { waitUntil } from "@vercel/functions";
 import { and, eq, isNotNull, or } from "drizzle-orm";
+import { revalidateTag } from "next/cache";
 
-import { ReviewTable } from "../../Review/db";
+import { getCurrentUser } from "../../User/utils";
 import { PortfolioTable } from "../db";
 
 export async function deletePortfolio(ctx: AuthorizedContext, id: number) {
@@ -24,12 +26,6 @@ export async function deletePortfolio(ctx: AuthorizedContext, id: number) {
       .where(eq(PortfolioTable.id, id));
     return true;
   }
-  await db
-    .update(ReviewTable)
-    .set({
-      portfolio: null,
-    })
-    .where(eq(ReviewTable.portfolio, id));
   const [deleted] = await db
     .delete(PortfolioTable)
     .where(
@@ -43,6 +39,12 @@ export async function deletePortfolio(ctx: AuthorizedContext, id: number) {
     )
     .returning();
   if (!deleted) return false;
-  if (deleted.imageURL) await deleteImage(deleted.imageURL);
+  waitUntil(
+    (async () => {
+      const user = await getCurrentUser(ctx);
+      if (user) revalidateTag(`profile-${user.username}`);
+      if (deleted.imageURL) await deleteImage(deleted.imageURL);
+    })(),
+  );
   return true;
 }

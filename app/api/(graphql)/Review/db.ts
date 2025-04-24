@@ -8,7 +8,6 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
-import { PortfolioTable } from "../Portfolio/db";
 import { PostingTable } from "../Posting/db";
 import { UserTable } from "../User/db";
 
@@ -27,7 +26,6 @@ export const ReviewTable = pgTable(
     posting: integer("posting")
       .references(() => PostingTable.id)
       .notNull(),
-    portfolio: integer("portfolio").references(() => PortfolioTable.id),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (table) => ({

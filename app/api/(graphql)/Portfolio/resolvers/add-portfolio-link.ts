@@ -1,12 +1,15 @@
 import type { AuthorizedContext } from "@backend/lib/auth/context";
 import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
+import { waitUntil } from "@vercel/functions";
 import { IsUrl, MaxLength } from "class-validator";
 import { and, count, eq, isNull } from "drizzle-orm";
+import { revalidateTag } from "next/cache";
 import { Field, InputType } from "type-graphql";
 
 import { PORTFOLIO_CAPTION_MAX_LENGTH } from "@/constants/constraints";
 
+import { getCurrentUser } from "../../User/utils";
 import { PortfolioTable } from "../db";
 
 @InputType("AddPortfolioLinkArgs")
@@ -37,5 +40,11 @@ export async function addPortfolioLink(
     link: args.link,
     user: ctx.userId,
   });
+  waitUntil(
+    (async () => {
+      const user = await getCurrentUser(ctx);
+      if (user) revalidateTag(`profile-${user.username}`);
+    })(),
+  );
   return true;
 }

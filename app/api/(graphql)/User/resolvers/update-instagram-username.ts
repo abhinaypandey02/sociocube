@@ -4,6 +4,7 @@ import { db } from "@backend/lib/db";
 import { uploadImage } from "@backend/lib/storage/aws-s3";
 import { waitUntil } from "@vercel/functions";
 import { and, eq } from "drizzle-orm";
+import { revalidateTag } from "next/cache";
 import { Field, ObjectType } from "type-graphql";
 
 import { InstagramDetails } from "../../Instagram/db";
@@ -122,7 +123,7 @@ export async function handleUpdateInstagramUsername(
       }
     })(),
   );
-
+  revalidateTag(`profile-${updateUsername}`);
   return {
     photo: data.photo,
     bio: user.bio || data.bio || "",

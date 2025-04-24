@@ -1,7 +1,6 @@
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 
 import type { GetCurrentUserQuery } from "@/__generated__/graphql";
-import Logout from "@/app/(public)/components/logout";
 import { getRoute } from "@/constants/routes";
 
 const NAVBAR_COMMON_SECTIONS = [
@@ -39,18 +38,12 @@ export const AUTHORISED_USER_NAVBAR_SECTIONS = {
   primaryLinks: NAVBAR_COMMON_ROUTES,
   secondaryLinks: [
     {
-      label: "Run a campaign",
-      href: getRoute("Onboarding"),
-    },
-
-    {
-      label: "Settings",
+      label: "Profile",
       href: getRoute("Profile"),
     },
     {
-      label: "Logout",
-      href: getRoute("Home"),
-      render: <Logout />,
+      label: "Settings",
+      href: getRoute("Settings"),
     },
   ],
   cta: {
@@ -67,12 +60,7 @@ export const getOnboardedUserNavbarSections = (
   primaryLinks: [
     { label: "Home", href: getRoute("Home") },
     ...(user.role === "Creator"
-      ? [
-          {
-            label: "Your Profile",
-            href: getRoute("Profile") + "/" + user.username,
-          },
-        ]
+      ? []
       : [{ label: "Search", href: getRoute("Search") }]),
     {
       label: "Campaigns",
@@ -81,22 +69,13 @@ export const getOnboardedUserNavbarSections = (
     ...NAVBAR_COMMON_SECTIONS,
   ],
   secondaryLinks: [
-    ...(user?.isOnboarded
-      ? [
-          {
-            label: "Your profile",
-            href: `${getRoute("Profile")}/${user.username}`,
-          },
-        ]
-      : []),
     {
-      label: "Settings",
+      label: "Profile",
       href: getRoute("Profile"),
     },
     {
-      label: "Logout",
-      href: getRoute("Home"),
-      render: <Logout />,
+      label: "Settings",
+      href: getRoute("Settings"),
     },
   ],
   cta: undefined,

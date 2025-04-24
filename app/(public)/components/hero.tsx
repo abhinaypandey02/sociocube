@@ -15,7 +15,7 @@ export default function Hero() {
   const isAgency = user?.role !== Roles.Creator;
   return (
     <div className="relative isolate bg-linear-to-b to-transparent from-0% to-100% via-60% via-accent-bg/80 from-accent-bg">
-      <div className="mx-auto -mt-20 max-w-7xl overflow-hidden px-6 pb-5 pt-4 text-center sm:mb-16 pt-24 sm:pt-48 lg:px-8">
+      <div className="mx-auto -mt-24 max-w-7xl overflow-hidden px-6 pb-5 text-center sm:mb-16 pt-24 sm:pt-48 lg:px-8">
         <p className="mb-3 max-sm:text-sm font-medium tracking-wide text-gray-800">
           BIGGEST INFLUENCER MARKETING PLATFORM
         </p>

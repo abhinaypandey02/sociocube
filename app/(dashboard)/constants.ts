@@ -1,9 +1,10 @@
 import {
   ClockCounterClockwise,
+  Gear,
   Handshake,
   MagnifyingGlass,
   MoneyWavy,
-  PlusCircle,
+  Plus,
   UserCircle,
 } from "@phosphor-icons/react/dist/ssr";
 
@@ -35,7 +36,7 @@ export const NAV_ITEMS: NavItem[] = [
     roles: [Roles.Brand, Roles.Agency],
   },
   {
-    icon: PlusCircle,
+    icon: Plus,
     heading: "New Campaign",
     navTitle: "New Campaign",
     href: Route.NewCampaign,
@@ -53,9 +54,17 @@ export const NAV_ITEMS: NavItem[] = [
   },
   {
     icon: UserCircle,
-    heading: "Your Profile",
+    heading: "Profile",
     navTitle: "Profile",
     href: Route.Profile,
+    requireAuth: true,
+  },
+  {
+    icon: Gear,
+    heading: "Settings",
+    navTitle: "Settings",
+    href: Route.Settings,
+    parent: Route.Profile,
     requireAuth: true,
   },
 ];

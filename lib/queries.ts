@@ -46,10 +46,6 @@ export const GET_DEFAULT_ONBOARDING_DETAILS = gql(`
       }
       bio
       username
-      pictureUploadURL {
-        uploadURL
-        url
-      }
       pricing {
         starting
       }
@@ -208,57 +204,6 @@ export const GET_CHAT = gql(`
         body
         createdAt
         byAgency
-      }
-    }
-  }
-`);
-
-export const GET_ACCOUNT_DETAILS = gql(`
-  #graphql
-  query GetAccountDetails {
-    user: getCurrentUser {
-      id
-      name
-      email
-      bio
-      photo
-      phone
-      category
-      gender
-      role
-      dob
-      username
-      emailVerified
-      portfolio {
-          caption
-          id
-          link
-          imageURL
-        }
-      instagramStats {
-        username
-        isVerified
-        followers
-        mediaCount
-        er
-        averageLikes
-        averageComments
-      }
-      locationID {
-        city
-        country
-      }
-
-      location {
-        city
-        country
-      }
-      pricing {
-        starting
-      }
-      pictureUploadURL {
-        uploadURL
-        url
       }
     }
   }
@@ -546,27 +491,10 @@ export const VERIFY_EMAIL = gql(`
   }
 `);
 
-export const GET_PORTFOLIO_UPLOAD_URL = gql(`
-  #graphql
-  query GetPortfolioUploadURL {
-    user:getCurrentUser {
-      id
-    }
-    uploadURL: getPortfolioUploadURL {
-      uploadURL
-      url
-    }
-  }
-`);
-
 export const GET_USER_APPLICATIONS = gql(`
   #graphql
   query GetUserApplications {
     getPendingReviews
-    uploadURL: getPortfolioUploadURL {
-      uploadURL
-      url
-    }
     getUserApplications {
       status
       comment

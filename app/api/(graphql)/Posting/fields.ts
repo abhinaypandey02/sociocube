@@ -4,7 +4,6 @@ import { FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
 
 import { ApplicationTable } from "../Application/db";
 import { CountryTable } from "../Map/db";
-import { PortfolioTable } from "../Portfolio/db";
 import { ReviewTable } from "../Review/db";
 import { ReviewGQL } from "../Review/type";
 import type { UserDB } from "../User/db";
@@ -62,15 +61,6 @@ export class PostingFieldResolvers {
         and(
           eq(ReviewTable.posting, posting.id),
           isNotNull(ReviewTable.agencyRating),
-          isNotNull(ReviewTable.portfolio),
-        ),
-      )
-      .innerJoin(
-        PortfolioTable,
-        and(
-          eq(PortfolioTable.id, ReviewTable.portfolio),
-          isNotNull(PortfolioTable.user),
-          isNotNull(PortfolioTable.agency),
         ),
       )
       .innerJoin(UserTable, eq(UserTable.id, ReviewTable.user));
@@ -80,7 +70,6 @@ export class PostingFieldResolvers {
       name: res.user.name || "",
       photo: res.user.photo,
       username: res.user.username || "",
-      portfolio: res.review.portfolio,
     }));
   }
 }

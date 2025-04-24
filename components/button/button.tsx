@@ -28,7 +28,7 @@ function Button({
       className={cn(
         "relative disabled:brightness-80 duration-200 flex justify-center items-center transition-all font-semibold leading-6 focus-visible:outline-2 focus-visible:outline-offset-2",
         borderless && "border-none",
-        square ? "p-3" : compact ? "px-4 py-1 " : "px-4 py-2 ",
+        square ? "p-2" : compact ? "px-4 py-1 " : "px-4 py-2 ",
         compact ? "rounded-lg" : "rounded-xl",
         variant === Variants.PRIMARY && {
           "focus-visible:outline-primary bg-gradient-primary ": !invert,

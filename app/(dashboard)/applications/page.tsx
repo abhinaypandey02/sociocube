@@ -10,14 +10,18 @@ export default async function MyApplicationsPage() {
   return (
     <Injector
       fetch={async () => {
-        const { getUserApplications, getPendingReviews, uploadURL } =
-          await queryGQL(GET_USER_APPLICATIONS, undefined, await cookies(), 0);
+        const { getUserApplications, getPendingReviews } = await queryGQL(
+          GET_USER_APPLICATIONS,
+          undefined,
+          await cookies(),
+          0,
+        );
 
         const applications = getUserApplications.map((app) => ({
           ...app,
           isPendingReview: getPendingReviews.includes(app.posting?.id || -1),
         }));
-        return { applications, uploadURL };
+        return { applications };
       }}
       Component={MyApplications}
     />

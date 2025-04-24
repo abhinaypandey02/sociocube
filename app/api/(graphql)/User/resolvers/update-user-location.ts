@@ -1,6 +1,7 @@
 import type { AuthorizedContext } from "@backend/lib/auth/context";
 import { db } from "@backend/lib/db";
 import { eq } from "drizzle-orm";
+import { revalidateTag } from "next/cache";
 import { Field, InputType } from "type-graphql";
 
 import { LocationTable, UserTable } from "../db";
@@ -37,6 +38,8 @@ export async function handleUpdateLocation(
         })
         .where(eq(UserTable.id, ctx.userId));
   }
-
+  if (user?.username) {
+    revalidateTag(`profile-${user.username}`);
+  }
   return true;
 }

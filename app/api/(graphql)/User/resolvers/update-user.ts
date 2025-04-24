@@ -13,6 +13,7 @@ import {
   MaxLength,
 } from "class-validator";
 import { eq } from "drizzle-orm";
+import { revalidateTag } from "next/cache";
 import { Field, InputType } from "type-graphql";
 
 import { getAge, MAX_AGE, MIN_AGE } from "@/constants/age";
@@ -75,7 +76,7 @@ export async function handleUpdateUser(
     if (age < MIN_AGE || age > MAX_AGE)
       throw GQLError(400, "Invalid date of birth");
   }
-  await db
+  const [user] = await db
     .update(UserTable)
     .set({
       id: ctx.userId,
@@ -90,7 +91,7 @@ export async function handleUpdateUser(
       role: updatedUser.role,
     })
     .where(eq(UserTable.id, ctx.userId))
-    .returning();
+    .returning({ username: UserTable.username });
   if (updatedUser.pricing) {
     await db
       .insert(PricingTable)
@@ -102,6 +103,9 @@ export async function handleUpdateUser(
         target: PricingTable.user,
         set: updatedUser.pricing,
       });
+  }
+  if (user?.username) {
+    revalidateTag(`profile-${user.username}`);
   }
   return true;
 }

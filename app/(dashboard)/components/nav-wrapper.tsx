@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { PropsWithChildren, useEffect, useMemo, useState } from "react";
 
@@ -7,6 +8,7 @@ import SideNav from "@/app/(dashboard)/components/side-nav";
 import TopNav from "@/app/(dashboard)/components/top-nav";
 import { NAV_ITEMS } from "@/app/(dashboard)/constants";
 import { Button } from "@/components/button";
+import { Variants } from "@/components/constants";
 import { SEO } from "@/constants/seo";
 import { useSubPage } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
@@ -45,24 +47,31 @@ export default function NavWrapper({ children }: PropsWithChildren) {
           />
           <div
             className={
-              "flex items-center justify-between px-8 pt-4 pb-7 max-lg:hidden"
+              "flex items-center justify-between px-8 pt-5 pb-5 max-lg:hidden"
             }
           >
-            <h2 className=" font-poppins text-3xl font-medium text-gray-800 pl-0.5">
+            <h2 className="h-10 font-poppins text-3xl font-medium text-gray-800 pl-0.5">
               {activeItem?.heading}
             </h2>
             <div className={"flex gap-1 items-center"}>
-              {subPages
-                .filter((item) => item.onlyOnMobile)
-                .map((item) => (
+              {subPages.map((item) =>
+                !item.onlyOnMobile ? (
+                  <Link href={item.href} key={item.href}>
+                    <Button variant={Variants.DARK} invert square borderless>
+                      <item.icon size={24} />
+                    </Button>
+                  </Link>
+                ) : (
                   <Button
                     onClick={() => setOpenSubPage(item)}
                     key={item.href}
-                    className={"flex gap-1 items-center text-sm"}
+                    variant={Variants.DARK}
+                    className={"flex gap-2 items-center"}
                   >
                     {item.navTitle} <item.icon />
                   </Button>
-                ))}
+                ),
+              )}
             </div>
           </div>
           <div

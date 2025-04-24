@@ -1,18 +1,12 @@
 "use client";
-import { ImageSquare, Star } from "@phosphor-icons/react";
-import { Spinner } from "@phosphor-icons/react/dist/ssr";
-import { isURL } from "class-validator";
+import { Star } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Rating } from "react-simple-star-rating";
 
-import type {
-  GetUserApplicationsQuery,
-  StorageFile,
-} from "@/__generated__/graphql";
-import PortfolioImageHandler from "@/app/(public)/profile/[username]/components/portfolio-image-handler";
+import type { GetUserApplicationsQuery } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import Form from "@/components/form";
@@ -24,41 +18,24 @@ import Modal from "../../../../../../components/modal";
 
 export default function SendReview({
   posting,
-  imageUploadURL,
 }: {
   posting: GetUserApplicationsQuery["getUserApplications"][number]["posting"];
-  imageUploadURL: StorageFile;
 }) {
   const [sendReview] = useAuthMutation(SEND_REVIEW_BY_USER);
   const [loading, setLoading] = useState(false);
 
   const [openRating, setOpenRating] = useState(false);
-  const [image, setImage] = useState<File | Blob>();
 
-  const fileRef = useRef<HTMLInputElement>(null);
-  const imageURL = image && URL.createObjectURL(image);
   const router = useRouter();
   const form = useForm<{
     agencyFeedback: string;
-    imageURL: string;
     link?: string;
   }>();
   const [rating, setRating] = useState(0);
   if (!posting) return null;
-  const manualURL = form.watch("imageURL");
 
   return (
     <>
-      <PortfolioImageHandler
-        onChange={(val) => {
-          setLoading(false);
-          if (val) setImage(val);
-        }}
-        onGifLoadStart={() => {
-          setLoading(true);
-        }}
-        ref={fileRef}
-      />
       <Modal
         close={() => {
           setOpenRating(false);
@@ -74,24 +51,11 @@ export default function SendReview({
           form={form}
           onSubmit={form.handleSubmit(async (data) => {
             setLoading(true);
-            if (image) {
-              try {
-                await fetch(imageUploadURL.uploadURL, {
-                  method: "PUT",
-                  body: image,
-                });
-              } catch {
-                setImage(undefined);
-                setLoading(false);
-                return;
-              }
-            }
             sendReview({
               args: {
                 agencyFeedback: data.agencyFeedback || undefined,
                 agencyRating: rating,
                 posting: posting.id,
-                imageURL: data.imageURL || imageUploadURL.url,
                 link: data.link || undefined,
               },
             })
@@ -124,65 +88,9 @@ export default function SendReview({
             rows={4}
             textarea
           />
-          {image ? (
-            <button
-              className="flex w-full items-center justify-center rounded-md border border-dashed border-gray-500 text-gray-500"
-              onClick={() => fileRef.current?.click()}
-              type="button"
-            >
-              {imageURL ? (
-                <img
-                  alt="new portfolio"
-                  className="object-cover"
-                  src={imageURL}
-                />
-              ) : null}
-              {!imageURL &&
-                (loading ? (
-                  <Spinner
-                    className="my-20 animate-spin text-primary md:my-40"
-                    size={30}
-                  />
-                ) : (
-                  <ImageSquare
-                    className="my-20 text-primary md:my-40"
-                    size={30}
-                  />
-                ))}
-            </button>
-          ) : null}
-
-          {!image && (
-            <div>
-              <Input label="Instagram url of work" name="imageURL" type="url" />
-              <Button
-                className="mt-4 w-full text-sm"
-                invert
-                loading={loading}
-                onClick={() => {
-                  fileRef.current?.click();
-                }}
-                variant={Variants.ACCENT}
-              >
-                or Upload manually
-              </Button>
-            </div>
-          )}
-          {image ? (
-            <Input
-              label="Link to this work"
-              name="link"
-              rules={{
-                validate: {
-                  isURL: (val: string) => !val || isURL(val) || "Invalid URL",
-                },
-              }}
-              type="url"
-            />
-          ) : null}
           <Button
             className="mt-10!"
-            disabled={!rating || (!imageURL && !manualURL)}
+            disabled={!rating}
             loading={loading}
             type="submit"
           >

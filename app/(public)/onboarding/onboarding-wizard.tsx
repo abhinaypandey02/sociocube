@@ -166,7 +166,6 @@ function OnboardingWizard({
             }}
             key={currentUser.instagramStats?.username}
             nextStep={nextStep}
-            photoUpload={currentUser.pictureUploadURL}
             showCreatorSteps={showCreatorSteps}
           />
         ) : null,

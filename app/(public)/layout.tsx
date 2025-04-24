@@ -9,7 +9,7 @@ import { AuthFooter } from "./components/auth-footer";
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
-    <main className="pt-20 min-h-svh flex flex-col">
+    <main className="pt-24 min-h-svh flex flex-col">
       <Suspense fallback={<Navbar {...UNAUTHORISED_NAVBAR_SECTIONS} />}>
         <OptimisticNavbar />
       </Suspense>

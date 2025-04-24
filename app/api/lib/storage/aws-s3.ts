@@ -2,7 +2,6 @@ import { createHash } from "node:crypto";
 
 import {
   DeleteObjectCommand,
-  GetObjectCommand,
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
@@ -35,13 +34,6 @@ export async function getUploadFileURL(keys: string[], isPublic?: boolean) {
 export function getFileURL(keys: string | string[]) {
   if (typeof keys === "string") return `${URL_PREFIX}${keys}`;
   return `${URL_PREFIX}${getHash(keys)}`;
-}
-export async function getSignedFileURL(keys: string[]) {
-  const command = new GetObjectCommand({
-    Bucket: BUCKET_NAME,
-    Key: getHash(keys),
-  });
-  return getSignedUrl(client, command, { expiresIn: 3600 });
 }
 
 export async function uploadImage(url: string, key: string[], blob?: Blob) {
