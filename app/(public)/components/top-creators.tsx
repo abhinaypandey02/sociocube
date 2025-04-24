@@ -61,7 +61,7 @@ export default function TopCreators({
                       </h3>
                       {person.instagramStats.isVerified ? (
                         <SealCheck
-                          className="shrink-0 text-accent"
+                          className="shrink-0 text-primary"
                           weight="fill"
                         />
                       ) : null}

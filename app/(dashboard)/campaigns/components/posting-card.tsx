@@ -12,7 +12,6 @@ import Modal from "@/components/modal";
 import { getRoute } from "@/constants/routes";
 import { convertToAbbreviation } from "@/lib/utils";
 
-import PostingReviews from "../[id]/posting-reviews";
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
 
 export function renderRichText(text: string) {
@@ -119,7 +118,7 @@ export default function PostingCard({
                     {posting.agency.name}
                   </span>
                   {posting.agency.instagramStats?.isVerified ? (
-                    <SealCheck className="text-primary" weight="fill" />
+                    <SealCheck className="text-accent" weight="fill" />
                   ) : null}
                 </p>
               </Link>
@@ -177,7 +176,6 @@ export default function PostingCard({
               ) : null}
             </div>
           </div>
-          <PostingReviews reviews={posting.reviews} />
           {posting.deliverables ? (
             <div className="pt-5 sm:col-span-2 ">
               <dt className=" font-semibold underline underline-offset-4 leading-6 text-gray-900">

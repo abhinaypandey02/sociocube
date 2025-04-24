@@ -112,6 +112,7 @@ export const GET_SELLER = gql(`
         name
         photo
         bio
+        role
         gender
         reviews {
           feedback
@@ -119,11 +120,7 @@ export const GET_SELLER = gql(`
           name
           photo
           username
-          portfolio {
-            id
-            imageURL
-            link
-          }
+         
         }
         portfolio {
           caption
@@ -360,10 +357,6 @@ export const GET_POSTING_REVIEWS = gql(`
     posting:getPosting(id: $id){
 
       reviews {
-        portfolio {
-          imageURL
-          link
-        }
         rating
         photo
         username
@@ -404,10 +397,6 @@ export const GET_ALL_POSTINGS = gql(`
       updatedAt
         deliverables
         reviews {
-            portfolio {
-                imageURL
-                link
-            }
             rating
             photo
             username

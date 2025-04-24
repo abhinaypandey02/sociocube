@@ -382,7 +382,6 @@ type Portfolio {
   id: Int!
   imageURL: String
   link: String
-  review: Review
 }
 
 type Posting {
@@ -461,7 +460,6 @@ type Review {
   feedback: String
   name: String!
   photo: String
-  portfolio: Portfolio
   rating: Float!
   username: String!
 }

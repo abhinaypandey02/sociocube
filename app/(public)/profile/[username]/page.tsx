@@ -9,6 +9,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 
+import { Roles } from "@/__generated__/graphql";
 import Schema from "@/app/(public)/components/schema";
 import { IconButton } from "@/components/icon-button";
 import { getMeURL, getRoute, Route } from "@/constants/routes";
@@ -118,7 +119,13 @@ export default async function ProfilePage({
           <div className="flex grow items-center justify-between gap-2">
             <div className="flex items-center gap-3">
               {user.instagramStats.isVerified ? (
-                <SealCheck className="text-accent" size={23} weight="fill" />
+                <SealCheck
+                  className={
+                    user.role === Roles.Creator ? "text-primary" : "text-accent"
+                  }
+                  size={23}
+                  weight="fill"
+                />
               ) : null}
             </div>
             <div className="flex items-center">

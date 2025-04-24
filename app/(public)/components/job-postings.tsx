@@ -60,7 +60,7 @@ export default function JobPostings({
                 <p className="mt-1 line-clamp-1 flex items-center text-xs leading-5 text-gray-500">
                   {posting.agency.name}
                   {posting.agency.instagramStats?.isVerified ? (
-                    <SealCheck className="mx-1 text-primary" weight="fill" />
+                    <SealCheck className="mx-1 text-accent" weight="fill" />
                   ) : null}
                   <span className="max-md:hidden">
                     {posting.minimumAge || posting.maximumAge ? " • " : ""}

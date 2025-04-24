@@ -113,13 +113,13 @@ export default function SearchWindow({
                             {person.name || ""}
                             {person.instagramStats?.isVerified ? (
                               <SealCheck
-                                className="text-accent"
+                                className="text-primary"
                                 size={16}
                                 weight="fill"
                               />
                             ) : null}
                           </h3>
-                          <div className="mt-0.5  font-poppins text-xs font-medium text-accent max-sm:w-full">
+                          <div className="mt-0.5  font-poppins text-xs font-medium text-primary max-sm:w-full">
                             {person.category}
                           </div>
                           <p className="mt-1 flex flex-wrap items-center gap-1 truncate text-sm leading-6 text-gray-800">

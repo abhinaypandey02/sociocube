@@ -104,7 +104,7 @@ const DEFAULT_COLUMNS = [
       >
         {val.getValue()}{" "}
         {val.row.original.user?.instagramStats?.isVerified ? (
-          <SealCheck className="text-accent" weight="fill" />
+          <SealCheck className="text-primary" weight="fill" />
         ) : null}
       </Link>
     ),

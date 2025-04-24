@@ -17,7 +17,7 @@ export default function GetVerifiedModal({
   return (
     <Modal close={close} open={isOpen}>
       <div className="flex flex-col items-center gap-2 pt-9">
-        <SealCheck className="text-2xl text-accent" weight="fill" />
+        <SealCheck className="text-2xl text-primary" weight="fill" />
         <h3 className="font-poppins text-xl font-semibold">Get verified</h3>
         <p className="text-center text-xs">
           Complete your verification process to get a verification badge on your
