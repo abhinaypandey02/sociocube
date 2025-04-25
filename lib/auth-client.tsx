@@ -151,6 +151,7 @@ export function useLoginWithEmail() {
 export function useLogout() {
   const { setToken } = useContext(GlobalState);
   const [, setUser] = useUser();
+  const router = useRouter();
   return useCallback(async () => {
     const res = await fetch(`/api/email`, {
       method: "DELETE",
@@ -159,6 +160,7 @@ export function useLogout() {
     if (res.ok) {
       setUser(null);
       setToken(undefined);
+      router.push("/");
     }
-  }, [setToken, setUser]);
+  }, [setToken, setUser, router]);
 }

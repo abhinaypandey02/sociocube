@@ -76,6 +76,7 @@ export default function OnboardingBasicDetailsForm({
         onNewURL={(url) => {
           setUser((prev) => (!prev ? prev : { ...prev, photo: url }));
         }}
+        defaultPhoto={user?.photo}
       >
         <User size={40} />
       </ImageUploader>
