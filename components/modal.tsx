@@ -7,7 +7,7 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { X } from "@phosphor-icons/react";
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 
 import { Button } from "./button";
 
@@ -19,7 +19,7 @@ export default function Modal({
 }: PropsWithChildren<{
   open: boolean;
   close: () => void;
-  title?: string;
+  title?: ReactNode;
 }>) {
   return (
     <Transition show={open}>

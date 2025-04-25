@@ -19,6 +19,7 @@ export default function SocialsStatus({
   nextStep,
   setBasicDetails,
   isActive,
+  isCreator,
 }: {
   defaultValues: FormFields;
   nextStep: () => void;
@@ -26,6 +27,7 @@ export default function SocialsStatus({
   setBasicDetails: (
     details: UpdateInstagramUsernameMutation["updateInstagramUsername"],
   ) => void;
+  isCreator: boolean;
 }) {
   const form = useForm({ defaultValues });
   const [updateInstagramUsername, { loading }] = useAuthMutation(
@@ -74,6 +76,11 @@ export default function SocialsStatus({
           Connect
         </Button>
       </Form>
+      {!isCreator && (
+        <Button className="mt-6" invert onClick={nextStep}>
+          Skip
+        </Button>
+      )}
     </>
   );
 }

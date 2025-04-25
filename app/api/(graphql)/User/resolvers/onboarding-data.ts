@@ -11,11 +11,11 @@ export function getIsOnboarded(user: UserDB): user is UserDB & {
   location: number;
 } {
   return Boolean(
-    (user.role !== Roles.Creator || (user.category && user.gender)) &&
+    (user.role !== Roles.Creator ||
+      (user.category && user.gender && user.instagramDetails)) &&
       user.photo &&
       user.dob &&
       user.name &&
-      user.instagramDetails &&
       user.username &&
       user.location,
   );

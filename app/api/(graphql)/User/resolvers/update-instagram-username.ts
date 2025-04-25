@@ -57,7 +57,7 @@ export async function handleUpdateInstagramUsername(
         .from(InstagramDetails)
         .where(eq(InstagramDetails.username, username));
       if (existingDetails) {
-        if (existingDetails.accessToken) {
+        if (existingDetails.isVerified) {
           throw GQLError(
             500,
             "This profile is already in use. Please use your own instagram account.",

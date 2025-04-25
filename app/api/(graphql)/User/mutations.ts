@@ -2,6 +2,7 @@ import type { AuthorizedContext } from "@backend/lib/auth/context";
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 
 import { handleDisconnectInstagram } from "./resolvers/disconnect-instagram";
+import { handleUnlinkSocialAccount } from "./resolvers/unlink-social-account";
 import {
   handleUpdateInstagramUsername,
   UpdateInstagramUsernameResponse,
@@ -21,6 +22,11 @@ export class UserMutationResolver {
     @Ctx() ctx: AuthorizedContext,
   ): Promise<UpdateInstagramUsernameResponse> {
     return handleUpdateInstagramUsername(ctx, username);
+  }
+  @Authorized()
+  @Mutation(() => Boolean)
+  unlinkSocialAccount(@Ctx() ctx: AuthorizedContext) {
+    return handleUnlinkSocialAccount(ctx);
   }
   @Authorized()
   @Mutation(() => Boolean)

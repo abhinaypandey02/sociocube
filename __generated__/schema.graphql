@@ -355,6 +355,7 @@ type Mutation {
   sendReviewByAgency(args: SendReviewByAgencyArgs!): Boolean!
   sendReviewByUser(args: SendReviewByUserArgs!): Boolean!
   sendVerificationEmail: Boolean!
+  unlinkSocialAccount: Boolean!
   updateInstagramUsername(username: String!): UpdateInstagramUsernameResponse!
   updatePortfolio(data: UpdatePortfolioArgs!): Boolean!
   updatePosting(id: Float!, updatedPosting: UpdatePostingInput!): Boolean!

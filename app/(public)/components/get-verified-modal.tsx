@@ -15,21 +15,26 @@ export default function GetVerifiedModal({
   close: () => void;
 }) {
   return (
-    <Modal close={close} open={isOpen}>
-      <div className="flex flex-col items-center gap-2 pt-9">
-        <SealCheck className="text-2xl text-primary" weight="fill" />
-        <h3 className="font-poppins text-xl font-semibold">Get verified</h3>
-        <p className="text-center text-xs">
-          Complete your verification process to get a verification badge on your
-          profile. This lets brands know that you are a verified instagram
-          account and builds trust.
+    <Modal
+      title={
+        <div className="flex items-center gap-2">
+          Get verified
+          <SealCheck className="text-2xl text-primary" weight="fill" />
+        </div>
+      }
+      close={close}
+      open={isOpen}
+    >
+      <div className="space-y-2 py-9">
+        <p className="text-center">
+          Login with your instagram account to get verified.
         </p>
-        <a className="mt-5" href={INSTAGRAM_AUTHORIZATION_URL}>
+        <a className="mt-5 block" href={INSTAGRAM_AUTHORIZATION_URL}>
           <Button className="mx-auto flex items-center gap-2">
             Verify Account <ArrowSquareOut weight="bold" />
           </Button>
         </a>
-        <ul className="mt-16 space-y-2 text-justify text-xs text-gray-600">
+        <ul className="mt-16 space-y-2 text-justify text-sm text-gray-600">
           <li>
             <strong>Official Instagram Integration:</strong>{" "}
             <em>

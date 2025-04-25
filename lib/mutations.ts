@@ -156,3 +156,10 @@ export const SEND_REVIEW_BY_USER = gql(`
     sendReviewByUser(args: $args)  
   }
 `);
+
+export const UNLINK_SOCIAL_ACCOUNT = gql(`
+  #graphql
+  mutation UnlinkSocialAccount {
+    unlinkSocialAccount
+  }
+`);

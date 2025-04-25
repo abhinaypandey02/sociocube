@@ -2,6 +2,7 @@ import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
 import { sendTemplateEmail } from "@backend/lib/email/template";
 import { HOUR } from "@backend/lib/utils/time";
+import { waitUntil } from "@vercel/functions";
 import { and, eq } from "drizzle-orm";
 import { sign } from "jsonwebtoken";
 
@@ -29,9 +30,8 @@ export async function handleSendVerificationEmail(userID: number) {
     .select()
     .from(UserTable)
     .where(eq(UserTable.id, userID));
-  if (!user) return null;
+  if (!user) return false;
   if (user.emailVerified) throw GQLError(400, "Email already verified");
-  if (!user.email) throw GQLError(400, "No email associated");
   const [res] = await db
     .select()
     .from(RequestTable)
@@ -48,20 +48,24 @@ export async function handleSendVerificationEmail(userID: number) {
           403,
           "You can only send verification email twice an hour",
         );
-      await sendTemplateEmail(user.email, "VerifyEmail", {
+      sendTemplateEmail(user.email, "VerifyEmail", {
         firstName: user.name?.split(" ")[0] || "",
         link: getVerifyLink(res.id),
       });
-      await db.update(RequestTable).set({ attempts: res.attempts + 1 });
-      return null;
+      waitUntil(db.update(RequestTable).set({ attempts: res.attempts + 1 }));
+      return true;
     }
     await db.delete(RequestTable).where(eq(RequestTable.id, res.id));
   }
-  const link = await getVerificationLink(user.id);
-  if (!link) return null;
-  await sendTemplateEmail(user.email, "VerifyEmail", {
-    firstName: user.name?.split(" ")[0] || "",
-    link,
-  });
-  return null;
+  waitUntil(
+    (async () => {
+      const link = await getVerificationLink(user.id);
+      if (!link) return false;
+      sendTemplateEmail(user.email, "VerifyEmail", {
+        firstName: user.name?.split(" ")[0] || "",
+        link,
+      });
+    })(),
+  );
+  return true;
 }

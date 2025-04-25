@@ -14,7 +14,7 @@ export class RequestMutationResolver {
   @Authorized()
   @Mutation(() => Boolean)
   sendVerificationEmail(@Ctx() ctx: Context) {
-    if (!ctx.userId) return null;
+    if (!ctx.userId) return false;
     return handleSendVerificationEmail(ctx.userId);
   }
   @Mutation(() => Boolean)

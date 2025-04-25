@@ -1,18 +1,25 @@
+"use client";
 import {
   EnvelopeSimple,
   InstagramLogo,
-  Link,
   SealCheck,
   SealQuestion,
 } from "@phosphor-icons/react/dist/ssr";
-import React from "react";
+import Link from "next/link";
+import React, { useState } from "react";
 
 import {
   GetAccountProfileDetailsQuery,
   GetAccountSocialDetailsQuery,
   Roles,
 } from "@/__generated__/graphql";
+import GetVerifiedModal from "@/app/(public)/components/get-verified-modal";
 import { getRoute } from "@/constants/routes";
+import { useAuthMutation } from "@/lib/apollo-client";
+import {
+  SEND_VERIFICATION_EMAIL,
+  UNLINK_SOCIAL_ACCOUNT,
+} from "@/lib/mutations";
 
 import AccountCard from "./account-card";
 export default function ConnectionsSection({
@@ -22,7 +29,13 @@ export default function ConnectionsSection({
   data?: GetAccountSocialDetailsQuery;
   profile: NonNullable<GetAccountProfileDetailsQuery["user"]>;
 }) {
-  const user = data?.user;
+  const [user, setUser] = useState(data?.user);
+  const [unlinkSocialAccount] = useAuthMutation(UNLINK_SOCIAL_ACCOUNT);
+  const [sendEmail, { data: success, loading, called }] = useAuthMutation(
+    SEND_VERIFICATION_EMAIL,
+  );
+
+  const [isGetVerifiedModalOpen, setIsGetVerifiedModalOpen] = useState(false);
   if (!user) return null;
   return (
     <AccountCard title="Connections" subtitle="Your social connections">
@@ -32,21 +45,24 @@ export default function ConnectionsSection({
           <p>Email</p>
         </div>
         <div>
-          <span className="flex gap-1 items-center font-light">
+          <span className="flex gap-1 items-center justify-end font-light">
             {profile.email}
             {!profile.emailVerified && (
               <SealQuestion className="text-yellow-600" size={14} />
             )}
           </span>
           {!profile.emailVerified && (
-            <div
+            <button
+              onClick={() => sendEmail()}
               className={
-                "flex gap-1 justify-end items-center text-xs " +
+                "flex gap-1 justify-end items-center text-sm ml-auto " +
                 "text-accent underline"
               }
             >
-              Verify now
-            </div>
+              {loading ? "Sending email..." : ""}
+              {success ? "Email sent!" : ""}
+              {!called ? "Verify now" : ""}
+            </button>
           )}
         </div>
       </div>
@@ -57,7 +73,7 @@ export default function ConnectionsSection({
         </div>
         {user.instagramStats ? (
           <div>
-            <span className="flex gap-1 items-center font-light">
+            <span className="flex gap-1 items-center justify-end font-light">
               @{user.instagramStats.username}
               {user.instagramStats.isVerified ? (
                 <SealCheck
@@ -76,8 +92,17 @@ export default function ConnectionsSection({
 
             {!user.instagramStats.isVerified && (
               <div className="flex gap-2 justify-end  text-sm  items-center">
-                <div className={"text-red-600 underline"}>Unlink</div>
-                <div
+                <button
+                  onClick={() => {
+                    setUser((prev) => ({ ...prev, instagramStats: null }));
+                    unlinkSocialAccount();
+                  }}
+                  className={"text-red-600 underline"}
+                >
+                  Unlink
+                </button>
+                <button
+                  onClick={() => setIsGetVerifiedModalOpen(true)}
                   className={
                     "underline " +
                     (profile.role === Roles.Creator
@@ -85,20 +110,24 @@ export default function ConnectionsSection({
                       : "text-accent")
                   }
                 >
-                  Get verified
-                </div>
+                  Verify now
+                </button>
               </div>
             )}
           </div>
         ) : (
           <Link
             href={getRoute("Onboarding")}
-            className="text-accent underline underline-offset-4"
+            className="text-primary underline underline-offset-4"
           >
             Connect now
           </Link>
         )}
       </div>
+      <GetVerifiedModal
+        isOpen={isGetVerifiedModalOpen}
+        close={() => setIsGetVerifiedModalOpen(false)}
+      />
     </AccountCard>
   );
 }
