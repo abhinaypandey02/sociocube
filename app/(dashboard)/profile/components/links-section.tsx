@@ -146,9 +146,9 @@ export default function LinksSection({
                   link: data.link || undefined,
                 },
               });
-              const id = res.data?.addPortfolio;
-              if (!id) return;
-              setPortfolios((prev) => [...prev, { ...data, id }]);
+              const portfolio = res.data?.addPortfolio;
+              if (!portfolio) return;
+              setPortfolios((prev) => [...prev, { ...data, id: portfolio.id }]);
             }
             setSelectedPortfolio(undefined);
             form.reset();

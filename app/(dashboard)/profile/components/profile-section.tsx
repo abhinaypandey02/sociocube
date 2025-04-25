@@ -260,8 +260,8 @@ export default function ProfileSection({
             )}
           </h2>
 
-          <p className="flex mb-2 mt-1 text-sm items-center text-gray-500 pl-[1px]">
-            {user.category} <Dot /> {user.location?.city}
+          <p className="flex mb-2 mt-1 text-sm items-center text-gray-500 pl-px">
+            {user.category} {user.category && <Dot />} {user.location?.city}
           </p>
           <div className="flex gap-2 items-stretch">
             <Button

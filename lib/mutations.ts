@@ -114,13 +114,10 @@ export const RESET_PASSWORD = gql(`
 export const ADD_PORTFOLIO = gql(`
   #graphql
   mutation AddPortfolio($portfolio:AddPortfolioArgs!) {
-    addPortfolio(data: $portfolio)  
-  }
-`);
-export const ADD_PORTFOLIO_LINK = gql(`
-  #graphql
-  mutation AddPortfolioLink($portfolio:AddPortfolioLinkArgs!) {
-    addPortfolioLink(data: $portfolio)  
+    addPortfolio(data: $portfolio)  {
+      id
+      imageURL
+    }
   }
 `);
 

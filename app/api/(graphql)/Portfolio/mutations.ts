@@ -2,15 +2,12 @@ import type { AuthorizedContext } from "@backend/lib/auth/context";
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 
 import { addPortfolio, AddPortfolioArgs } from "./resolvers/add-portfolio";
-import {
-  addPortfolioLink,
-  AddPortfolioLinkArgs,
-} from "./resolvers/add-portfolio-link";
 import { deletePortfolio } from "./resolvers/delete-portfolio";
 import {
   updatePortfolio,
   UpdatePortfolioArgs,
 } from "./resolvers/update-portfolio";
+import { PortfolioGQL } from "./type";
 @Resolver()
 export class PortfolioMutationResolver {
   @Authorized()
@@ -22,20 +19,12 @@ export class PortfolioMutationResolver {
     return updatePortfolio(ctx, args);
   }
   @Authorized()
-  @Mutation(() => Number)
+  @Mutation(() => PortfolioGQL)
   addPortfolio(
     @Ctx() ctx: AuthorizedContext,
     @Arg("data") args: AddPortfolioArgs,
   ) {
     return addPortfolio(ctx, args);
-  }
-  @Authorized()
-  @Mutation(() => Boolean)
-  addPortfolioLink(
-    @Ctx() ctx: AuthorizedContext,
-    @Arg("data") args: AddPortfolioLinkArgs,
-  ) {
-    return addPortfolioLink(ctx, args);
   }
   @Authorized()
   @Mutation(() => Boolean)

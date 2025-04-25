@@ -18,7 +18,7 @@ interface ImageUploaderProps {
   size?: number;
   className?: string;
   showRemoveButton?: boolean;
-  onChange?: (formData: FormData) => void;
+  onChange?: (formData?: FormData) => void;
   onUpload?: (url?: string | null) => void;
   onNewURL?: (url?: string | null) => void;
 }
@@ -65,12 +65,11 @@ export default function ImageUploader({
 
   const handleRemove = () => {
     setProfilePictureURL(undefined);
-    if (token) {
-      if (onChange) return new FormData();
-      else
-        handleImageUpload(new FormData(), token).then((photo) => {
-          if (onUpload) onUpload(photo);
-        });
+    if (onChange) return onChange(undefined);
+    else if (token) {
+      handleImageUpload(new FormData(), token).then((photo) => {
+        if (onUpload) onUpload(photo);
+      });
     }
   };
 

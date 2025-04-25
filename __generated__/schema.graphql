@@ -336,7 +336,7 @@ type Message {
 }
 
 type Mutation {
-  addPortfolio(data: AddPortfolioArgs!): Float!
+  addPortfolio(data: AddPortfolioArgs!): Portfolio!
   addPortfolioLink(data: AddPortfolioLinkArgs!): Boolean!
   applyToPosting(comment: String, postingID: Float!): Boolean!
   createPosting(newPosting: NewPostingInput!): Float

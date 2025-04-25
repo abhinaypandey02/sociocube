@@ -1,6 +1,6 @@
 "use client";
 import { Plus } from "@phosphor-icons/react";
-import { Pencil, Trash, X } from "@phosphor-icons/react/dist/ssr";
+import { Pencil, Trash, UploadSimple, X } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -48,6 +48,7 @@ export default function PortfolioSection({
     defaultValues: {
       caption: "",
       link: "",
+      imageURL: "",
     },
   });
   if (!user) return null;
@@ -55,6 +56,9 @@ export default function PortfolioSection({
   const handleEditClick = () => {
     setIsEditing(!isEditing);
   };
+
+  const hasInstaURL = form.watch("imageURL");
+
   return (
     <AccountCard
       cta={
@@ -152,15 +156,20 @@ export default function PortfolioSection({
                 portfolio: {
                   caption: data.caption,
                   link: data.link || undefined,
+                  imageURL: data.imageURL || undefined,
                 },
               });
-              const resID = res.data?.addPortfolio;
-              if (resID && selectedImageURL) {
+              const portfolio = res.data?.addPortfolio;
+              if (portfolio && selectedImageURL) {
                 setPortfolios((prev) => [
                   ...prev,
-                  { ...data, id: resID, imageURL: selectedImageURL },
+                  {
+                    ...data,
+                    id: portfolio.id,
+                    imageURL: selectedImageURL || portfolio.imageURL,
+                  },
                 ]);
-                id = resID;
+                id = portfolio.id;
               }
             }
             if (selectedImage && token && id) {
@@ -177,19 +186,26 @@ export default function PortfolioSection({
           form={form}
           className=" mt-2"
         >
-          <div className="grid grid-cols-3 gap-4">
-            <ImageUploader
-              className="rounded-lg overflow-hidden h-full w-full"
-              showRemoveButton={false}
-              defaultPhoto={selectedPortfolio?.imageURL}
-              onChange={setSelectedImage}
-              onNewURL={(url) => setSelectedImageURL(url)}
-            >
-              <div className="h-full w-full bg-gray-100"></div>
-            </ImageUploader>
-            <div className="space-y-2 col-span-2">
+          <div className="">
+            {(!hasInstaURL || selectedPortfolio) && (
+              <ImageUploader
+                className="rounded-lg overflow-hidden h-64 w-40 mx-auto block"
+                defaultPhoto={selectedPortfolio?.imageURL}
+                onChange={setSelectedImage}
+                onNewURL={(url) => setSelectedImageURL(url)}
+              >
+                <div className="h-full w-full flex items-center justify-center text-gray-500 bg-gray-100">
+                  <UploadSimple weight="thin" size={32} />
+                </div>
+              </ImageUploader>
+            )}
+            <div className="space-y-2 col-span-2 mt-4">
+              {selectedImage || selectedPortfolio ? (
+                <Input name="link" label="Custom link (optional)" />
+              ) : (
+                <Input name="imageURL" label="Instagram post link" />
+              )}
               <Input name="caption" label="Caption" />
-              <Input name="link" label="URL" />
             </div>
           </div>
           <Button

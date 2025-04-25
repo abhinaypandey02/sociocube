@@ -75,6 +75,9 @@ export async function addPortfolio(
   args: AddPortfolioArgs,
   forReview?: true,
 ) {
+  if (!args.imageURL && !args.link) {
+    throw GQLError(400, "Please add either an image or a link");
+  }
   if (!forReview) {
     const [portfolioCount] = await db
       .select({ count: count(PortfolioTable.id) })
@@ -112,12 +115,12 @@ export async function addPortfolio(
       link: args.link,
       user: ctx.userId,
     })
-    .returning({ id: PortfolioTable.id });
+    .returning();
   waitUntil(
     (async () => {
       const user = await getCurrentUser(ctx);
       if (user) revalidateTag(`profile-${user.username}`);
     })(),
   );
-  return portfolio?.id;
+  return portfolio;
 }

@@ -13,7 +13,7 @@ const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/instagram`;
 
 const handleError = (message: string) =>
   NextResponse.redirect(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/account?error=${message}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/profile?error=${message}`,
   );
 
 export const GET = async (req: NextRequest) => {
@@ -63,5 +63,5 @@ export const GET = async (req: NextRequest) => {
       ),
     );
 
-  return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/account`);
+  return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/profile`);
 };
