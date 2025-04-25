@@ -1,5 +1,5 @@
 "use client";
-import { Plus } from "@phosphor-icons/react";
+import { CircleNotch, Plus } from "@phosphor-icons/react";
 import { Pencil, Trash, UploadSimple, X } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -33,6 +33,7 @@ export default function PortfolioSection({
 }) {
   const user = data?.user;
   const [isEditing, setIsEditing] = useState(false);
+  const [creatingGIF, setCreatingGIF] = useState(false);
   const [portfolios, setPortfolios] = useState<Portfolio[]>(
     user?.portfolio.filter((item) => item.imageURL) || [],
   );
@@ -189,13 +190,30 @@ export default function PortfolioSection({
           <div className="">
             {(!hasInstaURL || selectedPortfolio) && (
               <ImageUploader
+                allowVideo
+                onGifLoadStart={() => {
+                  setSelectedImage(undefined);
+                  setSelectedImageURL(undefined);
+                  setCreatingGIF(true);
+                }}
                 className="rounded-lg overflow-hidden h-64 w-40 mx-auto block"
                 defaultPhoto={selectedPortfolio?.imageURL}
-                onChange={setSelectedImage}
+                onChange={(val) => {
+                  setCreatingGIF(false);
+                  setSelectedImage(val);
+                }}
                 onNewURL={(url) => setSelectedImageURL(url)}
               >
                 <div className="h-full w-full flex items-center justify-center text-gray-500 bg-gray-100">
-                  <UploadSimple weight="thin" size={32} />
+                  {creatingGIF ? (
+                    <CircleNotch
+                      className="animate-spin"
+                      size={32}
+                      weight="thin"
+                    />
+                  ) : (
+                    <UploadSimple weight="thin" size={32} />
+                  )}
                 </div>
               </ImageUploader>
             )}

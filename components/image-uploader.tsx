@@ -9,6 +9,7 @@ import {
 } from "react";
 import { toast } from "react-hot-toast";
 
+import { getProperSizedGif } from "@/app/(public)/profile/[username]/components/utils";
 import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "@/constants/file";
 import { useToken } from "@/lib/auth-client";
 import { handleImageUpload } from "@/lib/utils";
@@ -21,6 +22,8 @@ interface ImageUploaderProps {
   onChange?: (formData?: FormData) => void;
   onUpload?: (url?: string | null) => void;
   onNewURL?: (url?: string | null) => void;
+  allowVideo?: boolean;
+  onGifLoadStart?: () => void;
 }
 
 export default function ImageUploader({
@@ -32,6 +35,8 @@ export default function ImageUploader({
   onChange,
   onNewURL,
   onUpload,
+  allowVideo = false,
+  onGifLoadStart,
 }: PropsWithChildren<ImageUploaderProps>) {
   const token = useToken();
   const ref = useRef<HTMLInputElement>(null);
@@ -41,14 +46,34 @@ export default function ImageUploader({
     if (onNewURL) onNewURL(profilePictureURL);
   }, [profilePictureURL]);
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && token) {
-      if (file.size > MAXIMUM_FILE_SIZE) {
+      if (allowVideo && file.type.startsWith("video/")) {
+        onGifLoadStart?.();
+        const blob = await getProperSizedGif(file);
+        if (blob) {
+          const formData = new FormData();
+          formData.set("file", blob);
+          const url = URL.createObjectURL(blob);
+          setProfilePictureURL(url);
+          onNewURL?.(url);
+          onChange?.(formData);
+        } else {
+          onChange?.(undefined);
+          onNewURL?.(undefined);
+          toast.error(`Cannot process video file, Please use a shorter video.`);
+        }
+      } else if (file.size > MAXIMUM_FILE_SIZE) {
         toast.error(
           `Maximum file size is ${MAXIMUM_FILE_SIZE / 1024 / 1024}mb`,
         );
-      } else if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      } else if (
+        ![
+          ...ALLOWED_IMAGE_TYPES,
+          ...(allowVideo ? ["image/gif"] : []),
+        ].includes(file.type)
+      ) {
         toast.error(`Only png and jpeg image types are allowed`);
       } else {
         setProfilePictureURL(URL.createObjectURL(file));
@@ -102,7 +127,10 @@ export default function ImageUploader({
         </button>
       )}
       <input
-        accept={ALLOWED_IMAGE_TYPES.join(", ")}
+        accept={[
+          ...ALLOWED_IMAGE_TYPES,
+          ...(allowVideo ? ["image/gif", "video/*"] : []),
+        ].join(", ")}
         className="hidden"
         onChange={handleFileChange}
         ref={ref}
