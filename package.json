@@ -22,6 +22,7 @@
     "@apollo/server": "^4.12.0",
     "@as-integrations/next": "^3.2.0",
     "@aws-sdk/client-s3": "^3.670.0",
+    "@aws-sdk/client-ses": "^3.796.0",
     "@aws-sdk/s3-request-presigner": "^3.670.0",
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",

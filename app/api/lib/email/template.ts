@@ -1,4 +1,6 @@
-import { sendEmail } from "./nodemailer";
+import { waitUntil } from "@vercel/functions";
+
+import { sendEmail } from "./ses";
 import { AcceptInvite } from "./templates/accept-invite";
 import { BASE_TEMPLATE } from "./templates/base";
 import { ResetPassword } from "./templates/reset-password";
@@ -20,10 +22,13 @@ export function sendTemplateEmail<T extends keyof typeof Template>(
   const method: { subject: string; html?: string; text: string } =
     // @ts-expect-error -- dynamic
     Template[template](meta);
-  return sendEmail(
-    to,
-    method.subject,
-    method.text,
-    BASE_TEMPLATE(method.html || method.text.replaceAll("\n", "<br/>")),
+
+  waitUntil(
+    sendEmail(
+      [to],
+      method.subject,
+      method.text,
+      BASE_TEMPLATE(method.html || method.text.replaceAll("\n", "<br/>")),
+    ),
   );
 }
