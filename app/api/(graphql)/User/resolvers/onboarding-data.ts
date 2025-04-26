@@ -12,9 +12,8 @@ export function getIsOnboarded(user: UserDB): user is UserDB & {
 } {
   return Boolean(
     (user.role !== Roles.Creator ||
-      (user.category && user.gender && user.instagramDetails)) &&
+      (user.category && user.gender && user.instagramDetails && user.dob)) &&
       user.photo &&
-      user.dob &&
       user.name &&
       user.username &&
       user.location,

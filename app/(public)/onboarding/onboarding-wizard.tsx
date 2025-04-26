@@ -53,7 +53,7 @@ export function getStep(
   if (currentUser.role === Roles.Creator && !currentUser.pricing) return 5;
   if (!currentUser.username)
     return 6 - (currentUser.role === Roles.Creator ? 0 : 2);
-  return 0;
+  return -1;
 }
 
 function OnboardingWizard({
@@ -280,17 +280,14 @@ function OnboardingWizard({
     if (!currentUser && !dataLoading) {
       router.replace(redirectURL || getRoute("SignUp"));
     }
-    if (currentUser?.isOnboarded) {
-      if (currentUser.username)
-        router.push(
-          `${getRoute("Profile")}/${currentUser.username}?noCache=true`,
-        );
-      else router.push(redirectURL || getRoute("Home"));
-    }
   }, [currentUser, dataLoading, redirectURL, router]);
 
-  const routeLoading =
-    (!currentUser && !dataLoading) || currentUser?.isOnboarded;
+  useEffect(() => {
+    if (step === -1) {
+      router.push(getRoute("Profile"));
+    }
+  }, [step, router]);
+  const routeLoading = !currentUser && !dataLoading;
   const MAX_STEPS = steps.length;
 
   function prevStep() {

@@ -221,7 +221,11 @@ export default function PortfolioSection({
               {selectedImage || selectedPortfolio ? (
                 <Input name="link" label="Custom link (optional)" />
               ) : (
-                <Input name="imageURL" label="Instagram post link" />
+                <Input
+                  disabled={creatingGIF}
+                  name="imageURL"
+                  label="Instagram post link"
+                />
               )}
               <Input name="caption" label="Caption" />
             </div>

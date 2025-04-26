@@ -73,7 +73,7 @@ export default async function ProfilePage({
     noCache ? 0 : 60 * 60 * 40,
     [`profile-${username}`],
   );
-  if (!user?.name || !user.instagramStats) return notFound();
+  if (!user?.name) return notFound();
   return (
     <div className="mx-auto max-w-2xl px-6 lg:grid lg:max-w-(--breakpoint-lg) lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
       <Suspense>
@@ -86,18 +86,18 @@ export default async function ProfilePage({
           mainEntity: {
             "@type": "Person",
             name: user.name,
-            alternateName: user.instagramStats.username,
-            identifier: user.instagramStats.username,
+            alternateName: username,
+            identifier: username,
             interactionStatistic: [
               {
                 "@type": "InteractionCounter",
                 interactionType: "https://schema.org/FollowAction",
-                userInteractionCount: user.instagramStats.followers,
+                userInteractionCount: user.instagramStats?.followers || 0,
               },
               {
                 "@type": "InteractionCounter",
                 interactionType: "https://schema.org/LikeAction",
-                userInteractionCount: user.instagramStats.averageLikes,
+                userInteractionCount: user.instagramStats?.averageLikes || 0,
               },
             ],
             description: user.bio,
@@ -105,7 +105,9 @@ export default async function ProfilePage({
             sameAs: [
               `${getRoute("Profile")}/${username}`,
               getMeURL(username),
-              `https://instagram.com/${user.instagramStats.username}`,
+              ...(user.instagramStats
+                ? [`https://instagram.com/${user.instagramStats.username}`]
+                : []),
             ],
           },
         }}
@@ -118,7 +120,7 @@ export default async function ProfilePage({
           </h2>
           <div className="flex grow items-center justify-between gap-2">
             <div className="flex items-center gap-3">
-              {user.instagramStats.isVerified ? (
+              {user.instagramStats?.isVerified ? (
                 <SealCheck
                   className={
                     user.role === Roles.Creator ? "text-primary" : "text-accent"
@@ -129,15 +131,17 @@ export default async function ProfilePage({
               ) : null}
             </div>
             <div className="flex items-center">
-              <a
-                href={`https://ig.me/m/${user.instagramStats.username}`}
-                rel="noopener"
-                target="_blank"
-              >
-                <IconButton>
-                  <InstagramLogo size={18} />
-                </IconButton>
-              </a>
+              {user.instagramStats && (
+                <a
+                  href={`https://ig.me/m/${user.instagramStats.username}`}
+                  rel="noopener"
+                  target="_blank"
+                >
+                  <IconButton>
+                    <InstagramLogo size={18} />
+                  </IconButton>
+                </a>
+              )}
               <CopyLinkButton url={getMeURL(username, true)} />
             </div>
           </div>
@@ -230,85 +234,87 @@ export default async function ProfilePage({
         <PortfolioLinks portfolio={user.portfolio} isAgency={!user} />
         <Portfolio portfolio={user.portfolio} />
 
-        <div className="mt-8">
-          <div className="flex justify-between">
-            <h2 className="text-sm font-medium text-gray-900">Instagram</h2>
-            <a
-              className="text-sm font-medium text-accent"
-              href={`https://instagram.com/${user.instagramStats.username}`}
-              rel="noopener"
-              target="_blank"
-            >
-              @{user.instagramStats.username}
-            </a>
-          </div>
-          <div className="mt-6 grid grid-cols-3 gap-3 ">
-            <div className="text-center ">
-              <div className=" text-xl font-medium text-gray-900 sm:text-3xl">
-                {convertToAbbreviation(user.instagramStats.followers)}
-              </div>
-              <span className="text-sm font-medium text-gray-900">
-                Followers
-              </span>
-            </div>
-            <div className="text-center ">
-              <div className=" text-xl font-medium text-gray-900 sm:text-3xl">
-                {convertToAbbreviation(user.instagramStats.mediaCount)}
-              </div>
-              <span className="text-sm font-medium text-gray-900">Posts</span>
-            </div>
-            <div className="text-center ">
-              <div className="text-xl font-medium text-gray-900 sm:text-3xl">
-                {getPostFrequency(user.instagramMedia)}
-              </div>
-              <span className="text-sm font-medium text-gray-900">
-                Frequency
-              </span>
-            </div>
-          </div>
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 ">
-            {user.instagramMedia?.map((media, i) => (
+        {user.instagramStats && (
+          <div className="mt-8">
+            <div className="flex justify-between">
+              <h2 className="text-sm font-medium text-gray-900">Instagram</h2>
               <a
-                className="relative"
-                href={media.link}
-                key={media.thumbnail}
+                className="text-sm font-medium text-accent"
+                href={`https://instagram.com/${user.instagramStats.username}`}
                 rel="noopener"
                 target="_blank"
               >
-                <Schema
-                  data={{
-                    "@context": "https://schema.org/",
-                    "@type": "ImageObject",
-                    contentUrl: media.thumbnail,
-                    creditText: user.name,
-                    creator: {
-                      "@type": "Person",
-                      name: user.name,
-                    },
-                    copyrightNotice: user.name,
-                  }}
-                  id={`post-image-${i}`}
-                />
-                <img
-                  alt={media.caption || `Post by ${user.name}`}
-                  className="size-full rounded-md object-cover"
-                  height={500}
-                  src={media.thumbnail}
-                  width={500}
-                />
-                <small className="absolute bottom-0  w-full truncate rounded-b-md bg-[rgba(0,0,0,0.15)] p-2 text-center text-[10px] italic text-white backdrop-blur-xs">
-                  {media.caption}
-                </small>
-                {media.er ? (
-                  <div className="absolute left-0 top-0 flex items-center gap-2 p-2 text-center text-[10px] font-semibold text-white backdrop-blur-xs">
-                    <TrendUp />
-                    {Math.max(media.er, 1.1)}%
-                  </div>
-                ) : null}
+                @{user.instagramStats.username}
               </a>
-            ))}
+            </div>
+            <div className="mt-6 grid grid-cols-3 gap-3 ">
+              <div className="text-center ">
+                <div className=" text-xl font-medium text-gray-900 sm:text-3xl">
+                  {convertToAbbreviation(user.instagramStats.followers)}
+                </div>
+                <span className="text-sm font-medium text-gray-900">
+                  Followers
+                </span>
+              </div>
+              <div className="text-center ">
+                <div className=" text-xl font-medium text-gray-900 sm:text-3xl">
+                  {convertToAbbreviation(user.instagramStats.mediaCount)}
+                </div>
+                <span className="text-sm font-medium text-gray-900">Posts</span>
+              </div>
+              <div className="text-center ">
+                <div className="text-xl font-medium text-gray-900 sm:text-3xl">
+                  {getPostFrequency(user.instagramMedia)}
+                </div>
+                <span className="text-sm font-medium text-gray-900">
+                  Frequency
+                </span>
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 ">
+              {user.instagramMedia?.map((media, i) => (
+                <a
+                  className="relative"
+                  href={media.link}
+                  key={media.thumbnail}
+                  rel="noopener"
+                  target="_blank"
+                >
+                  <Schema
+                    data={{
+                      "@context": "https://schema.org/",
+                      "@type": "ImageObject",
+                      contentUrl: media.thumbnail,
+                      creditText: user.name,
+                      creator: {
+                        "@type": "Person",
+                        name: user.name,
+                      },
+                      copyrightNotice: user.name,
+                    }}
+                    id={`post-image-${i}`}
+                  />
+                  <img
+                    alt={media.caption || `Post by ${user.name}`}
+                    className="size-full rounded-md object-cover"
+                    height={500}
+                    src={media.thumbnail}
+                    width={500}
+                  />
+                  <small className="absolute bottom-0  w-full truncate rounded-b-md bg-[rgba(0,0,0,0.15)] p-2 text-center text-[10px] italic text-white backdrop-blur-xs">
+                    {media.caption}
+                  </small>
+                  {media.er ? (
+                    <div className="absolute left-0 top-0 flex items-center gap-2 p-2 text-center text-[10px] font-semibold text-white backdrop-blur-xs">
+                      <TrendUp />
+                      {Math.max(media.er, 1.1)}%
+                    </div>
+                  ) : null}
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
