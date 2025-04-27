@@ -30,7 +30,6 @@ const documents = {
     "\n  #graphql\n  mutation SendVerificationEmail {\n    sendVerificationEmail\n  }\n": types.SendVerificationEmailDocument,
     "\n  #graphql\n  mutation ResetPassword($newPassword:String!, $token:String!) {\n    resetPassword(newPassword: $newPassword, token:$token)  \n  }\n": types.ResetPasswordDocument,
     "\n  #graphql\n  mutation AddPortfolio($portfolio:AddPortfolioArgs!) {\n    addPortfolio(data: $portfolio)  {\n      id\n      imageURL\n    }\n  }\n": types.AddPortfolioDocument,
-    "\n  #graphql\n  mutation AddPortfolioLink($portfolio:AddPortfolioLinkArgs!) {\n    addPortfolioLink(data: $portfolio)  \n  }\n": types.AddPortfolioLinkDocument,
     "\n  #graphql\n  mutation DeletePortfolio($id:Float!) {\n    deletePortfolio(id: $id)  \n  }\n": types.DeletePortfolioDocument,
     "\n  #graphql\n  mutation LikeApplication($id:Float!) {\n    likeApplication(id: $id)  \n  }\n": types.LikeApplicationDocument,
     "\n  #graphql\n  mutation RejectApplication($id:Float!) {\n    rejectApplication(id: $id)  \n  }\n": types.RejectApplicationDocument,
@@ -142,10 +141,6 @@ export function gql(source: "\n  #graphql\n  mutation ResetPassword($newPassword
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  #graphql\n  mutation AddPortfolio($portfolio:AddPortfolioArgs!) {\n    addPortfolio(data: $portfolio)  {\n      id\n      imageURL\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  mutation AddPortfolio($portfolio:AddPortfolioArgs!) {\n    addPortfolio(data: $portfolio)  {\n      id\n      imageURL\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  #graphql\n  mutation AddPortfolioLink($portfolio:AddPortfolioLinkArgs!) {\n    addPortfolioLink(data: $portfolio)  \n  }\n"): (typeof documents)["\n  #graphql\n  mutation AddPortfolioLink($portfolio:AddPortfolioLinkArgs!) {\n    addPortfolioLink(data: $portfolio)  \n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -19,9 +19,6 @@ export async function rejectApplication(ctx: AuthorizedContext, id: number) {
       ),
     );
   if (!res) throw GQLError(404, "User does not have permission");
-  if (res.application.status === ApplicationStatus.Completed) {
-    throw GQLError(404, "Application completed");
-  }
   if (res.application.status === ApplicationStatus.Rejected) return true;
   await db
     .update(ApplicationTable)

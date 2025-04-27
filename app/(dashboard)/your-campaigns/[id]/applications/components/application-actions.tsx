@@ -42,8 +42,8 @@ export default function ApplicationActions({
   const [sendReview, { loading }] = useAuthMutation(SEND_REVIEW_BY_AGENCY);
   const [rating, setRating] = useState(0);
   const [openRating, setOpenRating] = useState(false);
-  const completed = status === ApplicationStatus.Completed;
-  const isLiked = status === ApplicationStatus.Interested;
+  const completed = status === ApplicationStatus.Selected;
+  const isLiked = status === ApplicationStatus.Shortlisted;
   const isRejected = status === ApplicationStatus.Rejected;
   return (
     <div className="flex items-center gap-1" key={id}>

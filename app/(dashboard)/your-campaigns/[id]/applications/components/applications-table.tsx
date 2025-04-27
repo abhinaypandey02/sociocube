@@ -174,7 +174,7 @@ export default function ApplicationsTable({
   const handleLike = (id: number) => {
     setApplications((prev) =>
       prev.map((val) =>
-        val.id === id ? { ...val, status: ApplicationStatus.Interested } : val,
+        val.id === id ? { ...val, status: ApplicationStatus.Selected } : val,
       ),
     );
   };
@@ -182,7 +182,7 @@ export default function ApplicationsTable({
   const handleReview = (id: number) => {
     setApplications((prev) =>
       prev.map((val) =>
-        val.id === id ? { ...val, status: ApplicationStatus.Completed } : val,
+        val.id === id ? { ...val, status: ApplicationStatus.Selected } : val,
       ),
     );
   };

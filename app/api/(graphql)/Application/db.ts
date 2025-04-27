@@ -16,16 +16,16 @@ import { UserTable } from "../User/db";
 export enum ApplicationStatus {
   Applied = "APPLIED",
   Rejected = "REJECTED",
-  Interested = "INTERESTED",
-  Completed = "COMPLETED",
+  Shortlisted = "SHORTLISTED",
+  Selected = "SELECTED",
 }
 
 registerEnumType(ApplicationStatus, { name: "ApplicationStatus" });
 
 export const applicationStatusEnum = pgEnum("application_status_enum", [
   ApplicationStatus.Applied,
-  ApplicationStatus.Completed,
-  ApplicationStatus.Interested,
+  ApplicationStatus.Shortlisted,
+  ApplicationStatus.Selected,
   ApplicationStatus.Rejected,
 ]);
 

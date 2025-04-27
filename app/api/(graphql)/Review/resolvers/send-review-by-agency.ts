@@ -5,7 +5,7 @@ import { Min } from "class-validator";
 import { eq } from "drizzle-orm";
 import { Field, InputType } from "type-graphql";
 
-import { ApplicationStatus, ApplicationTable } from "../../Application/db";
+import { ApplicationTable } from "../../Application/db";
 import { checkPermission } from "../../Posting/utils";
 import { ReviewTable } from "../db";
 
@@ -38,11 +38,5 @@ export async function sendReviewByAgency(
     agency: ctx.userId,
     posting: application.posting,
   });
-  await db
-    .update(ApplicationTable)
-    .set({
-      status: ApplicationStatus.Completed,
-    })
-    .where(eq(ApplicationTable.id, args.application));
   return true;
 }

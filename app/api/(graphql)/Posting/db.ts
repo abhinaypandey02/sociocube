@@ -11,8 +11,8 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
-import { CountryTable } from "../Map/db";
-import { UserTable } from "../User/db";
+import { CityTable, CountryTable } from "../Map/db";
+import { gendersEnum, UserTable } from "../User/db";
 
 export const platforms = pgEnum("platform", [
   PostingPlatforms.INSTAGRAM,
@@ -40,6 +40,13 @@ export const PostingTable = pgTable(
     minimumFollowers: integer("minimum_followers").default(0),
     minimumAge: integer("minimum_age"),
     maximumAge: integer("maximum_age"),
+    countries: integer("countries")
+      .references(() => CountryTable.id)
+      .array(),
+    cities: integer("cities")
+      .references(() => CityTable.id)
+      .array(),
+    genders: gendersEnum("genders").array(),
     open: boolean("open").default(true).notNull(),
     inReview: boolean("in_review").default(true).notNull(),
     createdAt: timestamp("createdAt").defaultNow().notNull(),

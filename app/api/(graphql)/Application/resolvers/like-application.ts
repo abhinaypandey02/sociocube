@@ -19,17 +19,14 @@ export async function likeApplication(ctx: AuthorizedContext, id: number) {
       ),
     );
   if (!res) throw GQLError(404, "User does not have permission");
-  if (
-    res.application.status === ApplicationStatus.Completed ||
-    res.application.status === ApplicationStatus.Rejected
-  ) {
+  if (res.application.status === ApplicationStatus.Rejected) {
     throw GQLError(404, "Application completed");
   }
-  if (res.application.status === ApplicationStatus.Interested) return true;
+  if (res.application.status === ApplicationStatus.Selected) return true;
   await db
     .update(ApplicationTable)
     .set({
-      status: ApplicationStatus.Interested,
+      status: ApplicationStatus.Selected,
     })
     .where(eq(ApplicationTable.id, id));
   return true;

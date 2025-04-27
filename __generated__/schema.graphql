@@ -234,11 +234,6 @@ input AddPortfolioArgs {
   link: String
 }
 
-input AddPortfolioLinkArgs {
-  caption: String!
-  link: String!
-}
-
 type Application {
   comment: String
   createdAt: Float!
@@ -251,9 +246,9 @@ type Application {
 
 enum ApplicationStatus {
   Applied
-  Completed
-  Interested
   Rejected
+  Selected
+  Shortlisted
 }
 
 type CitySelectOption {
@@ -337,7 +332,6 @@ type Message {
 
 type Mutation {
   addPortfolio(data: AddPortfolioArgs!): Portfolio!
-  addPortfolioLink(data: AddPortfolioLinkArgs!): Boolean!
   applyToPosting(comment: String, postingID: Float!): Boolean!
   createPosting(newPosting: NewPostingInput!): Float
   deletePortfolio(id: Float!): Boolean!
