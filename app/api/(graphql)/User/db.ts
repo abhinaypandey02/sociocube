@@ -50,7 +50,6 @@ export const UserTable = pgTable(
     phone: text("phone"),
     photo: text("photo"),
     role: rolesEnum("role").default(Roles.Creator).notNull(),
-    stripeSubscriptionID: text("stripe_subscription_id"),
     location: integer("location").references(() => LocationTable.id),
     category: categoriesEnum("category"),
     dob: date("dob"),
@@ -69,10 +68,6 @@ export const UserTable = pgTable(
     userSearchUserNameIndex: index("user_search_username_index").using(
       "gin",
       sql`${table.username} gin_trgm_ops`,
-    ),
-    userSearchCategoryIndex: index("user_search_category_index").using(
-      "gin",
-      sql`immutable_categories(${table.category}) gin_trgm_ops`,
     ),
     categoryIdx: index("category_idx").on(table.category),
     genderIdx: index("gender_idx").on(table.gender),

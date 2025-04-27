@@ -146,8 +146,6 @@ export default async function ProfilePage({
               <div className="flex justify-between gap-x-2 max-sm:flex-wrap text-xl sm:text-2xl">
                 <h2 className="flex items-center gap-2 font-poppins font-medium text-gray-900">
                   {user.name}
-                </h2>
-                <div className="flex grow items-center justify-between">
                   {user.instagramStats?.isVerified ? (
                     <SealCheck
                       className={
@@ -158,8 +156,8 @@ export default async function ProfilePage({
                       weight="fill"
                     />
                   ) : null}
-                  <CopyLinkButton url={getMeURL(username, true)} />
-                </div>
+                </h2>
+                <CopyLinkButton url={getMeURL(username, true)} />
               </div>
             </div>
 

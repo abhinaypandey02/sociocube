@@ -122,6 +122,7 @@ export async function handleSearchSellers(
         )`);
     states = res.map(({ id }) => id);
   }
+  const filterHasValues = Object.values(filters).some((value) => value);
   const sqlQuery = db
     .select(getTableColumns(UserTable))
     .from(UserTable)
@@ -147,15 +148,15 @@ export async function handleSearchSellers(
         filters.followersTo
           ? lte(InstagramDetails.followers, filters.followersTo)
           : undefined,
-        filters.niche
-          ? sql`immutable_categories(${UserTable.category}) % ${filters.niche}`
+        filters.niche ? eq(UserTable.category, filters.niche) : undefined,
+        !filterHasValues
+          ? or(
+              sql`${UserTable.username} % ${query}`,
+              sql`${InstagramDetails.username} % ${query}`,
+              sql`${UserTable.name} % ${query}`,
+              sql`${UserTable.bio} % ${query}`,
+            )
           : undefined,
-        or(
-          sql`${UserTable.username} % ${query}`,
-          sql`${InstagramDetails.username} % ${query}`,
-          sql`${UserTable.name} % ${query}`,
-          sql`${UserTable.bio} % ${query}`,
-        ),
       ),
     )
     .orderBy(desc(InstagramDetails.followers))
@@ -202,7 +203,7 @@ export async function handleSearchSellers(
 
 const PROMPT = `Need to transform the given search query into the following JSON format
 export class SearchSellersFiltersInput {
-  niche?: string; // if the niche of the creator is specified in the query. (Ex- "Travel", "Beauty", "education", "Business")
+  niche?: string; // if the niche of the creator is specified in the query. (Ex- "Travel", "Fashion & Style", "Beauty & Makeup", "Lifestyle")
   cities?: string[]; // The names of the cities mentioned in the query if any. These should be full official names and NOT acronyms like NYC, LA
   states?: string[]; // The names of the states mentioned in the query if any. These should be full official names and NOT acronyms like NYC, LA
   countries?: string[]; // The ISO2 code of the country mentioned in the query if any.
@@ -219,5 +220,5 @@ export class SearchSellersFiltersInput {
 
   For age, followers, price ranges: If any details are provided about age group or follower range or price then add a relaxed range
 
-  If no details are provided about any field that return undefined. Don't try to make up any details.
+  If no details are provided about any field that return null. Don't try to make up any details.
 `;
