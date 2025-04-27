@@ -26,9 +26,9 @@ import { useToken } from "@/lib/auth-client";
 import { GET_USER_POSTINGS } from "@/lib/queries";
 import { convertToAbbreviation } from "@/lib/utils";
 
+import { renderRichText } from "../../campaigns/components/posting-card";
 import { WRAPPER_ID } from "../../campaigns/constants";
 import AccountCard from "../../profile/components/account-card";
-
 export default function PostingsTable({
   data,
   loading,
@@ -116,13 +116,15 @@ export default function PostingsTable({
             href={`${Route.YourCampaigns}/${posting.id}`}
           >
             <AccountCard>
-              <div className="flex justify-between items-center">
-                <h2>{posting.title}</h2>
-                <ArrowRight size={18} />
+              <div className="flex justify-between items-center gap-2">
+                <h2 className="flex items-center max-sm:justify-between gap-2 grow">
+                  {posting.title} <PostingStatus posting={posting} />
+                </h2>
+                <ArrowRight className="shrink-0" size={18} />
               </div>
               <div
                 className={
-                  "flex flex-wrap items-center gap-3 mt-3 sm:mt-4 text-sm sm:text-base"
+                  "flex flex-wrap text-gray-600 items-center gap-3 mt-2 text-xs sm:text-sm"
                 }
               >
                 <div>{getPlatforms(posting.platforms)}</div>
@@ -155,11 +157,48 @@ export default function PostingsTable({
                   </>
                 ) : null}
               </div>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: renderRichText(posting.description),
+                }}
+                className="text-sm mt-3 text-gray-500 line-clamp-2 sm:line-clamp-3"
+              />
+              <div className="flex gap-2 mt-4 items-center">
+                <div
+                  className={`flex items-center gap-1 rounded-md px-2 py-1 text-sm bg-orange-100 text-orange-800`}
+                >
+                  <strong>{posting.applicationsCount}</strong> Applications
+                </div>
+                <div
+                  className={`flex items-center gap-1 rounded-md px-2 py-1 text-sm bg-blue-100 text-blue-800`}
+                >
+                  <strong>{posting.applicationsCount}</strong> Shortlisted
+                </div>
+              </div>
             </AccountCard>
           </Link>
         );
       })}
       {loadingNextPostings ? <LoaderSkeleton className="mt-0" /> : null}
+    </div>
+  );
+}
+function PostingStatus({
+  posting,
+}: {
+  posting: GetUserPostingsQuery["postings"][number];
+}) {
+  return (
+    <div
+      className={`flex items-center gap-1 rounded-sm px-1.5 py-0.5 text-xs ${
+        posting.inReview
+          ? "bg-orange-200 text-orange-800"
+          : posting.open
+            ? "bg-green-200 text-green-800"
+            : "bg-red-200 text-red-800"
+      }`}
+    >
+      {posting.inReview ? "In Review" : posting.open ? "Open" : "Closed"}
     </div>
   );
 }

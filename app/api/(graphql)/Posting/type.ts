@@ -36,6 +36,8 @@ export class PostingGQL {
   updatedAt: Date;
   @Field({ nullable: true })
   hasApplied?: boolean;
+  @Field()
+  inReview: boolean;
   @Field(() => Eligibility, { nullable: true })
   eligibility?: Eligibility;
   @Field(() => Int, { nullable: true })

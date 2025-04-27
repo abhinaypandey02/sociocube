@@ -427,6 +427,7 @@ export const GET_USER_POSTINGS = gql(`
       updatedAt
       deliverables
       currencyCountry
+      inReview
     }
   }
 `);

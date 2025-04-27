@@ -393,6 +393,7 @@ type Posting {
   extraDetails: String
   hasApplied: Boolean
   id: Float!
+  inReview: Boolean!
   maximumAge: Int
   minimumAge: Int
   minimumFollowers: Int
