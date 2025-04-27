@@ -13,6 +13,7 @@ import { SEO } from "@/constants/seo";
 import { useSubPage } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
+import { WRAPPER_ID } from "../campaigns/constants";
 import { useUserNavItems } from "./useUserNavItems";
 
 const getActiveItem = (pathname: string) =>
@@ -75,7 +76,7 @@ export default function NavWrapper({ children }: PropsWithChildren) {
             </div>
           </div>
           <div
-            id="dashboard-wrapper-container"
+            id={WRAPPER_ID}
             className="min-h-0 w-full px-4 lg:px-8 overflow-auto snap-y snap-mandatory snap-always"
           >
             {children}

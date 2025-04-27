@@ -93,7 +93,7 @@ export default function CreateNewPostingForm({
   const isLoading = loadingCountries || creatingPost || updatingPost || loading;
   useEffect(() => {
     void fetchCountries();
-  }, [fetchCountries]);
+  }, []);
   useEffect(() => {
     if (data?.user?.locationID?.country && !form.getValues("currencyCountry")) {
       form.setValue("currencyCountry", data.user.locationID.country);

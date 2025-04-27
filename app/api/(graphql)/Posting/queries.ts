@@ -10,8 +10,11 @@ import { PostingGQL } from "./type";
 @Resolver()
 export class PostingQueryResolvers {
   @Query(() => [PostingGQL])
-  getUserPostings(@Ctx() ctx: Context): Promise<PostingGQL[]> {
-    return getUserPostings(ctx);
+  getUserPostings(
+    @Ctx() ctx: Context,
+    @Arg("page", { nullable: true }) page: number,
+  ): Promise<PostingGQL[]> {
+    return getUserPostings(ctx, page ?? 1);
   }
   @Query(() => [PostingGQL])
   getAllPostings(

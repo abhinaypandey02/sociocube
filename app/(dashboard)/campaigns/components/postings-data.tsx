@@ -7,6 +7,7 @@ import LoaderSkeleton from "@/components/loader-skeleton";
 import { useAuthQuery } from "@/lib/apollo-client";
 import { GET_ALL_POSTINGS } from "@/lib/queries";
 
+import { WRAPPER_ID } from "../constants";
 import PostingCard from "./posting-card";
 
 export default function PostingsData({
@@ -34,7 +35,7 @@ export default function PostingsData({
     }
   };
   const gotoNext = () => {
-    const wrapper = document.getElementById("dashboard-wrapper-container");
+    const wrapper = document.getElementById(WRAPPER_ID);
     if (wrapper) {
       wrapper.scrollBy({
         top: wrapper.clientHeight,

@@ -14,3 +14,5 @@ export const POSTING_PLATFORMS = [
     icon: YoutubeLogo,
   },
 ];
+
+export const WRAPPER_ID = "dashboard-wrapper-container";

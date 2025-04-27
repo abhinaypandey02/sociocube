@@ -7,7 +7,7 @@ import {
   Wallet,
 } from "@phosphor-icons/react";
 import Link from "next/link";
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import type { GetUserPostingsQuery } from "@/__generated__/graphql";
 import {
@@ -21,9 +21,12 @@ import { Variants } from "@/components/constants";
 import LinkWrapper from "@/components/link-wrapper";
 import LoaderSkeleton from "@/components/loader-skeleton";
 import { getRoute, Route } from "@/constants/routes";
+import { useAuthQuery } from "@/lib/apollo-client";
 import { useToken } from "@/lib/auth-client";
+import { GET_USER_POSTINGS } from "@/lib/queries";
 import { convertToAbbreviation } from "@/lib/utils";
 
+import { WRAPPER_ID } from "../../campaigns/constants";
 import AccountCard from "../../profile/components/account-card";
 
 export default function PostingsTable({
@@ -35,7 +38,47 @@ export default function PostingsTable({
 }) {
   const setSubPage = useSetSubPage();
   const token = useToken();
-  const postings = data?.postings;
+  const [page, setPage] = useState(1);
+  const ref = useRef<HTMLDivElement>(null);
+  const [, { data: nextPostings, loading: loadingNextPostings }] = useAuthQuery(
+    GET_USER_POSTINGS,
+    {
+      page: page + 1,
+    },
+  );
+  const [postings, setPostings] = useState(data?.postings);
+  const handleNextPage = useCallback(() => {
+    setPostings((prevPostings) => [
+      ...(prevPostings || []),
+      ...(nextPostings?.postings || []),
+    ]);
+    setPage((prevPage) => prevPage + 1);
+  }, [nextPostings?.postings]);
+
+  useEffect(() => {
+    const WrapperElement = document.getElementById(WRAPPER_ID);
+    if (WrapperElement) {
+      const scrollHandler = (event: Event) => {
+        const target = event.target as Element;
+        if (!target) return;
+        const { scrollHeight, scrollTop, clientHeight } = target;
+
+        if (
+          Math.abs(scrollHeight - clientHeight - scrollTop) < 1 &&
+          !loadingNextPostings
+        ) {
+          handleNextPage();
+        }
+      };
+
+      WrapperElement.addEventListener("scroll", scrollHandler);
+
+      return () => {
+        WrapperElement.removeEventListener("scroll", scrollHandler);
+      };
+    }
+  }, [handleNextPage, loadingNextPostings]);
+
   if (loading) return <LoaderSkeleton />;
   if (!postings || postings.length === 0)
     return (
@@ -57,8 +100,9 @@ export default function PostingsTable({
         Icon={SmileyXEyes}
       />
     );
+
   return (
-    <div className="space-y-4">
+    <div ref={ref} className="space-y-4">
       {postings.map((posting) => {
         const price = getCurrency(
           posting.barter,
@@ -115,6 +159,7 @@ export default function PostingsTable({
           </Link>
         );
       })}
+      {loadingNextPostings ? <LoaderSkeleton className="mt-0" /> : null}
     </div>
   );
 }

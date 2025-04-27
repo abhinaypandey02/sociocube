@@ -436,7 +436,7 @@ type Query {
   getPostingApplications(postingID: Int!): [Application!]!
   getSeller(username: String!): User
   getUserApplications: [Application!]!
-  getUserPostings: [Posting!]!
+  getUserPostings(page: Float): [Posting!]!
   isUsernameAvailable(username: String!): Boolean!
   searchSellers(filters: SearchSellersFilters!): [User!]
   verifyEmail(token: String!): Boolean!

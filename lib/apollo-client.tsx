@@ -14,7 +14,7 @@ import {
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import type { GraphQLError } from "graphql/error";
 import type { PropsWithChildren } from "react";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 import { useToken } from "./auth-client";
@@ -51,15 +51,17 @@ export function useAuthQuery<T, V extends OperationVariables>(
   variables?: V,
 ) {
   const token = useToken();
-  const [fetch, { ...result }] = useLazyQuery(query);
+  const [fetch, result] = useLazyQuery(query);
+  const [calledVars, setCalledVars] = useState<string | undefined>();
   useEffect(() => {
-    if (token && variables) {
+    if (token && variables && calledVars !== JSON.stringify(variables)) {
+      setCalledVars(JSON.stringify(variables));
       void fetch({
         variables,
         context: tokenContext(token),
       });
     }
-  }, [fetch, token, variables]);
+  }, [fetch, token, variables, calledVars]);
   const reFetch = useCallback(
     (v?: V) =>
       fetch({
@@ -82,7 +84,7 @@ export function useAuthMutation<T, V extends OperationVariables>(
         variables,
         context: tokenContext(token),
       }),
-    [mutate, token],
+    [token],
   );
   return [method, result] as const;
 }

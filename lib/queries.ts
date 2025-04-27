@@ -407,13 +407,8 @@ export const GET_ALL_POSTINGS = gql(`
 
 export const GET_USER_POSTINGS = gql(`
   #graphql
-  query GetUserPostings {
-    user: getCurrentUser {
-      instagramStats {
-        isVerified
-      }
-    }
-    postings:getUserPostings {
+  query GetUserPostings($page: Float) {
+    postings:getUserPostings(page: $page) {
       id
       maximumAge
       referralEarnings

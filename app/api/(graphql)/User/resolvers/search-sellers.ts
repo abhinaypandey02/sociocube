@@ -31,10 +31,7 @@ export class SearchSellersFiltersInput {
 }
 
 interface TransformedSearchResponse {
-  username?: string;
-  name?: string;
   niche?: string;
-  description?: string;
   cities?: string[];
   states?: string[];
   countries?: string[];
@@ -150,16 +147,15 @@ export async function handleSearchSellers(
         filters.followersTo
           ? lte(InstagramDetails.followers, filters.followersTo)
           : undefined,
-        filters.username
-          ? or(
-              sql`${UserTable.username} % ${filters.username}`,
-              sql`${InstagramDetails.username} % ${filters.username}`,
-            )
-          : undefined,
-        filters.name ? sql`${UserTable.name} % ${filters.name}` : undefined,
         filters.niche
           ? sql`immutable_categories(${UserTable.category}) % ${filters.niche}`
           : undefined,
+        or(
+          sql`${UserTable.username} % ${query}`,
+          sql`${InstagramDetails.username} % ${query}`,
+          sql`${UserTable.name} % ${query}`,
+          sql`${UserTable.bio} % ${query}`,
+        ),
       ),
     )
     .orderBy(desc(InstagramDetails.followers))
@@ -206,10 +202,7 @@ export async function handleSearchSellers(
 
 const PROMPT = `Need to transform the given search query into the following JSON format
 export class SearchSellersFiltersInput {
-  username?: string; // If any username is specified in the query
-  name?: string; // if the human name of the creator is specified in the query. Must be a real human name
   niche?: string; // if the niche of the creator is specified in the query. (Ex- "Travel", "Beauty", "education", "Business")
-  description?: string; // Descriptive keywords like "creators", "influencer" etc used in the query.
   cities?: string[]; // The names of the cities mentioned in the query if any. These should be full official names and NOT acronyms like NYC, LA
   states?: string[]; // The names of the states mentioned in the query if any. These should be full official names and NOT acronyms like NYC, LA
   countries?: string[]; // The ISO2 code of the country mentioned in the query if any.
@@ -225,4 +218,6 @@ export class SearchSellersFiltersInput {
   niche can be one of ${categories.map(({ title }) => title).join(",")}
 
   For age, followers, price ranges: If any details are provided about age group or follower range or price then add a relaxed range
+
+  If no details are provided about any field that return undefined. Don't try to make up any details.
 `;
