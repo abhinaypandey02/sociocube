@@ -11,6 +11,7 @@ export default function PortfolioLinks({
   portfolio: NonNullable<NonNullable<GetSellerQuery["getSeller"]>>["portfolio"];
   isAgency: boolean;
 }) {
+  if (portfolio.length === 0) return null;
   return (
     <div className="mt-8">
       <div className="flex items-center justify-between">

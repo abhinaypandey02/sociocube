@@ -11,7 +11,6 @@ import React, { Suspense } from "react";
 
 import { Roles } from "@/__generated__/graphql";
 import Schema from "@/app/(public)/components/schema";
-import { IconButton } from "@/components/icon-button";
 import { getMeURL, getRoute, Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
 import { queryGQL } from "@/lib/apollo-server";
@@ -75,7 +74,7 @@ export default async function ProfilePage({
   );
   if (!user?.name) return notFound();
   return (
-    <div className="mx-auto max-w-2xl px-6 lg:grid lg:max-w-(--breakpoint-lg) lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
+    <div className="mx-auto max-w-2xl px-6 lg:grid lg:max-w-(--breakpoint-xl) lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
       <Suspense>
         <OnboardingCompletedModal url={getMeURL(username, true)} />
       </Suspense>
@@ -113,80 +112,70 @@ export default async function ProfilePage({
         }}
         id="main-profile"
       />
-      <div className="lg:col-span-8 ">
-        <div className="flex justify-between gap-2 max-sm:flex-wrap">
-          <h2 className="flex items-center gap-2 font-poppins text-xl font-semibold text-gray-900 sm:text-2xl">
-            {user.name}
-          </h2>
-          <div className="flex grow items-center justify-between gap-2">
-            <div className="flex items-center gap-3">
-              {user.instagramStats?.isVerified ? (
-                <SealCheck
-                  className={
-                    user.role === Roles.Creator ? "text-primary" : "text-accent"
-                  }
-                  size={23}
-                  weight="fill"
-                />
-              ) : null}
-            </div>
-            <div className="flex items-center">
-              {user.instagramStats && (
-                <a
-                  href={`https://ig.me/m/${user.instagramStats.username}`}
-                  rel="noopener"
-                  target="_blank"
-                >
-                  <IconButton>
-                    <InstagramLogo size={18} />
-                  </IconButton>
-                </a>
-              )}
-              <CopyLinkButton url={getMeURL(username, true)} />
-            </div>
-          </div>
-        </div>
-        {user.pricing?.starting ? (
-          <p className="mb-3 mt-1 text-gray-900">
-            <span className="mr-1 text-sm font-light italic">from</span>{" "}
-            <span className=" ">
-              {user.location?.currency}
-              {user.pricing.starting}
-            </span>
-          </p>
-        ) : null}
-
-        {/* Reviews */}
-      </div>
       {/* Image gallery */}
-      <div className="mt-8 lg:col-span-4 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
+      <div className="lg:col-span-4 lg:col-start-1 lg:row-span-3 lg:row-start-1 mb-6">
         <h2 className="sr-only">Image</h2>
+        <div className="flex flex-col gap-3 max-sm:flex-col-reverse">
+          {user.photo ? (
+            <>
+              <Schema
+                data={{
+                  "@context": "https://schema.org/",
+                  "@type": "ImageObject",
+                  contentUrl: user.photo,
+                  creditText: user.name,
+                  creator: {
+                    "@type": "Person",
+                    name: user.name,
+                  },
+                  copyrightNotice: user.name,
+                }}
+                id="profile-image"
+              />
+              <Image
+                alt={user.name}
+                className="w-full rounded-lg lg:col-span-2 lg:row-span-2"
+                height={1080}
+                src={user.photo}
+                width={720}
+              />
+            </>
+          ) : null}
+          <div>
+            <div className="lg:col-span-8">
+              <div className="flex justify-between gap-x-2 max-sm:flex-wrap text-xl sm:text-2xl">
+                <h2 className="flex items-center gap-2 font-poppins font-medium text-gray-900">
+                  {user.name}
+                </h2>
+                <div className="flex grow items-center justify-between">
+                  {user.instagramStats?.isVerified ? (
+                    <SealCheck
+                      className={
+                        user.role === Roles.Creator
+                          ? "text-primary"
+                          : "text-accent"
+                      }
+                      weight="fill"
+                    />
+                  ) : null}
+                  <CopyLinkButton url={getMeURL(username, true)} />
+                </div>
+              </div>
+            </div>
 
-        {user.photo ? (
-          <>
-            <Schema
-              data={{
-                "@context": "https://schema.org/",
-                "@type": "ImageObject",
-                contentUrl: user.photo,
-                creditText: user.name,
-                creator: {
-                  "@type": "Person",
-                  name: user.name,
-                },
-                copyrightNotice: user.name,
-              }}
-              id="profile-image"
-            />
-            <Image
-              alt={user.name}
-              className="w-full rounded-lg lg:col-span-2 lg:row-span-2"
-              height={1080}
-              src={user.photo}
-              width={720}
-            />
-          </>
-        ) : null}
+            {user.pricing?.starting ? (
+              <p className="mt-1 text-gray-900">
+                <span className="mr-1 text-sm font-light italic">from</span>{" "}
+                <span className=" ">
+                  {user.location?.currency}
+                  {user.pricing.starting}
+                </span>
+              </p>
+            ) : null}
+          </div>
+
+          {/* Reviews */}
+        </div>
         {user.reviews.length > 0 && (
           <div className="mt-7">
             <h2 className="text-sm font-medium text-gray-900">Reviews</h2>
@@ -200,8 +189,7 @@ export default async function ProfilePage({
         )}
       </div>
 
-      <div className="mt-6 lg:col-span-8">
-        {/* Product details */}
+      <div className="lg:col-span-8">
         <div className="">
           <h2 className="text-sm font-medium text-gray-900">About</h2>
 
@@ -239,17 +227,18 @@ export default async function ProfilePage({
             <div className="flex justify-between">
               <h2 className="text-sm font-medium text-gray-900">Instagram</h2>
               <a
-                className="text-sm font-medium text-accent"
+                className="text-sm flex items-center gap-1 font-medium text-accent"
                 href={`https://instagram.com/${user.instagramStats.username}`}
                 rel="noopener"
                 target="_blank"
               >
-                @{user.instagramStats.username}
+                <InstagramLogo weight="bold" />
+                {user.instagramStats.username}
               </a>
             </div>
             <div className="mt-6 grid grid-cols-3 gap-3 ">
               <div className="text-center ">
-                <div className=" text-xl font-medium text-gray-900 sm:text-3xl">
+                <div className=" text-xl font-medium text-gray-900 sm:text-2xl">
                   {convertToAbbreviation(user.instagramStats.followers)}
                 </div>
                 <span className="text-sm font-medium text-gray-900">
@@ -257,13 +246,13 @@ export default async function ProfilePage({
                 </span>
               </div>
               <div className="text-center ">
-                <div className=" text-xl font-medium text-gray-900 sm:text-3xl">
+                <div className=" text-xl font-medium text-gray-900 sm:text-2xl">
                   {convertToAbbreviation(user.instagramStats.mediaCount)}
                 </div>
                 <span className="text-sm font-medium text-gray-900">Posts</span>
               </div>
               <div className="text-center ">
-                <div className="text-xl font-medium text-gray-900 sm:text-3xl">
+                <div className="text-xl font-medium text-gray-900 sm:text-2xl">
                   {getPostFrequency(user.instagramMedia)}
                 </div>
                 <span className="text-sm font-medium text-gray-900">

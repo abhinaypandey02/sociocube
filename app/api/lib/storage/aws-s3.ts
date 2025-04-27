@@ -6,6 +6,7 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { waitUntil } from "@vercel/functions";
 
 const BUCKET_NAME = process.env.SITE_AWS_BUCKET || "";
 const REGION_NAME = process.env.SITE_AWS_REGION || "";
@@ -38,16 +39,11 @@ export function getFileURL(keys: string | string[]) {
 
 export async function uploadImage(url: string, key: string[], blob?: Blob) {
   const photoBlob = blob || (await fetch(url).then((file) => file.blob()));
-  const uploadURL = await getUploadFileURL(key, true);
-  try {
-    const res = await fetch(uploadURL, {
-      method: "PUT",
-      body: photoBlob,
-    });
-    if (res.ok) return getFileURL(key);
-  } catch {
-    return null;
+  if (photoBlob) {
+    waitUntil(uploadFile(photoBlob, getHash(key)));
+    return getFileURL(key);
   }
+  return null;
 }
 
 export async function deleteImage(url: string) {
@@ -68,7 +64,7 @@ export async function deleteImage(url: string) {
   return false;
 }
 
-export async function uploadFile(file: File, key: string) {
+export async function uploadFile(file: File | Blob, key: string) {
   const fileBuffer = await file.arrayBuffer();
   return client.send(
     new PutObjectCommand({

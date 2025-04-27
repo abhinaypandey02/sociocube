@@ -1,39 +1,18 @@
-import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
+import { Resend } from "resend";
 
-const REGION_NAME = process.env.SITE_AWS_REGION || "";
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-const client = new SESClient({
-  region: REGION_NAME,
-  credentials: {
-    accessKeyId: process.env.SITE_AWS_ACCESS_KEY_ID || "",
-    secretAccessKey: process.env.SITE_AWS_SECRET_ACCESS_KEY || "",
-  },
-});
 export async function sendEmail(
   emails: string[],
   subject: string,
   bodyText: string,
   bodyHTML?: string,
 ) {
-  return client.send(
-    new SendEmailCommand({
-      Message: {
-        Body: {
-          Text: {
-            Data: bodyText,
-          },
-          Html: {
-            Data: bodyHTML,
-          },
-        },
-        Subject: {
-          Data: subject,
-        },
-      },
-      Destination: {
-        ToAddresses: emails,
-      },
-      Source: "info@mail.sociocube.com",
-    }),
-  );
+  return resend.emails.send({
+    from: "info@mail.sociocube.com",
+    to: emails,
+    subject,
+    text: bodyText,
+    html: bodyHTML,
+  });
 }
