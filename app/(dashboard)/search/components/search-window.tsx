@@ -31,11 +31,15 @@ export default function SearchWindow({
   };
 }) {
   const token = useToken();
-  const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(true);
   const [variables, setVariables] = useState<SearchSellersFilters>(
     data?.filters || {},
   );
+
+  const searchURL = `${getRoute("Search")}${
+    variables?.query ? `?query=${variables.query}` : ""
+  }`;
 
   useEffect(() => {
     if (data) {
@@ -44,42 +48,40 @@ export default function SearchWindow({
     }
   }, [data]);
 
-  function handleUpdateParams(vars: SearchSellersFilters) {
-    setLoading(true);
-    const params = new URLSearchParams(vars as Record<string, string>);
-    router.push(`${getRoute("Search")}?${params.toString()}`);
-  }
-
-  function startSearch() {
-    handleUpdateParams(variables);
-  }
-
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    startSearch();
+    setLoading(true);
+    router.push(searchURL);
   }
 
   return (
     <>
       <form className="" onSubmit={handleSubmit}>
-        <div className="flex flex-wrap items-baseline justify-between gap-5 border-b border-gray-200 pb-6 pt-4">
-          <div className="flex items-stretch w-full gap-2">
-            <Input
-              className="grow"
-              name="query"
-              onChange={(e) => {
-                setVariables((prev) => ({ ...prev, query: e.target.value }));
-              }}
-              placeholder="Describe your requirements to the AI"
-              value={variables.query || ""}
-            />
-            <LinkWrapper href={token ? undefined : getRoute("SignUp")}>
-              <Button className="shrink-0 gap-1" type="submit">
-                <span className="max-sm:hidden">AI Search</span>
-                <MagicWand className="shrink-0" />
-              </Button>
-            </LinkWrapper>
-          </div>
+        <div className="flex items-stretch justify-between gap-2 border-b border-gray-200 pb-6 pt-4">
+          <Input
+            disabled={loading}
+            className="grow"
+            name="query"
+            onChange={(e) => {
+              setVariables((prev) => ({ ...prev, query: e.target.value }));
+            }}
+            placeholder="Describe your requirements to the AI"
+            value={variables.query || ""}
+          />
+          <LinkWrapper
+            className="shrink-0 flex"
+            href={token ? searchURL : getRoute("SignUp")}
+          >
+            <Button
+              onClick={() => setLoading(true)}
+              loading={loading}
+              className="shrink-0 gap-1"
+              type="submit"
+            >
+              <span className="max-sm:hidden">AI Search</span>
+              <MagicWand className="shrink-0" />
+            </Button>
+          </LinkWrapper>
         </div>
 
         <section className="pt-6 pb-16 lg:col-span-3">

@@ -41,7 +41,7 @@ export default function NavWrapper({ children }: PropsWithChildren) {
         )}
       >
         <SideNav activeItem={activeItem} setActiveItem={setActiveItem} />
-        <div className={cn("relative w-full grow flex flex-col")}>
+        <div className={cn("relative w-full grow flex flex-col min-w-0")}>
           <TopNav
             subLinks={subPages}
             title={activeItem?.heading || SEO.companyName}
