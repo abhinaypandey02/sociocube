@@ -10,7 +10,7 @@ const NAVBAR_COMMON_SECTIONS = [
 ];
 export const NAVBAR_COMMON_ROUTES = [
   { label: "Home", href: getRoute("Home") },
-  { label: "Search", href: getRoute("Search") },
+  { label: "AI Search", href: getRoute("Search") },
   { label: "Campaigns", href: getRoute("Campaigns") },
   ...NAVBAR_COMMON_SECTIONS,
 ];
@@ -61,7 +61,7 @@ export const getOnboardedUserNavbarSections = (
     { label: "Home", href: getRoute("Home") },
     ...(user.role === "Creator"
       ? []
-      : [{ label: "Search", href: getRoute("Search") }]),
+      : [{ label: "AI Search", href: getRoute("Search") }]),
     {
       label: "Campaigns",
       href: getRoute(user.role === "Creator" ? "Campaigns" : "YourCampaigns"),
