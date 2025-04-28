@@ -170,7 +170,6 @@ export async function handleSearchSellers(
           ? inArray(LocationTable.country, countries)
           : undefined,
         cities.length ? inArray(LocationTable.city, cities) : undefined,
-        states.length ? inArray(LocationTable.country, countries) : undefined,
       ),
     );
     if (states.length) {
@@ -204,7 +203,7 @@ export async function handleSearchSellers(
 const PROMPT = `Need to transform the given search query into the following JSON format
 export class SearchSellersFiltersInput {
   niche?: string; // if the niche of the creator is specified in the query. (Ex- "Travel", "Fashion & Style", "Beauty & Makeup", "Lifestyle")
-  cities?: string[]; // The names of the cities mentioned in the query if any. These should be full official names and NOT acronyms like NYC, LA
+  cities?: string[]; // The names of the cities mentioned in the query if any. These should be full official names and NOT acronyms like NYC should be New York City, LA should be Los Angeles
   states?: string[]; // The names of the states mentioned in the query if any. These should be full official names and NOT acronyms like NYC, LA
   countries?: string[]; // The ISO2 code of the country mentioned in the query if any.
   gender?: string; // Only if provided. One of "Male" or "Female" 
@@ -219,6 +218,7 @@ export class SearchSellersFiltersInput {
   niche can be one of ${categories.map(({ title }) => title).join(",")}
 
   For age, followers, price ranges: If any details are provided about age group or follower range or price then add a relaxed range
-
+  For location only put the narrowest location possible. If the city is provided then dont put its state or country. If a state is provided then dont put its country. For example if the query is "I want to find creators in New York" then the location should be New York City and state should be empty. If the query is "I want to find creators in New York State" then the location should be empty and state should be New York.
+  
   If no details are provided about any field that return null. Don't try to make up any details.
 `;
