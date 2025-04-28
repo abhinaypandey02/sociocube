@@ -46,6 +46,14 @@ export class NewPostingInput {
   minimumFollowers: number;
   @Field(() => Int, { nullable: true })
   currencyCountry: number | null;
+  @Field(() => [Int], { nullable: true })
+  countries?: number[] | null;
+  @Field(() => [Int], { nullable: true })
+  cities?: number[] | null;
+  @Field(() => [Int], { nullable: true })
+  states?: number[] | null;
+  @Field(() => String, { nullable: true })
+  gender?: string | null;
 }
 
 const MAXIMUM_POSTINGS_DAY = 1;

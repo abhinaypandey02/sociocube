@@ -1,13 +1,10 @@
-import type { AuthorizedContext } from "@backend/lib/auth/context";
+import type { Context } from "@backend/lib/auth/context";
 import { db } from "@backend/lib/db";
 import { and, eq } from "drizzle-orm";
 
 import { ApplicationTable } from "../db";
 
-export async function getHasUserApplied(
-  ctx: AuthorizedContext,
-  postingID: number,
-) {
+export async function getHasUserApplied(ctx: Context, postingID: number) {
   if (!ctx.userId) return false;
   const data = await db
     .select()

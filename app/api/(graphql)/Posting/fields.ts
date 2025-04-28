@@ -10,6 +10,10 @@ import type { UserDB } from "../User/db";
 import { UserTable } from "../User/db";
 import { UserGQL } from "../User/type";
 import type { PostingDB } from "./db";
+import {
+  getRecommendations,
+  Recommendation,
+} from "./resolvers/get-recommendations";
 import { PostingGQL } from "./type";
 
 @Resolver(() => PostingGQL)
@@ -50,6 +54,11 @@ export class PostingFieldResolvers {
       .from(ApplicationTable)
       .where(eq(ApplicationTable.posting, posting.id));
     return applications?.count || 0;
+  }
+
+  @FieldResolver(() => [Recommendation])
+  async recommendations(@Root() posting: PostingDB) {
+    return getRecommendations(posting);
   }
 
   @FieldResolver(() => [ReviewGQL])

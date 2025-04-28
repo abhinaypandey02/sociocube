@@ -27,6 +27,7 @@ export const POST = async (req: NextRequest) => {
         {
           ...posting,
           currencyCountry: 101,
+          countries: [101],
           deliverables:
             posting.deliverables.trim() !== ""
               ? posting.deliverables.trim().split(",")

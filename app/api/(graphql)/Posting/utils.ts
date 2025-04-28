@@ -2,7 +2,7 @@ import GQLError from "@backend/lib/constants/errors";
 import { and, eq } from "drizzle-orm";
 import type { PostgresError } from "postgres";
 
-import type { AuthorizedContext } from "../../lib/auth/context";
+import type { Context } from "../../lib/auth/context";
 import { db } from "../../lib/db";
 import { PostingTable } from "./db";
 
@@ -22,16 +22,14 @@ export function handleDuplicateLinkError(e: PostgresError) {
   }
 }
 
-export async function checkPermission(
-  ctx: AuthorizedContext,
-  postingID: number,
-) {
+export async function checkPermission(ctx: Context, postingID: number) {
+  if (!ctx.userId) return false;
   const [posting] = await db
     .select()
     .from(PostingTable)
     .where(
       and(eq(PostingTable.id, postingID), eq(PostingTable.agency, ctx.userId)),
     );
-  if (!posting) throw GQLError(400, "You dont have permission for this agency");
+  if (!posting) return false;
   return true;
 }

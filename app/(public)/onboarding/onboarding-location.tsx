@@ -7,13 +7,14 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
 import { Input } from "@/components/input";
+import countries from "@/constants/countries";
 import {
   handleGQLErrors,
   useAuthMutation,
   useAuthQuery,
 } from "@/lib/apollo-client";
 import { UPDATE_USER_LOCATION } from "@/lib/mutations";
-import { GET_CITIES, GET_COUNTRIES } from "@/lib/queries";
+import { GET_CITIES } from "@/lib/queries";
 
 interface FormFields {
   country?: number | null;
@@ -35,8 +36,6 @@ export default function OnboardingLocationForm({
   const form = useForm({ defaultValues });
   const [updateBasicDetails, { loading }] =
     useAuthMutation(UPDATE_USER_LOCATION);
-  const [fetchCountries, { data: countriesData, loading: loadingCountries }] =
-    useAuthQuery(GET_COUNTRIES);
   const [fetchCities, { data: citiesData, loading: loadingCities }] =
     useAuthQuery(GET_CITIES);
   const [countryCode, setCountryCode] = useState<string>();
@@ -55,8 +54,8 @@ export default function OnboardingLocationForm({
   }, []);
 
   useEffect(() => {
-    if (!form.getValues("country") && countryCode && countriesData) {
-      const selectedCountry = countriesData.countries.find(
+    if (!form.getValues("country") && countryCode) {
+      const selectedCountry = countries.find(
         (country) => country.countryCode === countryCode,
       );
       if (selectedCountry) {
@@ -64,7 +63,7 @@ export default function OnboardingLocationForm({
         setCurrency(selectedCountry.currency);
       }
     }
-  }, [countryCode, countriesData]);
+  }, [countryCode]);
 
   useEffect(() => {
     if (!form.getValues("city") && cityName && citiesData) {
@@ -76,13 +75,12 @@ export default function OnboardingLocationForm({
   }, [cityName, citiesData]);
 
   useEffect(() => {
-    void fetchCountries();
     const countryID = form.getValues("country");
     if (countryID)
       void fetchCities({
         countryID,
       });
-  }, [fetchCountries, fetchCities]);
+  }, [fetchCities]);
 
   useEffect(() => {
     const sub = form.watch((value, { name }) => {
@@ -90,16 +88,12 @@ export default function OnboardingLocationForm({
         void fetchCities({
           countryID: value[name],
         });
-        setCurrency(
-          countriesData?.countries.find((c) => c.value === value[name])
-            ?.currency,
-        );
+        setCurrency(countries.find((c) => c.value === value[name])?.currency);
       }
     });
     return sub.unsubscribe;
   }, [form.watch, fetchCities, form]);
 
-  const countries = countriesData?.countries;
   const cities = citiesData?.cities;
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     if (data.city && data.country) {
@@ -141,7 +135,7 @@ export default function OnboardingLocationForm({
       <Button
         className="ml-auto"
         disabled={!form.watch("city")}
-        loading={loading || loadingCountries || loadingCities}
+        loading={loading || loadingCities}
         type="submit"
       >
         Next

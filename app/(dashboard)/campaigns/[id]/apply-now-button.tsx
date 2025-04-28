@@ -24,6 +24,9 @@ const BUTTON_MESSAGE = {
   [Eligibility.Closed]: "Campaign over",
   [Eligibility.LessFollowers]: "Not enough followers",
   [Eligibility.NotOnboarded]: "Onboard to apply",
+  [Eligibility.NotCreator]: "Not a creator",
+  [Eligibility.GenderMismatch]: "Not for your gender",
+  [Eligibility.LocationMismatch]: "Not for your location",
 };
 
 interface FormType {

@@ -46,7 +46,6 @@ const documents = {
     "\n  #graphql\n  query GetAccountPortfolioDetails {\n    user: getCurrentUser {\n      portfolio {\n          caption\n          id\n          link\n          imageURL\n        }\n    }\n  }\n": types.GetAccountPortfolioDetailsDocument,
     "\n  #graphql\n  query GetAccountSocialDetails {\n    user: getCurrentUser {\n      instagramStats {\n        username\n        isVerified\n        followers\n        mediaCount\n        er\n        averageLikes\n        averageComments\n      }\n    }\n  }\n": types.GetAccountSocialDetailsDocument,
     "\n  #graphql\n  query GetAccountProfileDetails {\n    user: getCurrentUser {\n      name\n      email\n      emailVerified\n      bio\n      photo\n      phone\n      category\n      gender\n      role\n      dob\n      username\n      locationID {\n        city\n        country\n      }\n      location {\n        city\n        country\n      }\n    }\n  }\n": types.GetAccountProfileDetailsDocument,
-    "\n  #graphql\n  query GetCountries {\n    countries: getCountries {\n      value\n      label\n      countryCode\n      currency\n    }\n  }\n": types.GetCountriesDocument,
     "\n  #graphql\n  query GetCities($countryID: Int!) {\n    cities: getCities(countryID: $countryID) {\n      value\n      label\n    }\n  }\n": types.GetCitiesDocument,
     "\n  #graphql\n  query SearchSellers($filters: SearchSellersFilters!) {\n    sellers: searchSellers(filters: $filters) {\n      name\n      username\n      photo\n      bio\n      category\n      gender\n      instagramStats {\n        isVerified\n        followers\n      }\n      pricing {\n        starting\n      }\n      location {\n        city\n        country\n        currency\n      }\n    }\n  }\n": types.SearchSellersDocument,
     "\n  #graphql\n  query IsUsernameAvailable($username: String!) {\n    isUsernameAvailable(username:$username)\n  }\n": types.IsUsernameAvailableDocument,
@@ -205,10 +204,6 @@ export function gql(source: "\n  #graphql\n  query GetAccountSocialDetails {\n  
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  #graphql\n  query GetAccountProfileDetails {\n    user: getCurrentUser {\n      name\n      email\n      emailVerified\n      bio\n      photo\n      phone\n      category\n      gender\n      role\n      dob\n      username\n      locationID {\n        city\n        country\n      }\n      location {\n        city\n        country\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetAccountProfileDetails {\n    user: getCurrentUser {\n      name\n      email\n      emailVerified\n      bio\n      photo\n      phone\n      category\n      gender\n      role\n      dob\n      username\n      locationID {\n        city\n        country\n      }\n      location {\n        city\n        country\n      }\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  #graphql\n  query GetCountries {\n    countries: getCountries {\n      value\n      label\n      countryCode\n      currency\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetCountries {\n    countries: getCountries {\n      value\n      label\n      countryCode\n      currency\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

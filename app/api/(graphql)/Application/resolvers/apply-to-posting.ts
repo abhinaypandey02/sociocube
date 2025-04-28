@@ -8,7 +8,8 @@ import { ArgsType, Field } from "type-graphql";
 import { getAge } from "@/constants/age";
 
 import { InstagramDetails } from "../../Instagram/db";
-import { UserTable } from "../../User/db";
+import { CityTable } from "../../Map/db";
+import { LocationTable, UserTable } from "../../User/db";
 import { getIsOnboarded } from "../../User/resolvers/onboarding-data";
 import { ApplicationTable } from "../db";
 
@@ -29,6 +30,8 @@ export async function applyToPosting(
     .select()
     .from(UserTable)
     .where(eq(UserTable.id, ctx.userId))
+    .innerJoin(LocationTable, eq(LocationTable.id, UserTable.location))
+    .innerJoin(CityTable, eq(CityTable.id, LocationTable.city))
     .innerJoin(
       InstagramDetails,
       eq(InstagramDetails.id, UserTable.instagramDetails),
@@ -41,6 +44,10 @@ export async function applyToPosting(
     age,
     followers: user.instagram_data.followers,
     postingID,
+    gender: user.user.gender ?? "",
+    country: user.location.country ?? 0,
+    city: user.location.city ?? 0,
+    state: user.cities.stateId ?? 0,
   });
   if (!posting) throw GQLError(404, "Posting not found");
   await db.insert(ApplicationTable).values({

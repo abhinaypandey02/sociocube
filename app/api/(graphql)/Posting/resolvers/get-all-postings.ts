@@ -5,10 +5,11 @@ import { withPagination } from "@backend/lib/utils/pagination";
 import { ApplicationTable } from "@graphql/Application/db";
 import { InstagramDetails } from "@graphql/Instagram/db";
 import { PostingGQL } from "@graphql/Posting/type";
-import { UserTable } from "@graphql/User/db";
+import { LocationTable, UserTable } from "@graphql/User/db";
 import { getIsOnboarded } from "@graphql/User/resolvers/onboarding-data";
 import {
   and,
+  arrayContains,
   desc,
   eq,
   getTableColumns,
@@ -18,14 +19,20 @@ import {
   or,
 } from "drizzle-orm";
 
+import { Roles } from "@/app/api/lib/constants/roles";
 import { getAge } from "@/constants/age";
 
+import { CityTable } from "../../Map/db";
 import { PostingDB, PostingTable } from "../db";
 
 export async function getValidPostings({
   userId,
   age,
   postingID,
+  gender,
+  country,
+  city,
+  state,
   followers,
   page,
   pageSize,
@@ -33,6 +40,10 @@ export async function getValidPostings({
   userId: number;
   age: number;
   followers: number;
+  gender: string;
+  country: number;
+  city: number;
+  state: number;
   page?: number;
   pageSize?: number;
   postingID?: number;
@@ -46,26 +57,29 @@ export async function getValidPostings({
       .from(PostingTable)
       .where(
         and(
-          ...(followers
-            ? [
-                or(
-                  isNull(PostingTable.minimumFollowers),
-                  lte(PostingTable.minimumFollowers, followers),
-                ),
-              ]
-            : []),
-          ...(age
-            ? [
-                or(
-                  isNull(PostingTable.minimumAge),
-                  lte(PostingTable.minimumAge, age),
-                ),
-                or(
-                  isNull(PostingTable.maximumAge),
-                  gte(PostingTable.maximumAge, age),
-                ),
-              ]
-            : []),
+          or(isNull(PostingTable.gender), eq(PostingTable.gender, gender)),
+          or(
+            and(
+              isNull(PostingTable.countries),
+              isNull(PostingTable.cities),
+              isNull(PostingTable.states),
+            ),
+            arrayContains(PostingTable.countries, [country]),
+            arrayContains(PostingTable.cities, [city]),
+            arrayContains(PostingTable.states, [state]),
+          ),
+          or(
+            isNull(PostingTable.minimumFollowers),
+            lte(PostingTable.minimumFollowers, followers),
+          ),
+          or(
+            isNull(PostingTable.minimumAge),
+            lte(PostingTable.minimumAge, age),
+          ),
+          or(
+            isNull(PostingTable.maximumAge),
+            gte(PostingTable.maximumAge, age),
+          ),
           eq(PostingTable.open, true),
           eq(PostingTable.inReview, false),
           postingID ? eq(PostingTable.id, postingID) : undefined,
@@ -99,6 +113,8 @@ export async function getAllPostings(
       .select()
       .from(UserTable)
       .where(eq(UserTable.id, ctx.userId))
+      .innerJoin(LocationTable, eq(LocationTable.id, UserTable.location))
+      .innerJoin(CityTable, eq(CityTable.id, LocationTable.city))
       .leftJoin(
         InstagramDetails,
         eq(InstagramDetails.id, UserTable.instagramDetails),
@@ -114,12 +130,16 @@ export async function getAllPostings(
 
     if (posting) results.push(posting);
   }
-  if (ctx.userId && isOnboarded) {
+  if (ctx.userId && isOnboarded && user) {
     results.push(
       ...(await getValidPostings({
         userId: ctx.userId,
         age,
         followers: user?.instagram_data?.followers || 0,
+        gender: user?.user.gender || "",
+        country: user?.location?.country || 0,
+        city: user?.location?.city || 0,
+        state: user?.cities?.stateId || 0,
         page,
         pageSize: 5 - results.length,
       })),
@@ -145,6 +165,17 @@ export async function getAllPostings(
     if (!posting.open) return Eligibility.Closed;
     if (!ctx.userId || !user) return Eligibility.Unauthorized;
     if (!isOnboarded) return Eligibility.NotOnboarded;
+    if (user.user.role !== Roles.Creator) return Eligibility.NotCreator;
+    if (posting.gender && user.user.gender !== posting.gender)
+      return Eligibility.GenderMismatch;
+    if (
+      (posting.countries || posting.cities || posting.states) &&
+      !posting.countries?.includes(user.location?.country || 0) &&
+      !posting.cities?.includes(user.location?.city || 0) &&
+      !posting.states?.includes(user.cities?.stateId || 0)
+    ) {
+      return Eligibility.LocationMismatch;
+    }
     if (posting.minimumFollowers) {
       if ((user.instagram_data?.followers || 0) < posting.minimumFollowers)
         return Eligibility.LessFollowers;

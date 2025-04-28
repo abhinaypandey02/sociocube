@@ -8,7 +8,10 @@ export enum Eligibility {
   NotOnboarded = "NOT_ONBOARDED",
   LessFollowers = "LESS_FOLLOWERS",
   NotAgeGroup = "NOT_AGE_GROUP",
+  NotCreator = "NOT_CREATOR",
   Eligible = "ELIGIBLE",
+  GenderMismatch = "GENDER_MISMATCH",
+  LocationMismatch = "LOCATION_MISMATCH",
 }
 
 registerEnumType(Eligibility, {

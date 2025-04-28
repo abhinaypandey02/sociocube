@@ -3,17 +3,16 @@ import { db } from "@backend/lib/db";
 import { and, eq } from "drizzle-orm";
 
 import { PostingTable } from "../db";
-import { checkPermission } from "../utils";
 
 export async function resumePosting(
   ctx: AuthorizedContext,
   postingID: number,
 ): Promise<boolean> {
-  await checkPermission(ctx, postingID);
-
   await db
     .update(PostingTable)
     .set({ open: true })
-    .where(and(eq(PostingTable.id, postingID)));
+    .where(
+      and(eq(PostingTable.id, postingID), eq(PostingTable.agency, ctx.userId)),
+    );
   return true;
 }

@@ -2,7 +2,7 @@ import type { AuthorizedContext } from "@backend/lib/auth/context";
 import { PostingPlatforms } from "@backend/lib/constants/platforms";
 import { db } from "@backend/lib/db";
 import { IsEnum, MaxLength } from "class-validator";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import type { PostgresError } from "postgres";
 import { Field, InputType, Int } from "type-graphql";
 
@@ -12,11 +12,7 @@ import {
 } from "@/constants/constraints";
 
 import { PostingTable } from "../db";
-import {
-  checkPermission,
-  getCleanExternalLink,
-  handleDuplicateLinkError,
-} from "../utils";
+import { getCleanExternalLink, handleDuplicateLinkError } from "../utils";
 
 @InputType("UpdatePostingInput")
 export class UpdatePostingInput {
@@ -45,14 +41,20 @@ export class UpdatePostingInput {
   minimumFollowers: number;
   @Field(() => Int, { nullable: true })
   currencyCountry: number | null;
+  @Field(() => [Int], { nullable: true })
+  countries: number[] | null;
+  @Field(() => [Int], { nullable: true })
+  cities: number[] | null;
+  @Field(() => [Int], { nullable: true })
+  states: number[] | null;
+  @Field(() => String, { nullable: true })
+  gender: string | null;
 }
 export async function updatePosting(
   ctx: AuthorizedContext,
   id: number,
   updatedPosting: UpdatePostingInput,
 ): Promise<boolean> {
-  await checkPermission(ctx, id);
-
   try {
     await db
       .update(PostingTable)
@@ -60,7 +62,7 @@ export async function updatePosting(
         ...updatedPosting,
         externalLink: getCleanExternalLink(updatedPosting.externalLink),
       })
-      .where(eq(PostingTable.id, id));
+      .where(and(eq(PostingTable.id, id), eq(PostingTable.agency, ctx.userId)));
     return true;
   } catch (e) {
     handleDuplicateLinkError(e as PostgresError);

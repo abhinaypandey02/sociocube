@@ -58,3 +58,20 @@ export class UserGQL {
   @Field(() => Pricing, { nullable: true })
   pricing?: Pricing;
 }
+
+export interface UserSearchFilters {
+  niche?: string | null;
+  cities?: string[] | null;
+  states?: string[] | null;
+  countries?: string[] | null;
+  cityIDs?: number[] | null;
+  stateIDs?: number[] | null;
+  countryIDs?: number[] | null;
+  gender?: string | null;
+  minimumAge?: number | null;
+  maximumAge?: number | null;
+  followersFrom?: number | null;
+  followersTo?: number | null;
+  generalPriceFrom?: number | null;
+  generalPriceTo?: number | null;
+}

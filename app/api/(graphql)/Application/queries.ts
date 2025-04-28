@@ -1,5 +1,5 @@
-import type { AuthorizedContext, Context } from "@backend/lib/auth/context";
-import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
+import type { Context } from "@backend/lib/auth/context";
+import { Arg, Ctx, Int, Query, Resolver } from "type-graphql";
 
 import { getHasUserApplied } from "./resolvers/get-has-user-applied";
 import { getPostingApplications } from "./resolvers/get-posting-applications";
@@ -14,17 +14,13 @@ export class ApplicationQueryResolver {
   }
 
   @Query(() => Boolean)
-  getHasUserApplied(
-    @Ctx() ctx: AuthorizedContext,
-    @Arg("postingID") postingID: number,
-  ) {
+  getHasUserApplied(@Ctx() ctx: Context, @Arg("postingID") postingID: number) {
     return getHasUserApplied(ctx, postingID);
   }
 
-  @Authorized()
   @Query(() => [ApplicationGQL])
   getPostingApplications(
-    @Ctx() ctx: AuthorizedContext,
+    @Ctx() ctx: Context,
     @Arg("postingID", () => Int) postingID: number,
   ) {
     return getPostingApplications(ctx, postingID);

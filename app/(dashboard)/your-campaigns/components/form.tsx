@@ -21,15 +21,11 @@ import {
   NAME_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
 } from "@/constants/constraints";
+import countries from "@/constants/countries";
 import { getRoute } from "@/constants/routes";
-import {
-  handleGQLErrors,
-  useAuthMutation,
-  useAuthQuery,
-} from "@/lib/apollo-client";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { useUser } from "@/lib/auth-client";
 import { CREATE_POSTING, UPDATE_POSTING } from "@/lib/mutations";
-import { GET_COUNTRIES } from "@/lib/queries";
 import {
   revalidateOnlyPostingsPage,
   revalidatePosting,
@@ -50,6 +46,7 @@ export interface CreatePostingFormFields {
   minimumFollowers: number;
   currencyCountry: number;
   price: number;
+  gender?: string;
   platforms: PostingPlatforms;
 }
 
@@ -83,17 +80,12 @@ export default function CreateNewPostingForm({
   const aiForm = useForm<{ answers: string[] }>();
   const [aiQuestions, setAIQuestions] =
     useState<string[]>(DEFAULT_AI_QUESTIONS);
-  const [fetchCountries, { data: countriesData, loading: loadingCountries }] =
-    useAuthQuery(GET_COUNTRIES);
   const [createPosting, { loading: creatingPost }] =
     useAuthMutation(CREATE_POSTING);
   const [updatePosting, { loading: updatingPost }] =
     useAuthMutation(UPDATE_POSTING);
   const [loading, setLoading] = useState(false);
-  const isLoading = loadingCountries || creatingPost || updatingPost || loading;
-  useEffect(() => {
-    void fetchCountries();
-  }, []);
+  const isLoading = creatingPost || updatingPost || loading;
   useEffect(() => {
     if (data?.user?.locationID?.country && !form.getValues("currencyCountry")) {
       form.setValue("currencyCountry", data.user.locationID.country);
@@ -295,7 +287,7 @@ export default function CreateNewPostingForm({
           <Input
             label="Currency (Optional)"
             name="currencyCountry"
-            options={countriesData?.countries}
+            options={countries}
             placeholder="Currency country"
             rules={{ valueAsNumber: true }}
             type="number"

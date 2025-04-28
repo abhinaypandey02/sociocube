@@ -265,18 +265,14 @@ type Conversation {
   user: User
 }
 
-type CountrySelectOption {
-  countryCode: String!
-  currency: String!
-  label: String!
-  value: Int!
-}
-
 enum Eligibility {
   Closed
   Eligible
+  GenderMismatch
   LessFollowers
+  LocationMismatch
   NotAgeGroup
+  NotCreator
   NotOnboarded
   Unauthorized
 }
@@ -359,16 +355,20 @@ type Mutation {
 
 input NewPostingInput {
   barter: Boolean!
+  cities: [Int!]
+  countries: [Int!]
   currencyCountry: Int
   deliverables: [String!]
   description: String!
   externalLink: String
   extraDetails: String
+  gender: String
   maximumAge: Float
   minimumAge: Float
   minimumFollowers: Float
   platforms: [PostingPlatforms!]!
   price: Int
+  states: [Int!]
   title: String!
 }
 
@@ -400,6 +400,7 @@ type Posting {
   open: Boolean!
   platforms: [PostingPlatforms!]!
   price: Int
+  recommendations: [Recommendation!]!
   referralEarnings: Float!
   reviews: [Review!]!
   title: String!
@@ -426,7 +427,6 @@ type Query {
   getChatWithUser(username: String!): Conversation
   getChats: [Conversation!]!
   getCities(countryID: Int!): [CitySelectOption!]!
-  getCountries: [CountrySelectOption!]!
   getCurrentUser: User
   getFeaturedPostings: [Posting!]!
   getFeaturedPosts: [GetFeaturedPostsResponse!]!
@@ -450,6 +450,11 @@ enum ROLES {
   Agency
   Brand
   Creator
+}
+
+type Recommendation {
+  status: ApplicationStatus!
+  user: User!
 }
 
 type Review {
@@ -498,16 +503,20 @@ input UpdatePortfolioArgs {
 
 input UpdatePostingInput {
   barter: Boolean!
+  cities: [Int!]
+  countries: [Int!]
   currencyCountry: Int
   deliverables: [String!]
   description: String!
   externalLink: String
   extraDetails: String
+  gender: String
   maximumAge: Float
   minimumAge: Float
   minimumFollowers: Float
   platforms: [PostingPlatforms!]!
   price: Int
+  states: [Int!]
 }
 
 input UpdateUserInput {

@@ -5,6 +5,7 @@ import {
   NAME_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
 } from "@/constants/constraints";
+import genders from "@/constants/genders";
 import { getGroqResponse } from "@/lib/utils";
 
 export async function getTransformedPostingData(message: string) {
@@ -27,6 +28,7 @@ export async function getTransformedPostingData(message: string) {
       minimumFollowers?: number; // If not applicable, should be null
       price?: number; // The payment to be sent. If its a barter collab, then this should be the maximum worth of products that content creator will get.
       platforms: PostingPlatforms;
+      gender?: string; // The expected gender of the content creator, if not applicable, should be null. Can strictly be one of ${genders.join(", ")}.
     }
       
     The user will provide a text message sent by the marketing agency, return a JSON with the data filled.`,

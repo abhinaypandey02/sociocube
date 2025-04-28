@@ -264,17 +264,6 @@ export const GET_ACCOUNT_PROFILE_DETAILS = gql(`
   }
 `);
 
-export const GET_COUNTRIES = gql(`
-  #graphql
-  query GetCountries {
-    countries: getCountries {
-      value
-      label
-      countryCode
-      currency
-    }
-  }
-`);
 export const GET_CITIES = gql(`
   #graphql
   query GetCities($countryID: Int!) {

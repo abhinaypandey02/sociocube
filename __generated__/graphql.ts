@@ -61,19 +61,14 @@ export type ConversationMessagesArgs = {
   page?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export type CountrySelectOption = {
-  __typename?: 'CountrySelectOption';
-  countryCode: Scalars['String']['output'];
-  currency: Scalars['String']['output'];
-  label: Scalars['String']['output'];
-  value: Scalars['Int']['output'];
-};
-
 export enum Eligibility {
   Closed = 'Closed',
   Eligible = 'Eligible',
+  GenderMismatch = 'GenderMismatch',
   LessFollowers = 'LessFollowers',
+  LocationMismatch = 'LocationMismatch',
   NotAgeGroup = 'NotAgeGroup',
+  NotCreator = 'NotCreator',
   NotOnboarded = 'NotOnboarded',
   Unauthorized = 'Unauthorized'
 }
@@ -273,16 +268,20 @@ export type MutationUpdateUserLocationArgs = {
 
 export type NewPostingInput = {
   barter: Scalars['Boolean']['input'];
+  cities?: InputMaybe<Array<Scalars['Int']['input']>>;
+  countries?: InputMaybe<Array<Scalars['Int']['input']>>;
   currencyCountry?: InputMaybe<Scalars['Int']['input']>;
   deliverables?: InputMaybe<Array<Scalars['String']['input']>>;
   description: Scalars['String']['input'];
   externalLink?: InputMaybe<Scalars['String']['input']>;
   extraDetails?: InputMaybe<Scalars['String']['input']>;
+  gender?: InputMaybe<Scalars['String']['input']>;
   maximumAge?: InputMaybe<Scalars['Float']['input']>;
   minimumAge?: InputMaybe<Scalars['Float']['input']>;
   minimumFollowers?: InputMaybe<Scalars['Float']['input']>;
   platforms: Array<PostingPlatforms>;
   price?: InputMaybe<Scalars['Int']['input']>;
+  states?: InputMaybe<Array<Scalars['Int']['input']>>;
   title: Scalars['String']['input'];
 };
 
@@ -316,6 +315,7 @@ export type Posting = {
   open: Scalars['Boolean']['output'];
   platforms: Array<PostingPlatforms>;
   price?: Maybe<Scalars['Int']['output']>;
+  recommendations: Array<Recommendation>;
   referralEarnings: Scalars['Float']['output'];
   reviews: Array<Review>;
   title: Scalars['String']['output'];
@@ -344,7 +344,6 @@ export type Query = {
   getChatWithUser?: Maybe<Conversation>;
   getChats: Array<Conversation>;
   getCities: Array<CitySelectOption>;
-  getCountries: Array<CountrySelectOption>;
   getCurrentUser?: Maybe<User>;
   getFeaturedPostings: Array<Posting>;
   getFeaturedPosts: Array<GetFeaturedPostsResponse>;
@@ -434,6 +433,12 @@ export enum Roles {
   Creator = 'Creator'
 }
 
+export type Recommendation = {
+  __typename?: 'Recommendation';
+  status: ApplicationStatus;
+  user: User;
+};
+
 export type Review = {
   __typename?: 'Review';
   feedback?: Maybe<Scalars['String']['output']>;
@@ -482,16 +487,20 @@ export type UpdatePortfolioArgs = {
 
 export type UpdatePostingInput = {
   barter: Scalars['Boolean']['input'];
+  cities?: InputMaybe<Array<Scalars['Int']['input']>>;
+  countries?: InputMaybe<Array<Scalars['Int']['input']>>;
   currencyCountry?: InputMaybe<Scalars['Int']['input']>;
   deliverables?: InputMaybe<Array<Scalars['String']['input']>>;
   description: Scalars['String']['input'];
   externalLink?: InputMaybe<Scalars['String']['input']>;
   extraDetails?: InputMaybe<Scalars['String']['input']>;
+  gender?: InputMaybe<Scalars['String']['input']>;
   maximumAge?: InputMaybe<Scalars['Float']['input']>;
   minimumAge?: InputMaybe<Scalars['Float']['input']>;
   minimumFollowers?: InputMaybe<Scalars['Float']['input']>;
   platforms: Array<PostingPlatforms>;
   price?: InputMaybe<Scalars['Int']['input']>;
+  states?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 export type UpdateUserInput = {
@@ -744,11 +753,6 @@ export type GetAccountProfileDetailsQueryVariables = Exact<{ [key: string]: neve
 
 export type GetAccountProfileDetailsQuery = { __typename?: 'Query', user?: { __typename?: 'User', name?: string | null, email?: string | null, emailVerified: boolean, bio?: string | null, photo?: string | null, phone?: string | null, category?: string | null, gender?: string | null, role: Roles, dob?: string | null, username?: string | null, locationID?: { __typename?: 'LocationID', city?: number | null, country?: number | null } | null, location?: { __typename?: 'Location', city?: string | null, country?: string | null } | null } | null };
 
-export type GetCountriesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetCountriesQuery = { __typename?: 'Query', countries: Array<{ __typename?: 'CountrySelectOption', value: number, label: string, countryCode: string, currency: string }> };
-
 export type GetCitiesQueryVariables = Exact<{
   countryID: Scalars['Int']['input'];
 }>;
@@ -852,7 +856,6 @@ export const GetChatDocument = {"kind":"Document","definitions":[{"kind":"Operat
 export const GetAccountPortfolioDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAccountPortfolioDetails"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"user"},"name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"portfolio"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"imageURL"}}]}}]}}]}}]} as unknown as DocumentNode<GetAccountPortfolioDetailsQuery, GetAccountPortfolioDetailsQueryVariables>;
 export const GetAccountSocialDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAccountSocialDetails"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"user"},"name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"instagramStats"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"isVerified"}},{"kind":"Field","name":{"kind":"Name","value":"followers"}},{"kind":"Field","name":{"kind":"Name","value":"mediaCount"}},{"kind":"Field","name":{"kind":"Name","value":"er"}},{"kind":"Field","name":{"kind":"Name","value":"averageLikes"}},{"kind":"Field","name":{"kind":"Name","value":"averageComments"}}]}}]}}]}}]} as unknown as DocumentNode<GetAccountSocialDetailsQuery, GetAccountSocialDetailsQueryVariables>;
 export const GetAccountProfileDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAccountProfileDetails"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"user"},"name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"emailVerified"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"photo"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"gender"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"dob"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"locationID"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}}]}}]}}]} as unknown as DocumentNode<GetAccountProfileDetailsQuery, GetAccountProfileDetailsQueryVariables>;
-export const GetCountriesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCountries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"countries"},"name":{"kind":"Name","value":"getCountries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"countryCode"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}}]} as unknown as DocumentNode<GetCountriesQuery, GetCountriesQueryVariables>;
 export const GetCitiesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCities"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"countryID"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"cities"},"name":{"kind":"Name","value":"getCities"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"countryID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"countryID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"label"}}]}}]}}]} as unknown as DocumentNode<GetCitiesQuery, GetCitiesQueryVariables>;
 export const SearchSellersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SearchSellers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filters"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SearchSellersFilters"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"sellers"},"name":{"kind":"Name","value":"searchSellers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filters"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"photo"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"gender"}},{"kind":"Field","name":{"kind":"Name","value":"instagramStats"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isVerified"}},{"kind":"Field","name":{"kind":"Name","value":"followers"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pricing"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"starting"}}]}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}}]}}]} as unknown as DocumentNode<SearchSellersQuery, SearchSellersQueryVariables>;
 export const IsUsernameAvailableDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"IsUsernameAvailable"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isUsernameAvailable"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}}]}]}}]} as unknown as DocumentNode<IsUsernameAvailableQuery, IsUsernameAvailableQueryVariables>;

@@ -11,7 +11,7 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
-import { CityTable, CountryTable } from "../Map/db";
+import { CityTable, CountryTable, StateTable } from "../Map/db";
 import { gendersEnum, UserTable } from "../User/db";
 
 export const platforms = pgEnum("platform", [
@@ -46,7 +46,10 @@ export const PostingTable = pgTable(
     cities: integer("cities")
       .references(() => CityTable.id)
       .array(),
-    genders: gendersEnum("genders").array(),
+    states: integer("states")
+      .references(() => StateTable.id)
+      .array(),
+    gender: gendersEnum("gender"),
     open: boolean("open").default(true).notNull(),
     inReview: boolean("in_review").default(true).notNull(),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
