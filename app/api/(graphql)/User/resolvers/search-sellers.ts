@@ -9,6 +9,7 @@ import {
   inArray,
   isNotNull,
   lte,
+  notInArray,
   or,
   sql,
 } from "drizzle-orm";
@@ -54,6 +55,7 @@ function getDefaultCreators() {
         isNotNull(UserTable.instagramDetails),
         isNotNull(UserTable.name),
         isNotNull(UserTable.location),
+        notInArray(UserTable.id, [646, 320]),
       ),
     )
     .innerJoin(
