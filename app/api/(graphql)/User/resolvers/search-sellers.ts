@@ -57,13 +57,6 @@ function getDefaultCreators() {
       ),
     )
     .innerJoin(
-      LocationTable,
-      and(
-        eq(UserTable.location, LocationTable.id),
-        eq(LocationTable.country, 233),
-      ),
-    )
-    .innerJoin(
       InstagramDetails,
       eq(UserTable.instagramDetails, InstagramDetails.id),
     )
@@ -105,8 +98,9 @@ export async function handleSearchSellers(
     countries = res.map(({ id }) => id);
   }
   if (filters.cities?.length) {
-    const res = await db.select({ id: CityTable.id }).from(CityTable)
-      .where(sql`EXISTS (
+    const res = await db
+      .select({ id: CityTable.id, name: CityTable.name })
+      .from(CityTable).where(sql`EXISTS (
           SELECT 1
           FROM unnest(${sql.raw(`ARRAY[${filters.cities.map((c) => `'${c}'`).join(", ")}]`)}) AS city_input
           WHERE noaccent(${CityTable.name}) % noaccent(city_input)
@@ -166,10 +160,14 @@ export async function handleSearchSellers(
       LocationTable,
       and(
         eq(LocationTable.id, UserTable.location),
-        countries.length
-          ? inArray(LocationTable.country, countries)
-          : undefined,
-        cities.length ? inArray(LocationTable.city, cities) : undefined,
+        states.length
+          ? undefined
+          : or(
+              countries.length
+                ? inArray(LocationTable.country, countries)
+                : undefined,
+              cities.length ? inArray(LocationTable.city, cities) : undefined,
+            ),
       ),
     );
     if (states.length) {
@@ -177,7 +175,13 @@ export async function handleSearchSellers(
         CityTable,
         and(
           eq(LocationTable.city, CityTable.id),
-          inArray(CityTable.stateId, states),
+          or(
+            countries.length
+              ? inArray(LocationTable.country, countries)
+              : undefined,
+            cities.length ? inArray(LocationTable.city, cities) : undefined,
+            inArray(CityTable.stateId, states),
+          ),
         ),
       );
     }
