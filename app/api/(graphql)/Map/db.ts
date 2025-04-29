@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm";
 import {
   bigint,
+  boolean,
   char,
   index,
   numeric,
@@ -81,6 +82,7 @@ export const CityTable = pgTable(
       .default(sql`1`)
       .notNull(),
     wikiDataId: varchar("wikiDataId", { length: 255 }),
+    duplicate: boolean("duplicate").default(false),
   },
   (table) => ({
     countryIdx: index("country_idx").on(table.countryId),

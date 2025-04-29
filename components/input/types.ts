@@ -17,6 +17,7 @@ export type InputProps = {
   label?: string;
   error?: string;
   suffix?: string;
+  multiple?: string;
 } & ComponentProps<"textarea"> &
   ComponentProps<"input">;
 
@@ -24,4 +25,5 @@ export type SelectProps = {
   options: SelectOption[];
   name: string;
   rules?: RegisterOptions;
+  multiple?: boolean;
 } & ComponentProps<"input">;

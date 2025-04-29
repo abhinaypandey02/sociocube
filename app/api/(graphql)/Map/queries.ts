@@ -17,7 +17,9 @@ export class MapQueryResolvers {
       .where(eq(CityTable.countryId, countryID));
     return cities.map((city) => ({
       value: city.id,
-      label: city.name,
+      label:
+        city.name +
+        (city.stateCode && city.duplicate ? `, ${city.stateCode}` : ""),
     }));
   }
 }

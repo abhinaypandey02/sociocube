@@ -3,12 +3,11 @@ import React from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
 
+import { Select } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 import { getBaseClassName, getInputErrorMessages } from "./constants";
-import Select from "./select";
 import type { InputProps } from "./types";
-
 function InputWrapper({
   label,
   error,
@@ -54,6 +53,7 @@ function Input({
   error,
   suffix,
   prefix,
+  multiple,
   ...rest
 }: InputProps) {
   const formContext = useFormContext() as UseFormReturn | undefined;
@@ -79,6 +79,7 @@ function Input({
         suffix={suffix}
       >
         <Select
+          multiple={multiple}
           options={options}
           rules={rules}
           {...rest}
