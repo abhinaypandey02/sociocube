@@ -198,13 +198,19 @@ export default function PostingCard({
               }}
             />
           </div>
-          <ins
-            data-ad-client={process.env.NEXT_PUBLIC_AD_ID}
-            data-ad-slot="2801601736"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-            className="adsbygoogle block w-full overflow-hidden"
-          />
+          <div
+            style={{ height: 90 }}
+            className={"relative w-full overflow-hidden"}
+          >
+            <ins
+              style={{ height: 90 }}
+              data-ad-client={process.env.NEXT_PUBLIC_AD_ID}
+              data-ad-slot="2801601736"
+              data-ad-format="horizontal"
+              data-full-width-responsive="true"
+              className="adsbygoogle absolute block inset-0 w-full bg-primary/5 overflow-hidden"
+            />
+          </div>
           <div className="flex justify-between items-start pt-2">
             <button
               onClick={() => setShowDescription(true)}

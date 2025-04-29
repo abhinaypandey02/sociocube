@@ -41,13 +41,6 @@ export default async function ProfilePage() {
         fetch={() => queryGQL(GET_ACCOUNT_SOCIAL_DETAILS, undefined, Cookie, 0)}
         Component={StatsSection}
       />
-      <ins
-        data-ad-client={process.env.NEXT_PUBLIC_AD_ID}
-        data-ad-slot="2801601736"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-        className="adsbygoogle block w-full overflow-hidden mb-5"
-      />
       <Injector
         fetch={() =>
           queryGQL(GET_ACCOUNT_PORTFOLIO_DETAILS, undefined, Cookie, 0)
@@ -64,6 +57,14 @@ export default async function ProfilePage() {
         fetch={() => queryGQL(GET_ACCOUNT_SOCIAL_DETAILS, undefined, Cookie, 0)}
         Component={ConnectionsSection}
         props={{ profile: user }}
+      />
+
+      <ins
+        data-ad-client={process.env.NEXT_PUBLIC_AD_ID}
+        data-ad-slot="2801601736"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+        className="adsbygoogle px-4! block w-full bg-primary/5 top-0 left-0 right-0 overflow-hidden mb-5"
       />
     </div>
   );
