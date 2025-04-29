@@ -1,8 +1,10 @@
 import "./globals.css";
 
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Viewport } from "next";
 import { Nunito_Sans as NunitoSans } from "next/font/google";
 import localFont from "next/font/local";
+import Script from "next/script";
 import type { PropsWithChildren } from "react";
 import React, { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
@@ -135,7 +137,13 @@ export default function RootLayout({ children }: PropsWithChildren) {
           </GlobalStateWrapper>
         </ApolloWrapper>
       </body>
-      {/* <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} /> */}
+      <Script
+        async
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_AD_ID}`}
+        strategy="lazyOnload"
+        crossOrigin="anonymous"
+      />
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
     </html>
   );
 }

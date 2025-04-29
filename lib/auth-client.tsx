@@ -69,7 +69,13 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
   const [user, setUser] = useState<CurrentUser>();
   const [isGetVerifiedModalOpen, setIsGetVerifiedModalOpen] =
     useState<boolean>(false);
-
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
   return (
     <GlobalState.Provider
       value={{
