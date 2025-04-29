@@ -199,16 +199,16 @@ export default function PostingCard({
             />
           </div>
           <div
-            style={{ height: 300 }}
+            style={{ height: 200 }}
             className={"relative w-full overflow-hidden"}
           >
             <ins
-              style={{ height: 300 }}
+              style={{ height: 200 }}
               data-ad-client={process.env.NEXT_PUBLIC_AD_ID}
               data-ad-slot="2801601736"
               data-ad-format="horizontal"
               data-full-width-responsive="true"
-              className="adsbygoogle absolute block left-0 right-0 bottom-0 overflow-hidden"
+              className="adsbygoogle absolute block h-[200px]! left-0 right-0 bottom-0 overflow-hidden"
             />
           </div>
           <div className="flex justify-between items-center pt-2">
