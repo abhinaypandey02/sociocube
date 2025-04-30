@@ -22,7 +22,10 @@ const handleError = (message: string) =>
 
 export const GET = async (req: NextRequest) => {
   const accessCode = req.nextUrl.searchParams.get("code");
-  if (!accessCode) return NextResponse.redirect(INSTAGRAM_AUTHORIZATION_URL);
+  if (!accessCode) {
+    await new Promise((r) => setTimeout(r, 2000));
+    return NextResponse.redirect(INSTAGRAM_AUTHORIZATION_URL);
+  }
   const error = req.nextUrl.searchParams.get("error");
   const stateToken = req.nextUrl.searchParams.get("state");
   if (error) return handleError(error);
