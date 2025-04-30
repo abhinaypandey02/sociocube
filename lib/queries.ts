@@ -83,6 +83,7 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
     postings: getFeaturedPostings {
       id
       price
+      platforms
       currency
       title
       open
@@ -92,12 +93,11 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
       applicationsCount
       minimumFollowers
       externalLink
+      description
+      deliverables
       agency {
         photo
         name
-        instagramStats {
-          isVerified
-        }
       }
     }
   }
