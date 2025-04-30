@@ -140,7 +140,12 @@ export default function Table<T>({
               </tr>
             ))
           ) : (
-            <div className="h-24 text-center w-full">No results.</div>
+            <td
+              colSpan={columns.length}
+              className="h-24 text-center w-full mt-10"
+            >
+              No results.
+            </td>
           )}
         </tbody>
       </table>
