@@ -1,5 +1,4 @@
-import { ArrowRight } from "@phosphor-icons/react";
-import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
