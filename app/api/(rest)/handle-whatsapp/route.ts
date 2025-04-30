@@ -33,7 +33,7 @@ export const POST = async (req: NextRequest) => {
               ? posting.deliverables.trim().split(",")
               : null,
           externalLink: posting.externalLink || null,
-          extraDetails: posting.extraDetails || null,
+          extraDetails: null,
           platforms: posting.platforms
             ? [posting.platforms.toLowerCase() as PostingPlatforms]
             : [PostingPlatforms.INSTAGRAM],

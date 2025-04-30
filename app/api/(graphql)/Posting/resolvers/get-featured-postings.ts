@@ -12,7 +12,7 @@ export async function getFeaturedPostings() {
       and(
         eq(PostingTable.open, true),
         eq(PostingTable.inReview, false),
-        ne(PostingTable.id, 134),
+        ne(PostingTable.agency, 134),
       ),
     )
     .innerJoin(ApplicationTable, eq(ApplicationTable.posting, PostingTable.id))
