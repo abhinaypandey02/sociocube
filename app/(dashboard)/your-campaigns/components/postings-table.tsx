@@ -111,6 +111,7 @@ export default function PostingsTable({
         );
         return (
           <Link
+            prefetch={false}
             key={posting.id}
             className="-translate-y-1.5 translate-x-1.5 hover:scale-105 transition-all duration-300"
             href={`${Route.YourCampaigns}/${posting.id}`}
