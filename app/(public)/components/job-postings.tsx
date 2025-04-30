@@ -1,4 +1,3 @@
-"use client";
 import {
   ArrowRight,
   Cake,
@@ -11,7 +10,6 @@ import Link from "next/link";
 import React from "react";
 
 import type { GetFeaturedSellersQuery } from "@/__generated__/graphql";
-import { renderRichText } from "@/app/(dashboard)/campaigns/components/posting-card";
 import {
   getAgeGroup,
   getCurrency,
@@ -47,9 +45,9 @@ export default function JobPostings({
           <Link
             href={`${getRoute("Campaigns")}/${posting.id}`}
             key={posting.id}
-            className="flex hover:scale-[1.02] duration-500 transition-transform items-start shadow-md rounded-xl p-5 justify-between gap-3 max-lg:flex-wrap border border-gray-200"
+            className="hover:scale-[1.02] duration-500 transition-transform shadow-md rounded-xl p-5 gap-3 border border-gray-200"
           >
-            <div>
+            <div className={"flex justify-between items-center w-full"}>
               <h3 className="text-lg sm:text-xl flex items-center gap-2 font-medium leading-7 font-poppins text-gray-800 line-clamp-2">
                 {posting.agency.photo && (
                   <Image
@@ -62,73 +60,58 @@ export default function JobPostings({
                 )}
                 {posting.title}
               </h3>
+              <ArrowRight size={16} />
+            </div>
 
-              <div
-                className={
-                  "flex flex-wrap items-center gap-3 mt-3 text-sm sm:text-base"
-                }
-              >
-                <div>{getPlatforms(posting.platforms)}</div>
+            <div
+              className={
+                "flex flex-wrap items-center gap-3 mt-3 text-sm sm:text-base"
+              }
+            >
+              <div>{getPlatforms(posting.platforms)}</div>
 
-                {posting.price || posting.barter ? (
-                  <>
-                    <span className={"text-[10px] text-gray-500"}>•</span>
-                    <div className={"flex items-center gap-1"}>
-                      <Wallet />
-                      {getCurrency(
-                        posting.barter,
-                        posting.currency,
-                        posting.price,
-                      )}
-                    </div>
-                  </>
-                ) : null}
-                {posting.minimumFollowers ? (
-                  <>
-                    <span className={"text-[10px] text-gray-500"}>•</span>
-                    <div className={"flex items-center gap-1"}>
-                      <Users />
-                      {convertToAbbreviation(posting.minimumFollowers)}+
-                    </div>
-                  </>
-                ) : null}
-                {posting.minimumAge || posting.maximumAge ? (
-                  <>
-                    <span className={"text-[10px] text-gray-500"}>•</span>
-                    <div className={"flex items-center gap-1"}>
-                      <Cake />
-                      {getAgeGroup(posting.minimumAge, posting.maximumAge)}
-                    </div>
-                  </>
-                ) : null}
-
-                {posting.applicationsCount ? (
-                  <div className="flex items-center gap-1">
-                    {posting.open ? (
-                      <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                        <div className="size-1 rounded-full bg-emerald-500" />
-                      </div>
-                    ) : null}
-                    <p className="text-xs text-gray-500">
-                      {posting.applicationsCount}+ applications
-                    </p>
+              {posting.price || posting.barter ? (
+                <>
+                  <span className={"text-[10px] text-gray-500"}>•</span>
+                  <div className={"flex items-center gap-1"}>
+                    <Wallet />
+                    {getCurrency(
+                      posting.barter,
+                      posting.currency,
+                      posting.price,
+                    )}
                   </div>
-                ) : null}
-              </div>
-              <dd
-                className="text-sm leading-6 mt-3 text-gray-600 line-clamp-2"
-                dangerouslySetInnerHTML={{
-                  __html: renderRichText(posting.description),
-                }}
-              />
-              {posting.deliverables ? (
-                <div className="pt-2 sm:col-span-2 ">
-                  <dt className=" font-semibold leading-6  text-sm text-gray-900">
-                    Deliverables
-                  </dt>
-                  <dd className="text-sm  leading-6 text-gray-600 ">
-                    {posting.deliverables.join(", ")}
-                  </dd>
+                </>
+              ) : null}
+              {posting.minimumFollowers ? (
+                <>
+                  <span className={"text-[10px] text-gray-500"}>•</span>
+                  <div className={"flex items-center gap-1"}>
+                    <Users />
+                    {convertToAbbreviation(posting.minimumFollowers)}+
+                  </div>
+                </>
+              ) : null}
+              {posting.minimumAge || posting.maximumAge ? (
+                <>
+                  <span className={"text-[10px] text-gray-500"}>•</span>
+                  <div className={"flex items-center gap-1"}>
+                    <Cake />
+                    {getAgeGroup(posting.minimumAge, posting.maximumAge)}
+                  </div>
+                </>
+              ) : null}
+
+              {posting.applicationsCount ? (
+                <div className="flex items-center gap-1">
+                  {posting.open ? (
+                    <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                      <div className="size-1 rounded-full bg-emerald-500" />
+                    </div>
+                  ) : null}
+                  <p className="text-xs text-gray-500">
+                    {posting.applicationsCount}+ applications
+                  </p>
                 </div>
               ) : null}
             </div>

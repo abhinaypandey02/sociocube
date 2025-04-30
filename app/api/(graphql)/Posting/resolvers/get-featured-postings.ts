@@ -18,8 +18,8 @@ export async function getFeaturedPostings() {
     .leftJoin(ApplicationTable, eq(ApplicationTable.posting, PostingTable.id))
     .groupBy(PostingTable.id)
     .orderBy(desc(count(ApplicationTable.id)))
-    .limit(6);
-  if (others.length === 6) return others;
+    .limit(8);
+  if (others.length === 8) return others;
   const ours = await db
     .select(getTableColumns(PostingTable))
     .from(PostingTable)
@@ -27,6 +27,6 @@ export async function getFeaturedPostings() {
     .innerJoin(ApplicationTable, eq(ApplicationTable.posting, PostingTable.id))
     .groupBy(PostingTable.id)
     .orderBy(desc(count(ApplicationTable.id)))
-    .limit(6 - others.length);
+    .limit(8 - others.length);
   return [...others, ...ours];
 }
