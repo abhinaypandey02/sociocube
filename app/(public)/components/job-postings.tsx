@@ -35,7 +35,7 @@ export default function JobPostings({
           className="z-10 flex items-center gap-2 pt-2 text-lg font-medium text-accent max-md:hidden"
           href={getRoute("Campaigns")}
         >
-          See all postings
+          See all campaigns
           <ArrowRight />
         </Link>
       }
@@ -141,7 +141,7 @@ export default function JobPostings({
           className="flex items-center gap-2  font-medium text-accent "
           href={getRoute("Campaigns")}
         >
-          See all postings <ArrowRight />
+          See all campaigns <ArrowRight />
         </Link>
       </div>
     </SectionWrapper>

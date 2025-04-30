@@ -179,7 +179,7 @@ function OnboardingWizard({
               heading: "Age verification",
               description: "Add details about your age.",
               longDescription:
-                "We need to ensure you are 13 years or older. We don't display your age anywhere in the platform, only your age group is visible to brands you apply for.",
+                "We need to ensure you are 18 years or older. We don't display your age anywhere in the platform, only your age group is visible to brands you apply for.",
               icon: Calendar,
               component: (
                 <OnboardingDOB

@@ -23,6 +23,7 @@ const config = [
       "no-console": ["error", { allow: ["warn", "error"] }],
       "react/no-unescaped-entities": 0,
       "simple-import-sort/imports": "warn",
+      "@typescript-eslint/no-unused-vars": "off",
       "simple-import-sort/exports": "warn",
       "unused-imports/no-unused-imports": "warn",
     },

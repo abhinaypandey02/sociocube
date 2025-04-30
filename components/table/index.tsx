@@ -1,175 +1,168 @@
+import { ArrowDown, ArrowUp } from "@phosphor-icons/react";
 import {
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUp,
-} from "@phosphor-icons/react";
-import type { AccessorColumnDef, PaginationState } from "@tanstack/react-table";
+  AccessorColumnDef,
+  ColumnFiltersState,
+  getFilteredRowModel,
+} from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import React, { useState } from "react";
+import { ArrowDownUp } from "lucide-react";
+import React, { ReactNode } from "react";
 
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 import { cn } from "@/lib/utils";
 
 export default function Table<T>({
   data,
   columns,
   pageSize = 25,
+  cta,
 }: {
   data: T[];
   // eslint-disable-next-line -- needed package deps
   columns: AccessorColumnDef<T, any>[];
   pageSize?: number;
+  cta?: ReactNode;
 }) {
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize,
-  });
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+
   const table = useReactTable({
     data,
-    columns,
+    columns: columns.map((col) => ({
+      enableColumnFilter: false,
+      enableSorting: false,
+      ...col,
+    })),
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: setPagination,
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    onSortingChange: setSorting,
     state: {
-      pagination,
+      sorting,
+      columnFilters,
     },
   });
 
-  const totalPages = table.getPageCount();
-
   return (
     <div className="w-full overflow-x-auto">
-      <table className="min-w-full ">
-        <thead>
+      <div className="flex items-center py-4 justify-between">
+        <div className={"w-full max-w-sm"}>
+          <Input
+            name={""}
+            placeholder="Search"
+            className="text-sm py-1.5"
+            value={searchTerm}
+            onChange={(event) => {
+              setSearchTerm(event.target.value);
+              table.getAllColumns().forEach((col) => {
+                if (col.getCanFilter()) col.setFilterValue(event.target.value);
+              });
+            }}
+          />
+        </div>
+        {cta}
+      </div>
+      <table className={cn("w-full caption-bottom text-sm")}>
+        <thead className={cn("[&_tr]:border-b")}>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
+            <tr
+              className={cn(
+                "hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
+              )}
+              key={headerGroup.id}
+            >
               {headerGroup.headers.map((header) => {
                 return (
                   <th
-                    className={cn(
-                      "py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3",
-                      !header.column.getCanSort() && "cursor-default",
-                    )}
+                    onClick={() => header.column.toggleSorting()}
                     key={header.id}
-                    onClick={header.column.getToggleSortingHandler()}
-                    scope="col"
+                    className={cn(
+                      "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+                    )}
                   >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                    {{
-                      asc: <ArrowUp className="ml-2 inline" />,
-                      desc: <ArrowDown className="ml-2 inline" />,
-                    }[header.column.getIsSorted() as string] ?? null}
+                    <button
+                      disabled={!header.column.getCanSort()}
+                      className={cn("flex items-center gap-0.5 ")}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                      {header.column.getIsSorted() === "desc" ? (
+                        <ArrowDown size={12} />
+                      ) : header.column.getIsSorted() === "asc" ? (
+                        <ArrowUp size={12} />
+                      ) : (
+                        header.column.getCanSort() && <ArrowDownUp size={12} />
+                      )}
+                    </button>
                   </th>
                 );
               })}
             </tr>
           ))}
         </thead>
-        <tbody className="border-y border-gray-300 bg-white">
-          {table.getRowModel().rows.map((row) => (
-            <tr className="even:bg-gray-50" key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td
-                  className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3"
-                  key={cell.id}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
+        <tbody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <tr
+                className={cn(
+                  "hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
+                )}
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <td
+                    className={cn(
+                      "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+                    )}
+                    key={cell.id}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : (
+            <div className="h-24 text-center w-full">No results.</div>
+          )}
         </tbody>
       </table>
-      {table.getRowCount() > pagination.pageSize && (
-        <div className="mt-3 flex w-full items-center justify-between gap-8 p-3">
-          <p className=" text-sm font-light text-gray-800">
-            Showing <b>{pagination.pageIndex * pagination.pageSize + 1}</b> to{" "}
-            <b>
-              {Math.min(
-                (pagination.pageIndex + 1) * pagination.pageSize,
-                table.getRowCount(),
-              )}
-            </b>{" "}
-            of <b>{table.getRowCount()}</b>
-          </p>
-          <p className="flex gap-4">
-            {table.getCanPreviousPage() && (
-              <button onClick={table.previousPage} type="button">
-                <ArrowLeft weight="bold" />
-              </button>
-            )}
-            {pagination.pageIndex > 1 && (
-              <button
-                className={
-                  pagination.pageIndex + 1 === 1 ? "font-semibold" : ""
-                }
-                onClick={() => {
-                  table.setPageIndex(0);
-                }}
-                type="button"
-              >
-                1
-              </button>
-            )}
-            {pagination.pageIndex > 2 ? "..." : ""}
-            {[
-              pagination.pageIndex,
-              pagination.pageIndex + 1,
-              pagination.pageIndex + 2,
-            ].map((page) =>
-              page && page <= totalPages ? (
-                <button
-                  className={
-                    pagination.pageIndex + 1 === page
-                      ? "font-semibold cursor-default"
-                      : ""
-                  }
-                  key={page}
-                  onClick={() => {
-                    table.setPageIndex(page - 1);
-                  }}
-                  type="button"
-                >
-                  {page}
-                </button>
-              ) : null,
-            )}
-            {pagination.pageIndex < totalPages - 3 ? "..." : ""}
-            {pagination.pageIndex < totalPages - 2 && (
-              <button
-                className={
-                  pagination.pageIndex + 1 === totalPages
-                    ? "font-semibold cursor-default"
-                    : ""
-                }
-                onClick={() => {
-                  table.setPageIndex(totalPages - 1);
-                }}
-                type="button"
-              >
-                {totalPages}
-              </button>
-            )}
-            {table.getCanNextPage() && (
-              <button onClick={table.nextPage} type="button">
-                <ArrowRight weight="bold" />
-              </button>
-            )}
-          </p>
-        </div>
-      )}
+      <div className="flex items-center justify-end space-x-2 py-4">
+        {table.getCanPreviousPage() && (
+          <Button
+            invert
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+        )}
+        {table.getCanNextPage() && (
+          <Button
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

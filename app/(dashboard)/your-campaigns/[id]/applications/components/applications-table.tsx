@@ -17,7 +17,7 @@ import { toast } from "react-hot-toast";
 import type { GetPostingApplicationsQuery } from "@/__generated__/graphql";
 import { ApplicationStatus } from "@/__generated__/graphql";
 import Table from "@/components/table";
-import { getAge } from "@/constants/age";
+import { getAgeRange } from "@/constants/age";
 import { getRoute } from "@/constants/routes";
 import { convertToAbbreviation } from "@/lib/utils";
 
@@ -80,6 +80,7 @@ const DEFAULT_COLUMNS = [
 
   colHelper.accessor("user.photo", {
     header: "Photo",
+
     cell: (value) => {
       const val = value.getValue();
       if (!val) return null;
@@ -96,6 +97,9 @@ const DEFAULT_COLUMNS = [
   }),
   colHelper.accessor("user.name", {
     header: "Name",
+    enableColumnFilter: true,
+    enableSorting: true,
+
     cell: (val) => (
       <Link
         className="flex items-center gap-2 font-medium text-accent hover:underline"
@@ -112,27 +116,33 @@ const DEFAULT_COLUMNS = [
   colHelper.accessor("user.dob", {
     header: "Age",
     cell: (value) => {
-      const age = getAge(new Date(value.getValue() || ""));
-      if (isNaN(age)) return "NA";
-      return age;
+      if (!value.getValue()) return "NA";
+      return (
+        (getAgeRange(new Date(value.getValue() || ""))?.minimum || 19) - 1 + "+"
+      );
     },
   }),
   colHelper.accessor("user.instagramStats.followers", {
+    enableSorting: true,
     header: "Followers",
     cell: ({ getValue }) => convertToAbbreviation(getValue()),
   }),
   colHelper.accessor("user.instagramStats.averageLikes", {
+    enableSorting: true,
     header: "Avg. Likes",
   }),
   colHelper.accessor("reach", {
+    enableSorting: true,
     header: "Reach",
     id: "reach",
   }),
   colHelper.accessor("user.instagramStats.er", {
+    enableSorting: true,
     header: "ER",
   }),
 
   colHelper.accessor("user.instagramStats.mediaCount", {
+    enableSorting: true,
     header: "Posts",
   }),
 ];
@@ -239,14 +249,10 @@ export default function ApplicationsTable({
       header: "Actions",
       cell: ApplicationActionsCell,
     }),
-    colHelper.accessor("createdAt", {
-      header: "Date",
-      cell: (val) => new Date(val.getValue()).toDateString(),
-    }),
   ];
   return (
-    <>
-      <div className="mb-4 flex justify-end">
+    <Table
+      cta={
         <DownloadExcelButton
           applications={applications}
           extraDetails={
@@ -256,8 +262,9 @@ export default function ApplicationsTable({
           }
           postingTitle={posting?.title || "Posting"}
         />
-      </div>
-      <Table columns={columns} data={applications} />
-    </>
+      }
+      columns={columns}
+      data={applications}
+    />
   );
 }

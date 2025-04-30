@@ -1,3 +1,4 @@
+import { ArrowRight } from "@phosphor-icons/react";
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -48,9 +49,13 @@ export default async function CreateNewPostingPage({
           href={posting.id + Route.Applications}
           className={"shadow-md rounded-xl mb-5 p-5 border border-gray-200"}
         >
-          <p className={"text-3xl font-medium font-poppins text-gray-800"}>
-            {posting.applicationsCount}
-          </p>
+          <div className={"flex justify-between items-start"}>
+            <p className={"text-3xl font-medium font-poppins text-gray-800"}>
+              {posting.applicationsCount}
+            </p>
+
+            <ArrowRight />
+          </div>
           <h2 className={"text-sm font-poppins"}>Applied</h2>
         </Link>
       </div>
