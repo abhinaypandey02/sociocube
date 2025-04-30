@@ -7,7 +7,11 @@ import { NextResponse } from "next/server";
 
 import { getUserIdFromAccessToken } from "../../lib/auth/token";
 import { db } from "../../lib/db";
-import { getGraphData, getLongLivedToken } from "./utils";
+import {
+  getGraphData,
+  getLongLivedToken,
+  INSTAGRAM_AUTHORIZATION_URL,
+} from "./utils";
 
 const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/instagram`;
 
@@ -18,6 +22,7 @@ const handleError = (message: string) =>
 
 export const GET = async (req: NextRequest) => {
   const accessCode = req.nextUrl.searchParams.get("code");
+  if (!accessCode) return NextResponse.redirect(INSTAGRAM_AUTHORIZATION_URL);
   const error = req.nextUrl.searchParams.get("error");
   const stateToken = req.nextUrl.searchParams.get("state");
   if (error) return handleError(error);

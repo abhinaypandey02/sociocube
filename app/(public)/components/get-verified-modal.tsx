@@ -1,5 +1,4 @@
 "use client";
-import { INSTAGRAM_AUTHORIZATION_URL } from "@backend/(auth)/instagram/utils";
 import { ArrowSquareOut, SealCheck } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
 
@@ -29,11 +28,7 @@ export default function GetVerifiedModal({
         <p className="text-center">
           Login with your instagram account to get verified.
         </p>
-        <a
-          target={"_blank"}
-          className="mt-5 block"
-          href={INSTAGRAM_AUTHORIZATION_URL}
-        >
+        <a target={"_blank"} className="mt-5 block" href={"/api/instagram"}>
           <Button className="mx-auto flex items-center gap-2">
             Verify Account <ArrowSquareOut weight="bold" />
           </Button>
