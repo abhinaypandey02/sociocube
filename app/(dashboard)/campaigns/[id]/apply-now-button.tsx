@@ -11,6 +11,7 @@ import { IconButton } from "@/components/icon-button";
 import { Input } from "@/components/input";
 import { getRoute, Route } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
+import { useToken } from "@/lib/auth-client";
 import { APPLY_NOW } from "@/lib/mutations";
 
 import LinkWrapper from "../../../../components/link-wrapper";
@@ -43,6 +44,7 @@ export default function ApplyNowButton({
     Boolean(posting.hasApplied),
   );
   const [canShare, setCanShare] = useState(false);
+  const token = useToken();
   const [applyNow, { loading: applyNowLoading }] = useAuthMutation(APPLY_NOW);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRouteLoading, setIsRouteLoading] = useState(false);
@@ -143,7 +145,7 @@ export default function ApplyNowButton({
           className="w-full flex items-center gap-2"
           disabled={posting.eligibility !== Eligibility.Eligible}
           invert={appliedSuccess}
-          loading={loading}
+          loading={loading || token === undefined}
           onClick={handleClick}
           variant={Variants.ACCENT}
         >

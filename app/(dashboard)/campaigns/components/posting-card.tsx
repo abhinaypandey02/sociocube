@@ -198,10 +198,10 @@ export default function PostingCard({
               }}
             />
           </div>
-          <div className="flex justify-between items-center pt-2">
+          <div className="flex justify-between items-start pt-2">
             <button
               onClick={() => setShowDescription(true)}
-              className="text-sm underline font-medium text-primary"
+              className="text-sm underline text-primary"
             >
               Read full description
             </button>
