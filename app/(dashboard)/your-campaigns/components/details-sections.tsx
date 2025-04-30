@@ -157,23 +157,21 @@ function PostingDetailsForm({
         options={POSTING_PLATFORMS}
         placeholder="Select platform"
       />
-      <div className="grid grid-cols-2 gap-2">
-        <Input
-          label="Currency"
-          name="currencyCountry"
-          options={countries}
-          placeholder="Currency country"
-          rules={{ valueAsNumber: true }}
-          type="number"
-        />
-        <Input
-          label="Price"
-          name="price"
-          placeholder="Price of posting"
-          rules={{ valueAsNumber: true }}
-          type="number"
-        />
-      </div>
+      <Input
+        label="Currency"
+        name="currencyCountry"
+        options={countries}
+        placeholder="Currency country"
+        rules={{ valueAsNumber: true }}
+        type="number"
+      />
+      <Input
+        label="Price"
+        name="price"
+        placeholder="Price of posting"
+        rules={{ valueAsNumber: true }}
+        type="number"
+      />
       <div className={"flex items-center gap-2"}>
         <label className={"font-medium font-poppins shrink-0"}>
           Barter collab?

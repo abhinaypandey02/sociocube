@@ -283,23 +283,21 @@ export default function CreateNewPostingForm({
             type="number"
           />
         </div>
-        <div className="grid grid-cols-2 gap-2">
-          <Input
-            label="Currency (Optional)"
-            name="currencyCountry"
-            options={countries}
-            placeholder="Currency country"
-            rules={{ valueAsNumber: true }}
-            type="number"
-          />
-          <Input
-            label="Price (Optional)"
-            name="price"
-            placeholder="Price of posting"
-            rules={{ valueAsNumber: true }}
-            type="number"
-          />
-        </div>
+        <Input
+          label="Currency (Optional)"
+          name="currencyCountry"
+          options={countries}
+          placeholder="Currency country"
+          rules={{ valueAsNumber: true }}
+          type="number"
+        />
+        <Input
+          label="Price (Optional)"
+          name="price"
+          placeholder="Price of posting"
+          rules={{ valueAsNumber: true }}
+          type="number"
+        />
         <Input
           label="Minumum Followers (Optional)"
           name="minimumFollowers"
