@@ -32,7 +32,7 @@ export default function JobPostings({
       description="Discover gigs and freelance jobs tailored for influencers. Apply now and start collaborating with top brands today!"
       headerElements={
         <Link
-          className="z-10 flex items-center gap-2 pt-2 text-lg font-medium text-accent max-md:hidden"
+          className="flex items-center gap-2 pt-2 text-lg font-medium text-accent max-md:hidden"
           href={getRoute("Campaigns")}
         >
           See all active campaigns
