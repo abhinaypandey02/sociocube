@@ -27,7 +27,11 @@ export default async function CreateNewPostingPage({
     <div>
       <DetailsSections posting={posting} />
       <div className={"grid grid-cols-2 gap-2"}>
-        <div className={"shadow-md rounded-xl mb-5 p-5 border border-gray-200"}>
+        <div
+          className={
+            "shadow-md block rounded-xl mb-5 p-5 border border-gray-200"
+          }
+        >
           <div className={"flex justify-between items-start"}>
             <p className={"text-3xl font-medium font-poppins text-gray-800"}>
               0
@@ -46,7 +50,9 @@ export default async function CreateNewPostingPage({
 
         <Link
           href={posting.id + Route.Applications}
-          className={"shadow-md rounded-xl mb-5 p-5 border border-gray-200"}
+          className={
+            "shadow-md block rounded-xl mb-5 p-5 border border-gray-200"
+          }
         >
           <div className={"flex justify-between items-start"}>
             <p className={"text-3xl font-medium font-poppins text-gray-800"}>
@@ -61,7 +67,7 @@ export default async function CreateNewPostingPage({
 
       <Link
         href={posting.id + Route.Explore}
-        className={"shadow-md rounded-xl mb-5 p-5 border border-gray-200"}
+        className={"shadow-md block rounded-xl mb-5 p-5 border border-gray-200"}
       >
         <div className={"flex justify-between items-start"}>
           <p className={"text-3xl font-medium font-poppins text-gray-600"}>
