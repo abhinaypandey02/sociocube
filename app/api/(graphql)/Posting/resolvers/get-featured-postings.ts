@@ -15,7 +15,7 @@ export async function getFeaturedPostings() {
         ne(PostingTable.agency, 134),
       ),
     )
-    .innerJoin(ApplicationTable, eq(ApplicationTable.posting, PostingTable.id))
+    .leftJoin(ApplicationTable, eq(ApplicationTable.posting, PostingTable.id))
     .groupBy(PostingTable.id)
     .orderBy(desc(count(ApplicationTable.id)))
     .limit(6);
