@@ -73,7 +73,8 @@ export async function getGroqResponse<T>(system: string, message?: string) {
   }
 }
 
-export function convertToAbbreviation(number: number) {
+export function convertToAbbreviation(number?: number | null) {
+  if (!number) return "0";
   // Create a new Intl.NumberFormat object with options
   const formatter = new Intl.NumberFormat("en", {
     notation: "compact",

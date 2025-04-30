@@ -502,19 +502,19 @@ input UpdatePortfolioArgs {
 }
 
 input UpdatePostingInput {
-  barter: Boolean!
+  barter: Boolean
   cities: [Int!]
   countries: [Int!]
   currencyCountry: Int
   deliverables: [String!]
-  description: String!
+  description: String
   externalLink: String
   extraDetails: String
   gender: String
   maximumAge: Float
   minimumAge: Float
   minimumFollowers: Float
-  platforms: [PostingPlatforms!]!
+  platforms: [PostingPlatforms!]
   price: Int
   states: [Int!]
 }

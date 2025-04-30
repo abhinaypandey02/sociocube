@@ -1,6 +1,6 @@
 "use client";
 import { CaretLeft } from "@phosphor-icons/react";
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useEffect } from "react";
 
 import { Route } from "@/constants/routes";
 import { useSubPage } from "@/lib/auth-client";
@@ -12,6 +12,13 @@ export default function SubpageRenderer({
 }: PropsWithChildren<{
   href: Route;
 }>) {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
   const { openSubPage, setOpenSubPage } = useSubPage();
   return (
     <div

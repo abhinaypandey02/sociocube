@@ -486,19 +486,19 @@ export type UpdatePortfolioArgs = {
 };
 
 export type UpdatePostingInput = {
-  barter: Scalars['Boolean']['input'];
+  barter?: InputMaybe<Scalars['Boolean']['input']>;
   cities?: InputMaybe<Array<Scalars['Int']['input']>>;
   countries?: InputMaybe<Array<Scalars['Int']['input']>>;
   currencyCountry?: InputMaybe<Scalars['Int']['input']>;
   deliverables?: InputMaybe<Array<Scalars['String']['input']>>;
-  description: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
   externalLink?: InputMaybe<Scalars['String']['input']>;
   extraDetails?: InputMaybe<Scalars['String']['input']>;
   gender?: InputMaybe<Scalars['String']['input']>;
   maximumAge?: InputMaybe<Scalars['Float']['input']>;
   minimumAge?: InputMaybe<Scalars['Float']['input']>;
   minimumFollowers?: InputMaybe<Scalars['Float']['input']>;
-  platforms: Array<PostingPlatforms>;
+  platforms?: InputMaybe<Array<PostingPlatforms>>;
   price?: InputMaybe<Scalars['Int']['input']>;
   states?: InputMaybe<Array<Scalars['Int']['input']>>;
 };

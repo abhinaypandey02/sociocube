@@ -17,8 +17,8 @@ import { getCleanExternalLink, handleDuplicateLinkError } from "../utils";
 @InputType("UpdatePostingInput")
 export class UpdatePostingInput {
   @MaxLength(POSTING_BIO_MAX_LENGTH)
-  @Field()
-  description: string;
+  @Field({ nullable: true })
+  description?: string;
   @MaxLength(BIO_MAX_LENGTH, { each: true })
   @Field(() => [String], { nullable: true })
   deliverables: string[] | null;
@@ -28,11 +28,11 @@ export class UpdatePostingInput {
   extraDetails: string | null;
   @Field(() => Int, { nullable: true })
   price: number | null;
-  @Field()
-  barter: boolean;
-  @Field(() => [PostingPlatforms])
+  @Field({ nullable: true })
+  barter?: boolean;
+  @Field(() => [PostingPlatforms], { nullable: true })
   @IsEnum(PostingPlatforms, { each: true })
-  platforms: PostingPlatforms[];
+  platforms?: PostingPlatforms[];
   @Field({ nullable: true })
   minimumAge: number;
   @Field({ nullable: true })

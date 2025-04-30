@@ -10,7 +10,7 @@ export default function AccountCard({
   cta,
 }: PropsWithChildren<{
   className?: string;
-  title?: string;
+  title?: ReactNode;
   subtitle?: string;
   cta?: ReactNode;
 }>) {
