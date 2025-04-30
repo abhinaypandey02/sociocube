@@ -66,6 +66,7 @@ export const getOnboardedUserNavbarSections = (
       label: "Campaigns",
       href: getRoute(user.role === "Creator" ? "Campaigns" : "YourCampaigns"),
     },
+    ...NAVBAR_COMMON_SECTIONS,
   ],
   secondaryLinks: [
     {
