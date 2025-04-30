@@ -23,7 +23,7 @@ export async function getFeaturedPostings() {
   const ours = await db
     .select(getTableColumns(PostingTable))
     .from(PostingTable)
-    .where(and(eq(PostingTable.open, true)))
+    .where(and(eq(PostingTable.open, true), ne(PostingTable.id, 62)))
     .innerJoin(ApplicationTable, eq(ApplicationTable.posting, PostingTable.id))
     .groupBy(PostingTable.id)
     .orderBy(desc(count(ApplicationTable.id)))
