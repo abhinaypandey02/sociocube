@@ -65,7 +65,7 @@ export default function SearchWindow({
             onChange={(e) => {
               setVariables((prev) => ({ ...prev, query: e.target.value }));
             }}
-            placeholder="Describe your requirements to the AI"
+            placeholder="Describe your requirements to AI"
             value={variables.query || ""}
           />
           <LinkWrapper

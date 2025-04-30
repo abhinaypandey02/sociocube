@@ -64,7 +64,7 @@ export default function Hero() {
                   variant={Variants.DARK}
                   invert
                 >
-                  Find Creators
+                  Find Creators with AI
                   <MagnifyingGlass />
                 </Button>
               </Link>

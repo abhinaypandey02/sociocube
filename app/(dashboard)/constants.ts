@@ -47,7 +47,7 @@ export const NAV_ITEMS: NavItem[] = [
   },
   {
     icon: MagnifyingGlass,
-    heading: "Find Creators",
+    heading: "Find Creators with AI",
     navTitle: "Search",
     href: Route.Search,
     roles: [Roles.Brand, Roles.Agency],

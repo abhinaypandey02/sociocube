@@ -24,7 +24,7 @@ const BUTTON_MESSAGE = {
   [Eligibility.Closed]: "Campaign over",
   [Eligibility.LessFollowers]: "Not enough followers",
   [Eligibility.NotOnboarded]: "Onboard to apply",
-  [Eligibility.NotCreator]: "Not a creator",
+  [Eligibility.NotCreator]: "Only creators can apply",
   [Eligibility.GenderMismatch]: "Not for your gender",
   [Eligibility.LocationMismatch]: "Not for your location",
 };
@@ -141,11 +141,7 @@ export default function ApplyNowButton({
       <LinkWrapper className="max-sm:w-full" href={buttonURL}>
         <Button
           className="w-full flex items-center gap-2"
-          disabled={
-            !buttonURL &&
-            !posting.externalLink &&
-            posting.eligibility !== Eligibility.Eligible
-          }
+          disabled={posting.eligibility !== Eligibility.Eligible}
           invert={appliedSuccess}
           loading={loading}
           onClick={handleClick}

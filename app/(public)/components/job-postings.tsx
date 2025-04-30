@@ -62,7 +62,7 @@ export default function JobPostings({
                   {posting.title}
                 </h3>
               </div>
-              <ArrowRight size={16} />
+              <ArrowRight className={"shrink-0"} size={16} />
             </div>
 
             <div
