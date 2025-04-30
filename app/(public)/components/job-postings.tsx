@@ -116,7 +116,7 @@ export default function JobPostings({
                 ) : null}
               </div>
               <dd
-                className="text-sm leading-6 mt-3 text-gray-600 line-clamp-5"
+                className="text-sm leading-6 mt-3 text-gray-600 line-clamp-2"
                 dangerouslySetInnerHTML={{
                   __html: renderRichText(posting.description),
                 }}
