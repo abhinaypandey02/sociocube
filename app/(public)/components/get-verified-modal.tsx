@@ -1,7 +1,7 @@
 "use client";
 import { INSTAGRAM_AUTHORIZATION_URL } from "@backend/(auth)/instagram/utils";
 import { ArrowSquareOut, SealCheck } from "@phosphor-icons/react/dist/ssr";
-import React from "react";
+import React, { useState } from "react";
 
 import { Button } from "@/components/button";
 
@@ -14,6 +14,7 @@ export default function GetVerifiedModal({
   isOpen: boolean;
   close: () => void;
 }) {
+  const [loading, setLoading] = useState(false);
   return (
     <Modal
       title={
@@ -31,50 +32,13 @@ export default function GetVerifiedModal({
         </p>
         <Button
           onClick={() => {
+            setLoading(true);
             setTimeout(() => {
               window.location.href = INSTAGRAM_AUTHORIZATION_URL;
+              setLoading(false);
             }, 1000);
           }}
-          className="mx-auto flex items-center gap-2"
-        >
-          Verify Account <ArrowSquareOut weight="bold" />
-        </Button>
-        <Button
-          onClick={() => {
-            setTimeout(() => {
-              window.location.href = INSTAGRAM_AUTHORIZATION_URL;
-            }, 500);
-          }}
-          className="mx-auto flex items-center gap-2"
-        >
-          Verify Account <ArrowSquareOut weight="bold" />
-        </Button>
-        <Button
-          onClick={() => {
-            setTimeout(() => {
-              window.location.href = INSTAGRAM_AUTHORIZATION_URL;
-            }, 2000);
-          }}
-          className="mx-auto flex items-center gap-2"
-        >
-          Verify Account <ArrowSquareOut weight="bold" />
-        </Button>
-        <Button
-          onClick={() => {
-            setTimeout(() => {
-              window.location.href = INSTAGRAM_AUTHORIZATION_URL;
-            }, 3000);
-          }}
-          className="mx-auto flex items-center gap-2"
-        >
-          Verify Account <ArrowSquareOut weight="bold" />
-        </Button>
-        <Button
-          onClick={() => {
-            setTimeout(() => {
-              window.location.href = INSTAGRAM_AUTHORIZATION_URL;
-            }, 4000);
-          }}
+          loading={loading}
           className="mx-auto flex items-center gap-2"
         >
           Verify Account <ArrowSquareOut weight="bold" />
