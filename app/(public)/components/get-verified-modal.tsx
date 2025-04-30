@@ -33,7 +33,7 @@ export default function GetVerifiedModal({
           onClick={() => {
             setTimeout(() => {
               window.location.href = INSTAGRAM_AUTHORIZATION_URL;
-            }, 0);
+            }, 1000);
           }}
           className="mx-auto flex items-center gap-2"
         >
@@ -43,7 +43,7 @@ export default function GetVerifiedModal({
           onClick={() => {
             setTimeout(() => {
               window.location.href = INSTAGRAM_AUTHORIZATION_URL;
-            }, 1);
+            }, 500);
           }}
           className="mx-auto flex items-center gap-2"
         >
@@ -53,7 +53,7 @@ export default function GetVerifiedModal({
           onClick={() => {
             setTimeout(() => {
               window.location.href = INSTAGRAM_AUTHORIZATION_URL;
-            }, 100);
+            }, 2000);
           }}
           className="mx-auto flex items-center gap-2"
         >
@@ -61,7 +61,19 @@ export default function GetVerifiedModal({
         </Button>
         <Button
           onClick={() => {
-            window.location.href = INSTAGRAM_AUTHORIZATION_URL;
+            setTimeout(() => {
+              window.location.href = INSTAGRAM_AUTHORIZATION_URL;
+            }, 3000);
+          }}
+          className="mx-auto flex items-center gap-2"
+        >
+          Verify Account <ArrowSquareOut weight="bold" />
+        </Button>
+        <Button
+          onClick={() => {
+            setTimeout(() => {
+              window.location.href = INSTAGRAM_AUTHORIZATION_URL;
+            }, 4000);
           }}
           className="mx-auto flex items-center gap-2"
         >
