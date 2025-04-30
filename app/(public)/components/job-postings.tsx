@@ -16,7 +16,7 @@ import {
   getPlatforms,
 } from "@/app/(dashboard)/campaigns/utils";
 import { getRoute } from "@/constants/routes";
-import { convertToAbbreviation } from "@/lib/utils";
+import { cn, convertToAbbreviation } from "@/lib/utils";
 
 import SectionWrapper from "./section-wrapper";
 
@@ -41,11 +41,14 @@ export default function JobPostings({
       title="Top Active Campaigns"
     >
       <ul className="mx-auto max-w-6xl divide-y divide-gray-100 grid lg:grid-cols-2 gap-5">
-        {postings.map((posting) => (
+        {postings.map((posting, i) => (
           <Link
             href={`${getRoute("Campaigns")}/${posting.id}`}
             key={posting.id}
-            className="hover:scale-[1.02] duration-500 transition-transform shadow-md rounded-xl p-5 gap-3 border border-gray-200"
+            className={cn(
+              "hover:scale-[1.02] duration-500 transition-transform shadow-md rounded-xl p-5 gap-3 border border-gray-200 " +
+                (i >= 5 ? "max-lg:hidden" : ""),
+            )}
           >
             <div className={"flex justify-between items-center w-full"}>
               <div className={"flex items-center gap-2 "}>
