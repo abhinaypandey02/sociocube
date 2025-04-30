@@ -29,7 +29,11 @@ export default function GetVerifiedModal({
         <p className="text-center">
           Login with your instagram account to get verified.
         </p>
-        <a className="mt-5 block" href={INSTAGRAM_AUTHORIZATION_URL}>
+        <a
+          target={"_blank"}
+          className="mt-5 block"
+          href={INSTAGRAM_AUTHORIZATION_URL}
+        >
           <Button className="mx-auto flex items-center gap-2">
             Verify Account <ArrowSquareOut weight="bold" />
           </Button>
