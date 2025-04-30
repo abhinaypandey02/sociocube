@@ -17,6 +17,7 @@ export interface AuthorizedContext {
 
 export async function context(req: NextRequest): Promise<Context> {
   const bearer = req.headers.get("authorization");
+  console.warn(bearer, req.cookies.get("refresh")?.value);
   if (!bearer) {
     const refresh = req.cookies.get("refresh")?.value;
     const userId = getUserIdFromRefreshToken(refresh);

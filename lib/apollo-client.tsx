@@ -84,7 +84,7 @@ export function useAuthMutation<T, V extends OperationVariables>(
         variables,
         context: tokenContext(token),
       }),
-    [token],
+    [token, mutate],
   );
   return [method, result] as const;
 }
