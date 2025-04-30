@@ -15,10 +15,9 @@ export default async function CreateNewPostingPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const numericID = parseInt(id);
   const { posting } = await queryGQL(
     GET_POSTING,
-    { id: numericID },
+    { id: parseInt(id) },
     undefined,
     0,
   );
