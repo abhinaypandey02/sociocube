@@ -33,7 +33,35 @@ export default function GetVerifiedModal({
           onClick={() => {
             setTimeout(() => {
               window.location.href = INSTAGRAM_AUTHORIZATION_URL;
-            }, 4000);
+            }, 0);
+          }}
+          className="mx-auto flex items-center gap-2"
+        >
+          Verify Account <ArrowSquareOut weight="bold" />
+        </Button>
+        <Button
+          onClick={() => {
+            setTimeout(() => {
+              window.location.href = INSTAGRAM_AUTHORIZATION_URL;
+            }, 1);
+          }}
+          className="mx-auto flex items-center gap-2"
+        >
+          Verify Account <ArrowSquareOut weight="bold" />
+        </Button>
+        <Button
+          onClick={() => {
+            setTimeout(() => {
+              window.location.href = INSTAGRAM_AUTHORIZATION_URL;
+            }, 100);
+          }}
+          className="mx-auto flex items-center gap-2"
+        >
+          Verify Account <ArrowSquareOut weight="bold" />
+        </Button>
+        <Button
+          onClick={() => {
+            window.location.href = INSTAGRAM_AUTHORIZATION_URL;
           }}
           className="mx-auto flex items-center gap-2"
         >
