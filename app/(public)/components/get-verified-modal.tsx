@@ -1,9 +1,10 @@
 "use client";
-import { INSTAGRAM_AUTHORIZATION_URL } from "@backend/(auth)/instagram/utils";
+import { getInstagramAuthorizationURL } from "@backend/(auth)/instagram/utils";
 import { ArrowSquareOut, SealCheck } from "@phosphor-icons/react/dist/ssr";
 import React, { useState } from "react";
 
 import { Button } from "@/components/button";
+import { useToken } from "@/lib/auth-client";
 
 import Modal from "../../../components/modal";
 
@@ -15,6 +16,7 @@ export default function GetVerifiedModal({
   close: () => void;
 }) {
   const [loading, setLoading] = useState(false);
+  const token = useToken();
   return (
     <Modal
       title={
@@ -31,10 +33,12 @@ export default function GetVerifiedModal({
           Login with your instagram account to get verified.
         </p>
         <Button
+          disabled={!token}
           onClick={() => {
+            if (!token) return;
             setLoading(true);
             setTimeout(() => {
-              window.location.href = INSTAGRAM_AUTHORIZATION_URL;
+              window.location.href = getInstagramAuthorizationURL(token);
               setLoading(false);
             }, 1000);
           }}
