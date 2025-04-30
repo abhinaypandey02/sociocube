@@ -1,4 +1,5 @@
-import { and, eq, inArray } from "drizzle-orm";
+import { InstagramDetails } from "@graphql/Instagram/db";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { ObjectType } from "type-graphql";
 import { Field } from "type-graphql";
 
@@ -30,6 +31,7 @@ export async function getRecommendations(posting: PostingDB) {
       stateIDs: posting.states,
     },
     10,
+    desc(sql`${InstagramDetails.er} * ${InstagramDetails.followers}`),
   );
   const applications = await db
     .select()

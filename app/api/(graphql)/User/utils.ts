@@ -52,6 +52,7 @@ export function usernameAllowed(username: string) {
 export async function getFilteredUsers(
   filters: UserSearchFilters,
   limit: number = 5,
+  orderBy?: SQL,
 ) {
   let ageFromDate: Date | undefined = undefined;
   let ageToDate: Date | undefined = undefined;
@@ -132,7 +133,7 @@ export async function getFilteredUsers(
           : undefined,
       ),
     )
-    .orderBy(desc(InstagramDetails.followers))
+    .orderBy(orderBy || desc(InstagramDetails.followers))
     .limit(limit);
   if (countries.length || cities.length || states.length) {
     sqlQuery.innerJoin(
