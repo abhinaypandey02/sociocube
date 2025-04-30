@@ -25,9 +25,6 @@ export async function context(req: NextRequest): Promise<Context> {
     const token = bearer.slice(7);
     try {
       const res = verify(token, process.env.SIGNING_KEY);
-      console.warn({
-        userId: typeof res !== "string" ? (res.id as number) : null,
-      });
       return { userId: typeof res !== "string" ? (res.id as number) : null };
     } catch {
       return { userId: null };

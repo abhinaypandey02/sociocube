@@ -73,7 +73,7 @@ export default function ApplyNowButton({
       if (!posting.externalLink) setIsModalOpen(true);
       else handleApply({});
     }
-  }, [appliedSuccess, buttonURL, posting.externalLink]);
+  }, [appliedSuccess, buttonURL, token, posting.externalLink]);
 
   const handleApply = (values: FormType) => {
     openExternalLink();
