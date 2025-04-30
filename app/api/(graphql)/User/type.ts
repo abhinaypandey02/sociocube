@@ -74,4 +74,5 @@ export interface UserSearchFilters {
   followersTo?: number | null;
   generalPriceFrom?: number | null;
   generalPriceTo?: number | null;
+  generalPriceToHard?: boolean;
 }

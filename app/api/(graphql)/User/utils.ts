@@ -167,19 +167,34 @@ export async function getFilteredUsers(
     }
   }
   if (filters.generalPriceFrom || filters.generalPriceTo) {
-    sqlQuery.leftJoin(
-      PricingTable,
-      and(
-        eq(PricingTable.user, UserTable.id),
+    if (filters.generalPriceToHard) {
+      sqlQuery.innerJoin(
+        PricingTable,
+        and(
+          eq(PricingTable.user, UserTable.id),
 
-        filters.generalPriceFrom
-          ? gte(PricingTable.starting, filters.generalPriceFrom)
-          : undefined,
-        filters.generalPriceTo
-          ? lte(PricingTable.starting, filters.generalPriceTo)
-          : undefined,
-      ),
-    );
+          filters.generalPriceFrom
+            ? gte(PricingTable.starting, filters.generalPriceFrom)
+            : undefined,
+          filters.generalPriceTo
+            ? lte(PricingTable.starting, filters.generalPriceTo)
+            : undefined,
+        ),
+      );
+    } else
+      sqlQuery.leftJoin(
+        PricingTable,
+        and(
+          eq(PricingTable.user, UserTable.id),
+
+          filters.generalPriceFrom
+            ? gte(PricingTable.starting, filters.generalPriceFrom)
+            : undefined,
+          filters.generalPriceTo
+            ? lte(PricingTable.starting, filters.generalPriceTo)
+            : undefined,
+        ),
+      );
   }
   return sqlQuery;
 }
