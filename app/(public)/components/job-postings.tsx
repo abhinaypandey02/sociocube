@@ -48,7 +48,7 @@ export default function JobPostings({
             className="hover:scale-[1.02] duration-500 transition-transform shadow-md rounded-xl p-5 gap-3 border border-gray-200"
           >
             <div className={"flex justify-between items-center w-full"}>
-              <h3 className="text-lg sm:text-xl flex items-center gap-2 font-medium leading-7 font-poppins text-gray-800 line-clamp-2">
+              <div className={"flex items-center gap-2 "}>
                 {posting.agency.photo && (
                   <Image
                     alt={posting.agency.name || ""}
@@ -58,8 +58,10 @@ export default function JobPostings({
                     width={28}
                   />
                 )}
-                {posting.title}
-              </h3>
+                <h3 className="text-lg font-medium leading-7 font-poppins text-gray-800 line-clamp-1">
+                  {posting.title}
+                </h3>
+              </div>
               <ArrowRight size={16} />
             </div>
 
