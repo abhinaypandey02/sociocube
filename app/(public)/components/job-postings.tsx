@@ -35,12 +35,12 @@ export default function JobPostings({
           className="z-10 flex items-center gap-2 pt-2 text-lg font-medium text-accent max-md:hidden"
           href={getRoute("Campaigns")}
         >
-          See all campaigns
+          See all active campaigns
           <ArrowRight />
         </Link>
       }
-      id="how-it-works"
-      title="Collab Opportunities"
+      id="collabs"
+      title="Top Active Campaigns"
     >
       <ul className="mx-auto max-w-6xl divide-y divide-gray-100 grid lg:grid-cols-2 gap-5">
         {postings.map((posting) => (
@@ -141,7 +141,7 @@ export default function JobPostings({
           className="flex items-center gap-2  font-medium text-accent "
           href={getRoute("Campaigns")}
         >
-          See all campaigns <ArrowRight />
+          See all active campaigns <ArrowRight />
         </Link>
       </div>
     </SectionWrapper>
