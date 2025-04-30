@@ -453,7 +453,7 @@ enum ROLES {
 }
 
 type Recommendation {
-  status: ApplicationStatus!
+  status: ApplicationStatus
   user: User!
 }
 

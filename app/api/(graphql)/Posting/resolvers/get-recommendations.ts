@@ -13,7 +13,7 @@ import { PostingDB } from "../db";
 export class Recommendation {
   @Field(() => UserGQL)
   user: UserGQL;
-  @Field()
+  @Field({ nullable: true })
   status?: ApplicationStatus;
 }
 

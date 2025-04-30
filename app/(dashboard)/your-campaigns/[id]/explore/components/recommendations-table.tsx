@@ -1,30 +1,22 @@
 "use client";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import {
-  ChatCircleDots,
-  EnvelopeSimple,
-  Phone,
-  SealCheck,
-} from "@phosphor-icons/react";
+import { EnvelopeSimple, Phone, SealCheck } from "@phosphor-icons/react";
 import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
-import type { CellContext } from "@tanstack/react-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 
-import type { GetPostingApplicationsQuery } from "@/__generated__/graphql";
+import type { GetPostingRecommendationsQuery } from "@/__generated__/graphql";
 import { ApplicationStatus } from "@/__generated__/graphql";
 import Table from "@/components/table";
 import { getAgeRange } from "@/constants/age";
 import { getRoute } from "@/constants/routes";
 import { convertToAbbreviation } from "@/lib/utils";
 
-import ApplicationActions from "./application-actions";
-import DownloadExcelButton from "./download-excel-button";
-
-type Application = GetPostingApplicationsQuery["applications"][number];
+type Application = NonNullable<
+  GetPostingRecommendationsQuery["posting"]
+>["recommendations"][number];
 const colHelper = createColumnHelper<Application & { reach: string }>();
 
 const DEFAULT_COLUMNS = [
@@ -151,14 +143,12 @@ const compareFn = (a: Application, b: Application) =>
   (a.status === ApplicationStatus.Rejected ? 1 : 0) -
   (b.status === ApplicationStatus.Rejected ? 1 : 0);
 
-export default function ApplicationsTable({
+export default function RecommendationsTable({
   applications: defaultApplications,
-  posting,
 }: {
   applications: Application[];
-  posting: GetPostingApplicationsQuery["posting"];
 }) {
-  const [applications, setApplications] = useState(
+  const [applications] = useState(
     defaultApplications.sort(compareFn).map((val) => ({
       ...val,
       reach: convertToAbbreviation(
@@ -170,100 +160,5 @@ export default function ApplicationsTable({
       ),
     })),
   );
-
-  const handleReject = (id: number) => {
-    setApplications((prev) =>
-      prev
-        .map((val) =>
-          val.id === id ? { ...val, status: ApplicationStatus.Rejected } : val,
-        )
-        .sort(compareFn),
-    );
-  };
-  const handleLike = (id: number) => {
-    setApplications((prev) =>
-      prev.map((val) =>
-        val.id === id ? { ...val, status: ApplicationStatus.Selected } : val,
-      ),
-    );
-  };
-
-  const handleReview = (id: number) => {
-    setApplications((prev) =>
-      prev.map((val) =>
-        val.id === id ? { ...val, status: ApplicationStatus.Selected } : val,
-      ),
-    );
-  };
-
-  const ApplicationActionsCell = useCallback(
-    (val: CellContext<Application & { reach: string }, ApplicationStatus>) => (
-      <ApplicationActions
-        handleLike={handleLike}
-        handleReject={handleReject}
-        handleReview={handleReview}
-        id={val.row.original.id}
-        status={val.getValue()}
-        user={val.row.original.user}
-      />
-    ),
-    [],
-  );
-  const columns = [
-    ...DEFAULT_COLUMNS,
-    ...(posting?.externalLink
-      ? []
-      : [
-          colHelper.accessor("comment", {
-            header: posting?.extraDetails || "Comment",
-
-            cell: (val) => {
-              const comment = val.getValue();
-              if (!comment) return null;
-              return (
-                <Popover className="relative">
-                  <PopoverButton className="flex items-center font-poppins">
-                    {comment.slice(0, 25)}
-                    {comment.length > 25 ? (
-                      <ChatCircleDots
-                        className="ml-1 text-primary"
-                        size={18}
-                        weight="duotone"
-                      />
-                    ) : null}
-                  </PopoverButton>
-                  <PopoverPanel
-                    anchor="top"
-                    className="flex w-80 -translate-y-2 flex-col rounded-xl border border-gray-200 bg-white px-5 py-3 text-center text-sm font-light shadow-sm"
-                  >
-                    {val.getValue()}
-                  </PopoverPanel>
-                </Popover>
-              );
-            },
-          }),
-        ]),
-
-    colHelper.accessor("status", {
-      header: "Actions",
-      cell: ApplicationActionsCell,
-    }),
-  ];
-  return (
-    <Table
-      cta={
-        <DownloadExcelButton
-          applications={applications}
-          extraDetails={
-            posting?.externalLink
-              ? undefined
-              : posting?.extraDetails || "Comment"
-          }
-          postingTitle={posting?.title || "Posting"}
-        />
-      }
-      columns={columns}
-      data={applications}
-    />
-  );
+  return <Table columns={DEFAULT_COLUMNS} data={applications} />;
 }

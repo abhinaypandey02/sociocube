@@ -59,21 +59,18 @@ export default async function CreateNewPostingPage({
         </Link>
       </div>
 
-      <div className={"shadow-md rounded-xl mb-5 p-5 border border-gray-200"}>
+      <Link
+        href={posting.id + Route.Explore}
+        className={"shadow-md rounded-xl mb-5 p-5 border border-gray-200"}
+      >
         <div className={"flex justify-between items-start"}>
           <p className={"text-3xl font-medium font-poppins text-gray-600"}>
             <MagnifyingGlass weight={"bold"} />
           </p>
-          <div
-            className={
-              "bg-primary/90 text-xs text-white rounded-md px-1.5 py-0.5"
-            }
-          >
-            Coming soon
-          </div>
+          <ArrowRight />
         </div>
         <h2 className={"font-poppins mt-3"}>Explore recommendations</h2>
-      </div>
+      </Link>
       <RequirementsSections posting={posting} />
     </div>
   );

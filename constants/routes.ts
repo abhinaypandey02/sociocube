@@ -13,6 +13,7 @@ export enum Route {
   Campaigns = "/campaigns",
   YourCampaigns = `/your-campaigns`,
   Applications = `/applications`,
+  Explore = `/explore`,
   NewCampaign = `${YourCampaigns}/new`,
 }
 

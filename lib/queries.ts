@@ -457,6 +457,36 @@ export const GET_POSTING_APPLICATIONS = gql(`
     }
   }
 `);
+export const GET_POSTING_RECOMMENDATIONS = gql(`
+  #graphql
+  query GetPostingRecommendations($postingID:Int!) {
+    posting: getPosting(id: $postingID){
+      title
+        recommendations {
+            status
+            user {
+                name
+                photo
+                dob
+                email
+                phone
+                gender
+                bio
+                username
+                instagramStats {
+                    isVerified
+                    username
+                    followers
+                    averageLikes
+                    averageComments
+                    er
+                    mediaCount
+                }
+            }
+        }
+    }
+  }
+`);
 
 export const VERIFY_EMAIL = gql(`
   #graphql
