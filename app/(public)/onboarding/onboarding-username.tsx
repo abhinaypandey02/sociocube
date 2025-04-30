@@ -1,7 +1,7 @@
 "use client";
 import type { GraphQLError } from "graphql/error";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
@@ -36,11 +36,6 @@ export default function OnboardingUsername({
   const [isUsernameAvailable, { loading: loadingAvailability }] = useAuthQuery(
     IS_USERNAME_AVAILABLE,
   );
-  useEffect(() => {
-    if (!redirectURL) {
-      router.prefetch(getRoute("Profile"));
-    }
-  }, [redirectURL, router]);
   const onSubmit: SubmitHandler<typeof defaultValues> = (data) => {
     if (data.username) {
       setLoading(true);
