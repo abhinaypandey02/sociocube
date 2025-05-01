@@ -145,7 +145,7 @@ export default function ApplyNowButton({
           className="w-full flex items-center gap-2"
           disabled={posting.eligibility !== Eligibility.Eligible}
           invert={appliedSuccess}
-          loading={loading || token === undefined}
+          loading={loading}
           onClick={handleClick}
           variant={Variants.ACCENT}
         >
