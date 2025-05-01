@@ -15,6 +15,7 @@ import genders from "@/constants/genders";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { useUser } from "@/lib/auth-client";
 import { UPDATE_USER } from "@/lib/mutations";
+import { getProxiedForInstagramURL } from "@/lib/utils";
 
 interface FormFields {
   name: string;
@@ -76,7 +77,7 @@ export default function OnboardingBasicDetailsForm({
         onNewURL={(url) => {
           setUser((prev) => (!prev ? prev : { ...prev, photo: url }));
         }}
-        defaultPhoto={user?.photo}
+        defaultPhoto={getProxiedForInstagramURL(user?.photo)}
       >
         <User size={40} />
       </ImageUploader>

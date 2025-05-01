@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 
 import Logo from "@/app/logo";
 import { Button } from "@/components/button";
-import { cn } from "@/lib/utils";
+import { cn, getProxiedForInstagramURL } from "@/lib/utils";
 
 import UserImage from "../user-image";
 import type { NavbarProps } from "./types";
@@ -104,7 +104,7 @@ function Navbar({
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
                   {user ? (
-                    <UserImage photo={user.photo} />
+                    <UserImage photo={getProxiedForInstagramURL(user.photo)} />
                   ) : open ? (
                     <X className="sm:hidden" size={24} />
                   ) : (
