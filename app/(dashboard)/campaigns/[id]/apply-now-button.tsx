@@ -143,7 +143,10 @@ export default function ApplyNowButton({
       <LinkWrapper className="max-sm:w-full" href={buttonURL}>
         <Button
           className="w-full flex items-center gap-2"
-          disabled={posting.eligibility !== Eligibility.Eligible}
+          disabled={
+            posting.eligibility !== Eligibility.Eligible &&
+            (!buttonURL || buttonURL !== posting.externalLink)
+          }
           invert={appliedSuccess}
           loading={loading}
           onClick={handleClick}
