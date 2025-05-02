@@ -107,5 +107,7 @@ export const getUsernameInputRules = (
 });
 
 export function getProxiedForInstagramURL(url?: string | null) {
-  return url?.includes("instagram.com") ? "/image-proxy?url=" + url : url;
+  return url?.includes("instagram.com") || url?.includes("fbcdn.net")
+    ? "/api/image-proxy?url=" + url
+    : url;
 }

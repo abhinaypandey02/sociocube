@@ -19,7 +19,6 @@ import { getProxiedForInstagramURL } from "@/lib/utils";
 
 interface FormFields {
   name: string;
-  photo: string;
   bio: string;
   gender?: string;
   category?: string;

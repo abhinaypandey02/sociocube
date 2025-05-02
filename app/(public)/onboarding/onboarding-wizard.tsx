@@ -134,9 +134,9 @@ function OnboardingWizard({
                 prev
                   ? {
                       ...prev,
-                      name: val.name,
-                      photo: val.photo,
-                      username: val.username,
+                      name: val.name || prev.name,
+                      photo: val.photo || prev.photo,
+                      username: val.username || prev.username,
                     }
                   : prev,
               );
@@ -157,7 +157,6 @@ function OnboardingWizard({
           <OnboardingBasicDetailsForm
             defaultValues={{
               name: basicDetails?.name || currentUser.name || "",
-              photo: basicDetails?.photo || currentUser.photo || "",
               bio: basicDetails?.bio || currentUser.bio || "",
               category: currentUser.category || undefined,
               gender: currentUser.gender || undefined,

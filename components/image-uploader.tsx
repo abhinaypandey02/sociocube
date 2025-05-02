@@ -43,8 +43,8 @@ export default function ImageUploader({
   const [profilePictureURL, setProfilePictureURL] = useState(defaultPhoto);
 
   useEffect(() => {
-    if (onNewURL) onNewURL(profilePictureURL);
-  }, [profilePictureURL]);
+    setProfilePictureURL(defaultPhoto);
+  }, [defaultPhoto]);
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -76,7 +76,9 @@ export default function ImageUploader({
       ) {
         toast.error(`Only png and jpeg image types are allowed`);
       } else {
-        setProfilePictureURL(URL.createObjectURL(file));
+        const url = URL.createObjectURL(file);
+        setProfilePictureURL(url);
+        onNewURL?.(url);
         const formData = new FormData();
         formData.set("file", file);
         if (onChange) onChange(formData);
@@ -90,6 +92,7 @@ export default function ImageUploader({
 
   const handleRemove = () => {
     setProfilePictureURL(undefined);
+    onNewURL?.(undefined);
     if (onChange) return onChange(undefined);
     else if (token) {
       handleImageUpload(new FormData(), token).then((photo) => {
