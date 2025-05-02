@@ -1,45 +1,122 @@
-import SectionWrapper from "./section-wrapper";
+import {
+  LinkedinLogo,
+  ThreadsLogo,
+  XLogo,
+} from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
 
-const stats = [
-  { label: "Hassle", value: "0" },
-  { label: "Free", value: "100%" },
-  { label: "Growth", value: "200%" },
-];
+import SectionWrapper from "./section-wrapper";
 
 export default function AboutUs() {
   return (
-    <SectionWrapper headerClassName="mb-6! " id="about-us" title="About Us">
-      <div className=" flex flex-col gap-x-8 gap-y-10 lg:flex-row">
-        <div className="lg:w-full lg:max-w-2xl lg:flex-auto">
-          <p className="text-justify text-xl leading-8 text-gray-600">
-            At Sociocube, we connect brands and influencers to create authentic
-            collaborations. Our platform simplifies influencer marketing, making
-            it easy for brands to engage their audience and for influencers to
-            find meaningful partnerships.
+    <SectionWrapper
+      headerClassName="mb-6! "
+      id="about-us"
+      prefixTitle={"About Us"}
+      title="Built by two. Built for many."
+    >
+      <div className="justify-center flex gap-14 max-lg:flex-wrap items-center">
+        <div className="">
+          <p className="  leading-7 text-gray-600">
+            We’re two friends who go way back to our college days, united by a
+            shared love for tech and building things that matter. Over countless
+            brainstorming sessions and late-night code sprints, we realized how
+            broken the influencer-brand ecosystem still is—especially for
+            emerging creators who deserve better opportunities.
           </p>
-          <p className="mt-10 text-justify text-base leading-7 text-gray-700">
-            Our mission is to empower both influencers and brands by providing a
-            user-friendly platform for seamless connections and collaborations.
-            We prioritize transparency and authenticity, allowing influencers to
-            showcase their unique styles while helping brands find the perfect
-            voices to amplify their messages. Join us at Sociocube as we
-            transform the way influencers and brands work together, creating a
-            more collaborative future in the influencer economy.
+          <p className="mt-10 text-xl leading-8 text-gray-700">
+            That’s why we started Sociocube—to create a platform that connects
+            creators and brands without the noise, middlemen, or gatekeeping.
+            We're building this ourselves, from scratch, driven by purpose and a
+            belief that technology can open doors for every kind of influencer.
+            This is just the beginning.
           </p>
         </div>
-        <div className="lg:flex lg:flex-auto lg:justify-center">
-          <dl className="space-y-8 sm:w-64 xl:w-80">
-            {stats.map((stat) => (
-              <div className="flex flex-col-reverse gap-y-4" key={stat.label}>
-                <dt className="text-xl leading-7 text-gray-600 max-sm:text-center">
-                  {stat.label}
-                </dt>
-                <dd className="font-poppins text-5xl font-semibold text-gray-900 max-sm:text-center">
-                  {stat.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
+        <div className="flex items-center max-sm:flex-wrap justify-center sm:shrink-0 gap-10">
+          <div className={"shrink-0"}>
+            <Image
+              width={288}
+              height={288}
+              className={"rounded-xl size-64"}
+              src={"/shraddha.png"}
+              alt={"Shraddha Sharma"}
+            />
+            <h4 className={"text-center text-2xl font-poppins mt-3"}>
+              Shraddha Sharma
+            </h4>
+            <p className={"text-center text-gray-600 mt-0.5"}>
+              Marketing & Tech
+            </p>
+            <div
+              className={
+                "flex gap-3 text-2xl justify-center mt-1.5 text-primary"
+              }
+            >
+              <a
+                target={"_blank"}
+                rel={"noreferrer"}
+                href={"https://threads.com/@whatshraddha"}
+              >
+                <ThreadsLogo />
+              </a>
+              <a
+                target={"_blank"}
+                rel={"noreferrer"}
+                href={"https://x.com/whatshraddha"}
+              >
+                <XLogo />
+              </a>
+              <a
+                target={"_blank"}
+                rel={"noreferrer"}
+                href={"https://www.linkedin.com/in/shraddha-sharma-97309135a/"}
+              >
+                <LinkedinLogo />
+              </a>
+            </div>
+          </div>
+          <div>
+            <Image
+              width={288}
+              height={288}
+              className={"rounded-xl size-64"}
+              src={
+                "https://cdn.sanity.io/images/79g6hku1/production/6fa55a30db3979aa4cc63d8c7722b8b269c77ab3-845x845.jpg"
+              }
+              alt={"Abhinay Pandey"}
+            />
+            <h4 className={"text-center text-2xl font-poppins mt-3"}>
+              Abhinay Pandey
+            </h4>
+            <p className={"text-center text-gray-600 mt-0.5"}>Sales & Tech</p>
+            <div
+              className={
+                "flex gap-3 text-2xl justify-center mt-1.5 text-primary"
+              }
+            >
+              <a
+                target={"_blank"}
+                rel={"noreferrer"}
+                href={"https://threads.com/@abhinayx"}
+              >
+                <ThreadsLogo />
+              </a>
+              <a
+                target={"_blank"}
+                rel={"noreferrer"}
+                href={"https://x.com/abhinaypandeyx"}
+              >
+                <XLogo />
+              </a>
+              <a
+                target={"_blank"}
+                rel={"noreferrer"}
+                href={"https://linkedin.com/in/abhinayx"}
+              >
+                <LinkedinLogo />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </SectionWrapper>

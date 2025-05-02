@@ -17,9 +17,6 @@ const HowItWorks = dynamic(
 const Cta = dynamic(() => import("@/app/(public)/components/cta"));
 const Features = dynamic(() => import("@/app/(public)/components/features"));
 const AboutUs = dynamic(() => import("@/app/(public)/components/about-us"));
-const FiltersList = dynamic(
-  () => import("@/app/(public)/components/filters-list"),
-);
 
 export function generateMetadata(): Metadata {
   return getSEO();
@@ -47,9 +44,8 @@ async function HomePage() {
       <TopCreators sellers={sellers} />
       <JobPostings postings={postings} />
       <HowItWorks />
-      <FiltersList />
-      <Features />
       <AboutUs />
+      <Features />
       <Faqs />
       <Cta />
     </>

@@ -13,54 +13,44 @@ import SectionWrapper from "./section-wrapper";
 
 const faqs = [
   {
-    question: "What is this platform for?",
+    question: "What is Sociocube?",
     answer:
-      "Our platform connects brands with influencers, making it easy to find, communicate, and collaborate on posts, stories, reels, and more. We simplify the process of finding influencers that align with your brand’s goals.",
+      "Sociocube is the biggest influencer marketing platform that's open for all. It’s the only place where brands and creators can connect with each other completely free. We’ve built powerful AI features like AI search and AI campaign creation to make collaborations smarter and faster. Every creator also gets a personal dashboard with a portfolio builder, link-in-bio tool, and performance insights.",
   },
   {
-    question: "How do I find influencers on this platform?",
+    question: "Who can join Sociocube?",
     answer:
-      "You can search for influencers using filters like age, gender, follower count, category, location, and starting price. Each influencer has a detailed profile showcasing their reach, engagement, and Instagram posts to help you make informed decisions.",
+      "Anyone and everyone! The only requirement for creators is to have a public Instagram account. For brands, not even that is needed. There are no follower count restrictions—just sign up and start connecting.",
   },
   {
-    question: "Is this platform free to use?",
+    question: "Is Sociocube free to use?",
     answer:
-      "Yes, all features on our platform are completely free for both brands and influencers.",
+      "Yes—Sociocube is totally free for creators. Brands can also use it for free with full access to basic features. For higher usage levels, a small subscription fee helps support the AI tools, but there’s also a 7-day free trial for premium features. You’ll always be able to get started and collaborate without paying a rupee.",
   },
   {
-    question: "How can I contact influencers?",
+    question: "How do brands and creators connect on Sociocube?",
     answer:
-      "You can chat with influencers directly through our portal once you find a profile you’re interested in. Just click on the chat option on the influencer’s profile to start a conversation.",
+      "Creators apply to brand campaigns directly from the platform—it’s completely free and only takes one click. No endless forms! On the brand side, our AI Search helps find ideal creators instantly, while AI Campaigns allow brands to post collaboration offers and review full creator profiles to shortlist the best fit.",
   },
   {
-    question: "How do influencers join the platform?",
+    question: "What makes Sociocube different from other influencer platforms?",
     answer:
-      "Influencers can join through a simple onboarding process where they connect their Instagram account and provide some basic details. This process ensures that all influencer profiles are authentic and up-to-date.",
+      "For starters—it's 100% free and open to all. You can get started in under 30 seconds. We have a real, growing community—not just a scraped directory. Brands get full analytics on applicants, and creators enjoy a clean, easy-to-use interface. Oh, and it’s being built from the ground up by two passionate college friends.",
   },
   {
-    question: "Can I see an influencer's Instagram content on their profile?",
+    question: "What kind of AI features does Sociocube offer?",
     answer:
-      "Yes, each influencer’s profile displays a preview of their Instagram posts, along with details like reach, follower count, and engagement to help you get a better sense of their content style and audience.",
+      "Our AI Search lets brands describe what they’re looking for—like “female creators in Delhi with 10k to 30k followers”—and instantly surfaces top matches. AI Campaigns guide brands through setting up a perfect collaboration posting. Plus, our AI Script Generator helps brands and creators craft personalized pitches and scripts effortlessly.",
   },
   {
-    question: "What types of collaborations can I request?",
+    question: "How does Sociocube help creators grow?",
     answer:
-      "Brands can collaborate with influencers on various types of content, including Instagram stories, posts, reels, and more. Specific collaboration options will vary depending on each influencer’s offerings.",
+      "Sociocube gives creators a free, auto-generated portfolio, a personalized link-in-bio tool, and access to detailed statistics about their performance. You can apply to unlimited campaigns, share your portfolio link anywhere, and even get reviews from brands as proof of work. And yes—it’s all completely free.",
   },
   {
-    question: "Is there any cost to connect with an influencer?",
+    question: "Can creators trust brands on Sociocube?",
     answer:
-      "Our platform does not charge any fees for connecting or chatting with influencers. However, any fees or costs related to the collaboration itself are between the brand and the influencer.",
-  },
-  {
-    question: "Can I cancel a collaboration?",
-    answer:
-      "Any agreements or collaborations are arranged directly between brands and influencers. We recommend clarifying terms before confirming a collaboration. For further assistance, please contact our support team.",
-  },
-  {
-    question: "How can I ensure a successful collaboration?",
-    answer:
-      "We encourage brands to communicate clearly with influencers and discuss their expectations in detail before starting any collaboration. Our platform also provides insights into each influencer's engagement and content style to help you choose the best fit for your brand.",
+      "Sociocube is an open platform that helps people connect. We do show a verification badge for Instagram-verified users, but we don’t do deeper verification beyond that. We believe in giving everyone a chance—but it’s up to creators to do their due diligence before entering collaborations.",
   },
 ];
 function Faqs() {
@@ -85,17 +75,17 @@ function Faqs() {
         }}
         id="faqs"
       />
-      <dl className="space-y-6 divide-y divide-gray-900/10">
+      <dl className="space-y-6 divide-y divide-gray-800/10">
         {faqs.map((faq, i) => (
           <Disclosure
             as="div"
-            className="pt-6"
+            className="py-6"
             key={faq.question + i.toString()}
           >
             {({ open }) => (
               <>
                 <dt>
-                  <DisclosureButton className="flex w-full items-start justify-between text-left text-gray-900">
+                  <DisclosureButton className="flex w-full items-start pb-2 justify-between text-left text-gray-900">
                     <span className="text-lg font-semibold leading-7">
                       {faq.question}
                     </span>

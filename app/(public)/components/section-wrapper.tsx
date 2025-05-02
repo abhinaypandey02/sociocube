@@ -25,7 +25,7 @@ export default function SectionWrapper({
 }>) {
   return (
     <div
-      className={`mx-auto max-w-7xl px-6 py-16 sm:my-16 lg:px-8 ${className}`}
+      className={`mx-auto max-w-7xl px-6 py-12 sm:my-12 lg:px-8 ${className}`}
       id={id}
     >
       <div
@@ -55,13 +55,15 @@ export default function SectionWrapper({
           >
             {title}
           </h2>
-          <p
-            className={`mt-3 leading-8 text-gray-600 sm:mt-6 sm:text-lg ${
-              center ? "sm:text-center" : ""
-            }`}
-          >
-            {description}
-          </p>
+          {description && (
+            <p
+              className={`mt-3 leading-8 text-gray-600 sm:mt-6 sm:text-lg ${
+                center ? "sm:text-center" : ""
+              }`}
+            >
+              {description}
+            </p>
+          )}
         </div>
         {headerElements}
       </div>
