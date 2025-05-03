@@ -1,7 +1,8 @@
 "use client";
 import { ArrowSquareOut, ShareNetwork } from "@phosphor-icons/react";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 import { Eligibility, GetAllPostingsQuery } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
@@ -91,16 +92,6 @@ export default function ApplyNowButton({
   };
 
   const loading = isRouteLoading || applyNowLoading;
-  useEffect(() => {
-    try {
-      if (
-        typeof window !== "undefined" &&
-        typeof navigator !== "undefined" &&
-        typeof navigator.share !== "undefined"
-      )
-        setCanShare(true);
-    } catch {}
-  }, []);
   return (
     <>
       <Modal close={handleClose} open={isModalOpen}>
@@ -161,11 +152,18 @@ export default function ApplyNowButton({
 
       <IconButton
         className="max-lg:translate-x-3"
-        onClick={() =>
-          navigator.share({
-            text: getShareText(posting),
-          })
-        }
+        onClick={() => {
+          try {
+            void navigator.share({
+              text: getShareText(posting),
+            });
+          } catch {}
+          try {
+            navigator.clipboard.writeText(getShareText(posting)).then(() => {
+              toast.success("Copied to clipboard");
+            });
+          } catch {}
+        }}
       >
         <ShareNetwork className="text-accent" size={24} weight="duotone" />
       </IconButton>
