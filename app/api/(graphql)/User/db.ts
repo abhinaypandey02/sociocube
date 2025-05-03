@@ -56,7 +56,7 @@ export const SubscriptionTable = pgTable("subscription", {
   subscriptionID: text("subscription_id").unique(),
   plan: plansEnum("plan"),
   searchUsage: integer("u_search").notNull().default(0),
-  campaignsUsage: integer("u_search").notNull().default(0),
+  campaignsUsage: integer("u_campaigns").notNull().default(0),
   nextBilling: timestamp("next_billing"),
   status: planStatusEnum("status"),
 });
