@@ -226,6 +226,7 @@ enum __TypeKind {
 schema {
   query: Query
   mutation: Mutation
+  subscription: Subscription
 }
 
 input AddPortfolioArgs {
@@ -436,6 +437,7 @@ type Query {
   getPosting(id: Int!): Posting
   getPostingApplications(postingID: Int!): [Application!]!
   getSeller(username: String!): User
+  getSubscription: Subscription
   getUserApplications: [Application!]!
   getUserPostings(page: Float): [Posting!]!
   isUsernameAvailable(username: String!): Boolean!
@@ -481,6 +483,30 @@ input SendReviewByUserArgs {
   caption: String
   link: String
   posting: Float!
+}
+
+type Subscription {
+  campaignsUsage: Float!
+  link: String
+  nextBilling: Float
+  plan: SubscriptionPlan
+  searchUsage: Float!
+  status: SubscriptionPlanStatus
+  subscriptionID: String
+}
+
+enum SubscriptionPlan {
+  Plus
+}
+
+enum SubscriptionPlanStatus {
+  Active
+  Cancelled
+  Expired
+  Failed
+  OnHold
+  Paused
+  Pending
 }
 
 type UpdateInstagramUsernameResponse {

@@ -1,3 +1,7 @@
+import {
+  SubscriptionPlan,
+  SubscriptionPlanStatus,
+} from "@backend/lib/constants/plans";
 import { Roles } from "@backend/lib/constants/roles";
 import { Field, InputType, ObjectType } from "type-graphql";
 
@@ -23,6 +27,24 @@ export class LocationID {
   city?: number;
   @Field({ nullable: true })
   country?: number;
+}
+
+@ObjectType("Subscription")
+export class Subscription {
+  @Field(() => String, { nullable: true })
+  subscriptionID?: string | null;
+  @Field(() => SubscriptionPlan, { nullable: true })
+  plan?: SubscriptionPlan | null;
+  @Field({ defaultValue: 0 })
+  searchUsage?: number;
+  @Field({ defaultValue: 0 })
+  campaignsUsage?: number;
+  @Field(() => Number, { nullable: true })
+  nextBilling?: Date | null;
+  @Field(() => SubscriptionPlanStatus, { nullable: true })
+  status?: SubscriptionPlanStatus | null;
+  @Field(() => String, { nullable: true })
+  link?: string | null;
 }
 
 @ObjectType("User")

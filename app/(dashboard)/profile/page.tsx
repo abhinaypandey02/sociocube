@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
 
+import PlanSection from "@/app/(dashboard)/profile/components/plan-section";
 import { getRoute, Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
 import { Injector, queryGQL } from "@/lib/apollo-server";
@@ -9,6 +10,7 @@ import {
   GET_ACCOUNT_PORTFOLIO_DETAILS,
   GET_ACCOUNT_PROFILE_DETAILS,
   GET_ACCOUNT_SOCIAL_DETAILS,
+  GET_SUBSCRIPTION,
 } from "@/lib/queries";
 
 import SubpageRenderer from "../components/subpage-renderer";
@@ -40,6 +42,10 @@ export default async function ProfilePage() {
       <Injector
         fetch={() => queryGQL(GET_ACCOUNT_SOCIAL_DETAILS, undefined, Cookie, 0)}
         Component={StatsSection}
+      />
+      <Injector
+        fetch={() => queryGQL(GET_SUBSCRIPTION, undefined, Cookie, 0)}
+        Component={PlanSection}
       />
       <Injector
         fetch={() =>

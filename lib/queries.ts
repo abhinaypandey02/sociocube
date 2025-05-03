@@ -24,6 +24,7 @@ export const GET_USER_CURRENCY = gql(`
   #graphql
   query GetUserCurrency {
     user: getCurrentUser {
+        id
       locationID {
         country
       }
@@ -210,6 +211,7 @@ export const GET_ACCOUNT_PORTFOLIO_DETAILS = gql(`
   #graphql
   query GetAccountPortfolioDetails {
     user: getCurrentUser {
+        id
       portfolio {
           caption
           id
@@ -224,6 +226,7 @@ export const GET_ACCOUNT_SOCIAL_DETAILS = gql(`
   #graphql
   query GetAccountSocialDetails {
     user: getCurrentUser {
+        id
       instagramStats {
         username
         isVerified
@@ -241,6 +244,7 @@ export const GET_ACCOUNT_PROFILE_DETAILS = gql(`
   #graphql
   query GetAccountProfileDetails {
     user: getCurrentUser {
+        id
       name
       email
       emailVerified
@@ -513,5 +517,14 @@ export const GET_USER_APPLICATIONS = gql(`
         id
       }
     }
+  }
+`);
+
+export const GET_SUBSCRIPTION = gql(`
+  #graphql
+  query GetSubscription {
+      getSubscription{
+          link
+      }
   }
 `);

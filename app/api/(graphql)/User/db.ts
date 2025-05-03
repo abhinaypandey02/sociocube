@@ -1,3 +1,7 @@
+import {
+  SubscriptionPlan,
+  SubscriptionPlanStatus,
+} from "@backend/lib/constants/plans";
 import { Roles } from "@backend/lib/constants/roles";
 import { sql } from "drizzle-orm";
 import {
@@ -25,6 +29,16 @@ export const rolesEnum = pgEnum("role", [
   Roles.Agency,
   Roles.Creator,
 ]);
+export const plansEnum = pgEnum("plan", [SubscriptionPlan.Plus]);
+export const planStatusEnum = pgEnum("plan_status", [
+  SubscriptionPlanStatus.Active,
+  SubscriptionPlanStatus.Failed,
+  SubscriptionPlanStatus.Cancelled,
+  SubscriptionPlanStatus.OnHold,
+  SubscriptionPlanStatus.Paused,
+  SubscriptionPlanStatus.Pending,
+  SubscriptionPlanStatus.Expired,
+]);
 export const gendersEnum = pgEnum("genders", genders as [string, ...string[]]);
 export const categoriesEnum = pgEnum(
   "categories",
@@ -33,6 +47,19 @@ export const categoriesEnum = pgEnum(
     ...string[],
   ],
 );
+
+export const SubscriptionTable = pgTable("subscription", {
+  user: integer("user")
+    .unique()
+    .references(() => UserTable.id)
+    .notNull(),
+  subscriptionID: text("subscription_id").unique(),
+  plan: plansEnum("plan"),
+  searchUsage: integer("u_search").notNull().default(0),
+  campaignsUsage: integer("u_search").notNull().default(0),
+  nextBilling: timestamp("next_billing"),
+  status: planStatusEnum("status"),
+});
 
 export const UserTable = pgTable(
   "user",
