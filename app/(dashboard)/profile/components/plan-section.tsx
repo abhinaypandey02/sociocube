@@ -9,12 +9,12 @@ export default function PlanSection({ data }: { data?: GetSubscriptionQuery }) {
   if (!subscription) return null;
   return (
     <AccountCard
-      title="Instagram Stats"
-      subtitle="These are just estimates and not official data."
+      title="Subscriptions"
+      subtitle="Manage your billing and subscriptions."
     >
       {subscription.link && (
         <a href={subscription.link}>
-          <Button>Upgrade</Button>
+          <Button>Get Sociocube+</Button>
         </a>
       )}
     </AccountCard>
