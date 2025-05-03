@@ -160,7 +160,6 @@ export default function ApplyNowButton({
       </LinkWrapper>
 
       <IconButton
-        disabled={canShare}
         className="max-lg:translate-x-3"
         onClick={() =>
           navigator.share({
