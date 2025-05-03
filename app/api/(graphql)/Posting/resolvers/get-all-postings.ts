@@ -163,8 +163,8 @@ export async function getAllPostings(
   }
   const eligibility = (posting: PostingDB) => {
     if (!posting.open) return Eligibility.Closed;
-    if (!ctx.userId || !user) return Eligibility.Unauthorized;
-    if (!isOnboarded) return Eligibility.NotOnboarded;
+    if (!ctx.userId) return Eligibility.Unauthorized;
+    if (!isOnboarded || !user) return Eligibility.NotOnboarded;
     if (user.user.role !== Roles.Creator) return Eligibility.NotCreator;
     if (posting.gender && user.user.gender !== posting.gender)
       return Eligibility.GenderMismatch;
