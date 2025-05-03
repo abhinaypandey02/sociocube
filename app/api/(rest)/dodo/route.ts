@@ -10,15 +10,13 @@ import { Webhook, WebhookUnbrandedRequiredHeaders } from "standardwebhooks";
 const webhook = new Webhook(process.env.DODO_PAYMENTS_WEBHOOK_KEY || "");
 
 export const POST = async (req: NextRequest) => {
-  const body = req.body;
+  const raw = await req.text();
 
   const webhookHeaders: WebhookUnbrandedRequiredHeaders = {
     "webhook-id": (req.headers.get("webhook-id") || "") as string,
     "webhook-signature": (req.headers.get("webhook-signature") || "") as string,
     "webhook-timestamp": (req.headers.get("webhook-timestamp") || "") as string,
   };
-
-  const raw = JSON.stringify(body);
 
   const { data } = (await webhook.verify(raw, webhookHeaders)) as {
     data: {
