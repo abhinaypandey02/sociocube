@@ -76,11 +76,11 @@ export default function Table<T>({
         {cta}
       </div>
       <table className={cn("w-full caption-bottom text-sm")}>
-        <thead className={cn("[&_tr]:border-b")}>
+        <thead className={cn("")}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr
               className={cn(
-                "hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
+                "border-b border-gray-300 hover:bg-muted/50 data-[state=selected]:bg-muted transition-colors",
               )}
               key={headerGroup.id}
             >
@@ -90,7 +90,7 @@ export default function Table<T>({
                     onClick={() => header.column.toggleSorting()}
                     key={header.id}
                     className={cn(
-                      "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+                      "text-foreground h-10 px-2 py-3 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
                     )}
                   >
                     <button
@@ -119,10 +119,11 @@ export default function Table<T>({
         </thead>
         <tbody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+            table.getRowModel().rows.map((row, i) => (
               <tr
                 className={cn(
-                  "hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
+                  "hover:bg-muted/100 data-[state=selected]:bg-muted  transition-colors",
+                  i % 2 === 0 ? "" : "bg-muted/50",
                 )}
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
@@ -130,7 +131,7 @@ export default function Table<T>({
                 {row.getVisibleCells().map((cell) => (
                   <td
                     className={cn(
-                      "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+                      "px-2 py-4 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
                     )}
                     key={cell.id}
                   >
