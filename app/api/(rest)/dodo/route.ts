@@ -29,17 +29,9 @@ export const POST = async (req: NextRequest) => {
       metadata: {
         userID: string;
       };
-      type:
-        | "subscription.active"
-        | "subscription.renewed"
-        | "subscription.on_hold"
-        | "subscription.paused"
-        | "subscription.cancelled"
-        | "subscription.failed"
-        | "subscription.expired";
     };
   };
-
+  console.warn(data);
   const subscriptionData = {
     subscriptionID: data.subscription_id,
     nextBilling: new Date(data.next_billing_date),
