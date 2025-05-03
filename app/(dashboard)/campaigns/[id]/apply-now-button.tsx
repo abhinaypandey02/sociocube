@@ -96,9 +96,7 @@ export default function ApplyNowButton({
       if (
         typeof window !== "undefined" &&
         typeof navigator !== "undefined" &&
-        navigator.canShare({
-          text: "text",
-        })
+        typeof navigator.share !== "undefined"
       )
         setCanShare(true);
     } catch {}
