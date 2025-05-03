@@ -96,9 +96,7 @@ export default function ApplyNowButton({
       if (
         typeof window !== "undefined" &&
         typeof navigator !== "undefined" &&
-        navigator.canShare({
-          text: "",
-        })
+        typeof navigator.share !== "undefined"
       )
         setCanShare(true);
     } catch {}
@@ -162,7 +160,6 @@ export default function ApplyNowButton({
       </LinkWrapper>
 
       <IconButton
-        disabled={canShare}
         className="max-lg:translate-x-3"
         onClick={() =>
           navigator.share({
