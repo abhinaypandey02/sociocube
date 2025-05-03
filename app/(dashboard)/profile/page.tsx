@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
 
+import { Roles } from "@/__generated__/graphql";
 import PlanSection from "@/app/(dashboard)/profile/components/plan-section";
 import { getRoute, Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
@@ -43,10 +44,12 @@ export default async function ProfilePage() {
         fetch={() => queryGQL(GET_ACCOUNT_SOCIAL_DETAILS, undefined, Cookie, 0)}
         Component={StatsSection}
       />
-      <Injector
-        fetch={() => queryGQL(GET_SUBSCRIPTION, undefined, Cookie, 0)}
-        Component={PlanSection}
-      />
+      {user.role !== Roles.Creator && (
+        <Injector
+          fetch={() => queryGQL(GET_SUBSCRIPTION, undefined, Cookie, 0)}
+          Component={PlanSection}
+        />
+      )}
       <Injector
         fetch={() =>
           queryGQL(GET_ACCOUNT_PORTFOLIO_DETAILS, undefined, Cookie, 0)

@@ -19,7 +19,7 @@ export enum SubscriptionPlanStatus {
 export const SUBSCRIPTION_PLANS = [
   {
     plan: SubscriptionPlan.Plus,
-    product_id: "pdt_DLAjZNQ6Bang6eLGvZptI",
+    product_id: "pdt_aGhk2wu04TACi0bhmCdaK",
   },
 ];
 
