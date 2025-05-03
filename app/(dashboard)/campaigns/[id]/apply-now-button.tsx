@@ -153,16 +153,14 @@ export default function ApplyNowButton({
       <IconButton
         className="max-lg:translate-x-3"
         onClick={() => {
-          try {
-            void navigator.share({
-              text: getShareText(posting),
-            });
-          } catch {}
-          try {
-            navigator.clipboard.writeText(getShareText(posting)).then(() => {
-              toast.success("Copied to clipboard");
-            });
-          } catch {}
+          navigator.clipboard.writeText(getShareText(posting)).then(() => {
+            toast.success("Copied to clipboard");
+            try {
+              void navigator.share({
+                text: getShareText(posting),
+              });
+            } catch {}
+          });
         }}
       >
         <ShareNetwork className="text-accent" size={24} weight="duotone" />
