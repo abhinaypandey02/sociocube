@@ -10,17 +10,17 @@ export function getShareText(posting: NonNullable<GetPostingQuery["posting"]>) {
   
 ${posting.title}
 
-${price}
-${
-  posting.minimumFollowers
-    ? `Followers: >${convertToAbbreviation(posting.minimumFollowers)}`
-    : ""
-}
-${
-  posting.minimumAge || posting.maximumAge
-    ? `Age: ${getAgeGroup(posting.minimumAge, posting.maximumAge)}`
-    : ""
-}
+${price}${
+    posting.minimumFollowers
+      ? `
+Followers: >${convertToAbbreviation(posting.minimumFollowers)}`
+      : ""
+  }${
+    posting.minimumAge || posting.maximumAge
+      ? `
+Age: ${getAgeGroup(posting.minimumAge, posting.maximumAge)}`
+      : ""
+  }
 
 Apply now 🚀 ${getRoute("Campaigns")}/${posting.id}`;
 }
