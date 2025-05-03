@@ -29,7 +29,7 @@ export const POST = async (req: NextRequest) => {
       };
     };
   };
-  console.warn(data);
+  console.warn(JSON.stringify(data));
   const subscriptionData = {
     subscriptionID: data.subscription_id,
     nextBilling: new Date(data.next_billing_date),
