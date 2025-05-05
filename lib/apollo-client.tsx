@@ -21,7 +21,13 @@ import { useToken } from "./auth-client";
 
 function makeClient() {
   return new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        InstagramStats: {
+          keyFields: ["username"],
+        },
+      },
+    }),
     link: new HttpLink({
       uri: `/api`,
     }),

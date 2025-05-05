@@ -14,6 +14,7 @@ export const GET_CURRENT_USER = gql(`
       emailVerified
       isOnboarded
       instagramStats {
+        username
         isVerified
       }
     }
@@ -288,6 +289,7 @@ export const SEARCH_SELLERS = gql(`
       category
       gender
       instagramStats {
+        username
         isVerified
         followers
       }
@@ -326,6 +328,7 @@ export const GET_POSTING = gql(`
             username
             instagramStats {
                 isVerified
+                username
             }
         }
         applicationsCount
@@ -368,6 +371,7 @@ export const GET_ALL_POSTINGS = gql(`
           username
         instagramStats {
           isVerified
+            username
         }
       }
       applicationsCount
