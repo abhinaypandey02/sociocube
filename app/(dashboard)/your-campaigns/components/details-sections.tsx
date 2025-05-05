@@ -22,6 +22,8 @@ import { getRoute } from "@/constants/routes";
 import { useAuthMutation } from "@/lib/apollo-client";
 import { UPDATE_POSTING } from "@/lib/mutations";
 
+import { PostingStatus } from "./postings-table";
+
 export default function DetailsSections({
   posting: postingData,
 }: {
@@ -40,7 +42,7 @@ export default function DetailsSections({
       cta={
         <div className={"flex"}>
           <Link href={getRoute("Campaigns") + "/" + posting.id}>
-            <Button square borderless invert onClick={handleEditClick}>
+            <Button square borderless invert>
               <ArrowSquareOut />
             </Button>
           </Link>
@@ -53,6 +55,8 @@ export default function DetailsSections({
       {!isEditing && (
         <>
           <div className={"flex flex-wrap items-center gap-3 my-2 text-sm "}>
+            <PostingStatus posting={posting} />
+            <span className={"text-[10px] text-gray-500"}>•</span>
             <div>{getPlatforms(posting.platforms)}</div>
             {price ? (
               <>

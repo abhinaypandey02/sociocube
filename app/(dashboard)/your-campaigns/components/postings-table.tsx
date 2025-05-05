@@ -184,10 +184,10 @@ export default function PostingsTable({
     </div>
   );
 }
-function PostingStatus({
+export function PostingStatus({
   posting,
 }: {
-  posting: GetUserPostingsQuery["postings"][number];
+  posting: { inReview?: boolean; open?: boolean };
 }) {
   return (
     <div
