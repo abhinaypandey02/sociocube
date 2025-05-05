@@ -34,6 +34,23 @@ export async function getRecommendations(posting: PostingDB) {
     10,
     desc(sql`${InstagramDetails.er} * ${InstagramDetails.followers}`),
   );
+  if (users.length < 10) {
+    const moreUsers = await getFilteredUsers(
+      {
+        minimumAge: posting.minimumAge,
+        maximumAge: posting.maximumAge,
+        gender: posting.gender,
+        followersFrom: posting.minimumFollowers,
+        generalPriceTo: posting.price ? posting.price * 1.1 : undefined,
+        countryIDs: posting.countries,
+        cityIDs: posting.cities,
+        stateIDs: posting.states,
+      },
+      10,
+      desc(sql`${InstagramDetails.er} * ${InstagramDetails.followers}`),
+    );
+    users.push(...moreUsers);
+  }
   const applications = await db
     .select()
     .from(ApplicationTable)

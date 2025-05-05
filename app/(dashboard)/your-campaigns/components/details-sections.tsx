@@ -1,6 +1,7 @@
 "use client";
 import { ArrowSquareOut } from "@phosphor-icons/react";
 import { Pencil, Wallet, X } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -17,6 +18,7 @@ import {
   POSTING_BIO_MAX_LENGTH,
 } from "@/constants/constraints";
 import countries from "@/constants/countries";
+import { getRoute } from "@/constants/routes";
 import { useAuthMutation } from "@/lib/apollo-client";
 import { UPDATE_POSTING } from "@/lib/mutations";
 
@@ -36,9 +38,16 @@ export default function DetailsSections({
     <AccountCard
       title={posting.title}
       cta={
-        <Button square borderless invert onClick={handleEditClick}>
-          {isEditing ? <X /> : <Pencil />}
-        </Button>
+        <div className={"flex"}>
+          <Link href={getRoute("Campaigns") + "/" + posting.id}>
+            <Button square borderless invert onClick={handleEditClick}>
+              <ArrowSquareOut />
+            </Button>
+          </Link>
+          <Button square borderless invert onClick={handleEditClick}>
+            {isEditing ? <X /> : <Pencil />}
+          </Button>
+        </div>
       }
     >
       {!isEditing && (
