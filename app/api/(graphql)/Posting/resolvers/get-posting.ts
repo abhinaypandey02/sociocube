@@ -12,7 +12,7 @@ export async function getPosting(ctx: Context, id: number) {
   const query = db
     .select({
       ...getTableColumns(PostingTable),
-      hasApplied: ctx.userId ? PostingTable.id : ApplicationTable.id,
+      hasApplied: ctx.userId ? ApplicationTable.id : PostingTable.id,
     })
     .from(PostingTable)
     .where(eq(PostingTable.id, id));
