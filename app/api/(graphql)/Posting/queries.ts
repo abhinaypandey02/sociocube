@@ -20,9 +20,8 @@ export class PostingQueryResolvers {
   getAllPostings(
     @Ctx() ctx: Context,
     @Arg("page") page: number,
-    @Arg("posting", { nullable: true }) postingID?: number,
   ): Promise<PostingGQL[]> {
-    return getAllPostings(ctx, page, postingID);
+    return getAllPostings(ctx, page);
   }
   @Query(() => [PostingGQL])
   getFeaturedPostings(): Promise<PostingGQL[]> {
@@ -31,7 +30,8 @@ export class PostingQueryResolvers {
   @Query(() => PostingGQL, { nullable: true })
   getPosting(
     @Arg("id", () => Int) id: number,
+    @Ctx() ctx: Context,
   ): Promise<PostingGQL | null | undefined> {
-    return getPosting(id);
+    return getPosting(ctx, id);
   }
 }

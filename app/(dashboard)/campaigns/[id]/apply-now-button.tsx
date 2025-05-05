@@ -44,7 +44,6 @@ export default function ApplyNowButton({
   const [appliedSuccess, setAppliedSuccess] = useState(
     Boolean(posting.hasApplied),
   );
-  const [canShare, setCanShare] = useState(false);
   const token = useToken();
   const [applyNow, { loading: applyNowLoading }] = useAuthMutation(APPLY_NOW);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -132,10 +131,7 @@ export default function ApplyNowButton({
       <LinkWrapper className="max-sm:w-full" href={buttonURL}>
         <Button
           className="w-full flex items-center gap-2"
-          disabled={
-            posting.eligibility !== Eligibility.Eligible &&
-            (!buttonURL || buttonURL !== posting.externalLink)
-          }
+          disabled={!buttonURL}
           invert={appliedSuccess}
           loading={loading}
           onClick={handleClick}

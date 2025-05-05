@@ -103,12 +103,7 @@ export async function getValidPostings({
   );
 }
 
-export async function getAllPostings(
-  ctx: Context,
-  page: number,
-  postingID?: number,
-): Promise<PostingGQL[]> {
-  const results: PostingDB[] = [];
+export async function handleEligibility(ctx: Context) {
   let user = null;
   if (ctx.userId) {
     [user] = await db
@@ -124,45 +119,7 @@ export async function getAllPostings(
   }
   const isOnboarded = user ? getIsOnboarded(user.user) : false;
   const age = user?.user.dob ? getAge(new Date(user.user.dob)) : 0;
-  if (postingID) {
-    const [posting] = await db
-      .select()
-      .from(PostingTable)
-      .where(eq(PostingTable.id, postingID));
 
-    if (posting) results.push(posting);
-  }
-  if (ctx.userId && isOnboarded && user) {
-    results.push(
-      ...(await getValidPostings({
-        userId: ctx.userId,
-        age,
-        followers: user?.instagram_data?.followers || 0,
-        gender: user?.user.gender,
-        country: user?.location?.country || 0,
-        city: user?.location?.city || 0,
-        state: user?.cities?.stateId || 0,
-        page,
-        pageSize: 5 - results.length,
-      })),
-    );
-  } else {
-    results.push(
-      ...(await withPagination(
-        db
-          .select()
-          .from(PostingTable)
-          .where(
-            and(eq(PostingTable.open, true), eq(PostingTable.inReview, false)),
-          )
-          .orderBy(desc(PostingTable.id)),
-        {
-          page,
-          pageSize: 5 - results.length,
-        },
-      )),
-    );
-  }
   const eligibility = (posting: PostingDB) => {
     if (!posting.open) return Eligibility.Closed;
     if (!ctx.userId) return Eligibility.Unauthorized;
@@ -188,6 +145,44 @@ export async function getAllPostings(
     }
     return Eligibility.Eligible;
   };
+  return { user, eligibility };
+}
+
+export async function getAllPostings(
+  ctx: Context,
+  page: number,
+): Promise<PostingGQL[]> {
+  let results: PostingDB[] = [];
+  const { user, eligibility } = await handleEligibility(ctx);
+  const age = user?.user.dob ? getAge(new Date(user.user.dob)) : 0;
+  if (ctx.userId && user) {
+    results = await getValidPostings({
+      userId: ctx.userId,
+      age,
+      followers: user?.instagram_data?.followers || 0,
+      gender: user?.user.gender,
+      country: user?.location?.country || 0,
+      city: user?.location?.city || 0,
+      state: user?.cities?.stateId || 0,
+      page,
+      pageSize: 5,
+    });
+  } else {
+    results = await withPagination(
+      db
+        .select()
+        .from(PostingTable)
+        .where(
+          and(eq(PostingTable.open, true), eq(PostingTable.inReview, false)),
+        )
+        .orderBy(desc(PostingTable.id)),
+      {
+        page,
+        pageSize: 5,
+      },
+    );
+  }
+
   return results.map((posting) => ({
     ...posting,
     eligibility: eligibility(posting),

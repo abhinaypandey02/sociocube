@@ -422,7 +422,7 @@ input PricingInput {
 }
 
 type Query {
-  getAllPostings(page: Float!, posting: Float): [Posting!]!
+  getAllPostings(page: Float!): [Posting!]!
   getChat(conversationID: Int!): Conversation
   getChatWithAgency(username: String!): Conversation
   getChatWithUser(username: String!): Conversation
