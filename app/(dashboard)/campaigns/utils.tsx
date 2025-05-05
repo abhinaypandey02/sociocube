@@ -15,9 +15,9 @@ export function getCurrency(
   return `${isBarter ? "Barter" : ""}${priceString ? priceStringWithBarter : ""}`;
 }
 export function getAgeGroup(min?: number | null, max?: number | null) {
-  if (min && max) return `${min} - ${max} years`;
-  if (min) return `> ${min} years`;
-  if (max) return `< ${max} years`;
+  if (min && max) return `${min} - ${max} y/o`;
+  if (min) return `> ${min} y/o`;
+  if (max) return `< ${max} y/o`;
 }
 
 export function getPlatforms(platforms: PostingPlatforms[]) {

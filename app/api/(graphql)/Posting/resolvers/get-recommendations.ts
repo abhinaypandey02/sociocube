@@ -26,11 +26,12 @@ export async function getRecommendations(posting: PostingDB) {
       gender: posting.gender,
       followersFrom: posting.minimumFollowers,
       generalPriceTo: posting.price ? posting.price * 1.1 : undefined,
-      generalPriceToHard: true,
+      strict: true,
       countryIDs: posting.countries,
       cityIDs: posting.cities,
       stateIDs: posting.states,
     },
+    "",
     10,
     desc(sql`${InstagramDetails.er} * ${InstagramDetails.followers}`),
   );
@@ -46,6 +47,7 @@ export async function getRecommendations(posting: PostingDB) {
         cityIDs: posting.cities,
         stateIDs: posting.states,
       },
+      "",
       10,
       desc(sql`${InstagramDetails.er} * ${InstagramDetails.followers}`),
     );

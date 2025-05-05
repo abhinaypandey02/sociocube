@@ -4,6 +4,7 @@ import {
   desc,
   eq,
   getTableColumns,
+  gt,
   gte,
   inArray,
   isNotNull,
@@ -14,7 +15,6 @@ import {
 } from "drizzle-orm";
 
 import { USERNAME_REGEX } from "@/constants/regex";
-import { query } from "@/lib/apollo-server";
 
 import type { Context } from "../../lib/auth/context";
 import { InstagramDetails } from "../Instagram/db";
@@ -51,6 +51,7 @@ export function usernameAllowed(username: string) {
 
 export async function getFilteredUsers(
   filters: UserSearchFilters,
+  query: string,
   limit: number = 5,
   orderBy?: SQL,
 ) {
@@ -64,6 +65,7 @@ export async function getFilteredUsers(
     ageToDate = new Date();
     ageToDate.setFullYear(ageToDate.getFullYear() - filters.maximumAge - 1);
   }
+
   let countries: number[] = filters.countryIDs || [],
     cities: number[] = filters.cityIDs || [],
     states: number[] = filters.stateIDs || [];
@@ -106,15 +108,16 @@ export async function getFilteredUsers(
         isNotNull(UserTable.instagramDetails),
         isNotNull(UserTable.name),
         ageFromDate
-          ? gte(UserTable.dob, ageFromDate.toDateString())
+          ? lte(UserTable.dob, ageFromDate.toDateString())
           : undefined,
-        ageToDate ? lte(UserTable.dob, ageToDate.toDateString()) : undefined,
+        ageToDate ? gte(UserTable.dob, ageToDate.toDateString()) : undefined,
       ),
     )
     .innerJoin(
       InstagramDetails,
       and(
         eq(InstagramDetails.id, UserTable.instagramDetails),
+        filters.strict ? gt(InstagramDetails.er, 0) : undefined,
         filters.gender ? eq(UserTable.gender, filters.gender) : undefined,
         filters.followersFrom
           ? gte(InstagramDetails.followers, filters.followersFrom)
@@ -167,7 +170,7 @@ export async function getFilteredUsers(
     }
   }
   if (filters.generalPriceFrom || filters.generalPriceTo) {
-    if (filters.generalPriceToHard) {
+    if (filters.strict) {
       sqlQuery.innerJoin(
         PricingTable,
         and(

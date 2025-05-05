@@ -55,7 +55,7 @@ export async function handleSearchSellers(
   if (!query || !ctx.userId) return getDefaultCreators();
   const filters = await getGroqResponse<UserSearchFilters>(PROMPT, query);
   if (!filters) return getDefaultCreators();
-  return getFilteredUsers(filters);
+  return getFilteredUsers(filters, query);
 }
 
 const PROMPT = `Need to transform the given search query into the following JSON format
