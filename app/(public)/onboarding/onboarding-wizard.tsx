@@ -277,7 +277,7 @@ function OnboardingWizard({
 
   useEffect(() => {
     if (!currentUser && !dataLoading) {
-      router.replace(redirectURL || getRoute("SignUp"));
+      router.replace(getRoute("SignUp"));
     }
   }, [currentUser, dataLoading, redirectURL, router]);
 
