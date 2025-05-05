@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -35,13 +36,14 @@ export default async function JobPostingPage({
   params: Promise<{ id: string }>;
 }) {
   const id = parseInt((await params).id);
+  const Cookie = await cookies();
   const { posting } = await queryGQL(
     GET_POSTING,
     {
       id,
     },
-    undefined,
-    undefined,
+    Cookie,
+    Cookie.get("refresh")?.value ? 0 : undefined,
     [getPostingCacheTag(id)],
   );
   if (!posting) return notFound();
