@@ -2,6 +2,7 @@ import { ApplicationTable } from "@graphql/Application/db";
 import { InstagramDetails } from "@graphql/Instagram/db";
 import { InstagramMediaTable } from "@graphql/Instagram/db2";
 import { PortfolioTable } from "@graphql/Portfolio/db";
+import { PostingTable } from "@graphql/Posting/db";
 import { RequestTable } from "@graphql/Request/db";
 import { ReviewTable } from "@graphql/Review/db";
 import { LocationTable, PricingTable, UserTable } from "@graphql/User/db";
@@ -26,6 +27,7 @@ export const GET = async (req: NextRequest) => {
     await db
       .delete(InstagramMediaTable)
       .where(eq(InstagramMediaTable.user, id));
+    await db.delete(PostingTable).where(eq(PostingTable.agency, id));
     await db.delete(ReviewTable).where(eq(ReviewTable.user, id));
     await db.delete(PortfolioTable).where(eq(PortfolioTable.user, id));
     await db.delete(ApplicationTable).where(eq(ApplicationTable.user, id));
