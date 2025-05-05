@@ -77,7 +77,7 @@ export default function NavWrapper({ children }: PropsWithChildren) {
           </div>
           <div
             id={WRAPPER_ID}
-            className="min-h-0 w-full px-4 lg:px-8 overflow-auto snap-y snap-mandatory snap-always"
+            className="h-full min-h-0 w-full px-4 lg:px-8 overflow-auto snap-y snap-mandatory snap-always"
           >
             {children}
           </div>

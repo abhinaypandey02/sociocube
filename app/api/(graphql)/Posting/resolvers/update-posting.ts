@@ -3,6 +3,7 @@ import { PostingPlatforms } from "@backend/lib/constants/platforms";
 import { db } from "@backend/lib/db";
 import { IsEnum, MaxLength } from "class-validator";
 import { and, eq } from "drizzle-orm";
+import { revalidateTag } from "next/cache";
 import type { PostgresError } from "postgres";
 import { Field, InputType, Int } from "type-graphql";
 
@@ -10,6 +11,7 @@ import {
   BIO_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
 } from "@/constants/constraints";
+import { getPostingCacheTag } from "@/constants/revalidate";
 
 import { PostingTable } from "../db";
 import { getCleanExternalLink, handleDuplicateLinkError } from "../utils";
@@ -63,6 +65,7 @@ export async function updatePosting(
         externalLink: getCleanExternalLink(updatedPosting.externalLink),
       })
       .where(and(eq(PostingTable.id, id), eq(PostingTable.agency, ctx.userId)));
+    revalidateTag(getPostingCacheTag(id));
     return true;
   } catch (e) {
     handleDuplicateLinkError(e as PostgresError);

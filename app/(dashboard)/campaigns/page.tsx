@@ -7,13 +7,14 @@ import { GET_ALL_POSTINGS } from "@/lib/queries";
 import PostingsData from "./components/postings-data";
 
 export function generateMetadata() {
-  return getSEO("Find campaign opportunites for content creators");
+  return getSEO("Find campaign opportunities for content creators");
 }
 
 export default async function SearchPage() {
   return (
     <Injector
       Component={PostingsData}
+      props={{ fetchInitialData: false }}
       fetch={async () => {
         const Cookie = await cookies();
         const token = Cookie.get("refresh")?.value;

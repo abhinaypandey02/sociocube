@@ -1,6 +1,6 @@
 "use client";
 import { SmileyXEyes } from "@phosphor-icons/react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import type { GetAllPostingsQuery } from "@/__generated__/graphql";
 import LoaderSkeleton from "@/components/loader-skeleton";
@@ -13,15 +13,28 @@ import PostingCard from "./posting-card";
 export default function PostingsData({
   data,
   loading,
+  fetchInitialData,
 }: {
   data: GetAllPostingsQuery | null;
   loading: boolean;
+  fetchInitialData?: boolean;
 }) {
   const [postings, setPostings] = useState(data?.postings || []);
   const [page, setPage] = useState(1);
   const ref = useRef<HTMLUListElement>(null);
   const [fetchPostings, { loading: fetchingMore }] =
     useAuthQuery(GET_ALL_POSTINGS);
+  useEffect(() => {
+    if (fetchInitialData) {
+      fetchPostings({
+        page: 1,
+      }).then(({ data }) => {
+        if (data?.postings) {
+          setPostings([...postings, ...data.postings]);
+        }
+      });
+    }
+  }, [fetchInitialData]);
   const fetchMore = () => {
     if (!fetchingMore && !loading) {
       fetchPostings({

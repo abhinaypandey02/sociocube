@@ -128,7 +128,7 @@ function OnboardingWizard({
             isActive={step === 1}
             key={1}
             nextStep={nextStep}
-            isCreator={currentUser?.role === Roles.Creator}
+            isCreator={showCreatorSteps}
             setBasicDetails={(val) => {
               setUser((prev) =>
                 prev

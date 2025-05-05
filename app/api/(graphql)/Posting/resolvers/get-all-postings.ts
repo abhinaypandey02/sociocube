@@ -40,7 +40,7 @@ export async function getValidPostings({
   userId: number;
   age: number;
   followers: number;
-  gender: string;
+  gender: string | null;
   country: number;
   city: number;
   state: number;
@@ -57,7 +57,9 @@ export async function getValidPostings({
       .from(PostingTable)
       .where(
         and(
-          or(isNull(PostingTable.gender), eq(PostingTable.gender, gender)),
+          ...(gender
+            ? [or(isNull(PostingTable.gender), eq(PostingTable.gender, gender))]
+            : []),
           or(
             and(
               isNull(PostingTable.countries),
@@ -136,7 +138,7 @@ export async function getAllPostings(
         userId: ctx.userId,
         age,
         followers: user?.instagram_data?.followers || 0,
-        gender: user?.user.gender || "",
+        gender: user?.user.gender,
         country: user?.location?.country || 0,
         city: user?.location?.city || 0,
         state: user?.cities?.stateId || 0,

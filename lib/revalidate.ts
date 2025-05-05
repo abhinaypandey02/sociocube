@@ -2,8 +2,10 @@
 
 import { revalidateTag } from "next/cache";
 
+import { getPostingCacheTag } from "@/constants/revalidate";
+
 export async function revalidatePosting(id: number) {
-  revalidateTag(`posting-${id}`);
+  revalidateTag(getPostingCacheTag(id));
 }
 
 export async function revalidateOnlyPostingsPage() {

@@ -313,50 +313,44 @@ export const GET_POSTING = gql(`
   #graphql
   query GetPosting($id: Int!) {
     posting:getPosting(id: $id){
-      id
-      maximumAge
-      platforms
-      minimumFollowers
-      currencyCountry
-      extraDetails
-      agency {
         id
-        name
-        photo
-        instagramStats {
-          isVerified
+        maximumAge
+        minimumFollowers
+        externalLink
+        extraDetails
+        currencyCountry
+        agency {
+            id
+            name
+            photo
+            username
+            instagramStats {
+                isVerified
+            }
         }
-        username
-      }
-      deliverables
-      externalLink
-      applicationsCount
-      description
-      barter
-      minimumAge
-      open
-      title
-      currency
-      price
-      createdAt
-      updatedAt
+        applicationsCount
+        description
+        barter
+        minimumAge
+        open
+        title
+        currency
+        price
+        createdAt
+        platforms
+        hasApplied
+        eligibility
+        updatedAt
+        deliverables
+        reviews {
+            rating
+            photo
+            username
+        }
     }
   }
 `);
 
-export const GET_POSTING_REVIEWS = gql(`
-  #graphql
-  query GetPostingReviews($id: Int!) {
-    posting:getPosting(id: $id){
-
-      reviews {
-        rating
-        photo
-        username
-      }
-    }
-  }
-`);
 export const GET_ALL_POSTINGS = gql(`
   #graphql
   query GetAllPostings($page:Float!, $posting:Float) {
@@ -366,6 +360,7 @@ export const GET_ALL_POSTINGS = gql(`
       minimumFollowers
       externalLink
       extraDetails
+        currencyCountry
       agency {
           id
         name

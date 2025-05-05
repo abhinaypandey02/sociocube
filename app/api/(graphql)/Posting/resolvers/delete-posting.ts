@@ -2,6 +2,9 @@ import type { AuthorizedContext } from "@backend/lib/auth/context";
 import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
 import { and, eq } from "drizzle-orm";
+import { revalidateTag } from "next/cache";
+
+import { getPostingCacheTag } from "@/constants/revalidate";
 
 import { ApplicationTable } from "../../Application/db";
 import { PostingTable } from "../db";
@@ -21,5 +24,6 @@ export async function deletePosting(
     .where(
       and(eq(PostingTable.id, postingID), eq(PostingTable.agency, ctx.userId)),
     );
+  revalidateTag(getPostingCacheTag(postingID));
   return true;
 }
