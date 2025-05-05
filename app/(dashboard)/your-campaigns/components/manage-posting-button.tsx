@@ -9,7 +9,6 @@ import type { GetPostingQuery } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { DELETE_POSTING, PAUSE_POSTING, RESUME_POSTING } from "@/lib/mutations";
-import { revalidatePosting } from "@/lib/revalidate";
 
 export default function ManagePostingButton({
   posting,
@@ -30,7 +29,6 @@ export default function ManagePostingButton({
   const handleReload = () => {
     router.refresh();
     toast.success("Successfully updated posting");
-    void revalidatePosting(posting.id);
   };
   useEffect(() => {
     setIsLoading(false);

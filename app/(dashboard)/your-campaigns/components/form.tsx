@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
 import type {
-  GetPostingQuery,
   GetUserCurrencyQuery,
   PostingPlatforms,
 } from "@/__generated__/graphql";
@@ -25,11 +24,7 @@ import countries from "@/constants/countries";
 import { getRoute } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { useUser } from "@/lib/auth-client";
-import { CREATE_POSTING, UPDATE_POSTING } from "@/lib/mutations";
-import {
-  revalidateOnlyPostingsPage,
-  revalidatePosting,
-} from "@/lib/revalidate";
+import { CREATE_POSTING } from "@/lib/mutations";
 import { getCreatePostingQuestions } from "@/lib/server-actions";
 
 const DEFAULT_AI_QUESTIONS = ["Describe the campaign and the requirements"];
@@ -51,41 +46,22 @@ export interface CreatePostingFormFields {
 }
 
 export default function CreateNewPostingForm({
-  existingPosting,
   data,
 }: {
-  existingPosting?: GetPostingQuery["posting"];
   data?: GetUserCurrencyQuery;
 }) {
   const [user] = useUser();
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
-  const form = useForm<CreatePostingFormFields>({
-    defaultValues: {
-      deliverables: existingPosting?.deliverables?.join(","),
-      barter: existingPosting?.barter,
-      description: existingPosting?.description,
-      platforms: existingPosting?.platforms[0],
-      maximumAge: existingPosting?.maximumAge || undefined,
-      minimumAge: existingPosting?.minimumAge || undefined,
-      minimumFollowers: existingPosting?.minimumFollowers || undefined,
-      price: existingPosting?.price || undefined,
-      title: existingPosting?.title,
-      currencyCountry: existingPosting?.currencyCountry || undefined,
-      externalLink: existingPosting?.externalLink || undefined,
-      extraDetails: existingPosting?.extraDetails || undefined,
-    },
-  });
-  const [showManualForm, setShowManualForm] = useState(!!existingPosting);
+  const form = useForm<CreatePostingFormFields>();
+  const [showManualForm, setShowManualForm] = useState(false);
   const aiForm = useForm<{ answers: string[] }>();
   const [aiQuestions, setAIQuestions] =
     useState<string[]>(DEFAULT_AI_QUESTIONS);
   const [createPosting, { loading: creatingPost }] =
     useAuthMutation(CREATE_POSTING);
-  const [updatePosting, { loading: updatingPost }] =
-    useAuthMutation(UPDATE_POSTING);
   const [loading, setLoading] = useState(false);
-  const isLoading = creatingPost || updatingPost || loading;
+  const isLoading = creatingPost || loading;
   useEffect(() => {
     if (data?.user?.locationID?.country && !form.getValues("currencyCountry")) {
       form.setValue("currencyCountry", data.user.locationID.country);
@@ -93,53 +69,25 @@ export default function CreateNewPostingForm({
   }, [data]);
   const onSubmit = (formData: CreatePostingFormFields) => {
     setLoading(true);
-
-    if (existingPosting) {
-      // @ts-expect-error -- required to delete
-      delete formData.title;
-      updatePosting({
-        id: existingPosting.id,
-        newPosting: {
-          ...formData,
-          deliverables:
-            formData.deliverables.trim() !== ""
-              ? formData.deliverables.trim().split(",")
-              : undefined,
-          platforms: [formData.platforms],
-        },
+    createPosting({
+      newPosting: {
+        ...formData,
+        deliverables:
+          formData.deliverables.trim() !== ""
+            ? formData.deliverables.trim().split(",")
+            : undefined,
+        platforms: [formData.platforms],
+      },
+    })
+      .then((res) => {
+        if (res.data?.createPosting) {
+          router.push(`${getRoute("YourCampaigns")}/${res.data.createPosting}`);
+        } else setLoading(false);
       })
-        .then((res) => {
-          if (res.data?.updatePosting) {
-            void revalidatePosting(existingPosting.id);
-            router.push(getRoute("YourCampaigns"));
-          } else setLoading(false);
-        })
-        .catch((e: GraphQLError) => {
-          setLoading(false);
-          handleGQLErrors(e);
-        });
-    } else {
-      createPosting({
-        newPosting: {
-          ...formData,
-          deliverables:
-            formData.deliverables.trim() !== ""
-              ? formData.deliverables.trim().split(",")
-              : undefined,
-          platforms: [formData.platforms],
-        },
-      })
-        .then((res) => {
-          if (res.data?.createPosting) {
-            void revalidateOnlyPostingsPage();
-            router.push(`${getRoute("Campaigns")}/${res.data.createPosting}`);
-          } else setLoading(false);
-        })
-        .catch((e: GraphQLError) => {
-          setLoading(false);
-          handleGQLErrors(e);
-        });
-    }
+      .catch((e: GraphQLError) => {
+        setLoading(false);
+        handleGQLErrors(e);
+      });
   };
 
   useEffect(() => {
@@ -189,42 +137,38 @@ export default function CreateNewPostingForm({
   };
   return (
     <>
-      {!existingPosting && (
-        <Form
-          className="space-y-6"
-          form={aiForm}
-          onSubmit={aiForm.handleSubmit(handleAiSubmit)}
+      <Form
+        className="space-y-6"
+        form={aiForm}
+        onSubmit={aiForm.handleSubmit(handleAiSubmit)}
+      >
+        {aiQuestions.map((question, i) => (
+          <Input
+            key={question}
+            label={question}
+            name={"answers." + i}
+            placeholder="Answer the question in detail to use AI to autofill your form."
+            required
+            rows={6}
+            textarea={i === aiQuestions.length - 1}
+          />
+        ))}
+        <Button
+          className="flex items-center gap-2 ml-auto max-sm:w-full"
+          loading={isLoading}
+          type="submit"
+          variant={Variants.ACCENT}
         >
-          {aiQuestions.map((question, i) => (
-            <Input
-              key={question}
-              label={question}
-              name={"answers." + i}
-              placeholder="Answer the question in detail to use AI to autofill your form."
-              required
-              rows={6}
-              textarea={i === aiQuestions.length - 1}
-            />
-          ))}
-          <Button
-            className="flex items-center gap-2 ml-auto max-sm:w-full"
-            loading={isLoading}
-            type="submit"
-            variant={Variants.ACCENT}
-          >
-            {aiQuestions.length > 1 ? "Submit answer" : "Autofill with AI"}{" "}
-            <MagicWand />
-          </Button>
-        </Form>
-      )}
-      {!existingPosting && (
-        <div ref={ref} className="relative my-12 scroll-m-6">
-          <hr />
-          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 font-poppins font-medium">
-            or
-          </span>
-        </div>
-      )}
+          {aiQuestions.length > 1 ? "Submit answer" : "Autofill with AI"}{" "}
+          <MagicWand />
+        </Button>
+      </Form>
+      <div ref={ref} className="relative my-12 scroll-m-6">
+        <hr />
+        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 font-poppins font-medium">
+          or
+        </span>
+      </div>
       {!showManualForm && (
         <Button
           invert
@@ -240,7 +184,6 @@ export default function CreateNewPostingForm({
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <Input
-          disabled={Boolean(existingPosting)}
           label="Title"
           maxLength={NAME_MAX_LENGTH * 2}
           name="title"
@@ -323,7 +266,7 @@ export default function CreateNewPostingForm({
           type="checkbox"
         />
         <Button loading={isLoading} type="submit">
-          {existingPosting ? "Update" : "Create"} Posting
+          Start Campaigns
         </Button>
       </Form>
     </>
