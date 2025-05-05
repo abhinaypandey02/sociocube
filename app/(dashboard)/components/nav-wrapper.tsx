@@ -29,7 +29,8 @@ export default function NavWrapper({ children }: PropsWithChildren) {
   }, [pathname]);
   const { all } = useUserNavItems();
   const subPages = useMemo(
-    () => all.filter((item) => item.parent === activeItem?.href),
+    () =>
+      activeItem ? all.filter((item) => item.parent === activeItem?.href) : [],
     [activeItem, all],
   );
   return (
