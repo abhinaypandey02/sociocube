@@ -114,7 +114,7 @@ export default function ApplyNowButton({
             />
           ) : null}
           <Button
-            className="ml-auto mt-3 px-3! py-1 text-sm"
+            className="ml-auto mt-3 text-sm"
             loading={loading}
             success={appliedSuccess}
             type="submit"
