@@ -30,7 +30,12 @@ export default function PostingsData({
         page: 1,
       }).then(({ data }) => {
         if (data?.postings) {
-          setPostings([...postings, ...data.postings]);
+          setPostings([
+            ...postings,
+            ...data.postings.filter(
+              (posting) => posting.id !== postings[0]?.id,
+            ),
+          ]);
         }
       });
     }
