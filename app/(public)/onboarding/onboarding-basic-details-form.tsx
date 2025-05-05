@@ -58,7 +58,7 @@ export default function OnboardingBasicDetailsForm({
         name: data.name,
         bio: data.bio,
         category: data.category || undefined,
-        gender: data.gender,
+        gender: data.gender || undefined,
       },
     }).catch((e) => {
       fallbackToStep();
