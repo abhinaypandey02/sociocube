@@ -12,7 +12,7 @@ export async function getPosting(ctx: Context, id: number) {
   const query = db
     .select({
       ...getTableColumns(PostingTable),
-      hasApplied: ApplicationTable.id,
+      hasApplied: ctx.userId ? PostingTable.id : ApplicationTable.id,
     })
     .from(PostingTable)
     .where(eq(PostingTable.id, id));
@@ -27,5 +27,9 @@ export async function getPosting(ctx: Context, id: number) {
   }
   const [posting] = await query;
   if (!posting) return null;
-  return { ...posting, eligibility: eligibility(posting) };
+  return {
+    ...posting,
+    eligibility: eligibility(posting),
+    hasApplied: ctx.userId ? !!posting.hasApplied : false,
+  };
 }
