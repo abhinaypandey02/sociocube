@@ -10,7 +10,9 @@ export async function sendEmail(
 ) {
   return resend.emails.send({
     from: "info@mail.sociocube.com",
-    to: emails,
+    to: emails.filter(
+      (email) => !(email.startsWith("test") && email.endsWith("sociocube.com")),
+    ),
     subject,
     text: bodyText,
     html: bodyHTML,
