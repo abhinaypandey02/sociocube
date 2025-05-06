@@ -25,7 +25,7 @@ import ApplicationActions from "./application-actions";
 import DownloadExcelButton from "./download-excel-button";
 
 type Application = GetPostingApplicationsQuery["applications"][number];
-const colHelper = createColumnHelper<Application & { reach: string }>();
+const colHelper = createColumnHelper<Application & { reach: number }>();
 
 const DEFAULT_COLUMNS = [
   colHelper.accessor("user.instagramStats.username", {
@@ -130,11 +130,13 @@ const DEFAULT_COLUMNS = [
   colHelper.accessor("user.instagramStats.averageLikes", {
     enableSorting: true,
     header: "Avg. Likes",
+    cell: ({ getValue }) => convertToAbbreviation(getValue()),
   }),
   colHelper.accessor("reach", {
     enableSorting: true,
     header: "Reach",
     id: "reach",
+    cell: ({ getValue }) => convertToAbbreviation(getValue()),
   }),
   colHelper.accessor("user.instagramStats.er", {
     enableSorting: true,
@@ -161,12 +163,10 @@ export default function ApplicationsTable({
   const [applications, setApplications] = useState(
     defaultApplications.sort(compareFn).map((val) => ({
       ...val,
-      reach: convertToAbbreviation(
-        Math.round(
-          ((val.user?.instagramStats?.er || 0) *
-            (val.user?.instagramStats?.followers || 0)) /
-            100,
-        ),
+      reach: Math.round(
+        ((val.user?.instagramStats?.er || 0) *
+          (val.user?.instagramStats?.followers || 0)) /
+          100,
       ),
     })),
   );
@@ -197,7 +197,7 @@ export default function ApplicationsTable({
   };
 
   const ApplicationActionsCell = useCallback(
-    (val: CellContext<Application & { reach: string }, ApplicationStatus>) => (
+    (val: CellContext<Application & { reach: number }, ApplicationStatus>) => (
       <ApplicationActions
         handleLike={handleLike}
         handleReject={handleReject}

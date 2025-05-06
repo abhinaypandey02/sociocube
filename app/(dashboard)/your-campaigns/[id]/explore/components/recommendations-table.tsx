@@ -17,7 +17,7 @@ import { convertToAbbreviation } from "@/lib/utils";
 type Application = NonNullable<
   GetPostingRecommendationsQuery["posting"]
 >["recommendations"][number];
-const colHelper = createColumnHelper<Application & { reach: string }>();
+const colHelper = createColumnHelper<Application & { reach: number }>();
 
 const DEFAULT_COLUMNS = [
   colHelper.accessor("user.instagramStats.username", {
@@ -121,11 +121,13 @@ const DEFAULT_COLUMNS = [
   }),
   colHelper.accessor("user.instagramStats.averageLikes", {
     enableSorting: true,
+    cell: ({ getValue }) => convertToAbbreviation(getValue()),
     header: "Avg. Likes",
   }),
   colHelper.accessor("reach", {
     enableSorting: true,
     header: "Reach",
+    cell: ({ getValue }) => convertToAbbreviation(getValue()),
     id: "reach",
   }),
   colHelper.accessor("user.instagramStats.er", {
@@ -151,12 +153,10 @@ export default function RecommendationsTable({
   const [applications] = useState(
     defaultApplications.sort(compareFn).map((val) => ({
       ...val,
-      reach: convertToAbbreviation(
-        Math.round(
-          ((val.user?.instagramStats?.er || 0) *
-            (val.user?.instagramStats?.followers || 0)) /
-            100,
-        ),
+      reach: Math.round(
+        ((val.user?.instagramStats?.er || 0) *
+          (val.user?.instagramStats?.followers || 0)) /
+          100,
       ),
     })),
   );
