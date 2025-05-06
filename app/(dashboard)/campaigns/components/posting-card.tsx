@@ -1,5 +1,6 @@
 "use client";
 import { format } from "@flasd/whatsapp-formatting";
+import { ArrowDown } from "@phosphor-icons/react";
 import { Cake, SealCheck, Users, Wallet } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
@@ -207,7 +208,8 @@ export default function PostingCard({
             </button>
 
             <Button onClick={gotoNext} loading={loading}>
-              Next
+              Next Campaign&nbsp;
+              <ArrowDown />
             </Button>
           </div>
         </div>
