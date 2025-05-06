@@ -55,7 +55,7 @@ export async function handleUpdateInstagramUsername(
       const [existingDetails] = await db
         .select()
         .from(InstagramDetails)
-        .where(eq(InstagramDetails.username, username));
+        .where(eq(InstagramDetails.username, data.username));
       if (existingDetails) {
         if (existingDetails.isVerified) {
           throw GQLError(
