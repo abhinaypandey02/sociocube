@@ -345,6 +345,7 @@ export const GET_POSTING = gql(`
         eligibility
         updatedAt
         deliverables
+        inReview
         reviews {
             rating
             photo
@@ -361,6 +362,7 @@ export const GET_ALL_POSTINGS = gql(`
       id
       maximumAge
       minimumFollowers
+      inReview
       externalLink
       extraDetails
         currencyCountry
