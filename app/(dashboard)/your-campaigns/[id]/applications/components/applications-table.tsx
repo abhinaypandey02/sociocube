@@ -244,10 +244,10 @@ export default function ApplicationsTable({
           }),
         ]),
 
-    colHelper.accessor("status", {
-      header: "Actions",
-      cell: ApplicationActionsCell,
-    }),
+    // colHelper.accessor("status", {
+    //   header: "Actions",
+    //   cell: ApplicationActionsCell,
+    // }),
   ];
   return (
     <Table
