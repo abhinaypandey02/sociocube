@@ -15,7 +15,6 @@ import {
   getCurrency,
   getPlatforms,
 } from "@/app/(dashboard)/campaigns/utils";
-import { useSetSubPage } from "@/app/(dashboard)/utils";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import LinkWrapper from "@/components/link-wrapper";
@@ -36,7 +35,6 @@ export default function PostingsTable({
   data?: GetUserPostingsQuery;
   loading?: boolean;
 }) {
-  const setSubPage = useSetSubPage();
   const token = useToken();
   const [page, setPage] = useState(1);
   const ref = useRef<HTMLDivElement>(null);
@@ -85,14 +83,8 @@ export default function PostingsTable({
       <LoaderSkeleton
         title={"You haven't created any campaigns"}
         subtitle={
-          <LinkWrapper href={!token ? getRoute("SignUp") : undefined}>
-            <Button
-              variant={Variants.DARK}
-              onClick={() => {
-                if (token) setSubPage(Route.NewCampaign);
-              }}
-              className={"items-center gap-1"}
-            >
+          <LinkWrapper href={!token ? getRoute("SignUp") : Route.NewCampaign}>
+            <Button variant={Variants.DARK} className={"items-center gap-1"}>
               Start your first campaign <ArrowRight />
             </Button>
           </LinkWrapper>

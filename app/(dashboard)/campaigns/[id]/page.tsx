@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import React from "react";
 
 import PostingsData from "@/app/(dashboard)/campaigns/components/postings-data";
+import DashboardWrapper from "@/app/(dashboard)/components/dashboard-wrapper";
 import { getPostingCacheTag } from "@/constants/revalidate";
+import { Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_POSTING } from "@/lib/queries";
@@ -48,10 +50,12 @@ export default async function JobPostingPage({
   );
   if (!posting) return notFound();
   return (
-    <PostingsData
-      fetchInitialData={true}
-      data={{ postings: [posting] }}
-      loading={false}
-    />
+    <DashboardWrapper title={"Apply to campaigns"} activeKey={Route.Campaigns}>
+      <PostingsData
+        fetchInitialData={true}
+        data={{ postings: [posting] }}
+        loading={false}
+      />
+    </DashboardWrapper>
   );
 }

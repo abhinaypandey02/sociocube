@@ -1,5 +1,7 @@
 import { cookies } from "next/headers";
 
+import DashboardWrapper from "@/app/(dashboard)/components/dashboard-wrapper";
+import { Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
 import { Injector, queryGQL } from "@/lib/apollo-server";
 import { SEARCH_SELLERS } from "@/lib/queries";
@@ -12,24 +14,26 @@ export default function SearchPage({
   searchParams: Promise<Record<string, string>>;
 }) {
   return (
-    <Injector
-      Component={SearchWindow}
-      fetch={async () => {
-        const params = await searchParams;
-        const filters = {
-          query: params.query,
-        };
-        return {
-          response: await queryGQL(
-            SEARCH_SELLERS,
-            { filters },
-            params.query ? await cookies() : undefined,
-            params.query ? 3600 * 24 : 3600 * 24 * 7,
-          ),
-          filters,
-        };
-      }}
-    />
+    <DashboardWrapper title={"Find Creators with AI"} activeKey={Route.Search}>
+      <Injector
+        Component={SearchWindow}
+        fetch={async () => {
+          const params = await searchParams;
+          const filters = {
+            query: params.query,
+          };
+          return {
+            response: await queryGQL(
+              SEARCH_SELLERS,
+              { filters },
+              params.query ? await cookies() : undefined,
+              params.query ? 3600 * 24 : 3600 * 24 * 7,
+            ),
+            filters,
+          };
+        }}
+      />
+    </DashboardWrapper>
   );
 }
 export const metadata = getSEO("Find influencers");

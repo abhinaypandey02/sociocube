@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
+import DashboardWrapper from "@/app/(dashboard)/components/dashboard-wrapper";
 import DetailsSections from "@/app/(dashboard)/your-campaigns/components/details-sections";
 import RequirementsSections from "@/app/(dashboard)/your-campaigns/components/requirements-sections";
 import { Route } from "@/constants/routes";
@@ -23,7 +24,11 @@ export default async function CreateNewPostingPage({
   );
   if (!posting) return notFound();
   return (
-    <div>
+    <DashboardWrapper
+      backRoute={Route.YourCampaigns}
+      title={"Manage posting"}
+      activeKey={Route.YourCampaigns}
+    >
       <DetailsSections posting={posting} />
       <div className={"grid grid-cols-2 gap-2"}>
         <Link
@@ -72,6 +77,6 @@ export default async function CreateNewPostingPage({
         <h2 className={"font-poppins mt-3"}>Explore recommendations</h2>
       </Link>
       <RequirementsSections posting={posting} />
-    </div>
+    </DashboardWrapper>
   );
 }

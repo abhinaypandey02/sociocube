@@ -12,13 +12,10 @@ import React, {
 } from "react";
 
 import { GetCurrentUserQuery } from "@/__generated__/graphql";
-import { NavItem } from "@/app/(dashboard)/type";
 
 type CurrentUser = GetCurrentUserQuery["user"];
 
 const GlobalState = createContext<{
-  openSubPage?: NavItem;
-  setOpenSubPage: Dispatch<SetStateAction<NavItem | undefined>>;
   token?: string | null;
   setToken: Dispatch<SetStateAction<string | null | undefined>>;
   user?: CurrentUser;
@@ -26,7 +23,6 @@ const GlobalState = createContext<{
 }>({
   setToken: () => null,
   setUser: () => null,
-  setOpenSubPage: () => null,
 });
 
 export function useUser() {
@@ -43,20 +39,7 @@ export function useSetToken() {
   return setToken;
 }
 
-export function useSubPage() {
-  const { openSubPage, setOpenSubPage } = useContext(GlobalState);
-  const router = useRouter();
-  useEffect(() => {
-    setOpenSubPage(undefined);
-  }, [router, setOpenSubPage]);
-  return {
-    openSubPage,
-    setOpenSubPage,
-  };
-}
-
 export function GlobalStateWrapper({ children }: PropsWithChildren) {
-  const [openSubPage, setOpenSubPage] = useState<NavItem>();
   const [token, setToken] = useState<string | null>();
   const [user, setUser] = useState<CurrentUser>();
   useEffect(() => {
@@ -72,8 +55,6 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
       value={{
         user,
         setUser,
-        openSubPage,
-        setOpenSubPage,
         token,
         setToken,
       }}

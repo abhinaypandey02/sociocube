@@ -1,5 +1,7 @@
 import { cookies } from "next/headers";
 
+import DashboardWrapper from "@/app/(dashboard)/components/dashboard-wrapper";
+import { Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
 import { Injector, queryGQL } from "@/lib/apollo-server";
 import { GET_ALL_POSTINGS } from "@/lib/queries";
@@ -12,19 +14,21 @@ export function generateMetadata() {
 
 export default async function SearchPage() {
   return (
-    <Injector
-      Component={PostingsData}
-      props={{ fetchInitialData: false }}
-      fetch={async () => {
-        const Cookie = await cookies();
-        const token = Cookie.get("refresh")?.value;
-        return queryGQL(
-          GET_ALL_POSTINGS,
-          { page: 1 },
-          Cookie,
-          token ? 0 : 3600,
-        );
-      }}
-    />
+    <DashboardWrapper title={"Apply to campaigns"} activeKey={Route.Campaigns}>
+      <Injector
+        Component={PostingsData}
+        props={{ fetchInitialData: false }}
+        fetch={async () => {
+          const Cookie = await cookies();
+          const token = Cookie.get("refresh")?.value;
+          return queryGQL(
+            GET_ALL_POSTINGS,
+            { page: 1 },
+            Cookie,
+            token ? 0 : 3600,
+          );
+        }}
+      />
+    </DashboardWrapper>
   );
 }

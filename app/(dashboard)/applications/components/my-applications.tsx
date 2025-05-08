@@ -14,7 +14,6 @@ import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import LoaderSkeleton from "@/components/loader-skeleton";
 import { getRoute } from "@/constants/routes";
-import { useSubPage } from "@/lib/auth-client";
 
 export default function MyApplications({
   data,
@@ -28,7 +27,6 @@ export default function MyApplications({
   loading: boolean;
 }) {
   const applications = data?.applications;
-  const { setOpenSubPage } = useSubPage();
   if (loading) {
     return <LoaderSkeleton />;
   }
@@ -40,11 +38,7 @@ export default function MyApplications({
           title={"You haven't applied to any campaigns yet."}
           subtitle={
             <Link href={getRoute("Campaigns")}>
-              <Button
-                variant={Variants.DARK}
-                className="gap-1"
-                onClick={() => setOpenSubPage(undefined)}
-              >
+              <Button variant={Variants.DARK} className="gap-1">
                 Apply now <MagnifyingGlass />
               </Button>
             </Link>

@@ -11,8 +11,7 @@ import {
   GET_ACCOUNT_SOCIAL_DETAILS,
 } from "@/lib/queries";
 
-import SubpageRenderer from "../components/subpage-renderer";
-import SettingsPage from "../settings/page";
+import DashboardWrapper from "../components/dashboard-wrapper";
 import ConnectionsSection from "./components/connections-section";
 import LinksSection from "./components/links-section";
 import PortfolioSection from "./components/portfolio-section";
@@ -28,43 +27,48 @@ export default async function ProfilePage() {
   );
   if (!user) return redirect(getRoute("SignUp"));
   return (
-    <div className="max-w-(--breakpoint-lg) mx-auto">
-      <SubpageRenderer href={Route.Settings}>
-        <SettingsPage />
-      </SubpageRenderer>
-      <Injector
-        fetch={() => queryGQL(GET_ACCOUNT_SOCIAL_DETAILS, undefined, Cookie, 0)}
-        Component={ProfileSection}
-        props={{ user }}
-      />
-      <Injector
-        fetch={() => queryGQL(GET_ACCOUNT_SOCIAL_DETAILS, undefined, Cookie, 0)}
-        Component={StatsSection}
-      />
-      {/*{user.role !== Roles.Creator && (*/}
-      {/*  <Injector*/}
-      {/*    fetch={() => queryGQL(GET_SUBSCRIPTION, undefined, Cookie, 0)}*/}
-      {/*    Component={PlanSection}*/}
-      {/*  />*/}
-      {/*)}*/}
-      <Injector
-        fetch={() =>
-          queryGQL(GET_ACCOUNT_PORTFOLIO_DETAILS, undefined, Cookie, 0)
-        }
-        Component={PortfolioSection}
-      />
-      <Injector
-        fetch={() =>
-          queryGQL(GET_ACCOUNT_PORTFOLIO_DETAILS, undefined, Cookie, 0)
-        }
-        Component={LinksSection}
-      />
-      <Injector
-        fetch={() => queryGQL(GET_ACCOUNT_SOCIAL_DETAILS, undefined, Cookie, 0)}
-        Component={ConnectionsSection}
-        props={{ profile: user }}
-      />
-    </div>
+    <DashboardWrapper title={"Your profile"} activeKey={Route.Profile}>
+      <div className="max-w-(--breakpoint-lg) mx-auto">
+        <Injector
+          fetch={() =>
+            queryGQL(GET_ACCOUNT_SOCIAL_DETAILS, undefined, Cookie, 0)
+          }
+          Component={ProfileSection}
+          props={{ user }}
+        />
+        <Injector
+          fetch={() =>
+            queryGQL(GET_ACCOUNT_SOCIAL_DETAILS, undefined, Cookie, 0)
+          }
+          Component={StatsSection}
+        />
+        {/*{user.role !== Roles.Creator && (*/}
+        {/*  <Injector*/}
+        {/*    fetch={() => queryGQL(GET_SUBSCRIPTION, undefined, Cookie, 0)}*/}
+        {/*    Component={PlanSection}*/}
+        {/*  />*/}
+        {/*)}*/}
+        <Injector
+          fetch={() =>
+            queryGQL(GET_ACCOUNT_PORTFOLIO_DETAILS, undefined, Cookie, 0)
+          }
+          Component={PortfolioSection}
+        />
+        <Injector
+          fetch={() =>
+            queryGQL(GET_ACCOUNT_PORTFOLIO_DETAILS, undefined, Cookie, 0)
+          }
+          Component={LinksSection}
+        />
+        <Injector
+          fetch={() =>
+            queryGQL(GET_ACCOUNT_SOCIAL_DETAILS, undefined, Cookie, 0)
+          }
+          Component={ConnectionsSection}
+          props={{ profile: user }}
+        />
+      </div>
+    </DashboardWrapper>
   );
 }
 export const metadata = getSEO("Manage your Account");

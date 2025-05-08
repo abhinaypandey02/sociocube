@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import React from "react";
 
+import DashboardWrapper from "@/app/(dashboard)/components/dashboard-wrapper";
+import { Route } from "@/constants/routes";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_POSTING_APPLICATIONS } from "@/lib/queries";
 
@@ -24,10 +26,16 @@ export default async function AccountPostingApplicationsPage({
   );
   if (!posting) return notFound();
   return (
-    <ApplicationsTable
-      actionType={"applications"}
-      applications={applications.filter((app) => Boolean(app.user))}
-      posting={posting}
-    />
+    <DashboardWrapper
+      backRoute={Route.YourCampaigns + "/" + id}
+      title={"Creator applications"}
+      activeKey={Route.YourCampaigns}
+    >
+      <ApplicationsTable
+        actionType={"applications"}
+        applications={applications.filter((app) => Boolean(app.user))}
+        posting={posting}
+      />
+    </DashboardWrapper>
   );
 }

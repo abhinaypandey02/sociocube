@@ -1,49 +1,70 @@
 "use client";
+import { ArrowLeft } from "@phosphor-icons/react";
 import Link from "next/link";
-import React from "react";
+import React, { useMemo } from "react";
 
-import { NavItem } from "@/app/(dashboard)/type";
+import { useUserNavItems } from "@/app/(dashboard)/components/useUserNavItems";
 import Logo from "@/app/logo";
+import { Button } from "@/components/button";
+import { Variants } from "@/components/constants";
 import LinkWrapper from "@/components/link-wrapper";
 import { getRoute } from "@/constants/routes";
-import { useSubPage, useToken } from "@/lib/auth-client";
+import { useToken } from "@/lib/auth-client";
 
 export default function TopNav({
   title,
-  subLinks,
+  activeKey,
+  backRoute,
 }: {
+  backRoute?: string;
   title: string;
-  subLinks: NavItem[];
+  activeKey: string;
 }) {
-  const { setOpenSubPage } = useSubPage();
   const token = useToken();
+
+  const { all } = useUserNavItems();
+  const subPages = useMemo(
+    () => all.filter((item) => item.parent === activeKey),
+    [activeKey, all],
+  );
   return (
     <div
       onScroll={(e) => e.stopPropagation()}
-      className="flex w-full items-center justify-between py-4 px-5 lg:hidden sticky top-0 bg-background"
+      className="flex w-full items-center justify-between py-4 px-5 lg:px-8 lg:py-5 max-lg:sticky top-0 bg-background"
     >
       <div className="flex items-center gap-3">
-        <Link href={getRoute("Home")}>
-          <Logo className="text-primary" size={32} />
+        <Link
+          className={!backRoute ? "lg:hidden" : ""}
+          href={backRoute || getRoute("Home")}
+        >
+          {backRoute ? (
+            <ArrowLeft size={32} />
+          ) : (
+            <Logo className="text-primary" size={32} />
+          )}
         </Link>
-        <h2 className="font-poppins text-2xl font-medium text-gray-800">
+        <h2 className="font-poppins line-clamp-1 text-2xl lg:text-3xl lg:pl-0.5 lg:h-10 font-medium text-gray-800">
           {title}
         </h2>
       </div>
       <div className="flex">
-        {subLinks.map((page) => (
+        {subPages.map((page) => (
           <LinkWrapper
-            key={page.heading}
-            href={page.requireAuth && !token ? getRoute("SignUp") : undefined}
+            key={page.href}
+            href={page.requireAuth && !token ? getRoute("SignUp") : page.href}
           >
-            <button
-              onClick={() => {
-                if (page.requireAuth && !token) return;
-                setOpenSubPage(page);
-              }}
-            >
+            <button className={"lg:hidden"}>
               <page.icon size={24} />
             </button>
+            {page.alwaysIcon && (
+              <Button
+                key={page.href}
+                variant={Variants.DARK}
+                className={"flex gap-2 items-center max-lg:hidden"}
+              >
+                {page.navTitle} <page.icon />
+              </Button>
+            )}
           </LinkWrapper>
         ))}
       </div>
