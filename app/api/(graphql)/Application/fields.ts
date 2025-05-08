@@ -28,4 +28,8 @@ export class ApplicationFieldResolvers {
       .where(eq(PostingTable.id, app.posting));
     return posting;
   }
+  @FieldResolver(() => Boolean)
+  async hasReview(@Root() app: ApplicationDB) {
+    return !!app.review;
+  }
 }

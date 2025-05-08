@@ -1,8 +1,8 @@
 import { db } from "@backend/lib/db";
-import { and, count, eq, isNotNull, sum } from "drizzle-orm";
+import { and, count, eq, isNotNull, ne, sum } from "drizzle-orm";
 import { FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
 
-import { ApplicationTable } from "../Application/db";
+import { ApplicationStatus, ApplicationTable } from "../Application/db";
 import { CountryTable } from "../Map/db";
 import { ReviewTable } from "../Review/db";
 import { ReviewGQL } from "../Review/type";
@@ -52,7 +52,26 @@ export class PostingFieldResolvers {
     const [applications] = await db
       .select({ count: count() })
       .from(ApplicationTable)
-      .where(eq(ApplicationTable.posting, posting.id));
+      .where(
+        and(
+          eq(ApplicationTable.posting, posting.id),
+          ne(ApplicationTable.status, ApplicationStatus.Shortlisted),
+        ),
+      );
+    return applications?.count || 0;
+  }
+
+  @FieldResolver(() => Int)
+  async selectedCount(@Root() posting: PostingDB): Promise<number> {
+    const [applications] = await db
+      .select({ count: count() })
+      .from(ApplicationTable)
+      .where(
+        and(
+          eq(ApplicationTable.posting, posting.id),
+          eq(ApplicationTable.status, ApplicationStatus.Selected),
+        ),
+      );
     return applications?.count || 0;
   }
 

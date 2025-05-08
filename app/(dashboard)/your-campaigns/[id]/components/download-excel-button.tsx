@@ -2,18 +2,18 @@ import { DownloadSimple } from "@phosphor-icons/react";
 import React from "react";
 import writeXlsxFile from "write-excel-file";
 
-import type { GetPostingApplicationsQuery } from "@/__generated__/graphql";
+import { ApplicationTableRow } from "@/app/(dashboard)/your-campaigns/[id]/components/applications-table";
 import { getAge } from "@/constants/age";
 import { getRoute } from "@/constants/routes";
 
-import { getStatusName } from "../utils";
+import { getStatusName } from "../applications/utils";
 
 export default function DownloadExcelButton({
   applications,
   postingTitle,
   extraDetails,
 }: {
-  applications: GetPostingApplicationsQuery["applications"];
+  applications: ApplicationTableRow[];
   postingTitle: string;
   extraDetails?: string;
 }) {
@@ -90,7 +90,7 @@ export default function DownloadExcelButton({
               },
               {
                 type: String,
-                value: getStatusName(app.status),
+                value: app.status ? getStatusName(app.status) : "NA",
               },
               ...(extraDetails
                 ? [

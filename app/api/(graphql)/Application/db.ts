@@ -1,3 +1,4 @@
+import { ReviewTable } from "@graphql/Review/db";
 import {
   boolean,
   integer,
@@ -40,6 +41,7 @@ export const ApplicationTable = pgTable(
       .references(() => PostingTable.id)
       .notNull(),
     comment: text("comment"),
+    review: integer("review").references(() => ReviewTable.id),
     status: applicationStatusEnum("status")
       .default(ApplicationStatus.Applied)
       .notNull(),

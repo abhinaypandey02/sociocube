@@ -238,6 +238,7 @@ input AddPortfolioArgs {
 type Application {
   comment: String
   createdAt: Float!
+  hasReview: Boolean!
   id: Float!
   posting: Posting
   referralEarnings: Float!
@@ -346,6 +347,7 @@ type Mutation {
   sendReviewByAgency(args: SendReviewByAgencyArgs!): Boolean!
   sendReviewByUser(args: SendReviewByUserArgs!): Boolean!
   sendVerificationEmail: Boolean!
+  shortlistUser(postingID: Float!, userID: Float!): Boolean!
   unlinkSocialAccount: Boolean!
   updateInstagramUsername(username: String!): UpdateInstagramUsernameResponse!
   updatePortfolio(data: UpdatePortfolioArgs!): Boolean!
@@ -404,6 +406,7 @@ type Posting {
   recommendations: [Recommendation!]!
   referralEarnings: Float!
   reviews: [Review!]!
+  selectedCount: Int!
   title: String!
   updatedAt: Float!
 }
@@ -436,6 +439,7 @@ type Query {
   getPendingReviews: [Float!]!
   getPosting(id: Int!): Posting
   getPostingApplications(postingID: Int!): [Application!]!
+  getPostingSelected(postingID: Int!): [Application!]!
   getSeller(username: String!): User
   getSubscription: Subscription
   getUserApplications: [Application!]!

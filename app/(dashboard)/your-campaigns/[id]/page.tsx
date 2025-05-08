@@ -26,26 +26,21 @@ export default async function CreateNewPostingPage({
     <div>
       <DetailsSections posting={posting} />
       <div className={"grid grid-cols-2 gap-2"}>
-        <div
+        <Link
+          href={posting.id + Route.Selected}
           className={
             "shadow-md block rounded-xl mb-5 p-5 border border-gray-200"
           }
         >
           <div className={"flex justify-between items-start"}>
             <p className={"text-3xl font-medium font-poppins text-gray-800"}>
-              0
+              {posting.selectedCount}
             </p>
 
-            <div
-              className={
-                "bg-primary/90 text-xs text-white rounded-md px-1.5 py-0.5"
-              }
-            >
-              Coming soon
-            </div>
+            <ArrowRight />
           </div>
-          <h2 className={"text-sm font-poppins"}>Shortlisted</h2>
-        </div>
+          <h2 className={"text-sm font-poppins"}>Selected</h2>
+        </Link>
 
         <Link
           href={posting.id + Route.Applications}

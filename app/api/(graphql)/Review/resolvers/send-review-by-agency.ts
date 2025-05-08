@@ -31,12 +31,22 @@ export async function sendReviewByAgency(
   if (!application) throw GQLError(404, "Application not found");
   if (!(await checkPermission(ctx, application.posting)))
     throw GQLError(404, "Permission missing");
-  await db.insert(ReviewTable).values({
-    user: application.user,
-    userRating: args.userRating,
-    userFeedback: args.userFeedback,
-    agency: ctx.userId,
-    posting: application.posting,
-  });
+  const [res] = await db
+    .insert(ReviewTable)
+    .values({
+      user: application.user,
+      userRating: args.userRating,
+      userFeedback: args.userFeedback,
+      agency: ctx.userId,
+      posting: application.posting,
+    })
+    .returning();
+  if (res)
+    await db
+      .update(ApplicationTable)
+      .set({
+        review: res.id,
+      })
+      .where(eq(ApplicationTable.id, args.application));
   return true;
 }

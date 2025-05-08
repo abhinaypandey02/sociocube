@@ -14,6 +14,7 @@ export enum Route {
   YourCampaigns = `/your-campaigns`,
   Applications = `/applications`,
   Explore = `/explore`,
+  Selected = `/selected`,
   NewCampaign = `${YourCampaigns}/new`,
 }
 

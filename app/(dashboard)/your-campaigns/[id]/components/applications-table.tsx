@@ -1,23 +1,38 @@
 "use client";
-import { EnvelopeSimple, Phone, SealCheck } from "@phosphor-icons/react";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import {
+  ChatCircleDots,
+  EnvelopeSimple,
+  Phone,
+  SealCheck,
+} from "@phosphor-icons/react";
 import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
+import type { CellContext } from "@tanstack/react-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 
-import type { GetPostingRecommendationsQuery } from "@/__generated__/graphql";
+import type { GetPostingApplicationsQuery } from "@/__generated__/graphql";
 import { ApplicationStatus } from "@/__generated__/graphql";
+import RecommendationActions from "@/app/(dashboard)/your-campaigns/[id]/explore/components/recommendation-actions";
+import SelectedActions from "@/app/(dashboard)/your-campaigns/[id]/selected/components/selected-actions";
 import Table from "@/components/table";
 import { getAgeRange } from "@/constants/age";
 import { getRoute } from "@/constants/routes";
 import { convertToAbbreviation } from "@/lib/utils";
 
-type Application = NonNullable<
-  GetPostingRecommendationsQuery["posting"]
->["recommendations"][number];
-const colHelper = createColumnHelper<Application & { reach: number }>();
+import ApplicationActions from "../applications/components/application-actions";
+import DownloadExcelButton from "./download-excel-button";
+
+export type ApplicationTableRow = Omit<
+  GetPostingApplicationsQuery["applications"][number],
+  "status"
+> & {
+  status?: ApplicationStatus | null;
+};
+const colHelper = createColumnHelper<ApplicationTableRow & { reach: number }>();
 
 const DEFAULT_COLUMNS = [
   colHelper.accessor("user.instagramStats.username", {
@@ -121,14 +136,14 @@ const DEFAULT_COLUMNS = [
   }),
   colHelper.accessor("user.instagramStats.averageLikes", {
     enableSorting: true,
-    cell: ({ getValue }) => convertToAbbreviation(getValue()),
     header: "Avg. Likes",
+    cell: ({ getValue }) => convertToAbbreviation(getValue()),
   }),
   colHelper.accessor("reach", {
     enableSorting: true,
     header: "Reach",
-    cell: ({ getValue }) => convertToAbbreviation(getValue()),
     id: "reach",
+    cell: ({ getValue }) => convertToAbbreviation(getValue()),
   }),
   colHelper.accessor("user.instagramStats.er", {
     enableSorting: true,
@@ -141,14 +156,18 @@ const DEFAULT_COLUMNS = [
   }),
 ];
 
-const compareFn = (a: Application, b: Application) =>
+const compareFn = (a: ApplicationTableRow, b: ApplicationTableRow) =>
   (a.status === ApplicationStatus.Rejected ? 1 : 0) -
   (b.status === ApplicationStatus.Rejected ? 1 : 0);
 
-export default function RecommendationsTable({
+export default function ApplicationsTable({
   applications: defaultApplications,
+  posting,
+  actionType,
 }: {
-  applications: Application[];
+  applications: ApplicationTableRow[];
+  posting: NonNullable<GetPostingApplicationsQuery["posting"]>;
+  actionType: "applications" | "recommendations" | "selected";
 }) {
   const [applications] = useState(
     defaultApplications.sort(compareFn).map((val) => ({
@@ -160,5 +179,87 @@ export default function RecommendationsTable({
       ),
     })),
   );
-  return <Table columns={DEFAULT_COLUMNS} data={applications} />;
+
+  const ApplicationActionsCell = useCallback(
+    (
+      val: CellContext<
+        ApplicationTableRow & { reach: number },
+        ApplicationStatus
+      >,
+    ) =>
+      actionType === "recommendations" ? (
+        <RecommendationActions
+          status={val.getValue()}
+          postingID={posting.id}
+          userID={val.row.original.user?.id || -1}
+        />
+      ) : actionType === "applications" ? (
+        <ApplicationActions id={val.row.original.id} status={val.getValue()} />
+      ) : (
+        <SelectedActions
+          id={val.row.original.id}
+          status={val.getValue()}
+          user={val.row.original.user}
+          hasReview={val.row.original.hasReview}
+        />
+      ),
+    [],
+  );
+  const columns = [
+    ...DEFAULT_COLUMNS,
+    ...(posting?.externalLink
+      ? []
+      : [
+          colHelper.accessor("comment", {
+            header: posting?.extraDetails || "Comment",
+
+            cell: (val) => {
+              const comment = val.getValue();
+              if (!comment) return null;
+              return (
+                <Popover className="relative">
+                  <PopoverButton className="flex items-center font-poppins">
+                    {comment.slice(0, 25)}
+                    {comment.length > 25 ? (
+                      <ChatCircleDots
+                        className="ml-1 text-primary"
+                        size={18}
+                        weight="duotone"
+                      />
+                    ) : null}
+                  </PopoverButton>
+                  <PopoverPanel
+                    anchor="top"
+                    className="flex w-80 -translate-y-2 flex-col rounded-xl border border-gray-200 bg-white px-5 py-3 text-center text-sm font-light shadow-sm"
+                  >
+                    {val.getValue()}
+                  </PopoverPanel>
+                </Popover>
+              );
+            },
+          }),
+        ]),
+
+    colHelper.accessor("status", {
+      header: "Actions",
+      cell: ApplicationActionsCell,
+    }),
+  ];
+  return (
+    <Table
+      cta={
+        <DownloadExcelButton
+          applications={applications}
+          extraDetails={
+            posting?.externalLink
+              ? undefined
+              : posting?.extraDetails || "Comment"
+          }
+          postingTitle={posting?.title || "Posting"}
+        />
+      }
+      columns={columns}
+      data={applications}
+    />
+  );
 }

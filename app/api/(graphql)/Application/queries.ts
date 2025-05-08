@@ -1,4 +1,5 @@
 import type { Context } from "@backend/lib/auth/context";
+import { getPostingSelected } from "@graphql/Application/resolvers/get-posting-selected";
 import { Arg, Ctx, Int, Query, Resolver } from "type-graphql";
 
 import { getHasUserApplied } from "./resolvers/get-has-user-applied";
@@ -24,5 +25,13 @@ export class ApplicationQueryResolver {
     @Arg("postingID", () => Int) postingID: number,
   ) {
     return getPostingApplications(ctx, postingID);
+  }
+
+  @Query(() => [ApplicationGQL])
+  getPostingSelected(
+    @Ctx() ctx: Context,
+    @Arg("postingID", () => Int) postingID: number,
+  ) {
+    return getPostingSelected(ctx, postingID);
   }
 }

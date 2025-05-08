@@ -17,7 +17,7 @@ export default function PortfolioLinks({
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-medium text-gray-900">Links</h2>
       </div>
-      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3 ">
+      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 ">
         {portfolio.map(
           (work) =>
             !work.imageURL && (

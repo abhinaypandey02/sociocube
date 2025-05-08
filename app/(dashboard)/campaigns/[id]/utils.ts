@@ -1,10 +1,12 @@
-import type { GetPostingQuery } from "@/__generated__/graphql";
+import type { GetAllPostingsQuery } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
 import { convertToAbbreviation } from "@/lib/utils";
 
 import { getAgeGroup, getCurrency } from "../utils";
 
-export function getShareText(posting: NonNullable<GetPostingQuery["posting"]>) {
+export function getShareText(
+  posting: NonNullable<GetAllPostingsQuery["postings"][number]>,
+) {
   const price = getCurrency(posting.barter, posting.currency, posting.price);
   return `New collab opportunity for creators!
   

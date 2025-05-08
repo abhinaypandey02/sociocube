@@ -321,6 +321,7 @@ export const GET_POSTING = gql(`
         externalLink
         extraDetails
         currencyCountry
+        selectedCount
         agency {
             id
             name
@@ -431,15 +432,55 @@ export const GET_POSTING_APPLICATIONS = gql(`
   query GetPostingApplications($postingID:Int!) {
     posting: getPosting(id: $postingID){
       title
+        id  
       extraDetails
       externalLink
     }
     applications:getPostingApplications(postingID: $postingID) {
-      referralEarnings
       status
+        hasReview
       createdAt
       id
       user {
+          id  
+        name
+        photo
+        dob
+        email
+        phone
+        gender
+        bio
+        username
+        instagramStats {
+          isVerified
+          username
+          followers
+          averageLikes
+          averageComments
+          er
+          mediaCount
+        }
+      }
+      comment
+    }
+  }
+`);
+export const GET_POSTING_SELECTED = gql(`
+  #graphql
+  query GetPostingSelected($postingID:Int!) {
+    posting: getPosting(id: $postingID){
+      title
+      id  
+      extraDetails
+      externalLink
+    }
+    applications:getPostingSelected(postingID: $postingID) {
+      status
+      createdAt
+        hasReview
+      id
+      user {
+          id  
         name
         photo
         dob
@@ -467,9 +508,13 @@ export const GET_POSTING_RECOMMENDATIONS = gql(`
   query GetPostingRecommendations($postingID:Int!) {
     posting: getPosting(id: $postingID){
       title
+      externalLink
+      extraDetails  
+      id  
         recommendations {
             status
             user {
+                id
                 name
                 photo
                 dob

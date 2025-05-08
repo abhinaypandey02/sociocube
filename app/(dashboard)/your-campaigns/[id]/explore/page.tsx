@@ -2,10 +2,9 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import React from "react";
 
+import ApplicationsTable from "@/app/(dashboard)/your-campaigns/[id]/components/applications-table";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_POSTING_RECOMMENDATIONS } from "@/lib/queries";
-
-import RecommendationsTable from "./components/recommendations-table";
 
 export default async function AccountPostingApplicationsPage({
   params,
@@ -23,5 +22,17 @@ export default async function AccountPostingApplicationsPage({
     0,
   );
   if (!posting) return notFound();
-  return <RecommendationsTable applications={posting.recommendations} />;
+  return (
+    <ApplicationsTable
+      actionType={"recommendations"}
+      posting={posting}
+      applications={posting.recommendations.map((rec) => ({
+        ...rec,
+        __typename: undefined,
+        createdAt: 0,
+        hasReview: false,
+        id: 0,
+      }))}
+    />
+  );
 }
