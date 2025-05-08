@@ -170,11 +170,7 @@ export const GET_CHATS = gql(`
       id
       user {
         id
-        name
-        photo
-      }
-      agency {
-        id
+        username
         name
         photo
       }
@@ -184,14 +180,9 @@ export const GET_CHATS = gql(`
 `);
 export const GET_CHAT = gql(`
   #graphql
-  query GetChat($conversationID: Int!) {
-    chat: getChat(conversationID: $conversationID) {
+  query GetChat($username: String!) {
+    chat: getChat(username: $username) {
       user {
-        id
-        name
-        photo
-      }
-      agency {
         id
         name
         photo

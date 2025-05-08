@@ -1,25 +1,40 @@
 import type { AuthorizedContext } from "@backend/lib/auth/context";
+import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
-import { and, eq, getTableColumns, or } from "drizzle-orm";
+import { and, eq, getTableColumns } from "drizzle-orm";
 
+import { UserTable } from "../../User/db";
+import type { ConversationDB } from "../db";
 import { ConversationTable } from "../db";
-import type { ConversationGQL } from "../type";
 
 export async function handleGetChat(
   ctx: AuthorizedContext,
-  conversationID: number,
-): Promise<ConversationGQL | null> {
+  username: string,
+): Promise<ConversationDB> {
+  const [user] = await db
+    .select({
+      id: UserTable.id,
+    })
+    .from(UserTable)
+    .where(eq(UserTable.username, username));
+  if (!user?.id) throw GQLError(404, "Username does not exist");
   const [conversation] = await db
     .select(getTableColumns(ConversationTable))
     .from(ConversationTable)
     .where(
       and(
-        eq(ConversationTable.id, conversationID),
-        or(
-          eq(ConversationTable.agency, ctx.userId),
-          eq(ConversationTable.user, ctx.userId),
-        ),
+        eq(ConversationTable.user, user.id),
+        eq(ConversationTable.agency, ctx.userId),
       ),
     );
-  return conversation || null;
+
+  return (
+    conversation || {
+      user: user.id,
+      agency: -1,
+      id: -1,
+      hasRead: false,
+      createdAt: new Date(),
+    }
+  );
 }

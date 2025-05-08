@@ -13,10 +13,12 @@ export default function DashboardWrapper({
   backRoute,
   title,
   activeKey,
+  collapse,
 }: PropsWithChildren<{
   title: string;
   activeKey: string;
   backRoute?: string;
+  collapse?: boolean;
 }>) {
   return (
     <>
@@ -25,7 +27,7 @@ export default function DashboardWrapper({
           "mx-auto flex w-full max-w-8xl grow overflow-x-hidden no-scrollbar",
         )}
       >
-        <SideNav activeKey={activeKey} />
+        <SideNav collapse={collapse} activeKey={activeKey} />
         <div className={cn("relative w-full grow flex flex-col min-w-0")}>
           <TopNav backRoute={backRoute} activeKey={activeKey} title={title} />
           <div

@@ -9,7 +9,13 @@ import { cn } from "@/lib/utils";
 
 import { useUserNavItems } from "./useUserNavItems";
 
-export default function SideNav({ activeKey }: { activeKey?: string }) {
+export default function SideNav({
+  activeKey,
+  collapse,
+}: {
+  activeKey?: string;
+  collapse?: boolean;
+}) {
   const { primary, all } = useUserNavItems();
   const token = useToken();
   const primaryKey =
@@ -27,16 +33,19 @@ export default function SideNav({ activeKey }: { activeKey?: string }) {
       >
         <Logo size={36} />
 
-        <h1 className="translate-y-0.5 font-madina text-5xl leading-0">
-          sociocube
-        </h1>
+        {!collapse && (
+          <h1 className="translate-y-0.5 font-madina text-5xl leading-0">
+            sociocube
+          </h1>
+        )}
       </Link>
       {primary.map((item) => (
         <>
           <Link
             className={cn(
-              "flex gap-2.5 items-center py-3 pl-3 pr-14 hover:bg-gray-100 rounded-lg",
+              "flex gap-2.5 items-center py-3 hover:bg-gray-100 rounded-lg",
               activeKey === item.href && "bg-gray-100 text-primary",
+              collapse ? "px-3" : "pl-3 pr-14",
             )}
             href={item.requireAuth && !token ? getRoute("SignUp") : item.href}
             key={item.href}
@@ -45,14 +54,17 @@ export default function SideNav({ activeKey }: { activeKey?: string }) {
               size={28}
               weight={activeKey === item.href ? "bold" : "regular"}
             />
-            <h4 className="text-lg font-medium">{item.navTitle}</h4>
+            {!collapse && (
+              <h4 className="text-lg font-medium">{item.navTitle}</h4>
+            )}
           </Link>
           {primaryKey === item.href
             ? subLinks.map((page) => (
                 <Link
                   className={cn(
-                    "flex gap-2.5 items-center py-3 pl-10 hover:bg-gray-100 rounded-lg",
+                    "flex gap-2.5 items-center py-3 hover:bg-gray-100 rounded-lg",
                     activeKey === page.href && "bg-gray-100 text-primary",
+                    collapse ? "px-3 justify-center" : "pl-10",
                   )}
                   href={
                     page.requireAuth && !token ? getRoute("SignUp") : page.href
@@ -63,7 +75,9 @@ export default function SideNav({ activeKey }: { activeKey?: string }) {
                     size={20}
                     weight={activeKey === page.href ? "bold" : "regular"}
                   />
-                  <h4 className="text-base font-medium">{page.navTitle}</h4>
+                  {!collapse && (
+                    <h4 className="text-base font-medium">{page.navTitle}</h4>
+                  )}
                 </Link>
               ))
             : null}

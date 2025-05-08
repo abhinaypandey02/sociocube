@@ -50,22 +50,23 @@ export default function ChatWindow({
         byAgency,
       },
     ]);
-    sendMessage({
-      body: data.text,
-      conversationID: chat.id,
-    })
-      .then(() => {
-        setMessages((old) => {
-          if (old[index]) old[index].loading = false;
-          return [...old];
-        });
+    if (chat.user?.id)
+      sendMessage({
+        body: data.text,
+        userID: chat.user.id,
       })
-      .catch(() => {
-        setMessages((old) => {
-          if (old[index]) old[index].failed = true;
-          return [...old];
+        .then(() => {
+          setMessages((old) => {
+            if (old[index]) old[index].loading = false;
+            return [...old];
+          });
+        })
+        .catch(() => {
+          setMessages((old) => {
+            if (old[index]) old[index].failed = true;
+            return [...old];
+          });
         });
-      });
   }
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY || "", {
@@ -103,7 +104,7 @@ export default function ChatWindow({
   }, [chat.id, readMessage, token, user.id]);
 
   return (
-    <div>
+    <div className={"col-span-3 lg:col-span-2"}>
       {messages.map((msg) => (
         <div
           className={`flex ${msg.byAgency === byAgency ? "justify-end" : "justify-start"}`}

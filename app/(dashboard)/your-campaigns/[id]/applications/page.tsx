@@ -27,6 +27,7 @@ export default async function AccountPostingApplicationsPage({
   if (!posting) return notFound();
   return (
     <DashboardWrapper
+      collapse
       backRoute={Route.YourCampaigns + "/" + id}
       title={"Creator applications"}
       activeKey={Route.YourCampaigns}

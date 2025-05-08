@@ -259,7 +259,6 @@ type CitySelectOption {
 }
 
 type Conversation {
-  agency: User
   hasRead: Boolean!
   id: Float!
   messages(page: Float): [Message!]!
@@ -341,8 +340,7 @@ type Mutation {
   rejectApplication(id: Float!): Boolean!
   resetPassword(newPassword: String!, token: String!): Boolean!
   resumePosting(postingID: Float!): Boolean!
-  sendMessage(body: String!, conversationID: Int!): Boolean!
-  sendMessageToUser(body: String!, userID: Int!): Boolean!
+  sendMessage(body: String!, userID: Int!): Boolean!
   sendResetPasswordEmail(email: String!): Boolean
   sendReviewByAgency(args: SendReviewByAgencyArgs!): Boolean!
   sendReviewByUser(args: SendReviewByUserArgs!): Boolean!
@@ -426,9 +424,7 @@ input PricingInput {
 
 type Query {
   getAllPostings(page: Float!): [Posting!]!
-  getChat(conversationID: Int!): Conversation
-  getChatWithAgency(username: String!): Conversation
-  getChatWithUser(username: String!): Conversation
+  getChat(username: String!): Conversation
   getChats: [Conversation!]!
   getCities(countryID: Int!): [CitySelectOption!]!
   getCurrentUser: User

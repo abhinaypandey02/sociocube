@@ -6,6 +6,7 @@ export enum Route {
   Onboarding = "/onboarding",
   Profile = "/profile",
   Settings = "/settings",
+  Inbox = "/inbox",
   Chat = "/chat",
   Search = "/search",
   PrivacyPolicy = "/privacy-policy",

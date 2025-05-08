@@ -21,8 +21,8 @@ export const READ_MESSAGE = gql(`
 
 export const SEND_CHAT = gql(`
   #graphql
-  mutation SendChat($conversationID: Int!, $body:String!) {
-    sendMessage(conversationID: $conversationID, body: $body)
+  mutation SendChat($userID: Int!, $body:String!) {
+    sendMessage(userID: $userID, body: $body)
   }
 `);
 
@@ -42,13 +42,6 @@ export const UPDATE_USER_LOCATION = gql(`
   #graphql
   mutation UpdateUserLocation($updatedLocation: UpdateLocation!) {
     updateUserLocation(updatedLocation: $updatedLocation)
-  }
-`);
-
-export const DISCONNECT_INSTAGRAM = gql(`
-  #graphql
-  mutation DisconnectInstagram {
-    disconnectInstagram
   }
 `);
 

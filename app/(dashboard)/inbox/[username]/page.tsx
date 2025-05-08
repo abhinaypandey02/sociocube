@@ -10,13 +10,13 @@ import { GET_CHAT } from "@/lib/queries";
 import ChatWindow from "./components/chat-window";
 
 interface ChatPage {
-  params: Promise<{ conversation: string }>;
+  params: Promise<{ username: string }>;
 }
 export default async function Page({ params }: ChatPage) {
   const { chat } = await queryGQL(
     GET_CHAT,
     {
-      conversationID: parseInt((await params).conversation),
+      username: (await params).username,
     },
     await cookies(),
   );
@@ -25,8 +25,8 @@ export default async function Page({ params }: ChatPage) {
   if (!user) {
     return redirect(Route.Home);
   }
-  const photo = chat.agency?.photo || chat.user?.photo;
-  const name = chat.agency?.name || chat.user?.name;
+  const photo = chat.user?.photo;
+  const name = chat.user?.name;
   return (
     <div>
       <div className="flex gap-2">

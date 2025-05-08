@@ -36,16 +36,9 @@ export class ChatFieldResolvers {
     return latestMessage?.body;
   }
   @FieldResolver(() => UserGQL, { nullable: true })
-  async user(@Ctx("ctx") ctx: AuthorizedContext, @Root() chat: ConversationDB) {
-    if (chat.user === ctx.userId) return null;
-    return getUser(eq(UserTable.id, chat.user));
-  }
-  @FieldResolver(() => UserGQL, { nullable: true })
-  async agency(
-    @Ctx("ctx") ctx: AuthorizedContext,
-    @Root() chat: ConversationDB,
-  ) {
-    if (chat.agency === ctx.userId) return null;
-    return getUser(eq(UserTable.id, chat.agency));
+  async user(@Ctx() ctx: AuthorizedContext, @Root() chat: ConversationDB) {
+    return getUser(
+      eq(UserTable.id, chat.user === ctx.userId ? chat.agency : chat.user),
+    );
   }
 }
