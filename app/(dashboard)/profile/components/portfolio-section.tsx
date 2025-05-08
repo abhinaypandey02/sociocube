@@ -161,13 +161,13 @@ export default function PortfolioSection({
                 },
               });
               const portfolio = res.data?.addPortfolio;
-              if (portfolio && selectedImageURL) {
+              if (portfolio) {
                 setPortfolios((prev) => [
                   ...prev,
                   {
                     ...data,
                     id: portfolio.id,
-                    imageURL: selectedImageURL || portfolio.imageURL,
+                    imageURL: portfolio.imageURL,
                   },
                 ]);
                 id = portfolio.id;
