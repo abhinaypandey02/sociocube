@@ -1,12 +1,12 @@
 import { Check, X } from "@phosphor-icons/react";
-import React from "react";
+import React, { useState } from "react";
 
 import { ApplicationStatus } from "@/__generated__/graphql";
 import { useAuthMutation } from "@/lib/apollo-client";
 import { LIKE_APPLICATION, REJECT_APPLICATION } from "@/lib/mutations";
 
 export default function ApplicationActions({
-  status,
+  status: _status,
   id,
 }: {
   status: ApplicationStatus;
@@ -14,6 +14,7 @@ export default function ApplicationActions({
 }) {
   const [like] = useAuthMutation(LIKE_APPLICATION);
   const [reject] = useAuthMutation(REJECT_APPLICATION);
+  const [status, setStatus] = useState(_status);
   const completed = status === ApplicationStatus.Selected;
   const isRejected = status === ApplicationStatus.Rejected;
   return (
@@ -22,6 +23,7 @@ export default function ApplicationActions({
         <button
           disabled={completed}
           onClick={() => {
+            setStatus(ApplicationStatus.Selected);
             void like({
               id,
             });
@@ -39,6 +41,7 @@ export default function ApplicationActions({
         <button
           disabled={isRejected}
           onClick={() => {
+            setStatus(ApplicationStatus.Rejected);
             void reject({
               id,
             });
