@@ -10,6 +10,8 @@ export interface TemplateLayoutOptions {
   width?: number;
   align?: string;
   style?: string;
+  marginTop?: string;
+  marginBottom?: string;
 }
 export type EmailComponent = { options?: TemplateLayoutOptions } & (
   | {
