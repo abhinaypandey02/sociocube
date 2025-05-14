@@ -21,6 +21,7 @@ import {
   POSTING_BIO_MAX_LENGTH,
 } from "@/constants/constraints";
 import countries from "@/constants/countries";
+import genders from "@/constants/genders";
 import { getRoute } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { useUser } from "@/lib/auth-client";
@@ -120,6 +121,7 @@ export default function CreateNewPostingForm({
         platforms: postingData.platforms,
         minimumAge: postingData.minimumAge || undefined,
         minimumFollowers: postingData.minimumFollowers || undefined,
+        gender: postingData.gender || undefined,
         price: postingData.price || undefined,
       });
       toast.success("Autofilled the form!");
@@ -226,6 +228,12 @@ export default function CreateNewPostingForm({
             type="number"
           />
         </div>
+        <Input
+            label="Gender (Optional)"
+            name="gender"
+            placeholder="Select target gender"
+            options={genders.map((gender) => ({ value: gender, label: gender }))}
+          />
         <Input
           label="Currency (Optional)"
           name="currencyCountry"
