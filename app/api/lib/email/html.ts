@@ -8,7 +8,7 @@ function getTemplateLayout(
   content: string[] | string,
   props?: TemplateLayoutOptions,
 ) {
-  return `<table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation" style="border-spacing:0;border-collapse:collapse;max-width:${props?.width ? props.width + "px" : "100%"}">
+  return `<table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation" style="border-spacing:0;border-collapse:collapse;min-width:unset;max-width:${props?.width ? props.width + "px" : "100%"}">
     <tr>
       <td style="${props?.style || ""}" align="${props?.align || "left"}">${typeof content === "string" ? content : content.join("")}</td>
     </tr>
@@ -20,7 +20,7 @@ function getComponentHTML(component: EmailComponent): string {
     case EmailComponentType.LIST:
       return getTemplateLayout(
         `<ul style="margin:0;">
-${component.items.map((item) => `<li style="margin-bottom:6px;">${item}</li>`).join("")}
+${component.items.map((item) => `<li style="margin-bottom:6px;font-size:18px;">${item}</li>`).join("")}
 </ul>
       `,
         component.options,
@@ -36,17 +36,17 @@ ${component.items.map((item) => `<li style="margin-bottom:6px;">${item}</li>`).j
       return buildTemplate(component.components);
     case EmailComponentType.BUTTON:
       return getTemplateLayout(
-        `<a href="${component.url}" target="_blank"><button style="color:white;background-image:linear-gradient(#65b071,#508959);padding:8px 20px;border-radius:14px;line-height:30px;font-size:18px;border:0;margin:8px 0;">${component.content}</button></a>`,
+        `<a href="${component.url}" target="_blank" style="display:block;"><button style="color:white;background-image:linear-gradient(#65b071,#508959);padding:12px 28px;border-radius:14px;line-height:30px;font-size:20px;border:0;margin:1rem 0;">${component.content}</button></a>`,
         component.options,
       );
     case EmailComponentType.HEADING:
       return getTemplateLayout(
-        `<h2 style="font-size:24px;line-height:32px;color:#222222;font-weight: 400;margin-top:1.5rem;">${component.content}</h2>`,
+        `<h2 style="font-size:24px;line-height:32px;color:#222222;font-weight: 400;margin-top:1.5rem;margin-bottom:1rem;">${component.content}</h2>`,
         component.options,
       );
     case EmailComponentType.PARAGRAPH:
       return getTemplateLayout(
-        `<p>${component.content.replaceAll("\n", "<br/>")}</p>`,
+        `<p style="font-size:18px;">${component.content.replaceAll("\n", "<br/>")}</p>`,
         component.options,
       );
   }
@@ -91,7 +91,7 @@ export const getRenderedTemplate = (
     {
       align: "center",
       style:
-        "background-color:#f5f5f5;font-family:Helvetica,Roboto,Arial,sans-serif;padding:40px 8px;font-size:18px;color:#44475b;",
+        "background-color:#f5f5f5;font-family:Helvetica,Roboto,Arial,sans-serif;padding:40px 8px;color:#44475b;",
     },
   );
 };
