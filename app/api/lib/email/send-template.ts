@@ -1,8 +1,9 @@
+import { getRenderedTemplate } from "@backend/lib/email/html";
+import { getRenderedTemplateText } from "@backend/lib/email/text";
+import { EmailComponent } from "@backend/lib/email/types";
 import { waitUntil } from "@vercel/functions";
 
-import { sendEmail } from "./ses";
-import { AcceptInvite } from "./templates/accept-invite";
-import { BASE_TEMPLATE } from "./templates/base";
+import { sendEmail } from "./driver";
 import { ResetPassword } from "./templates/reset-password";
 import { VerifyEmail } from "./templates/verify";
 import { WelcomeUser } from "./templates/welcome";
@@ -11,7 +12,6 @@ export const Template = {
   WelcomeUser,
   VerifyEmail,
   ResetPassword,
-  AcceptInvite,
 };
 
 export function sendTemplateEmail<T extends keyof typeof Template>(
@@ -19,16 +19,22 @@ export function sendTemplateEmail<T extends keyof typeof Template>(
   template: T,
   meta: Parameters<(typeof Template)[T]>[0],
 ) {
-  const method: { subject: string; html?: string; text: string } =
+  const method: {
+    subject: string;
+    title?: string;
+    components: EmailComponent[];
+  } =
     // @ts-expect-error -- dynamic
     Template[template](meta);
-
   waitUntil(
     sendEmail(
       [to],
       method.subject,
-      method.text,
-      BASE_TEMPLATE(method.html || method.text.replaceAll("\n", "<br/>")),
+      getRenderedTemplateText(
+        method.title || method.subject,
+        method.components,
+      ),
+      getRenderedTemplate(method.title || method.subject, method.components),
     ),
   );
 }

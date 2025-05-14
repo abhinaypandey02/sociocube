@@ -11,7 +11,7 @@ import {
   generateRefreshToken,
   getTokenizedResponse,
 } from "../../lib/auth/token";
-import { sendTemplateEmail } from "../../lib/email/template";
+import { sendTemplateEmail } from "../../lib/email/send-template";
 import { verifyUser } from "./put";
 import { verifyCaptcha } from "./utils";
 

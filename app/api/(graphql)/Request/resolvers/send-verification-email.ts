@@ -1,6 +1,6 @@
 import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
-import { sendTemplateEmail } from "@backend/lib/email/template";
+import { sendTemplateEmail } from "@backend/lib/email/send-template";
 import { HOUR } from "@backend/lib/utils/time";
 import { waitUntil } from "@vercel/functions";
 import { and, eq } from "drizzle-orm";

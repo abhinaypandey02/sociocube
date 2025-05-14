@@ -66,5 +66,3 @@ export const NAV_ITEMS: NavItem[] = [
     requireAuth: true,
   },
 ];
-
-export const PRIMARY_NAV_ITEMS = NAV_ITEMS.filter((item) => !item.parent);
