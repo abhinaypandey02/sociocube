@@ -7,14 +7,11 @@ import Pusher from "pusher-js";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import type {
-  GetChatQuery,
-  GetCurrentUserQuery,
-} from "@/__generated__/graphql";
+import type { GetChatQuery } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { useAuthMutation } from "@/lib/apollo-client";
-import { useToken } from "@/lib/auth-client";
+import { useToken, useUser } from "@/lib/auth-client";
 import { READ_MESSAGE, SEND_CHAT } from "@/lib/mutations";
 
 interface FormValues {
@@ -23,12 +20,10 @@ interface FormValues {
 
 export default function ChatWindow({
   chat,
-  user,
 }: {
   chat: NonNullable<GetChatQuery["chat"]>;
-  user: NonNullable<GetCurrentUserQuery["user"]>;
 }) {
-  const byAgency = chat.user?.id !== user.id;
+  const [user] = useUser();
   const token = useToken();
   const { register, handleSubmit, resetField } = useForm<FormValues>();
   const [sendMessage] = useAuthMutation(SEND_CHAT);
@@ -40,6 +35,7 @@ export default function ChatWindow({
     })[]
   >(chat.messages.toReversed());
   function onSubmit(data: FormValues) {
+    if (!user) return;
     const index = messages.length;
     resetField("text");
     setMessages((old) => [
@@ -47,7 +43,7 @@ export default function ChatWindow({
       {
         body: data.text,
         createdAt: new Date().getTime(),
-        byAgency,
+        by: user.id,
       },
     ]);
     if (chat.user?.id)
@@ -82,7 +78,8 @@ export default function ChatWindow({
     pusher.bind(
       NEW_MESSAGE,
       (message: NonNullable<GetChatQuery["chat"]>["messages"][number]) => {
-        if (message.byAgency !== byAgency) {
+        if (!user) return;
+        if (message.by !== user.id) {
           void readMessage({
             conversationID: chat.id,
           });
@@ -90,7 +87,7 @@ export default function ChatWindow({
             ...old,
             {
               body: message.body,
-              byAgency: message.byAgency,
+              by: message.by,
               createdAt: message.createdAt,
             },
           ]);
@@ -101,25 +98,26 @@ export default function ChatWindow({
       pusher.unbind();
       pusher.unsubscribe(getConversationChannelName(chat.id));
     };
-  }, [chat.id, readMessage, token, user.id]);
+  }, [chat.id, readMessage, token, user]);
 
   return (
     <div className={"col-span-3 lg:col-span-2"}>
-      {messages.map((msg) => (
-        <div
-          className={`flex ${msg.byAgency === byAgency ? "justify-end" : "justify-start"}`}
-          key={msg.createdAt}
-        >
-          <div>
-            {msg.body}
-            <br /> {msg.loading ? "(Sending)" : null}{" "}
-            {msg.failed ? "Failed" : null}{" "}
-            {!msg.loading &&
-              !msg.failed &&
-              new Date(msg.createdAt).toTimeString()}
+      {user &&
+        messages.map((msg) => (
+          <div
+            className={`flex ${msg.by === user?.id ? "justify-end" : "justify-start"}`}
+            key={msg.createdAt}
+          >
+            <div>
+              {msg.body}
+              <br /> {msg.loading ? "(Sending)" : null}{" "}
+              {msg.failed ? "Failed" : null}{" "}
+              {!msg.loading &&
+                !msg.failed &&
+                new Date(msg.createdAt).toTimeString()}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
       <form className="flex " onSubmit={handleSubmit(onSubmit)}>
         <Input {...register("text")} />
         <Button type="submit">Send</Button>

@@ -22,7 +22,6 @@ export async function handleGetChat(
     .select(getTableColumns(ConversationTable))
     .from(ConversationTable)
     .where(arrayContains(ConversationTable.users, [user.id, ctx.userId]));
-
   return (
     conversation || {
       users: [user.id, ctx.userId],

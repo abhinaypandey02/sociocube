@@ -193,7 +193,7 @@ export const GET_CHAT = gql(`
       messages{
         body
         createdAt
-        byAgency
+        by
       }
     }
   }

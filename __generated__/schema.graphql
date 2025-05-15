@@ -324,7 +324,7 @@ type LocationID {
 
 type Message {
   body: String!
-  byAgency: Boolean!
+  by: Float!
   createdAt: Float!
 }
 

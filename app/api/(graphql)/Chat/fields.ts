@@ -32,7 +32,8 @@ export class ChatFieldResolvers {
     const [latestMessage] = await db
       .select()
       .from(ConversationMessageTable)
-      .where(eq(ConversationMessageTable.conversation, chat.id));
+      .where(eq(ConversationMessageTable.conversation, chat.id))
+      .limit(1);
     return latestMessage?.body;
   }
   @FieldResolver(() => UserGQL, { nullable: true })

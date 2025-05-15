@@ -15,5 +15,5 @@ export class MessageGQL {
   @Field(() => Number)
   createdAt: Date;
   @Field()
-  byAgency: boolean;
+  by: number;
 }

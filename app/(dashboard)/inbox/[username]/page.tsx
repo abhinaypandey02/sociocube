@@ -1,10 +1,9 @@
 import { cookies } from "next/headers";
 import Image from "next/image";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import React from "react";
 
-import { Route } from "@/constants/routes";
-import { getCurrentUser, queryGQL } from "@/lib/apollo-server";
+import { queryGQL } from "@/lib/apollo-server";
 import { GET_CHAT } from "@/lib/queries";
 
 import ChatWindow from "./components/chat-window";
@@ -21,10 +20,6 @@ export default async function Page({ params }: ChatPage) {
     await cookies(),
   );
   if (!chat) return notFound();
-  const { user } = await getCurrentUser();
-  if (!user) {
-    return redirect(Route.Home);
-  }
   const photo = chat.user?.photo;
   const name = chat.user?.name;
   return (
@@ -35,7 +30,7 @@ export default async function Page({ params }: ChatPage) {
         ) : null}
         {name}
       </div>
-      <ChatWindow chat={chat} user={user} />
+      <ChatWindow chat={chat} />
     </div>
   );
 }
