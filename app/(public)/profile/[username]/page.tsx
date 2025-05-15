@@ -1,3 +1,4 @@
+import { ChatCircleDots, Link } from "@phosphor-icons/react";
 import {
   ArrowSquareOut,
   InstagramLogo,
@@ -11,13 +12,13 @@ import React, { Suspense } from "react";
 
 import { Roles } from "@/__generated__/graphql";
 import Schema from "@/app/(public)/components/schema";
+import { IconButton } from "@/components/icon-button";
 import { getMeURL, getRoute, Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_SELLER } from "@/lib/queries";
 import { convertToAbbreviation } from "@/lib/utils";
 
-import CopyLinkButton from "./components/copy-link-button";
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 import Portfolio from "./components/portfolio";
 import PortfolioLinks from "./components/portfolio-links";
@@ -157,7 +158,11 @@ export default async function ProfilePage({
                     />
                   ) : null}
                 </h2>
-                <CopyLinkButton url={getMeURL(username, true)} />
+                <Link>
+                  <IconButton>
+                    <ChatCircleDots />
+                  </IconButton>
+                </Link>
               </div>
             </div>
 
