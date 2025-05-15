@@ -395,6 +395,7 @@ type Posting {
   eligibility: Eligibility
   externalLink: String
   extraDetails: String
+  gender: String
   hasApplied: Boolean
   id: Float!
   inReview: Boolean!

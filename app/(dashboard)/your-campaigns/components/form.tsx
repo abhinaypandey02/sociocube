@@ -22,6 +22,7 @@ import {
   POSTING_BIO_MAX_LENGTH,
 } from "@/constants/constraints";
 import countries from "@/constants/countries";
+import genders from "@/constants/genders";
 import { getRoute } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { useUser } from "@/lib/auth-client";
@@ -121,6 +122,7 @@ export default function CreateNewPostingForm({
         description: postingData.description.slice(0, POSTING_BIO_MAX_LENGTH),
         deliverables: postingData.deliverables.slice(0, BIO_MAX_LENGTH),
         externalLink: postingData.externalLink,
+        gender: postingData.gender,
         extraDetails: postingData.extraDetails,
         maximumAge: postingData.maximumAge || undefined,
         title: postingData.title.slice(0, NAME_MAX_LENGTH * 2),
@@ -250,6 +252,16 @@ export default function CreateNewPostingForm({
           placeholder="Required instagram followers"
           rules={{ valueAsNumber: true }}
           type="number"
+        />
+
+        <Input
+          label="Gender"
+          name="gender"
+          options={genders.map((gender) => ({
+            label: gender,
+            value: gender,
+          }))}
+          placeholder="Allowed gender"
         />
         <LocationSelector
           countries={[]}

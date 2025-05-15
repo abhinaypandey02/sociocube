@@ -11,6 +11,7 @@ import { Button } from "@/components/button";
 import Form from "@/components/form";
 import { Input } from "@/components/input";
 import countriesData from "@/constants/countries";
+import genders from "@/constants/genders";
 import { useAuthMutation } from "@/lib/apollo-client";
 import { UPDATE_POSTING } from "@/lib/mutations";
 import { convertToAbbreviation } from "@/lib/utils";
@@ -130,6 +131,7 @@ function PostingRequirementsForm({
             minimumAge: data.minimumAge,
             maximumAge: data.maximumAge,
             minimumFollowers: data.minimumFollowers,
+            gender: data.gender,
             ...locationValues,
           },
         });
@@ -161,6 +163,16 @@ function PostingRequirementsForm({
         placeholder="Required instagram followers"
         rules={{ valueAsNumber: true }}
         type="number"
+      />
+
+      <Input
+        label="Gender"
+        name="gender"
+        options={genders.map((gender) => ({
+          label: gender,
+          value: gender,
+        }))}
+        placeholder="Select your gender"
       />
 
       <LocationSelector

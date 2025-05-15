@@ -320,6 +320,7 @@ export const GET_POSTING = gql(`
   query GetPosting($id: Int!) {
     posting:getPosting(id: $id){
         id
+        gender
         maximumAge
         minimumFollowers
         externalLink
