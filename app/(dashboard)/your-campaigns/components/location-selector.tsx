@@ -59,6 +59,24 @@ export default function LocationSelector({
     form.reset();
     setIsModalOpen(false);
   };
+  const handleUpdate = (
+    newLocations: FieldValues[],
+    newLocationNames: string[],
+  ) => {
+    setLocationNames(newLocationNames);
+    setLocations(newLocations);
+
+    onChange(
+      {
+        cities: newLocations.map((v) => v.city).filter(Boolean) as number[],
+        states: newLocations.map((v) => v.state).filter(Boolean) as number[],
+        countries: newLocations
+          .map((v) => v.country)
+          .filter(Boolean) as number[],
+      },
+      newLocationNames,
+    );
+  };
 
   useEffect(() => {
     const sub = form.watch((_, { name }) => {
@@ -92,8 +110,10 @@ export default function LocationSelector({
             <button
               type={"button"}
               onClick={() => {
-                setLocations(locations.filter((_, i) => i !== index));
-                setLocationNames(locationNames.filter((_, i) => i !== index));
+                handleUpdate(
+                  locations.filter((_, i) => i !== index),
+                  locationNames.filter((_, i) => i !== index),
+                );
               }}
               className={
                 "inline-flex bg-gray-100 rounded-full px-2 py-1 mr-2 mb-2 gap-2 items-center"
@@ -138,24 +158,7 @@ export default function LocationSelector({
               )?.label;
             }
             if (name) {
-              setLocationNames([...locationNames, name]);
-              const newLocations = [...locations, values];
-              setLocations(newLocations);
-
-              onChange(
-                {
-                  cities: newLocations
-                    .map((v) => v.city)
-                    .filter(Boolean) as number[],
-                  states: newLocations
-                    .map((v) => v.state)
-                    .filter(Boolean) as number[],
-                  countries: newLocations
-                    .map((v) => v.country)
-                    .filter(Boolean) as number[],
-                },
-                [...locationNames, name],
-              );
+              handleUpdate([...locations, values], [...locationNames, name]);
             }
             handleClose();
           }}
