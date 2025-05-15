@@ -248,6 +248,7 @@ type Application {
 
 enum ApplicationStatus {
   Applied
+  Denied
   Rejected
   Selected
   Shortlisted
@@ -350,6 +351,7 @@ type Mutation {
   updateInstagramUsername(username: String!): UpdateInstagramUsernameResponse!
   updatePortfolio(data: UpdatePortfolioArgs!): Boolean!
   updatePosting(id: Float!, updatedPosting: UpdatePostingInput!): Boolean!
+  updateShortlist(accepted: Boolean!, id: Float!): Boolean!
   updateUser(updatedUser: UpdateUserInput!): Boolean!
   updateUserLocation(updatedLocation: UpdateLocation!): Boolean!
 }

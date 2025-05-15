@@ -10,6 +10,8 @@ export function getStatusName(status: ApplicationStatus) {
       return "Rejected";
     case ApplicationStatus.Applied:
       return "In Review";
+    case ApplicationStatus.Denied:
+      return "Denied";
   }
 }
 export function getStatusColor(status: ApplicationStatus): [string, string] {
@@ -19,6 +21,7 @@ export function getStatusColor(status: ApplicationStatus): [string, string] {
     case ApplicationStatus.Shortlisted:
       return ["#a9dcff", "#17577c"];
     case ApplicationStatus.Rejected:
+    case ApplicationStatus.Denied:
       return ["#ffcbcb", "#b81111"];
     default:
       return ["#ffe793", "#756116"];

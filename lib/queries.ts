@@ -559,6 +559,7 @@ export const GET_USER_APPLICATIONS = gql(`
   query GetUserApplications {
     getPendingReviews
     getUserApplications {
+        id
       status
       comment
       createdAt

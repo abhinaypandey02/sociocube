@@ -17,6 +17,7 @@ import { UserTable } from "../User/db";
 export enum ApplicationStatus {
   Applied = "APPLIED",
   Rejected = "REJECTED",
+  Denied = "DENIED",
   Shortlisted = "SHORTLISTED",
   Selected = "SELECTED",
 }
@@ -28,6 +29,7 @@ export const applicationStatusEnum = pgEnum("application_status_enum", [
   ApplicationStatus.Shortlisted,
   ApplicationStatus.Selected,
   ApplicationStatus.Rejected,
+  ApplicationStatus.Denied,
 ]);
 
 export const ApplicationTable = pgTable(

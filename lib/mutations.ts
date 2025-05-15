@@ -127,6 +127,12 @@ export const LIKE_APPLICATION = gql(`
     likeApplication(id: $id)  
   }
 `);
+export const UPDATE_SHORTLIST = gql(`
+  #graphql
+  mutation UpdateShortlist($id:Float!, $accepted:Boolean!) {
+    updateShortlist(accepted: $accepted, id: $id)  
+  }
+`);
 export const SHORTLIST_USER = gql(`
   #graphql
   mutation ShortlistUser($userID:Float!, $postingID:Float!) {

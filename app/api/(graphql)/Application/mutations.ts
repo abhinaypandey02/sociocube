@@ -1,5 +1,6 @@
 import type { AuthorizedContext } from "@backend/lib/auth/context";
 import { shortlistUser } from "@graphql/Application/resolvers/shortlist-recommendation";
+import { updateShortlist } from "@graphql/Application/resolvers/update-shortlist";
 import { Arg, Args, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 
 import {
@@ -23,6 +24,15 @@ export class ApplicationMutationResolver {
   @Mutation(() => Boolean)
   likeApplication(@Ctx() ctx: AuthorizedContext, @Arg("id") id: number) {
     return likeApplication(ctx, id);
+  }
+  @Authorized()
+  @Mutation(() => Boolean)
+  updateShortlist(
+    @Ctx() ctx: AuthorizedContext,
+    @Arg("id") id: number,
+    @Arg("accepted") accepted: boolean,
+  ) {
+    return updateShortlist(ctx, id, accepted);
   }
   @Authorized()
   @Mutation(() => Boolean)
