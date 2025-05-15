@@ -8,7 +8,7 @@ import { UserTable } from "../User/db";
 import { UserGQL } from "../User/type";
 import type { ConversationDB } from "./db";
 import { ConversationMessageTable } from "./db";
-import { ConversationGQL, MessageGQL } from "./type";
+import { ConversationGQL, MessageGQL, PreviewGQL } from "./type";
 
 const CHAT_PAGE_SIZE = 20;
 
@@ -27,14 +27,18 @@ export class ChatFieldResolvers {
       .offset((page || 0) * CHAT_PAGE_SIZE)
       .limit(CHAT_PAGE_SIZE);
   }
-  @FieldResolver(() => String, { nullable: true })
-  async preview(@Root() chat: ConversationDB) {
+  @FieldResolver(() => PreviewGQL, { nullable: true })
+  async preview(@Ctx() ctx: AuthorizedContext, @Root() chat: ConversationDB) {
     const [latestMessage] = await db
       .select()
       .from(ConversationMessageTable)
       .where(eq(ConversationMessageTable.conversation, chat.id))
       .limit(1);
-    return latestMessage?.body;
+    return {
+      text: latestMessage?.body || "",
+      hasRead: chat.hasRead || latestMessage?.by === ctx.userId,
+      at: latestMessage?.createdAt || new Date(),
+    };
   }
   @FieldResolver(() => UserGQL, { nullable: true })
   async user(@Ctx() ctx: AuthorizedContext, @Root() chat: ConversationDB) {

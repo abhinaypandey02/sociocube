@@ -260,10 +260,9 @@ type CitySelectOption {
 }
 
 type Conversation {
-  hasRead: Boolean!
   id: Float!
   messages(page: Float): [Message!]!
-  preview: String
+  preview: Preview
   user: User
 }
 
@@ -417,6 +416,12 @@ type Posting {
 enum PostingPlatforms {
   INSTAGRAM
   YOUTUBE
+}
+
+type Preview {
+  at: Float!
+  hasRead: Float!
+  text: String!
 }
 
 type Pricing {

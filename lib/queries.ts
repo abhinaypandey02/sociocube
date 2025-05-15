@@ -166,7 +166,11 @@ export const GET_CHATS = gql(`
   #graphql
   query GetChats {
     chats:getChats {
-      preview
+      preview{
+          text
+          hasRead
+          at
+      }
       id
       user {
         id
@@ -174,7 +178,6 @@ export const GET_CHATS = gql(`
         name
         photo
       }
-      hasRead
     }
   }
 `);
@@ -188,8 +191,9 @@ export const GET_CHAT = gql(`
         photo
       }
       id
-      preview
-      hasRead
+      preview{
+          text
+      }
       messages{
         body
         createdAt

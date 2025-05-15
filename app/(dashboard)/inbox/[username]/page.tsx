@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import React from "react";
 
+import UserImage from "@/components/user-image";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_CHAT } from "@/lib/queries";
 
@@ -24,10 +24,8 @@ export default async function Page({ params }: ChatPage) {
   const name = chat.user?.name;
   return (
     <div>
-      <div className="flex gap-2">
-        {photo ? (
-          <Image alt={name || ""} height={50} src={photo} width={50} />
-        ) : null}
+      <div className="flex gap-2 items-center py-2 px-6">
+        <UserImage photo={photo} alt={name || ""} />
         {name}
       </div>
       <ChatWindow chat={chat} />

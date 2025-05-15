@@ -10,8 +10,17 @@ import { GET_CHATS } from "@/lib/queries";
 export default async function AllChatPage({ children }: PropsWithChildren) {
   const { chats } = await queryGQL(GET_CHATS, {}, await cookies());
   return (
-    <DashboardWrapper collapse title={"Messages"} activeKey={Route.Inbox}>
-      <div className={"grid grid-cols-1 lg:grid-cols-3"}>
+    <DashboardWrapper
+      noPadding
+      collapse
+      title={"Messages"}
+      activeKey={Route.Inbox}
+    >
+      <div
+        className={
+          "grid grid-cols-1 lg:grid-cols-3 min-h-full  border-t border-gray-200"
+        }
+      >
         <ChatList chats={chats} />
         {children}
       </div>

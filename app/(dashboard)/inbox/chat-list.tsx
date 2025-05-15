@@ -4,7 +4,9 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import { GetChatsQuery } from "@/__generated__/graphql";
+import UserImage from "@/components/user-image";
 import { getRoute } from "@/constants/routes";
+import { cn } from "@/lib/utils";
 
 export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
   const params = useParams();
@@ -17,17 +19,38 @@ export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
     if (!username) setSelectedChat(undefined);
   }, [params]);
   return (
-    <div className={params.username ? "max-lg:hidden" : ""}>
+    <div
+      className={cn(
+        params.username ? "max-lg:hidden" : "",
+        "border-r border-gray-200",
+      )}
+    >
       {chats.map((chat) => (
         <Link
           href={`${getRoute("Inbox")}/${chat.user?.username}`}
           key={chat.id}
           onClick={() => setSelectedChat(chat.user?.username)}
+          className={cn(
+            "flex items-center gap-3 py-3 px-6",
+            selectedChat ? "bg-gray-50" : "",
+          )}
         >
-          <div>
-            {chat.user?.name} {!chat.hasRead && "(Unread)"}
+          <UserImage
+            size={54}
+            photo={chat.user?.photo}
+            alt={chat.user?.name || ""}
+          />
+          <div className={!chat.preview?.hasRead ? "font-semibold" : ""}>
+            <div>{chat.user?.name}</div>
+            <div
+              className={cn(
+                chat.preview?.hasRead ? "text-gray-600" : "",
+                "text-sm",
+              )}
+            >
+              {chat.preview?.text}
+            </div>
           </div>
-          <div>{chat.preview}</div>
         </Link>
       ))}
     </div>

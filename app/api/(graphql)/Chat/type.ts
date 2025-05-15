@@ -4,8 +4,6 @@ import { Field, ObjectType } from "type-graphql";
 export class ConversationGQL {
   @Field()
   id: number;
-  @Field()
-  hasRead: boolean;
 }
 
 @ObjectType("Message")
@@ -16,4 +14,14 @@ export class MessageGQL {
   createdAt: Date;
   @Field()
   by: number;
+}
+
+@ObjectType("Preview")
+export class PreviewGQL {
+  @Field()
+  text: string;
+  @Field(() => Number)
+  hasRead: boolean;
+  @Field(() => Number)
+  at: Date;
 }

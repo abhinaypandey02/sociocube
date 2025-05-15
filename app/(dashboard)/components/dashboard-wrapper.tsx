@@ -14,11 +14,13 @@ export default function DashboardWrapper({
   title,
   activeKey,
   collapse,
+  noPadding,
 }: PropsWithChildren<{
   title: string;
   activeKey: string;
   backRoute?: string;
   collapse?: boolean;
+  noPadding?: boolean;
 }>) {
   return (
     <>
@@ -32,7 +34,10 @@ export default function DashboardWrapper({
           <TopNav backRoute={backRoute} activeKey={activeKey} title={title} />
           <div
             id={WRAPPER_ID}
-            className="h-full min-h-0 w-full px-4 lg:px-8 overflow-auto snap-y snap-mandatory snap-always"
+            className={cn(
+              "h-full min-h-0 w-full  overflow-auto snap-y snap-mandatory snap-always",
+              noPadding ? "" : "px-4 lg:px-8",
+            )}
           >
             {children}
           </div>

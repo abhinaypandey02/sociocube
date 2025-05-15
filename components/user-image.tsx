@@ -1,4 +1,4 @@
-import { User } from "@phosphor-icons/react";
+import { User } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import React from "react";
 
