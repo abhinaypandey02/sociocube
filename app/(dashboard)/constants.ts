@@ -1,3 +1,4 @@
+import { ChatCircleDots } from "@phosphor-icons/react";
 import {
   ClockCounterClockwise,
   Gear,
@@ -47,11 +48,11 @@ export const NAV_ITEMS: NavItem[] = [
     href: Route.Search,
     roles: [Roles.Brand, Roles.Agency],
   },
-  // {
-  //   icon: ChatCircleDots,
-  //   navTitle: "Messages",
-  //   href: Route.Inbox,
-  // },
+  {
+    icon: ChatCircleDots,
+    navTitle: "Messages",
+    href: Route.Inbox,
+  },
   {
     icon: UserCircle,
     navTitle: "Profile",

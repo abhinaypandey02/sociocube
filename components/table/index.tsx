@@ -1,8 +1,14 @@
-import { ArrowDown, ArrowUp } from "@phosphor-icons/react";
+import {
+  ArrowDown,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUp,
+} from "@phosphor-icons/react";
 import {
   AccessorColumnDef,
   ColumnFiltersState,
   getFilteredRowModel,
+  RowSelectionState,
 } from "@tanstack/react-table";
 import {
   flexRender,
@@ -13,29 +19,36 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ArrowDownUp } from "lucide-react";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-
 export default function Table<T>({
   data,
   columns,
   pageSize = 25,
   cta,
+  onSelect,
 }: {
   data: T[];
   // eslint-disable-next-line -- needed package deps
   columns: AccessorColumnDef<T, any>[];
   pageSize?: number;
   cta?: ReactNode;
+  onSelect?: (state: RowSelectionState) => void;
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [searchTerm, setSearchTerm] = React.useState("");
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
+  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
+
+  useEffect(() => {
+    if (onSelect) onSelect(rowSelection);
+  }, [onSelect, rowSelection]);
 
   const table = useReactTable({
     data,
@@ -50,9 +63,11 @@ export default function Table<T>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnFiltersChange: setColumnFilters,
     onSortingChange: setSorting,
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
+      rowSelection,
     },
   });
 
@@ -84,6 +99,24 @@ export default function Table<T>({
               )}
               key={headerGroup.id}
             >
+              {onSelect && (
+                <th
+                  className={cn(
+                    "text-foreground h-10 px-2 py-3 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+                  )}
+                >
+                  <Checkbox
+                    checked={
+                      table.getIsAllPageRowsSelected() ||
+                      (table.getIsSomePageRowsSelected() && "indeterminate")
+                    }
+                    onCheckedChange={(value) =>
+                      table.toggleAllPageRowsSelected(!!value)
+                    }
+                    aria-label="Select all"
+                  />
+                </th>
+              )}
               {headerGroup.headers.map((header) => {
                 return (
                   <th
@@ -91,12 +124,10 @@ export default function Table<T>({
                     key={header.id}
                     className={cn(
                       "text-foreground h-10 px-2 py-3 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+                      header.column.getCanSort() ? "cursor-pointer" : "",
                     )}
                   >
-                    <button
-                      disabled={!header.column.getCanSort()}
-                      className={cn("flex items-center gap-0.5 ")}
-                    >
+                    <div className={cn("flex items-center gap-0.5 ")}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -110,7 +141,7 @@ export default function Table<T>({
                       ) : (
                         header.column.getCanSort() && <ArrowDownUp size={12} />
                       )}
-                    </button>
+                    </div>
                   </th>
                 );
               })}
@@ -128,6 +159,19 @@ export default function Table<T>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
+                {onSelect && (
+                  <td
+                    className={cn(
+                      "px-2 py-4 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+                    )}
+                  >
+                    <Checkbox
+                      checked={row.getIsSelected()}
+                      onCheckedChange={(value) => row.toggleSelected(!!value)}
+                      aria-label="Select row"
+                    />
+                  </td>
+                )}
                 {row.getVisibleCells().map((cell) => (
                   <td
                     className={cn(
@@ -150,24 +194,34 @@ export default function Table<T>({
           )}
         </tbody>
       </table>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        {table.getCanPreviousPage() && (
-          <Button
-            invert
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-        )}
-        {table.getCanNextPage() && (
-          <Button
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        )}
+      <div className="flex items-center justify-between space-x-2 py-4">
+        <div className={"pl-2"}>
+          Page <strong>{table.getState().pagination.pageIndex + 1}</strong> of{" "}
+          <strong>{table.getPageCount()}</strong>
+        </div>
+        <div className={"flex items-center gap-4"}>
+          {table.getCanPreviousPage() && (
+            <Button
+              invert
+              compact
+              className={"gap-2 flex"}
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Prev <ArrowLeft />
+            </Button>
+          )}
+          {table.getCanNextPage() && (
+            <Button
+              className={"gap-2 flex"}
+              compact
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next <ArrowRight />
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );
