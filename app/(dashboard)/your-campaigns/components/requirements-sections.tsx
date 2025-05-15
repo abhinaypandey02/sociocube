@@ -10,6 +10,7 @@ import LocationSelector from "@/app/(dashboard)/your-campaigns/components/locati
 import { Button } from "@/components/button";
 import Form from "@/components/form";
 import { Input } from "@/components/input";
+import countriesData from "@/constants/countries";
 import { useAuthMutation } from "@/lib/apollo-client";
 import { UPDATE_POSTING } from "@/lib/mutations";
 import { convertToAbbreviation } from "@/lib/utils";
@@ -19,6 +20,13 @@ export default function RequirementsSections({
 }: {
   posting: NonNullable<GetPostingQuery["posting"]>;
 }) {
+  const [locationNames, setLocationNames] = useState<string[]>([
+    ...countriesData
+      .filter((c) => postingData.countries?.includes(c.value))
+      .map((country) => country.label),
+    ...(postingData.states || []).map((state) => state.label),
+    ...(postingData.cities || []).map((city) => city.label),
+  ]);
   const [isEditing, setIsEditing] = useState(false);
   const handleEditClick = () => setIsEditing(!isEditing);
   const [posting, setPosting] = useState(postingData);
@@ -58,6 +66,16 @@ export default function RequirementsSections({
               </dd>
             </div>
           ) : null}
+          {locationNames.length ? (
+            <div className="">
+              <dt className=" font-semibold leading-6  text-sm text-gray-900">
+                Locations
+              </dt>
+              <dd className="text-sm  leading-6 text-gray-600 ">
+                {locationNames.join(", ")}
+              </dd>
+            </div>
+          ) : null}
         </div>
       )}
       <PostingRequirementsForm
@@ -65,6 +83,8 @@ export default function RequirementsSections({
         posting={posting}
         isEditing={isEditing}
         setPosting={setPosting}
+        setLocationNames={setLocationNames}
+        locationNames={locationNames}
       />
     </AccountCard>
   );
@@ -75,12 +95,21 @@ function PostingRequirementsForm({
   onClose,
   setPosting,
   isEditing,
+  setLocationNames,
+  locationNames,
 }: {
   posting: NonNullable<GetPostingQuery["posting"]>;
   onClose: () => void;
   setPosting: (posting: NonNullable<GetPostingQuery["posting"]>) => void;
   isEditing: boolean;
+  setLocationNames: (value: string[]) => void;
+  locationNames: string[];
 }) {
+  const [locationValues, setLocationValues] = useState<{
+    cities: number[];
+    states: number[];
+    countries: number[];
+  }>();
   const form = useForm({
     defaultValues: {
       ...posting,
@@ -101,6 +130,7 @@ function PostingRequirementsForm({
             minimumAge: data.minimumAge,
             maximumAge: data.maximumAge,
             minimumFollowers: data.minimumFollowers,
+            ...locationValues,
           },
         });
         onClose();
@@ -133,7 +163,20 @@ function PostingRequirementsForm({
         type="number"
       />
 
-      <LocationSelector />
+      <LocationSelector
+        locationNames={locationNames}
+        cities={posting.cities}
+        states={posting.states}
+        countries={posting.countries}
+        onChange={(values, names) => {
+          setLocationNames(names);
+          setLocationValues({
+            cities: values.map((v) => v.city).filter(Boolean) as number[],
+            states: values.map((v) => v.state).filter(Boolean) as number[],
+            countries: values.map((v) => v.country).filter(Boolean) as number[],
+          });
+        }}
+      />
       <div className="flex mt-4 justify-end gap-2">
         <Button invert onClick={onClose}>
           Cancel

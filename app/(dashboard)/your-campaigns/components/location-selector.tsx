@@ -1,21 +1,79 @@
 import { Plus, X } from "@phosphor-icons/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
+import { Posting } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
 import { Input } from "@/components/input";
 import Modal from "@/components/modal";
-import countries from "@/constants/countries";
+import countriesData from "@/constants/countries";
+import { useAuthQuery } from "@/lib/apollo-client";
+import { GET_CITIES, GET_STATES } from "@/lib/queries";
 
 interface FieldValues {
-  country: number;
+  country?: number;
+  state?: number;
+  city?: number;
 }
 
-export default function LocationSelector() {
-  const [locations, setLocations] = React.useState<FieldValues[]>([]);
-  const [locationNames, setLocationNames] = React.useState<string[]>([]);
+export default function LocationSelector({
+  countries,
+  cities,
+  states,
+  locationNames: defaultLocationNames,
+  onChange,
+}: {
+  countries: Posting["countries"];
+  states: Posting["states"];
+  cities: Posting["cities"];
+  locationNames: string[];
+  onChange: (values: FieldValues[], names: string[]) => void;
+}) {
+  const [locations, setLocations] = React.useState<FieldValues[]>([
+    ...(countries || []).map((country) => ({ country })),
+    ...(states || []).map((state) => ({ state: state.value })),
+    ...(cities || []).map((city) => ({ city: city.value })),
+  ]);
+  const [locationNames, setLocationNames] =
+    React.useState<string[]>(defaultLocationNames);
+
   const form = useForm<FieldValues>();
+
+  const [selectedCountry, setSelectedCountry] = React.useState<number>();
+
+  const [fetchCities, { data: citiesData, loading: loadingCities }] =
+    useAuthQuery(GET_CITIES);
+  const [fetchStates, { data: statesData, loading: loadingStates }] =
+    useAuthQuery(GET_STATES);
+
+  const handleClose = () => {
+    setSelectedCountry(undefined);
+    form.reset();
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    const sub = form.watch((_, { name }) => {
+      if (name === "country") {
+        const countryID = form.getValues("country");
+        setSelectedCountry(countryID);
+        if (countryID) {
+          void fetchCities({ countryID });
+          void fetchStates({
+            countryID,
+          });
+        }
+      }
+      if (name === "state") {
+        const stateID = form.getValues("state");
+        if (stateID) {
+          void fetchCities({ stateID, countryID: -1 });
+        }
+      }
+    });
+    return sub.unsubscribe;
+  }, []);
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   return (
@@ -49,35 +107,69 @@ export default function LocationSelector() {
         Add
         <Plus />
       </Button>
-      <Modal
-        open={isModalOpen}
-        close={() => setIsModalOpen(false)}
-        title={"Add Location"}
-      >
+      <Modal open={isModalOpen} close={handleClose} title={"Add Location"}>
         <Form
           className="space-y-3 mt-3"
           form={form}
           onSubmit={(values) => {
-            const name = countries.find(
-              (c) => c.value === values.country,
-            )?.label;
+            let name: string | undefined;
+            if (values.country)
+              name = countriesData.find(
+                (c) => c.value === values.country,
+              )?.label;
+            if (values.state) {
+              values.country = undefined;
+              name = statesData?.states.find(
+                (s) => s.value === values.state,
+              )?.label;
+            }
+            if (values.city) {
+              values.country = undefined;
+              values.state = undefined;
+              name = citiesData?.cities.find(
+                (s) => s.value === values.city,
+              )?.label;
+            }
             if (name) {
               setLocationNames([...locationNames, name]);
               setLocations([...locations, values]);
+
+              onChange([...locations, values], [...locationNames, name]);
             }
-            setIsModalOpen(false);
-            form.reset();
+            handleClose();
           }}
         >
           <Input
             className="block"
             label="Country"
             name="country"
-            options={countries || []}
+            options={countriesData || []}
             placeholder="Select your country"
             rules={{ required: true }}
           />
-          <Button className="ml-auto" type="submit">
+          {statesData && selectedCountry && (
+            <Input
+              className="block"
+              label="State"
+              name="state"
+              options={statesData.states || []}
+              placeholder="Select your state"
+            />
+          )}
+          {citiesData && selectedCountry && (
+            <Input
+              className="block"
+              label="City"
+              name="city"
+              options={citiesData.cities || []}
+              placeholder="Select your city"
+            />
+          )}
+          <Button
+            loading={loadingCities || loadingStates}
+            className="ml-auto"
+            type="submit"
+          >
             Add
           </Button>
         </Form>

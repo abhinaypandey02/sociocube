@@ -262,8 +262,17 @@ export const GET_ACCOUNT_PROFILE_DETAILS = gql(`
 
 export const GET_CITIES = gql(`
   #graphql
-  query GetCities($countryID: Int!) {
-    cities: getCities(countryID: $countryID) {
+  query GetCities($countryID: Int!, $stateID: Int) {
+    cities: getCities(countryID: $countryID, stateID: $stateID) {
+      value
+      label
+    }
+  }
+`);
+export const GET_STATES = gql(`
+  #graphql
+  query GetStates($countryID: Int!) {
+    states: getStates(countryID: $countryID) {
       value
       label
     }

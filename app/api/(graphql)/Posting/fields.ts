@@ -107,12 +107,10 @@ export class PostingFieldResolvers {
     const cities = await db
       .select()
       .from(CityTable)
-      .where(inArray(CityTable.countryId, posting.cities));
+      .where(inArray(CityTable.id, posting.cities));
     return cities.map((city) => ({
       value: city.id,
-      label:
-        city.name +
-        (city.stateCode && city.duplicate ? `, ${city.stateCode}` : ""),
+      label: city.name,
     }));
   }
   @FieldResolver(() => [CitySelectOption])
@@ -121,7 +119,7 @@ export class PostingFieldResolvers {
     const cities = await db
       .select()
       .from(StateTable)
-      .where(inArray(CityTable.countryId, posting.states));
+      .where(inArray(StateTable.id, posting.states));
     return cities.map((city) => ({
       value: city.id,
       label: city.name,

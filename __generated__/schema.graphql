@@ -429,7 +429,7 @@ type Query {
   getAllPostings(page: Float!): [Posting!]!
   getChat(username: String!): Conversation
   getChats: [Conversation!]!
-  getCities(countryID: Int!): [CitySelectOption!]!
+  getCities(countryID: Int!, stateID: Int): [CitySelectOption!]!
   getCurrentUser: User
   getFeaturedPostings: [Posting!]!
   getFeaturedPosts: [GetFeaturedPostsResponse!]!
@@ -440,6 +440,7 @@ type Query {
   getPostingApplications(postingID: Int!): [Application!]!
   getPostingSelected(postingID: Int!): [Application!]!
   getSeller(username: String!): User
+  getStates(countryID: Int!): [CitySelectOption!]!
   getSubscription: Subscription
   getUserApplications: [Application!]!
   getUserPostings(page: Float): [Posting!]!

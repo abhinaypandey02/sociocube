@@ -14,17 +14,20 @@ function InputWrapper({
   children,
   suffix,
   prefix,
+  required,
 }: PropsWithChildren<{
   label?: string;
   error?: string;
   suffix?: string;
   prefix?: string;
+  required?: boolean;
 }>) {
   return (
     <div className="w-full">
       {label ? (
         <label className="mb-1.5 block pl-0.5 font-poppins font-medium">
           {label}
+          {required && <span className="text-red-600">{" *"}</span>}
         </label>
       ) : null}
       <div className="flex items-stretch">
@@ -77,6 +80,7 @@ function Input({
         label={label}
         prefix={prefix}
         suffix={suffix}
+        required={!!rules?.required}
       >
         <Select
           multiple={multiple}
