@@ -44,6 +44,6 @@ export class PostingGQL {
   eligibility?: Eligibility;
   @Field(() => Int, { nullable: true })
   currencyCountry: number | null;
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   gender?: string | null;
 }

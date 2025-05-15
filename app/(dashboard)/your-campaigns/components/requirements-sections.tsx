@@ -67,6 +67,16 @@ export default function RequirementsSections({
               </dd>
             </div>
           ) : null}
+          {posting.gender ? (
+            <div className="">
+              <dt className=" font-semibold leading-6  text-sm text-gray-900">
+                Gender
+              </dt>
+              <dd className="text-sm  leading-6 text-gray-600 ">
+                {posting.gender}
+              </dd>
+            </div>
+          ) : null}
           {locationNames.length ? (
             <div className="">
               <dt className=" font-semibold leading-6  text-sm text-gray-900">
@@ -172,7 +182,7 @@ function PostingRequirementsForm({
           label: gender,
           value: gender,
         }))}
-        placeholder="Select your gender"
+        placeholder="Allowed gender"
       />
 
       <LocationSelector
