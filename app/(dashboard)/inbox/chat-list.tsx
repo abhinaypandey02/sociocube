@@ -35,7 +35,7 @@ export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
           onClick={() => setSelectedChat(chat.user?.username)}
           className={cn(
             "flex items-center gap-3 py-3 px-6",
-            selectedChat ? "bg-gray-50" : "",
+            selectedChat === chat.user?.username ? "bg-gray-50" : "",
           )}
         >
           <UserImage
