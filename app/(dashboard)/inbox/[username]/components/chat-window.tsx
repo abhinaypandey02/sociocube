@@ -13,6 +13,7 @@ import { Input } from "@/components/input";
 import { useAuthMutation } from "@/lib/apollo-client";
 import { useToken, useUser } from "@/lib/auth-client";
 import { READ_MESSAGE, SEND_CHAT } from "@/lib/mutations";
+import { cn } from "@/lib/utils";
 
 interface FormValues {
   text: string;
@@ -34,6 +35,7 @@ export default function ChatWindow({
       failed?: boolean;
     })[]
   >(chat.messages.toReversed());
+
   function onSubmit(data: FormValues) {
     if (!user || !data.text) return;
     const index = messages.length;
@@ -44,6 +46,7 @@ export default function ChatWindow({
         body: data.text,
         createdAt: new Date().getTime(),
         by: user.id,
+        loading: true,
       },
     ]);
     if (chat.user?.id)
@@ -102,7 +105,7 @@ export default function ChatWindow({
 
   return (
     <div className={"col-span-3 lg:col-span-2 grow flex flex-col p-4"}>
-      <div className={"grow"}>
+      <div className={"grow space-y-2 overflow-y-auto"}>
         {user &&
           messages.map((msg) => (
             <div
@@ -110,12 +113,26 @@ export default function ChatWindow({
               key={msg.createdAt}
             >
               <div>
-                {msg.body}
-                <br /> {msg.loading ? "(Sending)" : null}{" "}
-                {msg.failed ? "Failed" : null}{" "}
-                {!msg.loading &&
-                  !msg.failed &&
-                  new Date(msg.createdAt).toTimeString()}
+                <div
+                  className={cn(
+                    "max-w-sm text-justify rounded-3xl px-4  py-2",
+                    msg.by === user?.id
+                      ? "bg-accent text-white"
+                      : "bg-gray-100 text-gray-700",
+                  )}
+                >
+                  {msg.body}
+                </div>
+                <div
+                  className={cn(
+                    "text-xs mt-0.5",
+                    msg.by === user?.id ? "text-end pr-1" : "pl-1",
+                    msg.failed ? "text-red-400" : "text-gray-500",
+                  )}
+                >
+                  {msg.loading ? "Sending" : null}{" "}
+                  {msg.failed ? "Failed" : null}
+                </div>
               </div>
             </div>
           ))}
