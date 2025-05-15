@@ -131,7 +131,7 @@ export default function PortfolioSection({
         }}
       >
         <Form
-          onSubmit={form.handleSubmit(async (data) => {
+          onSubmit={async (data) => {
             let id = selectedPortfolio?.id;
             if (selectedPortfolio) {
               setPortfolios((prev) =>
@@ -183,7 +183,7 @@ export default function PortfolioSection({
             }
             setSelectedPortfolio(undefined);
             setIsEditing(false);
-          })}
+          }}
           form={form}
           className=" mt-2"
         >

@@ -384,6 +384,8 @@ type Posting {
   agency: User!
   applicationsCount: Int!
   barter: Boolean!
+  cities: [CitySelectOption!]!
+  countries: [Float!]
   createdAt: Float!
   currency: String
   currencyCountry: Int
@@ -405,6 +407,7 @@ type Posting {
   referralEarnings: Float!
   reviews: [Review!]!
   selectedCount: Int!
+  states: [CitySelectOption!]!
   title: String!
   updatedAt: Float!
 }

@@ -137,11 +137,7 @@ export default function CreateNewPostingForm({
   };
   return (
     <>
-      <Form
-        className="space-y-6"
-        form={aiForm}
-        onSubmit={aiForm.handleSubmit(handleAiSubmit)}
-      >
+      <Form className="space-y-6" form={aiForm} onSubmit={handleAiSubmit}>
         {aiQuestions.map((question, i) => (
           <Input
             key={question}
@@ -181,7 +177,7 @@ export default function CreateNewPostingForm({
       <Form
         className={"space-y-6 " + (showManualForm ? "" : "hidden")}
         form={form}
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={onSubmit}
       >
         <Input
           label="Title"

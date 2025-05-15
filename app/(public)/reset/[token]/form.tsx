@@ -56,11 +56,7 @@ export default function ResetForm({ token }: { token: string }) {
       }}
       title="Reset password"
     >
-      <Form
-        className="space-y-4"
-        form={form}
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
+      <Form className="space-y-4" form={form} onSubmit={onSubmit}>
         <Input
           className="block"
           label="New password"

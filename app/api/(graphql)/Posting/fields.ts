@@ -1,9 +1,10 @@
 import { db } from "@backend/lib/db";
-import { and, count, eq, isNotNull, ne, sum } from "drizzle-orm";
+import { CitySelectOption } from "@backend/lib/utils/select-options";
+import { and, count, eq, inArray, isNotNull, ne, sum } from "drizzle-orm";
 import { FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
 
 import { ApplicationStatus, ApplicationTable } from "../Application/db";
-import { CountryTable } from "../Map/db";
+import { CityTable, CountryTable, StateTable } from "../Map/db";
 import { ReviewTable } from "../Review/db";
 import { ReviewGQL } from "../Review/type";
 import type { UserDB } from "../User/db";
@@ -98,6 +99,32 @@ export class PostingFieldResolvers {
       name: res.user.name || "",
       photo: res.user.photo,
       username: res.user.username || "",
+    }));
+  }
+  @FieldResolver(() => [CitySelectOption])
+  async cities(@Root() posting: PostingDB): Promise<CitySelectOption[]> {
+    if (!posting.cities || !posting.cities.length) return [];
+    const cities = await db
+      .select()
+      .from(CityTable)
+      .where(inArray(CityTable.countryId, posting.cities));
+    return cities.map((city) => ({
+      value: city.id,
+      label:
+        city.name +
+        (city.stateCode && city.duplicate ? `, ${city.stateCode}` : ""),
+    }));
+  }
+  @FieldResolver(() => [CitySelectOption])
+  async states(@Root() posting: PostingDB): Promise<CitySelectOption[]> {
+    if (!posting.states || !posting.states.length) return [];
+    const cities = await db
+      .select()
+      .from(StateTable)
+      .where(inArray(CityTable.countryId, posting.states));
+    return cities.map((city) => ({
+      value: city.id,
+      label: city.name,
     }));
   }
 }

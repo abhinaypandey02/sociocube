@@ -75,7 +75,7 @@ function ProfileForm({
     });
     return sub.unsubscribe;
   }, [form.watch, fetchCities, form]);
-  const onSubmit = form.handleSubmit((data) => {
+  const onSubmit = (data: typeof user) => {
     setUser((prev) => ({ ...prev, ...data }));
     onCancel();
     updateUser({
@@ -112,7 +112,7 @@ function ProfileForm({
         },
       }));
     }
-  });
+  };
 
   return (
     <Form onSubmit={onSubmit} className="space-y-4" form={form}>

@@ -72,11 +72,7 @@ export default function LoginForm({
       redirectURL={redirectURL}
       title="Login to your account"
     >
-      <Form
-        className="space-y-4"
-        form={form}
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
+      <Form className="space-y-4" form={form} onSubmit={onSubmit}>
         <Input
           autoFocus
           label="Email address"

@@ -66,11 +66,7 @@ export default function OnboardingBasicDetailsForm({
     });
   };
   return (
-    <Form
-      className=" space-y-3"
-      form={form}
-      onSubmit={form.handleSubmit(onSubmit)}
-    >
+    <Form className=" space-y-3" form={form} onSubmit={onSubmit}>
       <ImageUploader
         className="mx-auto flex size-28 items-center justify-center overflow-hidden rounded-full border"
         onNewURL={(url) => {

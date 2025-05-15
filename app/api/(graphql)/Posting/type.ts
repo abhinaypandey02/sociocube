@@ -12,6 +12,8 @@ export class PostingGQL {
   platforms: string[];
   @Field(() => [String], { nullable: true })
   deliverables: string[] | null;
+  @Field(() => [Number], { nullable: true })
+  countries: number[] | null;
   @Field(() => String, { nullable: true })
   externalLink: string | null;
   @Field(() => String, { nullable: true })

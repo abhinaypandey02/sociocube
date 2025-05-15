@@ -110,11 +110,7 @@ export default function OnboardingLocationForm({
     }
   };
   return (
-    <Form
-      className="space-y-3"
-      form={form}
-      onSubmit={form.handleSubmit(onSubmit)}
-    >
+    <Form className="space-y-3" form={form} onSubmit={onSubmit}>
       <Input
         className="block"
         label="Country"

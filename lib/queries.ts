@@ -338,6 +338,15 @@ export const GET_POSTING = gql(`
         updatedAt
         deliverables
         inReview
+        countries
+        states{
+            value
+            label
+        }
+        cities{
+            value
+            label
+        }
         reviews {
             rating
             photo

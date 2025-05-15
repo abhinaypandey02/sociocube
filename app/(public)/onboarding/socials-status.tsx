@@ -64,7 +64,7 @@ export default function SocialsStatus({
       <Form
         className="flex items-end gap-3"
         form={form}
-        onSubmit={form.handleSubmit(handleManualConnection)}
+        onSubmit={handleManualConnection}
       >
         <Input
           className="grow"

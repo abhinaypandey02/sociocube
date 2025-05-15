@@ -49,7 +49,7 @@ export default function SendReview({
         <Form
           className="space-y-5"
           form={form}
-          onSubmit={form.handleSubmit(async (data) => {
+          onSubmit={async (data) => {
             setLoading(true);
             sendReview({
               args: {
@@ -68,7 +68,7 @@ export default function SendReview({
               .finally(() => {
                 setLoading(false);
               });
-          })}
+          }}
         >
           <div className="flex justify-center">
             <Rating

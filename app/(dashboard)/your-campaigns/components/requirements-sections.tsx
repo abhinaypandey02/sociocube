@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { GetPostingQuery } from "@/__generated__/graphql";
 import { getAgeGroup } from "@/app/(dashboard)/campaigns/utils";
 import AccountCard from "@/app/(dashboard)/profile/components/account-card";
+import LocationSelector from "@/app/(dashboard)/your-campaigns/components/location-selector";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
 import { Input } from "@/components/input";
@@ -92,7 +93,7 @@ function PostingRequirementsForm({
 
   return (
     <Form
-      onSubmit={form.handleSubmit((data) => {
+      onSubmit={(data) => {
         setPosting({ ...data, deliverables: undefined });
         void updatePosting({
           id: posting.id,
@@ -103,7 +104,7 @@ function PostingRequirementsForm({
           },
         });
         onClose();
-      })}
+      }}
       className={"space-y-4 pt-4"}
       form={form}
     >
@@ -131,6 +132,8 @@ function PostingRequirementsForm({
         rules={{ valueAsNumber: true }}
         type="number"
       />
+
+      <LocationSelector />
       <div className="flex mt-4 justify-end gap-2">
         <Button invert onClick={onClose}>
           Cancel

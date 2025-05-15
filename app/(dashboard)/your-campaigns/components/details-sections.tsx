@@ -125,7 +125,7 @@ function PostingDetailsForm({
 
   return (
     <Form
-      onSubmit={form.handleSubmit((data) => {
+      onSubmit={(data) => {
         const deliverables = data.deliverables?.trim()
           ? data.deliverables
               .split(",")
@@ -146,7 +146,7 @@ function PostingDetailsForm({
           },
         });
         onClose();
-      })}
+      }}
       className={"space-y-4 pt-4"}
       form={form}
     >

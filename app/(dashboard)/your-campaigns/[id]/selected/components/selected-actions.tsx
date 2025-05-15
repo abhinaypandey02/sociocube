@@ -92,7 +92,7 @@ export default function SelectedActions({
           <Form
             className="space-y-5"
             form={form}
-            onSubmit={form.handleSubmit((data) => {
+            onSubmit={(data) => {
               sendReview({
                 args: {
                   userFeedback: data.userFeedback || undefined,
@@ -105,7 +105,7 @@ export default function SelectedActions({
                   setHasReviewed(true);
                 })
                 .catch(handleGQLErrors);
-            })}
+            }}
           >
             <div className="flex justify-center">
               <Rating

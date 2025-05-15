@@ -120,7 +120,7 @@ export default function LinksSection({
         }}
       >
         <Form
-          onSubmit={form.handleSubmit(async (data) => {
+          onSubmit={async (data) => {
             if (selectedPortfolio) {
               setPortfolios((prev) =>
                 prev.map((item) =>
@@ -152,7 +152,7 @@ export default function LinksSection({
             }
             setSelectedPortfolio(undefined);
             form.reset();
-          })}
+          }}
           form={form}
           className=" mt-2"
         >
