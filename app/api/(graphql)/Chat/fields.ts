@@ -37,8 +37,8 @@ export class ChatFieldResolvers {
   }
   @FieldResolver(() => UserGQL, { nullable: true })
   async user(@Ctx() ctx: AuthorizedContext, @Root() chat: ConversationDB) {
-    return getUser(
-      eq(UserTable.id, chat.user === ctx.userId ? chat.agency : chat.user),
-    );
+    const userID = chat.users?.find((u) => u !== ctx.userId);
+    if (!userID) return null;
+    return getUser(eq(UserTable.id, userID));
   }
 }

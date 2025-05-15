@@ -1,12 +1,13 @@
-import { ChatCircleDots, Link } from "@phosphor-icons/react";
 import {
   ArrowSquareOut,
+  ChatCircleDots,
   InstagramLogo,
   SealCheck,
   TrendUp,
 } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 
@@ -158,7 +159,7 @@ export default async function ProfilePage({
                     />
                   ) : null}
                 </h2>
-                <Link>
+                <Link href={"#"}>
                   <IconButton>
                     <ChatCircleDots />
                   </IconButton>

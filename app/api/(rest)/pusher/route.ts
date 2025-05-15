@@ -1,6 +1,6 @@
 import { context } from "@backend/lib/auth/context";
 import { ConversationTable } from "@graphql/Chat/db";
-import { eq, or } from "drizzle-orm";
+import { arrayContains } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 import { db } from "../../lib/db";
@@ -15,12 +15,7 @@ export const POST = async (req: NextRequest) => {
     const [conversation] = await db
       .select()
       .from(ConversationTable)
-      .where(
-        or(
-          eq(ConversationTable.agency, userId),
-          eq(ConversationTable.user, userId),
-        ),
-      );
+      .where(arrayContains(ConversationTable.users, [userId]));
     if (conversation?.id)
       return new NextResponse(
         JSON.stringify(pusher.authorizeChannel(socketId, channel)),
