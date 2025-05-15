@@ -8,10 +8,11 @@ import { queryGQL } from "@/lib/apollo-server";
 import { GET_CHATS } from "@/lib/queries";
 
 export default async function AllChatPage({ children }: PropsWithChildren) {
-  const { chats } = await queryGQL(GET_CHATS, {}, await cookies());
+  const { chats } = await queryGQL(GET_CHATS, {}, await cookies(), 0);
   return (
     <DashboardWrapper
       noPadding
+      noTopNav
       collapse
       title={"Messages"}
       activeKey={Route.Inbox}

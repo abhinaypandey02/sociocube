@@ -25,6 +25,9 @@ export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
         "border-r border-gray-200",
       )}
     >
+      <h2 className="pb-4 pt-5 border-b border-gray-200 px-6 font-poppins text-2xl lg:text-3xl font-medium text-gray-800">
+        Messages
+      </h2>
       {chats.map((chat) => (
         <Link
           href={`${getRoute("Inbox")}/${chat.user?.username}`}

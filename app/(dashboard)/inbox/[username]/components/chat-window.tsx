@@ -3,12 +3,12 @@ import {
   getConversationChannelName,
   NEW_MESSAGE,
 } from "@backend/(rest)/pusher/utils";
+import { PaperPlaneTilt } from "@phosphor-icons/react";
 import Pusher from "pusher-js";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import type { GetChatQuery } from "@/__generated__/graphql";
-import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { useAuthMutation } from "@/lib/apollo-client";
 import { useToken, useUser } from "@/lib/auth-client";
@@ -35,7 +35,7 @@ export default function ChatWindow({
     })[]
   >(chat.messages.toReversed());
   function onSubmit(data: FormValues) {
-    if (!user) return;
+    if (!user || !data.text) return;
     const index = messages.length;
     resetField("text");
     setMessages((old) => [
@@ -101,26 +101,37 @@ export default function ChatWindow({
   }, [chat.id, readMessage, token, user]);
 
   return (
-    <div className={"col-span-3 lg:col-span-2"}>
-      {user &&
-        messages.map((msg) => (
-          <div
-            className={`flex ${msg.by === user?.id ? "justify-end" : "justify-start"}`}
-            key={msg.createdAt}
-          >
-            <div>
-              {msg.body}
-              <br /> {msg.loading ? "(Sending)" : null}{" "}
-              {msg.failed ? "Failed" : null}{" "}
-              {!msg.loading &&
-                !msg.failed &&
-                new Date(msg.createdAt).toTimeString()}
+    <div className={"col-span-3 lg:col-span-2 grow flex flex-col p-4"}>
+      <div className={"grow"}>
+        {user &&
+          messages.map((msg) => (
+            <div
+              className={`flex ${msg.by === user?.id ? "justify-end" : "justify-start"}`}
+              key={msg.createdAt}
+            >
+              <div>
+                {msg.body}
+                <br /> {msg.loading ? "(Sending)" : null}{" "}
+                {msg.failed ? "Failed" : null}{" "}
+                {!msg.loading &&
+                  !msg.failed &&
+                  new Date(msg.createdAt).toTimeString()}
+              </div>
             </div>
-          </div>
-        ))}
-      <form className="flex " onSubmit={handleSubmit(onSubmit)}>
-        <Input {...register("text")} />
-        <Button type="submit">Send</Button>
+          ))}
+      </div>
+      <form className="flex relative" onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          placeholder={"Message..."}
+          {...register("text", { required: true })}
+          className={"rounded-full"}
+        />
+        <button
+          type="submit"
+          className={"absolute right-5 top-1/2 -translate-y-1/2"}
+        >
+          <PaperPlaneTilt className={"text-gray-600"} size={22} />
+        </button>
       </form>
     </div>
   );

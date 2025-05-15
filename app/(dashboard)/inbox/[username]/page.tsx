@@ -1,8 +1,11 @@
+import { CaretLeft } from "@phosphor-icons/react/dist/ssr";
 import { cookies } from "next/headers";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
 import UserImage from "@/components/user-image";
+import { getRoute } from "@/constants/routes";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_CHAT } from "@/lib/queries";
 
@@ -18,15 +21,35 @@ export default async function Page({ params }: ChatPage) {
       username: (await params).username,
     },
     await cookies(),
+    0,
   );
   if (!chat) return notFound();
   const photo = chat.user?.photo;
   const name = chat.user?.name;
   return (
-    <div>
-      <div className="flex gap-2 items-center py-2 px-6">
-        <UserImage photo={photo} alt={name || ""} />
-        {name}
+    <div
+      className={
+        "lg:col-span-2 max-lg:h-[calc(100svh-55px)] h-screen flex flex-col"
+      }
+    >
+      <div className="flex gap-3 items-center py-3 px-3 lg:px-6 border-b border-gray-200">
+        <Link className={"lg:hidden"} href={getRoute("Inbox")}>
+          <CaretLeft size={26} />
+        </Link>
+
+        <UserImage
+          className={"lg:hidden"}
+          size={40}
+          photo={photo}
+          alt={name || ""}
+        />
+        <UserImage
+          className={"max-lg:hidden"}
+          size={48}
+          photo={photo}
+          alt={name || ""}
+        />
+        <h2 className={"font-semibold text-lg"}>{name}</h2>
       </div>
       <ChatWindow chat={chat} />
     </div>

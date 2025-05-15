@@ -15,12 +15,14 @@ export default function DashboardWrapper({
   activeKey,
   collapse,
   noPadding,
+  noTopNav,
 }: PropsWithChildren<{
   title: string;
   activeKey: string;
   backRoute?: string;
   collapse?: boolean;
   noPadding?: boolean;
+  noTopNav?: boolean;
 }>) {
   return (
     <>
@@ -31,7 +33,9 @@ export default function DashboardWrapper({
       >
         <SideNav collapse={collapse} activeKey={activeKey} />
         <div className={cn("relative w-full grow flex flex-col min-w-0")}>
-          <TopNav backRoute={backRoute} activeKey={activeKey} title={title} />
+          {!noTopNav && (
+            <TopNav backRoute={backRoute} activeKey={activeKey} title={title} />
+          )}
           <div
             id={WRAPPER_ID}
             className={cn(
