@@ -170,11 +170,7 @@ function PostingRequirementsForm({
         countries={posting.countries}
         onChange={(values, names) => {
           setLocationNames(names);
-          setLocationValues({
-            cities: values.map((v) => v.city).filter(Boolean) as number[],
-            states: values.map((v) => v.state).filter(Boolean) as number[],
-            countries: values.map((v) => v.country).filter(Boolean) as number[],
-          });
+          setLocationValues(values);
         }}
       />
       <div className="flex mt-4 justify-end gap-2">

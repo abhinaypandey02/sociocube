@@ -11,6 +11,7 @@ import type {
   PostingPlatforms,
 } from "@/__generated__/graphql";
 import { POSTING_PLATFORMS } from "@/app/(dashboard)/campaigns/constants";
+import LocationSelector from "@/app/(dashboard)/your-campaigns/components/location-selector";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import Form from "@/components/form";
@@ -62,6 +63,11 @@ export default function CreateNewPostingForm({
     useAuthMutation(CREATE_POSTING);
   const [loading, setLoading] = useState(false);
   const isLoading = creatingPost || loading;
+  const [locationValues, setLocationValues] = useState<{
+    cities: number[];
+    states: number[];
+    countries: number[];
+  }>();
   useEffect(() => {
     if (data?.user?.locationID?.country && !form.getValues("currencyCountry")) {
       form.setValue("currencyCountry", data.user.locationID.country);
@@ -72,6 +78,7 @@ export default function CreateNewPostingForm({
     createPosting({
       newPosting: {
         ...formData,
+        ...locationValues,
         deliverables:
           formData.deliverables.trim() !== ""
             ? formData.deliverables.trim().split(",")
@@ -243,6 +250,13 @@ export default function CreateNewPostingForm({
           placeholder="Required instagram followers"
           rules={{ valueAsNumber: true }}
           type="number"
+        />
+        <LocationSelector
+          countries={[]}
+          states={[]}
+          cities={[]}
+          locationNames={[]}
+          onChange={setLocationValues}
         />
         <Input
           label="External link (Optional)"

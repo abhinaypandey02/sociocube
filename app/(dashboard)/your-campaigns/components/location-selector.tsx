@@ -28,7 +28,14 @@ export default function LocationSelector({
   states: Posting["states"];
   cities: Posting["cities"];
   locationNames: string[];
-  onChange: (values: FieldValues[], names: string[]) => void;
+  onChange: (
+    values: {
+      cities: number[];
+      states: number[];
+      countries: number[];
+    },
+    names: string[],
+  ) => void;
 }) {
   const [locations, setLocations] = React.useState<FieldValues[]>([
     ...(countries || []).map((country) => ({ country })),
@@ -132,9 +139,23 @@ export default function LocationSelector({
             }
             if (name) {
               setLocationNames([...locationNames, name]);
-              setLocations([...locations, values]);
+              const newLocations = [...locations, values];
+              setLocations(newLocations);
 
-              onChange([...locations, values], [...locationNames, name]);
+              onChange(
+                {
+                  cities: newLocations
+                    .map((v) => v.city)
+                    .filter(Boolean) as number[],
+                  states: newLocations
+                    .map((v) => v.state)
+                    .filter(Boolean) as number[],
+                  countries: newLocations
+                    .map((v) => v.country)
+                    .filter(Boolean) as number[],
+                },
+                [...locationNames, name],
+              );
             }
             handleClose();
           }}
