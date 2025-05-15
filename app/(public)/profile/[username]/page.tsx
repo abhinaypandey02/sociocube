@@ -159,7 +159,7 @@ export default async function ProfilePage({
                     />
                   ) : null}
                 </h2>
-                <Link href={"#"}>
+                <Link href={getRoute("Inbox") + "/" + username}>
                   <IconButton>
                     <ChatCircleDots />
                   </IconButton>
