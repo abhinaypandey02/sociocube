@@ -67,6 +67,16 @@ export default function ChatWindow({
           });
         });
   }
+  // Add this new state for tracking expanded messages
+  const [expandedMessages, setExpandedMessages] = useState<Record<number, boolean>>({});
+
+  // Toggle function for expanding/collapsing messages
+  const toggleMessageExpand = (messageTime: number) => {
+    setExpandedMessages(prev => ({
+      ...prev,
+      [messageTime]: !prev[messageTime]
+    }));
+  };
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY || "", {
       cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "",
@@ -110,9 +120,9 @@ export default function ChatWindow({
           messages.map((msg) => {
             const charLimit = 200;
             const isLongMessage = msg.body.length > charLimit;
-            const [expanded, setExpanded] = useState(false);
+            const isExpanded = !!expandedMessages[msg.createdAt];
             const displayText =
-              isLongMessage && !expanded
+              isLongMessage && !isExpanded
                 ? msg.body.substring(0, charLimit) + "..."
                 : msg.body;
 
@@ -133,7 +143,7 @@ export default function ChatWindow({
                     {displayText}
                     {isLongMessage && (
                       <button
-                        onClick={() => setExpanded(!expanded)}
+                        onClick={() => toggleMessageExpand(msg.createdAt)}
                         className={cn(
                           "block text-xs mt-1 underline",
                           msg.by === user?.id
@@ -141,7 +151,7 @@ export default function ChatWindow({
                             : "text-gray-500"
                         )}
                       >
-                        {expanded ? "Show less" : "Read more"}
+                        {isExpanded ? "Show less" : "Read more"}
                       </button>
                     )}
                   </div>
