@@ -68,13 +68,15 @@ export default function ChatWindow({
         });
   }
   // Add this new state for tracking expanded messages
-  const [expandedMessages, setExpandedMessages] = useState<Record<number, boolean>>({});
+  const [expandedMessages, setExpandedMessages] = useState<
+    Record<number, boolean>
+  >({});
 
   // Toggle function for expanding/collapsing messages
   const toggleMessageExpand = (messageTime: number) => {
-    setExpandedMessages(prev => ({
+    setExpandedMessages((prev) => ({
       ...prev,
-      [messageTime]: !prev[messageTime]
+      [messageTime]: !prev[messageTime],
     }));
   };
   useEffect(() => {
@@ -114,8 +116,8 @@ export default function ChatWindow({
   }, [chat.id, readMessage, token, user]);
 
   return (
-    <div className={"col-span-3 lg:col-span-2 grow flex flex-col p-4"}>
-      <div className={"grow space-y-2 overflow-y-auto"}>
+    <div className={"h-full flex flex-col"}>
+      <div className={"grow space-y-2 overflow-y-auto no-scrollbar"}>
         {user &&
           messages.map((msg) => {
             const charLimit = 200;
@@ -128,7 +130,7 @@ export default function ChatWindow({
 
             return (
               <div
-                className={`flex ${msg.by === user?.id ? "justify-end" : "justify-start"}`}
+                className={`flex px-4 ${msg.by === user?.id ? "justify-end max-sm:pl-14" : "justify-start max-sm:pr-14"}`}
                 key={msg.createdAt}
               >
                 <div>
@@ -170,18 +172,23 @@ export default function ChatWindow({
             );
           })}
       </div>
-      <form className="flex relative" onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          placeholder={"Message..."}
-          {...register("text", { required: true })}
-          className={"rounded-full"}
-        />
-        <button
-          type="submit"
-          className={"absolute right-5 top-1/2 -translate-y-1/2"}
-        >
-          <PaperPlaneTilt className={"text-gray-600"} size={22} />
-        </button>
+      <form
+        className="flex pb-4 px-4 relative w-full"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className="relative w-full">
+          <Input
+            placeholder={"Message..."}
+            {...register("text", { required: true })}
+            className={"rounded-full w-full pr-12"}
+          />
+          <button
+            type="submit"
+            className={"absolute right-3 top-1/2 transform -translate-y-1/2"}
+          >
+            <PaperPlaneTilt className={"text-gray-600"} size={22} />
+          </button>
+        </div>
       </form>
     </div>
   );
