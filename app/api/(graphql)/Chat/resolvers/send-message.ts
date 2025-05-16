@@ -6,6 +6,7 @@ import type { AuthorizedContext } from "@backend/lib/auth/context";
 import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
 import { sendEvent } from "@backend/lib/socket/send-event";
+import { waitUntil } from "@vercel/functions";
 import { arrayContains } from "drizzle-orm";
 
 import { ConversationMessageTable, ConversationTable } from "../db";
@@ -39,12 +40,14 @@ export async function handleSendMessage(
       body,
       by: ctx.userId,
     };
-    await db.insert(ConversationMessageTable).values(message);
-    void sendEvent(
-      getConversationChannelName(conversationID),
-      NEW_MESSAGE,
-      message,
+    waitUntil(
+      sendEvent(
+        getConversationChannelName(conversationID),
+        NEW_MESSAGE,
+        message,
+      ),
     );
+    await db.insert(ConversationMessageTable).values(message);
     return true;
   }
   return false;
