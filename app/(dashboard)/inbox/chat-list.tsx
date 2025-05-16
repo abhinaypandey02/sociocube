@@ -43,12 +43,12 @@ export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
             photo={chat.user?.photo}
             alt={chat.user?.name || ""}
           />
-          <div className={!chat.preview?.hasRead ? "font-semibold" : ""}>
+          <div className={cn("min-w-0 flex-1",!chat.preview?.hasRead ? "font-semibold" : "")}>
             <div>{chat.user?.name}</div>
             <div
               className={cn(
                 chat.preview?.hasRead ? "text-gray-600" : "",
-                "text-sm",
+                "text-sm truncate",
               )}
             >
               {chat.preview?.text}
