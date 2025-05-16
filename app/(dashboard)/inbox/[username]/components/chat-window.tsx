@@ -95,7 +95,7 @@ export default function ChatWindow({
             },
           ]);
         }
-      },
+      }
     );
     return () => {
       pusher.unbind();
@@ -107,35 +107,58 @@ export default function ChatWindow({
     <div className={"col-span-3 lg:col-span-2 grow flex flex-col p-4"}>
       <div className={"grow space-y-2 overflow-y-auto"}>
         {user &&
-          messages.map((msg) => (
-            <div
-              className={`flex ${msg.by === user?.id ? "justify-end" : "justify-start"}`}
-              key={msg.createdAt}
-            >
-              <div>
-                <div
-                  className={cn(
-                    "max-w-sm text-justify rounded-3xl px-4  py-2",
-                    msg.by === user?.id
-                      ? "bg-accent text-white"
-                      : "bg-gray-100 text-gray-700",
-                  )}
-                >
-                  {msg.body}
-                </div>
-                <div
-                  className={cn(
-                    "text-xs mt-0.5",
-                    msg.by === user?.id ? "text-end pr-1" : "pl-1",
-                    msg.failed ? "text-red-400" : "text-gray-500",
-                  )}
-                >
-                  {msg.loading ? "Sending" : null}{" "}
-                  {msg.failed ? "Failed" : null}
+          messages.map((msg) => {
+            const charLimit = 200;
+            const isLongMessage = msg.body.length > charLimit;
+            const [expanded, setExpanded] = useState(false);
+            const displayText =
+              isLongMessage && !expanded
+                ? msg.body.substring(0, charLimit) + "..."
+                : msg.body;
+
+            return (
+              <div
+                className={`flex ${msg.by === user?.id ? "justify-end" : "justify-start"}`}
+                key={msg.createdAt}
+              >
+                <div>
+                  <div
+                    className={cn(
+                      "max-w-sm text-justify rounded-3xl px-4  py-2",
+                      msg.by === user?.id
+                        ? "bg-accent text-white"
+                        : "bg-gray-100 text-gray-700"
+                    )}
+                  >
+                    {displayText}
+                    {isLongMessage && (
+                      <button
+                        onClick={() => setExpanded(!expanded)}
+                        className={cn(
+                          "block text-xs mt-1 underline",
+                          msg.by === user?.id
+                            ? "text-white/80"
+                            : "text-gray-500"
+                        )}
+                      >
+                        {expanded ? "Show less" : "Read more"}
+                      </button>
+                    )}
+                  </div>
+                  <div
+                    className={cn(
+                      "text-xs mt-0.5",
+                      msg.by === user?.id ? "text-end pr-1" : "pl-1",
+                      msg.failed ? "text-red-400" : "text-gray-500"
+                    )}
+                  >
+                    {msg.loading ? "Sending" : null}{" "}
+                    {msg.failed ? "Failed" : null}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
       </div>
       <form className="flex relative" onSubmit={handleSubmit(onSubmit)}>
         <Input
