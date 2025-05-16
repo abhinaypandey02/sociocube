@@ -67,12 +67,10 @@ export default function ChatWindow({
           });
         });
   }
-  // Add this new state for tracking expanded messages
   const [expandedMessages, setExpandedMessages] = useState<
     Record<number, boolean>
   >({});
 
-  // Toggle function for expanding/collapsing messages
   const toggleMessageExpand = (messageTime: number) => {
     setExpandedMessages((prev) => ({
       ...prev,
@@ -116,8 +114,8 @@ export default function ChatWindow({
   }, [chat.id, readMessage, token, user]);
 
   return (
-    <div className={"h-full flex flex-col"}>
-      <div className={"grow space-y-2 overflow-y-auto no-scrollbar"}>
+    <div className="h-full flex flex-col">
+      <div className="grow space-y-2 overflow-y-auto no-scrollbar p-4">
         {user &&
           messages.map((msg) => {
             const charLimit = 200;
@@ -125,12 +123,12 @@ export default function ChatWindow({
             const isExpanded = !!expandedMessages[msg.createdAt];
             const displayText =
               isLongMessage && !isExpanded
-                ? msg.body.substring(0, charLimit) + "..."
+                ? msg.body.substring(0, charLimit) + " ..."
                 : msg.body;
 
             return (
               <div
-                className={`flex px-4 ${msg.by === user?.id ? "justify-end max-sm:pl-14" : "justify-start max-sm:pr-14"}`}
+                className={`flex ${msg.by === user?.id ? "justify-end max-sm:pl-14" : "justify-start max-sm:pr-14"}`}
                 key={msg.createdAt}
               >
                 <div>
@@ -147,7 +145,7 @@ export default function ChatWindow({
                       <button
                         onClick={() => toggleMessageExpand(msg.createdAt)}
                         className={cn(
-                          "block text-xs mt-1 underline",
+                          "block mt-1 underline font-semibold",
                           msg.by === user?.id
                             ? "text-white/80"
                             : "text-gray-500"
