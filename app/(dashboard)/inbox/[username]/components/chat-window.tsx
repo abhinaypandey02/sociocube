@@ -77,6 +77,14 @@ export default function ChatWindow({
   };
 
   useEffect(() => {
+    if(chat?.id && user) {
+      readMessage({
+        conversationID: chat.id,
+      });
+    }
+  }, [chat.id, user]);
+
+  useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY || "", {
       cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "",
       channelAuthorization: {
