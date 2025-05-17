@@ -35,9 +35,7 @@ export default function ChatWindow({
       failed?: boolean;
     })[]
   >(chat.messages.toReversed());
-  const [expandedMessages, setExpandedMessages] = useState<
-    Record<number, boolean>
-  >({});
+  const [expandedMessages, setExpandedMessages] = useState<Record<number, boolean>>({});
 
   function onSubmit(data: FormValues) {
     if (!user || !data.text) return;
@@ -77,7 +75,7 @@ export default function ChatWindow({
       [messageTime]: !prev[messageTime],
     }));
   };
-  
+
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY || "", {
       cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "",
