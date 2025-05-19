@@ -71,7 +71,7 @@ export default function SideNav({
                   className={cn(
                     "flex gap-2.5 items-center py-3 hover:bg-gray-100 rounded-lg",
                     activeKey === page.href && "bg-gray-100 text-primary",
-                    collapse ? "px-3 justify-center" : "pl-10",
+                    collapse ? "px-3 justify-center" : "pl-7",
                   )}
                   href={
                     page.requireAuth && !token

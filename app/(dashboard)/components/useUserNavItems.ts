@@ -10,11 +10,9 @@ export function useUserNavItems() {
   return useMemo(() => {
     const allItems = user
       ? NAV_ITEMS.filter(
-          (item) =>
-            (!item.roles || item.roles.includes(user.role)) &&
-            !item.roles?.includes(Roles.Admin),
+          (item) => !item.roles || item.roles.includes(user.role),
         )
-      : NAV_ITEMS;
+      : NAV_ITEMS.filter((item) => !item.roles?.includes(Roles.Admin));
     return {
       all: allItems,
       primary: allItems.filter((item) => !item.parent),
