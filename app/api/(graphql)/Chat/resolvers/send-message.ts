@@ -66,7 +66,6 @@ export async function handleSendMessage(
     );
     await db.insert(ConversationMessageTable).values(message);
 
-    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
     const recentMessages = await db
       .select()
       .from(ConversationMessageTable)
