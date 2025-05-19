@@ -11,7 +11,7 @@ export default function Page() {
     >
       <Image
         alt="Quick Search"
-        src="/testing.svg"
+        src="/chat.svg"
         height={500}
         width={500}
         className=""
