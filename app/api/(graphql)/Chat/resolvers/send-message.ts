@@ -8,6 +8,7 @@ import { db } from "@backend/lib/db";
 import { sendEvent } from "@backend/lib/socket/send-event";
 import { waitUntil } from "@vercel/functions";
 import { arrayContains } from "drizzle-orm";
+import { getIsMessageProfanity } from "@/lib/server-actions";
 
 import { ConversationMessageTable, ConversationTable } from "../db";
 
@@ -17,6 +18,18 @@ export async function handleSendMessage(
   userID: number,
 ): Promise<boolean> {
   if (ctx.userId === userID) throw GQLError(400, "You cannot message yourself");
+
+  try {
+    const result = await getIsMessageProfanity(body);
+    if (result?.isProfane) {
+      return false;
+    }
+  }
+  catch (error) {
+    console.error("Error checking profanity:", error);
+    return false;
+  }
+
   const [conversation] = await db
     .update(ConversationTable)
     .set({

@@ -13,10 +13,8 @@ import { Input } from "@/components/input";
 import { useAuthMutation } from "@/lib/apollo-client";
 import { useToken, useUser } from "@/lib/auth-client";
 import { READ_MESSAGE, SEND_CHAT } from "@/lib/mutations";
-import { cn } from "@/lib/utils";
 import { getIsMessageProfanity } from "@/lib/server-actions";
-import { CHAR_LIMIT } from "../../constants";
-import { ChatBubble } from "./ChatBubble";
+import { ChatBubble } from "./chat-bubble";
 
 interface FormValues {
   text: string;
@@ -40,7 +38,6 @@ export default function ChatWindow({
     (NonNullable<GetChatQuery["chat"]>["messages"][number] & {
       loading?: boolean;
       failed?: boolean;
-      profanity?: boolean;
     })[]
   >(chat.messages.toReversed());
 
@@ -57,55 +54,29 @@ export default function ChatWindow({
         loading: true,
       },
     ]);
-    getIsMessageProfanity(data.text)
-      .then((result) => {
-        if (result?.isProfane) {
+    if (chat.user?.id)
+      sendMessage({
+        body: data.text,
+        userID: chat.user.id,
+      })
+        .then((result) => {
+          if(!result.data?.sendMessage){
+            setMessages((old) => {
+              if (old[index]) old[index].failed = true;
+              return [...old];
+            });
+          }
           setMessages((old) => {
-            if (old[index]) {
-              old[index].profanity = true;
-              old[index].loading = false;
-            }
+            if (old[index]) old[index].loading = false;
             return [...old];
           });
-        } else {
-          if (chat.user?.id)
-            sendMessage({
-              body: data.text,
-              userID: chat.user.id,
-            })
-              .then(() => {
-                setMessages((old) => {
-                  if (old[index]) old[index].loading = false;
-                  return [...old];
-                });
-              })
-              .catch(() => {
-                setMessages((old) => {
-                  if (old[index]) old[index].failed = true;
-                  return [...old];
-                });
-              });
-        }
-      })
-      .catch((error) => {
-        if (chat.user?.id)
-          sendMessage({
-            body: data.text,
-            userID: chat.user.id,
-          })
-            .then(() => {
-              setMessages((old) => {
-                if (old[index]) old[index].loading = false;
-                return [...old];
-              });
-            })
-            .catch(() => {
-              setMessages((old) => {
-                if (old[index]) old[index].failed = true;
-                return [...old];
-              });
-            });
-      });
+        })
+        .catch(() => {
+          setMessages((old) => {
+            if (old[index]) old[index].failed = true;
+            return [...old];
+          });
+        });
   }
 
   useEffect(() => {
@@ -166,7 +137,6 @@ export default function ChatWindow({
                 isCurrentUser={msg.by === user?.id}
                 loading={msg.loading}
                 failed={msg.failed}
-                profanity={msg.profanity}
               />
             </div>
           ))}

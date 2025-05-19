@@ -7,7 +7,6 @@ interface ChatBubbleProps {
   isCurrentUser: boolean;
   loading?: boolean;
   failed?: boolean;
-  profanity?: boolean;
 }
 
 export const ChatBubble: React.FC<ChatBubbleProps> = ({
@@ -15,7 +14,6 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   isCurrentUser,
   loading,
   failed,
-  profanity,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const isLongMessage = body.length > CHAR_LIMIT;
@@ -62,10 +60,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
         )}
       >
         {loading ? "Sending" : null}{" "}
-        {failed ? "Failed" : null}
-        {profanity
-          ? "Message blocked due to potential profanity"
-          : null}
+        {failed ? "Unable to send" : null}
       </div>
     </div>
   );
