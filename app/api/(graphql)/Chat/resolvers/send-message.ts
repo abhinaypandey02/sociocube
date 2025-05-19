@@ -29,7 +29,7 @@ export async function handleSendMessage(
     if (result?.isProfane) {
       return false;
     }
-  } catch (error) { // allowing the message to successfully send if the profanity check fails
+  } catch (error) { // allowing message to send if the profanity check fails
     console.error("Error checking profanity:", error);
   }
 
