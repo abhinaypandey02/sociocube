@@ -122,7 +122,7 @@ export default function CreateNewPostingForm({
         description: postingData.description.slice(0, POSTING_BIO_MAX_LENGTH),
         deliverables: postingData.deliverables.slice(0, BIO_MAX_LENGTH),
         externalLink: postingData.externalLink,
-        gender: postingData.gender,
+        gender: postingData.gender || undefined,
         extraDetails: postingData.extraDetails,
         maximumAge: postingData.maximumAge || undefined,
         title: postingData.title.slice(0, NAME_MAX_LENGTH * 2),
