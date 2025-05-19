@@ -15,6 +15,7 @@ import { useToken, useUser } from "@/lib/auth-client";
 import { READ_MESSAGE, SEND_CHAT } from "@/lib/mutations";
 import { cn } from "@/lib/utils";
 import { getIsMessageProfanity } from "@/lib/server-actions";
+import { CHAR_LIMIT } from "../../constants";
 
 interface FormValues {
   text: string;
@@ -165,12 +166,11 @@ export default function ChatWindow({
       <div className="grow space-y-2 overflow-y-auto no-scrollbar p-4">
         {user &&
           messages.map((msg, index) => {
-            const charLimit = 200;
-            const isLongMessage = msg.body.length > charLimit;
+            const isLongMessage = msg.body.length > CHAR_LIMIT;
             const isExpanded = !!expandedMessages[index];
             const displayText =
               isLongMessage && !isExpanded
-                ? msg.body.substring(0, charLimit) + " ..."
+                ? msg.body.substring(0, CHAR_LIMIT) + " ..."
                 : msg.body;
 
             return (
@@ -241,8 +241,3 @@ export default function ChatWindow({
     </div>
   );
 }
-// chat window auto scroll to bottom
-// display visual queue for unread chats
-// change schema to incorporate hasRead to every message instead of every conversation
-// use textarea for message input
-// add message button on the applications table
