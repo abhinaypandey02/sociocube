@@ -15,7 +15,7 @@ export async function rejectPosting(
 ): Promise<boolean> {
   await db
     .delete(ApplicationTable)
-    .where(eq(PostingTable.id, ApplicationTable.posting));
+    .where(eq(ApplicationTable.posting, postingID));
   const [posting] = await db
     .delete(PostingTable)
     .where(and(eq(PostingTable.id, postingID), eq(PostingTable.inReview, true)))
