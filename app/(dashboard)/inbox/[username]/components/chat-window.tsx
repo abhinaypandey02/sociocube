@@ -14,9 +14,14 @@ import { useAuthMutation } from "@/lib/apollo-client";
 import { useToken, useUser } from "@/lib/auth-client";
 import { READ_MESSAGE, SEND_CHAT } from "@/lib/mutations";
 import { cn } from "@/lib/utils";
+import { getIsMessageProfanity } from "@/lib/server-actions";
 
 interface FormValues {
   text: string;
+}
+
+export interface MessageProfanityCheck {
+  isProfane: boolean;
 }
 
 export default function ChatWindow({
@@ -198,3 +203,8 @@ export default function ChatWindow({
     </div>
   );
 }
+// chat window auto scroll to bottom
+// display visual queue for unread chats
+// change schema to incorporate hasRead to every message instead of every conversation
+// use textarea for message input
+// add message button on the applications table

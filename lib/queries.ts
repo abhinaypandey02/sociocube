@@ -198,6 +198,7 @@ export const GET_CHAT = gql(`
         body
         createdAt
         by
+        id
       }
     }
   }
