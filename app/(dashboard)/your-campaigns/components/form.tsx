@@ -85,6 +85,7 @@ export default function CreateNewPostingForm({
             ? formData.deliverables.trim().split(",")
             : undefined,
         platforms: [formData.platforms],
+        gender: formData.gender || undefined,
       },
     })
       .then((res) => {
