@@ -1,7 +1,10 @@
+"use client";
 import React from "react";
 
 import { GetPostingsInReviewQuery } from "@/__generated__/graphql";
 import PostingCard from "@/app/(dashboard)/campaigns/components/posting-card";
+import DashboardWrapper from "@/app/(dashboard)/components/dashboard-wrapper";
+import { Route } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { ACCEPT_POSTING, REJECT_POSTING } from "@/lib/mutations";
 
@@ -37,7 +40,10 @@ export default function ReviewCampaignList({
   };
 
   return (
-    <div>
+    <DashboardWrapper
+      title={"Review campaigns"}
+      activeKey={Route.ReviewCampaigns}
+    >
       {postings.map((posting) => (
         <PostingCard
           gotoNext={() => handleAccept(posting.id)}
@@ -47,6 +53,6 @@ export default function ReviewCampaignList({
           loading={false}
         />
       ))}
-    </div>
+    </DashboardWrapper>
   );
 }

@@ -1,5 +1,6 @@
 import { db } from "@backend/lib/db";
 import { sendTemplateEmail } from "@backend/lib/email/send-template";
+import { ApplicationTable } from "@graphql/Application/db";
 import { UserTable } from "@graphql/User/db";
 import { and, eq } from "drizzle-orm";
 import { revalidateTag } from "next/cache";
@@ -12,6 +13,9 @@ export async function rejectPosting(
   postingID: number,
   reason: string,
 ): Promise<boolean> {
+  await db
+    .delete(ApplicationTable)
+    .where(eq(PostingTable.id, ApplicationTable.posting));
   const [posting] = await db
     .delete(PostingTable)
     .where(and(eq(PostingTable.id, postingID), eq(PostingTable.inReview, true)))
