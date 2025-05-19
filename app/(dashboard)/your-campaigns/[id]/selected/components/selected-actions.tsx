@@ -36,19 +36,21 @@ export default function SelectedActions({
   const isRejected = status === ApplicationStatus.Rejected;
   return (
     <div className="flex items-center gap-1" key={id}>
-      <button
-        disabled={hasReviewed}
-        onClick={() => {
-          setOpenRating(true);
-        }}
-        type="button"
-      >
-        <Star
-          className="text-primary"
-          size={18}
-          weight={hasReviewed ? "fill" : "regular"}
-        />
-      </button>
+      {!isRejected && (
+        <button
+          disabled={hasReviewed}
+          onClick={() => {
+            setOpenRating(true);
+          }}
+          type="button"
+        >
+          <Star
+            className="text-primary"
+            size={18}
+            weight={hasReviewed ? "fill" : "regular"}
+          />
+        </button>
+      )}
 
       {!hasReviewed ? (
         <button
