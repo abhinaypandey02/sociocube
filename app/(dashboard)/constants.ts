@@ -41,6 +41,7 @@ export const NAV_ITEMS: NavItem[] = [
     parent: Route.YourCampaigns,
     roles: [Roles.Brand, Roles.Agency],
     requireAuth: true,
+    requireOnboarding: true,
   },
   {
     icon: MagnifyingGlass,
@@ -52,12 +53,15 @@ export const NAV_ITEMS: NavItem[] = [
     icon: ChatCircleDots,
     navTitle: "Messages",
     href: Route.Inbox,
+    requireAuth: true,
+    requireOnboarding: true,
   },
   {
     icon: UserCircle,
     navTitle: "Profile",
     href: Route.Profile,
     requireAuth: true,
+    requireOnboarding: true,
   },
   {
     icon: Gear,
