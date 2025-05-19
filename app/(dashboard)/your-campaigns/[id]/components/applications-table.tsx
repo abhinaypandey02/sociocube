@@ -42,6 +42,12 @@ const DEFAULT_COLUMNS = [
       <div className="flex items-center gap-2">
         <a
           className="text-accent"
+          href={`${getRoute("Inbox")}/${val.row.original.user?.username}`}
+        >
+          <ChatCircleDots size={19} />
+        </a>
+        <a
+          className="text-accent"
           href={`https://instagram.com/${val.getValue()}`}
           rel="noopener"
           target="_blank"
@@ -244,26 +250,6 @@ export default function ApplicationsTable({
     colHelper.accessor("status", {
       header: "Actions",
       cell: ApplicationActionsCell,
-    }),
-    colHelper.accessor("user.username", {
-      header: "",
-      cell: (val) => (
-          <Button
-            compact
-            className={cn("whitespace-nowrap", {
-              "opacity-70 cursor-not-allowed": !val.getValue(),
-            })}
-            type="button"
-            onClick={() => {
-              val.getValue()
-                ? (window.location.href = `${getRoute("Inbox")}/${val.getValue()}`)
-                : toast.error("Cannot message this user");
-            }}
-          >
-            <ChatCircleDots className="mr-1.5" size={16} weight="bold" />
-            Message
-          </Button>
-    ),
     }),
   ];
   return (
