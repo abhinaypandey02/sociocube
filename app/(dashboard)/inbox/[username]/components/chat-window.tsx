@@ -16,6 +16,7 @@ import { READ_MESSAGE, SEND_CHAT } from "@/lib/mutations";
 import { cn } from "@/lib/utils";
 import { getIsMessageProfanity } from "@/lib/server-actions";
 import { CHAR_LIMIT } from "../../constants";
+import { ChatBubble } from "./ChatBubble";
 
 interface FormValues {
   text: string;
@@ -42,9 +43,6 @@ export default function ChatWindow({
       profanity?: boolean;
     })[]
   >(chat.messages.toReversed());
-  const [expandedMessages, setExpandedMessages] = useState<
-    Record<number, boolean>
-  >({});
 
   function onSubmit(data: FormValues) {
     if (!user || !data.text) return;
@@ -110,13 +108,6 @@ export default function ChatWindow({
       });
   }
 
-  const toggleMessageExpand = (index: number) => {
-    setExpandedMessages((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
-  };
-
   useEffect(() => {
     if (chat?.id && user) {
       readMessage({
@@ -165,60 +156,20 @@ export default function ChatWindow({
     <div className="h-full flex flex-col">
       <div className="grow space-y-2 overflow-y-auto no-scrollbar p-4">
         {user &&
-          messages.map((msg, index) => {
-            const isLongMessage = msg.body.length > CHAR_LIMIT;
-            const isExpanded = !!expandedMessages[index];
-            const displayText =
-              isLongMessage && !isExpanded
-                ? msg.body.substring(0, CHAR_LIMIT) + " ..."
-                : msg.body;
-
-            return (
-              <div
-                className={`flex ${msg.by === user?.id ? "justify-end max-sm:pl-14" : "justify-start max-sm:pr-14"}`}
-                key={index}
-              >
-                <div>
-                  <div
-                    className={cn(
-                      "max-w-sm text-justify rounded-3xl px-4  py-2",
-                      msg.by === user?.id
-                        ? "bg-accent text-white"
-                        : "bg-gray-100 text-gray-700"
-                    )}
-                  >
-                    {displayText}
-                    {isLongMessage && (
-                      <button
-                        onClick={() => toggleMessageExpand(index)}
-                        className={cn(
-                          "block mt-1 underline font-semibold",
-                          msg.by === user?.id
-                            ? "text-white/80"
-                            : "text-gray-500"
-                        )}
-                      >
-                        {isExpanded ? "Show less" : "Read more"}
-                      </button>
-                    )}
-                  </div>
-                  <div
-                    className={cn(
-                      "text-xs mt-0.5",
-                      msg.by === user?.id ? "text-end pr-1" : "pl-1",
-                      msg.failed ? "text-red-400" : "text-gray-500"
-                    )}
-                  >
-                    {msg.loading ? "Sending" : null}{" "}
-                    {msg.failed ? "Failed" : null}
-                    {msg.profanity
-                      ? "Message blocked due to potential profanity"
-                      : null}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          messages.map((msg, index) => (
+            <div
+              className={`flex ${msg.by === user?.id ? "justify-end max-sm:pl-14" : "justify-start max-sm:pr-14"}`}
+              key={index}
+            >
+              <ChatBubble
+                body={msg.body}
+                isCurrentUser={msg.by === user?.id}
+                loading={msg.loading}
+                failed={msg.failed}
+                profanity={msg.profanity}
+              />
+            </div>
+          ))}
       </div>
       <form
         className="flex pb-4 px-4 relative w-full"
