@@ -1,6 +1,7 @@
 import { EmailComponent, EmailComponentType } from "@backend/lib/email/types";
 
 import { getCurrency } from "@/app/(dashboard)/campaigns/utils";
+import { getRoute } from "@/constants/routes";
 
 export const NewCampaigns = ({
   influencerName,
@@ -54,7 +55,7 @@ We've found some new campaigns that match your profile! 🎉 Check out these opp
     {
       type: EmailComponentType.BUTTON,
       content: `Go to Dashboard`,
-      url: `/dashboard`,
+      url: getRoute("Campaigns"),
       options: {
         align: "center",
       },
