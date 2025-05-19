@@ -1,10 +1,18 @@
 import { getRenderedTemplate } from "@backend/lib/email/html";
 import { getRenderedTemplateText } from "@backend/lib/email/text";
 import { EmailComponent } from "@backend/lib/email/types";
-import { waitUntil } from "@vercel/functions";
 
 import { sendEmail } from "./driver";
+import { ApplicationReceived } from "./templates/application-received";
+import { ApplicationRejected } from "./templates/application-rejected";
+import { ApplicationSelected } from "./templates/application-selected";
+import { ApplicationShortlisted } from "./templates/application-shortlisted";
+import { CampaignCreated } from "./templates/campaign-created";
+import { NewCampaigns } from "./templates/new-campaigns";
+import { PostingAnnouncement } from "./templates/posting-announcement";
 import { ResetPassword } from "./templates/reset-password";
+import { ShortlistAccepted } from "./templates/shortlist-accepted";
+import { ShortlistDenied } from "./templates/shortlist-denied";
 import { VerifyEmail } from "./templates/verify";
 import { WelcomeUser } from "./templates/welcome";
 
@@ -12,6 +20,15 @@ export const Template = {
   WelcomeUser,
   VerifyEmail,
   ResetPassword,
+  CampaignCreated,
+  NewCampaigns,
+  ApplicationReceived,
+  ApplicationSelected,
+  ApplicationRejected,
+  ApplicationShortlisted,
+  ShortlistAccepted,
+  ShortlistDenied,
+  PostingAnnouncement,
 };
 
 export function sendTemplateEmail<T extends keyof typeof Template>(
@@ -26,15 +43,10 @@ export function sendTemplateEmail<T extends keyof typeof Template>(
   } =
     // @ts-expect-error -- dynamic
     Template[template](meta);
-  waitUntil(
-    sendEmail(
-      [to],
-      method.subject,
-      getRenderedTemplateText(
-        method.title || method.subject,
-        method.components,
-      ),
-      getRenderedTemplate(method.title || method.subject, method.components),
-    ),
+  return sendEmail(
+    [to],
+    method.subject,
+    getRenderedTemplateText(method.title || method.subject, method.components),
+    getRenderedTemplate(method.title || method.subject, method.components),
   );
 }
