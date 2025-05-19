@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 
 import Logo from "@/app/logo";
 import { getRoute, Route } from "@/constants/routes";
-import { useToken } from "@/lib/auth-client";
+import { useToken, useUser } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
 import { useUserNavItems } from "./useUserNavItems";
@@ -16,6 +16,7 @@ export default function SideNav({
   activeKey?: string;
   collapse?: boolean;
 }) {
+  const [user] = useUser();
   const { primary, all } = useUserNavItems();
   const token = useToken();
   const primaryKey =
@@ -47,7 +48,13 @@ export default function SideNav({
               activeKey === item.href && "bg-gray-100 text-primary",
               collapse ? "px-3" : "pl-3 pr-14",
             )}
-            href={item.requireAuth && !token ? getRoute("SignUp") : item.href}
+            href={
+              item.requireAuth && !token
+                ? getRoute("SignUp")
+                : item.requireOnboarding && !user?.isOnboarded
+                  ? getRoute("Onboarding")
+                  : item.href
+            }
             key={item.href}
           >
             <item.icon
@@ -67,7 +74,11 @@ export default function SideNav({
                     collapse ? "px-3 justify-center" : "pl-10",
                   )}
                   href={
-                    page.requireAuth && !token ? getRoute("SignUp") : page.href
+                    page.requireAuth && !token
+                      ? getRoute("SignUp")
+                      : item.requireOnboarding && !user?.isOnboarded
+                        ? getRoute("Onboarding")
+                        : item.href
                   }
                   key={page.href}
                 >

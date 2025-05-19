@@ -83,8 +83,8 @@ export async function getValidPostings({
             gte(PostingTable.maximumAge, age),
           ),
           eq(PostingTable.open, true),
-          eq(PostingTable.inReview, false),
           postingID ? eq(PostingTable.id, postingID) : undefined,
+          postingID ? undefined : eq(PostingTable.inReview, false),
         ),
       )
       .leftJoin(

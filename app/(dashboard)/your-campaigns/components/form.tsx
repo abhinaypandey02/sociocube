@@ -85,6 +85,7 @@ export default function CreateNewPostingForm({
             ? formData.deliverables.trim().split(",")
             : undefined,
         platforms: [formData.platforms],
+        gender: formData.gender || undefined,
       },
     })
       .then((res) => {
@@ -122,7 +123,7 @@ export default function CreateNewPostingForm({
         description: postingData.description.slice(0, POSTING_BIO_MAX_LENGTH),
         deliverables: postingData.deliverables.slice(0, BIO_MAX_LENGTH),
         externalLink: postingData.externalLink,
-        gender: postingData.gender,
+        gender: postingData.gender || undefined,
         extraDetails: postingData.extraDetails,
         maximumAge: postingData.maximumAge || undefined,
         title: postingData.title.slice(0, NAME_MAX_LENGTH * 2),
@@ -184,7 +185,7 @@ export default function CreateNewPostingForm({
         </Button>
       )}
       <Form
-        className={"space-y-6 " + (showManualForm ? "" : "hidden")}
+        className={"space-y-6 mb-12 " + (showManualForm ? "" : "hidden")}
         form={form}
         onSubmit={onSubmit}
       >
@@ -288,7 +289,7 @@ export default function CreateNewPostingForm({
           type="checkbox"
         />
         <Button loading={isLoading} type="submit">
-          Start Campaigns
+          Start Campaign
         </Button>
       </Form>
     </>

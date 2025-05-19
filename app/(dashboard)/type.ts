@@ -10,5 +10,6 @@ export interface NavItem {
   parent?: Route;
   alwaysIcon?: boolean;
   requireAuth?: boolean;
+  requireOnboarding?: boolean;
   roles?: Roles[];
 }

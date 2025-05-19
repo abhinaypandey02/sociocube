@@ -9,7 +9,7 @@ import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import LinkWrapper from "@/components/link-wrapper";
 import { getRoute } from "@/constants/routes";
-import { useToken } from "@/lib/auth-client";
+import { useToken, useUser } from "@/lib/auth-client";
 
 export default function TopNav({
   title,
@@ -27,6 +27,7 @@ export default function TopNav({
     () => all.filter((item) => item.parent === activeKey),
     [activeKey, all],
   );
+  const [user] = useUser();
   return (
     <div
       onScroll={(e) => e.stopPropagation()}
@@ -51,7 +52,13 @@ export default function TopNav({
         {subPages.map((page) => (
           <LinkWrapper
             key={page.href}
-            href={page.requireAuth && !token ? getRoute("SignUp") : page.href}
+            href={
+              page.requireAuth && !token
+                ? getRoute("SignUp")
+                : page.requireOnboarding && !user?.isOnboarded
+                  ? getRoute("Onboarding")
+                  : page.href
+            }
           >
             <button className={"lg:hidden"}>
               <page.icon size={24} />

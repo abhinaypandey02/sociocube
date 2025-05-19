@@ -1,7 +1,13 @@
 import type { AuthorizedContext } from "@backend/lib/auth/context";
 import GQLError from "@backend/lib/constants/errors";
 import { PostingPlatforms } from "@backend/lib/constants/platforms";
+import { Roles } from "@backend/lib/constants/roles";
 import { db } from "@backend/lib/db";
+import { sendTemplateEmail } from "@backend/lib/email/send-template";
+import { UserTable } from "@graphql/User/db";
+import { getIsOnboarded } from "@graphql/User/resolvers/onboarding-data";
+import { getUser } from "@graphql/User/utils";
+import { waitUntil } from "@vercel/functions";
 import { IsEnum, MaxLength } from "class-validator";
 import { and, eq, gte } from "drizzle-orm";
 import type { PostgresError } from "postgres";
@@ -63,6 +69,10 @@ export async function createPosting(
   newPosting: NewPostingInput,
   force?: boolean,
 ): Promise<number | null> {
+  const user = await getUser(eq(UserTable.id, ctx.userId));
+  if (!user || user.role === Roles.Creator || !getIsOnboarded(user)) {
+    throw GQLError(400, "Only onboarded users can create postings");
+  }
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   if (!force) {
@@ -99,6 +109,17 @@ export async function createPosting(
         inReview: !force,
       })
       .returning({ id: PostingTable.id });
+
+    // Send email notification
+    if (posting?.id) {
+      waitUntil(
+        sendTemplateEmail(user.email, "CampaignCreated", {
+          campaignName: newPosting.title,
+          campaignID: posting?.id,
+        }),
+      );
+    }
+
     return posting?.id || null;
   } catch (e: unknown) {
     handleDuplicateLinkError(e as PostgresError);
