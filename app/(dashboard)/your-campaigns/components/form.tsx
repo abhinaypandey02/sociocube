@@ -184,7 +184,7 @@ export default function CreateNewPostingForm({
         </Button>
       )}
       <Form
-        className={"space-y-6 " + (showManualForm ? "" : "hidden")}
+        className={"space-y-6 mb-12 " + (showManualForm ? "" : "hidden")}
         form={form}
         onSubmit={onSubmit}
       >
@@ -288,7 +288,7 @@ export default function CreateNewPostingForm({
           type="checkbox"
         />
         <Button loading={isLoading} type="submit">
-          Start Campaigns
+          Start Campaign
         </Button>
       </Form>
     </>

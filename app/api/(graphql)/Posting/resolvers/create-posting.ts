@@ -70,7 +70,7 @@ export async function createPosting(
   force?: boolean,
 ): Promise<number | null> {
   const user = await getUser(eq(UserTable.id, ctx.userId));
-  if (!user || user.role === Roles.Creator || getIsOnboarded(user)) {
+  if (!user || user.role === Roles.Creator || !getIsOnboarded(user)) {
     throw GQLError(400, "Only onboarded users can create postings");
   }
   const yesterday = new Date();
