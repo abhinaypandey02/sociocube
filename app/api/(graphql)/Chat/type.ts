@@ -14,8 +14,6 @@ export class MessageGQL {
   createdAt: Date;
   @Field()
   by: number;
-  @Field()
-  id: number;
 }
 
 @ObjectType("Preview")

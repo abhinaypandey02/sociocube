@@ -38,9 +38,12 @@ export default function ChatWindow({
     (NonNullable<GetChatQuery["chat"]>["messages"][number] & {
       loading?: boolean;
       failed?: boolean;
+      profanity?: boolean;
     })[]
   >(chat.messages.toReversed());
-  const [expandedMessages, setExpandedMessages] = useState<Record<number, boolean>>({});
+  const [expandedMessages, setExpandedMessages] = useState<
+    Record<number, boolean>
+  >({});
 
   function onSubmit(data: FormValues) {
     if (!user || !data.text) return;
@@ -55,34 +58,66 @@ export default function ChatWindow({
         loading: true,
       },
     ]);
-    if (chat.user?.id)
-      sendMessage({
-        body: data.text,
-        userID: chat.user.id,
+    getIsMessageProfanity(data.text)
+      .then((result) => {
+        if (result?.isProfane) {
+          setMessages((old) => {
+            if (old[index]) {
+              old[index].profanity = true;
+              old[index].loading = false;
+            }
+            return [...old];
+          });
+        } else {
+          if (chat.user?.id)
+            sendMessage({
+              body: data.text,
+              userID: chat.user.id,
+            })
+              .then(() => {
+                setMessages((old) => {
+                  if (old[index]) old[index].loading = false;
+                  return [...old];
+                });
+              })
+              .catch(() => {
+                setMessages((old) => {
+                  if (old[index]) old[index].failed = true;
+                  return [...old];
+                });
+              });
+        }
       })
-        .then(() => {
-          setMessages((old) => {
-            if (old[index]) old[index].loading = false;
-            return [...old];
-          });
-        })
-        .catch(() => {
-          setMessages((old) => {
-            if (old[index]) old[index].failed = true;
-            return [...old];
-          });
-        });
+      .catch((error) => {
+        if (chat.user?.id)
+          sendMessage({
+            body: data.text,
+            userID: chat.user.id,
+          })
+            .then(() => {
+              setMessages((old) => {
+                if (old[index]) old[index].loading = false;
+                return [...old];
+              });
+            })
+            .catch(() => {
+              setMessages((old) => {
+                if (old[index]) old[index].failed = true;
+                return [...old];
+              });
+            });
+      });
   }
 
-  const toggleMessageExpand = (messageTime: number) => {
+  const toggleMessageExpand = (index: number) => {
     setExpandedMessages((prev) => ({
       ...prev,
-      [messageTime]: !prev[messageTime],
+      [index]: !prev[index],
     }));
   };
 
   useEffect(() => {
-    if(chat?.id && user) {
+    if (chat?.id && user) {
       readMessage({
         conversationID: chat.id,
       });
@@ -129,10 +164,10 @@ export default function ChatWindow({
     <div className="h-full flex flex-col">
       <div className="grow space-y-2 overflow-y-auto no-scrollbar p-4">
         {user &&
-          messages.map((msg) => {
+          messages.map((msg, index) => {
             const charLimit = 200;
             const isLongMessage = msg.body.length > charLimit;
-            const isExpanded = !!expandedMessages[msg.createdAt];
+            const isExpanded = !!expandedMessages[index];
             const displayText =
               isLongMessage && !isExpanded
                 ? msg.body.substring(0, charLimit) + " ..."
@@ -141,7 +176,7 @@ export default function ChatWindow({
             return (
               <div
                 className={`flex ${msg.by === user?.id ? "justify-end max-sm:pl-14" : "justify-start max-sm:pr-14"}`}
-                key={msg.createdAt}
+                key={index}
               >
                 <div>
                   <div
@@ -155,7 +190,7 @@ export default function ChatWindow({
                     {displayText}
                     {isLongMessage && (
                       <button
-                        onClick={() => toggleMessageExpand(msg.createdAt)}
+                        onClick={() => toggleMessageExpand(index)}
                         className={cn(
                           "block mt-1 underline font-semibold",
                           msg.by === user?.id
@@ -176,6 +211,9 @@ export default function ChatWindow({
                   >
                     {msg.loading ? "Sending" : null}{" "}
                     {msg.failed ? "Failed" : null}
+                    {msg.profanity
+                      ? "Message blocked due to potential profanity"
+                      : null}
                   </div>
                 </div>
               </div>
