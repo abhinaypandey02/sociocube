@@ -76,9 +76,9 @@ export default function SideNav({
                   href={
                     page.requireAuth && !token
                       ? getRoute("SignUp")
-                      : item.requireOnboarding && !user?.isOnboarded
+                      : page.requireOnboarding && !user?.isOnboarded
                         ? getRoute("Onboarding")
-                        : item.href
+                        : page.href
                   }
                   key={page.href}
                 >

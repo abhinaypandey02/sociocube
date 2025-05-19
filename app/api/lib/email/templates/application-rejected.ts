@@ -37,7 +37,7 @@ We wanted to let you know that ${brandName} has reviewed your application for th
     {
       type: EmailComponentType.BUTTON,
       content: `Explore More Campaigns`,
-      url: getRoute("Applications"),
+      url: getRoute("Campaigns"),
       options: {
         align: "center",
       },
