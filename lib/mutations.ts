@@ -145,6 +145,18 @@ export const REJECT_APPLICATION = gql(`
     rejectApplication(id: $id)  
   }
 `);
+export const ACCEPT_POSTING = gql(`
+  #graphql
+  mutation AcceptPosting($id:Float!) {
+    acceptPosting(postingID: $id)  
+  }
+`);
+export const REJECT_POSTING = gql(`
+  #graphql
+  mutation RejectPosting($id:Float!, $reason:String!) {
+    rejectPosting(reason: $reason, postingID: $id)  
+  }
+`);
 
 export const SEND_REVIEW_BY_AGENCY = gql(`
   #graphql

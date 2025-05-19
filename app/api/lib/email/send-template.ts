@@ -7,7 +7,9 @@ import { ApplicationReceived } from "./templates/application-received";
 import { ApplicationRejected } from "./templates/application-rejected";
 import { ApplicationSelected } from "./templates/application-selected";
 import { ApplicationShortlisted } from "./templates/application-shortlisted";
+import { CampaignApproved } from "./templates/campaign-approved";
 import { CampaignCreated } from "./templates/campaign-created";
+import { CampaignRejected } from "./templates/campaign-rejected";
 import { MessageReceived } from "./templates/message-received";
 import { NewCampaigns } from "./templates/new-campaigns";
 import { PostingAnnouncement } from "./templates/posting-announcement";
@@ -21,7 +23,9 @@ export const Template = {
   WelcomeUser,
   VerifyEmail,
   ResetPassword,
+  CampaignApproved,
   CampaignCreated,
+  CampaignRejected,
   MessageReceived,
   NewCampaigns,
   ApplicationReceived,

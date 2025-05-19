@@ -1,5 +1,7 @@
 import type { Context } from "@backend/lib/auth/context";
-import { Arg, Ctx, Int, Query, Resolver } from "type-graphql";
+import { Roles } from "@backend/lib/constants/roles";
+import { handleGetPostingsInReview } from "@graphql/Posting/resolvers/get-postings-in-review";
+import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
 
 import { getAllPostings } from "./resolvers/get-all-postings";
 import { getFeaturedPostings } from "./resolvers/get-featured-postings";
@@ -33,5 +35,11 @@ export class PostingQueryResolvers {
     @Ctx() ctx: Context,
   ): Promise<PostingGQL | null | undefined> {
     return getPosting(ctx, id);
+  }
+
+  @Authorized([Roles.Admin])
+  @Query(() => [PostingGQL])
+  getPostingsInReview() {
+    return handleGetPostingsInReview();
   }
 }

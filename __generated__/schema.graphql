@@ -328,6 +328,7 @@ type Message {
 }
 
 type Mutation {
+  acceptPosting(postingID: Float!): Boolean!
   addPortfolio(data: AddPortfolioArgs!): Portfolio!
   applyToPosting(comment: String, postingID: Float!): Boolean!
   createPosting(newPosting: NewPostingInput!): Float
@@ -338,6 +339,7 @@ type Mutation {
   pausePosting(postingID: Float!): Boolean!
   readMessage(conversationID: Int!): Boolean!
   rejectApplication(id: Float!): Boolean!
+  rejectPosting(postingID: Float!, reason: String!): Boolean!
   resetPassword(newPassword: String!, token: String!): Boolean!
   resumePosting(postingID: Float!): Boolean!
   sendMessage(body: String!, userID: Int!): Boolean!
@@ -447,6 +449,7 @@ type Query {
   getPosting(id: Int!): Posting
   getPostingApplications(postingID: Int!): [Application!]!
   getPostingSelected(postingID: Int!): [Application!]!
+  getPostingsInReview: [Posting!]!
   getSeller(username: String!): User
   getStates(countryID: Int!): [CitySelectOption!]!
   getSubscription: Subscription

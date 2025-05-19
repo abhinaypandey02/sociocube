@@ -9,6 +9,8 @@ export enum Roles {
   Agency = "agency",
 }
 
+export const BRAND_ROLES = [Roles.Brand, Roles.Agency];
+
 registerEnumType(Roles, {
   name: "ROLES",
 });

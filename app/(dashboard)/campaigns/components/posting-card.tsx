@@ -45,11 +45,13 @@ export default function PostingCard({
   fetchMore,
   loading,
   gotoNext,
+  onReject,
 }: {
   posting: GetAllPostingsQuery["postings"][number];
   fetchMore?: () => void;
   loading: boolean;
   gotoNext?: () => void;
+  onReject?: () => void;
 }) {
   const aboutRef = useRef<HTMLDivElement>(null);
   const [showDescription, setShowDescription] = useState(false);
@@ -161,7 +163,7 @@ export default function PostingCard({
             </div>
             <div className="flex shrink-0 flex-col gap-3 max-sm:w-full max-sm:gap-3">
               <div className="flex items-center lg:flex-row-reverse lg:gap-4">
-                <ApplyNowButton posting={posting} />
+                {!onReject && <ApplyNowButton posting={posting} />}
               </div>
               {posting.applicationsCount ? (
                 <div className="flex items-center gap-2 sm:justify-end">
@@ -200,6 +202,11 @@ export default function PostingCard({
             />
           </div>
           <div className="flex justify-between items-start pt-2">
+            {onReject && (
+              <Button invert onClick={onReject} loading={loading}>
+                Reject
+              </Button>
+            )}
             <button
               onClick={() => setShowDescription(true)}
               className="text-sm underline text-primary"

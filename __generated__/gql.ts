@@ -34,6 +34,8 @@ const documents = {
     "\n  #graphql\n  mutation UpdateShortlist($id:Float!, $accepted:Boolean!) {\n    updateShortlist(accepted: $accepted, id: $id)  \n  }\n": types.UpdateShortlistDocument,
     "\n  #graphql\n  mutation ShortlistUser($userID:Float!, $postingID:Float!) {\n    shortlistUser(postingID: $postingID, userID: $userID)  \n  }\n": types.ShortlistUserDocument,
     "\n  #graphql\n  mutation RejectApplication($id:Float!) {\n    rejectApplication(id: $id)  \n  }\n": types.RejectApplicationDocument,
+    "\n  #graphql\n  mutation AcceptPosting($id:Float!) {\n    acceptPosting(postingID: $id)  \n  }\n": types.AcceptPostingDocument,
+    "\n  #graphql\n  mutation RejectPosting($id:Float!, $reason:String!) {\n    rejectPosting(reason: $reason, postingID: $id)  \n  }\n": types.RejectPostingDocument,
     "\n  #graphql\n  mutation SendReviewByAgency($args:SendReviewByAgencyArgs!) {\n    sendReviewByAgency(args: $args)  \n  }\n": types.SendReviewByAgencyDocument,
     "\n  #graphql\n  mutation SendReviewByUser($args:SendReviewByUserArgs!) {\n    sendReviewByUser(args: $args)  \n  }\n": types.SendReviewByUserDocument,
     "\n  #graphql\n  mutation UnlinkSocialAccount {\n    unlinkSocialAccount\n  }\n": types.UnlinkSocialAccountDocument,
@@ -59,6 +61,7 @@ const documents = {
     "\n  #graphql\n  query GetPostingRecommendations($postingID:Int!) {\n    posting: getPosting(id: $postingID){\n      title\n      externalLink\n      extraDetails  \n      id  \n        recommendations {\n            status\n            user {\n                id\n                name\n                photo\n                dob\n                email\n                phone\n                gender\n                bio\n                username\n                instagramStats {\n                    isVerified\n                    username\n                    followers\n                    averageLikes\n                    averageComments\n                    er\n                    mediaCount\n                }\n            }\n        }\n    }\n  }\n": types.GetPostingRecommendationsDocument,
     "\n  #graphql\n  query VerifyEmail($token:String!) {\n    verifyEmail(token: $token)\n  }\n": types.VerifyEmailDocument,
     "\n  #graphql\n  query GetUserApplications {\n    getPendingReviews\n    getUserApplications {\n        id\n      status\n      comment\n      createdAt\n      posting {\n        title\n        agency {\n          name\n          username\n          photo\n        }\n        id\n      }\n    }\n  }\n": types.GetUserApplicationsDocument,
+    "\n  #graphql\n  query GetPostingsInReview {\n      getPostingsInReview{\n        id\n        maximumAge\n        minimumFollowers\n        inReview\n        externalLink\n        extraDetails\n        currencyCountry\n        agency {\n            id\n            name\n            photo\n            username\n            instagramStats {\n                isVerified\n                username\n            }\n        }\n        applicationsCount\n        description\n        barter\n        minimumAge\n        open\n        title\n        currency\n        price\n        createdAt\n        platforms\n        hasApplied\n        eligibility\n        updatedAt\n        deliverables\n        reviews {\n            rating\n            photo\n            username\n        }\n    }\n  }\n": types.GetPostingsInReviewDocument,
     "\n  #graphql\n  query GetSubscription {\n      getSubscription{\n          link\n      }\n  }\n": types.GetSubscriptionDocument,
 };
 
@@ -163,6 +166,14 @@ export function gql(source: "\n  #graphql\n  mutation RejectApplication($id:Floa
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n  #graphql\n  mutation AcceptPosting($id:Float!) {\n    acceptPosting(postingID: $id)  \n  }\n"): (typeof documents)["\n  #graphql\n  mutation AcceptPosting($id:Float!) {\n    acceptPosting(postingID: $id)  \n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  #graphql\n  mutation RejectPosting($id:Float!, $reason:String!) {\n    rejectPosting(reason: $reason, postingID: $id)  \n  }\n"): (typeof documents)["\n  #graphql\n  mutation RejectPosting($id:Float!, $reason:String!) {\n    rejectPosting(reason: $reason, postingID: $id)  \n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n  #graphql\n  mutation SendReviewByAgency($args:SendReviewByAgencyArgs!) {\n    sendReviewByAgency(args: $args)  \n  }\n"): (typeof documents)["\n  #graphql\n  mutation SendReviewByAgency($args:SendReviewByAgencyArgs!) {\n    sendReviewByAgency(args: $args)  \n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -260,6 +271,10 @@ export function gql(source: "\n  #graphql\n  query VerifyEmail($token:String!) {
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  #graphql\n  query GetUserApplications {\n    getPendingReviews\n    getUserApplications {\n        id\n      status\n      comment\n      createdAt\n      posting {\n        title\n        agency {\n          name\n          username\n          photo\n        }\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetUserApplications {\n    getPendingReviews\n    getUserApplications {\n        id\n      status\n      comment\n      createdAt\n      posting {\n        title\n        agency {\n          name\n          username\n          photo\n        }\n        id\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  #graphql\n  query GetPostingsInReview {\n      getPostingsInReview{\n        id\n        maximumAge\n        minimumFollowers\n        inReview\n        externalLink\n        extraDetails\n        currencyCountry\n        agency {\n            id\n            name\n            photo\n            username\n            instagramStats {\n                isVerified\n                username\n            }\n        }\n        applicationsCount\n        description\n        barter\n        minimumAge\n        open\n        title\n        currency\n        price\n        createdAt\n        platforms\n        hasApplied\n        eligibility\n        updatedAt\n        deliverables\n        reviews {\n            rating\n            photo\n            username\n        }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetPostingsInReview {\n      getPostingsInReview{\n        id\n        maximumAge\n        minimumFollowers\n        inReview\n        externalLink\n        extraDetails\n        currencyCountry\n        agency {\n            id\n            name\n            photo\n            username\n            instagramStats {\n                isVerified\n                username\n            }\n        }\n        applicationsCount\n        description\n        barter\n        minimumAge\n        open\n        title\n        currency\n        price\n        createdAt\n        platforms\n        hasApplied\n        eligibility\n        updatedAt\n        deliverables\n        reviews {\n            rating\n            photo\n            username\n        }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

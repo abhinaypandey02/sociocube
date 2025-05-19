@@ -581,6 +581,50 @@ export const GET_USER_APPLICATIONS = gql(`
   }
 `);
 
+export const GET_POSTINGS_IN_REVIEW = gql(`
+  #graphql
+  query GetPostingsInReview {
+      getPostingsInReview{
+        id
+        maximumAge
+        minimumFollowers
+        inReview
+        externalLink
+        extraDetails
+        currencyCountry
+        agency {
+            id
+            name
+            photo
+            username
+            instagramStats {
+                isVerified
+                username
+            }
+        }
+        applicationsCount
+        description
+        barter
+        minimumAge
+        open
+        title
+        currency
+        price
+        createdAt
+        platforms
+        hasApplied
+        eligibility
+        updatedAt
+        deliverables
+        reviews {
+            rating
+            photo
+            username
+        }
+    }
+  }
+`);
+
 export const GET_SUBSCRIPTION = gql(`
   #graphql
   query GetSubscription {

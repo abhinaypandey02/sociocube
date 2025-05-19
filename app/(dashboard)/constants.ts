@@ -34,6 +34,12 @@ export const NAV_ITEMS: NavItem[] = [
     roles: [Roles.Brand, Roles.Agency],
   },
   {
+    icon: Handshake,
+    navTitle: "Review Campaigns",
+    href: Route.ReviewCampaigns,
+    roles: [Roles.Admin],
+  },
+  {
     icon: Plus,
     navTitle: "New Campaign",
     href: Route.NewCampaign,

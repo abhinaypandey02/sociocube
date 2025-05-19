@@ -12,6 +12,7 @@ export enum Route {
   PrivacyPolicy = "/privacy-policy",
   TermsConditions = "/terms-and-conditions",
   Campaigns = "/campaigns",
+  ReviewCampaigns = "/review-campaigns",
   YourCampaigns = `/your-campaigns`,
   Applications = `/applications`,
   Explore = `/explore`,

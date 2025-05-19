@@ -1,4 +1,7 @@
 import type { AuthorizedContext } from "@backend/lib/auth/context";
+import { BRAND_ROLES, Roles } from "@backend/lib/constants/roles";
+import { acceptPosting } from "@graphql/Posting/resolvers/accept-posting";
+import { rejectPosting } from "@graphql/Posting/resolvers/reject-posting";
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 
 import { createPosting, NewPostingInput } from "./resolvers/create-posting";
@@ -9,7 +12,7 @@ import { updatePosting, UpdatePostingInput } from "./resolvers/update-posting";
 
 @Resolver()
 export class PostingMutationResolvers {
-  @Authorized()
+  @Authorized(BRAND_ROLES)
   @Mutation(() => Number, { nullable: true })
   async createPosting(
     @Ctx() ctx: AuthorizedContext,
@@ -17,7 +20,7 @@ export class PostingMutationResolvers {
   ): Promise<number | null> {
     return createPosting(ctx, newPosting);
   }
-  @Authorized()
+  @Authorized(BRAND_ROLES)
   @Mutation(() => Boolean)
   async updatePosting(
     @Ctx() ctx: AuthorizedContext,
@@ -26,7 +29,7 @@ export class PostingMutationResolvers {
   ): Promise<boolean> {
     return updatePosting(ctx, id, updatedPosting);
   }
-  @Authorized()
+  @Authorized(BRAND_ROLES)
   @Mutation(() => Boolean)
   async pausePosting(
     @Ctx() ctx: AuthorizedContext,
@@ -34,7 +37,7 @@ export class PostingMutationResolvers {
   ): Promise<boolean> {
     return pausePosting(ctx, postingID);
   }
-  @Authorized()
+  @Authorized(BRAND_ROLES)
   @Mutation(() => Boolean)
   async deletePosting(
     @Ctx() ctx: AuthorizedContext,
@@ -42,12 +45,25 @@ export class PostingMutationResolvers {
   ): Promise<boolean> {
     return deletePosting(ctx, postingID);
   }
-  @Authorized()
+  @Authorized(BRAND_ROLES)
   @Mutation(() => Boolean)
   async resumePosting(
     @Ctx() ctx: AuthorizedContext,
     @Arg("postingID") postingID: number,
   ): Promise<boolean> {
     return resumePosting(ctx, postingID);
+  }
+  @Authorized([Roles.Admin])
+  @Mutation(() => Boolean)
+  async rejectPosting(
+    @Arg("postingID") postingID: number,
+    @Arg("reason") reason: string,
+  ): Promise<boolean> {
+    return rejectPosting(postingID, reason);
+  }
+  @Authorized([Roles.Admin])
+  @Mutation(() => Boolean)
+  async acceptPosting(@Arg("postingID") postingID: number): Promise<boolean> {
+    return acceptPosting(postingID);
   }
 }
