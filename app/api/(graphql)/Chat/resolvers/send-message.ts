@@ -12,6 +12,11 @@ import { getIsMessageProfanity } from "@/lib/server-actions";
 
 import { ConversationMessageTable, ConversationTable } from "../db";
 
+
+export interface MessageProfanityCheck {
+  isProfane: boolean;
+}
+
 export async function handleSendMessage(
   ctx: AuthorizedContext,
   body: string,

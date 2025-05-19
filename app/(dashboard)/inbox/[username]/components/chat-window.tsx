@@ -13,15 +13,10 @@ import { Input } from "@/components/input";
 import { useAuthMutation } from "@/lib/apollo-client";
 import { useToken, useUser } from "@/lib/auth-client";
 import { READ_MESSAGE, SEND_CHAT } from "@/lib/mutations";
-import { getIsMessageProfanity } from "@/lib/server-actions";
 import { ChatBubble } from "./chat-bubble";
 
 interface FormValues {
   text: string;
-}
-
-export interface MessageProfanityCheck {
-  isProfane: boolean;
 }
 
 export default function ChatWindow({

@@ -1,7 +1,7 @@
 "use server";
 
 import type { CreatePostingFormFields } from "@/app/(dashboard)/your-campaigns/components/form";
-import type { MessageProfanityCheck } from "@/app/(dashboard)/inbox/[username]/components/chat-window";
+import type { MessageProfanityCheck } from "@/app/api/(graphql)/Chat/resolvers/send-message";
 import {
   NAME_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
