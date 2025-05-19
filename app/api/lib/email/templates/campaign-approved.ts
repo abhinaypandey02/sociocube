@@ -9,7 +9,7 @@ export const CampaignApproved = ({
   campaignName: string;
   campaignID: number;
 }) => ({
-  subject: `Congrats! Your Campaign "${campaignName}" is not live!`,
+  subject: `Congrats! Your Campaign "${campaignName}" is now live!`,
   title: "Campaign Approved Successfully",
   components: [
     {
