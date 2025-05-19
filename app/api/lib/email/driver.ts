@@ -16,5 +16,6 @@ export async function sendEmail(
     subject,
     text: bodyText,
     html: bodyHTML,
+    replyTo: "hello@sociocube.com",
   });
 }

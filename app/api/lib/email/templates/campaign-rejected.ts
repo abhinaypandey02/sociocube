@@ -1,5 +1,7 @@
 import { EmailComponent, EmailComponentType } from "@backend/lib/email/types";
 
+import { getRoute } from "@/constants/routes";
+
 export const CampaignRejected = ({
   campaignName,
   reason,
@@ -39,6 +41,14 @@ We've completed the review of your campaign "${campaignName}" and found that som
         "Make the necessary adjustments to your campaign",
         "Resubmit a new campaign for another review",
       ],
+    },
+    {
+      type: EmailComponentType.BUTTON,
+      content: `Create new campaign`,
+      url: getRoute("NewCampaign"),
+      options: {
+        align: "center",
+      },
     },
     {
       type: EmailComponentType.PARAGRAPH,
