@@ -118,6 +118,12 @@ export async function createPosting(
           campaignID: posting?.id,
         }),
       );
+      waitUntil(
+        sendTemplateEmail("abhinaypandey02@gmail.com", "CampaignCreated", {
+          campaignName: newPosting.title,
+          campaignID: posting?.id,
+        }),
+      );
     }
 
     return posting?.id || null;
