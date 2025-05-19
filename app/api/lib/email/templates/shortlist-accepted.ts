@@ -1,11 +1,15 @@
 import { EmailComponent, EmailComponentType } from "@backend/lib/email/types";
 
+import { getRoute } from "@/constants/routes";
+
 export const ShortlistAccepted = ({
   campaignName,
+  campaignID,
   influencerName,
   influencerUsername,
 }: {
   campaignName: string;
+  campaignID: number;
   influencerName: string;
   influencerUsername: string;
 }) => ({
@@ -37,7 +41,7 @@ Good news! ${influencerName} (@${influencerUsername}) has accepted your shortlis
     {
       type: EmailComponentType.BUTTON,
       content: `View Campaign Details`,
-      url: `/your-campaigns`,
+      url: `${getRoute("YourCampaigns")}/${campaignID}/applications`,
       options: {
         align: "center",
       },

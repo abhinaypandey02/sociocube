@@ -1,10 +1,14 @@
 import { EmailComponent, EmailComponentType } from "@backend/lib/email/types";
 
+import { getRoute } from "@/constants/routes";
+
 export const ApplicationReceived = ({
   campaignName,
   applicationCount,
+  campaignID,
 }: {
   campaignName: string;
+  campaignID: number;
   applicationCount: number;
 }) => ({
   subject: `Your Campaign "${campaignName}" Has Received ${applicationCount} Application${applicationCount !== 1 ? "s" : ""}`,
@@ -35,7 +39,7 @@ Great news! Your campaign "${campaignName}" has received ${applicationCount} app
     {
       type: EmailComponentType.BUTTON,
       content: `View Applications`,
-      url: `/your-campaigns`,
+      url: `${getRoute("YourCampaigns")}/${campaignID}/applications`,
       options: {
         align: "center",
       },

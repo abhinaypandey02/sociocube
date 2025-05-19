@@ -1,5 +1,7 @@
 import { EmailComponent, EmailComponentType } from "@backend/lib/email/types";
 
+import { getRoute } from "@/constants/routes";
+
 export const ApplicationSelected = ({
   campaignName,
   brandName,
@@ -35,7 +37,7 @@ Great news! ${brandName} has selected your application for the "${campaignName}"
     {
       type: EmailComponentType.BUTTON,
       content: `View Your Applications`,
-      url: `/applications`,
+      url: getRoute("Applications"),
       options: {
         align: "center",
       },

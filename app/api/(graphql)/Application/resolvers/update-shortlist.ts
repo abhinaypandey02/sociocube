@@ -70,6 +70,7 @@ export async function updateShortlist(
                 campaignName: posting.title,
                 influencerName: influencer.name || "An influencer",
                 influencerUsername: influencer.username || "unknown",
+                campaignID: id,
               });
             } else {
               // Send denial email
@@ -77,6 +78,7 @@ export async function updateShortlist(
                 campaignName: posting.title,
                 influencerName: influencer.name || "An influencer",
                 influencerUsername: influencer.username || "unknown",
+                campaignID: id,
               });
             }
           }

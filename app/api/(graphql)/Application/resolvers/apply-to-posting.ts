@@ -101,6 +101,7 @@ export async function applyToPosting(
             // Send email notification
             await sendTemplateEmail(agency.email, "ApplicationReceived", {
               campaignName: postingDetails.title,
+              campaignID: postingID,
               applicationCount,
             });
           }

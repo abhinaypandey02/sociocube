@@ -1,5 +1,7 @@
 import { EmailComponent, EmailComponentType } from "@backend/lib/email/types";
 
+import { getRoute } from "@/constants/routes";
+
 export const ApplicationShortlisted = ({
   campaignName,
   brandName,
@@ -39,7 +41,7 @@ Great news! ${brandName} has shortlisted you for the "${campaignName}" campaign.
     {
       type: EmailComponentType.BUTTON,
       content: `Review & Respond`,
-      url: `/applications`,
+      url: getRoute("Applications"),
       options: {
         align: "center",
       },

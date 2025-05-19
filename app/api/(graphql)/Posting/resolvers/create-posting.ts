@@ -115,6 +115,7 @@ export async function createPosting(
       waitUntil(
         sendTemplateEmail(user.email, "CampaignCreated", {
           campaignName: newPosting.title,
+          campaignID: posting?.id,
         }),
       );
     }

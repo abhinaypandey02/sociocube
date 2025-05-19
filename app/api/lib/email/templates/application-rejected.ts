@@ -1,5 +1,7 @@
 import { EmailComponent, EmailComponentType } from "@backend/lib/email/types";
 
+import { getRoute } from "@/constants/routes";
+
 export const ApplicationRejected = ({
   campaignName,
   brandName,
@@ -35,7 +37,7 @@ We wanted to let you know that ${brandName} has reviewed your application for th
     {
       type: EmailComponentType.BUTTON,
       content: `Explore More Campaigns`,
-      url: `/campaigns`,
+      url: getRoute("Applications"),
       options: {
         align: "center",
       },

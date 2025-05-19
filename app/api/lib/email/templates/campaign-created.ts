@@ -1,9 +1,13 @@
 import { EmailComponent, EmailComponentType } from "@backend/lib/email/types";
 
+import { getRoute } from "@/constants/routes";
+
 export const CampaignCreated = ({
   campaignName,
+  campaignID,
 }: {
   campaignName: string;
+  campaignID: number;
 }) => ({
   subject: `Your Campaign "${campaignName}" Has Been Created`,
   title: "Campaign Created Successfully",
@@ -33,6 +37,14 @@ We're excited to let you know that your campaign "${campaignName}" has been succ
     {
       type: EmailComponentType.PARAGRAPH,
       content: `Need to make changes? You can still edit your campaign while it's in review by visiting your dashboard.`,
+    },
+    {
+      type: EmailComponentType.BUTTON,
+      content: `Manage Campaign`,
+      url: `${getRoute("YourCampaigns")}/${campaignID}`,
+      options: {
+        align: "center",
+      },
     },
     {
       type: EmailComponentType.PARAGRAPH,

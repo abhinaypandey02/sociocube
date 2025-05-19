@@ -1,11 +1,15 @@
 import { EmailComponent, EmailComponentType } from "@backend/lib/email/types";
 
+import { getRoute } from "@/constants/routes";
+
 export const ShortlistDenied = ({
   campaignName,
+  campaignID,
   influencerName,
   influencerUsername,
 }: {
   campaignName: string;
+  campaignID: number;
   influencerName: string;
   influencerUsername: string;
 }) => ({
@@ -37,7 +41,7 @@ We wanted to let you know that ${influencerName} (@${influencerUsername}) has de
     {
       type: EmailComponentType.BUTTON,
       content: `Find More Influencers`,
-      url: `/your-campaigns`,
+      url: `${getRoute("YourCampaigns")}/${campaignID}/applications`,
       options: {
         align: "center",
       },
