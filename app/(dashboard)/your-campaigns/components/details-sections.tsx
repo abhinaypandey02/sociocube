@@ -10,6 +10,7 @@ import { renderRichText } from "@/app/(dashboard)/campaigns/components/posting-c
 import { POSTING_PLATFORMS } from "@/app/(dashboard)/campaigns/constants";
 import { getCurrency, getPlatforms } from "@/app/(dashboard)/campaigns/utils";
 import AccountCard from "@/app/(dashboard)/profile/components/account-card";
+import ManagePostingButton from "@/app/(dashboard)/your-campaigns/components/manage-posting-button";
 import { Button } from "@/components/button";
 import Form from "@/components/form";
 import { Input } from "@/components/input";
@@ -41,6 +42,7 @@ export default function DetailsSections({
       title={posting.title}
       cta={
         <div className={"flex"}>
+          <ManagePostingButton posting={posting} />
           <Link href={getRoute("Campaigns") + "/" + posting.id}>
             <Button square borderless invert>
               <ArrowSquareOut />
