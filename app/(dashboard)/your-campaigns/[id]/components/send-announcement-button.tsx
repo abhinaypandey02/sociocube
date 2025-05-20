@@ -8,9 +8,11 @@ import { SEND_ANNOUNCEMENT } from "@/lib/mutations";
 export default function SendAnnouncementButton({
   applications,
   postingID,
+  count,
 }: {
   applications: ApplicationTableRow[];
   postingID: number;
+  count: number;
 }) {
   const [announce] = useAuthMutation(SEND_ANNOUNCEMENT);
   const handleSendAnnouncement = () => {
@@ -30,8 +32,9 @@ export default function SendAnnouncementButton({
       className="flex items-center gap-1 text-sm font-medium text-primary underline underline-offset-4"
       onClick={handleSendAnnouncement}
       type="button"
+      disabled={count === 0}
     >
-      <span className={"shrink-0"}>Send announcement</span>
+      <span className={"shrink-0"}>Send announcement (${count}) </span>
       <Megaphone size={18} />
     </button>
   );

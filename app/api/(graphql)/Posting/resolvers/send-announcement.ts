@@ -14,7 +14,7 @@ import { and, count, eq, gt, inArray, sql } from "drizzle-orm";
 
 import { ApplicationStatus, ApplicationTable } from "../../Application/db";
 
-const MAX_LIMIT = 3;
+export const SEND_ANNOUNCEMENT_MAX_LIMIT = 3;
 const MAX_DAILY_LIMIT = 1;
 
 export async function handleSendAnnouncement(
@@ -36,10 +36,10 @@ export async function handleSendAnnouncement(
     .from(PostingAnnouncement)
     .where(eq(PostingAnnouncement.posting, postingID));
 
-  if (existing && existing.count >= MAX_LIMIT)
+  if (existing && existing.count >= SEND_ANNOUNCEMENT_MAX_LIMIT)
     throw GQLError(
       400,
-      `You can only send ${MAX_LIMIT} announcements per posting.`,
+      `You can only send ${SEND_ANNOUNCEMENT_MAX_LIMIT} announcements per posting.`,
     );
 
   const yesterday = new Date();

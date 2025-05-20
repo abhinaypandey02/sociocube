@@ -258,6 +258,7 @@ export default function ApplicationsTable({
         <div className={"flex gap-2 items-center justify-end"}>
           {actionType === "selected" && applications.length > 0 && (
             <SendAnnouncementButton
+              count={posting.announcementCount}
               applications={applications}
               postingID={posting.id}
             />

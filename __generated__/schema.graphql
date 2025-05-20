@@ -386,6 +386,7 @@ type Portfolio {
 
 type Posting {
   agency: User!
+  announcementCount: Float!
   applicationsCount: Int!
   barter: Boolean!
   cities: [CitySelectOption!]!

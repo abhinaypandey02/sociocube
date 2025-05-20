@@ -1,5 +1,6 @@
 import { db } from "@backend/lib/db";
 import { CitySelectOption } from "@backend/lib/utils/select-options";
+import { SEND_ANNOUNCEMENT_MAX_LIMIT } from "@graphql/Posting/resolvers/send-announcement";
 import { and, count, eq, inArray, isNotNull, ne, sum } from "drizzle-orm";
 import { FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
 
@@ -11,6 +12,7 @@ import type { UserDB } from "../User/db";
 import { UserTable } from "../User/db";
 import { UserGQL } from "../User/type";
 import type { PostingDB } from "./db";
+import { PostingAnnouncement } from "./db";
 import {
   getRecommendations,
   Recommendation,
@@ -26,6 +28,14 @@ export class PostingFieldResolvers {
       .from(UserTable)
       .where(eq(UserTable.id, posting.agency));
     return user;
+  }
+  @FieldResolver(() => Number)
+  async announcementCount(@Root() posting: PostingDB): Promise<number> {
+    const [data] = await db
+      .select({ count: count() })
+      .from(PostingAnnouncement)
+      .where(eq(PostingAnnouncement.posting, posting.id));
+    return SEND_ANNOUNCEMENT_MAX_LIMIT - (data?.count || 0);
   }
   @FieldResolver(() => String, { nullable: true })
   async currency(

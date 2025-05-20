@@ -449,6 +449,7 @@ export const GET_POSTING_APPLICATIONS = gql(`
         id  
       extraDetails
       externalLink
+      announcementCount
     }
     applications:getPostingApplications(postingID: $postingID) {
       status
@@ -486,6 +487,7 @@ export const GET_POSTING_SELECTED = gql(`
       title
       id  
       extraDetails
+        announcementCount
       externalLink
     }
     applications:getPostingSelected(postingID: $postingID) {
@@ -524,6 +526,7 @@ export const GET_POSTING_RECOMMENDATIONS = gql(`
       title
       externalLink
       extraDetails  
+        announcementCount
       id  
         recommendations {
             status
