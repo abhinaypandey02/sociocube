@@ -16,6 +16,7 @@ import { toast } from "react-hot-toast";
 
 import type { GetPostingApplicationsQuery } from "@/__generated__/graphql";
 import { ApplicationStatus } from "@/__generated__/graphql";
+import SendAnnouncementButton from "@/app/(dashboard)/your-campaigns/[id]/components/send-announcement-button";
 import RecommendationActions from "@/app/(dashboard)/your-campaigns/[id]/explore/components/recommendation-actions";
 import SelectedActions from "@/app/(dashboard)/your-campaigns/[id]/selected/components/selected-actions";
 import Table from "@/components/table";
@@ -254,15 +255,21 @@ export default function ApplicationsTable({
   return (
     <Table
       cta={
-        <DownloadExcelButton
-          applications={applications}
-          extraDetails={
-            posting?.externalLink
-              ? undefined
-              : posting?.extraDetails || "Comment"
-          }
-          postingTitle={posting?.title || "Posting"}
-        />
+        <div className={"flex gap-2 items-center justify-end"}>
+          <SendAnnouncementButton
+            applications={applications}
+            postingID={posting.id}
+          />
+          <DownloadExcelButton
+            applications={applications}
+            extraDetails={
+              posting?.externalLink
+                ? undefined
+                : posting?.extraDetails || "Comment"
+            }
+            postingTitle={posting?.title || "Posting"}
+          />
+        </div>
       }
       columns={columns}
       data={applications}

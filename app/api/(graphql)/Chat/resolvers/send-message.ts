@@ -103,11 +103,13 @@ export async function handleSendMessage(
       by: ctx.userId,
     };
     waitUntil(
-      sendEvent(
-        getConversationChannelName(conversationID),
-        NEW_MESSAGE,
-        message,
-      ),
+      sendEvent([
+        {
+          channel: getConversationChannelName(conversationID),
+          name: NEW_MESSAGE,
+          data: message,
+        },
+      ]),
     );
     await db.insert(ConversationMessageTable).values(message);
 

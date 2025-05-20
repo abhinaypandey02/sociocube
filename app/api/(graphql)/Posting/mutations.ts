@@ -60,9 +60,9 @@ export class PostingMutationResolvers {
     @Ctx() ctx: AuthorizedContext,
     @Arg("postingID") postingID: number,
     @Arg("body") body: string,
-    @Arg("users", () => [Number], { nullable: true }) users: number[] | null,
+    @Arg("apps", () => [Number], { nullable: true }) apps: number[] | null,
   ): Promise<boolean> {
-    return handleSendAnnouncement(ctx, postingID, body, users);
+    return handleSendAnnouncement(ctx, postingID, body, apps);
   }
   @Authorized([Roles.Admin])
   @Mutation(() => Boolean)

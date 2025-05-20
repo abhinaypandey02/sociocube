@@ -8,10 +8,11 @@ export const pusher = new Pusher({
   useTLS: true,
 });
 
-export function sendEvent(
-  channel: string,
-  eventName: string,
-  eventPayload: object,
+export async function sendEvent(
+  events: { channel: string; name: string; data: object }[],
 ) {
-  return pusher.trigger(channel, eventName, eventPayload);
+  if (events.length > 1) return pusher.triggerBatch(events);
+  const event = events[0];
+  if (!event) return;
+  return pusher.trigger(event.channel, event.name, event.data);
 }

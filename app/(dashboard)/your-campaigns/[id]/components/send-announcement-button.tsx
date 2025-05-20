@@ -1,0 +1,39 @@
+import { Megaphone } from "@phosphor-icons/react";
+import React from "react";
+
+import { ApplicationTableRow } from "@/app/(dashboard)/your-campaigns/[id]/components/applications-table";
+import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
+import { SEND_ANNOUNCEMENT } from "@/lib/mutations";
+
+export default function SendAnnouncementButton({
+  applications,
+  postingID,
+}: {
+  applications: ApplicationTableRow[];
+  postingID: number;
+}) {
+  const [announce] = useAuthMutation(SEND_ANNOUNCEMENT);
+  const handleSendAnnouncement = () => {
+    const body = window.prompt("Enter message");
+    if (body)
+      announce({
+        body,
+        postingID,
+        apps: applications.length ? applications.map((app) => app.id) : null,
+      })
+        .then(() => {
+          window.alert("Announcement sent successfully");
+        })
+        .catch(handleGQLErrors);
+  };
+  return (
+    <button
+      className="flex items-center gap-1 text-sm font-medium text-primary underline underline-offset-4"
+      onClick={handleSendAnnouncement}
+      type="button"
+    >
+      <span className={"shrink-0"}>Send announcement</span>
+      <Megaphone size={18} />
+    </button>
+  );
+}

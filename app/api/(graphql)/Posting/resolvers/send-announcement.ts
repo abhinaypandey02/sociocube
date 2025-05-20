@@ -1,26 +1,39 @@
+import {
+  getConversationChannelName,
+  NEW_MESSAGE,
+} from "@backend/(rest)/pusher/utils";
 import { AuthorizedContext } from "@backend/lib/auth/context";
 import { db } from "@backend/lib/db";
 import { sendBatchTemplateEmail } from "@backend/lib/email/send-template";
+import { sendEvent } from "@backend/lib/socket/send-event";
 import { ConversationMessageTable, ConversationTable } from "@graphql/Chat/db";
 import { PostingAnnouncement, PostingTable } from "@graphql/Posting/db";
 import { UserTable } from "@graphql/User/db";
-import { and, arrayContains, count, eq, gt, inArray } from "drizzle-orm";
+import { and, count, eq, gt, inArray, sql } from "drizzle-orm";
 
 import { ApplicationStatus, ApplicationTable } from "../../Application/db";
 
 const MAX_LIMIT = 3;
-const MAX_DAILY_LIMIT = 3;
+const MAX_DAILY_LIMIT = 1;
 
 export async function handleSendAnnouncement(
   ctx: AuthorizedContext,
   postingID: number,
   body: string,
-  userList: number[] | null,
+  apps: number[] | null,
 ) {
+  const [posting] = await db
+    .select()
+    .from(PostingTable)
+    .where(
+      and(eq(PostingTable.id, postingID), eq(PostingTable.agency, ctx.userId)),
+    )
+    .innerJoin(UserTable, eq(UserTable.id, PostingTable.agency));
+  if (!posting) return false;
   const [existing] = await db
     .select({ count: count() })
     .from(PostingAnnouncement)
-    .where(eq(PostingAnnouncement.id, postingID));
+    .where(eq(PostingAnnouncement.posting, postingID));
 
   if (existing && existing.count >= MAX_LIMIT) return false;
 
@@ -42,7 +55,6 @@ export async function handleSendAnnouncement(
     agency: ctx.userId,
     body,
   });
-
   const users = await db
     .select({
       email: UserTable.email,
@@ -55,7 +67,7 @@ export async function handleSendAnnouncement(
       and(
         eq(ApplicationTable.posting, postingID),
         eq(ApplicationTable.status, ApplicationStatus.Selected),
-        userList ? inArray(ApplicationTable.user, userList) : undefined,
+        apps ? inArray(ApplicationTable.id, apps) : undefined,
       ),
     )
     .innerJoin(
@@ -67,40 +79,51 @@ export async function handleSendAnnouncement(
     )
     .leftJoin(
       ConversationTable,
-      and(
-        inArray(UserTable.id, ConversationTable.users),
-        arrayContains(ConversationTable.users, [ctx.userId]),
-      ),
+      sql`array[${UserTable.id}, ${ctx.userId}] <@ ${ConversationTable.users}`,
     );
 
-  const createdConversations = await db
-    .insert(ConversationTable)
-    .values(
-      users
-        .filter((user) => !user.conversation)
-        .map((user) => ({
-          users: [user.id, ctx.userId],
-        })),
-    )
-    .returning({
-      conversation: ConversationTable.id,
-    });
+  if (!users.length) return false;
+
+  const usersWithConversation = users.filter((user) => user.conversation);
+  const usersWithoutConversation = users.filter((user) => !user.conversation);
+
+  const createdConversations = usersWithoutConversation.length
+    ? await db
+        .insert(ConversationTable)
+        .values(
+          users
+            .filter((user) => !user.conversation)
+            .map((user) => ({
+              users: [user.id, ctx.userId],
+            })),
+        )
+        .returning({
+          conversation: ConversationTable.id,
+        })
+    : [];
+
+  const conversations = [...usersWithConversation, ...createdConversations]
+    .map(({ conversation }) => conversation)
+    .filter(Boolean) as number[];
 
   await db.insert(ConversationMessageTable).values(
-    [...users.filter((user) => user.conversation), ...createdConversations]
-      .filter((user) => user.conversation)
-      .map(({ conversation }) => ({
-        conversation: conversation!,
+    conversations.map((conversation) => ({
+      conversation: conversation!,
+      body,
+      by: ctx.userId,
+    })),
+  );
+  await sendEvent(
+    conversations.map((conversation) => ({
+      channel: getConversationChannelName(conversation),
+      name: NEW_MESSAGE,
+      data: {
+        conversation,
         body,
         by: ctx.userId,
-      })),
+      },
+    })),
   );
-
-  const [posting] = await db
-    .select()
-    .from(PostingTable)
-    .where(eq(PostingTable.id, postingID))
-    .innerJoin(UserTable, eq(UserTable.id, PostingTable.agency));
   if (posting?.user.username)
     await sendBatchTemplateEmail(
       "PostingAnnouncement",

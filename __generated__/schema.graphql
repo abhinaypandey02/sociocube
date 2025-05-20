@@ -342,7 +342,7 @@ type Mutation {
   rejectPosting(postingID: Float!, reason: String!): Boolean!
   resetPassword(newPassword: String!, token: String!): Boolean!
   resumePosting(postingID: Float!): Boolean!
-  sendAnnouncement(body: String!, postingID: Float!, users: [Float!]): Boolean!
+  sendAnnouncement(apps: [Float!], body: String!, postingID: Float!): Boolean!
   sendMessage(body: String!, userID: Int!): Boolean!
   sendResetPasswordEmail(email: String!): Boolean
   sendReviewByAgency(args: SendReviewByAgencyArgs!): Boolean!

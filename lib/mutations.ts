@@ -177,3 +177,10 @@ export const UNLINK_SOCIAL_ACCOUNT = gql(`
     unlinkSocialAccount
   }
 `);
+
+export const SEND_ANNOUNCEMENT = gql(`
+  #graphql
+  mutation SendAnnouncement($body:String!, $postingID:Float!, $apps:[Float!]){
+    sendAnnouncement(body: $body, postingID: $postingID, apps: $apps)   
+  }
+`);
