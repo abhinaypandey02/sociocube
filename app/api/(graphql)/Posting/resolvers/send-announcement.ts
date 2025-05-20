@@ -3,6 +3,7 @@ import {
   NEW_MESSAGE,
 } from "@backend/(rest)/pusher/utils";
 import { AuthorizedContext } from "@backend/lib/auth/context";
+import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
 import { sendBatchTemplateEmail } from "@backend/lib/email/send-template";
 import { sendEvent } from "@backend/lib/socket/send-event";
@@ -29,13 +30,17 @@ export async function handleSendAnnouncement(
       and(eq(PostingTable.id, postingID), eq(PostingTable.agency, ctx.userId)),
     )
     .innerJoin(UserTable, eq(UserTable.id, PostingTable.agency));
-  if (!posting) return false;
+  if (!posting) throw GQLError(400, "Posting not found");
   const [existing] = await db
     .select({ count: count() })
     .from(PostingAnnouncement)
     .where(eq(PostingAnnouncement.posting, postingID));
 
-  if (existing && existing.count >= MAX_LIMIT) return false;
+  if (existing && existing.count >= MAX_LIMIT)
+    throw GQLError(
+      400,
+      `You can only send ${MAX_LIMIT} announcements per posting.`,
+    );
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
@@ -48,7 +53,11 @@ export async function handleSendAnnouncement(
         gt(PostingAnnouncement.createdAt, yesterday),
       ),
     );
-  if (daily && daily.count >= MAX_DAILY_LIMIT) return false;
+  if (daily && daily.count >= MAX_DAILY_LIMIT)
+    throw GQLError(
+      400,
+      `You can only send ${MAX_DAILY_LIMIT} announcement per day. Please try again tomorrow.`,
+    );
 
   await db.insert(PostingAnnouncement).values({
     posting: postingID,
@@ -82,7 +91,7 @@ export async function handleSendAnnouncement(
       sql`array[${UserTable.id}, ${ctx.userId}] <@ ${ConversationTable.users}`,
     );
 
-  if (!users.length) return false;
+  if (!users.length) throw GQLError(400, "No users to send announcement to");
 
   const usersWithConversation = users.filter((user) => user.conversation);
   const usersWithoutConversation = users.filter((user) => !user.conversation);

@@ -256,7 +256,7 @@ export default function ApplicationsTable({
     <Table
       cta={
         <div className={"flex gap-2 items-center justify-end"}>
-          {actionType === "selected" && (
+          {actionType === "selected" && applications.length > 0 && (
             <SendAnnouncementButton
               applications={applications}
               postingID={posting.id}

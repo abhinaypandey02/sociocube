@@ -19,7 +19,6 @@ export default function SendAnnouncementButton({
       announce({
         body,
         postingID,
-        apps: applications.length ? applications.map((app) => app.id) : null,
       })
         .then(() => {
           window.alert("Announcement sent successfully");
