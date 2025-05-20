@@ -256,10 +256,12 @@ export default function ApplicationsTable({
     <Table
       cta={
         <div className={"flex gap-2 items-center justify-end"}>
-          <SendAnnouncementButton
-            applications={applications}
-            postingID={posting.id}
-          />
+          {actionType === "selected" && (
+            <SendAnnouncementButton
+              applications={applications}
+              postingID={posting.id}
+            />
+          )}
           <DownloadExcelButton
             applications={applications}
             extraDetails={
