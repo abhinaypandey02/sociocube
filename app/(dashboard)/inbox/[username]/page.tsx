@@ -21,7 +21,7 @@ export default async function Page({ params }: ChatPage) {
       username: (await params).username,
     },
     await cookies(),
-    0
+    0,
   );
   if (!chat) return notFound();
   const photo = chat.user?.photo;

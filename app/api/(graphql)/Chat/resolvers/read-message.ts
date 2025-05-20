@@ -1,6 +1,6 @@
 import type { AuthorizedContext } from "@backend/lib/auth/context";
 import { db } from "@backend/lib/db";
-import { and, eq, desc } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 
 import { ConversationMessageTable, ConversationTable } from "../db";
 
@@ -12,7 +12,7 @@ export async function handleReadMessage(
     .select()
     .from(ConversationMessageTable)
     .where(eq(ConversationMessageTable.conversation, conversationID))
-    .orderBy(desc(ConversationMessageTable.createdAt))  
+    .orderBy(desc(ConversationMessageTable.createdAt))
     .limit(1);
 
   if (lastMessage?.by !== ctx.userId)

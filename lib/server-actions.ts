@@ -33,12 +33,12 @@ export async function getTransformedPostingData(message: string) {
     }
       
     The user will provide a text message sent by the marketing agency, return a JSON with the data filled.`,
-    message
+    message,
   );
 }
 export async function getCreatePostingQuestions(
   answers: { question: string; answer: string }[],
-  context: { name?: string | null; bio?: string | null }
+  context: { name?: string | null; bio?: string | null },
 ) {
   return getGroqResponse<{
     postingData: CreatePostingFormFields | null;
@@ -79,9 +79,9 @@ The brand's name is ${context.name}, it's bio is "${context.bio}".
         ({ question, answer }) => `Q: ${question}
 A: ${answer}
 
-`
+`,
       )
-      .join()
+      .join(),
   );
 }
 
@@ -94,6 +94,6 @@ export async function getIsMessageProfanity(message: string) {
     }
       
     Respond with a JSON object with a single key "isProfane" and a boolean value indicating whether the message contains any profanity or inappropriate language.`,
-    message
+    message,
   );
 }

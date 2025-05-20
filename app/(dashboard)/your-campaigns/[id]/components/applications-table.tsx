@@ -11,7 +11,6 @@ import type { CellContext } from "@tanstack/react-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/button";
 import React, { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -22,7 +21,7 @@ import SelectedActions from "@/app/(dashboard)/your-campaigns/[id]/selected/comp
 import Table from "@/components/table";
 import { getAgeRange } from "@/constants/age";
 import { getRoute } from "@/constants/routes";
-import { cn, convertToAbbreviation } from "@/lib/utils";
+import { convertToAbbreviation } from "@/lib/utils";
 
 import ApplicationActions from "../applications/components/application-actions";
 import DownloadExcelButton from "./download-excel-button";
@@ -60,7 +59,7 @@ const DEFAULT_COLUMNS = [
             if (val.row.original.user?.email) {
               await navigator.clipboard.writeText(val.row.original.user?.email);
               toast.success(
-                `Copied ${val.row.original.user?.email} to clipboard`
+                `Copied ${val.row.original.user?.email} to clipboard`,
               );
             }
           }}
@@ -73,13 +72,13 @@ const DEFAULT_COLUMNS = [
             onClick={async () => {
               if (val.row.original.user?.phone) {
                 await navigator.clipboard.writeText(
-                  val.row.original.user?.phone
+                  val.row.original.user?.phone,
                 );
                 toast.success(
                   `Copied ${val.row.original.user?.phone} to clipboard`,
                   {
                     duration: 5000,
-                  }
+                  },
                 );
               }
             }}
@@ -182,9 +181,9 @@ export default function ApplicationsTable({
       reach: Math.round(
         ((val.user?.instagramStats?.er || 0) *
           (val.user?.instagramStats?.followers || 0)) /
-          100
+          100,
       ),
-    }))
+    })),
   );
 
   const ApplicationActionsCell = useCallback(
@@ -192,7 +191,7 @@ export default function ApplicationsTable({
       val: CellContext<
         ApplicationTableRow & { reach: number },
         ApplicationStatus
-      >
+      >,
     ) =>
       actionType === "recommendations" ? (
         <RecommendationActions
@@ -210,7 +209,7 @@ export default function ApplicationsTable({
           hasReview={val.row.original.hasReview}
         />
       ),
-    []
+    [],
   );
   const columns = [
     ...DEFAULT_COLUMNS,

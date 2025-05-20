@@ -42,17 +42,52 @@ export function sendTemplateEmail<T extends keyof typeof Template>(
   template: T,
   meta: Parameters<(typeof Template)[T]>[0],
 ) {
-  const method: {
-    subject: string;
-    title?: string;
-    components: EmailComponent[];
-  } =
-    // @ts-expect-error -- dynamic
-    Template[template](meta);
   return sendEmail(
-    [to],
-    method.subject,
-    getRenderedTemplateText(method.title || method.subject, method.components),
-    getRenderedTemplate(method.title || method.subject, method.components),
+    getTemplate(template, [
+      {
+        to,
+        meta,
+      },
+    ]),
   );
+}
+
+export function getTemplate<T extends keyof typeof Template>(
+  template: T,
+  data: {
+    to: string;
+    meta: Parameters<(typeof Template)[T]>[0];
+  }[],
+) {
+  return data.map(({ to, meta }) => {
+    const method: {
+      subject: string;
+      title?: string;
+      components: EmailComponent[];
+    } =
+      // @ts-expect-error -- dynamic
+      Template[template](meta);
+    return {
+      to,
+      subject: method.subject,
+      text: getRenderedTemplateText(
+        method.title || method.subject,
+        method.components,
+      ),
+      html: getRenderedTemplate(
+        method.title || method.subject,
+        method.components,
+      ),
+    };
+  });
+}
+
+export function sendBatchTemplateEmail<T extends keyof typeof Template>(
+  template: T,
+  data: {
+    to: string;
+    meta: Parameters<(typeof Template)[T]>[0];
+  }[],
+) {
+  return sendEmail(getTemplate(template, data));
 }

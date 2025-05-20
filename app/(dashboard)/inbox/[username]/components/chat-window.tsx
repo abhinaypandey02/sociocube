@@ -13,6 +13,7 @@ import { Input } from "@/components/input";
 import { useAuthMutation } from "@/lib/apollo-client";
 import { useToken, useUser } from "@/lib/auth-client";
 import { READ_MESSAGE, SEND_CHAT } from "@/lib/mutations";
+
 import { ChatBubble } from "./chat-bubble";
 
 interface FormValues {
@@ -55,7 +56,7 @@ export default function ChatWindow({
         userID: chat.user.id,
       })
         .then((result) => {
-          if(!result.data?.sendMessage){
+          if (!result.data?.sendMessage) {
             setMessages((old) => {
               if (old[index]) old[index].failed = true;
               return [...old];
@@ -110,7 +111,7 @@ export default function ChatWindow({
             },
           ]);
         }
-      }
+      },
     );
     return () => {
       pusher.unbind();

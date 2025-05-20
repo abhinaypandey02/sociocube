@@ -68,14 +68,14 @@ export const getRenderedTemplate = (
     [
       getTemplateLayout(
         [
-          getComponentHTML({
-            type: EmailComponentType.IMAGE,
-            url: "https://sociocube.com/icon1.png",
-            width: 50,
-            options: {
-              align: "center",
-            },
-          }),
+          // getComponentHTML({
+          //   type: EmailComponentType.IMAGE,
+          //   url: "https://sociocube.com/icon1.png",
+          //   width: 50,
+          //   options: {
+          //     align: "center",
+          //   },
+          // }),
           getTemplateLayout(heading, {
             align: "center",
             style:

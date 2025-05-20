@@ -3,19 +3,30 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendEmail(
-  emails: string[],
-  subject: string,
-  bodyText: string,
-  bodyHTML?: string,
+  emails: {
+    to: string;
+    subject: string;
+    text: string;
+    html?: string;
+  }[],
 ) {
-  return resend.emails.send({
-    from: "info@mail.sociocube.com",
-    to: emails.filter(
-      (email) => !(email.startsWith("test") && email.endsWith("sociocube.com")),
-    ),
-    subject,
-    text: bodyText,
-    html: bodyHTML,
-    replyTo: "hello@sociocube.com",
-  });
+  if (emails.length > 1) {
+    return resend.batch.send(
+      emails.slice(0, 100).map((data) => ({
+        from: "Sociocube <info@mail.sociocube.com>",
+        replyTo: "hello@sociocube.com",
+        ...data,
+      })),
+    );
+  }
+  const email = emails[0];
+  if (email)
+    return resend.emails.send({
+      from: "Sociocube <info@mail.sociocube.com>",
+      to: email.to,
+      subject: email.subject,
+      text: email.text,
+      html: email.html,
+      replyTo: "hello@sociocube.com",
+    });
 }

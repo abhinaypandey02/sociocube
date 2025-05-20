@@ -5,13 +5,15 @@ import {
 import type { AuthorizedContext } from "@backend/lib/auth/context";
 import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
+import { sendTemplateEmail } from "@backend/lib/email/send-template";
 import { sendEvent } from "@backend/lib/socket/send-event";
 import { waitUntil } from "@vercel/functions";
-import { arrayContains, eq, desc, and, gt } from "drizzle-orm";
+import { and, arrayContains, desc, eq, gt } from "drizzle-orm";
+
 import { getIsMessageProfanity } from "@/lib/server-actions";
-import { ConversationMessageTable, ConversationTable } from "../db";
-import { sendTemplateEmail } from "@backend/lib/email/send-template";
+
 import { UserTable } from "../../User/db";
+import { ConversationMessageTable, ConversationTable } from "../db";
 
 export interface MessageProfanityCheck {
   isProfane: boolean;
@@ -26,56 +28,44 @@ async function shouldSendEmail(conversationID: number): Promise<boolean> {
     .where(
       and(
         eq(ConversationMessageTable.conversation, conversationID),
-        gt(ConversationMessageTable.createdAt, cooldownTime)
-      )
+        gt(ConversationMessageTable.createdAt, cooldownTime),
+      ),
     )
     .orderBy(desc(ConversationMessageTable.createdAt))
     .offset(1)
     .limit(1);
-    console.log("should send email ? ", !recentMessage);
   return !recentMessage;
 }
 
 async function handleSendEmail(
   recipientId: number,
   senderId: number,
-  messageBody: string
+  messageBody: string,
 ): Promise<void> {
-  try {
-    console.log("Sending email to recipientId:", recipientId);
-    const [recipient] = await db
-      .select()
-      .from(UserTable)
-      .where(eq(UserTable.id, recipientId))
-      .limit(1);
+  const [recipient] = await db
+    .select()
+    .from(UserTable)
+    .where(eq(UserTable.id, recipientId));
 
-    const [sender] = await db
-      .select()
-      .from(UserTable)
-      .where(eq(UserTable.id, senderId))
-      .limit(1);
+  const [sender] = await db
+    .select()
+    .from(UserTable)
+    .where(eq(UserTable.id, senderId));
 
-    const messagePreview =
-      messageBody.length > 100
-        ? `${messageBody.substring(0, 97)} ...`
-        : messageBody;
-
-    if (recipient && sender) {
-      sendTemplateEmail(recipient.email, "MessageReceived", {
-        senderName: sender.name || "",
-        messagePreview,
-        senderUsername: sender.username || "",
-      });
-    }
-  } catch (error) {
-    console.error("Error sending notification email:", error);
+  if (recipient && sender) {
+    sendTemplateEmail(recipient.email, "MessageReceived", {
+      senderName: sender.name || "",
+      messagePreview: messageBody,
+      senderUsername: sender.username || "",
+    });
   }
 }
 
 export async function handleSendMessage(
   ctx: AuthorizedContext,
   body: string,
-  userID: number
+  userID: number,
+  disableEmail?: boolean,
 ): Promise<boolean> {
   if (ctx.userId === userID) throw GQLError(400, "You cannot message yourself");
 
@@ -116,19 +106,20 @@ export async function handleSendMessage(
       sendEvent(
         getConversationChannelName(conversationID),
         NEW_MESSAGE,
-        message
-      )
+        message,
+      ),
     );
     await db.insert(ConversationMessageTable).values(message);
 
-    waitUntil(
-      (async () => {
-        const shouldNotify = await shouldSendEmail(conversationID);
-        if (shouldNotify) {
-          handleSendEmail(userID, ctx.userId, body);
-        }
-      })()
-    );
+    if (!disableEmail)
+      waitUntil(
+        (async () => {
+          const shouldNotify = await shouldSendEmail(conversationID);
+          if (shouldNotify) {
+            await handleSendEmail(userID, ctx.userId, body);
+          }
+        })(),
+      );
 
     return true;
   }
