@@ -1,5 +1,7 @@
 import { EmailComponent, EmailComponentType } from "@backend/lib/email/types";
 
+import { getRoute } from "@/constants/routes";
+
 export const PostingAnnouncement = ({
   brandName,
   postingName,
@@ -20,7 +22,7 @@ export const PostingAnnouncement = ({
       type: EmailComponentType.PARAGRAPH,
       content: `Hi there,
       
-${brandName} has sent an announcement regarding the campaign "<a href="/campaigns/${postingId}">${postingName}</a>".`,
+${brandName} has sent an announcement regarding the campaign "<a href="${getRoute("Campaigns")}/${postingId}">${postingName}</a>".`,
     },
     {
       type: EmailComponentType.HEADING,
@@ -33,7 +35,7 @@ ${brandName} has sent an announcement regarding the campaign "<a href="/campaign
     {
       type: EmailComponentType.BUTTON,
       content: `View Announcement`,
-      url: `/inbox/${username}`,
+      url: `${getRoute("Inbox")}/${username}`,
       options: {
         align: "center",
       },
