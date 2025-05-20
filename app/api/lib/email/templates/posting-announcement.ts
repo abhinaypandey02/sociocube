@@ -15,7 +15,7 @@ export const PostingAnnouncement = ({
   username: string;
   announcementText: string;
 }) => ({
-  subject: `Announcement from ${brandName} about "${postingName}"`,
+  subject: `New announcement for "${postingName}"`,
   title: "Campaign Announcement",
   components: [
     {
@@ -30,11 +30,11 @@ ${brandName} has sent an announcement regarding the campaign "<a href="${getRout
     },
     {
       type: EmailComponentType.PARAGRAPH,
-      content: announcementText,
+      content: `"${announcementText}`,
     },
     {
       type: EmailComponentType.BUTTON,
-      content: `View Announcement`,
+      content: `Reply to ${brandName}`,
       url: `${getRoute("Inbox")}/${username}`,
       options: {
         align: "center",
