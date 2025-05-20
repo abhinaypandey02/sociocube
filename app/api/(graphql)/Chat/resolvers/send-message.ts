@@ -9,12 +9,36 @@ import { sendEvent } from "@backend/lib/socket/send-event";
 import { waitUntil } from "@vercel/functions";
 import { arrayContains, eq, desc } from "drizzle-orm";
 import { getIsMessageProfanity } from "@/lib/server-actions";
-import { sendTemplateEmail } from "@backend/lib/email/send-template";
-import { UserTable } from "../../User/db";
 import { ConversationMessageTable, ConversationTable } from "../db";
+import { handleSendEmail } from "./send-email";
 
 export interface MessageProfanityCheck {
   isProfane: boolean;
+}
+
+async function shouldSendEmail(conversationID: number): Promise<boolean> {
+  const recentMessages = await db
+    .select()
+    .from(ConversationMessageTable)
+    .where(eq(ConversationMessageTable.conversation, conversationID))
+    .orderBy(desc(ConversationMessageTable.createdAt))
+    .limit(2);
+
+  if (recentMessages.length <= 1) {
+    return true;
+  } else if (recentMessages.length === 2) {
+    const currentMessage = recentMessages[0];
+    const previousMessage = recentMessages[1];
+    if (currentMessage && previousMessage) {
+      const timeDifference =
+        currentMessage.createdAt.getTime() -
+        previousMessage.createdAt.getTime();
+      const oneHourInMs = 60 * 60 * 1000;
+
+      return timeDifference > oneHourInMs;
+    }
+  }
+  return false;
 }
 
 export async function handleSendMessage(
@@ -65,57 +89,9 @@ export async function handleSendMessage(
     );
     await db.insert(ConversationMessageTable).values(message);
 
-    const recentMessages = await db
-      .select()
-      .from(ConversationMessageTable)
-      .where(eq(ConversationMessageTable.conversation, conversationID))
-      .orderBy(desc(ConversationMessageTable.createdAt))
-      .limit(2);
-
-    let shouldSendEmail = false;
-
-    if (recentMessages.length <= 1) {
-      shouldSendEmail = true;
-    } else if (recentMessages.length === 2) {
-      const currentMessage = recentMessages[0];
-      const previousMessage = recentMessages[1];
-      if (currentMessage && previousMessage) {
-        const timeDifference =
-          currentMessage.createdAt.getTime() -
-          previousMessage.createdAt.getTime();
-        const oneHourInMs = 60 * 60 * 1000;
-
-        shouldSendEmail = timeDifference > oneHourInMs;
-      }
-    }
-
-    if (shouldSendEmail) {
-      try {
-        const [recipient] = await db
-          .select()
-          .from(UserTable)
-          .where(eq(UserTable.id, userID))
-          .limit(1);
-
-          const [sender] = await db
-          .select()
-          .from(UserTable)
-          .where(eq(UserTable.id, ctx.userId))
-          .limit(1);
-
-          const messagePreview = body.length > 100 ? `${body.substring(0, 97)} ...` : body;
-        if (recipient && sender) {
-          waitUntil(
-            sendTemplateEmail(recipient.email, "MessageReceived", {
-              senderName: sender.name || "",
-              messagePreview,
-              senderUsername: sender.username || "",
-            })
-          );
-        }
-      } catch (error) {
-        console.error("Error sending notification email:", error);
-      }
+    const shouldNotify = await shouldSendEmail(conversationID);
+    if (shouldNotify) {
+      waitUntil(handleSendEmail(userID, ctx.userId, body));
     }
 
     return true;
