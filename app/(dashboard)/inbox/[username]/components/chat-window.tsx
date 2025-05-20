@@ -13,7 +13,7 @@ import { Input } from "@/components/input";
 import { useAuthMutation } from "@/lib/apollo-client";
 import { useToken, useUser } from "@/lib/auth-client";
 import { READ_MESSAGE, SEND_CHAT } from "@/lib/mutations";
-import { cn } from "@/lib/utils";
+import { ChatBubble } from "./chat-bubble";
 
 interface FormValues {
   text: string;
@@ -54,7 +54,13 @@ export default function ChatWindow({
         body: data.text,
         userID: chat.user.id,
       })
-        .then(() => {
+        .then((result) => {
+          if(!result.data?.sendMessage){
+            setMessages((old) => {
+              if (old[index]) old[index].failed = true;
+              return [...old];
+            });
+          }
           setMessages((old) => {
             if (old[index]) old[index].loading = false;
             return [...old];
@@ -67,6 +73,15 @@ export default function ChatWindow({
           });
         });
   }
+
+  useEffect(() => {
+    if (chat?.id && user) {
+      readMessage({
+        conversationID: chat.id,
+      });
+    }
+  }, [chat.id, user]);
+
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY || "", {
       cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "",
@@ -95,7 +110,7 @@ export default function ChatWindow({
             },
           ]);
         }
-      },
+      }
     );
     return () => {
       pusher.unbind();
@@ -104,51 +119,40 @@ export default function ChatWindow({
   }, [chat.id, readMessage, token, user]);
 
   return (
-    <div className={"col-span-3 lg:col-span-2 grow flex flex-col p-4"}>
-      <div className={"grow space-y-2 overflow-y-auto"}>
+    <div className="h-full flex flex-col">
+      <div className="grow space-y-2 overflow-y-auto no-scrollbar p-4">
         {user &&
-          messages.map((msg) => (
+          messages.map((msg, index) => (
             <div
-              className={`flex ${msg.by === user?.id ? "justify-end" : "justify-start"}`}
-              key={msg.createdAt}
+              className={`flex ${msg.by === user?.id ? "justify-end max-sm:pl-14" : "justify-start max-sm:pr-14"}`}
+              key={index}
             >
-              <div>
-                <div
-                  className={cn(
-                    "max-w-sm text-justify rounded-3xl px-4  py-2",
-                    msg.by === user?.id
-                      ? "bg-accent text-white"
-                      : "bg-gray-100 text-gray-700",
-                  )}
-                >
-                  {msg.body}
-                </div>
-                <div
-                  className={cn(
-                    "text-xs mt-0.5",
-                    msg.by === user?.id ? "text-end pr-1" : "pl-1",
-                    msg.failed ? "text-red-400" : "text-gray-500",
-                  )}
-                >
-                  {msg.loading ? "Sending" : null}{" "}
-                  {msg.failed ? "Failed" : null}
-                </div>
-              </div>
+              <ChatBubble
+                body={msg.body}
+                isCurrentUser={msg.by === user?.id}
+                loading={msg.loading}
+                failed={msg.failed}
+              />
             </div>
           ))}
       </div>
-      <form className="flex relative" onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          placeholder={"Message..."}
-          {...register("text", { required: true })}
-          className={"rounded-full"}
-        />
-        <button
-          type="submit"
-          className={"absolute right-5 top-1/2 -translate-y-1/2"}
-        >
-          <PaperPlaneTilt className={"text-gray-600"} size={22} />
-        </button>
+      <form
+        className="flex pb-4 px-4 relative w-full"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className="relative w-full">
+          <Input
+            placeholder={"Message..."}
+            {...register("text", { required: true })}
+            className={"rounded-full w-full pr-12"}
+          />
+          <button
+            type="submit"
+            className={"absolute right-3 top-1/2 transform -translate-y-1/2"}
+          >
+            <PaperPlaneTilt className={"text-gray-600"} size={22} />
+          </button>
+        </div>
       </form>
     </div>
   );

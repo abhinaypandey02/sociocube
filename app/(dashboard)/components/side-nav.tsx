@@ -41,7 +41,7 @@ export default function SideNav({
         )}
       </Link>
       {primary.map((item) => (
-        <>
+        <React.Fragment key={item.href}>
           <Link
             className={cn(
               "flex gap-2.5 items-center py-3 hover:bg-gray-100 rounded-lg",
@@ -92,7 +92,7 @@ export default function SideNav({
                 </Link>
               ))
             : null}
-        </>
+        </React.Fragment>
       ))}
       <div />
     </ul>

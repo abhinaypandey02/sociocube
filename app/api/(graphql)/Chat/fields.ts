@@ -33,6 +33,7 @@ export class ChatFieldResolvers {
       .select()
       .from(ConversationMessageTable)
       .where(eq(ConversationMessageTable.conversation, chat.id))
+      .orderBy(desc(ConversationMessageTable.createdAt))
       .limit(1);
     return {
       text: latestMessage?.body || "",

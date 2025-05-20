@@ -1,6 +1,7 @@
 "use server";
 
 import type { CreatePostingFormFields } from "@/app/(dashboard)/your-campaigns/components/form";
+import type { MessageProfanityCheck } from "@/app/api/(graphql)/Chat/resolvers/send-message";
 import {
   NAME_MAX_LENGTH,
   POSTING_BIO_MAX_LENGTH,
@@ -32,12 +33,12 @@ export async function getTransformedPostingData(message: string) {
     }
       
     The user will provide a text message sent by the marketing agency, return a JSON with the data filled.`,
-    message,
+    message
   );
 }
 export async function getCreatePostingQuestions(
   answers: { question: string; answer: string }[],
-  context: { name?: string | null; bio?: string | null },
+  context: { name?: string | null; bio?: string | null }
 ) {
   return getGroqResponse<{
     postingData: CreatePostingFormFields | null;
@@ -78,8 +79,21 @@ The brand's name is ${context.name}, it's bio is "${context.bio}".
         ({ question, answer }) => `Q: ${question}
 A: ${answer}
 
-`,
+`
       )
-      .join(),
+      .join()
+  );
+}
+
+export async function getIsMessageProfanity(message: string) {
+  return getGroqResponse<MessageProfanityCheck>(
+    `Please analyze the following message for any profanity or inappropriate language, keeping in mind that this is a professional conversation between a brand and a content creator on a chat application written in typescript. The message should not be analyzed for grammar or spelling errors, only for profanity or offensive language. 
+      
+    interface MessageProfanityCheck {
+      isProfane: boolean; // must be strictly either true or false. 
+    }
+      
+    Respond with a JSON object with a single key "isProfane" and a boolean value indicating whether the message contains any profanity or inappropriate language.`,
+    message
   );
 }
