@@ -1,4 +1,5 @@
 import { ArrowRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -19,7 +20,7 @@ export default async function CreateNewPostingPage({
   const { posting } = await queryGQL(
     GET_POSTING,
     { id: parseInt(id), owned: true },
-    undefined,
+    await cookies(),
     0,
   );
   if (!posting) return notFound();
