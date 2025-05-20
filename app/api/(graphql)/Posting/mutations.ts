@@ -2,6 +2,7 @@ import type { AuthorizedContext } from "@backend/lib/auth/context";
 import { BRAND_ROLES, Roles } from "@backend/lib/constants/roles";
 import { acceptPosting } from "@graphql/Posting/resolvers/accept-posting";
 import { rejectPosting } from "@graphql/Posting/resolvers/reject-posting";
+import { handleSendAnnouncement } from "@graphql/Posting/resolvers/send-announcement";
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 
 import { createPosting, NewPostingInput } from "./resolvers/create-posting";
@@ -52,6 +53,16 @@ export class PostingMutationResolvers {
     @Arg("postingID") postingID: number,
   ): Promise<boolean> {
     return resumePosting(ctx, postingID);
+  }
+  @Authorized(BRAND_ROLES)
+  @Mutation(() => Boolean)
+  async sendAnnouncement(
+    @Ctx() ctx: AuthorizedContext,
+    @Arg("postingID") postingID: number,
+    @Arg("body") body: string,
+    @Arg("users", () => [Number], { nullable: true }) users: number[] | null,
+  ): Promise<boolean> {
+    return handleSendAnnouncement(ctx, postingID, body, users);
   }
   @Authorized([Roles.Admin])
   @Mutation(() => Boolean)

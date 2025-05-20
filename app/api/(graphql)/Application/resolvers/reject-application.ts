@@ -39,6 +39,7 @@ export async function rejectApplication(ctx: AuthorizedContext, id: number) {
           const [user] = await db
             .select({
               email: UserTable.email,
+              emailVerified: UserTable.emailVerified,
             })
             .from(UserTable)
             .where(eq(UserTable.id, res.application.user));
@@ -52,7 +53,7 @@ export async function rejectApplication(ctx: AuthorizedContext, id: number) {
             .where(eq(UserTable.id, res.posting.agency));
 
           // Send the email notification
-          if (user?.email) {
+          if (user?.email && user.emailVerified) {
             await sendTemplateEmail(user.email, "ApplicationRejected", {
               campaignName: res.posting.title,
               brandName: brand?.name || "The brand",

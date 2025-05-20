@@ -144,6 +144,7 @@ export type Mutation = {
   rejectPosting: Scalars['Boolean']['output'];
   resetPassword: Scalars['Boolean']['output'];
   resumePosting: Scalars['Boolean']['output'];
+  sendAnnouncement: Scalars['Boolean']['output'];
   sendMessage: Scalars['Boolean']['output'];
   sendResetPasswordEmail?: Maybe<Scalars['Boolean']['output']>;
   sendReviewByAgency: Scalars['Boolean']['output'];
@@ -225,6 +226,13 @@ export type MutationResetPasswordArgs = {
 
 export type MutationResumePostingArgs = {
   postingID: Scalars['Float']['input'];
+};
+
+
+export type MutationSendAnnouncementArgs = {
+  body: Scalars['String']['input'];
+  postingID: Scalars['Float']['input'];
+  users?: InputMaybe<Array<Scalars['Float']['input']>>;
 };
 
 

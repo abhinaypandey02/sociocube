@@ -1,19 +1,21 @@
 import { AuthorizedContext } from "@backend/lib/auth/context";
 import { db } from "@backend/lib/db";
 import { sendBatchTemplateEmail } from "@backend/lib/email/send-template";
+import { ConversationMessageTable, ConversationTable } from "@graphql/Chat/db";
 import { PostingAnnouncement, PostingTable } from "@graphql/Posting/db";
 import { UserTable } from "@graphql/User/db";
-import { and, count, eq, gt } from "drizzle-orm";
+import { and, arrayContains, count, eq, gt, inArray } from "drizzle-orm";
 
 import { ApplicationStatus, ApplicationTable } from "../../Application/db";
 
 const MAX_LIMIT = 3;
 const MAX_DAILY_LIMIT = 3;
 
-export async function sendAnnouncement(
+export async function handleSendAnnouncement(
   ctx: AuthorizedContext,
   postingID: number,
   body: string,
+  userList: number[] | null,
 ) {
   const [existing] = await db
     .select({ count: count() })
@@ -42,12 +44,18 @@ export async function sendAnnouncement(
   });
 
   const users = await db
-    .select({ email: UserTable.email, name: UserTable.name })
+    .select({
+      email: UserTable.email,
+      name: UserTable.name,
+      conversation: ConversationTable.id,
+      id: UserTable.id,
+    })
     .from(ApplicationTable)
     .where(
       and(
         eq(ApplicationTable.posting, postingID),
         eq(ApplicationTable.status, ApplicationStatus.Selected),
+        userList ? inArray(ApplicationTable.user, userList) : undefined,
       ),
     )
     .innerJoin(
@@ -56,7 +64,38 @@ export async function sendAnnouncement(
         eq(UserTable.id, ApplicationTable.user),
         eq(UserTable.emailVerified, true),
       ),
+    )
+    .leftJoin(
+      ConversationTable,
+      and(
+        inArray(UserTable.id, ConversationTable.users),
+        arrayContains(ConversationTable.users, [ctx.userId]),
+      ),
     );
+
+  const createdConversations = await db
+    .insert(ConversationTable)
+    .values(
+      users
+        .filter((user) => !user.conversation)
+        .map((user) => ({
+          users: [user.id, ctx.userId],
+        })),
+    )
+    .returning({
+      conversation: ConversationTable.id,
+    });
+
+  await db.insert(ConversationMessageTable).values(
+    [...users.filter((user) => user.conversation), ...createdConversations]
+      .filter((user) => user.conversation)
+      .map(({ conversation }) => ({
+        conversation: conversation!,
+        body,
+        by: ctx.userId,
+      })),
+  );
+
   const [posting] = await db
     .select()
     .from(PostingTable)
@@ -76,4 +115,5 @@ export async function sendAnnouncement(
         },
       })),
     );
+  return true;
 }

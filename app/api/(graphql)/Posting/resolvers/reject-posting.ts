@@ -25,7 +25,7 @@ export async function rejectPosting(
       .select()
       .from(UserTable)
       .where(eq(UserTable.id, posting.agency));
-    if (agency)
+    if (agency?.emailVerified)
       await sendTemplateEmail(agency.email, "CampaignRejected", {
         campaignName: posting.title,
         reason,

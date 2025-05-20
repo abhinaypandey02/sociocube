@@ -52,7 +52,7 @@ async function handleSendEmail(
     .from(UserTable)
     .where(eq(UserTable.id, senderId));
 
-  if (recipient && sender) {
+  if (recipient?.emailVerified && sender) {
     sendTemplateEmail(recipient.email, "MessageReceived", {
       senderName: sender.name || "",
       messagePreview: messageBody,

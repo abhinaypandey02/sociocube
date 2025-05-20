@@ -93,11 +93,14 @@ export async function applyToPosting(
         if (postingDetails) {
           // Get agency/owner's email
           const [agency] = await db
-            .select({ email: UserTable.email })
+            .select({
+              email: UserTable.email,
+              emailVerified: UserTable.emailVerified,
+            })
             .from(UserTable)
             .where(eq(UserTable.id, postingDetails.agencyId));
 
-          if (agency?.email) {
+          if (agency?.email && agency?.emailVerified) {
             // Send email notification
             await sendTemplateEmail(agency.email, "ApplicationReceived", {
               campaignName: postingDetails.title,

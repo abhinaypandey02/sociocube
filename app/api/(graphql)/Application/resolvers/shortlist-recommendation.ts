@@ -46,6 +46,7 @@ export async function shortlistUser(
         const [user] = await db
           .select({
             email: UserTable.email,
+            emailVerified: UserTable.emailVerified,
           })
           .from(UserTable)
           .where(eq(UserTable.id, userID));
@@ -59,7 +60,7 @@ export async function shortlistUser(
           .where(eq(UserTable.id, ctx.userId));
 
         // Send the email notification
-        if (user?.email) {
+        if (user?.email && user.emailVerified) {
           await sendTemplateEmail(user.email, "ApplicationShortlisted", {
             campaignName: res.title,
             brandName: brand?.name || "The brand",

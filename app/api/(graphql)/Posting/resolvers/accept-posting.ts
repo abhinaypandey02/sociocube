@@ -19,7 +19,7 @@ export async function acceptPosting(postingID: number): Promise<boolean> {
       .select()
       .from(UserTable)
       .where(eq(UserTable.id, posting.agency));
-    if (agency)
+    if (agency?.emailVerified)
       await sendTemplateEmail(agency.email, "CampaignApproved", {
         campaignName: posting.title,
         campaignID: postingID,

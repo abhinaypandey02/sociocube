@@ -112,12 +112,13 @@ export async function createPosting(
 
     // Send email notification
     if (posting?.id) {
-      waitUntil(
-        sendTemplateEmail(user.email, "CampaignCreated", {
-          campaignName: newPosting.title,
-          campaignID: posting?.id,
-        }),
-      );
+      if (user.emailVerified)
+        waitUntil(
+          sendTemplateEmail(user.email, "CampaignCreated", {
+            campaignName: newPosting.title,
+            campaignID: posting?.id,
+          }),
+        );
       waitUntil(
         sendTemplateEmail("abhinaypandey02@gmail.com", "CampaignCreated", {
           campaignName: newPosting.title,

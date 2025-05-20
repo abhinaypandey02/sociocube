@@ -49,6 +49,7 @@ export async function updateShortlist(
           const [brand] = await db
             .select({
               email: UserTable.email,
+              emailVerified: UserTable.emailVerified,
             })
             .from(UserTable)
             .where(eq(UserTable.id, posting.agencyId));
@@ -63,7 +64,7 @@ export async function updateShortlist(
             .where(eq(UserTable.id, ctx.userId));
 
           // Send the email notification
-          if (brand?.email && influencer) {
+          if (brand?.email && brand.emailVerified && influencer) {
             if (accepted) {
               // Send acceptance email
               await sendTemplateEmail(brand.email, "ShortlistAccepted", {
