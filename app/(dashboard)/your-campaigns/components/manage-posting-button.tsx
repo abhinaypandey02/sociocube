@@ -20,8 +20,8 @@ export default function ManagePostingButton({
   const handleToast = () => {
     toast.success(
       status
-        ? `Successfully resumed your posting`
-        : "Your posting is now paused",
+        ? "Your posting is now paused"
+        : `Successfully resumed your posting`,
     );
     setStatus(!status);
   };
@@ -36,7 +36,7 @@ export default function ManagePostingButton({
           pausePosting({ postingID: posting.id }).catch(handleGQLErrors);
         }}
       >
-        <Pause className="text-accent" weight="fill" />
+        <Pause className="text-orange-300" weight="fill" />
       </Button>
     );
   return (
