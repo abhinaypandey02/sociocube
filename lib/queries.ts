@@ -317,8 +317,8 @@ export const IS_USERNAME_AVAILABLE = gql(`
 
 export const GET_POSTING = gql(`
   #graphql
-  query GetPosting($id: Int!) {
-    posting:getPosting(id: $id){
+  query GetPosting($id: Int!, $owned:Boolean) {
+    posting:getPosting(id: $id, owned: $owned){
         id
         gender
         maximumAge
@@ -444,7 +444,7 @@ export const GET_USER_POSTINGS = gql(`
 export const GET_POSTING_APPLICATIONS = gql(`
   #graphql
   query GetPostingApplications($postingID:Int!) {
-    posting: getPosting(id: $postingID){
+    posting: getPosting(id: $postingID, owned: true){
       title
         id  
       extraDetails
@@ -483,7 +483,7 @@ export const GET_POSTING_APPLICATIONS = gql(`
 export const GET_POSTING_SELECTED = gql(`
   #graphql
   query GetPostingSelected($postingID:Int!) {
-    posting: getPosting(id: $postingID){
+    posting: getPosting(id: $postingID, owned: true){
       title
       id  
       extraDetails
@@ -522,7 +522,7 @@ export const GET_POSTING_SELECTED = gql(`
 export const GET_POSTING_RECOMMENDATIONS = gql(`
   #graphql
   query GetPostingRecommendations($postingID:Int!) {
-    posting: getPosting(id: $postingID){
+    posting: getPosting(id: $postingID, owned: true){
       title
       externalLink
       extraDetails  

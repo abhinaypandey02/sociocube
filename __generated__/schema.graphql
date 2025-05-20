@@ -448,7 +448,7 @@ type Query {
   getFeaturedSellers: [User!]!
   getHasUserApplied(postingID: Float!): Boolean!
   getPendingReviews: [Float!]!
-  getPosting(id: Int!): Posting
+  getPosting(id: Int!, owned: Boolean): Posting
   getPostingApplications(postingID: Int!): [Application!]!
   getPostingSelected(postingID: Int!): [Application!]!
   getPostingsInReview: [Posting!]!

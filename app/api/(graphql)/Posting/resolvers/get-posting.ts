@@ -6,7 +6,7 @@ import { and, eq, getTableColumns } from "drizzle-orm";
 
 import { PostingTable } from "../db";
 
-export async function getPosting(ctx: Context, id: number) {
+export async function getPosting(ctx: Context, id: number, owned?: boolean) {
   const { eligibility } = await handleEligibility(ctx);
 
   const query = db
@@ -15,7 +15,12 @@ export async function getPosting(ctx: Context, id: number) {
       hasApplied: ctx.userId ? ApplicationTable.id : PostingTable.id,
     })
     .from(PostingTable)
-    .where(eq(PostingTable.id, id));
+    .where(
+      and(
+        eq(PostingTable.id, id),
+        owned ? eq(PostingTable.agency, ctx.userId || -1) : undefined,
+      ),
+    );
   if (ctx.userId) {
     query.leftJoin(
       ApplicationTable,

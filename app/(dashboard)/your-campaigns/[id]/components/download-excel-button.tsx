@@ -114,8 +114,8 @@ export default function DownloadExcelButton({
       }}
       type="button"
     >
-      <span className={"shrink-0"}>Download excel</span>
       <DownloadSimple size={18} />
+      <span className={"shrink-0"}>Download excel</span>
     </button>
   );
 }

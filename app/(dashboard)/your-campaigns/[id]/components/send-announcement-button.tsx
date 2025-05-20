@@ -34,8 +34,8 @@ export default function SendAnnouncementButton({
       type="button"
       disabled={count === 0}
     >
-      <span className={"shrink-0"}>Send announcement (${count}) </span>
       <Megaphone size={18} />
+      <span className={"shrink-0"}>Send announcement ({count}) </span>
     </button>
   );
 }

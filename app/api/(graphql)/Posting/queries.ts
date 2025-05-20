@@ -32,9 +32,10 @@ export class PostingQueryResolvers {
   @Query(() => PostingGQL, { nullable: true })
   getPosting(
     @Arg("id", () => Int) id: number,
+    @Arg("owned", { nullable: true }) owned: boolean,
     @Ctx() ctx: Context,
   ): Promise<PostingGQL | null | undefined> {
-    return getPosting(ctx, id);
+    return getPosting(ctx, id, owned);
   }
 
   @Authorized([Roles.Admin])
