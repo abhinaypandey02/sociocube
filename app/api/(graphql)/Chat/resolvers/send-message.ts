@@ -7,38 +7,69 @@ import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
 import { sendEvent } from "@backend/lib/socket/send-event";
 import { waitUntil } from "@vercel/functions";
-import { arrayContains, eq, desc } from "drizzle-orm";
+import { arrayContains, eq, desc, and, gt } from "drizzle-orm";
 import { getIsMessageProfanity } from "@/lib/server-actions";
 import { ConversationMessageTable, ConversationTable } from "../db";
-import { handleSendEmail } from "./send-email";
+import { sendTemplateEmail } from "@backend/lib/email/send-template";
+import { UserTable } from "../../User/db";
 
 export interface MessageProfanityCheck {
   isProfane: boolean;
 }
 
 async function shouldSendEmail(conversationID: number): Promise<boolean> {
-  const recentMessages = await db
+  const cooldownTime = new Date();
+  cooldownTime.setHours(cooldownTime.getHours() - 1);
+  const [recentMessage] = await db
     .select()
     .from(ConversationMessageTable)
-    .where(eq(ConversationMessageTable.conversation, conversationID))
+    .where(
+      and(
+        eq(ConversationMessageTable.conversation, conversationID),
+        gt(ConversationMessageTable.createdAt, cooldownTime)
+      )
+    )
     .orderBy(desc(ConversationMessageTable.createdAt))
-    .limit(2);
+    .offset(1)
+    .limit(1);
+    console.log("should send email ? ", !recentMessage);
+  return !recentMessage;
+}
 
-  if (recentMessages.length <= 1) {
-    return true;
-  } else if (recentMessages.length === 2) {
-    const currentMessage = recentMessages[0];
-    const previousMessage = recentMessages[1];
-    if (currentMessage && previousMessage) {
-      const timeDifference =
-        currentMessage.createdAt.getTime() -
-        previousMessage.createdAt.getTime();
-      const oneHourInMs = 60 * 60 * 1000;
+async function handleSendEmail(
+  recipientId: number,
+  senderId: number,
+  messageBody: string
+): Promise<void> {
+  try {
+    console.log("Sending email to recipientId:", recipientId);
+    const [recipient] = await db
+      .select()
+      .from(UserTable)
+      .where(eq(UserTable.id, recipientId))
+      .limit(1);
 
-      return timeDifference > oneHourInMs;
+    const [sender] = await db
+      .select()
+      .from(UserTable)
+      .where(eq(UserTable.id, senderId))
+      .limit(1);
+
+    const messagePreview =
+      messageBody.length > 100
+        ? `${messageBody.substring(0, 97)} ...`
+        : messageBody;
+
+    if (recipient && sender) {
+      sendTemplateEmail(recipient.email, "MessageReceived", {
+        senderName: sender.name || "",
+        messagePreview,
+        senderUsername: sender.username || "",
+      });
     }
+  } catch (error) {
+    console.error("Error sending notification email:", error);
   }
-  return false;
 }
 
 export async function handleSendMessage(
@@ -53,7 +84,8 @@ export async function handleSendMessage(
     if (result?.isProfane) {
       return false;
     }
-  } catch (error) { // allowing message to send if the profanity check fails
+  } catch (error) {
+    // allowing message to send if the profanity check fails
     console.error("Error checking profanity:", error);
   }
 
@@ -89,10 +121,14 @@ export async function handleSendMessage(
     );
     await db.insert(ConversationMessageTable).values(message);
 
-    const shouldNotify = await shouldSendEmail(conversationID);
-    if (shouldNotify) {
-      waitUntil(handleSendEmail(userID, ctx.userId, body));
-    }
+    waitUntil(
+      (async () => {
+        const shouldNotify = await shouldSendEmail(conversationID);
+        if (shouldNotify) {
+          handleSendEmail(userID, ctx.userId, body);
+        }
+      })()
+    );
 
     return true;
   }
