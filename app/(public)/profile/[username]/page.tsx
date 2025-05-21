@@ -4,21 +4,31 @@ import {
   InstagramLogo,
   SealCheck,
   TrendUp,
+  ArrowRight,
+  Cake,
+  Users,
+  Wallet,
 } from "@phosphor-icons/react/dist/ssr";
+
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 
-import { Roles } from "@/__generated__/graphql";
+import { GetUserPostingsLatestQuery, Roles } from "@/__generated__/graphql";
 import Schema from "@/app/(public)/components/schema";
 import { IconButton } from "@/components/icon-button";
 import { getMeURL, getRoute, Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
 import { queryGQL } from "@/lib/apollo-server";
-import { GET_SELLER } from "@/lib/queries";
-import { convertToAbbreviation } from "@/lib/utils";
+import { GET_SELLER, GET_USER_POSTINGS_LATEST } from "@/lib/queries";
+import { convertToAbbreviation, cn } from "@/lib/utils";
+import {
+  getAgeGroup,
+  getCurrency,
+  getPlatforms,
+} from "@/app/(dashboard)/campaigns/utils";
 
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 import Portfolio from "./components/portfolio";
@@ -41,7 +51,7 @@ export async function generateMetadata({
       username,
     },
     undefined,
-    60 * 6 * 165,
+    60 * 6 * 165
   );
 
   if (!user?.name) return {};
@@ -53,7 +63,7 @@ export async function generateMetadata({
     },
     ...getSEO(
       user.name,
-      `${convertToAbbreviation(user.instagramStats?.followers || 0)} Followers, ${getPostFrequency(user.instagramMedia || [])} Frequency, ${convertToAbbreviation(user.instagramStats?.mediaCount || 0)} posts on their Instagram account @${user.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
+      `${convertToAbbreviation(user.instagramStats?.followers || 0)} Followers, ${getPostFrequency(user.instagramMedia || [])} Frequency, ${convertToAbbreviation(user.instagramStats?.mediaCount || 0)} posts on their Instagram account @${user.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`
     ),
   };
 }
@@ -72,7 +82,23 @@ export default async function ProfilePage({
     },
     undefined,
     noCache ? 0 : 60 * 60 * 40,
-    [`profile-${username}`],
+    [`profile-${username}`]
+  );
+
+  const latestPostings =
+    user?.role === Roles.Brand || user?.role === Roles.Agency
+      ? await queryGQL(
+          GET_USER_POSTINGS_LATEST,
+          { limit: 5, username: username },
+          undefined,
+          60 * 6 * 165,
+          [`profile-${username}`]
+        )
+      : { postings: [] };
+
+  console.log(
+    "User is Brand/Agency?",
+    user?.role === Roles.Brand || user?.role === Roles.Agency
   );
   if (!user?.name) return notFound();
   return (
@@ -157,6 +183,13 @@ export default async function ProfilePage({
                       }
                       weight="fill"
                     />
+                  ) : null}
+                  {user.role === Roles.Brand || user.role === Roles.Agency ? (
+                    <span
+                      className={`text-xs text-white px-1.5 py-0.5 rounded-full bg-accent`}
+                    >
+                      {user.role}
+                    </span>
                   ) : null}
                 </h2>
                 <Link href={getRoute("Inbox") + "/" + username}>
@@ -309,6 +342,99 @@ export default async function ProfilePage({
           </div>
         )}
       </div>
+      
+      {/* latest postings */}
+
+      {latestPostings.postings.length > 0 && (
+        <div className="lg:col-span-8 mt-8">
+          <h2 className="text-sm font-medium text-gray-900">
+            Latest Campaigns
+          </h2>
+          <ul className="mx-auto max-w-6xl mt-2 divide-y divide-gray-100 grid lg:grid-cols-2 gap-5">
+            {latestPostings.postings.map((posting, i) => (
+              <Link
+                href={`${getRoute("Campaigns")}/${posting.id}`}
+                key={i}
+                className={cn(
+                  "hover:scale-[1.02] duration-500 transition-transform shadow-md rounded-xl p-5 gap-3 border border-gray-200 " +
+                    (i >= 5 ? "max-lg:hidden" : "")
+                )}
+              >
+                <div className={"flex justify-between items-center w-full"}>
+                  <div className={"flex items-center gap-2 "}>
+                    {user.photo && (
+                      <Image
+                        alt={user.name || ""}
+                        className="size-8 rounded-full object-cover"
+                        height={28}
+                        src={user.photo}
+                        width={28}
+                      />
+                    )}
+                    <h3 className="text-lg font-medium leading-7 font-poppins text-gray-800 line-clamp-1">
+                      {posting.title}
+                    </h3>
+                  </div>
+                  <ArrowRight className={"shrink-0"} size={16} />
+                </div>
+
+                <div
+                  className={
+                    "flex flex-wrap items-center gap-3 mt-3 text-sm sm:text-base"
+                  }
+                >
+                  <div>{getPlatforms(posting.platforms)}</div>
+
+                  {posting.price || posting.barter ? (
+                    <>
+                      <span className={"text-[10px] text-gray-500"}>•</span>
+                      <div className={"flex items-center gap-1"}>
+                        <Wallet />
+                        {getCurrency(
+                          posting.barter,
+                          posting.currency,
+                          posting.price
+                        )}
+                      </div>
+                    </>
+                  ) : null}
+                  {posting.minimumFollowers ? (
+                    <>
+                      <span className={"text-[10px] text-gray-500"}>•</span>
+                      <div className={"flex items-center gap-1"}>
+                        <Users />
+                        {convertToAbbreviation(posting.minimumFollowers)}+
+                      </div>
+                    </>
+                  ) : null}
+                  {posting.minimumAge || posting.maximumAge ? (
+                    <>
+                      <span className={"text-[10px] text-gray-500"}>•</span>
+                      <div className={"flex items-center gap-1"}>
+                        <Cake />
+                        {getAgeGroup(posting.minimumAge, posting.maximumAge)}
+                      </div>
+                    </>
+                  ) : null}
+
+                  {posting.applicationsCount ? (
+                    <div className="flex items-center gap-1">
+                      {posting.open ? (
+                        <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                          <div className="size-1 rounded-full bg-emerald-500" />
+                        </div>
+                      ) : null}
+                      <p className="text-xs text-gray-500">
+                        {posting.applicationsCount}+ applications
+                      </p>
+                    </div>
+                  ) : null}
+                </div>
+              </Link>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
