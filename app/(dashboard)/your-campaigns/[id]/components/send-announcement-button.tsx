@@ -32,6 +32,10 @@ export default function SendAnnouncementButton({
   const handleClick = () => {
     setIsModalOpen(true);
   };
+  const handleClose = () => {
+    setIsModalOpen(false);
+    form.reset();
+  };
   const handleSendAnnouncement = (data: FormType) => {
     const { announcement } = data;
     if (announcement) {
@@ -40,16 +44,11 @@ export default function SendAnnouncementButton({
         postingID,
       })
         .then(() => {
-          setIsModalOpen(false);
           toast.success("Announcement sent successfully");
-          form.reset();
+          handleClose();
         })
         .catch(handleGQLErrors);
     }
-  };
-  const handleClose = () => {
-    setIsModalOpen(false);
-    form.reset();
   };
   return (
     <>
