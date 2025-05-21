@@ -26,7 +26,7 @@ import Portfolio from "./components/portfolio";
 import PortfolioLinks from "./components/portfolio-links";
 import Review from "./components/review";
 import { getPostFrequency } from "./components/utils";
-import JobPostingCard from "../../components/job-posting-card";
+import JobPostingCard from "../../components/posting-card-compact";
 
 export interface ProfilePage {
   params: Promise<{ username: string }>;

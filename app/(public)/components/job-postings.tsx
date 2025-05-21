@@ -1,13 +1,10 @@
-import {
-  ArrowRight,
-  MagnifyingGlass,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import React from "react";
 
 import type { GetFeaturedSellersQuery } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
-import JobPostingCard from "./job-posting-card";
+import JobPostingCard from "./posting-card-compact";
 
 import SectionWrapper from "./section-wrapper";
 
