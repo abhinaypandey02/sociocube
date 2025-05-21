@@ -22,46 +22,61 @@ export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
     <div
       className={cn(
         params.username ? "max-lg:hidden" : "",
-        "border-r border-gray-200 flex flex-col h-full overflow-hidden",
+        "border-r border-gray-200 flex flex-col h-full overflow-hidden"
       )}
     >
       <h2 className="pb-4 pt-5 border-b border-gray-200 px-6 font-poppins text-2xl lg:text-3xl font-medium text-gray-800 flex-shrink-0">
         Messages
       </h2>
       <div className="overflow-y-auto flex-grow no-scrollbar">
-        {chats.map((chat) => (
-          <Link
-            href={`${getRoute("Inbox")}/${chat.user?.username}`}
-            key={chat.id}
-            onClick={() => setSelectedChat(chat.user?.username)}
-            className={cn(
-              "flex items-center gap-3 py-3 px-6",
-              selectedChat === chat.user?.username ? "bg-gray-50" : "",
-            )}
-          >
-            <UserImage
-              size={54}
-              photo={chat.user?.photo}
-              alt={chat.user?.name || ""}
-            />
-            <div
+        {chats.length > 0 ? (
+          chats.map((chat) => (
+            <Link
+              href={`${getRoute("Inbox")}/${chat.user?.username}`}
+              key={chat.id}
+              onClick={() => setSelectedChat(chat.user?.username)}
               className={cn(
-                "min-w-0 flex-1",
-                !chat.preview?.hasRead ? "font-semibold" : "",
+                "flex items-center gap-3 py-3 px-6",
+                selectedChat === chat.user?.username ? "bg-gray-50" : ""
               )}
             >
-              <div>{chat.user?.name}</div>
+              <UserImage
+                size={54}
+                photo={chat.user?.photo}
+                alt={chat.user?.name || ""}
+              />
               <div
                 className={cn(
-                  chat.preview?.hasRead ? "text-gray-600" : "",
-                  "text-sm truncate",
+                  "min-w-0 flex-1",
+                  !chat.preview?.hasRead ? "font-semibold" : ""
                 )}
               >
-                {chat.preview?.text}
+                <div>{chat.user?.name}</div>
+                <div
+                  className={cn(
+                    chat.preview?.hasRead ? "text-gray-600" : "",
+                    "text-sm truncate"
+                  )}
+                >
+                  {chat.preview?.text}
+                </div>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          ))
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full text-center px-6 py-10 space-y-4">
+            <p className="text-gray-600">Your message inbox is empty</p>
+            <p className="text-gray-500 text-sm">
+              Start a campaign or find creators to connect directly
+            </p>
+            <Link
+              href={getRoute("Search")}
+              className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Find Creators
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
