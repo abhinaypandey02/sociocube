@@ -7,8 +7,8 @@ import { getAllPostings } from "./resolvers/get-all-postings";
 import { getFeaturedPostings } from "./resolvers/get-featured-postings";
 import { getPosting } from "./resolvers/get-posting";
 import { getUserPostings } from "./resolvers/get-user-postings";
-import { PostingGQL } from "./type";
 import { getUserPostingsLatest } from "./resolvers/get-user-postings-latest";
+import { PostingGQL } from "./type";
 @Resolver()
 export class PostingQueryResolvers {
   @Query(() => [PostingGQL])
@@ -21,7 +21,7 @@ export class PostingQueryResolvers {
   @Query(() => [PostingGQL])
   getUserPostingsLatest(
     @Arg("limit", () => Int, { nullable: true }) limit: number = 5,
-    @Arg("username" ) username: string,
+    @Arg("username") username: string,
   ): Promise<PostingGQL[]> {
     return getUserPostingsLatest(limit, username);
   }

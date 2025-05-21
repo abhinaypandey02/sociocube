@@ -7,6 +7,8 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+
+import { PostingPlatforms } from "@/__generated__/graphql";
 import {
   getAgeGroup,
   getCurrency,
@@ -14,7 +16,6 @@ import {
 } from "@/app/(dashboard)/campaigns/utils";
 import { getRoute } from "@/constants/routes";
 import { cn, convertToAbbreviation } from "@/lib/utils";
-import { PostingPlatforms } from "@/__generated__/graphql";
 
 interface JobPostingCardProps {
   posting: {
@@ -52,7 +53,7 @@ export default function JobPostingCard({
       key={posting.id}
       className={cn(
         "block hover:scale-[1.02] duration-500 transition-transform shadow-md rounded-xl p-5 gap-3 border border-gray-200 " +
-          (index >= maxVisibleOnMobile ? "max-lg:hidden" : "")
+          (index >= maxVisibleOnMobile ? "max-lg:hidden" : ""),
       )}
     >
       <div className={"flex justify-between items-center w-full"}>

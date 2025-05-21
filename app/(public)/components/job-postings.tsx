@@ -4,8 +4,8 @@ import React from "react";
 
 import type { GetFeaturedSellersQuery } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
-import JobPostingCard from "./posting-card-compact";
 
+import JobPostingCard from "./posting-card-compact";
 import SectionWrapper from "./section-wrapper";
 
 export default function JobPostings({

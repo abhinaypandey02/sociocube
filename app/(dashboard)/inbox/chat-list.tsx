@@ -22,7 +22,7 @@ export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
     <div
       className={cn(
         params.username ? "max-lg:hidden" : "",
-        "border-r border-gray-200 flex flex-col h-full overflow-hidden"
+        "border-r border-gray-200 flex flex-col h-full overflow-hidden",
       )}
     >
       <h2 className="pb-4 pt-5 border-b border-gray-200 px-6 font-poppins text-2xl lg:text-3xl font-medium text-gray-800 flex-shrink-0">
@@ -37,7 +37,7 @@ export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
               onClick={() => setSelectedChat(chat.user?.username)}
               className={cn(
                 "flex items-center gap-3 py-3 px-6",
-                selectedChat === chat.user?.username ? "bg-gray-50" : ""
+                selectedChat === chat.user?.username ? "bg-gray-50" : "",
               )}
             >
               <UserImage
@@ -48,14 +48,14 @@ export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
               <div
                 className={cn(
                   "min-w-0 flex-1",
-                  !chat.preview?.hasRead ? "font-semibold" : ""
+                  !chat.preview?.hasRead ? "font-semibold" : "",
                 )}
               >
                 <div>{chat.user?.name}</div>
                 <div
                   className={cn(
                     chat.preview?.hasRead ? "text-gray-600" : "",
-                    "text-sm truncate"
+                    "text-sm truncate",
                   )}
                 >
                   {chat.preview?.text}

@@ -4,13 +4,12 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
 import { ApplicationTableRow } from "@/app/(dashboard)/your-campaigns/[id]/components/applications-table";
+import { Button } from "@/components/button";
+import Form from "@/components/form";
+import { Input } from "@/components/input";
+import Modal from "@/components/modal";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { SEND_ANNOUNCEMENT } from "@/lib/mutations";
-
-import Modal from "@/components/modal";
-import Form from "@/components/form";
-import { Button } from "@/components/button";
-import { Input } from "@/components/input";
 
 interface FormType {
   announcement: string;
@@ -26,7 +25,8 @@ export default function SendAnnouncementButton({
   count: number;
 }) {
   const form = useForm<FormType>();
-  const [announce, { loading: announceLoading }] = useAuthMutation(SEND_ANNOUNCEMENT);
+  const [announce, { loading: announceLoading }] =
+    useAuthMutation(SEND_ANNOUNCEMENT);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleClick = () => {
