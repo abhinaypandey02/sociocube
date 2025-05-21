@@ -1,22 +1,12 @@
 import {
   ArrowRight,
-  Cake,
   MagnifyingGlass,
-  Users,
-  Wallet,
 } from "@phosphor-icons/react/dist/ssr";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 import type { GetFeaturedSellersQuery } from "@/__generated__/graphql";
-import {
-  getAgeGroup,
-  getCurrency,
-  getPlatforms,
-} from "@/app/(dashboard)/campaigns/utils";
 import { getRoute } from "@/constants/routes";
-import { cn, convertToAbbreviation } from "@/lib/utils";
 import JobPostingCard from "./job-posting-card";
 
 import SectionWrapper from "./section-wrapper";

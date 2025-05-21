@@ -4,28 +4,22 @@ import { desc, eq, and } from "drizzle-orm";
 
 import { PostingGQL } from "../type";
 import { PostingTable } from "../db";
+import { getTableColumns } from "drizzle-orm";
 
 export async function getUserPostingsLatest(
-  limit: number,
+  limit: number = 5,
   username: string
 ): Promise<PostingGQL[]> {
-  const agencyId = await db
-    .select({ id: UserTable.id })
-    .from(UserTable)
-    .where(eq(UserTable.username, username));
-
-  if (!agencyId[0]) {
-    return [];
-  }
 
   const postings = await db
-    .select()
+    .select(getTableColumns(PostingTable))
     .from(PostingTable)
+    .innerJoin(UserTable, eq(PostingTable.agency, UserTable.id))
     .where(
       and(
         eq(PostingTable.open, true),
         eq(PostingTable.inReview, false),
-        eq(PostingTable.agency, agencyId[0].id)
+        eq(UserTable.username, username)
       )
     )
     .orderBy(desc(PostingTable.createdAt))

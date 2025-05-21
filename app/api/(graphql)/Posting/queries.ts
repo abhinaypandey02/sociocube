@@ -20,7 +20,7 @@ export class PostingQueryResolvers {
   }
   @Query(() => [PostingGQL])
   getUserPostingsLatest(
-    @Arg("limit", () => Int) limit: number,
+    @Arg("limit", () => Int, { nullable: true }) limit: number = 5,
     @Arg("username" ) username: string,
   ): Promise<PostingGQL[]> {
     return getUserPostingsLatest(limit, username);

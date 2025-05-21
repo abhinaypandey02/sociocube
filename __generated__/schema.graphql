@@ -457,7 +457,7 @@ type Query {
   getSubscription: Subscription
   getUserApplications: [Application!]!
   getUserPostings(page: Float): [Posting!]!
-  getUserPostingsLatest(limit: Int!, username: String!): [Posting!]!
+  getUserPostingsLatest(limit: Int, username: String!): [Posting!]!
   isUsernameAvailable(username: String!): Boolean!
   searchSellers(filters: SearchSellersFilters!): [User!]
   verifyEmail(token: String!): Boolean!

@@ -4,10 +4,6 @@ import {
   InstagramLogo,
   SealCheck,
   TrendUp,
-  ArrowRight,
-  Cake,
-  Users,
-  Wallet,
 } from "@phosphor-icons/react/dist/ssr";
 
 import type { Metadata } from "next";
@@ -24,11 +20,6 @@ import { getSEO } from "@/constants/seo";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_SELLER, GET_USER_POSTINGS_LATEST } from "@/lib/queries";
 import { convertToAbbreviation, cn } from "@/lib/utils";
-import {
-  getAgeGroup,
-  getCurrency,
-  getPlatforms,
-} from "@/app/(dashboard)/campaigns/utils";
 
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 import Portfolio from "./components/portfolio";

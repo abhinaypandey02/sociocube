@@ -443,7 +443,7 @@ export const GET_USER_POSTINGS = gql(`
 
 export const GET_USER_POSTINGS_LATEST = gql(`
   #graphql
-  query GetUserPostingsLatest($limit: Int!, $username: String!) {
+  query GetUserPostingsLatest($limit: Int, $username: String!) {
     postings:getUserPostingsLatest(limit: $limit, username: $username) {
       id
       maximumAge

@@ -1,7 +1,6 @@
 import {
   ArrowRight,
   Cake,
-  MagnifyingGlass,
   Users,
   Wallet,
 } from "@phosphor-icons/react/dist/ssr";
