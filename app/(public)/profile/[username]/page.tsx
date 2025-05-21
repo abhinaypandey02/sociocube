@@ -5,31 +5,44 @@ import {
   SealCheck,
   TrendUp,
 } from "@phosphor-icons/react/dist/ssr";
+
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 
-import { Roles } from "@/__generated__/graphql";
+import { GetUserPostingsLatestQuery, Roles } from "@/__generated__/graphql";
 import Schema from "@/app/(public)/components/schema";
 import { IconButton } from "@/components/icon-button";
 import { getMeURL, getRoute, Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
 import { queryGQL } from "@/lib/apollo-server";
-import { GET_SELLER } from "@/lib/queries";
-import { convertToAbbreviation } from "@/lib/utils";
+import { GET_SELLER, GET_USER_POSTINGS_LATEST } from "@/lib/queries";
+import { convertToAbbreviation, cn } from "@/lib/utils";
 
 import OnboardingCompletedModal from "./components/onboarding-completed-modal";
 import Portfolio from "./components/portfolio";
 import PortfolioLinks from "./components/portfolio-links";
 import Review from "./components/review";
 import { getPostFrequency } from "./components/utils";
+import JobPostingCard from "../../components/posting-card-compact";
 
 export interface ProfilePage {
   params: Promise<{ username: string }>;
   searchParams: Promise<{ noCache?: string }>;
 }
+
+type EnhancedPosting = GetUserPostingsLatestQuery["postings"][number] & {
+  agency: {
+    photo: string | null;
+    name: string | null;
+  };
+};
+
+type EnhancedPostingsResponse = Omit<GetUserPostingsLatestQuery, "postings"> & {
+  postings: EnhancedPosting[];
+};
 
 export async function generateMetadata({
   params,
@@ -41,7 +54,7 @@ export async function generateMetadata({
       username,
     },
     undefined,
-    60 * 6 * 165,
+    60 * 6 * 165
   );
 
   if (!user?.name) return {};
@@ -53,7 +66,7 @@ export async function generateMetadata({
     },
     ...getSEO(
       user.name,
-      `${convertToAbbreviation(user.instagramStats?.followers || 0)} Followers, ${getPostFrequency(user.instagramMedia || [])} Frequency, ${convertToAbbreviation(user.instagramStats?.mediaCount || 0)} posts on their Instagram account @${user.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
+      `${convertToAbbreviation(user.instagramStats?.followers || 0)} Followers, ${getPostFrequency(user.instagramMedia || [])} Frequency, ${convertToAbbreviation(user.instagramStats?.mediaCount || 0)} posts on their Instagram account @${user.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`
     ),
   };
 }
@@ -72,8 +85,37 @@ export default async function ProfilePage({
     },
     undefined,
     noCache ? 0 : 60 * 60 * 40,
-    [`profile-${username}`],
+    [`profile-${username}`]
   );
+
+  const isBrand = user?.role === Roles.Brand || user?.role === Roles.Agency;
+
+  const latestPostings: EnhancedPostingsResponse = isBrand
+    ? await queryGQL(
+        GET_USER_POSTINGS_LATEST,
+        { limit: 5, username: username },
+        undefined,
+        60 * 6 * 165,
+        [`profile-${username}`]
+      ).then((data) => {
+        if (data.postings) {
+          return {
+            ...data,
+            postings: data.postings.map((posting) => {
+              return {
+                ...posting,
+                agency: {
+                  photo: user.photo || null,
+                  name: user.name || null,
+                },
+              };
+            }),
+          };
+        }
+        return { postings: [] };
+      })
+    : { postings: [] };
+
   if (!user?.name) return notFound();
   return (
     <div className="mx-auto max-w-2xl px-6 lg:grid lg:max-w-(--breakpoint-xl) lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
@@ -157,6 +199,13 @@ export default async function ProfilePage({
                       }
                       weight="fill"
                     />
+                  ) : null}
+                  {isBrand ? (
+                    <span
+                      className={`text-xs text-white px-1.5 py-0.5 rounded-full bg-accent`}
+                    >
+                      {user.role}
+                    </span>
                   ) : null}
                 </h2>
                 <Link href={getRoute("Inbox") + "/" + username}>
@@ -309,6 +358,21 @@ export default async function ProfilePage({
           </div>
         )}
       </div>
+
+      {/* latest postings */}
+
+      {latestPostings.postings.length > 0 && (
+        <div className="lg:col-span-8 mt-8">
+          <h2 className="text-sm font-medium text-gray-900">
+            Latest Campaigns
+          </h2>
+          <ul className="mx-auto mt-2 space-y-4">
+            {latestPostings.postings.map((posting, i) => (
+              <JobPostingCard key={posting.id} posting={posting} index={i} />
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

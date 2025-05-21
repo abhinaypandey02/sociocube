@@ -441,6 +441,33 @@ export const GET_USER_POSTINGS = gql(`
   }
 `);
 
+export const GET_USER_POSTINGS_LATEST = gql(`
+  #graphql
+  query GetUserPostingsLatest($limit: Int, $username: String!) {
+    postings:getUserPostingsLatest(limit: $limit, username: $username) {
+      id
+      maximumAge
+      referralEarnings
+      minimumFollowers
+      applicationsCount
+      description
+      barter
+      minimumAge
+      extraDetails
+      open
+      title
+      currency
+      price
+      createdAt
+      platforms
+      updatedAt
+      deliverables
+      currencyCountry
+      inReview
+    }
+  }
+  `);
+
 export const GET_POSTING_APPLICATIONS = gql(`
   #graphql
   query GetPostingApplications($postingID:Int!) {
