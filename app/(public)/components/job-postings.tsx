@@ -37,7 +37,7 @@ export default function JobPostings({
             key={posting.id}
             posting={posting}
             index={i}
-            maxVisible={5}
+            maxVisibleOnMobile={5}
           />
         ))}
       </ul>

@@ -38,13 +38,13 @@ interface JobPostingCardProps {
     };
   };
   index: number;
-  maxVisible?: number;
+  maxVisibleOnMobile?: number;
 }
 
 export default function JobPostingCard({
   posting,
   index = 0,
-  maxVisible = 5,
+  maxVisibleOnMobile = 5,
 }: JobPostingCardProps) {
   return (
     <Link
@@ -52,7 +52,7 @@ export default function JobPostingCard({
       key={posting.id}
       className={cn(
         "block hover:scale-[1.02] duration-500 transition-transform shadow-md rounded-xl p-5 gap-3 border border-gray-200 " +
-          (index >= maxVisible ? "max-lg:hidden" : "")
+          (index >= maxVisibleOnMobile ? "max-lg:hidden" : "")
       )}
     >
       <div className={"flex justify-between items-center w-full"}>
