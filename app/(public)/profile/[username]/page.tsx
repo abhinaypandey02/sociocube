@@ -96,10 +96,6 @@ export default async function ProfilePage({
         )
       : { postings: [] };
 
-  console.log(
-    "User is Brand/Agency?",
-    user?.role === Roles.Brand || user?.role === Roles.Agency
-  );
   if (!user?.name) return notFound();
   return (
     <div className="mx-auto max-w-2xl px-6 lg:grid lg:max-w-(--breakpoint-xl) lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
@@ -350,13 +346,13 @@ export default async function ProfilePage({
           <h2 className="text-sm font-medium text-gray-900">
             Latest Campaigns
           </h2>
-          <ul className="mx-auto max-w-6xl mt-2 divide-y divide-gray-100 grid lg:grid-cols-2 gap-5">
+          <ul className="mx-auto mt-2 space-y-4">
             {latestPostings.postings.map((posting, i) => (
               <Link
                 href={`${getRoute("Campaigns")}/${posting.id}`}
                 key={i}
                 className={cn(
-                  "hover:scale-[1.02] duration-500 transition-transform shadow-md rounded-xl p-5 gap-3 border border-gray-200 " +
+                  "block hover:scale-[1.02] duration-500 transition-transform shadow-md rounded-xl p-5 gap-3 border border-gray-200 " +
                     (i >= 5 ? "max-lg:hidden" : "")
                 )}
               >
