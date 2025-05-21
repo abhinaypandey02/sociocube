@@ -88,32 +88,33 @@ export default async function ProfilePage({
     [`profile-${username}`]
   );
 
-  const latestPostings: EnhancedPostingsResponse =
-    user?.role === Roles.Brand || user?.role === Roles.Agency
-      ? await queryGQL(
-          GET_USER_POSTINGS_LATEST,
-          { limit: 5, username: username },
-          undefined,
-          60 * 6 * 165,
-          [`profile-${username}`]
-        ).then((data) => {
-          if (data.postings) {
-            return {
-              ...data,
-              postings: data.postings.map((posting) => {
-                return {
-                  ...posting,
-                  agency: {
-                    photo: user.photo || null,
-                    name: user.name || null,
-                  },
-                };
-              }),
-            };
-          }
-          return { postings: [] };
-        })
-      : { postings: [] };
+  const isBrand = user?.role === Roles.Brand || user?.role === Roles.Agency;
+
+  const latestPostings: EnhancedPostingsResponse = isBrand
+    ? await queryGQL(
+        GET_USER_POSTINGS_LATEST,
+        { limit: 5, username: username },
+        undefined,
+        60 * 6 * 165,
+        [`profile-${username}`]
+      ).then((data) => {
+        if (data.postings) {
+          return {
+            ...data,
+            postings: data.postings.map((posting) => {
+              return {
+                ...posting,
+                agency: {
+                  photo: user.photo || null,
+                  name: user.name || null,
+                },
+              };
+            }),
+          };
+        }
+        return { postings: [] };
+      })
+    : { postings: [] };
 
   if (!user?.name) return notFound();
   return (
@@ -199,7 +200,7 @@ export default async function ProfilePage({
                       weight="fill"
                     />
                   ) : null}
-                  {user.role === Roles.Brand || user.role === Roles.Agency ? (
+                  {isBrand ? (
                     <span
                       className={`text-xs text-white px-1.5 py-0.5 rounded-full bg-accent`}
                     >
