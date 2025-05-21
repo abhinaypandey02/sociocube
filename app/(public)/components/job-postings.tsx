@@ -17,6 +17,7 @@ import {
 } from "@/app/(dashboard)/campaigns/utils";
 import { getRoute } from "@/constants/routes";
 import { cn, convertToAbbreviation } from "@/lib/utils";
+import JobPostingCard from "./job-posting-card";
 
 import SectionWrapper from "./section-wrapper";
 
@@ -42,85 +43,12 @@ export default function JobPostings({
     >
       <ul className="mx-auto max-w-6xl divide-y divide-gray-100 grid lg:grid-cols-2 gap-5">
         {postings.map((posting, i) => (
-          <Link
-            href={`${getRoute("Campaigns")}/${posting.id}`}
+          <JobPostingCard
             key={posting.id}
-            className={cn(
-              "hover:scale-[1.02] duration-500 transition-transform shadow-md rounded-xl p-5 gap-3 border border-gray-200 " +
-                (i >= 5 ? "max-lg:hidden" : ""),
-            )}
-          >
-            <div className={"flex justify-between items-center w-full"}>
-              <div className={"flex items-center gap-2 "}>
-                {posting.agency.photo && (
-                  <Image
-                    alt={posting.agency.name || ""}
-                    className="size-8 rounded-full object-cover"
-                    height={28}
-                    src={posting.agency.photo}
-                    width={28}
-                  />
-                )}
-                <h3 className="text-lg font-medium leading-7 font-poppins text-gray-800 line-clamp-1">
-                  {posting.title}
-                </h3>
-              </div>
-              <ArrowRight className={"shrink-0"} size={16} />
-            </div>
-
-            <div
-              className={
-                "flex flex-wrap items-center gap-3 mt-3 text-sm sm:text-base"
-              }
-            >
-              <div>{getPlatforms(posting.platforms)}</div>
-
-              {posting.price || posting.barter ? (
-                <>
-                  <span className={"text-[10px] text-gray-500"}>•</span>
-                  <div className={"flex items-center gap-1"}>
-                    <Wallet />
-                    {getCurrency(
-                      posting.barter,
-                      posting.currency,
-                      posting.price,
-                    )}
-                  </div>
-                </>
-              ) : null}
-              {posting.minimumFollowers ? (
-                <>
-                  <span className={"text-[10px] text-gray-500"}>•</span>
-                  <div className={"flex items-center gap-1"}>
-                    <Users />
-                    {convertToAbbreviation(posting.minimumFollowers)}+
-                  </div>
-                </>
-              ) : null}
-              {posting.minimumAge || posting.maximumAge ? (
-                <>
-                  <span className={"text-[10px] text-gray-500"}>•</span>
-                  <div className={"flex items-center gap-1"}>
-                    <Cake />
-                    {getAgeGroup(posting.minimumAge, posting.maximumAge)}
-                  </div>
-                </>
-              ) : null}
-
-              {posting.applicationsCount ? (
-                <div className="flex items-center gap-1">
-                  {posting.open ? (
-                    <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                      <div className="size-1 rounded-full bg-emerald-500" />
-                    </div>
-                  ) : null}
-                  <p className="text-xs text-gray-500">
-                    {posting.applicationsCount}+ applications
-                  </p>
-                </div>
-              ) : null}
-            </div>
-          </Link>
+            posting={posting}
+            index={i}
+            maxVisible={5}
+          />
         ))}
       </ul>
       <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-sm md:hidden">

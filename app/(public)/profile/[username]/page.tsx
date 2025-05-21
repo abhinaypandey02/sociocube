@@ -35,11 +35,23 @@ import Portfolio from "./components/portfolio";
 import PortfolioLinks from "./components/portfolio-links";
 import Review from "./components/review";
 import { getPostFrequency } from "./components/utils";
+import JobPostingCard from "../../components/job-posting-card";
 
 export interface ProfilePage {
   params: Promise<{ username: string }>;
   searchParams: Promise<{ noCache?: string }>;
 }
+
+type EnhancedPosting = GetUserPostingsLatestQuery["postings"][number] & {
+  agency: {
+    photo: string | null;
+    name: string | null;
+  };
+};
+
+type EnhancedPostingsResponse = Omit<GetUserPostingsLatestQuery, "postings"> & {
+  postings: EnhancedPosting[];
+};
 
 export async function generateMetadata({
   params,
@@ -85,7 +97,7 @@ export default async function ProfilePage({
     [`profile-${username}`]
   );
 
-  const latestPostings =
+  const latestPostings: EnhancedPostingsResponse =
     user?.role === Roles.Brand || user?.role === Roles.Agency
       ? await queryGQL(
           GET_USER_POSTINGS_LATEST,
@@ -93,7 +105,23 @@ export default async function ProfilePage({
           undefined,
           60 * 6 * 165,
           [`profile-${username}`]
-        )
+        ).then((data) => {
+          if (data.postings) {
+            return {
+              ...data,
+              postings: data.postings.map((posting) => {
+                return {
+                  ...posting,
+                  agency: {
+                    photo: user.photo || null,
+                    name: user.name || null,
+                  },
+                };
+              }),
+            };
+          }
+          return { postings: [] };
+        })
       : { postings: [] };
 
   if (!user?.name) return notFound();
@@ -338,7 +366,7 @@ export default async function ProfilePage({
           </div>
         )}
       </div>
-      
+
       {/* latest postings */}
 
       {latestPostings.postings.length > 0 && (
@@ -348,85 +376,7 @@ export default async function ProfilePage({
           </h2>
           <ul className="mx-auto mt-2 space-y-4">
             {latestPostings.postings.map((posting, i) => (
-              <Link
-                href={`${getRoute("Campaigns")}/${posting.id}`}
-                key={i}
-                className={cn(
-                  "block hover:scale-[1.02] duration-500 transition-transform shadow-md rounded-xl p-5 gap-3 border border-gray-200 " +
-                    (i >= 5 ? "max-lg:hidden" : "")
-                )}
-              >
-                <div className={"flex justify-between items-center w-full"}>
-                  <div className={"flex items-center gap-2 "}>
-                    {user.photo && (
-                      <Image
-                        alt={user.name || ""}
-                        className="size-8 rounded-full object-cover"
-                        height={28}
-                        src={user.photo}
-                        width={28}
-                      />
-                    )}
-                    <h3 className="text-lg font-medium leading-7 font-poppins text-gray-800 line-clamp-1">
-                      {posting.title}
-                    </h3>
-                  </div>
-                  <ArrowRight className={"shrink-0"} size={16} />
-                </div>
-
-                <div
-                  className={
-                    "flex flex-wrap items-center gap-3 mt-3 text-sm sm:text-base"
-                  }
-                >
-                  <div>{getPlatforms(posting.platforms)}</div>
-
-                  {posting.price || posting.barter ? (
-                    <>
-                      <span className={"text-[10px] text-gray-500"}>•</span>
-                      <div className={"flex items-center gap-1"}>
-                        <Wallet />
-                        {getCurrency(
-                          posting.barter,
-                          posting.currency,
-                          posting.price
-                        )}
-                      </div>
-                    </>
-                  ) : null}
-                  {posting.minimumFollowers ? (
-                    <>
-                      <span className={"text-[10px] text-gray-500"}>•</span>
-                      <div className={"flex items-center gap-1"}>
-                        <Users />
-                        {convertToAbbreviation(posting.minimumFollowers)}+
-                      </div>
-                    </>
-                  ) : null}
-                  {posting.minimumAge || posting.maximumAge ? (
-                    <>
-                      <span className={"text-[10px] text-gray-500"}>•</span>
-                      <div className={"flex items-center gap-1"}>
-                        <Cake />
-                        {getAgeGroup(posting.minimumAge, posting.maximumAge)}
-                      </div>
-                    </>
-                  ) : null}
-
-                  {posting.applicationsCount ? (
-                    <div className="flex items-center gap-1">
-                      {posting.open ? (
-                        <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                          <div className="size-1 rounded-full bg-emerald-500" />
-                        </div>
-                      ) : null}
-                      <p className="text-xs text-gray-500">
-                        {posting.applicationsCount}+ applications
-                      </p>
-                    </div>
-                  ) : null}
-                </div>
-              </Link>
+              <JobPostingCard key={posting.id} posting={posting} index={i} />
             ))}
           </ul>
         </div>
