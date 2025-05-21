@@ -72,7 +72,7 @@ export default function SendAnnouncementButton({
             type="submit"
           >
             <span className={"shrink-0 pr-2"}> Send </span>
-            <PaperPlaneTilt className={"text-gray-800"} size={16} />
+            <PaperPlaneTilt size={16} />
           </Button>
         </Form>
       </Modal>
