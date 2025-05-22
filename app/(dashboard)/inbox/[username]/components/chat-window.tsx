@@ -100,42 +100,6 @@ export default function ChatWindow({
     };
   }, [chat.id, user]);
 
-  // useEffect(() => {
-  //   const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY || "", {
-  //     cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "",
-  //     channelAuthorization: {
-  //       endpoint: `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/pusher`,
-  //       transport: "ajax",
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     },
-  //   });
-
-  //   pusher.subscribe(getUserChannelName(chat.id));
-  //   pusher.bind(
-  //     NEW_MESSAGE,
-  //     (message: NonNullable<GetChatQuery["chat"]>["messages"][number]) => {
-  //       if (!user) return;
-  //       if (message.by !== user.id) {
-  //         void readMessage({
-  //           conversationID: chat.id,
-  //         });
-  //         setMessages((old) => [
-  //           ...old,
-  //           {
-  //             body: message.body,
-  //             by: message.by,
-  //             createdAt: message.createdAt,
-  //           },
-  //         ]);
-  //       }
-  //     },
-  //   );
-  //   return () => {
-  //     pusher.unbind();
-  //     pusher.unsubscribe(getUserChannelName(chat.id));
-  //   };
-  // }, [chat.id, readMessage, token, user]);
-
   return (
     <div className="h-full flex flex-col">
       <div className="grow space-y-2 overflow-y-auto no-scrollbar p-4">
