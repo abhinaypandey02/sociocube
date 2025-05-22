@@ -1,6 +1,6 @@
 "use client";
 import {
-  getConversationChannelName,
+  getUserChannelName,
   NEW_MESSAGE,
 } from "@backend/(rest)/pusher/utils";
 import { PaperPlaneTilt } from "@phosphor-icons/react";
@@ -81,43 +81,60 @@ export default function ChatWindow({
         conversationID: chat.id,
       });
     }
+    const handleNewMessage = (event: CustomEvent) => {
+      const detail = event.detail;
+        setMessages(prev => [
+          ...prev,
+          {
+            body: detail.message.body,
+            by: detail.message.by,
+            createdAt: detail.message.createdAt,
+          },
+        ])
+    };
+    
+    window.addEventListener('new-message-received', handleNewMessage as EventListener);
+    
+    return () => {
+      window.removeEventListener('new-message-received', handleNewMessage as EventListener);
+    };
   }, [chat.id, user]);
 
-  useEffect(() => {
-    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY || "", {
-      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "",
-      channelAuthorization: {
-        endpoint: `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/pusher`,
-        transport: "ajax",
-        headers: { Authorization: `Bearer ${token}` },
-      },
-    });
+  // useEffect(() => {
+  //   const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY || "", {
+  //     cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "",
+  //     channelAuthorization: {
+  //       endpoint: `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/pusher`,
+  //       transport: "ajax",
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     },
+  //   });
 
-    pusher.subscribe(getConversationChannelName(chat.id));
-    pusher.bind(
-      NEW_MESSAGE,
-      (message: NonNullable<GetChatQuery["chat"]>["messages"][number]) => {
-        if (!user) return;
-        if (message.by !== user.id) {
-          void readMessage({
-            conversationID: chat.id,
-          });
-          setMessages((old) => [
-            ...old,
-            {
-              body: message.body,
-              by: message.by,
-              createdAt: message.createdAt,
-            },
-          ]);
-        }
-      },
-    );
-    return () => {
-      pusher.unbind();
-      pusher.unsubscribe(getConversationChannelName(chat.id));
-    };
-  }, [chat.id, readMessage, token, user]);
+  //   pusher.subscribe(getUserChannelName(chat.id));
+  //   pusher.bind(
+  //     NEW_MESSAGE,
+  //     (message: NonNullable<GetChatQuery["chat"]>["messages"][number]) => {
+  //       if (!user) return;
+  //       if (message.by !== user.id) {
+  //         void readMessage({
+  //           conversationID: chat.id,
+  //         });
+  //         setMessages((old) => [
+  //           ...old,
+  //           {
+  //             body: message.body,
+  //             by: message.by,
+  //             createdAt: message.createdAt,
+  //           },
+  //         ]);
+  //       }
+  //     },
+  //   );
+  //   return () => {
+  //     pusher.unbind();
+  //     pusher.unsubscribe(getUserChannelName(chat.id));
+  //   };
+  // }, [chat.id, readMessage, token, user]);
 
   return (
     <div className="h-full flex flex-col">

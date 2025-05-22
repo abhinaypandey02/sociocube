@@ -7,10 +7,18 @@ import { GetChatsQuery } from "@/__generated__/graphql";
 import UserImage from "@/components/user-image";
 import { getRoute } from "@/constants/routes";
 import { cn } from "@/lib/utils";
+import Pusher from "pusher-js";
+import { getUserChannelName } from "@/app/api/(rest)/pusher/utils";
+import { NEW_MESSAGE } from "@/app/api/(rest)/pusher/utils";
+import { useToken, useUser } from "@/lib/auth-client";
+import { GetChatQuery } from "@/__generated__/graphql";
 
 export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
   const params = useParams();
   const [selectedChat, setSelectedChat] = useState<string | null>();
+  const [user] = useUser();
+  const token = useToken();
+  const [chatList, setChatList] = useState<GetChatsQuery["chats"]>(chats);
   useEffect(() => {
     const username = params.username;
     if (typeof username === "string") {
@@ -18,6 +26,58 @@ export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
     }
     if (!username) setSelectedChat(undefined);
   }, [params]);
+
+  useEffect(() => {
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY || "", {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "",
+      channelAuthorization: {
+        endpoint: `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/pusher`,
+        transport: "ajax",
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    });
+
+    if (user) {
+      pusher.subscribe(getUserChannelName(user.id));
+      pusher.bind(
+        NEW_MESSAGE,
+        (
+          message: NonNullable<GetChatQuery["chat"]>["messages"][number] & {
+            conversation: number;
+            username: string;
+          }
+        ) => {
+            setChatList((old) => {
+              const chat = old.find(
+                (chat) => chat.id === message.conversation
+              );
+              if (!chat) return old;
+              chat.preview = {
+                text: message.body,
+                hasRead: selectedChat === message.username,
+                at: message.createdAt,
+              };
+              return [...old];
+            })
+          if (selectedChat === message.username && message.by !== user.id) {
+            const event = new CustomEvent("new-message-received", {
+            detail: {
+              message,
+            },
+          });
+          window.dispatchEvent(event);
+          }
+        }
+      );
+      return () => {
+        pusher.unbind();
+        if (user) {
+          pusher.unsubscribe(getUserChannelName(user.id));
+        }
+      };
+    }
+  }, [token, user]);
+
   return (
     <div
       className={cn(
@@ -29,8 +89,8 @@ export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
         Messages
       </h2>
       <div className="overflow-y-auto flex-grow no-scrollbar">
-        {chats.length > 0 ? (
-          chats.map((chat) => (
+        {chatList.length > 0 ? (
+          chatList.map((chat) => (
             <Link
               href={`${getRoute("Inbox")}/${chat.user?.username}`}
               key={chat.id}

@@ -425,7 +425,7 @@ enum PostingPlatforms {
 
 type Preview {
   at: Float!
-  hasRead: Float!
+  hasRead: Boolean!
   text: String!
 }
 

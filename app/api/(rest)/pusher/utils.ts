@@ -1,6 +1,6 @@
 export const NEW_MESSAGE = "new-message";
 
-const CONVERSATION_CHANNEL_NAME_PREFIX = "private-conversation-";
-export function getConversationChannelName(conversation: number) {
-  return `${CONVERSATION_CHANNEL_NAME_PREFIX}${conversation}`;
+const User_CHANNEL_NAME_PREFIX = "private-user-";
+export function getUserChannelName(userId: number) {
+  return `${User_CHANNEL_NAME_PREFIX}${userId}`;
 }

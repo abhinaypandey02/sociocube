@@ -1,5 +1,5 @@
 import {
-  getConversationChannelName,
+  getUserChannelName,
   NEW_MESSAGE,
 } from "@backend/(rest)/pusher/utils";
 import { AuthorizedContext } from "@backend/lib/auth/context";
@@ -124,7 +124,7 @@ export async function handleSendAnnouncement(
   );
   await sendEvent(
     conversations.map((conversation) => ({
-      channel: getConversationChannelName(conversation),
+      channel: getUserChannelName(conversation),
       name: NEW_MESSAGE,
       data: {
         conversation,
