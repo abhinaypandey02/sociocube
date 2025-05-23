@@ -1,7 +1,4 @@
-import {
-  getUserChannelName,
-  NEW_MESSAGE,
-} from "@backend/(rest)/pusher/utils";
+import { getUserChannelName, NEW_MESSAGE } from "@backend/(rest)/pusher/utils";
 import { AuthorizedContext } from "@backend/lib/auth/context";
 import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
@@ -21,13 +18,13 @@ export async function handleSendAnnouncement(
   ctx: AuthorizedContext,
   postingID: number,
   body: string,
-  apps: number[] | null,
+  apps: number[] | null
 ) {
   const [posting] = await db
     .select()
     .from(PostingTable)
     .where(
-      and(eq(PostingTable.id, postingID), eq(PostingTable.agency, ctx.userId)),
+      and(eq(PostingTable.id, postingID), eq(PostingTable.agency, ctx.userId))
     )
     .innerJoin(UserTable, eq(UserTable.id, PostingTable.agency));
   if (!posting) throw GQLError(400, "Posting not found");
@@ -39,7 +36,7 @@ export async function handleSendAnnouncement(
   if (existing && existing.count >= SEND_ANNOUNCEMENT_MAX_LIMIT)
     throw GQLError(
       400,
-      `You can only send ${SEND_ANNOUNCEMENT_MAX_LIMIT} announcements per posting.`,
+      `You can only send ${SEND_ANNOUNCEMENT_MAX_LIMIT} announcements per posting.`
     );
 
   const yesterday = new Date();
@@ -50,13 +47,13 @@ export async function handleSendAnnouncement(
     .where(
       and(
         eq(PostingAnnouncement.agency, ctx.userId),
-        gt(PostingAnnouncement.createdAt, yesterday),
-      ),
+        gt(PostingAnnouncement.createdAt, yesterday)
+      )
     );
   if (daily && daily.count >= MAX_DAILY_LIMIT)
     throw GQLError(
       400,
-      `You can only send ${MAX_DAILY_LIMIT} announcement per day. Please try again tomorrow.`,
+      `You can only send ${MAX_DAILY_LIMIT} announcement per day. Please try again tomorrow.`
     );
 
   await db.insert(PostingAnnouncement).values({
@@ -76,19 +73,19 @@ export async function handleSendAnnouncement(
       and(
         eq(ApplicationTable.posting, postingID),
         eq(ApplicationTable.status, ApplicationStatus.Selected),
-        apps ? inArray(ApplicationTable.id, apps) : undefined,
-      ),
+        apps ? inArray(ApplicationTable.id, apps) : undefined
+      )
     )
     .innerJoin(
       UserTable,
       and(
         eq(UserTable.id, ApplicationTable.user),
-        eq(UserTable.emailVerified, true),
-      ),
+        eq(UserTable.emailVerified, true)
+      )
     )
     .leftJoin(
       ConversationTable,
-      sql`array[${UserTable.id}, ${ctx.userId}] <@ ${ConversationTable.users}`,
+      sql`array[${UserTable.id}, ${ctx.userId}] <@ ${ConversationTable.users}`
     );
 
   if (!users.length) throw GQLError(400, "No users to send announcement to");
@@ -97,41 +94,51 @@ export async function handleSendAnnouncement(
   const usersWithoutConversation = users.filter((user) => !user.conversation);
 
   const createdConversations = usersWithoutConversation.length
-    ? await db
-        .insert(ConversationTable)
-        .values(
-          users
-            .filter((user) => !user.conversation)
-            .map((user) => ({
-              users: [user.id, ctx.userId],
-            })),
-        )
-        .returning({
-          conversation: ConversationTable.id,
-        })
-    : [];
+  ? await db
+      .insert(ConversationTable)
+      .values(
+        usersWithoutConversation.map(user => ({
+          users: [user.id, ctx.userId],
+        }))
+      )
+      .returning({
+        conversation: ConversationTable.id,
+        users: ConversationTable.users,
+      })
+      .then(results => results.map(result => {
+        const otherUserId = result.users?.find(id => id !== ctx.userId);
+        if (otherUserId === undefined) {
+          throw new Error("Conversation created without valid user ID");
+        }
+        return {
+          conversation: result.conversation,
+          id: otherUserId, // Now guaranteed to be a number
+        };
+      }))
+  : [];
 
-  const conversations = [...usersWithConversation, ...createdConversations]
-    .map(({ conversation }) => conversation)
-    .filter(Boolean) as number[];
+  const conversationsWithIds = [...usersWithConversation, ...createdConversations]
+    .map(({ conversation, id }) => ({ conversation, id }))
+    .filter((obj) => Boolean(obj.conversation));
 
   await db.insert(ConversationMessageTable).values(
-    conversations.map((conversation) => ({
-      conversation: conversation!,
+    conversationsWithIds.map((conversation) => ({
+      conversation: conversation.conversation!,
       body,
       by: ctx.userId,
-    })),
+    }))
   );
   await sendEvent(
-    conversations.map((conversation) => ({
-      channel: getUserChannelName(conversation),
+    conversationsWithIds.map((item) => ({
+      channel: getUserChannelName(item.id),
       name: NEW_MESSAGE,
       data: {
-        conversation,
+        conversation: item.conversation,
         body,
         by: ctx.userId,
+        username: posting.user.username,
       },
-    })),
+    }))
   );
   if (posting?.user.username)
     await sendBatchTemplateEmail(
