@@ -6,6 +6,8 @@ export enum SubscriptionPlan {
   Plus = "Plus",
 }
 
+export const FREE_SEARCH_LIMIT = 2;
+
 export enum SubscriptionPlanStatus {
   Pending = "pending",
   Active = "active",

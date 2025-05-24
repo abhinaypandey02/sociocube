@@ -9,6 +9,9 @@ import {
   notInArray,
 } from "drizzle-orm";
 import { Field, InputType } from "type-graphql";
+import GQLError from "@/app/api/lib/constants/errors";
+import { isSearchAllowed } from "../utils";
+import { FREE_SEARCH_LIMIT } from "@/app/api/lib/constants/plans";
 
 import { Context } from "@/app/api/lib/auth/context";
 import categories from "@/constants/categories";
@@ -53,9 +56,16 @@ export async function handleSearchSellers(
   { query }: SearchSellersFiltersInput,
 ) {
   if (!query || !ctx.userId) return getDefaultCreators();
-  const filters = await getGroqResponse<UserSearchFilters>(PROMPT, query);
-  if (!filters) return getDefaultCreators();
-  return getFilteredUsers(filters, query);
+  if (await isSearchAllowed(ctx.userId)) {
+    const filters = await getGroqResponse<UserSearchFilters>(PROMPT, query);
+    if (!filters) return getDefaultCreators();
+    return getFilteredUsers(filters, query);
+  } else {
+    throw GQLError(
+      400,
+      `Only ${FREE_SEARCH_LIMIT} searches allowed in the free plan. Please subscribe to Sociocube Plus to continue searching.`,
+    );
+  }
 }
 
 const PROMPT = `Need to transform the given search query into the following JSON format
