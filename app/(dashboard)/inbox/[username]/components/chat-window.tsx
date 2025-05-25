@@ -1,8 +1,5 @@
 "use client";
-import {
-  getUserChannelName,
-  NEW_MESSAGE,
-} from "@backend/(rest)/pusher/utils";
+import { getUserChannelName, NEW_MESSAGE } from "@backend/(rest)/pusher/utils";
 import { PaperPlaneTilt } from "@phosphor-icons/react";
 import Pusher from "pusher-js";
 import React, { useEffect, useState } from "react";
@@ -81,24 +78,52 @@ export default function ChatWindow({
         conversationID: chat.id,
       });
     }
-    const handleNewMessage = (event: CustomEvent) => {
-      const detail = event.detail;
-        setMessages(prev => [
-          ...prev,
-          {
-            body: detail.message.body,
-            by: detail.message.by,
-            createdAt: detail.message.createdAt,
-          },
-        ])
-    };
-    
-    window.addEventListener('new-message-received', handleNewMessage as EventListener);
-    
-    return () => {
-      window.removeEventListener('new-message-received', handleNewMessage as EventListener);
-    };
   }, [chat.id, user]);
+
+  useEffect(() => {
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY || "", {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "",
+      channelAuthorization: {
+        endpoint: `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/pusher`,
+        transport: "ajax",
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    });
+
+    if (user) {
+      pusher.subscribe(getUserChannelName(user.id));
+      pusher.bind(
+        NEW_MESSAGE,
+        (
+          message: NonNullable<GetChatQuery["chat"]>["messages"][number] & {
+            conversation: number;
+            username: string;
+          }
+        ) => {
+          if (message.conversation !== chat.id) return;
+          void readMessage({
+            conversationID: chat.id,
+          });
+          setMessages((old) => [
+            ...old,
+            {
+              body: message.body,
+              createdAt: message.createdAt,
+              by: message.by,
+              loading: false,
+              failed: false,
+            },
+          ]);
+        }
+      );
+      return () => {
+        pusher.unbind();
+        if (user) {
+          pusher.unsubscribe(getUserChannelName(user.id));
+        }
+      };
+    }
+  }, [token, user, chat.id]);
 
   return (
     <div className="h-full flex flex-col">

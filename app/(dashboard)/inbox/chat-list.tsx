@@ -47,26 +47,16 @@ export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
             username: string;
           }
         ) => {
-            setChatList((old) => {
-              const chat = old.find(
-                (chat) => chat.id === message.conversation
-              );
-              if (!chat) return old;
-              chat.preview = {
-                text: message.body,
-                hasRead: selectedChat === message.username,
-                at: message.createdAt,
-              };
-              return [...old];
-            })
-          if (selectedChat === message.username && message.by !== user.id) {
-            const event = new CustomEvent("new-message-received", {
-            detail: {
-              message,
-            },
+          setChatList((old) => {
+            const chat = old.find((chat) => chat.id === message.conversation);
+            if (!chat) return old;
+            chat.preview = {
+              text: message.body,
+              hasRead: selectedChat === message.username,
+              at: message.createdAt,
+            };
+            return [...old];
           });
-          window.dispatchEvent(event);
-          }
         }
       );
       return () => {
