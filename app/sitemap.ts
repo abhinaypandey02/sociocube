@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { getBlogPosts } from "@/app/(public)/blogs/utils";
 import { Route } from "@/constants/routes";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -50,9 +51,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     })),
   );
+
   routes.push(
     ...campaigns.map((user) => ({
       url: `${Route.Campaigns}/${user}`,
+      lastModified: new Date(),
+      changeFrequency:
+        "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
+      priority: 0.9,
+    })),
+  );
+  routes.push(
+    ...getBlogPosts().map((blog) => ({
+      url: `${Route.Blogs}/${blog?.id}`,
       lastModified: new Date(),
       changeFrequency:
         "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
