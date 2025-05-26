@@ -11,7 +11,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 
-import { GetUserPostingsLatestQuery, Roles } from "@/__generated__/graphql";
+import { Roles } from "@/__generated__/graphql";
 import Schema from "@/app/(public)/components/schema";
 import { IconButton } from "@/components/icon-button";
 import { getMeURL, getRoute, Route } from "@/constants/routes";
@@ -31,17 +31,6 @@ export interface ProfilePage {
   params: Promise<{ username: string }>;
   searchParams: Promise<{ noCache?: string }>;
 }
-
-type EnhancedPosting = GetUserPostingsLatestQuery["postings"][number] & {
-  agency: {
-    photo: string | null;
-    name: string | null;
-  };
-};
-
-type EnhancedPostingsResponse = Omit<GetUserPostingsLatestQuery, "postings"> & {
-  postings: EnhancedPosting[];
-};
 
 export async function generateMetadata({
   params,
@@ -64,7 +53,7 @@ export async function generateMetadata({
       }/${username}`,
     },
     ...getSEO(
-      user.name,
+      `${user.name} - ${user.location?.city}, ${user.location?.country}`,
       `${convertToAbbreviation(user.instagramStats?.followers || 0)} Followers, ${getPostFrequency(user.instagramMedia || [])} Frequency, ${convertToAbbreviation(user.instagramStats?.mediaCount || 0)} posts on their Instagram account @${user.instagramStats?.username}. Join for free now to connect with brands for collaboration opportunities.`,
     ),
   };
