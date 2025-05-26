@@ -13,44 +13,44 @@ import SectionWrapper from "./section-wrapper";
 
 const faqs = [
   {
-    question: "What is Sociocube?",
+    question: "How do brands find UGC creators online?",
     answer:
-      "Sociocube is the biggest influencer marketing platform that's open for all. It’s the only place where brands and creators can connect with each other completely free. We’ve built powerful AI features like AI search and AI campaign creation to make collaborations smarter and faster. Every creator also gets a personal dashboard with a portfolio builder, link-in-bio tool, and performance insights.",
+      "Brands typically find UGC creators using creator discovery platforms like Sociocube, where they can filter by niche, location, followers, and engagement rate. Some also use social media search tools or influencer databases, but platforms with built-in campaign tools offer a faster and more reliable way to connect.",
   },
   {
-    question: "Who can join Sociocube?",
+    question: "What is the best way to earn money as a content creator?",
     answer:
-      "Anyone and everyone! The only requirement for creators is to have a public Instagram account. For brands, not even that is needed. There are no follower count restrictions—just sign up and start connecting.",
+      "The best way to earn money as a content creator is by joining UGC and influencer marketing platforms that post active campaigns from brands. These platforms let you apply for paid collaborations, create UGC for products, and even negotiate long-term deals without needing an agency.",
   },
   {
-    question: "Is Sociocube free to use?",
+    question: "What is a UGC campaign?",
     answer:
-      "Yes—Sociocube is totally free for creators. Brands can also use it for free with full access to basic features. For higher usage levels, a small subscription fee helps support the AI tools, but there’s also a 7-day free trial for premium features. You’ll always be able to get started and collaborate without paying a rupee.",
+      "A UGC campaign is a type of marketing campaign where brands invite content creators to produce user-generated content, such as videos, photos, or reviews. These campaigns are often run on platforms like Sociocube, and are designed to drive trust and engagement on social media.",
   },
   {
-    question: "How do brands and creators connect on Sociocube?",
+    question: "Where can I find UGC campaigns to join?",
     answer:
-      "Creators apply to brand campaigns directly from the platform—it’s completely free and only takes one click. No endless forms! On the brand side, our AI Search helps find ideal creators instantly, while AI Campaigns allow brands to post collaboration offers and review full creator profiles to shortlist the best fit.",
+      "You can find UGC campaigns to join on platforms like Sociocube, where brands post open collaboration opportunities for creators. These campaigns often include paid offers, product gifting, and content guidelines for Instagram, TikTok, or YouTube.",
   },
   {
-    question: "What makes Sociocube different from other influencer platforms?",
+    question: "Do you need followers to get brand deals?",
     answer:
-      "For starters—it's 100% free and open to all. You can get started in under 30 seconds. We have a real, growing community—not just a scraped directory. Brands get full analytics on applicants, and creators enjoy a clean, easy-to-use interface. Oh, and it’s being built from the ground up by two passionate college friends.",
+      "No, you don't always need a huge following to get brand deals. Many brands now work with micro and nano influencers because of their higher engagement rates. UGC-focused platforms often prioritize content quality and niche relevance over follower count.",
   },
   {
-    question: "What kind of AI features does Sociocube offer?",
+    question: "How do influencer marketing campaigns work?",
     answer:
-      "Our AI Search lets brands describe what they’re looking for—like “female creators in Delhi with 10k to 30k followers”—and instantly surfaces top matches. AI Campaigns guide brands through setting up a perfect collaboration posting. Plus, our AI Script Generator helps brands and creators craft personalized pitches and scripts effortlessly.",
+      "Influencer marketing campaigns typically involve a brand creating a campaign with specific goals, such as product promotion or awareness. Creators apply or are invited to participate, and once selected, they post the agreed content to their audience. Platforms like Sociocube simplify this entire process by handling discovery, applications, and communication.",
   },
   {
-    question: "How does Sociocube help creators grow?",
+    question: "What is the difference between UGC creators and influencers?",
     answer:
-      "Sociocube gives creators a free, auto-generated portfolio, a personalized link-in-bio tool, and access to detailed statistics about their performance. You can apply to unlimited campaigns, share your portfolio link anywhere, and even get reviews from brands as proof of work. And yes—it’s all completely free.",
+      "UGC creators specialize in creating content for brands to use in their ads or social pages—they don’t always need to post it themselves. Influencers, on the other hand, promote content to their own audience. Some platforms support both types, offering flexible opportunities for creators to earn.",
   },
   {
-    question: "Can creators trust brands on Sociocube?",
+    question: "Are UGC platforms better than influencer agencies?",
     answer:
-      "Sociocube is an open platform that helps people connect. We do show a verification badge for Instagram-verified users, but we don’t do deeper verification beyond that. We believe in giving everyone a chance—but it’s up to creators to do their due diligence before entering collaborations.",
+      "UGC platforms are often better for both brands and creators who want speed, transparency, and affordability. Unlike agencies, platforms like Sociocube don’t take commissions or gatekeep access—they allow anyone to post or apply directly with clear terms.",
   },
 ];
 function Faqs() {
