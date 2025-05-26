@@ -48,7 +48,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency:
         "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
-      priority: 0.9,
+      priority: 0.8,
     })),
   );
 
@@ -58,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency:
         "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
-      priority: 0.9,
+      priority: 1,
     })),
   );
   routes.push(
@@ -67,7 +67,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency:
         "weekly" as MetadataRoute.Sitemap[number]["changeFrequency"],
-      priority: 0.9,
+      priority: 0.7,
     })),
   );
   return routes.map((route) => ({

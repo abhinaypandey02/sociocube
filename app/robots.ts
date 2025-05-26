@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
     host: "*",
     rules: {
       userAgent: "*",
-      disallow: [Route.Login, Route.Chat],
+      disallow: [Route.Login, Route.Chat, "/_next", "*opengraph-image*"],
     },
     sitemap: `${process.env.NEXT_PUBLIC_BASE_URL}/sitemap.xml`,
   };
