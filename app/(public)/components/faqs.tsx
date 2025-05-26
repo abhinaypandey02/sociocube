@@ -86,7 +86,7 @@ function Faqs() {
               <>
                 <dt>
                   <DisclosureButton className="flex w-full items-start pb-2 justify-between text-left text-gray-900">
-                    <span className="text-lg font-semibold leading-7">
+                    <span className="text-lg sm:text-xl font-semibold leading-7">
                       {faq.question}
                     </span>
                     <span className="ml-6 flex h-7 items-center">
@@ -99,7 +99,7 @@ function Faqs() {
                   </DisclosureButton>
                 </dt>
                 <DisclosurePanel as="dd" className="mt-2 pr-12">
-                  <p className="text-base leading-7 text-gray-600">
+                  <p className="text-base sm:text-lg leading-7 text-gray-600">
                     {faq.answer}
                   </p>
                 </DisclosurePanel>

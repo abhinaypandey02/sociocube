@@ -1,5 +1,10 @@
 "use client";
-import { ArrowRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { Camera, DeviceMobileCamera, Lightning } from "@phosphor-icons/react";
+import {
+  ArrowRight,
+  Handshake,
+  MagnifyingGlass,
+} from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import React from "react";
 
@@ -15,11 +20,35 @@ export default function Hero() {
   const isAgency = user?.role !== Roles.Creator;
   return (
     <div className="relative isolate bg-linear-to-b to-transparent from-0% to-100% via-60% via-accent-bg/80 from-accent-bg">
-      <div className="mx-auto -mt-24 max-w-7xl overflow-hidden px-6 pb-5 text-center sm:mb-16 pt-24 sm:pt-48 lg:px-8">
+      <div className="mx-auto relative -mt-24 max-w-7xl overflow-hidden px-6 pb-5 text-center sm:mb-16 pt-24 sm:pt-48 lg:px-8">
         <p className="mb-3 max-sm:text-sm uppercase font-medium tracking-wide text-gray-800">
           The Home of UGC Campaigns & Paid Collabs
         </p>
-        <h2 className="font-poppins text-5xl font-semibold  sm:text-7xl">
+        <h2 className="font-poppins text-5xl font-semibold relative sm:text-7xl">
+          <Camera
+            weight={"thin"}
+            className={
+              "vibrate-1 -rotate-12 absolute hidden sm:block text-4xl left-10 bottom-23"
+            }
+          />
+          <DeviceMobileCamera
+            weight={"thin"}
+            className={
+              "vibrate-2 rotate-12 absolute hidden sm:block text-4xl right-10 bottom-20"
+            }
+          />
+          <Lightning
+            weight={"thin"}
+            className={
+              "vibrate-3 rotate-12 top-40  hidden sm:block text-4xl absolute right-40"
+            }
+          />
+          <Handshake
+            weight={"thin"}
+            className={
+              "vibrate-2 rotate-12 top-32 hidden sm:block text-4xl absolute left-40"
+            }
+          />
           Find Creators. Find Collabs.
         </h2>
         <p className="mx-auto mt-4 sm:mt-6 max-w-2xl text-lg leading-8 text-gray-800">

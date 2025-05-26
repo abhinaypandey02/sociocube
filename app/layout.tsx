@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./animations.css";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Viewport } from "next";
