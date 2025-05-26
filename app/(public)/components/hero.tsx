@@ -22,7 +22,7 @@ export default function Hero() {
     <div className="relative isolate bg-linear-to-b to-transparent from-0% to-100% via-60% via-accent-bg/80 from-accent-bg">
       <div className="mx-auto relative -mt-24 max-w-7xl overflow-hidden px-6 pb-5 text-center sm:mb-16 pt-24 sm:pt-48 lg:px-8">
         <p className="mb-3 max-sm:text-sm uppercase font-medium tracking-wide text-gray-800">
-          The Home of UGC Campaigns & Paid Collabs
+          Home of Influencer & UGC Campaigns
         </p>
         <h2 className="font-poppins text-5xl font-semibold relative sm:text-7xl">
           <Camera
