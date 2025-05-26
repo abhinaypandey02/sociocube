@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import React from "react";
 import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import Schema from "@/app/(public)/components/schema";
 import { getSEO } from "@/constants/seo";
 
 import { MARKDOWN_COMPONENTS } from "../markdown-components";
-import { getBlogPost } from "../utils";
+import { getBlogPost, getBlogPosts } from "../utils";
 
 export interface BlogPageProps {
   params: Promise<{ slug: string }>;
@@ -20,12 +21,16 @@ export async function generateMetadata({
   return getSEO(blog?.title, blog?.description);
 }
 
+export async function generateStaticParams() {
+  return getBlogPosts().map((blog) => ({ slug: blog?.id }));
+}
+
 export default async function BlogPage({ params }: BlogPageProps) {
   const slug = (await params).slug;
   const blog = getBlogPost(slug);
   if (!blog) return notFound();
   return (
-    <div className="mx-auto max-w-6xl px-6 py-8 sm:py-16 md:px-8">
+    <div className="mx-auto max-w-5xl px-6 py-4 sm:py-8 md:px-8">
       <Schema
         data={{
           "@context": "https://schema.org",
@@ -44,7 +49,11 @@ export default async function BlogPage({ params }: BlogPageProps) {
         }}
         id={blog.id}
       />
-      <Markdown className="text-gray-800" components={MARKDOWN_COMPONENTS}>
+      <Markdown
+        remarkPlugins={[remarkGfm]}
+        className="text-gray-800"
+        components={MARKDOWN_COMPONENTS}
+      >
         {blog.content}
       </Markdown>
     </div>
