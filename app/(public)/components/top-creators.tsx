@@ -23,7 +23,7 @@ export default function TopCreators({
 }) {
   return (
     <SectionWrapper
-      description="Discover the influencers leading the way in engagement and  creativity. Explore their profiles and see how they can elevate your brand through authentic collaborations!"
+      description="Discover some of the best UGC creators and influencers on Sociocube. From niche micro-creators to high-performing storytellers, these creators have delivered real results for top brands — and they’re ready to collaborate with you."
       headerElements={
         <Link
           className="flex items-center gap-2 pt-2 text-lg font-medium text-accent max-md:hidden"
@@ -33,7 +33,8 @@ export default function TopCreators({
         </Link>
       }
       id="sellers"
-      title="Our Top Creators"
+      prefixTitle={"Verified Talent. High Engagement. Real Results."}
+      title="Meet Top UGC & Content Creators"
     >
       <ul className="mx-auto grid max-w-2xl gap-y-10 sm:gap-y-16 max-sm:gap-x-10 grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
         {sellers.map(

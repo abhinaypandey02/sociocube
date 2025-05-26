@@ -33,11 +33,13 @@ export default function Cta() {
     <div className="mt-16 bg-accent  px-6 py-32 sm:px-6  lg:px-8">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="font-poppins text-3xl font-semibold text-white sm:text-5xl">
-          Ready to Grow Together?
+          Ready to Launch or Join Your Next UGC Campaign
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-100">
-          Whether you're an influencer or a brand, Sociocube makes it easy to
-          connect, collaborate, and create real impact. Join us today!
+          Whether you're a brand looking to collaborate with top creators or a
+          content creator ready to monetize your talent — Sociocube is your
+          launchpad. Start for free and discover the future of influencer
+          marketing.
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
           <Injector Component={PrimaryButton} fetch={getCurrentUser} />
