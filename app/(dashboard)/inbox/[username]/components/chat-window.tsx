@@ -1,8 +1,5 @@
 "use client";
-import {
-  getConversationChannelName,
-  NEW_MESSAGE,
-} from "@backend/(rest)/pusher/utils";
+import { getUserChannelName, NEW_MESSAGE } from "@backend/(rest)/pusher/utils";
 import { PaperPlaneTilt } from "@phosphor-icons/react";
 import Pusher from "pusher-js";
 import React, { useEffect, useState } from "react";
@@ -93,12 +90,17 @@ export default function ChatWindow({
       },
     });
 
-    pusher.subscribe(getConversationChannelName(chat.id));
-    pusher.bind(
-      NEW_MESSAGE,
-      (message: NonNullable<GetChatQuery["chat"]>["messages"][number]) => {
-        if (!user) return;
-        if (message.by !== user.id) {
+    if (user) {
+      pusher.subscribe(getUserChannelName(user.id));
+      pusher.bind(
+        NEW_MESSAGE,
+        (
+          message: NonNullable<GetChatQuery["chat"]>["messages"][number] & {
+            conversation: number;
+            username: string;
+          }
+        ) => {
+          if (message.conversation !== chat.id) return;
           void readMessage({
             conversationID: chat.id,
           });
@@ -106,18 +108,22 @@ export default function ChatWindow({
             ...old,
             {
               body: message.body,
-              by: message.by,
               createdAt: message.createdAt,
+              by: message.by,
+              loading: false,
+              failed: false,
             },
           ]);
         }
-      },
-    );
-    return () => {
-      pusher.unbind();
-      pusher.unsubscribe(getConversationChannelName(chat.id));
-    };
-  }, [chat.id, readMessage, token, user]);
+      );
+      return () => {
+        pusher.unbind();
+        if (user) {
+          pusher.unsubscribe(getUserChannelName(user.id));
+        }
+      };
+    }
+  }, [token, user, chat.id]);
 
   return (
     <div className="h-full flex flex-col">
