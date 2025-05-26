@@ -3,6 +3,7 @@ import React from "react";
 
 import DashboardWrapper from "@/app/(dashboard)/components/dashboard-wrapper";
 import { Route } from "@/constants/routes";
+import { getSEO } from "@/constants/seo";
 import { Injector, queryGQL } from "@/lib/apollo-server";
 import { GET_USER_POSTINGS } from "@/lib/queries";
 
@@ -20,3 +21,8 @@ export default async function PostingsPage() {
     </DashboardWrapper>
   );
 }
+
+export const metadata = getSEO(
+  "Post UGC Campaigns & Find Content Creators Fast",
+  "Launch influencer or UGC campaigns and connect with verified content creators who match your brand’s goals. Post once, get applications instantly, and manage everything in one place with Sociocube.",
+);

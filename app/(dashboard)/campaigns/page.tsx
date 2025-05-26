@@ -9,7 +9,10 @@ import { GET_ALL_POSTINGS } from "@/lib/queries";
 import PostingsData from "./components/postings-data";
 
 export function generateMetadata() {
-  return getSEO("Find campaign opportunities for content creators");
+  return getSEO(
+    "Find UGC Campaigns & Paid Collabs for Creators",
+    "Explore active UGC campaigns and influencer collabs from top brands. Apply instantly, get paid for your content, and grow your creator portfolio with Sociocube.",
+  );
 }
 
 export default async function SearchPage() {

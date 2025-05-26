@@ -36,4 +36,7 @@ export default function SearchPage({
     </DashboardWrapper>
   );
 }
-export const metadata = getSEO("Find influencers");
+export const metadata = getSEO(
+  "Find UGC & Content Creators for Your Campaign",
+  "Search and filter thousands of verified UGC and content creators by location, followers, engagement, and more. Launch influencer campaigns in minutes with Sociocube.",
+);

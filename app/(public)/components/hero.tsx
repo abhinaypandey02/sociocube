@@ -16,15 +16,16 @@ export default function Hero() {
   return (
     <div className="relative isolate bg-linear-to-b to-transparent from-0% to-100% via-60% via-accent-bg/80 from-accent-bg">
       <div className="mx-auto -mt-24 max-w-7xl overflow-hidden px-6 pb-5 text-center sm:mb-16 pt-24 sm:pt-48 lg:px-8">
-        <p className="mb-3 max-sm:text-sm font-medium tracking-wide text-gray-800">
-          BIGGEST INFLUENCER MARKETING PLATFORM
+        <p className="mb-3 max-sm:text-sm uppercase font-medium tracking-wide text-gray-800">
+          For Brands Seeking Creators & Creators Seeking Collabs
         </p>
         <h2 className="font-poppins text-5xl font-semibold  sm:text-7xl">
-          Connect. Collaborate. Create.
+          Find UGC Creators & Launch Influencer Campaigns
         </h2>
         <p className="mx-auto mt-4 sm:mt-6 max-w-2xl text-lg leading-8 text-gray-800">
-          Sociocube bridges the gap between brands and influencers, providing a
-          seamless platform for authentic partnerships.
+          Sociocube connects brands with verified content creators for paid UGC
+          collaborations. Post campaigns, explore creators, and grow — all in
+          one platform.
         </p>
         <div className="mt-6 sm:mt-10 mb-10 sm:mb-28 flex items-center justify-center items-stretch gap-4 max-sm:flex-col">
           {!user ? (
