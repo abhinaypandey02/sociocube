@@ -100,7 +100,11 @@ export async function applyToPosting(
             .from(UserTable)
             .where(eq(UserTable.id, postingDetails.agencyId));
 
-          if (agency?.email && agency?.emailVerified) {
+          if (
+            agency?.email &&
+            agency?.emailVerified &&
+            !agency.email.includes("sociocube.com")
+          ) {
             // Send email notification
             await sendTemplateEmail(agency.email, "ApplicationReceived", {
               campaignName: postingDetails.title,
