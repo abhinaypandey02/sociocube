@@ -7,6 +7,7 @@ import { GetChatsQuery } from "@/__generated__/graphql";
 import UserImage from "@/components/user-image";
 import { getRoute } from "@/constants/routes";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/button";
 
 export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
   const params = useParams();
@@ -69,11 +70,8 @@ export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
             <p className="text-gray-500 text-sm">
               Start a campaign or find creators to connect directly
             </p>
-            <Link
-              href={getRoute("Search")}
-              className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-            >
-              Find Creators
+            <Link href={getRoute("Search")}>
+              <Button>Find Creators</Button>
             </Link>
           </div>
         )}
