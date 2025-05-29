@@ -8,6 +8,7 @@ export enum Route {
   Settings = "/settings",
   Inbox = "/inbox",
   Chat = "/chat",
+  Blogs = "/blogs",
   Search = "/search",
   PrivacyPolicy = "/privacy-policy",
   TermsConditions = "/terms-and-conditions",

@@ -15,7 +15,7 @@ export default function JobPostings({
 }) {
   return (
     <SectionWrapper
-      description="Discover gigs and freelance jobs tailored for influencers. Apply now and start collaborating with top brands today!"
+      description="Explore trending Influencer and UGC campaigns from brands looking to collaborate with creators. Apply instantly, get paid for content, and grow your portfolio — all from one dashboard on Sociocube."
       headerElements={
         <Link
           className="flex items-center gap-2 pt-2 text-lg font-medium text-accent max-md:hidden"
@@ -27,6 +27,7 @@ export default function JobPostings({
       }
       id="collabs"
       title="Top Active Campaigns"
+      prefixTitle={"Live Collabs You Can Join Right Now"}
     >
       <ul className="mx-auto max-w-6xl divide-y divide-gray-100 grid lg:grid-cols-2 gap-5">
         {postings.map((posting, i) => (

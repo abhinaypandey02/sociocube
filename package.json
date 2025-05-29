@@ -65,6 +65,7 @@
     "react-simple-star-rating": "^5.1.7",
     "react-window": "^1.8.11",
     "reflect-metadata": "^0.2.2",
+    "remark-gfm": "^4.0.1",
     "resend": "^4.4.1",
     "standardwebhooks": "^1.0.0",
     "tailwind-merge": "^3.2.0",

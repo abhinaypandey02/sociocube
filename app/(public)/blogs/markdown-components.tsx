@@ -40,16 +40,37 @@ export const MARKDOWN_COMPONENTS = {
     <ol className="list-decimal">{props.children}</ol>
   ),
   ul: (props: MarkdownProps) => <ul className="list-disc">{props.children}</ul>,
-  hr: () => <hr className="my-9" />,
+  hr: () => <hr className="my-9 border-gray-200" />,
   li: (props: MarkdownProps) => (
     <li className="my-2 translate-x-5">{props.children}</li>
   ),
   p: (props: MarkdownProps) => (
     <p className="my-4 text-justify">{props.children}</p>
   ),
+  strong: (props: MarkdownProps) => (
+    <strong className="font-medium">{props.children}</strong>
+  ),
   a: (props: MarkdownProps) => (
     <a {...props} className="font-medium text-accent">
       {props.children}
     </a>
+  ),
+  td: (props: MarkdownProps) => (
+    <td
+      {...props}
+      className={
+        "px-4 border-l nth-1:border-l-0 py-2 mx-2 align-middle whitespace-nowrap "
+      }
+    >
+      {props.children}
+    </td>
+  ),
+  th: (props: MarkdownProps) => (
+    <th
+      {...props}
+      className={"border-b nth-1:border-l-0 border-l py-2 mx-2 px-4"}
+    >
+      {props.children}
+    </th>
   ),
 };

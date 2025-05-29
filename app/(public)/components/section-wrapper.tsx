@@ -24,11 +24,11 @@ export default function SectionWrapper({
   center?: boolean;
 }>) {
   return (
-    <div
+    <section
       className={`mx-auto max-w-7xl px-6 py-12 sm:my-12 lg:px-8 ${className}`}
       id={id}
     >
-      <div
+      <header
         className={cn(
           "mb-10 flex items-start sm:mb-20 justify-between",
           {
@@ -66,8 +66,8 @@ export default function SectionWrapper({
           )}
         </div>
         {headerElements}
-      </div>
+      </header>
       {children}
-    </div>
+    </section>
   );
 }

@@ -3,7 +3,13 @@ import path from "node:path";
 
 import matter from "gray-matter";
 
-const postsDirectory = path.join(process.cwd(), "app", "blogs", "content");
+const postsDirectory = path.join(
+  process.cwd(),
+  "app",
+  "(public)",
+  "blogs",
+  "content",
+);
 
 export function getBlogPosts() {
   // Get file names under /posts
