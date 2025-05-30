@@ -111,7 +111,7 @@ export async function createPosting(
       .returning({ id: PostingTable.id });
 
     // Send email notification
-    if (posting?.id) {
+    if (posting?.id && !force) {
       if (user.emailVerified)
         waitUntil(
           sendTemplateEmail(user.email, "CampaignCreated", {
