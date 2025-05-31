@@ -4,6 +4,7 @@ import { registerEnumType } from "type-graphql";
 
 export enum UsageType {
   AiSearch = "AI_SEARCH",
+  PostingAnnouncement = "POSTING_ANNOUNCEMENT",
 }
 export enum SubscriptionPlan {
   Plus = "Plus",
@@ -19,14 +20,22 @@ export enum SubscriptionPlanStatus {
   Expired = "expired",
 }
 
-export const MaxFreeUsages: Record<
-  UsageType,
-  Record<SubscriptionPlan, number>
-> = {
+export type MaxUsage = Record<SubscriptionPlan, number>;
+
+export const MaxUsages: Record<UsageType, MaxUsage> = {
   [UsageType.AiSearch]: {
     [SubscriptionPlan.Plus]: 10,
     [SubscriptionPlan.Free]: 2,
   },
+  [UsageType.PostingAnnouncement]: {
+    [SubscriptionPlan.Plus]: 3,
+    [SubscriptionPlan.Free]: 1,
+  },
+};
+
+export const GlobalAnnouncementUsage = {
+  [SubscriptionPlan.Plus]: 10,
+  [SubscriptionPlan.Free]: 1,
 };
 
 export const SUBSCRIPTION_PLANS = [
@@ -35,7 +44,10 @@ export const SUBSCRIPTION_PLANS = [
     product_id: "pdt_DLAjZNQ6Bang6eLGvZptI",
   },
 ] as const;
-export const USAGE_TYPES = [UsageType.AiSearch] as const;
+export const USAGE_TYPES = [
+  UsageType.AiSearch,
+  UsageType.PostingAnnouncement,
+] as const;
 
 registerEnumType(SubscriptionPlan, {
   name: "SubscriptionPlan",

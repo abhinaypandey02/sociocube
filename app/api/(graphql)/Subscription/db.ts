@@ -1,6 +1,13 @@
 import { USAGE_TYPES } from "@graphql/Subscription/constants";
 import { plansEnum, planStatusEnum, UserTable } from "@graphql/User/db";
-import { integer, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  integer,
+  pgEnum,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 
 export const SubscriptionTable = pgTable("subscription", {
   user: integer("user")
@@ -16,10 +23,12 @@ export const SubscriptionTable = pgTable("subscription", {
 const usageType = pgEnum("usage_type", USAGE_TYPES);
 
 export const UsageTable = pgTable("usage", {
+  id: serial("id").primaryKey(),
+  entityKey: integer("entity_key"),
   user: integer("user")
     .unique()
     .references(() => UserTable.id)
     .notNull(),
-  type: usageType("type"),
-  createdAt: timestamp("createdAt").defaultNow(),
+  type: usageType("type").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
 });

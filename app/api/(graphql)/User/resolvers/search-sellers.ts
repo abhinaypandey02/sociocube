@@ -1,4 +1,8 @@
+import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
+import { UsageType } from "@graphql/Subscription/constants";
+import { SubscriptionTable } from "@graphql/Subscription/db";
+import { addUsage, getPendingUsage } from "@graphql/Subscription/utils";
 import { MaxLength } from "class-validator";
 import {
   and,
@@ -53,8 +57,28 @@ export async function handleSearchSellers(
   { query }: SearchSellersFiltersInput,
 ) {
   if (!query || !ctx.userId) return getDefaultCreators();
+
+  const [plan] = await db
+    .select()
+    .from(SubscriptionTable)
+    .where(eq(SubscriptionTable.user, ctx.userId));
+
+  const pendingUsage = await getPendingUsage({
+    userID: ctx.userId,
+    feature: UsageType.AiSearch,
+    plan: plan?.plan,
+  });
+  if (pendingUsage <= 0)
+    throw GQLError(
+      400,
+      "You have used all your remaining usages, please try again in 24 hours.",
+    );
   const filters = await getGroqResponse<UserSearchFilters>(PROMPT, query);
   if (!filters) return getDefaultCreators();
+  addUsage({
+    feature: UsageType.AiSearch,
+    userID: ctx.userId,
+  });
   return getFilteredUsers(filters, query);
 }
 

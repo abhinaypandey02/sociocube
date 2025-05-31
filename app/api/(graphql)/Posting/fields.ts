@@ -1,8 +1,11 @@
+import type { Context } from "@backend/lib/auth/context";
 import { db } from "@backend/lib/db";
 import { CitySelectOption } from "@backend/lib/utils/select-options";
-import { SEND_ANNOUNCEMENT_MAX_LIMIT } from "@graphql/Posting/resolvers/send-announcement";
+import { UsageType } from "@graphql/Subscription/constants";
+import { SubscriptionTable } from "@graphql/Subscription/db";
+import { getPendingUsage } from "@graphql/Subscription/utils";
 import { and, count, eq, inArray, isNotNull, ne, sum } from "drizzle-orm";
-import { FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
+import { Ctx, FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
 
 import { ApplicationStatus, ApplicationTable } from "../Application/db";
 import { CityTable, CountryTable, StateTable } from "../Map/db";
@@ -12,7 +15,6 @@ import type { UserDB } from "../User/db";
 import { UserTable } from "../User/db";
 import { UserGQL } from "../User/type";
 import type { PostingDB } from "./db";
-import { PostingAnnouncement } from "./db";
 import {
   getRecommendations,
   Recommendation,
@@ -30,12 +32,21 @@ export class PostingFieldResolvers {
     return user;
   }
   @FieldResolver(() => Number)
-  async announcementCount(@Root() posting: PostingDB): Promise<number> {
-    const [data] = await db
-      .select({ count: count() })
-      .from(PostingAnnouncement)
-      .where(eq(PostingAnnouncement.posting, posting.id));
-    return SEND_ANNOUNCEMENT_MAX_LIMIT - (data?.count || 0);
+  async announcementCount(
+    @Root() posting: PostingDB,
+    @Ctx() context: Context,
+  ): Promise<number> {
+    if (!context.userId) return 0;
+    const [plan] = await db
+      .select()
+      .from(SubscriptionTable)
+      .where(eq(SubscriptionTable.user, posting.agency));
+    return getPendingUsage({
+      userID: context.userId,
+      feature: UsageType.PostingAnnouncement,
+      thresholdHours: 0,
+      plan: plan?.plan,
+    });
   }
   @FieldResolver(() => String, { nullable: true })
   async currency(

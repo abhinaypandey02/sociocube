@@ -19,19 +19,6 @@ export const platforms = pgEnum("platform", [
   PostingPlatforms.YOUTUBE,
 ]);
 
-export const PostingAnnouncement = pgTable("posting_announcement", {
-  id: serial("id").primaryKey(),
-  posting: integer("posting")
-    .references(() => PostingTable.id)
-    .notNull(),
-  agency: integer("agency")
-    .references(() => UserTable.id)
-    .notNull(),
-  body: text("body").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
-});
-
 export const PostingTable = pgTable(
   "posting",
   {
