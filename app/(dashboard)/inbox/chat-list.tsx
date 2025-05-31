@@ -4,11 +4,11 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import { GetChatsQuery } from "@/__generated__/graphql";
+import { Button } from "@/components/button";
+import { Variants } from "@/components/constants";
 import UserImage from "@/components/user-image";
 import { getRoute } from "@/constants/routes";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/button";
-import { Variants } from "@/components/constants";
 
 export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
   const params = useParams();

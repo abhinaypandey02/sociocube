@@ -1,9 +1,9 @@
+import { db } from "@backend/lib/db";
 import {
   SUBSCRIPTION_PLANS,
   SubscriptionPlanStatus,
-} from "@backend/lib/constants/plans";
-import { db } from "@backend/lib/db";
-import { SubscriptionTable } from "@graphql/User/db";
+} from "@graphql/Subscription/constants";
+import { SubscriptionTable } from "@graphql/Subscription/db";
 import DodoPayments from "dodopayments";
 import { NextRequest, NextResponse } from "next/server";
 import { Webhook, WebhookUnbrandedRequiredHeaders } from "standardwebhooks";

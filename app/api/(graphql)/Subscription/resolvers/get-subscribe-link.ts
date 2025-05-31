@@ -1,16 +1,18 @@
 import type { AuthorizedContext } from "@backend/lib/auth/context";
+import { db } from "@backend/lib/db";
+import { CityTable, StateTable } from "@graphql/Map/db";
 import {
   SUBSCRIPTION_PLANS,
   SubscriptionPlanStatus,
-} from "@backend/lib/constants/plans";
-import { db } from "@backend/lib/db";
-import { CityTable, StateTable } from "@graphql/Map/db";
-import { LocationTable, SubscriptionTable, UserTable } from "@graphql/User/db";
+} from "@graphql/Subscription/constants";
+import { LocationTable, UserTable } from "@graphql/User/db";
 import { Subscription } from "@graphql/User/type";
 import { eq } from "drizzle-orm";
 
 import countries from "@/constants/countries";
 import { getRoute } from "@/constants/routes";
+
+import { SubscriptionTable } from "../db";
 
 export async function handleGetSubscribeLink(
   ctx: AuthorizedContext,

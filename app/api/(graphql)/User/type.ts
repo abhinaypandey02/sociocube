@@ -1,8 +1,8 @@
+import { Roles } from "@backend/lib/constants/roles";
 import {
   SubscriptionPlan,
   SubscriptionPlanStatus,
-} from "@backend/lib/constants/plans";
-import { Roles } from "@backend/lib/constants/roles";
+} from "@graphql/Subscription/constants";
 import { Field, InputType, ObjectType } from "type-graphql";
 
 @ObjectType("Pricing")

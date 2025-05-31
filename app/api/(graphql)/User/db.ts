@@ -1,7 +1,3 @@
-import {
-  SubscriptionPlan,
-  SubscriptionPlanStatus,
-} from "@backend/lib/constants/plans";
 import { Roles } from "@backend/lib/constants/roles";
 import { sql } from "drizzle-orm";
 import {
@@ -22,6 +18,10 @@ import genders from "@/constants/genders";
 
 import { InstagramDetails } from "../Instagram/db";
 import { CityTable, CountryTable } from "../Map/db";
+import {
+  SubscriptionPlan,
+  SubscriptionPlanStatus,
+} from "../Subscription/constants";
 
 export const rolesEnum = pgEnum("role", [
   Roles.Admin,
@@ -47,19 +47,6 @@ export const categoriesEnum = pgEnum(
     ...string[],
   ],
 );
-
-export const SubscriptionTable = pgTable("subscription", {
-  user: integer("user")
-    .unique()
-    .references(() => UserTable.id)
-    .notNull(),
-  subscriptionID: text("subscription_id").unique(),
-  plan: plansEnum("plan"),
-  searchUsage: integer("u_search").notNull().default(0),
-  campaignsUsage: integer("u_campaigns").notNull().default(0),
-  nextBilling: timestamp("next_billing"),
-  status: planStatusEnum("status"),
-});
 
 export const UserTable = pgTable(
   "user",
