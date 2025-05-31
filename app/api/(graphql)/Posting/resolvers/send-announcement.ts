@@ -45,10 +45,10 @@ export async function handleSendAnnouncement(
     plan: posting.subscription.plan,
     feature: UsageType.PostingAnnouncement,
     thresholdHours: 0,
+    thresholdUsage: MaxUsages[UsageType.PostingAnnouncement],
     userID: ctx.userId,
     key: postingID,
   });
-
   if (pendingPostingAnnouncements < 0)
     throw GQLError(
       400,
@@ -65,7 +65,7 @@ export async function handleSendAnnouncement(
   if (pendingDailyUsages < 0)
     throw GQLError(
       400,
-      `You can only send ${GlobalAnnouncementUsage[posting.subscription.plan || SubscriptionPlan.Free]} announcements per posting.`,
+      `You can only send ${GlobalAnnouncementUsage[posting.subscription.plan || SubscriptionPlan.Free]} announcements per day.`,
     );
 
   const users = await db
