@@ -22,21 +22,26 @@ export default function SearchPage({
           const filters = {
             query: params.query,
           };
-          return {
-            response: await queryGQL(
-              SEARCH_SELLERS,
-              { filters },
-              params.query ? await cookies() : undefined,
-              params.query ? 3600 * 24 : 3600 * 24 * 7,
-            ),
-            filters,
-          };
+          try {
+            return {
+              response: await queryGQL(
+                SEARCH_SELLERS,
+                { filters },
+                params.query ? await cookies() : undefined,
+                params.query ? 3600 * 24 : 3600 * 24 * 7,
+              ),
+              filters,
+            };
+          } catch (error) {
+            return {
+              response: null,
+              filters,
+              error: error instanceof Error ? error.message : "An error occurred with your search. Please try again."
+            };
+          }
         }}
       />
     </DashboardWrapper>
   );
 }
-export const metadata = getSEO(
-  "Find UGC & Content Creators for Your Campaign",
-  "Search and filter thousands of verified UGC and content creators by location, followers, engagement, and more. Launch influencer campaigns in minutes with Sociocube.",
-);
+export const metadata = getSEO("Find influencers");
