@@ -1,5 +1,5 @@
 import type { AuthorizedContext, Context } from "@backend/lib/auth/context";
-import { handleGetSubscribeLink } from "@graphql/User/resolvers/get-subscribe-link";
+import { handleGetSubscribeLink } from "@graphql/Subscription/resolvers/get-subscribe-link";
 import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
 
 import { handleGetCurrentUser } from "./resolvers/get-current-user";
