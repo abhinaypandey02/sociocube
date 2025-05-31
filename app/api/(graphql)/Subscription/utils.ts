@@ -6,7 +6,6 @@ import {
   UsageType,
 } from "@graphql/Subscription/constants";
 import { UsageTable } from "@graphql/Subscription/db";
-import { waitUntil } from "@vercel/functions";
 import { and, count, eq, gt } from "drizzle-orm";
 
 export async function getPendingUsage({
@@ -47,7 +46,7 @@ export async function getPendingUsage({
   return allowedUsage - (usage?.count || 0);
 }
 
-export function addUsage({
+export async function addUsage({
   userID,
   feature,
   key,
@@ -56,11 +55,9 @@ export function addUsage({
   feature: UsageType;
   key?: number;
 }) {
-  waitUntil(
-    db.insert(UsageTable).values({
+    await db.insert(UsageTable).values({
       user: userID,
       entityKey: key,
       type: feature,
-    }),
-  );
+    });
 }

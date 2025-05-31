@@ -26,7 +26,6 @@ export const UsageTable = pgTable("usage", {
   id: serial("id").primaryKey(),
   entityKey: integer("entity_key"),
   user: integer("user")
-    .unique()
     .references(() => UserTable.id)
     .notNull(),
   type: usageType("type").notNull(),
