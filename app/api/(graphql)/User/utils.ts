@@ -24,8 +24,10 @@ import {
   PricingTable,
   type UserDBInsert,
   UserTable,
+  SubscriptionTable,
 } from "./db";
 import { UserSearchFilters } from "./type";
+import { SubscriptionPlanStatus, FREE_SEARCH_LIMIT } from "../../lib/constants/plans";
 
 export async function getUser(filter: SQL, tx?: DBTransaction) {
   const [user] = await (tx || db).select().from(UserTable).where(filter);
@@ -200,4 +202,46 @@ export async function getFilteredUsers(
       );
   }
   return sqlQuery;
+}
+
+
+export async function isSearchAllowed(userId: number) {
+  const [subscription] = await db
+    .select()
+    .from(SubscriptionTable)
+    .where(eq(SubscriptionTable.user, userId));
+
+  if (subscription) {
+    const used = subscription.searchUsage;
+    if (subscription.nextBilling && subscription.nextBilling > new Date()) {
+      await db
+        .update(SubscriptionTable)
+        .set({ searchUsage: used + 1 })
+        .where(eq(SubscriptionTable.user, userId));
+      return true;
+    }
+    // edge case: user is a subscriber and used 10 searches and never renewed subscription
+    // user has never used free search so he should have 2 free searches left
+    // but current implementation will return 0 remaining searches
+    else {
+      if (used < FREE_SEARCH_LIMIT) {
+        await db
+          .update(SubscriptionTable)
+          .set({ searchUsage: used + 1 })
+          .where(eq(SubscriptionTable.user, userId));
+        return true;
+      }
+      return false;
+    }
+  }
+
+  // for first time searcher with no subscription record
+  await db.insert(SubscriptionTable).values({
+    user: userId,
+    searchUsage: 1,
+    campaignsUsage: 0,
+    status: SubscriptionPlanStatus.Pending,
+  });
+
+  return true;
 }
