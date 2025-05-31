@@ -529,6 +529,7 @@ export type Subscription = {
 };
 
 export enum SubscriptionPlan {
+  Free = 'Free',
   Plus = 'Plus'
 }
 

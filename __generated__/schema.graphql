@@ -514,6 +514,7 @@ type Subscription {
 }
 
 enum SubscriptionPlan {
+  Free
   Plus
 }
 
