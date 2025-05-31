@@ -20,7 +20,7 @@ export const SubscriptionTable = pgTable("subscription", {
   status: planStatusEnum("status"),
 });
 
-const usageType = pgEnum("usage_type", USAGE_TYPES);
+export const usageType = pgEnum("usage_type", USAGE_TYPES);
 
 export const UsageTable = pgTable("usage", {
   id: serial("id").primaryKey(),
