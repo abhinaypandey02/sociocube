@@ -49,7 +49,7 @@ export async function handleSendAnnouncement(
     userID: ctx.userId,
     key: postingID,
   });
-  if (pendingPostingAnnouncements < 0)
+  if (pendingPostingAnnouncements <= 0)
     throw GQLError(
       400,
       `You can only send ${MaxUsages[UsageType.PostingAnnouncement][posting.subscription.plan || SubscriptionPlan.Free]} announcements per posting.`,
@@ -62,7 +62,7 @@ export async function handleSendAnnouncement(
     userID: ctx.userId,
   });
 
-  if (pendingDailyUsages < 0)
+  if (pendingDailyUsages <= 0)
     throw GQLError(
       400,
       `You can only send ${GlobalAnnouncementUsage[posting.subscription.plan || SubscriptionPlan.Free]} announcements per day.`,
@@ -144,20 +144,20 @@ export async function handleSendAnnouncement(
       })),
     ),
   );
-  if (posting?.user.username)
-    await sendBatchTemplateEmail(
-      "PostingAnnouncement",
-      users.map((user) => ({
-        to: user.email,
-        meta: {
-          brandName: posting.user.name || "Brand",
-          postingName: posting.posting.title,
-          postingId: posting.posting.id,
-          username: posting.user.username!,
-          announcementText: body,
-        },
-      })),
-    );
+  // if (posting?.user.username)
+  //   await sendBatchTemplateEmail(
+  //     "PostingAnnouncement",
+  //     users.map((user) => ({
+  //       to: user.email,
+  //       meta: {
+  //         brandName: posting.user.name || "Brand",
+  //         postingName: posting.posting.title,
+  //         postingId: posting.posting.id,
+  //         username: posting.user.username!,
+  //         announcementText: body,
+  //       },
+  //     })),
+  //   );
 
   return true;
 }
