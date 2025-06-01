@@ -67,7 +67,7 @@ export async function getPlan(userID: number){
     .from(SubscriptionTable)
     .where(eq(SubscriptionTable.user, userID));
   
-  if(!plan || !plan.status || plan.status==SubscriptionPlanStatus.Expired || plan.status==SubscriptionPlanStatus.Failed || plan.status==SubscriptionPlanStatus.Pending) 
+  if(!plan || !plan.status || plan.status===SubscriptionPlanStatus.Expired || plan.status===SubscriptionPlanStatus.Failed || plan.status===SubscriptionPlanStatus.Pending) 
     return null;
 
   return SubscriptionPlan.Plus;
