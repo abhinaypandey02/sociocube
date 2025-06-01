@@ -27,7 +27,7 @@ export async function getPendingUsage({
   const last24Hours = new Date();
   last24Hours.setHours(last24Hours.getHours() - (hoursThreshold || 0));
 
-  const allowedUsage = (thresholdUsage ?? MaxUsages[UsageType.AiSearch])[
+  const allowedUsage = (thresholdUsage ?? MaxUsages[feature])[
     plan || SubscriptionPlan.Free
   ];
 

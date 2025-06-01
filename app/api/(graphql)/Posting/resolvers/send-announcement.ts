@@ -45,7 +45,6 @@ export async function handleSendAnnouncement(
     plan: posting.subscription.plan,
     feature: UsageType.PostingAnnouncement,
     thresholdHours: 0,
-    thresholdUsage: MaxUsages[UsageType.PostingAnnouncement],
     userID: ctx.userId,
     key: postingID,
   });
@@ -144,20 +143,20 @@ export async function handleSendAnnouncement(
       })),
     ),
   );
-  if (posting?.user.username)
-    await sendBatchTemplateEmail(
-      "PostingAnnouncement",
-      users.map((user) => ({
-        to: user.email,
-        meta: {
-          brandName: posting.user.name || "Brand",
-          postingName: posting.posting.title,
-          postingId: posting.posting.id,
-          username: posting.user.username!,
-          announcementText: body,
-        },
-      })),
-    );
+  // if (posting?.user.username)
+  //   await sendBatchTemplateEmail(
+  //     "PostingAnnouncement",
+  //     users.map((user) => ({
+  //       to: user.email,
+  //       meta: {
+  //         brandName: posting.user.name || "Brand",
+  //         postingName: posting.posting.title,
+  //         postingId: posting.posting.id,
+  //         username: posting.user.username!,
+  //         announcementText: body,
+  //       },
+  //     })),
+  //   );
 
   return true;
 }
