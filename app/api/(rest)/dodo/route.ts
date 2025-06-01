@@ -1,6 +1,5 @@
 import { db } from "@backend/lib/db";
 import {
-  SUBSCRIPTION_PLANS,
   SubscriptionPlanStatus,
 } from "@graphql/Subscription/constants";
 import { SubscriptionTable } from "@graphql/Subscription/db";
@@ -53,9 +52,6 @@ export const POST = async (req: NextRequest) => {
       nextBilling: new Date(data.next_billing_date),
       user: parseInt(data.metadata.userID),
       status: data.status,
-      plan: SUBSCRIPTION_PLANS.find(
-        (plan) => plan.product_id === data.product_id,
-      )?.plan,
     };
 
     await db

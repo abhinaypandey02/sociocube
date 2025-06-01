@@ -1,5 +1,5 @@
 import { USAGE_TYPES } from "@graphql/Subscription/constants";
-import { plansEnum, planStatusEnum, UserTable } from "@graphql/User/db";
+import { planStatusEnum, UserTable } from "@graphql/User/db";
 import {
   integer,
   pgEnum,
@@ -15,7 +15,6 @@ export const SubscriptionTable = pgTable("subscription", {
     .references(() => UserTable.id)
     .notNull(),
   subscriptionID: text("subscription_id").unique(),
-  plan: plansEnum("plan"),
   nextBilling: timestamp("next_billing"),
   status: planStatusEnum("status"),
 });

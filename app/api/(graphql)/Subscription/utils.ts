@@ -1,9 +1,11 @@
 import { db } from "@backend/lib/db";
+import { SubscriptionTable } from "@graphql/Subscription/db";
 import {
   MaxUsage,
   MaxUsages,
   SubscriptionPlan,
   UsageType,
+  SubscriptionPlanStatus,
 } from "@graphql/Subscription/constants";
 import { UsageTable } from "@graphql/Subscription/db";
 import { and, count, eq, gt } from "drizzle-orm";
@@ -11,14 +13,12 @@ import { and, count, eq, gt } from "drizzle-orm";
 export async function getPendingUsage({
   userID,
   feature,
-  plan,
   thresholdHours,
   thresholdUsage,
   key,
 }: {
   userID: number;
   feature: UsageType;
-  plan?: SubscriptionPlan | null;
   thresholdHours?: number;
   thresholdUsage?: MaxUsage;
   key?: number;
@@ -27,10 +27,10 @@ export async function getPendingUsage({
   const last24Hours = new Date();
   last24Hours.setHours(last24Hours.getHours() - (hoursThreshold || 0));
 
+  const plan = await getPlan(userID);
   const allowedUsage = (thresholdUsage ?? MaxUsages[feature])[
     plan || SubscriptionPlan.Free
   ];
-
   const [usage] = await db
     .select({ count: count(UsageTable.id) })
     .from(UsageTable)
@@ -42,7 +42,6 @@ export async function getPendingUsage({
         key ? eq(UsageTable.entityKey, key) : undefined,
       ),
     );
-
   return allowedUsage - (usage?.count || 0);
 }
 
@@ -60,4 +59,16 @@ export async function addUsage({
       entityKey: key,
       type: feature,
     });
+}
+
+export async function getPlan(userID: number){
+  const [plan] = await db
+    .select()
+    .from(SubscriptionTable)
+    .where(eq(SubscriptionTable.user, userID));
+  
+  if(!plan || !plan.status || plan.status==SubscriptionPlanStatus.Expired || plan.status==SubscriptionPlanStatus.Failed || plan.status==SubscriptionPlanStatus.Pending) 
+    return null;
+
+  return SubscriptionPlan.Plus;
 }
