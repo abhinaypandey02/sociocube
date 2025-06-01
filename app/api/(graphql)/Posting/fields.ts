@@ -1,7 +1,7 @@
 import type { Context } from "@backend/lib/auth/context";
 import { db } from "@backend/lib/db";
 import { CitySelectOption } from "@backend/lib/utils/select-options";
-import { UsageType } from "@graphql/Subscription/constants";
+import { UsageType, GlobalAnnouncementUsage } from "@graphql/Subscription/constants";
 import { SubscriptionTable } from "@graphql/Subscription/db";
 import { getPendingUsage } from "@graphql/Subscription/utils";
 import { and, count, eq, inArray, isNotNull, ne, sum } from "drizzle-orm";
@@ -45,6 +45,7 @@ export class PostingFieldResolvers {
       userID: context.userId,
       feature: UsageType.PostingAnnouncement,
       thresholdHours: 0,
+      thresholdUsage: GlobalAnnouncementUsage,
       plan: plan?.plan,
     });
   }
