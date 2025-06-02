@@ -7,14 +7,15 @@ import { useSubscription } from "@/lib/auth-client";
 export default function SubscriptionApply({
   data,
 }: {
-  data: GetSubscriptionQuery;
+  data?: GetSubscriptionQuery;
 }) {
   const [, setSubscription] = useSubscription();
   useEffect(() => {
-    setSubscription({
-      existing: data.getSubscription,
-      link: data.getSubscriptionLink,
-    });
+    if (data)
+      setSubscription({
+        existing: data.getSubscription,
+        link: data.getSubscriptionLink,
+      });
   }, [data, setSubscription]);
   return null;
 }

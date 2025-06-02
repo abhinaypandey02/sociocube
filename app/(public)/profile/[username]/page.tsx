@@ -87,7 +87,6 @@ export default async function ProfilePage({
       60 * 6 * 165,
       [`profile-${username}`],
     ));
-
   if (!user?.name) return notFound();
   return (
     <div className="mx-auto max-w-2xl px-6 lg:grid lg:max-w-(--breakpoint-xl) lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 lg:px-8">
