@@ -45,6 +45,7 @@ export class PostingFieldResolvers {
       userID: context.userId,
       feature: UsageType.PostingAnnouncement,
       thresholdHours: 0,
+      key: posting.id,
       plan: plan?.plan,
     });
   }
