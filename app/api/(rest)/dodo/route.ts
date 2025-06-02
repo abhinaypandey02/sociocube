@@ -5,6 +5,7 @@ import {
 } from "@graphql/Subscription/constants";
 import { SubscriptionTable } from "@graphql/Subscription/db";
 import DodoPayments from "dodopayments";
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { Webhook, WebhookUnbrandedRequiredHeaders } from "standardwebhooks";
 
@@ -58,13 +59,18 @@ export const POST = async (req: NextRequest) => {
       )?.plan,
     };
 
-    await db
-      .insert(SubscriptionTable)
-      .values(subscriptionData)
-      .onConflictDoUpdate({
-        target: SubscriptionTable.subscriptionID,
-        set: subscriptionData,
-      });
+    if (data.status !== SubscriptionPlanStatus.Active) {
+      await db
+        .delete(SubscriptionTable)
+        .where(eq(SubscriptionTable.subscriptionID, data.subscription_id));
+    } else
+      await db
+        .insert(SubscriptionTable)
+        .values(subscriptionData)
+        .onConflictDoUpdate({
+          target: SubscriptionTable.subscriptionID,
+          set: subscriptionData,
+        });
   }
   return NextResponse.json({ received: true });
 };
