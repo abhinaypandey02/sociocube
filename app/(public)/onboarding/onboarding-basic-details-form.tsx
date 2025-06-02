@@ -96,6 +96,7 @@ export default function OnboardingBasicDetailsForm({
         placeholder="Write a brief about you"
         rows={showCreatorSteps ? 2 : 4}
         textarea
+        required
         maxLength={BIO_MAX_LENGTH}
         rules={{
           maxLength: BIO_MAX_LENGTH,
