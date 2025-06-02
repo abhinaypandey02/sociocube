@@ -364,7 +364,7 @@ export enum PostingPlatforms {
 export type Preview = {
   __typename?: 'Preview';
   at: Scalars['Float']['output'];
-  hasRead: Scalars['Float']['output'];
+  hasRead: Scalars['Boolean']['output'];
   text: Scalars['String']['output'];
 };
 
@@ -529,6 +529,7 @@ export type Subscription = {
 };
 
 export enum SubscriptionPlan {
+  Free = 'Free',
   Plus = 'Plus'
 }
 
@@ -840,7 +841,7 @@ export type GetSellerQuery = { __typename?: 'Query', getSeller?: { __typename?: 
 export type GetChatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetChatsQuery = { __typename?: 'Query', chats: Array<{ __typename?: 'Conversation', id: number, preview?: { __typename?: 'Preview', text: string, hasRead: number, at: number } | null, user?: { __typename?: 'User', id: number, username?: string | null, name?: string | null, photo?: string | null } | null }> };
+export type GetChatsQuery = { __typename?: 'Query', chats: Array<{ __typename?: 'Conversation', id: number, preview?: { __typename?: 'Preview', text: string, hasRead: boolean, at: number } | null, user?: { __typename?: 'User', id: number, username?: string | null, name?: string | null, photo?: string | null } | null }> };
 
 export type GetChatQueryVariables = Exact<{
   username: Scalars['String']['input'];

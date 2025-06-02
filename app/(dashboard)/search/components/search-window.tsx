@@ -28,6 +28,7 @@ export default function SearchWindow({
   data?: {
     response: SearchSellersQuery | null;
     filters: SearchSellersFilters;
+    error?: string;
   };
 }) {
   const token = useToken();
@@ -86,15 +87,19 @@ export default function SearchWindow({
 
         <section className="pt-6 pb-16 lg:col-span-3">
           {loading ? <LoaderSkeleton /> : null}
-          {data?.response?.sellers?.length === 0 && !loading && <NoResults />}
+          {!loading && data?.error && <NoResults errorMessage={data.error} />}
+          {!data?.error &&
+            data?.response?.sellers?.length === 0 &&
+            !loading && <NoResults />}
           <ul className="space-y-5">
-            {!loading && data?.filters.query && (
+            {!loading && !data?.error && data?.filters.query && (
               <div className="text-sm text-center">
                 Search is limited to <strong>5</strong> creators in the free
                 plan.
               </div>
             )}
             {!loading &&
+              !data?.error &&
               data?.response?.sellers?.map((person) => (
                 <li key={person.name || ""}>
                   <Link

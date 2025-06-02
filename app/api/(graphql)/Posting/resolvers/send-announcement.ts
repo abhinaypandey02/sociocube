@@ -23,8 +23,6 @@ import { and, eq, inArray, sql } from "drizzle-orm";
 
 import { ApplicationStatus, ApplicationTable } from "../../Application/db";
 
-export const SEND_ANNOUNCEMENT_MAX_LIMIT = 3;
-
 export async function handleSendAnnouncement(
   ctx: AuthorizedContext,
   postingID: number,
@@ -62,7 +60,7 @@ export async function handleSendAnnouncement(
     userID: ctx.userId,
   });
 
-  if (pendingDailyUsages < 0)
+  if (pendingDailyUsages <= 0)
     throw GQLError(
       400,
       `You can only send ${GlobalAnnouncementUsage[posting.subscription.plan || SubscriptionPlan.Free]} announcements per posting.`,

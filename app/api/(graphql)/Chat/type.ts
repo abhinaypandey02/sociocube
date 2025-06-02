@@ -20,7 +20,7 @@ export class MessageGQL {
 export class PreviewGQL {
   @Field()
   text: string;
-  @Field(() => Number)
+  @Field(() => Boolean)
   hasRead: boolean;
   @Field(() => Number)
   at: Date;
