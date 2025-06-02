@@ -11,23 +11,53 @@ import React, {
   useState,
 } from "react";
 
-import { GetCurrentUserQuery } from "@/__generated__/graphql";
+import {
+  GetCurrentUserQuery,
+  GetSubscriptionQuery,
+} from "@/__generated__/graphql";
+import GetSubscriptionModal from "@/app/(public)/components/get-subscription-modal";
 
 type CurrentUser = GetCurrentUserQuery["user"];
+type Subscription =
+  | {
+      existing: GetSubscriptionQuery["getSubscription"];
+      link?: string | null;
+    }
+  | undefined;
 
 const GlobalState = createContext<{
   token?: string | null;
   setToken: Dispatch<SetStateAction<string | null | undefined>>;
   user?: CurrentUser;
   setUser: Dispatch<SetStateAction<CurrentUser>>;
+  subscription?: Subscription;
+  setSubscription: Dispatch<SetStateAction<Subscription>>;
+  showSubscribeModal: boolean;
+  setShowSubscribeModal: Dispatch<SetStateAction<boolean>>;
 }>({
   setToken: () => null,
   setUser: () => null,
+  setSubscription: () => null,
+  setShowSubscribeModal: () => null,
+  showSubscribeModal: false,
 });
 
 export function useUser() {
   const { user, setUser } = useContext(GlobalState);
   return [user, setUser] as const;
+}
+
+export function useSubscription() {
+  const { subscription, setSubscription } = useContext(GlobalState);
+  return [subscription, setSubscription] as const;
+}
+
+export function useToggleSubscribeModal() {
+  const { setShowSubscribeModal } = useContext(GlobalState);
+  return useCallback(
+    () => setShowSubscribeModal((prev) => !prev),
+    [setShowSubscribeModal],
+  );
 }
 
 export function useToken() {
@@ -42,6 +72,8 @@ export function useSetToken() {
 export function GlobalStateWrapper({ children }: PropsWithChildren) {
   const [token, setToken] = useState<string | null>();
   const [user, setUser] = useState<CurrentUser>();
+  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
+  const [subscription, setSubscription] = useState<Subscription>();
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
       // eslint-disable-next-line -- Message for public
@@ -57,8 +89,16 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
         setUser,
         token,
         setToken,
+        subscription,
+        setSubscription,
+        showSubscribeModal,
+        setShowSubscribeModal,
       }}
     >
+      <GetSubscriptionModal
+        close={() => setShowSubscribeModal(false)}
+        isOpen={showSubscribeModal}
+      />
       <Suspense>
         <ProgressLoader color="#5b9364" showSpinner={false} />
       </Suspense>

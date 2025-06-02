@@ -455,6 +455,7 @@ type Query {
   getSeller(username: String!): User
   getStates(countryID: Int!): [CitySelectOption!]!
   getSubscription: Subscription
+  getSubscriptionLink: String
   getUserApplications: [Application!]!
   getUserPostings(page: Float): [Posting!]!
   getUserPostingsLatest(limit: Int, username: String!): [Posting!]!
@@ -504,13 +505,9 @@ input SendReviewByUserArgs {
 }
 
 type Subscription {
-  campaignsUsage: Float!
-  link: String
   nextBilling: Float
-  plan: SubscriptionPlan
-  searchUsage: Float!
+  plan: SubscriptionPlan!
   status: SubscriptionPlanStatus
-  subscriptionID: String
 }
 
 enum SubscriptionPlan {

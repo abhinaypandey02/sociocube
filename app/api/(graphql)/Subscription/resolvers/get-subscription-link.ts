@@ -1,4 +1,4 @@
-import type { AuthorizedContext } from "@backend/lib/auth/context";
+import type { Context } from "@backend/lib/auth/context";
 import { db } from "@backend/lib/db";
 import { CityTable, StateTable } from "@graphql/Map/db";
 import {
@@ -6,7 +6,6 @@ import {
   SubscriptionPlanStatus,
 } from "@graphql/Subscription/constants";
 import { LocationTable, UserTable } from "@graphql/User/db";
-import { Subscription } from "@graphql/User/type";
 import { eq } from "drizzle-orm";
 
 import countries from "@/constants/countries";
@@ -14,9 +13,8 @@ import { getRoute } from "@/constants/routes";
 
 import { SubscriptionTable } from "../db";
 
-export async function handleGetSubscribeLink(
-  ctx: AuthorizedContext,
-): Promise<Subscription | null> {
+export async function handleGetSubscriptionLink(ctx: Context) {
+  if (!ctx.userId) return null;
   const [user] = await db
     .select()
     .from(UserTable)
@@ -39,7 +37,5 @@ export async function handleGetSubscribeLink(
     city && state && country
       ? `city=${city}&state=${state}&country=${country}`
       : undefined;
-  return {
-    link: `https://checkout.dodopayments.com/buy/${productID}?metadata_userID=${ctx.userId}&disableEmail=true&fullName=${user.user.name}&email=${user.user.email}${locationString ? `&${locationString}` : ""}&redirect_url=${getRoute("Profile")}`,
-  };
+  return `https://checkout.dodopayments.com/buy/${productID}?metadata_userID=${ctx.userId}&disableEmail=true&fullName=${user.user.name}&email=${user.user.email}${locationString ? `&${locationString}` : ""}&redirect_url=${getRoute("Profile")}`;
 }

@@ -659,7 +659,9 @@ export const GET_SUBSCRIPTION = gql(`
   #graphql
   query GetSubscription {
       getSubscription{
-          link
+          status
+          plan
       }
+      getSubscriptionLink
   }
 `);

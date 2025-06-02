@@ -1,5 +1,4 @@
 import type { AuthorizedContext, Context } from "@backend/lib/auth/context";
-import { handleGetSubscribeLink } from "@graphql/Subscription/resolvers/get-subscribe-link";
 import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
 
 import { handleGetCurrentUser } from "./resolvers/get-current-user";
@@ -14,15 +13,10 @@ import {
   handleSearchSellers,
   SearchSellersFiltersInput,
 } from "./resolvers/search-sellers";
-import { Subscription, UserGQL } from "./type";
+import { UserGQL } from "./type";
 
 @Resolver()
 export class UserQueryResolver {
-  @Authorized()
-  @Query(() => Subscription, { nullable: true })
-  async getSubscription(@Ctx() ctx: AuthorizedContext) {
-    return handleGetSubscribeLink(ctx);
-  }
   @Query(() => UserGQL, { nullable: true })
   async getCurrentUser(@Ctx() ctx: AuthorizedContext) {
     return handleGetCurrentUser(ctx);

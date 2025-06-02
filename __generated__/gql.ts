@@ -64,7 +64,7 @@ const documents = {
     "\n  #graphql\n  query VerifyEmail($token:String!) {\n    verifyEmail(token: $token)\n  }\n": types.VerifyEmailDocument,
     "\n  #graphql\n  query GetUserApplications {\n    getPendingReviews\n    getUserApplications {\n        id\n      status\n      comment\n      createdAt\n      posting {\n        title\n        agency {\n          name\n          username\n          photo\n        }\n        id\n      }\n    }\n  }\n": types.GetUserApplicationsDocument,
     "\n  #graphql\n  query GetPostingsInReview {\n      getPostingsInReview{\n        id\n        maximumAge\n        minimumFollowers\n        inReview\n        externalLink\n        extraDetails\n        currencyCountry\n        agency {\n            id\n            name\n            photo\n            username\n            instagramStats {\n                isVerified\n                username\n            }\n        }\n        applicationsCount\n        description\n        barter\n        minimumAge\n        open\n        title\n        currency\n        price\n        createdAt\n        platforms\n        hasApplied\n        eligibility\n        updatedAt\n        deliverables\n        reviews {\n            rating\n            photo\n            username\n        }\n    }\n  }\n": types.GetPostingsInReviewDocument,
-    "\n  #graphql\n  query GetSubscription {\n      getSubscription{\n          link\n      }\n  }\n": types.GetSubscriptionDocument,
+    "\n  #graphql\n  query GetSubscription {\n      getSubscription{\n          status\n          plan\n      }\n      getSubscriptionLink\n  }\n": types.GetSubscriptionDocument,
 };
 
 /**
@@ -288,7 +288,7 @@ export function gql(source: "\n  #graphql\n  query GetPostingsInReview {\n      
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  query GetSubscription {\n      getSubscription{\n          link\n      }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetSubscription {\n      getSubscription{\n          link\n      }\n  }\n"];
+export function gql(source: "\n  #graphql\n  query GetSubscription {\n      getSubscription{\n          status\n          plan\n      }\n      getSubscriptionLink\n  }\n"): (typeof documents)["\n  #graphql\n  query GetSubscription {\n      getSubscription{\n          status\n          plan\n      }\n      getSubscriptionLink\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

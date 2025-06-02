@@ -5,7 +5,7 @@ import {
 import { Field, ObjectType } from "type-graphql";
 
 @ObjectType("Subscription")
-export class ReviewGQL {
+export class SubscriptionGQL {
   @Field(() => SubscriptionPlan)
   plan: SubscriptionPlan;
   @Field(() => SubscriptionPlanStatus, { nullable: true })

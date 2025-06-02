@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
 
+import { Roles } from "@/__generated__/graphql";
 import { getRoute, Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
 import { Injector, queryGQL } from "@/lib/apollo-server";
@@ -14,6 +15,7 @@ import {
 import DashboardWrapper from "../components/dashboard-wrapper";
 import ConnectionsSection from "./components/connections-section";
 import LinksSection from "./components/links-section";
+import PlanSection from "./components/plan-section";
 import PortfolioSection from "./components/portfolio-section";
 import ProfileSection from "./components/profile-section";
 import StatsSection from "./components/stats-section";
@@ -42,12 +44,7 @@ export default async function ProfilePage() {
           }
           Component={StatsSection}
         />
-        {/*{user.role !== Roles.Creator && (*/}
-        {/*  <Injector*/}
-        {/*    fetch={() => queryGQL(GET_SUBSCRIPTION, undefined, Cookie, 0)}*/}
-        {/*    Component={PlanSection}*/}
-        {/*  />*/}
-        {/*)}*/}
+        {user.role !== Roles.Creator && <PlanSection />}
         <Injector
           fetch={() =>
             queryGQL(GET_ACCOUNT_PORTFOLIO_DETAILS, undefined, Cookie, 0)

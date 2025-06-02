@@ -5,18 +5,21 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Viewport } from "next";
 import { Nunito_Sans as NunitoSans } from "next/font/google";
 import localFont from "next/font/local";
+import { cookies } from "next/headers";
 import type { PropsWithChildren } from "react";
 import React, { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 
+import AuthApply from "@/app/(public)/components/auth/auth-apply";
+import SubscriptionApply from "@/app/(public)/components/auth/subscription-apply";
+import TokenApply from "@/app/(public)/components/auth/token-apply";
 import ErrorToaster from "@/app/(public)/components/error-toaster";
 import Schema from "@/app/(public)/components/schema";
 import { getSEO, SEO } from "@/constants/seo";
 import { ApolloWrapper } from "@/lib/apollo-client";
+import { Injector, queryGQL } from "@/lib/apollo-server";
 import { GlobalStateWrapper } from "@/lib/auth-client";
-
-import AuthChecker from "./(public)/components/auth/auth-checker";
-import TokenChecker from "./(public)/components/auth/token-checker";
+import { GET_CURRENT_USER, GET_SUBSCRIPTION } from "@/lib/queries";
 
 const madina = localFont({
   src: "../fonts/madina.woff2",
@@ -121,12 +124,31 @@ export default function RootLayout({ children }: PropsWithChildren) {
         </Suspense>
         <ApolloWrapper>
           <GlobalStateWrapper>
-            <Suspense>
-              <AuthChecker />
-            </Suspense>
-            <Suspense>
-              <TokenChecker />
-            </Suspense>
+            <Injector
+              fetch={async () =>
+                queryGQL(GET_CURRENT_USER, undefined, await cookies(), 0)
+              }
+              Component={AuthApply}
+            />
+            <Injector
+              fetch={async () =>
+                queryGQL(GET_SUBSCRIPTION, undefined, await cookies(), 0)
+              }
+              Component={SubscriptionApply}
+            />
+            <Injector
+              fetch={async () =>
+                fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL + `/email`, {
+                  credentials: "include",
+                  headers: {
+                    Cookie: (await cookies()).toString(),
+                  },
+                })
+                  .then((res) => res.text())
+                  .catch(() => null)
+              }
+              Component={TokenApply}
+            />
             {children}
           </GlobalStateWrapper>
         </ApolloWrapper>

@@ -31,3 +31,5 @@ export const UsageTable = pgTable("usage", {
   type: usageType("type").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
+
+export type SubscriptionDB = typeof SubscriptionTable.$inferSelect;

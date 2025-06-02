@@ -21,6 +21,7 @@ import { RequestMutationResolver } from "@graphql/Request/mutations";
 import { RequestQueryResolver } from "@graphql/Request/queries";
 import { ReviewMutationResolver } from "@graphql/Review/mutations";
 import { ReviewQueryResolver } from "@graphql/Review/queries";
+import { SubscriptionQueryResolver } from "@graphql/Subscription/queries";
 import { UserFieldResolver } from "@graphql/User/fields";
 import { UserMutationResolver } from "@graphql/User/mutations";
 import { UserQueryResolver } from "@graphql/User/queries";
@@ -50,6 +51,7 @@ const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
     UserQueryResolver,
     UserMutationResolver,
     UserFieldResolver,
+    SubscriptionQueryResolver,
   ],
   authChecker,
   validate: true,
