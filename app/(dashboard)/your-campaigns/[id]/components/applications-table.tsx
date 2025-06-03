@@ -180,7 +180,7 @@ export default function ApplicationsTable({
     defaultApplications.sort(compareFn).map((val) => ({
       ...val,
       reach:
-        val.user?.instagramStats?.followers === -2
+        val.user?.instagramStats?.er === -2
           ? -2
           : Math.round(
               ((val.user?.instagramStats?.er || 0) *

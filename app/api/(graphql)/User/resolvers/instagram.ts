@@ -35,7 +35,7 @@ export async function getInstagramStats(ctx: Context, user: UserDB) {
     if (!subscription) {
       return {
         username: instagramDetails.username,
-        followers: -2,
+        followers: instagramDetails.followers,
         mediaCount: -2,
         averageComments: -2,
         averageLikes: -2,
