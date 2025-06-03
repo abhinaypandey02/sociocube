@@ -28,32 +28,30 @@ export async function getInstagramStats(user: UserDB, ctx: Context) {
     .from(InstagramDetails)
     .where(eq(InstagramDetails.id, user.instagramDetails));
   if (!instagramDetails) return null;
+  if (!subscription) {
+    return {
+      username: instagramDetails.username,
+      followers: -2,
+      mediaCount: -2,
+      averageComments: -2,
+      averageLikes: -2,
+      er: -2,
+      isVerified: instagramDetails.isVerified,
+    };
+  }
   if (
     instagramDetails.lastFetchedInstagramStats &&
     cacheAlive(instagramDetails.lastFetchedInstagramStats)
   ) {
-    if(!subscription){
-      return{
-        username: instagramDetails.username,
-        followers: -2,
-        mediaCount: -2,
-        averageComments: -2,
-        averageLikes: -2,
-        er: -2,
-        isVerified: instagramDetails.isVerified,
-      }
-    }
-    else{
-      return {
-        username: instagramDetails.username,
-        followers: instagramDetails.followers,
-        mediaCount: instagramDetails.mediaCount || 0,
-        averageComments: instagramDetails.averageComments || 0,
-        averageLikes: instagramDetails.averageLikes || 0,
-        er: normaliseDigits(instagramDetails.er || 0),
-        isVerified: instagramDetails.isVerified,
-      };
-    }
+    return {
+      username: instagramDetails.username,
+      followers: instagramDetails.followers,
+      mediaCount: instagramDetails.mediaCount || 0,
+      averageComments: instagramDetails.averageComments || 0,
+      averageLikes: instagramDetails.averageLikes || 0,
+      er: normaliseDigits(instagramDetails.er || 0),
+      isVerified: instagramDetails.isVerified,
+    };
   }
   const stats = await fetchStats(
     user,
@@ -71,28 +69,15 @@ export async function getInstagramStats(user: UserDB, ctx: Context) {
       })
       .where(eq(InstagramDetails.id, user.instagramDetails));
   }
-  if(!subscription){
-      return{
-        username: stats?.username || instagramDetails.username,
-        followers: -2,
-        mediaCount: -2,
-        averageComments: -2,
-        averageLikes: -2,
-        er: -2,
-        isVerified: instagramDetails.isVerified,
-      }
-    }
-    else{
-      return {
-        username: stats?.username || instagramDetails.username,
-        followers: stats?.followers || instagramDetails.followers,
-        mediaCount: stats?.mediaCount || instagramDetails.mediaCount || 0,
-        averageComments: instagramDetails.averageComments || 0,
-        averageLikes: instagramDetails.averageLikes || 0,
-        er: normaliseDigits(instagramDetails.er || 0),
-        isVerified: instagramDetails.isVerified,
-      };
-    }
+  return {
+    username: stats?.username || instagramDetails.username,
+    followers: stats?.followers || instagramDetails.followers,
+    mediaCount: stats?.mediaCount || instagramDetails.mediaCount || 0,
+    averageComments: instagramDetails.averageComments || 0,
+    averageLikes: instagramDetails.averageLikes || 0,
+    er: normaliseDigits(instagramDetails.er || 0),
+    isVerified: instagramDetails.isVerified,
+  };
 }
 
 export async function getInstagramMedia(user: UserDB) {
@@ -118,13 +103,13 @@ export async function getInstagramMedia(user: UserDB) {
     instagramDetails.followers,
     user.id,
     instagramDetails.accessToken,
-    instagramDetails.username,
+    instagramDetails.username
   );
   if (!posts || !stats || posts.length === 0) return [];
   const deleted = await deleteOldPosts(user.id, posts);
   await db.insert(InstagramMediaTable).values(posts).onConflictDoNothing();
   await Promise.all(
-    deleted.map(({ url }) => url !== posts[0]?.thumbnail && deleteImage(url)),
+    deleted.map(({ url }) => url !== posts[0]?.thumbnail && deleteImage(url))
   );
   await db
     .update(InstagramDetails)
