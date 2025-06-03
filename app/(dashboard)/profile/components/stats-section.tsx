@@ -62,7 +62,7 @@ export default function StatsSection({
             <p className="text-2xl font-poppins font-medium text-center text-gray-700">
               {value === "-2" ? (
                 <span 
-                  className="text-2xl font-poppins font-medium text-center text-gray-700 blur-xs cursor-pointer"
+                  className="blur-xs cursor-pointer"
                   onClick={() => toggleSubscribeModal()}
                   title="Subscribe to view this stat"
                 >

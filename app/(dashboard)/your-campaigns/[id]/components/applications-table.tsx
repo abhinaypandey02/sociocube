@@ -23,6 +23,7 @@ import Table from "@/components/table";
 import { getAgeRange } from "@/constants/age";
 import { getRoute } from "@/constants/routes";
 import { convertToAbbreviation } from "@/lib/utils";
+import { useToggleSubscribeModal } from "@/lib/auth-client";
 
 import ApplicationActions from "../applications/components/application-actions";
 import DownloadExcelButton from "./download-excel-button";
@@ -33,6 +34,21 @@ export type ApplicationTableRow = Omit<
 > & {
   status?: ApplicationStatus | null;
 };
+
+function SubscriptionStat() {
+  const toggleSubscribeModal = useToggleSubscribeModal();
+
+  return (
+    <span
+      className="blur-xs cursor-pointer"
+      onClick={toggleSubscribeModal}
+      title="Subscribe to view this stat"
+    >
+      XX
+    </span>
+  );
+}
+
 const colHelper = createColumnHelper<ApplicationTableRow & { reach: number }>();
 
 const DEFAULT_COLUMNS = [
@@ -139,27 +155,61 @@ const DEFAULT_COLUMNS = [
   colHelper.accessor("user.instagramStats.followers", {
     enableSorting: true,
     header: "Followers",
-    cell: ({ getValue }) => convertToAbbreviation(getValue()),
+    cell: ({ getValue }) => {
+      const value = getValue();
+      if (value === -2) {
+        return <SubscriptionStat />;
+      }
+      return convertToAbbreviation(value);
+    },
   }),
   colHelper.accessor("user.instagramStats.averageLikes", {
     enableSorting: true,
     header: "Avg. Likes",
-    cell: ({ getValue }) => convertToAbbreviation(getValue()),
+    cell: ({ getValue }) => {
+      const value = getValue();
+      if (value === -2) {
+        return <SubscriptionStat />;
+      }
+      return convertToAbbreviation(value);
+    },
   }),
   colHelper.accessor("reach", {
     enableSorting: true,
     header: "Reach",
     id: "reach",
-    cell: ({ getValue }) => convertToAbbreviation(getValue()),
+    cell: ({ getValue }) => {
+      const value = getValue();
+      if (value === -2) {
+        return <SubscriptionStat />;
+      }
+      return convertToAbbreviation(value);
+    },
   }),
   colHelper.accessor("user.instagramStats.er", {
     enableSorting: true,
     header: "ER",
+    id: "er",
+    cell: ({ getValue }) => {
+      const value = getValue();
+      if (value === -2) {
+        return <SubscriptionStat />;
+      }
+      return convertToAbbreviation(value);
+    },
   }),
 
   colHelper.accessor("user.instagramStats.mediaCount", {
     enableSorting: true,
     header: "Posts",
+    id: "mediaCount",
+    cell: ({ getValue }) => {
+      const value = getValue();
+      if (value === -2) {
+        return <SubscriptionStat />;
+      }
+      return convertToAbbreviation(value);
+    },
   }),
 ];
 
@@ -179,7 +229,7 @@ export default function ApplicationsTable({
   const [applications] = useState(
     defaultApplications.sort(compareFn).map((val) => ({
       ...val,
-      reach: Math.round(
+      reach: val.user?.instagramStats?.followers === -2 ? -2 : Math.round(
         ((val.user?.instagramStats?.er || 0) *
           (val.user?.instagramStats?.followers || 0)) /
           100,
