@@ -2,8 +2,8 @@
 import React from "react";
 
 import { GetAccountSocialDetailsQuery } from "@/__generated__/graphql";
-import { convertToAbbreviation } from "@/lib/utils";
 import { useToggleSubscribeModal } from "@/lib/auth-client";
+import { convertToAbbreviation } from "@/lib/utils";
 
 import AccountCard from "./account-card";
 export default function StatsSection({
@@ -24,44 +24,44 @@ export default function StatsSection({
           {
             value: convertToAbbreviation(user.instagramStats?.followers),
             label: "Followers",
-            suffix: ""
+            suffix: "",
           },
           {
             value: convertToAbbreviation(
-              user.instagramStats?.er === -2 ? -2 : user.instagramStats?.er
+              user.instagramStats?.er === -2 ? -2 : user.instagramStats?.er,
             ),
             label: "Engagement",
-            suffix: "%"
+            suffix: "%",
           },
           {
             value: convertToAbbreviation(
               user.instagramStats?.followers === -2
                 ? -2
-                : user.instagramStats?.er * user.instagramStats?.followers
+                : user.instagramStats?.er * user.instagramStats?.followers,
             ),
             label: "Reach",
-            suffix: ""
+            suffix: "",
           },
           {
             value: convertToAbbreviation(user.instagramStats?.mediaCount),
             label: "Media count",
-            suffix: ""
+            suffix: "",
           },
           {
             value: convertToAbbreviation(user.instagramStats?.averageLikes),
             label: "Avg. Likes",
-            suffix: ""
+            suffix: "",
           },
           {
             value: convertToAbbreviation(user.instagramStats?.averageComments),
             label: "Avg. Comments",
-            suffix: ""
+            suffix: "",
           },
         ].map(({ value, label, suffix }) => (
           <div key={label}>
             <p className="text-2xl font-poppins font-medium text-center text-gray-700">
               {value === "-2" ? (
-                <span 
+                <span
                   className="blur-xs cursor-pointer"
                   onClick={() => toggleSubscribeModal()}
                   title="Subscribe to view this stat"

@@ -22,8 +22,8 @@ import SelectedActions from "@/app/(dashboard)/your-campaigns/[id]/selected/comp
 import Table from "@/components/table";
 import { getAgeRange } from "@/constants/age";
 import { getRoute } from "@/constants/routes";
-import { convertToAbbreviation } from "@/lib/utils";
 import { useToggleSubscribeModal } from "@/lib/auth-client";
+import { convertToAbbreviation } from "@/lib/utils";
 
 import ApplicationActions from "../applications/components/application-actions";
 import DownloadExcelButton from "./download-excel-button";
@@ -229,11 +229,14 @@ export default function ApplicationsTable({
   const [applications] = useState(
     defaultApplications.sort(compareFn).map((val) => ({
       ...val,
-      reach: val.user?.instagramStats?.followers === -2 ? -2 : Math.round(
-        ((val.user?.instagramStats?.er || 0) *
-          (val.user?.instagramStats?.followers || 0)) /
-          100,
-      ),
+      reach:
+        val.user?.instagramStats?.followers === -2
+          ? -2
+          : Math.round(
+              ((val.user?.instagramStats?.er || 0) *
+                (val.user?.instagramStats?.followers || 0)) /
+                100,
+            ),
     })),
   );
 

@@ -3,13 +3,14 @@ import { deleteImage } from "@backend/lib/storage/aws-s3";
 import { normaliseDigits } from "@backend/lib/utils/math";
 import { desc, eq } from "drizzle-orm";
 
+import type { Context } from "@/app/api/lib/auth/context";
+
 import { InstagramDetails } from "../../Instagram/db";
 import { InstagramMediaTable } from "../../Instagram/db2";
 import { deleteOldPosts } from "../../Instagram/fetch-utils";
 import { fetchStats, fetchUploadedPostsAndStats } from "../../Instagram/utils";
-import type { UserDB } from "../db";
-import type { Context } from "@/app/api/lib/auth/context";
 import { SubscriptionTable } from "../../Subscription/db";
+import type { UserDB } from "../db";
 
 function cacheAlive(d: Date) {
   const time = (new Date().getTime() - d.getTime()) / (1000 * 60 * 60);
@@ -103,13 +104,13 @@ export async function getInstagramMedia(user: UserDB) {
     instagramDetails.followers,
     user.id,
     instagramDetails.accessToken,
-    instagramDetails.username
+    instagramDetails.username,
   );
   if (!posts || !stats || posts.length === 0) return [];
   const deleted = await deleteOldPosts(user.id, posts);
   await db.insert(InstagramMediaTable).values(posts).onConflictDoNothing();
   await Promise.all(
-    deleted.map(({ url }) => url !== posts[0]?.thumbnail && deleteImage(url))
+    deleted.map(({ url }) => url !== posts[0]?.thumbnail && deleteImage(url)),
   );
   await db
     .update(InstagramDetails)
