@@ -8,13 +8,20 @@ import { InstagramMediaTable } from "../../Instagram/db2";
 import { deleteOldPosts } from "../../Instagram/fetch-utils";
 import { fetchStats, fetchUploadedPostsAndStats } from "../../Instagram/utils";
 import type { UserDB } from "../db";
+import type { Context } from "@/app/api/lib/auth/context";
+import { SubscriptionTable } from "../../Subscription/db";
 
 function cacheAlive(d: Date) {
   const time = (new Date().getTime() - d.getTime()) / (1000 * 60 * 60);
   return time < 36;
 }
 
-export async function getInstagramStats(user: UserDB) {
+export async function getInstagramStats(user: UserDB, ctx: Context) {
+  if (!ctx.userId) return null;
+  const [subscription] = await db
+    .select()
+    .from(SubscriptionTable)
+    .where(eq(SubscriptionTable.user, ctx.userId));
   if (!user.instagramDetails) return null;
   const [instagramDetails] = await db
     .select()
@@ -25,15 +32,28 @@ export async function getInstagramStats(user: UserDB) {
     instagramDetails.lastFetchedInstagramStats &&
     cacheAlive(instagramDetails.lastFetchedInstagramStats)
   ) {
-    return {
-      username: instagramDetails.username,
-      followers: instagramDetails.followers,
-      mediaCount: instagramDetails.mediaCount || 0,
-      averageComments: instagramDetails.averageComments || 0,
-      averageLikes: instagramDetails.averageLikes || 0,
-      er: normaliseDigits(instagramDetails.er || 0),
-      isVerified: instagramDetails.isVerified,
-    };
+    if(!subscription){
+      return{
+        username: instagramDetails.username,
+        followers: -2,
+        mediaCount: -2,
+        averageComments: -2,
+        averageLikes: -2,
+        er: -2,
+        isVerified: instagramDetails.isVerified,
+      }
+    }
+    else{
+      return {
+        username: instagramDetails.username,
+        followers: instagramDetails.followers,
+        mediaCount: instagramDetails.mediaCount || 0,
+        averageComments: instagramDetails.averageComments || 0,
+        averageLikes: instagramDetails.averageLikes || 0,
+        er: normaliseDigits(instagramDetails.er || 0),
+        isVerified: instagramDetails.isVerified,
+      };
+    }
   }
   const stats = await fetchStats(
     user,
@@ -51,15 +71,28 @@ export async function getInstagramStats(user: UserDB) {
       })
       .where(eq(InstagramDetails.id, user.instagramDetails));
   }
-  return {
-    username: stats?.username || instagramDetails.username,
-    followers: stats?.followers || instagramDetails.followers,
-    mediaCount: stats?.mediaCount || instagramDetails.mediaCount || 0,
-    averageComments: instagramDetails.averageComments || 0,
-    averageLikes: instagramDetails.averageLikes || 0,
-    er: normaliseDigits(instagramDetails.er || 0),
-    isVerified: instagramDetails.isVerified,
-  };
+  if(!subscription){
+      return{
+        username: stats?.username || instagramDetails.username,
+        followers: -2,
+        mediaCount: -2,
+        averageComments: -2,
+        averageLikes: -2,
+        er: -2,
+        isVerified: instagramDetails.isVerified,
+      }
+    }
+    else{
+      return {
+        username: stats?.username || instagramDetails.username,
+        followers: stats?.followers || instagramDetails.followers,
+        mediaCount: stats?.mediaCount || instagramDetails.mediaCount || 0,
+        averageComments: instagramDetails.averageComments || 0,
+        averageLikes: instagramDetails.averageLikes || 0,
+        er: normaliseDigits(instagramDetails.er || 0),
+        isVerified: instagramDetails.isVerified,
+      };
+    }
 }
 
 export async function getInstagramMedia(user: UserDB) {
