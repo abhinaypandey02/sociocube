@@ -1,5 +1,6 @@
-import { FieldResolver, Resolver, Root } from "type-graphql";
+import { Ctx, FieldResolver, Resolver, Root } from "type-graphql";
 
+import type { Context } from "../../lib/auth/context";
 import { InstagramMedia, InstagramStats } from "../Instagram/type";
 import { PortfolioGQL } from "../Portfolio/type";
 import { ReviewGQL } from "../Review/type";
@@ -33,8 +34,11 @@ export class UserFieldResolver {
   }
 
   @FieldResolver(() => InstagramStats, { nullable: true })
-  async instagramStats(@Root() user: UserDB): Promise<InstagramStats | null> {
-    return getInstagramStats(user);
+  async instagramStats(
+    @Root() user: UserDB,
+    @Ctx() ctx: Context,
+  ): Promise<InstagramStats | null> {
+    return getInstagramStats(user, ctx);
   }
   @FieldResolver(() => [InstagramMedia], { nullable: true })
   async instagramMedia(@Root() user: UserDB): Promise<InstagramMedia[]> {

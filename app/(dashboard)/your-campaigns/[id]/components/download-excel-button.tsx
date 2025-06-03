@@ -5,6 +5,8 @@ import writeXlsxFile from "write-excel-file";
 import { ApplicationTableRow } from "@/app/(dashboard)/your-campaigns/[id]/components/applications-table";
 import { getAge } from "@/constants/age";
 import { getRoute } from "@/constants/routes";
+import { useToggleSubscribeModal } from "@/lib/auth-client";
+import { useSubscription } from "@/lib/auth-client";
 
 import { getStatusName } from "../applications/utils";
 
@@ -17,10 +19,16 @@ export default function DownloadExcelButton({
   postingTitle: string;
   extraDetails?: string;
 }) {
+  const toggleSubscribeModal = useToggleSubscribeModal();
+  const [subscription] = useSubscription();
   return (
     <button
       className="flex items-center gap-1 text-sm font-medium text-primary underline underline-offset-4"
       onClick={async () => {
+        if (!subscription?.existing) {
+          toggleSubscribeModal();
+          return;
+        }
         await writeXlsxFile(
           [
             [
