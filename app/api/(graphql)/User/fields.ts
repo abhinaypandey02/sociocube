@@ -38,7 +38,7 @@ export class UserFieldResolver {
     @Root() user: UserDB,
     @Ctx() ctx: Context,
   ): Promise<InstagramStats | null> {
-    return getInstagramStats(user, ctx);
+    return getInstagramStats(ctx, user);
   }
   @FieldResolver(() => [InstagramMedia], { nullable: true })
   async instagramMedia(@Root() user: UserDB): Promise<InstagramMedia[]> {

@@ -17,29 +17,34 @@ function cacheAlive(d: Date) {
   return time < 36;
 }
 
-export async function getInstagramStats(user: UserDB, ctx: Context) {
+export async function getInstagramStats(ctx: Context, user: UserDB) {
   if (!ctx.userId) return null;
-  const [subscription] = await db
-    .select()
-    .from(SubscriptionTable)
-    .where(eq(SubscriptionTable.user, ctx.userId));
   if (!user.instagramDetails) return null;
+
   const [instagramDetails] = await db
     .select()
     .from(InstagramDetails)
     .where(eq(InstagramDetails.id, user.instagramDetails));
   if (!instagramDetails) return null;
-  if (!subscription && user.id !== ctx.userId) {
-    return {
-      username: instagramDetails.username,
-      followers: -2,
-      mediaCount: -2,
-      averageComments: -2,
-      averageLikes: -2,
-      er: -2,
-      isVerified: instagramDetails.isVerified,
-    };
+
+  if (ctx.userId !== user.id) {
+    const [subscription] = await db
+      .select()
+      .from(SubscriptionTable)
+      .where(eq(SubscriptionTable.user, ctx.userId));
+    if (!subscription) {
+      return {
+        username: instagramDetails.username,
+        followers: -2,
+        mediaCount: -2,
+        averageComments: -2,
+        averageLikes: -2,
+        er: -2,
+        isVerified: instagramDetails.isVerified,
+      };
+    }
   }
+
   if (
     instagramDetails.lastFetchedInstagramStats &&
     cacheAlive(instagramDetails.lastFetchedInstagramStats)
