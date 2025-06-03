@@ -1,18 +1,11 @@
 "use client";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import {
-  ChatCircleDots,
-  EnvelopeSimple,
-  Phone,
-  SealCheck,
-} from "@phosphor-icons/react";
-import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
+import { ChatCircleDots, SealCheck } from "@phosphor-icons/react";
 import type { CellContext } from "@tanstack/react-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
-import { toast } from "react-hot-toast";
 
 import type { GetPostingApplicationsQuery } from "@/__generated__/graphql";
 import { ApplicationStatus } from "@/__generated__/graphql";
@@ -26,6 +19,7 @@ import { useToggleSubscribeModal } from "@/lib/auth-client";
 import { convertToAbbreviation } from "@/lib/utils";
 
 import ApplicationActions from "../applications/components/application-actions";
+import { ContactButtons } from "./contact-buttons";
 import DownloadExcelButton from "./download-excel-button";
 
 export type ApplicationTableRow = Omit<
@@ -55,56 +49,12 @@ const DEFAULT_COLUMNS = [
   colHelper.accessor("user.instagramStats.username", {
     header: "Links",
     cell: (val) => (
-      <div className="flex items-center gap-2">
-        <a
-          className="text-accent"
-          href={`${getRoute("Inbox")}/${val.row.original.user?.username}`}
-        >
-          <ChatCircleDots size={19} />
-        </a>
-        <a
-          className="text-accent"
-          href={`https://instagram.com/${val.getValue()}`}
-          rel="noopener"
-          target="_blank"
-        >
-          <InstagramLogo size={19} />
-        </a>
-        <button
-          className="text-accent"
-          onClick={async () => {
-            if (val.row.original.user?.email) {
-              await navigator.clipboard.writeText(val.row.original.user?.email);
-              toast.success(
-                `Copied ${val.row.original.user?.email} to clipboard`,
-              );
-            }
-          }}
-        >
-          <EnvelopeSimple size={20} />
-        </button>
-        {val.row.original.user?.phone ? (
-          <button
-            className="text-accent"
-            onClick={async () => {
-              if (val.row.original.user?.phone) {
-                await navigator.clipboard.writeText(
-                  val.row.original.user?.phone,
-                );
-                toast.success(
-                  `Copied ${val.row.original.user?.phone} to clipboard`,
-                  {
-                    duration: 5000,
-                  },
-                );
-              }
-            }}
-            type="button"
-          >
-            <Phone size={20} />
-          </button>
-        ) : null}
-      </div>
+      <ContactButtons
+        chatUsername={val.row.original.user?.username}
+        instaUsername={val.getValue()}
+        email={val.row.original.user?.email}
+        phone={val.row.original.user?.phone}
+      />
     ),
   }),
 
