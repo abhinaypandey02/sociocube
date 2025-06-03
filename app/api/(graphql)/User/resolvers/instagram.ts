@@ -29,7 +29,7 @@ export async function getInstagramStats(user: UserDB, ctx: Context) {
     .from(InstagramDetails)
     .where(eq(InstagramDetails.id, user.instagramDetails));
   if (!instagramDetails) return null;
-  if (!subscription) {
+  if (!subscription && user.id !== ctx.userId) {
     return {
       username: instagramDetails.username,
       followers: -2,
