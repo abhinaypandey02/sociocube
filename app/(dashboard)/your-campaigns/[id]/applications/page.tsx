@@ -16,7 +16,7 @@ export default async function AccountPostingApplicationsPage({
 }) {
   const { id } = await params;
   const numericID = parseInt(id);
-  const { applications, posting } = await queryGQL(
+  const { applications, posting, getSubscription } = await queryGQL(
     GET_POSTING_APPLICATIONS,
     {
       postingID: numericID,
@@ -33,6 +33,7 @@ export default async function AccountPostingApplicationsPage({
       activeKey={Route.YourCampaigns}
     >
       <ApplicationsTable
+        sub={getSubscription}
         actionType={"applications"}
         applications={applications.filter((app) => Boolean(app.user))}
         posting={posting}

@@ -3,8 +3,9 @@ import "reflect-metadata";
 import { registerEnumType } from "type-graphql";
 
 export enum UsageType {
-  AiSearch = "AI_SEARCH",
-  PostingAnnouncement = "POSTING_ANNOUNCEMENT",
+  AiSearch = "AiSearch",
+  PostingAnnouncement = "PostingAnnouncement",
+  GlobalAnnouncement = "GlobalAnnouncement",
 }
 export enum SubscriptionPlan {
   Plus = "Plus",
@@ -31,11 +32,10 @@ export const MaxUsages: Record<UsageType, MaxUsage> = {
     [SubscriptionPlan.Plus]: 3,
     [SubscriptionPlan.Free]: 1,
   },
-};
-
-export const GlobalAnnouncementUsage = {
-  [SubscriptionPlan.Plus]: 10,
-  [SubscriptionPlan.Free]: 1,
+  [UsageType.GlobalAnnouncement]: {
+    [SubscriptionPlan.Plus]: 10,
+    [SubscriptionPlan.Free]: 1,
+  },
 };
 
 export const SUBSCRIPTION_PLANS = [
@@ -47,6 +47,7 @@ export const SUBSCRIPTION_PLANS = [
 export const USAGE_TYPES = [
   UsageType.AiSearch,
   UsageType.PostingAnnouncement,
+  UsageType.GlobalAnnouncement,
 ] as const;
 
 registerEnumType(SubscriptionPlan, {

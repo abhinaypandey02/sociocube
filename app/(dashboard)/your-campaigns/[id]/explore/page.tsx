@@ -15,7 +15,7 @@ export default async function AccountPostingApplicationsPage({
 }) {
   const { id } = await params;
   const numericID = parseInt(id);
-  const { posting } = await queryGQL(
+  const { posting, getSubscription } = await queryGQL(
     GET_POSTING_RECOMMENDATIONS,
     {
       postingID: numericID,
@@ -32,6 +32,7 @@ export default async function AccountPostingApplicationsPage({
       activeKey={Route.YourCampaigns}
     >
       <ApplicationsTable
+        sub={getSubscription}
         actionType={"recommendations"}
         posting={posting}
         applications={posting.recommendations.map((rec) => ({

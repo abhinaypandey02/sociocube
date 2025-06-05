@@ -471,12 +471,17 @@ export const GET_USER_POSTINGS_LATEST = gql(`
 export const GET_POSTING_APPLICATIONS = gql(`
   #graphql
   query GetPostingApplications($postingID:Int!) {
+    getSubscription {
+        usages {
+            PostingAnnouncement(postingID: $postingID)
+            GlobalAnnouncement
+        }
+    }
     posting: getPosting(id: $postingID, owned: true){
-      title
-        id  
-      extraDetails
-      externalLink
-      announcementCount
+    title
+      id  
+    extraDetails
+    externalLink
     }
     applications:getPostingApplications(postingID: $postingID) {
       status
@@ -510,11 +515,16 @@ export const GET_POSTING_APPLICATIONS = gql(`
 export const GET_POSTING_SELECTED = gql(`
   #graphql
   query GetPostingSelected($postingID:Int!) {
+     getSubscription {
+        usages {
+            PostingAnnouncement(postingID: $postingID) 
+            GlobalAnnouncement
+        }
+    }  
     posting: getPosting(id: $postingID, owned: true){
       title
       id  
       extraDetails
-        announcementCount
       externalLink
     }
     applications:getPostingSelected(postingID: $postingID) {
@@ -549,11 +559,16 @@ export const GET_POSTING_SELECTED = gql(`
 export const GET_POSTING_RECOMMENDATIONS = gql(`
   #graphql
   query GetPostingRecommendations($postingID:Int!) {
+    getSubscription {
+        usages {
+            PostingAnnouncement(postingID: $postingID)
+            GlobalAnnouncement
+        }
+    }
     posting: getPosting(id: $postingID, owned: true){
       title
       externalLink
       extraDetails  
-        announcementCount
       id  
         recommendations {
             status

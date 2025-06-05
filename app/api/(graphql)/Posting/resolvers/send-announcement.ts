@@ -10,7 +10,6 @@ import { sendEvent } from "@backend/lib/socket/send-event";
 import { ConversationMessageTable, ConversationTable } from "@graphql/Chat/db";
 import { PostingTable } from "@graphql/Posting/db";
 import {
-  GlobalAnnouncementUsage,
   MaxUsages,
   SubscriptionPlan,
   UsageType,
@@ -56,14 +55,14 @@ export async function handleSendAnnouncement(
   const pendingDailyUsages = await getPendingUsage({
     plan: posting.subscription.plan,
     feature: UsageType.PostingAnnouncement,
-    thresholdUsage: GlobalAnnouncementUsage,
+    thresholdUsage: MaxUsages.GlobalAnnouncement,
     userID: ctx.userId,
   });
 
   if (pendingDailyUsages <= 0)
     throw GQLError(
       400,
-      `You can only send ${GlobalAnnouncementUsage[posting.subscription.plan || SubscriptionPlan.Free]} announcements per posting.`,
+      `You can only send ${MaxUsages.GlobalAnnouncement[posting.subscription.plan || SubscriptionPlan.Free]} announcements per posting.`,
     );
 
   const users = await db

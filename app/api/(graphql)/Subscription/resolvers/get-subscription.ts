@@ -10,5 +10,13 @@ export async function handleGetSubscription(ctx: Context) {
     .select()
     .from(SubscriptionTable)
     .where(eq(SubscriptionTable.user, ctx.userId));
-  return subscription;
+  return (
+    subscription || {
+      subscriptionID: null,
+      plan: null,
+      nextBilling: null,
+      user: ctx.userId,
+      status: null,
+    }
+  );
 }

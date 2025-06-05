@@ -170,10 +170,12 @@ const compareFn = (a: ApplicationTableRow, b: ApplicationTableRow) =>
 export default function ApplicationsTable({
   applications: defaultApplications,
   posting,
+  sub,
   actionType,
 }: {
   applications: ApplicationTableRow[];
   posting: NonNullable<GetPostingApplicationsQuery["posting"]>;
+  sub: GetPostingApplicationsQuery["getSubscription"];
   actionType: "applications" | "recommendations" | "selected";
 }) {
   const [applications] = useState(
@@ -261,7 +263,7 @@ export default function ApplicationsTable({
         <div className={"flex gap-2 items-center justify-end"}>
           {actionType === "selected" && applications.length > 0 && (
             <SendAnnouncementButton
-              count={posting.announcementCount}
+              count={sub?.usages?.PostingAnnouncement || 0}
               applications={applications}
               postingID={posting.id}
             />
