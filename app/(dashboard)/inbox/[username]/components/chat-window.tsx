@@ -35,7 +35,7 @@ export default function ChatWindow({
       loading?: boolean;
       failed?: boolean;
     })[]
-  >(chat.messages.toReversed());
+  >(chat.messages.slice().reverse());
 
   function onSubmit(data: FormValues) {
     if (!user || !data.text) return;
