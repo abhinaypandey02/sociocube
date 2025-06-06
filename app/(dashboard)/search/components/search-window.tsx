@@ -18,7 +18,11 @@ import { Input } from "@/components/input";
 import LinkWrapper from "@/components/link-wrapper";
 import LoaderSkeleton from "@/components/loader-skeleton";
 import { getRoute } from "@/constants/routes";
-import { useToggleSubscribeModal, useToken } from "@/lib/auth-client";
+import {
+  useSubscription,
+  useToggleSubscribeModal,
+  useToken,
+} from "@/lib/auth-client";
 import { convertToAbbreviation } from "@/lib/utils";
 
 const NoResults = dynamic(() => import("./no-results"));
@@ -33,6 +37,7 @@ export default function SearchWindow({
   };
 }) {
   const toggleSubscriptionModal = useToggleSubscribeModal();
+  const [subscription] = useSubscription();
   const token = useToken();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
@@ -165,6 +170,22 @@ export default function SearchWindow({
                 </li>
               ))}
           </ul>
+          {!loading &&
+            !data?.error &&
+            data?.filters.query &&
+            !subscription?.existing?.plan && (
+              <div className="flex justify-center mt-6">
+                <Button
+                  onClick={() =>
+                    toggleSubscriptionModal(
+                      `Search is limited to 5 creators in the free plan.`,
+                    )
+                  }
+                >
+                  View more
+                </Button>
+              </div>
+            )}
         </section>
       </form>
     </>
