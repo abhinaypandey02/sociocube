@@ -32,11 +32,11 @@ export async function handleSendAnnouncement(
       and(eq(PostingTable.id, postingID), eq(PostingTable.agency, ctx.userId)),
     )
     .innerJoin(UserTable, eq(UserTable.id, PostingTable.agency))
-    .innerJoin(SubscriptionTable, eq(SubscriptionTable.user, UserTable.id));
+    .leftJoin(SubscriptionTable, eq(SubscriptionTable.user, UserTable.id));
   if (!posting) throw GQLError(400, "Posting not found");
 
   const pendingPostingAnnouncements = await getPendingUsage({
-    plan: posting.subscription.plan,
+    plan: posting.subscription?.plan,
     feature: UsageType.PostingAnnouncement,
     thresholdHours: 0,
     userID: ctx.userId,
@@ -46,11 +46,11 @@ export async function handleSendAnnouncement(
   if (pendingPostingAnnouncements < 0)
     throw GQLError(
       400,
-      `You can only send ${MaxUsages[UsageType.PostingAnnouncement][posting.subscription.plan || SubscriptionPlan.Free]} announcements per posting.`,
+      `You can only send ${MaxUsages[UsageType.PostingAnnouncement][posting.subscription?.plan || SubscriptionPlan.Free]} announcements per posting.`,
     );
 
   const pendingDailyUsages = await getPendingUsage({
-    plan: posting.subscription.plan,
+    plan: posting.subscription?.plan,
     feature: UsageType.PostingAnnouncement,
     thresholdUsage: MaxUsages.GlobalAnnouncement,
     userID: ctx.userId,
@@ -59,7 +59,7 @@ export async function handleSendAnnouncement(
   if (pendingDailyUsages <= 0)
     throw GQLError(
       400,
-      `You can only send ${MaxUsages.GlobalAnnouncement[posting.subscription.plan || SubscriptionPlan.Free]} announcements per posting.`,
+      `You can only send ${MaxUsages.GlobalAnnouncement[posting.subscription?.plan || SubscriptionPlan.Free]} announcements per posting.`,
     );
 
   const users = await db
