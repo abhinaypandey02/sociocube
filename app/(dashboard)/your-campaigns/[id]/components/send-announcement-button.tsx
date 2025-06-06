@@ -51,6 +51,9 @@ export default function SendAnnouncementButton({
     const { announcement } = data;
     if (announcement) {
       announce({
+        apps: applications.length
+          ? applications.map((app) => app.id)
+          : undefined,
         body: announcement,
         postingID,
       })
