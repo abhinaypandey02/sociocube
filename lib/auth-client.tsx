@@ -98,7 +98,6 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
       <GetSubscriptionModal
         message={showSubscribeModal}
         close={() => setShowSubscribeModal(undefined)}
-        isOpen={!!showSubscribeModal}
       />
       <Suspense>
         <ProgressLoader color="#5b9364" showSpinner={false} />
