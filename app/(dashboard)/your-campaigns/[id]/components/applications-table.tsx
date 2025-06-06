@@ -13,7 +13,6 @@ import SendAnnouncementButton from "@/app/(dashboard)/your-campaigns/[id]/compon
 import RecommendationActions from "@/app/(dashboard)/your-campaigns/[id]/explore/components/recommendation-actions";
 import SelectedActions from "@/app/(dashboard)/your-campaigns/[id]/selected/components/selected-actions";
 import Table from "@/components/table";
-import { Checkbox } from "@/components/ui/checkbox";
 import { getAgeRange } from "@/constants/age";
 import { getRoute } from "@/constants/routes";
 import { useToggleSubscribeModal } from "@/lib/auth-client";
@@ -194,6 +193,18 @@ export default function ApplicationsTable({
   );
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
+  const handleSelectionChange = (row: Record<string, boolean>) => {
+    const selectedRowIndices = Object.keys(row)
+      .filter((key) => row[key])
+      .map(Number);
+
+    const selectedApplicationIds = selectedRowIndices
+      .map((index) => applications[index]?.id)
+      .filter((id): id is number => id !== undefined);
+
+    setSelectedIds(selectedApplicationIds);
+  };
+
   const ApplicationActionsCell = useCallback(
     (
       val: CellContext<
@@ -221,59 +232,6 @@ export default function ApplicationsTable({
   );
 
   const columns = [
-    ...(actionType === "selected"
-      ? [
-          colHelper.accessor("id", {
-            header: ({ table }) => {
-              const allRowIds = table
-                .getRowModel()
-                .rows.map((row) => row.original.id);
-              const isAllSelected =
-                allRowIds.length > 0 &&
-                allRowIds.every((id) => selectedIds.includes(id));
-              const isIndeterminate =
-                allRowIds.some((id) => selectedIds.includes(id)) &&
-                !isAllSelected;
-
-              return (
-                <Checkbox
-                  checked={
-                    isAllSelected
-                      ? true
-                      : isIndeterminate
-                        ? "indeterminate"
-                        : false
-                  }
-                  onCheckedChange={(checked) => {
-                    if (checked === true) {
-                      setSelectedIds(allRowIds);
-                    } else {
-                      setSelectedIds([]);
-                    }
-                  }}
-                  aria-label="Select all applicants"
-                />
-              );
-            },
-            cell: ({ row }) => (
-              <Checkbox
-                checked={selectedIds.includes(row.original.id)}
-                onCheckedChange={(checked) => {
-                  if (checked) {
-                    setSelectedIds((prev) => [...prev, row.original.id]);
-                  } else {
-                    setSelectedIds((prev) =>
-                      prev.filter((id) => id !== row.original.id),
-                    );
-                  }
-                }}
-              />
-            ),
-            id: "select-col",
-            enableSorting: false,
-          }),
-        ]
-      : []),
     ...DEFAULT_COLUMNS,
     ...(posting?.externalLink
       ? []
@@ -342,6 +300,7 @@ export default function ApplicationsTable({
       }
       columns={columns}
       data={applications}
+      onSelect={actionType === "selected" ? handleSelectionChange : undefined}
     />
   );
 }
