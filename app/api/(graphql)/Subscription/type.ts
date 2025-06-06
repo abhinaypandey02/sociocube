@@ -1,9 +1,7 @@
-import {
-  SubscriptionPlan,
-  SubscriptionPlanStatus,
-  UsageType,
-} from "@graphql/Subscription/constants";
+import { SubscriptionPlanStatus } from "@graphql/Subscription/constants";
 import { Field, ObjectType } from "type-graphql";
+
+import { SubscriptionPlan, UsageType } from "@/lib/usages";
 
 @ObjectType("SubscriptionGQL")
 export class SubscriptionGQL {

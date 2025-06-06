@@ -1,5 +1,4 @@
 import { db } from "@backend/lib/db";
-import { SubscriptionPlan, UsageType } from "@graphql/Subscription/constants";
 import { SubscriptionTable } from "@graphql/Subscription/db";
 import { addUsage, getPendingUsage } from "@graphql/Subscription/utils";
 import { MaxLength } from "class-validator";
@@ -16,6 +15,7 @@ import { Field, InputType } from "type-graphql";
 import { Context } from "@/app/api/lib/auth/context";
 import categories from "@/constants/categories";
 import { BIO_MAX_LENGTH } from "@/constants/constraints";
+import { SearchResultsLength, SubscriptionPlan, UsageType } from "@/lib/usages";
 import { getGroqResponse } from "@/lib/utils";
 
 import { InstagramDetails } from "../../Instagram/db";
@@ -77,7 +77,9 @@ export async function handleSearchSellers(
   return getFilteredUsers(
     filters,
     query,
-    plan?.plan === SubscriptionPlan.Plus ? 20 : undefined,
+    plan?.plan === SubscriptionPlan.Plus
+      ? SearchResultsLength[SubscriptionPlan.Plus]
+      : undefined,
   );
 }
 

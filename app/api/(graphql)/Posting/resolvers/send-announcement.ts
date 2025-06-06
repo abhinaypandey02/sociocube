@@ -9,16 +9,13 @@ import { sendBatchTemplateEmail } from "@backend/lib/email/send-template";
 import { sendEvent } from "@backend/lib/socket/send-event";
 import { ConversationMessageTable, ConversationTable } from "@graphql/Chat/db";
 import { PostingTable } from "@graphql/Posting/db";
-import {
-  MaxUsages,
-  SubscriptionPlan,
-  UsageType,
-} from "@graphql/Subscription/constants";
 import { SubscriptionTable } from "@graphql/Subscription/db";
 import { addUsage, getPendingUsage } from "@graphql/Subscription/utils";
 import { UserTable } from "@graphql/User/db";
 import { waitUntil } from "@vercel/functions";
 import { and, eq, inArray, sql } from "drizzle-orm";
+
+import { MaxUsages, SubscriptionPlan, UsageType } from "@/lib/usages";
 
 import { ApplicationStatus, ApplicationTable } from "../../Application/db";
 

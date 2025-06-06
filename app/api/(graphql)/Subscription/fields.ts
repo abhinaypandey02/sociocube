@@ -1,9 +1,10 @@
 import type { Context } from "@backend/lib/auth/context";
-import { MaxUsages, UsageType } from "@graphql/Subscription/constants";
 import type { SubscriptionDB } from "@graphql/Subscription/db";
 import { SubscriptionGQL, UsageGQL } from "@graphql/Subscription/type";
 import { getPendingUsage } from "@graphql/Subscription/utils";
 import { Arg, Ctx, FieldResolver, Int, Resolver, Root } from "type-graphql";
+
+import { MaxUsages, UsageType } from "@/lib/usages";
 
 @Resolver(() => SubscriptionGQL)
 export class SubscriptionFieldResolver {

@@ -15,6 +15,7 @@ import {
 } from "drizzle-orm";
 
 import { USERNAME_REGEX } from "@/constants/regex";
+import { SearchResultsLength, SubscriptionPlan } from "@/lib/usages";
 
 import type { Context } from "../../lib/auth/context";
 import { InstagramDetails } from "../Instagram/db";
@@ -52,7 +53,7 @@ export function usernameAllowed(username: string) {
 export async function getFilteredUsers(
   filters: UserSearchFilters,
   query: string,
-  limit: number = 5,
+  limit: number = SearchResultsLength[SubscriptionPlan.Free],
   orderBy?: SQL,
 ) {
   let ageFromDate: Date | undefined = undefined;

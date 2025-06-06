@@ -1,13 +1,9 @@
 import { db } from "@backend/lib/db";
-import {
-  MaxUsage,
-  MaxUsages,
-  SubscriptionPlan,
-  UsageType,
-} from "@graphql/Subscription/constants";
 import { UsageTable } from "@graphql/Subscription/db";
 import { waitUntil } from "@vercel/functions";
 import { and, count, eq, gt } from "drizzle-orm";
+
+import { MaxUsage, MaxUsages, SubscriptionPlan, UsageType } from "@/lib/usages";
 
 export async function getPendingUsage({
   userID,

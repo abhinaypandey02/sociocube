@@ -15,13 +15,11 @@ import {
 
 import categories from "@/constants/categories";
 import genders from "@/constants/genders";
+import { SubscriptionPlan } from "@/lib/usages";
 
 import { InstagramDetails } from "../Instagram/db";
 import { CityTable, CountryTable } from "../Map/db";
-import {
-  SubscriptionPlan,
-  SubscriptionPlanStatus,
-} from "../Subscription/constants";
+import { SubscriptionPlanStatus } from "../Subscription/constants";
 
 export const rolesEnum = pgEnum("role", [
   Roles.Admin,
