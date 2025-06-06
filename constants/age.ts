@@ -29,7 +29,7 @@ export const AGE_RANGES = [
 
 export function getAgeRange(d: Date) {
   const age = getAge(d);
-  for (const range of AGE_RANGES.toReversed()) {
+  for (const range of [...AGE_RANGES].reverse()) {
     if (age >= range.minimum && age <= range.maximum) return range;
   }
   return AGE_RANGES[0];
