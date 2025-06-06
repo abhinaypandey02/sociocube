@@ -32,14 +32,13 @@ const GlobalState = createContext<{
   setUser: Dispatch<SetStateAction<CurrentUser>>;
   subscription?: Subscription;
   setSubscription: Dispatch<SetStateAction<Subscription>>;
-  showSubscribeModal: boolean;
-  setShowSubscribeModal: Dispatch<SetStateAction<boolean>>;
+  showSubscribeModal?: string;
+  setShowSubscribeModal: Dispatch<SetStateAction<string | undefined>>;
 }>({
   setToken: () => null,
   setUser: () => null,
   setSubscription: () => null,
   setShowSubscribeModal: () => null,
-  showSubscribeModal: false,
 });
 
 export function useUser() {
@@ -55,7 +54,8 @@ export function useSubscription() {
 export function useToggleSubscribeModal() {
   const { setShowSubscribeModal } = useContext(GlobalState);
   return useCallback(
-    () => setShowSubscribeModal((prev) => !prev),
+    (message: string) =>
+      setShowSubscribeModal((prev) => (prev ? undefined : message)),
     [setShowSubscribeModal],
   );
 }
@@ -72,7 +72,7 @@ export function useSetToken() {
 export function GlobalStateWrapper({ children }: PropsWithChildren) {
   const [token, setToken] = useState<string | null>();
   const [user, setUser] = useState<CurrentUser>();
-  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
+  const [showSubscribeModal, setShowSubscribeModal] = useState<string>();
   const [subscription, setSubscription] = useState<Subscription>();
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
@@ -96,8 +96,9 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
       }}
     >
       <GetSubscriptionModal
-        close={() => setShowSubscribeModal(false)}
-        isOpen={showSubscribeModal}
+        message={showSubscribeModal}
+        close={() => setShowSubscribeModal(undefined)}
+        isOpen={!!showSubscribeModal}
       />
       <Suspense>
         <ProgressLoader color="#5b9364" showSpinner={false} />

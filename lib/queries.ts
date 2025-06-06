@@ -282,6 +282,19 @@ export const GET_STATES = gql(`
     }
   }
 `);
+
+export const GET_AI_SEARCH_USAGE = gql(`
+    #graphql
+    query GetAISearchUsage {
+        getSubscription {
+            usages {
+                AiSearch
+            }
+            plan
+        }
+    }
+`);
+
 export const SEARCH_SELLERS = gql(`
   #graphql
   query SearchSellers($filters: SearchSellersFilters!) {

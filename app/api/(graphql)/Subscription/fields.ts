@@ -7,7 +7,7 @@ import { Arg, Ctx, FieldResolver, Int, Resolver, Root } from "type-graphql";
 
 @Resolver(() => SubscriptionGQL)
 export class SubscriptionFieldResolver {
-  @FieldResolver(() => UsageGQL, { nullable: true })
+  @FieldResolver(() => UsageGQL)
   async usages(@Root() subscription: SubscriptionDB) {
     return subscription;
   }
@@ -15,24 +15,24 @@ export class SubscriptionFieldResolver {
 
 @Resolver(() => UsageGQL)
 export class UsageFieldResolver {
-  @FieldResolver(() => Int, { nullable: true })
+  @FieldResolver(() => Int)
   async [UsageType.AiSearch](
     @Ctx() ctx: Context,
     @Root() subscription: SubscriptionDB,
   ) {
-    if (!ctx.userId) return null;
+    if (!ctx.userId) return 0;
     return getPendingUsage({
       userID: ctx.userId,
       feature: UsageType.AiSearch,
       plan: subscription?.plan,
     });
   }
-  @FieldResolver(() => Int, { nullable: true })
+  @FieldResolver(() => Int)
   async [UsageType.GlobalAnnouncement](
     @Ctx() ctx: Context,
     @Root() subscription: SubscriptionDB,
   ) {
-    if (!ctx.userId) return null;
+    if (!ctx.userId) return 0;
     return getPendingUsage({
       plan: subscription.plan,
       feature: UsageType.PostingAnnouncement,
@@ -40,13 +40,13 @@ export class UsageFieldResolver {
       userID: ctx.userId,
     });
   }
-  @FieldResolver(() => Int, { nullable: true })
+  @FieldResolver(() => Int)
   async [UsageType.PostingAnnouncement](
     @Ctx() ctx: Context,
     @Root() subscription: SubscriptionDB,
     @Arg("postingID", () => Int) postingID: number,
   ) {
-    if (!ctx.userId) return null;
+    if (!ctx.userId) return 0;
     return getPendingUsage({
       plan: subscription.plan,
       feature: UsageType.PostingAnnouncement,

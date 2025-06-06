@@ -35,7 +35,7 @@ function SubscriptionStat() {
   return (
     <span
       className="blur-xs cursor-pointer"
-      onClick={toggleSubscribeModal}
+      onClick={() => toggleSubscribeModal("View advanced stats of applicants")}
       title="Subscribe to view this stat"
     >
       XX
@@ -263,7 +263,8 @@ export default function ApplicationsTable({
         <div className={"flex gap-2 items-center justify-end"}>
           {actionType === "selected" && applications.length > 0 && (
             <SendAnnouncementButton
-              count={sub?.usages?.PostingAnnouncement || 0}
+              count={sub.usages.PostingAnnouncement}
+              dailyCount={sub.usages.GlobalAnnouncement}
               applications={applications}
               postingID={posting.id}
             />

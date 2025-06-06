@@ -9,6 +9,7 @@ import Form from "@/components/form";
 import { Input } from "@/components/input";
 import Modal from "@/components/modal";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
+import { useToggleSubscribeModal } from "@/lib/auth-client";
 import { SEND_ANNOUNCEMENT } from "@/lib/mutations";
 
 interface FormType {
@@ -19,18 +20,28 @@ export default function SendAnnouncementButton({
   applications,
   postingID,
   count,
+  dailyCount,
 }: {
   applications: ApplicationTableRow[];
   postingID: number;
   count: number;
+  dailyCount: number;
 }) {
+  const toggleSubscribeModal = useToggleSubscribeModal();
+
   const form = useForm<FormType>();
   const [announce, { loading: announceLoading }] =
     useAuthMutation(SEND_ANNOUNCEMENT);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleClick = () => {
-    setIsModalOpen(true);
+    if (count === 0) {
+      toggleSubscribeModal(
+        "You have used all the announcements for this posting.",
+      );
+    } else if (dailyCount === 0) {
+      toggleSubscribeModal("Your daily announcement limit has been reached");
+    } else setIsModalOpen(true);
   };
   const handleClose = () => {
     setIsModalOpen(false);

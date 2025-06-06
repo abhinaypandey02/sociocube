@@ -57,10 +57,12 @@ export function addUsage({
   key?: number;
 }) {
   waitUntil(
-    db.insert(UsageTable).values({
-      user: userID,
-      entityKey: key,
-      type: feature,
-    }),
+    (async () => {
+      await db.insert(UsageTable).values({
+        user: userID,
+        entityKey: key,
+        type: feature,
+      });
+    })(),
   );
 }

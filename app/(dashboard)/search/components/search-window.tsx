@@ -18,7 +18,7 @@ import { Input } from "@/components/input";
 import LinkWrapper from "@/components/link-wrapper";
 import LoaderSkeleton from "@/components/loader-skeleton";
 import { getRoute } from "@/constants/routes";
-import { useToken } from "@/lib/auth-client";
+import { useToggleSubscribeModal, useToken } from "@/lib/auth-client";
 import { convertToAbbreviation } from "@/lib/utils";
 
 const NoResults = dynamic(() => import("./no-results"));
@@ -28,9 +28,11 @@ export default function SearchWindow({
   data?: {
     response: SearchSellersQuery | null;
     filters: SearchSellersFilters;
+    count?: number;
     error?: string;
   };
 }) {
+  const toggleSubscriptionModal = useToggleSubscribeModal();
   const token = useToken();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
@@ -51,6 +53,12 @@ export default function SearchWindow({
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (data?.count === 0) {
+      toggleSubscriptionModal(
+        "You have used all your remaining free searches for today",
+      );
+      return;
+    }
     setLoading(true);
     router.push(searchURL);
   }
@@ -71,14 +79,9 @@ export default function SearchWindow({
           />
           <LinkWrapper
             className="shrink-0 flex"
-            href={token ? searchURL : getRoute("SignUp")}
+            href={token ? undefined : getRoute("SignUp")}
           >
-            <Button
-              onClick={() => setLoading(true)}
-              loading={loading}
-              className="shrink-0 gap-1"
-              type="submit"
-            >
+            <Button loading={loading} className="shrink-0 gap-1" type="submit">
               <span className="max-sm:hidden">AI Search</span>
               <MagicWand className="shrink-0" />
             </Button>

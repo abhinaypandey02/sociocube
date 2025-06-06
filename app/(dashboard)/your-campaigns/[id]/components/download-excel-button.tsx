@@ -25,8 +25,8 @@ export default function DownloadExcelButton({
     <button
       className="flex items-center gap-1 text-sm font-medium text-primary underline underline-offset-4"
       onClick={async () => {
-        if (!subscription?.existing) {
-          toggleSubscribeModal();
+        if (!subscription?.existing.plan) {
+          toggleSubscribeModal("Download data as excel with Plus subscription");
           return;
         }
         await writeXlsxFile(

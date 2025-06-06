@@ -6,7 +6,7 @@ import { Ctx, Query, Resolver } from "type-graphql";
 
 @Resolver()
 export class SubscriptionQueryResolver {
-  @Query(() => SubscriptionGQL, { nullable: true })
+  @Query(() => SubscriptionGQL)
   async getSubscription(@Ctx() ctx: Context) {
     return handleGetSubscription(ctx);
   }

@@ -26,8 +26,8 @@ export function ContactButtons({
   const [subscription] = useSubscription();
 
   const copyEmail = async () => {
-    if (!subscription?.existing) {
-      toggleSubscribeModal();
+    if (!subscription?.existing.plan) {
+      toggleSubscribeModal("View email and phone with Plus subscription");
       return;
     }
 
@@ -38,8 +38,8 @@ export function ContactButtons({
   };
 
   const copyPhone = async () => {
-    if (!subscription?.existing) {
-      toggleSubscribeModal();
+    if (!subscription?.existing.plan) {
+      toggleSubscribeModal("View email and phone with Plus subscription");
       return;
     }
 

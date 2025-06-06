@@ -452,7 +452,7 @@ type Query {
   getPostingsInReview: [Posting!]!
   getSeller(username: String!): User
   getStates(countryID: Int!): [CitySelectOption!]!
-  getSubscription: SubscriptionGQL
+  getSubscription: SubscriptionGQL!
   getSubscriptionLink: String
   getUserApplications: [Application!]!
   getUserPostings(page: Float): [Posting!]!
@@ -504,9 +504,9 @@ input SendReviewByUserArgs {
 
 type SubscriptionGQL {
   nextBilling: Float
-  plan: SubscriptionPlan!
+  plan: SubscriptionPlan
   status: SubscriptionPlanStatus
-  usages: Usage
+  usages: Usage!
 }
 
 enum SubscriptionPlan {

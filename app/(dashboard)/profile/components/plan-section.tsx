@@ -17,7 +17,9 @@ export default function PlanSection() {
       subtitle="Manage your billing and subscriptions."
     >
       {sub?.existing?.status !== SubscriptionPlanStatus.Active && (
-        <Button onClick={toggleSubModal}>Get Sociocube+</Button>
+        <Button onClick={() => toggleSubModal("Get Sociocube today")}>
+          Get Sociocube+
+        </Button>
       )}
     </AccountCard>
   );

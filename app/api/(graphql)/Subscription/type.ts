@@ -7,7 +7,7 @@ import { Field, ObjectType } from "type-graphql";
 
 @ObjectType("SubscriptionGQL")
 export class SubscriptionGQL {
-  @Field(() => SubscriptionPlan)
+  @Field(() => SubscriptionPlan, { nullable: true })
   plan: SubscriptionPlan;
   @Field(() => SubscriptionPlanStatus, { nullable: true })
   status: SubscriptionPlanStatus;

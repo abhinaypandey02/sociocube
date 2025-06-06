@@ -1,6 +1,5 @@
-import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
-import { UsageType } from "@graphql/Subscription/constants";
+import { SubscriptionPlan, UsageType } from "@graphql/Subscription/constants";
 import { SubscriptionTable } from "@graphql/Subscription/db";
 import { addUsage, getPendingUsage } from "@graphql/Subscription/utils";
 import { MaxLength } from "class-validator";
@@ -68,18 +67,18 @@ export async function handleSearchSellers(
     feature: UsageType.AiSearch,
     plan: plan?.plan,
   });
-  if (pendingUsage <= 0)
-    throw GQLError(
-      400,
-      "You have used all your remaining usages, please try again in 24 hours.",
-    );
+  if (pendingUsage <= 0) return [];
   const filters = await getGroqResponse<UserSearchFilters>(PROMPT, query);
   if (!filters) return getDefaultCreators();
   addUsage({
     feature: UsageType.AiSearch,
     userID: ctx.userId,
   });
-  return getFilteredUsers(filters, query);
+  return getFilteredUsers(
+    filters,
+    query,
+    plan?.plan === SubscriptionPlan.Plus ? 20 : undefined,
+  );
 }
 
 const PROMPT = `Need to transform the given search query into the following JSON format
