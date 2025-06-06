@@ -68,7 +68,7 @@ export default function SendAnnouncementButton({
     <>
       <Modal close={handleClose} open={isModalOpen}>
         <h3 className="mb-6 text-2xl font-semibold text-gray-700">
-          Send Announcement
+          Send Announcement to {applications.length}{" "} applicant{applications.length === 1 ? "" : "s"}
         </h3>
         <Form form={form} onSubmit={handleSendAnnouncement}>
           <Input
