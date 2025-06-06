@@ -193,17 +193,20 @@ export default function ApplicationsTable({
   );
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
-  const handleSelectionChange = (row: Record<string, boolean>) => {
-    const selectedRowIndices = Object.keys(row)
-      .filter((key) => row[key])
-      .map(Number);
+  const handleSelectionChange = useCallback(
+    (row: Record<string, boolean>) => {
+      const selectedRowIndices = Object.keys(row)
+        .filter((key) => row[key])
+        .map(Number);
 
-    const selectedApplicationIds = selectedRowIndices
-      .map((index) => applications[index]?.id)
-      .filter((id): id is number => id !== undefined);
+      const selectedApplicationIds = selectedRowIndices
+        .map((index) => applications[index]?.id)
+        .filter((id): id is number => id !== undefined);
 
-    setSelectedIds(selectedApplicationIds);
-  };
+      setSelectedIds(selectedApplicationIds);
+    },
+    [applications],
+  );
 
   const ApplicationActionsCell = useCallback(
     (
