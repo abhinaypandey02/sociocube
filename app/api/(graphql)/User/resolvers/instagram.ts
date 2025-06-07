@@ -18,7 +18,6 @@ function cacheAlive(d: Date) {
 }
 
 export async function getInstagramStats(ctx: Context, user: UserDB) {
-  if (!ctx.userId) return null;
   if (!user.instagramDetails) return null;
 
   const [instagramDetails] = await db
@@ -27,7 +26,7 @@ export async function getInstagramStats(ctx: Context, user: UserDB) {
     .where(eq(InstagramDetails.id, user.instagramDetails));
   if (!instagramDetails) return null;
 
-  if (ctx.userId !== user.id) {
+  if (ctx.userId && ctx.userId !== user.id) {
     const [subscription] = await db
       .select()
       .from(SubscriptionTable)
