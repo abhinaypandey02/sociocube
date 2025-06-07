@@ -191,6 +191,22 @@ export default function ApplicationsTable({
             ),
     })),
   );
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+
+  const handleSelectionChange = useCallback(
+    (row: Record<string, boolean>) => {
+      const selectedRowIndices = Object.keys(row)
+        .filter((key) => row[key])
+        .map(Number);
+
+      const selectedApplicationIds = selectedRowIndices
+        .map((index) => applications[index]?.id)
+        .filter((id): id is number => id !== undefined);
+
+      setSelectedIds(selectedApplicationIds);
+    },
+    [applications],
+  );
 
   const ApplicationActionsCell = useCallback(
     (
@@ -217,6 +233,7 @@ export default function ApplicationsTable({
       ),
     [],
   );
+
   const columns = [
     ...DEFAULT_COLUMNS,
     ...(posting?.externalLink
@@ -265,7 +282,11 @@ export default function ApplicationsTable({
             <SendAnnouncementButton
               count={sub.usages.PostingAnnouncement}
               dailyCount={sub.usages.GlobalAnnouncement}
-              applications={applications}
+              applications={
+                selectedIds.length > 0
+                  ? applications.filter((app) => selectedIds.includes(app.id))
+                  : applications
+              }
               postingID={posting.id}
             />
           )}
@@ -282,6 +303,7 @@ export default function ApplicationsTable({
       }
       columns={columns}
       data={applications}
+      onSelect={actionType === "selected" ? handleSelectionChange : undefined}
     />
   );
 }
