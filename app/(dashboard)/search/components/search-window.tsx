@@ -100,12 +100,6 @@ export default function SearchWindow({
             data?.response?.sellers?.length === 0 &&
             !loading && <NoResults />}
           <ul className="space-y-5">
-            {!loading && !data?.error && data?.filters.query && (
-              <div className="text-sm text-center">
-                Search is limited to <strong>5</strong> creators in the free
-                plan.
-              </div>
-            )}
             {!loading &&
               !data?.error &&
               data?.response?.sellers?.map((person) => (
