@@ -1,6 +1,6 @@
 "use client";
 
-import { MagicWand, MapPin, SealCheck } from "@phosphor-icons/react";
+import { ArrowDown, MagicWand, MapPin, SealCheck } from "@phosphor-icons/react";
 import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -175,8 +175,9 @@ export default function SearchWindow({
                       `Search is limited to 5 creators in the free plan.`,
                     )
                   }
+                  className="gap-2"
                 >
-                  View more
+                  View more <ArrowDown />
                 </Button>
               </div>
             )}
