@@ -1,3 +1,4 @@
+import { Roles } from "@backend/lib/constants/roles";
 import { db } from "@backend/lib/db";
 import { SubscriptionTable } from "@graphql/Subscription/db";
 import { addUsage, getPendingUsage } from "@graphql/Subscription/utils";
@@ -37,6 +38,7 @@ function getDefaultCreators() {
     .where(
       and(
         isNotNull(UserTable.photo),
+        eq(UserTable.role, Roles.Creator),
         isNotNull(UserTable.instagramDetails),
         isNotNull(UserTable.name),
         isNotNull(UserTable.location),
@@ -48,7 +50,7 @@ function getDefaultCreators() {
       eq(UserTable.instagramDetails, InstagramDetails.id),
     )
     .orderBy(desc(InstagramDetails.followers))
-    .limit(5);
+    .limit(50);
 }
 
 export async function handleSearchSellers(
