@@ -88,7 +88,7 @@ export default function AboutUs() {
             <h4 className={"text-center text-2xl font-poppins mt-3"}>
               Abhinay Pandey
             </h4>
-            <p className={"text-center text-gray-600 mt-0.5"}>Sales & Tech</p>
+            <p className={"text-center text-gray-600 mt-0.5"}>Sales</p>
             <div
               className={
                 "flex gap-3 text-2xl justify-center mt-1.5 text-primary"
