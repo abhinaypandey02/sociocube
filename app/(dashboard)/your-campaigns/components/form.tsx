@@ -272,12 +272,6 @@ export default function CreateNewPostingForm({
           onChange={setLocationValues}
         />
         <Input
-          label="External link (Optional)"
-          name="externalLink"
-          placeholder="Link to an external application form"
-          type="url"
-        />
-        <Input
           label="Extra required details (Optional)"
           name="extraDetails"
           placeholder="Any extra details to request from the applicant? Ex- Past experience, niche, etc."

@@ -7,7 +7,7 @@ import React from "react";
 import DashboardWrapper from "@/app/(dashboard)/components/dashboard-wrapper";
 import DetailsSections from "@/app/(dashboard)/your-campaigns/components/details-sections";
 import RequirementsSections from "@/app/(dashboard)/your-campaigns/components/requirements-sections";
-import { Route } from "@/constants/routes";
+import { getRoute, Route } from "@/constants/routes";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_POSTING } from "@/lib/queries";
 
