@@ -10,6 +10,7 @@ import { getIsOnboarded } from "@graphql/User/resolvers/onboarding-data";
 import {
   and,
   arrayContains,
+  asc,
   desc,
   eq,
   getTableColumns,
@@ -17,6 +18,7 @@ import {
   isNull,
   lte,
   or,
+  sql,
 } from "drizzle-orm";
 
 import { Roles } from "@/app/api/lib/constants/roles";
@@ -95,7 +97,13 @@ export async function getValidPostings({
         ),
       )
       .groupBy(PostingTable.id, ApplicationTable.id)
-      .orderBy(desc(ApplicationTable.id), desc(PostingTable.id)),
+      .orderBy(
+        asc(
+          sql`CASE WHEN ${PostingTable.externalLink} IS NULL THEN 0 ELSE 1 END`,
+        ),
+        desc(ApplicationTable.id),
+        desc(PostingTable.id),
+      ),
     {
       page: page ?? 1,
       pageSize: pageSize ?? 1,
@@ -175,7 +183,12 @@ export async function getAllPostings(
         .where(
           and(eq(PostingTable.open, true), eq(PostingTable.inReview, false)),
         )
-        .orderBy(desc(PostingTable.id)),
+        .orderBy(
+          asc(
+            sql`CASE WHEN ${PostingTable.externalLink} IS NULL THEN 0 ELSE 1 END`,
+          ),
+          desc(PostingTable.id),
+        ),
       {
         page,
         pageSize: 5,

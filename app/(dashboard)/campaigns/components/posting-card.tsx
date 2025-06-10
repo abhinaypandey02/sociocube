@@ -1,6 +1,6 @@
 "use client";
 import { format } from "@flasd/whatsapp-formatting";
-import { ArrowDown } from "@phosphor-icons/react";
+import { ArrowDown, User } from "@phosphor-icons/react";
 import { Cake, SealCheck, Users, Wallet } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
@@ -147,6 +147,15 @@ export default function PostingCard({
                     <div className={"flex items-center gap-1"}>
                       <Users />
                       {convertToAbbreviation(posting.minimumFollowers)}+
+                    </div>
+                  </>
+                ) : null}
+                {posting.gender ? (
+                  <>
+                    <span className={"text-[10px] text-gray-500"}>•</span>
+                    <div className={"flex items-center gap-1"}>
+                      <User />
+                      {posting.gender}
                     </div>
                   </>
                 ) : null}

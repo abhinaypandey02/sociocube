@@ -355,6 +355,7 @@ export const GET_POSTING = gql(`
         barter
         minimumAge
         open
+        gender
         title
         currency
         price
@@ -392,6 +393,7 @@ export const GET_ALL_POSTINGS = gql(`
       minimumFollowers
       inReview
       externalLink
+        gender
       extraDetails
         currencyCountry
       agency {
