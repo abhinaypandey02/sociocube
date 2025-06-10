@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import React from "react";
 
 import PostingsData from "@/app/(dashboard)/campaigns/components/postings-data";
 import DashboardWrapper from "@/app/(dashboard)/components/dashboard-wrapper";
 import { getPostingCacheTag } from "@/constants/revalidate";
-import { Route } from "@/constants/routes";
+import { getRoute, Route } from "@/constants/routes";
 import { getSEO } from "@/constants/seo";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_POSTING } from "@/lib/queries";
@@ -48,7 +48,13 @@ export default async function JobPostingPage({
     Cookie.get("refresh")?.value ? 0 : undefined,
     [getPostingCacheTag(id)],
   );
-  if (!posting) return notFound();
+  if (!posting) {
+    if (!Cookie.get("refresh"))
+      return redirect(
+        `${getRoute("SignUp")}?redirectURL=${Route.Campaigns}/${id}`,
+      );
+    return notFound();
+  }
   return (
     <DashboardWrapper title={"Apply to campaigns"} activeKey={Route.Campaigns}>
       <PostingsData

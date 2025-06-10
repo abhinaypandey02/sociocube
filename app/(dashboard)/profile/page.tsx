@@ -27,7 +27,8 @@ export default async function ProfilePage() {
     Cookie,
     0,
   );
-  if (!user) return redirect(getRoute("SignUp"));
+  if (!user)
+    return redirect(`${getRoute("SignUp")}?redirectURL=${Route.Profile}`);
   return (
     <DashboardWrapper title={"Your profile"} activeKey={Route.Profile}>
       <div className="max-w-(--breakpoint-lg) mx-auto">
