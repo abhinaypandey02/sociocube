@@ -1,7 +1,7 @@
 import { ArrowRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import React from "react";
 
 import DashboardWrapper from "@/app/(dashboard)/components/dashboard-wrapper";
@@ -17,13 +17,20 @@ export default async function CreateNewPostingPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const Cookie = await cookies();
   const { posting } = await queryGQL(
     GET_POSTING,
     { id: parseInt(id), owned: true },
-    await cookies(),
+    Cookie,
     0,
   );
-  if (!posting) return notFound();
+  if (!posting) {
+    if (!Cookie.get("refresh"))
+      return redirect(
+        `${getRoute("SignUp")}?redirectURL=${Route.YourCampaigns}/${id}`,
+      );
+    return notFound();
+  }
   return (
     <DashboardWrapper
       backRoute={Route.YourCampaigns}
