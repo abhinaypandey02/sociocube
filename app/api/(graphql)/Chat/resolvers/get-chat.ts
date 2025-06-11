@@ -1,4 +1,4 @@
-import type { AuthorizedContext } from "@backend/lib/auth/context";
+import type { Context } from "@backend/lib/auth/context";
 import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
 import { arrayContains, eq, getTableColumns } from "drizzle-orm";
@@ -8,9 +8,10 @@ import type { ConversationDB } from "../db";
 import { ConversationTable } from "../db";
 
 export async function handleGetChat(
-  ctx: AuthorizedContext,
+  ctx: Context,
   username: string,
-): Promise<ConversationDB> {
+): Promise<ConversationDB | null> {
+  if (!ctx.userId) return null;
   const [user] = await db
     .select({
       id: UserTable.id,
