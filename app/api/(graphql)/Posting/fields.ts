@@ -1,7 +1,8 @@
+import type { Context } from "@backend/lib/auth/context";
 import { db } from "@backend/lib/db";
 import { CitySelectOption } from "@backend/lib/utils/select-options";
 import { and, count, eq, inArray, isNotNull, ne, sum } from "drizzle-orm";
-import { FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
+import { Ctx, FieldResolver, Float, Int, Resolver, Root } from "type-graphql";
 
 import { ApplicationStatus, ApplicationTable } from "../Application/db";
 import { CityTable, CountryTable, StateTable } from "../Map/db";
@@ -77,8 +78,8 @@ export class PostingFieldResolvers {
   }
 
   @FieldResolver(() => [Recommendation])
-  async recommendations(@Root() posting: PostingDB) {
-    return getRecommendations(posting);
+  async recommendations(@Root() posting: PostingDB, @Ctx() ctx: Context) {
+    return getRecommendations(posting, ctx);
   }
 
   @FieldResolver(() => [ReviewGQL])
