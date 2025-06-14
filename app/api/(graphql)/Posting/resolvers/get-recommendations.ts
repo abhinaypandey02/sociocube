@@ -1,4 +1,6 @@
+import type { Context } from "@backend/lib/auth/context";
 import { InstagramDetails } from "@graphql/Instagram/db";
+import { SubscriptionTable } from "@graphql/Subscription/db";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { ObjectType } from "type-graphql";
 import { Field } from "type-graphql";
@@ -18,7 +20,17 @@ export class Recommendation {
   status?: ApplicationStatus;
 }
 
-export async function getRecommendations(posting: PostingDB) {
+export async function getRecommendations(posting: PostingDB, ctx: Context) {
+  if (!ctx.userId) return [];
+  const [plan] = await db
+    .select()
+    .from(SubscriptionTable)
+    .where(eq(SubscriptionTable.user, ctx.userId));
+
+  if (!plan) {
+    return [];
+  }
+
   const users = await getFilteredUsers(
     {
       minimumAge: posting.minimumAge,

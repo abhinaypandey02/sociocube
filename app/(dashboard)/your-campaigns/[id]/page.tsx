@@ -1,4 +1,4 @@
-import { ArrowRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -10,6 +10,8 @@ import RequirementsSections from "@/app/(dashboard)/your-campaigns/components/re
 import { getRoute, Route } from "@/constants/routes";
 import { queryGQL } from "@/lib/apollo-server";
 import { GET_POSTING } from "@/lib/queries";
+
+import ExploreRecommendationsLink from "./components/explore-section";
 
 export default async function CreateNewPostingPage({
   params,
@@ -42,7 +44,7 @@ export default async function CreateNewPostingPage({
         <Link
           href={posting.id + Route.Selected}
           className={
-            "shadow-md block rounded-xl mb-5 p-5 border border-gray-200"
+            "shadow-md block rounded-xl mb-5 p-5 border border-gray-200 hover:bg-gray-50 transition-colors"
           }
         >
           <div className={"flex justify-between items-start"}>
@@ -58,7 +60,7 @@ export default async function CreateNewPostingPage({
         <Link
           href={posting.id + Route.Applications}
           className={
-            "shadow-md block rounded-xl mb-5 p-5 border border-gray-200"
+            "shadow-md block rounded-xl mb-5 p-5 border border-gray-200 hover:bg-gray-50 transition-colors"
           }
         >
           <div className={"flex justify-between items-start"}>
@@ -72,18 +74,7 @@ export default async function CreateNewPostingPage({
         </Link>
       </div>
 
-      <Link
-        href={posting.id + Route.Explore}
-        className={"shadow-md block rounded-xl mb-5 p-5 border border-gray-200"}
-      >
-        <div className={"flex justify-between items-start"}>
-          <p className={"text-3xl font-medium font-poppins text-gray-600"}>
-            <MagnifyingGlass weight={"bold"} />
-          </p>
-          <ArrowRight />
-        </div>
-        <h2 className={"font-poppins mt-3"}>Explore recommendations</h2>
-      </Link>
+      <ExploreRecommendationsLink postingId={posting.id} />
       <RequirementsSections posting={posting} />
     </DashboardWrapper>
   );
