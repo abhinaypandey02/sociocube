@@ -1,7 +1,7 @@
 import type { Context } from "@backend/lib/auth/context";
 import { db } from "@backend/lib/db";
 import { CityTable, StateTable } from "@graphql/Map/db";
-import { SUBSCRIPTION_PLANS } from "@graphql/Subscription/constants";
+import { SUBSCRIPTION_PLANS, SubscriptionPlanStatus } from "@graphql/Subscription/constants";
 import { LocationTable, UserTable } from "@graphql/User/db";
 import { eq } from "drizzle-orm";
 
