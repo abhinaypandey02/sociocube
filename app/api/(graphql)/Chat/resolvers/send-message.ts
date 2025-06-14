@@ -8,7 +8,7 @@ import { db } from "@backend/lib/db";
 import { sendTemplateEmail } from "@backend/lib/email/send-template";
 import { sendEvent } from "@backend/lib/socket/send-event";
 import { waitUntil } from "@vercel/functions";
-import { arrayContains, desc, eq } from "drizzle-orm";
+import { and, arrayContains, desc, eq, gt, or } from "drizzle-orm";
 
 import { UserTable } from "../../User/db";
 import { ConversationMessageTable, ConversationTable } from "../db";
@@ -24,19 +24,23 @@ async function shouldSendEmail(
   const cooldownTime = new Date();
   cooldownTime.setHours(cooldownTime.getHours() - 1);
 
-  const [lastMessage] = await db
+  const [recentMessage] = await db
     .select()
     .from(ConversationMessageTable)
-    .where(eq(ConversationMessageTable.conversation, conversationID))
+    .where(
+      and(
+        eq(ConversationMessageTable.conversation, conversationID),
+        or(
+          eq(ConversationMessageTable.by, userID),
+          gt(ConversationMessageTable.createdAt, cooldownTime),
+        ),
+      ),
+    )
     .orderBy(desc(ConversationMessageTable.createdAt))
     .offset(1)
     .limit(1);
 
-  const shouldNotify = lastMessage
-    ? lastMessage.createdAt < cooldownTime && lastMessage.by !== userID
-    : true;
-
-  return shouldNotify;
+  return !recentMessage;
 }
 
 async function handleSendEmail(
