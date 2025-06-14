@@ -21,6 +21,7 @@ export async function handleGetSubscriptionLink(ctx: Context) {
     .leftJoin(CityTable, eq(CityTable.id, LocationTable.city))
     .leftJoin(StateTable, eq(StateTable.id, CityTable.stateId));
   if (!user) return null;
+  if (user.subscription?.status === SubscriptionPlanStatus.Active) return null;
   const productID = SUBSCRIPTION_PLANS[0]?.product_id;
   const city = user.cities?.name;
   const state = user.states?.name;
