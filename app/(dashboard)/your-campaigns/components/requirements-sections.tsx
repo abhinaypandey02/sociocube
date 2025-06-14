@@ -32,7 +32,11 @@ export default function RequirementsSections({
   const handleEditClick = () => setIsEditing(!isEditing);
   const [posting, setPosting] = useState(postingData);
   const ageGroup = getAgeGroup(posting.minimumAge, posting.maximumAge);
-  const noRequirements = !ageGroup && !posting.minimumFollowers;
+  const noRequirements =
+    !ageGroup &&
+    !posting.minimumFollowers &&
+    !posting.gender &&
+    !locationNames.length;
   return (
     <AccountCard
       title={"Requirements"}
