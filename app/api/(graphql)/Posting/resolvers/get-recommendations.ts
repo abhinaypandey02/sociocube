@@ -43,7 +43,9 @@ export async function getRecommendations(posting: PostingDB) {
         gender: posting.gender,
         followersFrom: posting.minimumFollowers,
         generalPriceTo: posting.price ? posting.price * 1.1 : undefined,
-        countryIDs: posting.countries,
+        countryIDs:
+          posting.countries ||
+          (posting.currencyCountry ? [posting.currencyCountry] : undefined),
         cityIDs: posting.cities,
         stateIDs: posting.states,
       },
