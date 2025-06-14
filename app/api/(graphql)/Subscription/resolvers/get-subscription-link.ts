@@ -1,10 +1,7 @@
 import type { Context } from "@backend/lib/auth/context";
 import { db } from "@backend/lib/db";
 import { CityTable, StateTable } from "@graphql/Map/db";
-import {
-  SUBSCRIPTION_PLANS,
-  SubscriptionPlanStatus,
-} from "@graphql/Subscription/constants";
+import { SUBSCRIPTION_PLANS, SubscriptionPlanStatus } from "@graphql/Subscription/constants";
 import { LocationTable, UserTable } from "@graphql/User/db";
 import { eq } from "drizzle-orm";
 
@@ -24,9 +21,7 @@ export async function handleGetSubscriptionLink(ctx: Context) {
     .leftJoin(CityTable, eq(CityTable.id, LocationTable.city))
     .leftJoin(StateTable, eq(StateTable.id, CityTable.stateId));
   if (!user) return null;
-  if (user.subscription?.status === SubscriptionPlanStatus.Active) {
-    return user.subscription;
-  }
+  if (user.subscription?.status === SubscriptionPlanStatus.Active) return null;
   const productID = SUBSCRIPTION_PLANS[0]?.product_id;
   const city = user.cities?.name;
   const state = user.states?.name;

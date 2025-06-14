@@ -8,7 +8,7 @@ import { db } from "@backend/lib/db";
 import { sendTemplateEmail } from "@backend/lib/email/send-template";
 import { sendEvent } from "@backend/lib/socket/send-event";
 import { waitUntil } from "@vercel/functions";
-import { and, arrayContains, desc, eq, gt } from "drizzle-orm";
+import { arrayContains, desc, eq } from "drizzle-orm";
 
 import { UserTable } from "../../User/db";
 import { ConversationMessageTable, ConversationTable } from "../db";
@@ -17,22 +17,26 @@ export interface MessageProfanityCheck {
   isProfane: boolean;
 }
 
-async function shouldSendEmail(conversationID: number): Promise<boolean> {
+async function shouldSendEmail(
+  conversationID: number,
+  userID: number,
+): Promise<boolean> {
   const cooldownTime = new Date();
   cooldownTime.setHours(cooldownTime.getHours() - 1);
-  const [recentMessage] = await db
+
+  const [lastMessage] = await db
     .select()
     .from(ConversationMessageTable)
-    .where(
-      and(
-        eq(ConversationMessageTable.conversation, conversationID),
-        gt(ConversationMessageTable.createdAt, cooldownTime),
-      ),
-    )
+    .where(eq(ConversationMessageTable.conversation, conversationID))
     .orderBy(desc(ConversationMessageTable.createdAt))
     .offset(1)
     .limit(1);
-  return !recentMessage;
+
+  const shouldNotify = lastMessage
+    ? lastMessage.createdAt < cooldownTime && lastMessage.by !== userID
+    : true;
+
+  return shouldNotify;
 }
 
 async function handleSendEmail(
@@ -116,7 +120,10 @@ export async function handleSendMessage(
     if (!disableEmail)
       waitUntil(
         (async () => {
-          const shouldNotify = await shouldSendEmail(conversationID);
+          const shouldNotify = await shouldSendEmail(
+            conversationID,
+            ctx.userId,
+          );
           if (shouldNotify) {
             await handleSendEmail(userID, ctx.userId, body);
           }
