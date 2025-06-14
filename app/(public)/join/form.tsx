@@ -46,11 +46,15 @@ export default function SignupForm({
     if (!turnstileToken) {
       return;
     }
+    if (data.password !== data.c_password) {
+      toast.error("Passwords do not match");
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
     const error = await signupWithEmail(
       data.email.toLowerCase(),
       data.password,
-      data.name,
       turnstileToken,
     );
     if (error === null) {
@@ -92,6 +96,14 @@ export default function SignupForm({
           label="Password"
           name="password"
           placeholder="Setup a password"
+          rules={{ required: true }}
+          type="password"
+        />
+        <Input
+          className="block"
+          label="Confirm Password"
+          name="c_password"
+          placeholder="Confirm password"
           rules={{ required: true }}
           type="password"
         />
