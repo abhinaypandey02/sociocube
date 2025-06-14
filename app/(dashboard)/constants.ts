@@ -51,7 +51,7 @@ export const NAV_ITEMS: NavItem[] = [
   },
   {
     icon: MagnifyingGlass,
-    navTitle: "Search",
+    navTitle: "AI Search",
     href: Route.Search,
     roles: [Roles.Brand, Roles.Agency],
   },
