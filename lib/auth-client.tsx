@@ -110,18 +110,12 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
 export function useSignUpWithEmail() {
   const { setToken } = useContext(GlobalState);
   return useCallback(
-    async (
-      email: string,
-      password: string,
-      name: string,
-      captchaToken: string,
-    ) => {
+    async (email: string, password: string, captchaToken: string) => {
       const res = await fetch(`/api/email`, {
         method: "POST",
         body: JSON.stringify({
           email,
           password,
-          name,
           captchaToken,
         }),
         credentials: "include",
