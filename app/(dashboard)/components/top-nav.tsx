@@ -54,9 +54,9 @@ export default function TopNav({
             key={page.href}
             href={
               page.requireAuth && !token
-                ? getRoute("SignUp")
+                ? `${getRoute("SignUp")}?redirectURL=${page.href}`
                 : page.requireOnboarding && !user?.isOnboarded
-                  ? getRoute("Onboarding")
+                  ? `${getRoute("Onboarding")}?redirectURL=${page.href}`
                   : page.href
             }
           >

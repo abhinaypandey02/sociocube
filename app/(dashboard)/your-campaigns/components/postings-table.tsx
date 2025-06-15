@@ -83,7 +83,13 @@ export default function PostingsTable({
       <LoaderSkeleton
         title={"You haven't created any campaigns"}
         subtitle={
-          <LinkWrapper href={!token ? getRoute("SignUp") : Route.NewCampaign}>
+          <LinkWrapper
+            href={
+              !token
+                ? `${getRoute("SignUp")}?redirectURL=${Route.NewCampaign}`
+                : Route.NewCampaign
+            }
+          >
             <Button variant={Variants.DARK} className={"items-center gap-1"}>
               Start your first campaign <ArrowRight />
             </Button>

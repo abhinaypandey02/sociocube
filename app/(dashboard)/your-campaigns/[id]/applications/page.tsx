@@ -28,7 +28,7 @@ export default async function AccountPostingApplicationsPage({
   if (!posting) {
     if (!Cookie.get("refresh"))
       return redirect(
-        `${getRoute("SignUp")}?redirectURL=${Route.YourCampaigns}/${id}${Route.Applications}`,
+        `${getRoute("Login")}?redirectURL=${Route.YourCampaigns}/${id}${Route.Applications}`,
       );
     return notFound();
   }

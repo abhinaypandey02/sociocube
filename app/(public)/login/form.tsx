@@ -67,7 +67,7 @@ export default function LoginForm({
       bottomHeading={{
         question: "New here?",
         answer: "Get started on a new account!",
-        link: getRoute("SignUp"),
+        link: `${getRoute("SignUp")}${paramsRedirectURL ? `?redirectURL=${paramsRedirectURL}` : ""}`,
       }}
       redirectURL={redirectURL}
       title="Login to your account"

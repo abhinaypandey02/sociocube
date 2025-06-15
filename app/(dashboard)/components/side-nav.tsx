@@ -50,9 +50,9 @@ export default function SideNav({
             )}
             href={
               item.requireAuth && !token
-                ? getRoute("SignUp")
+                ? `${getRoute("SignUp")}?redirectURL=${item.href}`
                 : item.requireOnboarding && !user?.isOnboarded
-                  ? getRoute("Onboarding")
+                  ? `${getRoute("Onboarding")}?redirectURL=${item.href}`
                   : item.href
             }
             key={item.href}
@@ -75,9 +75,9 @@ export default function SideNav({
                   )}
                   href={
                     page.requireAuth && !token
-                      ? getRoute("SignUp")
+                      ? `${getRoute("SignUp")}?redirectURL=${item.href}`
                       : page.requireOnboarding && !user?.isOnboarded
-                        ? getRoute("Onboarding")
+                        ? `${getRoute("Onboarding")}?redirectURL=${item.href}`
                         : page.href
                   }
                   key={page.href}

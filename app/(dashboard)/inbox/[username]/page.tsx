@@ -28,7 +28,7 @@ export default async function Page({ params }: ChatPage) {
   if (!chat) {
     if (!Cookie.get("refresh"))
       return redirect(
-        `${getRoute("SignUp")}?redirectURL=${Route.Inbox}/${username}`,
+        `${getRoute("Login")}?redirectURL=${Route.Inbox}/${username}`,
       );
     return notFound();
   }

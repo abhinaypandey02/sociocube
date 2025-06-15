@@ -29,7 +29,7 @@ export default async function CreateNewPostingPage({
   if (!posting) {
     if (!Cookie.get("refresh"))
       return redirect(
-        `${getRoute("SignUp")}?redirectURL=${Route.YourCampaigns}/${id}`,
+        `${getRoute("Login")}?redirectURL=${Route.YourCampaigns}/${id}`,
       );
     return notFound();
   }

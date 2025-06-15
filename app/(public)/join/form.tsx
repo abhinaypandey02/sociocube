@@ -68,7 +68,7 @@ export default function SignupForm({
     <AuthLayout
       bottomHeading={{
         question: "Already have an account?",
-        link: getRoute("Login"),
+        link: `${getRoute("Login")}${paramsRedirectURL ? `?redirectURL=${paramsRedirectURL}` : ""}`,
         answer: "Sign in to your account!",
       }}
       redirectURL={redirectURL}

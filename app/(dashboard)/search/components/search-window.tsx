@@ -17,7 +17,7 @@ import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import LinkWrapper from "@/components/link-wrapper";
 import LoaderSkeleton from "@/components/loader-skeleton";
-import { getRoute } from "@/constants/routes";
+import { getRoute, Route } from "@/constants/routes";
 import {
   useSubscription,
   useToggleSubscribeModal,
@@ -84,7 +84,11 @@ export default function SearchWindow({
           />
           <LinkWrapper
             className="shrink-0 flex"
-            href={token ? undefined : getRoute("SignUp")}
+            href={
+              token
+                ? undefined
+                : `${getRoute("SignUp")}?redirectURL=${Route.Search}`
+            }
           >
             <Button loading={loading} className="shrink-0 gap-1" type="submit">
               <span className="max-sm:hidden">AI Search</span>

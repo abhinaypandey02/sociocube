@@ -24,9 +24,9 @@ export default function BottomNav({ activeKey }: { activeKey: string }) {
           )}
           href={
             item.requireAuth && !token
-              ? getRoute("SignUp")
+              ? `${getRoute("SignUp")}?redirectURL=${item.href}`
               : item.requireOnboarding && !user?.isOnboarded
-                ? getRoute("Onboarding")
+                ? `${getRoute("Onboarding")}?redirectURL=${item.href}`
                 : item.href
           }
           key={item.href}
