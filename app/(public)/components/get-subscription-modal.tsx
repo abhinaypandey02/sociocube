@@ -50,7 +50,7 @@ export default function GetSubscriptionModal({
             </a>
           )}
           <div className={"text-xs mt-2 text-center"}>
-            Use discount code <strong>FIRST100</strong> to avail 50% off
+            Use discount code <strong>FIRST50</strong> to avail 50% off
           </div>
         </div>
       )}
