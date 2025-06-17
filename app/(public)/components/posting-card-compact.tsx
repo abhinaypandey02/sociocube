@@ -79,7 +79,9 @@ export default function JobPostingCard({
           "flex flex-wrap items-center gap-3 mt-3 text-sm sm:text-base"
         }
       >
-        <div>{getPlatforms(posting.platforms)}</div>
+        <div className="flex items-center gap-1">
+          {getPlatforms(posting.platforms)}
+        </div>
 
         {posting.price || posting.barter ? (
           <>

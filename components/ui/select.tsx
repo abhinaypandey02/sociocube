@@ -123,16 +123,16 @@ export function Select({ options, rules, multiple, ...rest }: SelectProps) {
                       value={option.label}
                       onSelect={() => {
                         if (multiple) {
-                          setSelected((prev) =>
-                            prev.includes(option.value)
-                              ? prev.filter((value) => value !== option.value)
-                              : [...prev, option.value],
-                          );
-                          formContext?.setValue(rest.name, [option.value]);
+                          const newSelected = selected.includes(option.value)
+                            ? selected.filter((value) => value !== option.value)
+                            : [...selected, option.value];
+
+                          setSelected(newSelected);
+                          formContext?.setValue(rest.name, newSelected);
                         } else {
                           formContext?.setValue(rest.name, option.value);
                           setSelected([option.value]);
-                          if (!multiple) setOpen(false);
+                          setOpen(false);
                         }
                       }}
                     >

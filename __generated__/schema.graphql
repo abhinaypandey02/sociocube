@@ -417,7 +417,11 @@ type Posting {
 }
 
 enum PostingPlatforms {
+  FACEBOOK
   INSTAGRAM
+  LINKEDIN
+  TIKTOK
+  X
   YOUTUBE
 }
 
