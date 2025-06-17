@@ -447,6 +447,7 @@ export const GET_USER_POSTINGS = gql(`
       referralEarnings
       minimumFollowers
       applicationsCount
+      selectedCount
       description
       barter
       minimumAge

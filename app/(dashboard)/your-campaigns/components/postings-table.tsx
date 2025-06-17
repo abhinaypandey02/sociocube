@@ -173,7 +173,7 @@ export default function PostingsTable({
                 <div
                   className={`flex items-center gap-1 rounded-md px-2 py-1 text-sm bg-blue-100 text-blue-800`}
                 >
-                  <strong>0</strong> Shortlisted
+                  <strong>{posting.selectedCount}</strong> Selected
                 </div>
               </div>
             </AccountCard>
