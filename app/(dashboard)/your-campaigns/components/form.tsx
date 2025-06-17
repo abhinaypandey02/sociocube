@@ -79,7 +79,11 @@ export default function CreateNewPostingForm({
     createPosting({
       newPosting: {
         ...formData,
-        ...locationValues,
+        cities: locationValues?.cities.length ? locationValues.cities : null,
+        states: locationValues?.states.length ? locationValues.states : null,
+        countries: locationValues?.countries.length
+          ? locationValues.countries
+          : null,
         deliverables:
           formData.deliverables.trim() !== ""
             ? formData.deliverables.trim().split(",")
