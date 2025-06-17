@@ -130,7 +130,9 @@ export default function PostingCard({
                   "flex flex-wrap items-center gap-3 mt-3 sm:mt-4 text-sm sm:text-base"
                 }
               >
-                <div>{getPlatforms(posting.platforms)}</div>
+                <div className="flex items-center gap-1">
+                  {getPlatforms(posting.platforms)}
+                </div>
 
                 {price ? (
                   <>

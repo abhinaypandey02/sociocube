@@ -356,7 +356,11 @@ export type Posting = {
 };
 
 export enum PostingPlatforms {
+  Facebook = 'FACEBOOK',
   Instagram = 'INSTAGRAM',
+  Linkedin = 'LINKEDIN',
+  Tiktok = 'TIKTOK',
+  X = 'X',
   Youtube = 'YOUTUBE'
 }
 

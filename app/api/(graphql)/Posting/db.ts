@@ -17,6 +17,10 @@ import { gendersEnum, UserTable } from "../User/db";
 export const platforms = pgEnum("platform", [
   PostingPlatforms.INSTAGRAM,
   PostingPlatforms.YOUTUBE,
+  PostingPlatforms.TIKTOK,
+  PostingPlatforms.LINKEDIN,
+  PostingPlatforms.FACEBOOK,
+  PostingPlatforms.X,
 ]);
 
 export const PostingTable = pgTable(
