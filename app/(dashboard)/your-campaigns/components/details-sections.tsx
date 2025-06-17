@@ -59,7 +59,9 @@ export default function DetailsSections({
           <div className={"flex flex-wrap items-center gap-3 my-2 text-sm "}>
             <PostingStatus posting={posting} />
             <span className={"text-[10px] text-gray-500"}>•</span>
-            <div>{getPlatforms(posting.platforms)}</div>
+            <div className="flex items-center gap-1">
+              {getPlatforms(posting.platforms)}
+            </div>
             {price ? (
               <>
                 <span className={"text-[10px] text-gray-500"}>•</span>

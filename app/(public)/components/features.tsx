@@ -18,9 +18,9 @@ const features = [
     icon: Binoculars,
   },
   {
-    name: "100% Free Access for All Users",
+    name: "100% Free Access",
     description:
-      "Sociocube offers full access to all features without any fees for both brands and influencers. Connect, collaborate, and grow without any costs.",
+      "Sociocube offers full access to all features without any fees for influencers. Connect, collaborate, and grow without any costs.",
     href: "#",
     icon: PiggyBank,
   },
