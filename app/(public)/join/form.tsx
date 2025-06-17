@@ -19,8 +19,6 @@ import useTurnstileToken from "../components/auth/use-turnstile-token";
 const defaultValues = {
   email: "",
   password: "",
-  c_password: "",
-  name: "",
 };
 
 const CONTAINER_ID = "captcha-container";
@@ -44,11 +42,6 @@ export default function SignupForm({
 
   const onSubmit: SubmitHandler<typeof defaultValues> = async (data) => {
     if (!turnstileToken) {
-      return;
-    }
-    if (data.password !== data.c_password) {
-      toast.error("Passwords do not match");
-      setIsLoading(false);
       return;
     }
     setIsLoading(true);
@@ -96,14 +89,6 @@ export default function SignupForm({
           label="Password"
           name="password"
           placeholder="Setup a password"
-          rules={{ required: true }}
-          type="password"
-        />
-        <Input
-          className="block"
-          label="Confirm Password"
-          name="c_password"
-          placeholder="Confirm password"
           rules={{ required: true }}
           type="password"
         />
