@@ -679,6 +679,15 @@ export const GET_POSTINGS_IN_REVIEW = gql(`
         open
         title
         currency
+        countries
+        states{
+            value
+            label
+        }
+        cities{
+            value
+            label
+        }
         price
         createdAt
         platforms
