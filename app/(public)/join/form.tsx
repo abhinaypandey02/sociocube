@@ -19,8 +19,6 @@ import useTurnstileToken from "../components/auth/use-turnstile-token";
 const defaultValues = {
   email: "",
   password: "",
-  c_password: "",
-  name: "",
 };
 
 const CONTAINER_ID = "captcha-container";
@@ -50,7 +48,6 @@ export default function SignupForm({
     const error = await signupWithEmail(
       data.email.toLowerCase(),
       data.password,
-      data.name,
       turnstileToken,
     );
     if (error === null) {
