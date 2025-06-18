@@ -1,7 +1,7 @@
 import { CaretLeft } from "@phosphor-icons/react/dist/ssr";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import React from "react";
 
 import UserImage from "@/components/user-image";
@@ -10,6 +10,7 @@ import { queryGQL } from "@/lib/apollo-server";
 import { GET_CHAT } from "@/lib/queries";
 
 import ChatWindow from "./components/chat-window";
+import UserNotFound from "./components/user-not-found";
 
 interface ChatPage {
   params: Promise<{ username: string }>;
@@ -30,7 +31,7 @@ export default async function Page({ params }: ChatPage) {
       return redirect(
         `${getRoute("Login")}?redirectURL=${Route.Inbox}/${username}`,
       );
-    return notFound();
+    return <UserNotFound username={username} />;
   }
   const photo = chat.user?.photo;
   const name = chat.user?.name;
