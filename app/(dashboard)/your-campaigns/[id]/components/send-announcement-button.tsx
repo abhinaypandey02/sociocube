@@ -1,4 +1,8 @@
-import { Megaphone, PaperPlaneTilt } from "@phosphor-icons/react";
+import {
+  EnvelopeSimple,
+  Megaphone,
+  PaperPlaneTilt,
+} from "@phosphor-icons/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -64,6 +68,16 @@ export default function SendAnnouncementButton({
         .catch(handleGQLErrors);
     }
   };
+
+  const handleCustomEmail = () => {
+    const emails = applications
+      .map((app) => app.user?.email)
+      .filter((e): e is string => Boolean(e));
+    if (emails.length === 0) return;
+    window.location.href = `mailto:?bcc=${emails
+      .map((e) => encodeURIComponent(e))
+      .join(",")}`;
+  };
   return (
     <>
       <Modal close={handleClose} open={isModalOpen}>
@@ -80,14 +94,21 @@ export default function SendAnnouncementButton({
             required={true}
             textarea
           />
-          <Button
-            className="ml-auto mt-3 text-sm"
-            loading={announceLoading}
-            type="submit"
-          >
-            <span className={"shrink-0 pr-2"}> Send </span>
-            <PaperPlaneTilt size={16} />
-          </Button>
+          <div className="flex mt-4 justify-end gap-2">
+            <Button
+              className="flex items-center gap-1 text-sm"
+              invert
+              onClick={handleCustomEmail}
+              type="button"
+            >
+              <EnvelopeSimple size={16} />
+              <span className="shrink-0">Send custom email</span>
+            </Button>
+            <Button className="text-sm" loading={announceLoading} type="submit">
+              <span className={"shrink-0 pr-2"}> Send </span>
+              <PaperPlaneTilt size={16} />
+            </Button>
+          </div>
         </Form>
       </Modal>
 
