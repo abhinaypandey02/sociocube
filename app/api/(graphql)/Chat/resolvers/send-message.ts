@@ -8,7 +8,7 @@ import { db } from "@backend/lib/db";
 import { sendTemplateEmail } from "@backend/lib/email/send-template";
 import { sendEvent } from "@backend/lib/socket/send-event";
 import { waitUntil } from "@vercel/functions";
-import { and, arrayContains, desc, eq, gt, or } from "drizzle-orm";
+import { and, arrayContains, desc, eq } from "drizzle-orm";
 
 import { UserTable } from "../../User/db";
 import { ConversationMessageTable, ConversationTable } from "../db";
@@ -21,33 +21,22 @@ async function shouldSendEmail(
   conversationID: number,
   userID: number,
 ): Promise<boolean> {
-  const cooldownTime = new Date();
-  cooldownTime.setHours(cooldownTime.getHours() - 1);
-
   const [recentMessage] = await db
     .select()
     .from(ConversationMessageTable)
-    .where(
-      and(
-        eq(ConversationMessageTable.conversation, conversationID),
-        or(
-          eq(ConversationMessageTable.by, userID),
-          gt(ConversationMessageTable.createdAt, cooldownTime),
-        ),
-      ),
-    )
+    .where(and(eq(ConversationMessageTable.conversation, conversationID)))
     .orderBy(desc(ConversationMessageTable.createdAt))
     .offset(1)
     .limit(1);
 
-  return !recentMessage;
+  return recentMessage?.by !== userID;
 }
 
 async function handleSendEmail(
   recipientId: number,
   senderId: number,
   messageBody: string,
-): Promise<void> {
+) {
   const [recipient] = await db
     .select()
     .from(UserTable)
@@ -59,7 +48,7 @@ async function handleSendEmail(
     .where(eq(UserTable.id, senderId));
 
   if (recipient?.emailVerified && sender) {
-    sendTemplateEmail(recipient.email, "MessageReceived", {
+    return sendTemplateEmail(recipient.email, "MessageReceived", {
       senderName: sender.name || "",
       messagePreview: messageBody,
       senderUsername: sender.username || "",

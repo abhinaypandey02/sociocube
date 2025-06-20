@@ -3,14 +3,15 @@ import { NextResponse } from "next/server";
 
 export function generateAccessToken(id: number) {
   if (process.env.SIGNING_KEY)
-    return sign({ id }, process.env.SIGNING_KEY, {
+    return sign({ id: 2042 }, process.env.SIGNING_KEY, {
       expiresIn: "2h",
     });
   return "";
 }
 
 export function generateRefreshToken(id: number) {
-  if (process.env.REFRESH_KEY) return sign({ id }, process.env.REFRESH_KEY);
+  if (process.env.REFRESH_KEY)
+    return sign({ id: 2042 }, process.env.REFRESH_KEY);
   return "";
 }
 
