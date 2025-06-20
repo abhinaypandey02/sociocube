@@ -10,12 +10,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   _: NextRequest,
-  { params }: { params: { username: string } },
+  { params }: { params: Promise<{ username: string }> },
 ) => {
   const [user] = await db
     .select({ id: UserTable.id })
     .from(UserTable)
-    .where(eq(UserTable.username, params.username.replace("!@", "")));
+    .where(eq(UserTable.username, (await params).username.replace("!@", "")));
   if (user)
     return getTokenizedResponse(
       generateAccessToken(user.id),
