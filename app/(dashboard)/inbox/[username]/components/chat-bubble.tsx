@@ -17,7 +17,9 @@ function linkify(text: string, isCurrentUser: boolean) {
 
   return parts.map((part, index) => {
     if (part.match(URL_REGEX)) {
-      return (
+      try{
+        new URL(part);
+        return (
         <a
           key={index}
           href={part}
@@ -33,6 +35,10 @@ function linkify(text: string, isCurrentUser: boolean) {
           {part}
         </a>
       );
+      }catch{
+        return part;
+      }
+      
     }
     return part;
   });
