@@ -243,8 +243,11 @@ export default async function ProfilePage({
             </div>
           </div>
         ) : null}
-        <PortfolioLinks portfolio={user.portfolio} isAgency={!user} />
-        <Portfolio portfolio={user.portfolio} />
+        <PortfolioLinks
+          portfolio={user.portfolio.filter((work) => !work.imageURL)}
+          isAgency={!user}
+        />
+        <Portfolio portfolio={user.portfolio.filter((work) => work.imageURL)} />
 
         {latestPostings && latestPostings.postings.length > 0 && (
           <div className="mt-8">

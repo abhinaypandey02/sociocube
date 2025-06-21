@@ -50,7 +50,7 @@ function getDefaultCreators() {
       eq(UserTable.instagramDetails, InstagramDetails.id),
     )
     .orderBy(desc(InstagramDetails.followers))
-    .limit(50);
+    .limit(20);
 }
 
 export async function handleSearchSellers(
