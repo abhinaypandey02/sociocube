@@ -1,5 +1,5 @@
 "use client";
-import { format } from "@flasd/whatsapp-formatting";
+
 import { ArrowDown, User } from "@phosphor-icons/react";
 import { Cake, SealCheck, Users, Wallet } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
@@ -14,32 +14,8 @@ import countriesData from "@/constants/countries";
 import { getRoute } from "@/constants/routes";
 import { convertToAbbreviation } from "@/lib/utils";
 
+import { renderRichText } from "../utils";
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
-
-export function renderRichText(text: string) {
-  const renderedText = format(text);
-  const lines = renderedText.split("<br>");
-  return lines
-    .map((line) =>
-      line
-        .split(" ")
-        .map((element) => {
-          if (element.startsWith("http")) {
-            return `<a
-            class="text-accent underline"
-            href="${element}"
-            rel="noopener"
-            target="_blank"
-          >
-            ${element}
-          </a>`;
-          }
-          return element;
-        })
-        .join(" "),
-    )
-    .join("<br/>");
-}
 
 export default function PostingCard({
   posting,
