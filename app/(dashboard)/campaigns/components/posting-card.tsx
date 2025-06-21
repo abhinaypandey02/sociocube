@@ -13,6 +13,7 @@ import Modal from "@/components/modal";
 import countriesData from "@/constants/countries";
 import { getRoute } from "@/constants/routes";
 import { convertToAbbreviation } from "@/lib/utils";
+import { URL_REGEX } from "@/constants/regex";
 
 import { getAgeGroup, getCurrency, getPlatforms } from "../utils";
 
@@ -22,9 +23,9 @@ export function renderRichText(text: string) {
   return lines
     .map((line) =>
       line
-        .split(" ")
+        .split(URL_REGEX)
         .map((element) => {
-          if (element.startsWith("http")) {
+          if (element.match(URL_REGEX) && new URL(element)) {
             return `<a
             class="text-accent underline"
             href="${element}"
