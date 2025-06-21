@@ -100,7 +100,14 @@ export const SEND_VERIFICATION_EMAIL = gql(`
 export const RESET_PASSWORD = gql(`
   #graphql
   mutation ResetPassword($newPassword:String!, $token:String!) {
-    resetPassword(newPassword: $newPassword, token:$token)  
+    resetPassword(newPassword: $newPassword, token:$token)
+  }
+`);
+
+export const CHANGE_PASSWORD = gql(`
+  #graphql
+  mutation ChangePassword($oldPassword:String!, $newPassword:String!) {
+    changePassword(oldPassword: $oldPassword, newPassword: $newPassword)
   }
 `);
 
