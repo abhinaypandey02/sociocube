@@ -3,12 +3,39 @@ import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 
 import { CHAR_LIMIT } from "../../constants";
+import { URL_REGEX } from "@/constants/regex";
 
 interface ChatBubbleProps {
   body: string;
   isCurrentUser: boolean;
   loading?: boolean;
   failed?: boolean;
+}
+
+function linkify(text: string, isCurrentUser: boolean) {
+  const parts = text.split(URL_REGEX);
+
+  return parts.map((part, index) => {
+    if (part.match(URL_REGEX)) {
+      return (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "underline break-all",
+            isCurrentUser
+              ? "text-white hover:text-white/80"
+              : "text-blue-600 hover:text-blue-800",
+          )}
+        >
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
 }
 
 export const ChatBubble: React.FC<ChatBubbleProps> = ({
@@ -37,7 +64,9 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
           isCurrentUser ? "bg-accent text-white" : "bg-gray-100 text-gray-700",
         )}
       >
-        {displayText}
+        <div className="break-words leading-normal">
+          {linkify(displayText, isCurrentUser)}
+        </div>
         {isLongMessage && (
           <button
             onClick={toggleExpand}
