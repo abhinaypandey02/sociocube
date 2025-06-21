@@ -1,6 +1,8 @@
+import { format } from "@flasd/whatsapp-formatting";
 import React from "react";
 
 import type { PostingPlatforms } from "@/__generated__/graphql";
+import { URL_REGEX } from "@/constants/regex";
 
 import { POSTING_PLATFORMS } from "./constants";
 
@@ -28,4 +30,32 @@ export function getPlatforms(platforms: PostingPlatforms[]) {
     if (Icon) return <Icon key={item} />;
     return null;
   });
+}
+
+export function renderRichText(text: string, isCurrentUser?: boolean) {
+  const renderedText = format(text);
+  const lines = renderedText.split("<br>");
+  const linkClass = isCurrentUser
+    ? "text-white underline"
+    : "text-accent underline";
+  return lines
+    .map((line) =>
+      line
+        .split(URL_REGEX)
+        .map((element) => {
+          if (element.match(URL_REGEX) && new URL(element)) {
+            return `<a
+            class="${linkClass}"
+            href="${element}"
+            rel="noopener"
+            target="_blank"
+          >
+            ${element}
+          </a>`;
+          }
+          return element;
+        })
+        .join(""),
+    )
+    .join("<br/>");
 }

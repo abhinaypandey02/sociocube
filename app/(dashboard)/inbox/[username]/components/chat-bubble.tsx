@@ -1,47 +1,15 @@
 import React, { useState } from "react";
 
+import { renderRichText } from "@/app/(dashboard)/campaigns/utils";
 import { cn } from "@/lib/utils";
 
 import { CHAR_LIMIT } from "../../constants";
-import { URL_REGEX } from "@/constants/regex";
 
 interface ChatBubbleProps {
   body: string;
   isCurrentUser: boolean;
   loading?: boolean;
   failed?: boolean;
-}
-
-function linkify(text: string, isCurrentUser: boolean) {
-  const parts = text.split(URL_REGEX);
-
-  return parts.map((part, index) => {
-    if (part.match(URL_REGEX)) {
-      try{
-        new URL(part);
-        return (
-        <a
-          key={index}
-          href={part}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cn(
-            "underline break-all",
-            isCurrentUser
-              ? "text-white hover:text-white/80"
-              : "text-blue-600 hover:text-blue-800",
-          )}
-        >
-          {part}
-        </a>
-      );
-      }catch{
-        return part;
-      }
-      
-    }
-    return part;
-  });
 }
 
 export const ChatBubble: React.FC<ChatBubbleProps> = ({
@@ -70,9 +38,12 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
           isCurrentUser ? "bg-accent text-white" : "bg-gray-100 text-gray-700",
         )}
       >
-        <div className="break-words leading-normal">
-          {linkify(displayText, isCurrentUser)}
-        </div>
+        <div
+          className="break-words"
+          dangerouslySetInnerHTML={{
+            __html: renderRichText(displayText, isCurrentUser),
+          }}
+        />
         {isLongMessage && (
           <button
             onClick={toggleExpand}
