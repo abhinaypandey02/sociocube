@@ -35,7 +35,9 @@ export const POST = async (req: NextRequest) => {
           externalLink: posting.externalLink || null,
           extraDetails: null,
           platforms: posting.platforms
-            ? [posting.platforms.toLowerCase() as PostingPlatforms]
+            ? (posting.platforms.map((platform) =>
+                platform.toLowerCase(),
+              ) as PostingPlatforms[])
             : [PostingPlatforms.INSTAGRAM],
         },
         true,

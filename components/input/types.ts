@@ -17,7 +17,7 @@ export type InputProps = {
   label?: string;
   error?: string;
   suffix?: string;
-  multiple?: string;
+  multiple?: boolean;
 } & ComponentProps<"textarea"> &
   ComponentProps<"input">;
 

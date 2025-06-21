@@ -126,7 +126,9 @@ export default function PostingsTable({
                   "flex flex-wrap text-gray-600 items-center gap-3 mt-2 text-xs sm:text-sm"
                 }
               >
-                <div>{getPlatforms(posting.platforms)}</div>
+                <div className="flex items-center gap-1">
+                  {getPlatforms(posting.platforms)}
+                </div>
 
                 {price ? (
                   <>

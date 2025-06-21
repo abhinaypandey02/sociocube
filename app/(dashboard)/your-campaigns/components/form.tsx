@@ -44,7 +44,7 @@ export interface CreatePostingFormFields {
   currencyCountry: number;
   price: number;
   gender?: string;
-  platforms: PostingPlatforms;
+  platforms: PostingPlatforms[];
 }
 
 export default function CreateNewPostingForm({
@@ -79,12 +79,16 @@ export default function CreateNewPostingForm({
     createPosting({
       newPosting: {
         ...formData,
-        ...locationValues,
+        cities: locationValues?.cities.length ? locationValues.cities : null,
+        states: locationValues?.states.length ? locationValues.states : null,
+        countries: locationValues?.countries.length
+          ? locationValues.countries
+          : null,
         deliverables:
           formData.deliverables.trim() !== ""
             ? formData.deliverables.trim().split(",")
             : undefined,
-        platforms: [formData.platforms],
+        platforms: formData.platforms,
         gender: formData.gender || undefined,
       },
     })
@@ -214,6 +218,7 @@ export default function CreateNewPostingForm({
           name="platforms"
           options={POSTING_PLATFORMS}
           placeholder="Select platform"
+          multiple
         />
         <div className="grid grid-cols-2 gap-2">
           <Input

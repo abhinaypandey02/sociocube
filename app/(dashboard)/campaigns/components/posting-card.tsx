@@ -10,6 +10,7 @@ import type { GetAllPostingsQuery } from "@/__generated__/graphql";
 import ApplyNowButton from "@/app/(dashboard)/campaigns/[id]/apply-now-button";
 import { Button } from "@/components/button";
 import Modal from "@/components/modal";
+import countriesData from "@/constants/countries";
 import { getRoute } from "@/constants/routes";
 import { convertToAbbreviation } from "@/lib/utils";
 
@@ -56,7 +57,13 @@ export default function PostingCard({
   const aboutRef = useRef<HTMLDivElement>(null);
   const [showDescription, setShowDescription] = useState(false);
   const mainRef = useRef<HTMLDivElement>(null);
-
+  const [locationNames, setLocationNames] = useState<string[]>([
+    ...countriesData
+      .filter((c) => posting.countries?.includes(c.value))
+      .map((country) => country.label),
+    ...(posting.states || []).map((state) => state.label),
+    ...(posting.cities || []).map((city) => city.label),
+  ]);
   useEffect(() => {
     if (!fetchMore) return;
     const observer = new IntersectionObserver(
@@ -130,7 +137,9 @@ export default function PostingCard({
                   "flex flex-wrap items-center gap-3 mt-3 sm:mt-4 text-sm sm:text-base"
                 }
               >
-                <div>{getPlatforms(posting.platforms)}</div>
+                <div className="flex items-center gap-1">
+                  {getPlatforms(posting.platforms)}
+                </div>
 
                 {price ? (
                   <>
@@ -188,6 +197,16 @@ export default function PostingCard({
               ) : null}
             </div>
           </div>
+          {locationNames.length > 0 ? (
+            <div className="pt-5 sm:col-span-2 ">
+              <dt className=" font-semibold underline underline-offset-4 leading-6 text-gray-900">
+                Location
+              </dt>
+              <dd className="text-sm mt-2 leading-6 text-gray-600 ">
+                {locationNames.join(", ")}
+              </dd>
+            </div>
+          ) : null}
           {posting.deliverables ? (
             <div className="pt-5 sm:col-span-2 ">
               <dt className=" font-semibold underline underline-offset-4 leading-6 text-gray-900">

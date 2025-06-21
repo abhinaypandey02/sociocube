@@ -45,19 +45,24 @@ export default async function Page({ params }: ChatPage) {
           <CaretLeft size={26} />
         </Link>
 
-        <UserImage
-          className={"lg:hidden"}
-          size={40}
-          photo={photo}
-          alt={name || ""}
-        />
-        <UserImage
-          className={"max-lg:hidden"}
-          size={48}
-          photo={photo}
-          alt={name || ""}
-        />
-        <h2 className={"font-semibold text-lg"}>{name}</h2>
+        <Link
+          href={getRoute("Profile") + `/${username}`}
+          className="flex items-center gap-3"
+        >
+          <UserImage
+            className={"lg:hidden"}
+            size={40}
+            photo={photo}
+            alt={name || ""}
+          />
+          <UserImage
+            className={"max-lg:hidden"}
+            size={48}
+            photo={photo}
+            alt={name || ""}
+          />
+          <h2 className={"font-semibold text-lg"}>{name}</h2>
+        </Link>
       </div>
       <div className="flex-grow overflow-hidden">
         <ChatWindow chat={chat} />

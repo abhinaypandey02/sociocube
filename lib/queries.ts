@@ -416,6 +416,15 @@ export const GET_ALL_POSTINGS = gql(`
       price
       createdAt
       platforms
+      countries
+        states{
+            value
+            label
+        }
+        cities{
+            value
+            label
+        }
       hasApplied
       eligibility
       updatedAt
@@ -670,6 +679,15 @@ export const GET_POSTINGS_IN_REVIEW = gql(`
         open
         title
         currency
+        countries
+        states{
+            value
+            label
+        }
+        cities{
+            value
+            label
+        }
         price
         createdAt
         platforms
