@@ -16,7 +16,7 @@ export function getShareText(
     ...(posting.cities || []).map((city) => city.label),
   ];
   const price = getCurrency(posting.barter, posting.currency, posting.price);
-  return `New collab opportunity for ${posting.gender ? posting.gender : "all"} creators!
+  return `New collab opportunity for ${posting.gender ? posting.gender : ""} creators!
 
 ${posting.title}
 
