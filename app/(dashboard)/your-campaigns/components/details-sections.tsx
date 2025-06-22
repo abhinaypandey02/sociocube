@@ -6,9 +6,12 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { GetPostingQuery } from "@/__generated__/graphql";
-import { renderRichText } from "@/app/(dashboard)/campaigns/components/posting-card";
 import { POSTING_PLATFORMS } from "@/app/(dashboard)/campaigns/constants";
-import { getCurrency, getPlatforms } from "@/app/(dashboard)/campaigns/utils";
+import {
+  getCurrency,
+  getPlatforms,
+  renderRichText,
+} from "@/app/(dashboard)/campaigns/utils";
 import AccountCard from "@/app/(dashboard)/profile/components/account-card";
 import ManagePostingButton from "@/app/(dashboard)/your-campaigns/components/manage-posting-button";
 import { Button } from "@/components/button";
