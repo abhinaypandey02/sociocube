@@ -33,13 +33,13 @@ export default function PostingCard({
   const aboutRef = useRef<HTMLDivElement>(null);
   const [showDescription, setShowDescription] = useState(false);
   const mainRef = useRef<HTMLDivElement>(null);
-  const [locationNames, setLocationNames] = useState<string[]>([
+  const locationNames = [
     ...countriesData
       .filter((c) => posting.countries?.includes(c.value))
       .map((country) => country.label),
     ...(posting.states || []).map((state) => state.label),
     ...(posting.cities || []).map((city) => city.label),
-  ]);
+  ];
   useEffect(() => {
     if (!fetchMore) return;
     const observer = new IntersectionObserver(
