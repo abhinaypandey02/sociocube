@@ -53,7 +53,8 @@ export default function ChatList({ chats }: { chats: GetChatsQuery["chats"] }) {
             const aDate = new Date(a.preview?.at || 0);
             const bDate = new Date(b.preview?.at || 0);
             return bDate.getTime() - aDate.getTime();
-          }) && filteredChats.map((chat) => (
+          }) &&
+          filteredChats.map((chat) => (
             <Link
               href={`${getRoute("Inbox")}/${chat.user?.username}`}
               key={chat.id}
