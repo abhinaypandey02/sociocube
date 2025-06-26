@@ -34,10 +34,9 @@ export const POST = async (req: NextRequest) => {
               : null,
           externalLink: posting.externalLink || null,
           extraDetails: null,
+          // @ts-expect-error -- invalid type
           platforms: posting.platforms
-            ? (posting.platforms.map((platform) =>
-                platform.toLowerCase(),
-              ) as PostingPlatforms[])
+            ? [posting.platforms]
             : [PostingPlatforms.INSTAGRAM],
         },
         true,
