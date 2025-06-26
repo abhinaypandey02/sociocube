@@ -370,7 +370,7 @@ input NewPostingInput {
   maximumAge: Float
   minimumAge: Float
   minimumFollowers: Float
-  platforms: [PostingPlatforms!]!
+  platform: PostingPlatforms!
   price: Int
   states: [Int!]
   title: String!
@@ -405,7 +405,7 @@ type Posting {
   minimumAge: Int
   minimumFollowers: Int
   open: Boolean!
-  platforms: [PostingPlatforms!]!
+  platform: PostingPlatforms!
   price: Int
   recommendations: [Recommendation!]!
   referralEarnings: Float!
@@ -559,7 +559,7 @@ input UpdatePostingInput {
   maximumAge: Float
   minimumAge: Float
   minimumFollowers: Float
-  platforms: [PostingPlatforms!]
+  platform: PostingPlatforms
   price: Int
   states: [Int!]
 }

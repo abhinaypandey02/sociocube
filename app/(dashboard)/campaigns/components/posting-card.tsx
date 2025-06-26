@@ -114,7 +114,7 @@ export default function PostingCard({
                 }
               >
                 <div className="flex items-center gap-1">
-                  {getPlatforms(posting.platforms)}
+                  {getPlatforms(posting.platform)}
                 </div>
 
                 {price ? (

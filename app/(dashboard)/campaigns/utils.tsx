@@ -22,14 +22,10 @@ export function getAgeGroup(min?: number | null, max?: number | null) {
   if (max) return `< ${max} y/o`;
 }
 
-export function getPlatforms(platforms: PostingPlatforms[]) {
-  return platforms.map((item) => {
-    const Icon = POSTING_PLATFORMS.find(
-      (platform) => platform.value === item,
-    )?.icon;
-    if (Icon) return <Icon key={item} />;
-    return null;
-  });
+export function getPlatforms(platform: PostingPlatforms) {
+  const Icon = POSTING_PLATFORMS.find(({ value }) => value === platform)?.icon;
+  if (Icon) return <Icon key={platform} />;
+  return null;
 }
 
 export function renderRichText(text: string, isCurrentUser?: boolean) {

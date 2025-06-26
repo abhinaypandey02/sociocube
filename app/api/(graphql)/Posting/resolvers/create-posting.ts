@@ -41,9 +41,9 @@ export class NewPostingInput {
   price: number | null;
   @Field()
   barter: boolean;
-  @Field(() => [PostingPlatforms])
-  @IsEnum(PostingPlatforms, { each: true })
-  platforms: PostingPlatforms[];
+  @Field(() => PostingPlatforms)
+  @IsEnum(PostingPlatforms)
+  platform: PostingPlatforms;
   @Field({ nullable: true })
   minimumAge: number;
   @Field({ nullable: true })

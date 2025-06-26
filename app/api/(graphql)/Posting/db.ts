@@ -31,7 +31,7 @@ export const PostingTable = pgTable(
       .references(() => UserTable.id)
       .notNull(),
     title: text("title").notNull(),
-    platforms: platforms("platforms").array().notNull().default([]),
+    platform: platforms("platform").notNull(),
     deliverables: text("deliverables").array(),
     externalLink: text("external_link").unique(),
     extraDetails: text("extra_details"),
