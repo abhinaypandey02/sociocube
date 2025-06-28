@@ -58,6 +58,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
   } catch (e: unknown) {
+    console.error(e);
     return new NextResponse((e as Error).message, { status: 501 });
   }
 };
