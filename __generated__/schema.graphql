@@ -330,6 +330,7 @@ type Mutation {
   acceptPosting(postingID: Float!): Boolean!
   addPortfolio(data: AddPortfolioArgs!): Portfolio!
   applyToPosting(comment: String, postingID: Float!): Boolean!
+  changePassword(newPassword: String!, oldPassword: String!): Boolean!
   createPosting(newPosting: NewPostingInput!): Float
   deletePortfolio(id: Float!): Boolean!
   deletePosting(postingID: Float!): Boolean!
