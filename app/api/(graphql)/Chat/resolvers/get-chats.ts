@@ -1,8 +1,8 @@
 import type { Context } from "@backend/lib/auth/context";
 import { db } from "@backend/lib/db";
-import { arrayContains, getTableColumns } from "drizzle-orm";
+import { arrayContains, desc, getTableColumns, sql } from "drizzle-orm";
 
-import { ConversationTable } from "../db";
+import { ConversationMessageTable, ConversationTable } from "../db";
 import type { ConversationGQL } from "../type";
 
 export async function handleGetChats(ctx: Context): Promise<ConversationGQL[]> {
@@ -10,5 +10,14 @@ export async function handleGetChats(ctx: Context): Promise<ConversationGQL[]> {
   return db
     .select(getTableColumns(ConversationTable))
     .from(ConversationTable)
-    .where(arrayContains(ConversationTable.users, [ctx.userId]));
+    .where(arrayContains(ConversationTable.users, [ctx.userId]))
+    .orderBy(
+      desc(
+        sql`(
+          SELECT MAX(${ConversationMessageTable.createdAt}) 
+          FROM ${ConversationMessageTable} 
+          WHERE ${ConversationMessageTable.conversation} = ${ConversationTable.id}
+        )`,
+      ),
+    );
 }
