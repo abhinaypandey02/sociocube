@@ -100,7 +100,14 @@ export const SEND_VERIFICATION_EMAIL = gql(`
 export const RESET_PASSWORD = gql(`
   #graphql
   mutation ResetPassword($newPassword:String!, $token:String!) {
-    resetPassword(newPassword: $newPassword, token:$token)  
+    resetPassword(newPassword: $newPassword, token:$token)
+  }
+`);
+
+export const CHANGE_PASSWORD = gql(`
+  #graphql
+  mutation ChangePassword($oldPassword:String!, $newPassword:String!) {
+    changePassword(oldPassword: $oldPassword, newPassword: $newPassword)
   }
 `);
 
@@ -182,5 +189,12 @@ export const SEND_ANNOUNCEMENT = gql(`
   #graphql
   mutation SendAnnouncement($body:String!, $postingID:Float!, $apps:[Float!]){
     sendAnnouncement(body: $body, postingID: $postingID, apps: $apps)   
+  }
+`);
+
+export const DELETE_USER = gql(`
+  #graphql
+  mutation DeleteUser{
+    deleteUser
   }
 `);

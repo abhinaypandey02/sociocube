@@ -330,9 +330,11 @@ type Mutation {
   acceptPosting(postingID: Float!): Boolean!
   addPortfolio(data: AddPortfolioArgs!): Portfolio!
   applyToPosting(comment: String, postingID: Float!): Boolean!
+  changePassword(newPassword: String!, oldPassword: String!): Boolean!
   createPosting(newPosting: NewPostingInput!): Float
   deletePortfolio(id: Float!): Boolean!
   deletePosting(postingID: Float!): Boolean!
+  deleteUser: Boolean!
   disconnectInstagram: Boolean!
   likeApplication(id: Float!): Boolean!
   pausePosting(postingID: Float!): Boolean!
@@ -370,7 +372,7 @@ input NewPostingInput {
   maximumAge: Float
   minimumAge: Float
   minimumFollowers: Float
-  platforms: [PostingPlatforms!]!
+  platform: PostingPlatforms!
   price: Int
   states: [Int!]
   title: String!
@@ -405,7 +407,7 @@ type Posting {
   minimumAge: Int
   minimumFollowers: Int
   open: Boolean!
-  platforms: [PostingPlatforms!]!
+  platform: PostingPlatforms!
   price: Int
   recommendations: [Recommendation!]!
   referralEarnings: Float!
@@ -559,7 +561,7 @@ input UpdatePostingInput {
   maximumAge: Float
   minimumAge: Float
   minimumFollowers: Float
-  platforms: [PostingPlatforms!]
+  platform: PostingPlatforms
   price: Int
   states: [Int!]
 }

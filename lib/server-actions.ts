@@ -14,8 +14,12 @@ export async function getTransformedPostingData(message: string) {
     `We need to convert UGC job posting text messages into structured json. It should convert into a form data for entering into a website. The form is built with typescript and here is the interface for form data:
     
     export enum PostingPlatforms {
-      Instagram = "INSTAGRAM",
-      Youtube = "YOUTUBE"
+      "instagram",
+      "youtube",
+      "tiktok",
+      "linkedin",
+      "facebook",
+      "x",
     }
       
     interface FormFields {
@@ -28,7 +32,7 @@ export async function getTransformedPostingData(message: string) {
       minimumAge?: number; // If not applicable, should be null
       minimumFollowers?: number; // If not applicable, should be null
       price?: number; // The payment to be sent. If its a barter collab, then this should be the maximum worth of products that content creator will get.
-      platforms: PostingPlatforms;
+      platform: PostingPlatforms;
       gender?: ${genders.join("|")}; // The expected gender of the content creator, if not applicable, should be null. Can strictly be one of ${genders.join(", ")}. Cannot be multiple. Only one if specified.
     }
       

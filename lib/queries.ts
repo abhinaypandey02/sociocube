@@ -85,7 +85,7 @@ export const GET_FEATURED_SELLERS_AND_POSTS = gql(`
     postings: getFeaturedPostings {
       id
       price
-      platforms
+      platform
       currency
       title
       open
@@ -360,7 +360,7 @@ export const GET_POSTING = gql(`
         currency
         price
         createdAt
-        platforms
+        platform
         hasApplied
         eligibility
         updatedAt
@@ -415,7 +415,7 @@ export const GET_ALL_POSTINGS = gql(`
       currency
       price
       createdAt
-      platforms
+      platform
       countries
         states{
             value
@@ -457,7 +457,7 @@ export const GET_USER_POSTINGS = gql(`
       currency
       price
       createdAt
-      platforms
+      platform
       updatedAt
       deliverables
       currencyCountry
@@ -484,7 +484,7 @@ export const GET_USER_POSTINGS_LATEST = gql(`
       currency
       price
       createdAt
-      platforms
+      platform
       updatedAt
       deliverables
       currencyCountry
@@ -690,7 +690,7 @@ export const GET_POSTINGS_IN_REVIEW = gql(`
         }
         price
         createdAt
-        platforms
+        platform
         hasApplied
         eligibility
         updatedAt
