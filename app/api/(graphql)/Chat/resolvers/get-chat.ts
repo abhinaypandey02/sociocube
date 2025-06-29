@@ -1,5 +1,4 @@
 import type { Context } from "@backend/lib/auth/context";
-import GQLError from "@backend/lib/constants/errors";
 import { db } from "@backend/lib/db";
 import { arrayContains, eq, getTableColumns } from "drizzle-orm";
 
@@ -18,7 +17,7 @@ export async function handleGetChat(
     })
     .from(UserTable)
     .where(eq(UserTable.username, username));
-  if (!user?.id) throw GQLError(404, "Username does not exist");
+  if (!user?.id) return null;
   const [conversation] = await db
     .select(getTableColumns(ConversationTable))
     .from(ConversationTable)

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { renderRichText } from "@/app/(dashboard)/campaigns/utils";
 import { cn } from "@/lib/utils";
 
 import { CHAR_LIMIT } from "../../constants";
@@ -37,7 +38,12 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
           isCurrentUser ? "bg-accent text-white" : "bg-gray-100 text-gray-700",
         )}
       >
-        {displayText}
+        <div
+          className="break-words"
+          dangerouslySetInnerHTML={{
+            __html: renderRichText(displayText, isCurrentUser),
+          }}
+        />
         {isLongMessage && (
           <button
             onClick={toggleExpand}

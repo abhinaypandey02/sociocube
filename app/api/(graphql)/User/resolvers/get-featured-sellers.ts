@@ -21,10 +21,16 @@ export async function handleGetFeaturedSellers() {
         isNotNull(UserTable.bio),
         isNotNull(UserTable.instagramDetails),
         isNotNull(UserTable.name),
-        inArray(
-          UserTable.id,
-          [372, 605, 458, 748, 747, 760, 750, 459, 930, 1104],
-        ),
+        inArray(UserTable.username, [
+          "enricasciarretta",
+          "thecrazysk",
+          "vidhya_vijaykumar",
+          "ankitmishra1310",
+          "amothertwosons",
+          "sanikahehe",
+          "shadia89",
+          "marusaach22",
+        ]),
       ),
     )
     .innerJoin(

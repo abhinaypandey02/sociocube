@@ -34,11 +34,9 @@ export const POST = async (req: NextRequest) => {
               : null,
           externalLink: posting.externalLink || null,
           extraDetails: null,
-          platforms: posting.platforms
-            ? (posting.platforms.map((platform) =>
-                platform.toLowerCase(),
-              ) as PostingPlatforms[])
-            : [PostingPlatforms.INSTAGRAM],
+          platform:
+            (posting.platform as PostingPlatforms) ||
+            PostingPlatforms.INSTAGRAM,
         },
         true,
       );
@@ -60,6 +58,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
   } catch (e: unknown) {
+    console.error(e);
     return new NextResponse((e as Error).message, { status: 501 });
   }
 };

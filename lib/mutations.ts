@@ -191,3 +191,10 @@ export const SEND_ANNOUNCEMENT = gql(`
     sendAnnouncement(body: $body, postingID: $postingID, apps: $apps)   
   }
 `);
+
+export const DELETE_USER = gql(`
+  #graphql
+  mutation DeleteUser{
+    deleteUser
+  }
+`);

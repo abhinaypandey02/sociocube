@@ -14,6 +14,7 @@ import {
   getAgeGroup,
   getCurrency,
   getPlatforms,
+  renderRichText,
 } from "@/app/(dashboard)/campaigns/utils";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
@@ -25,7 +26,6 @@ import { useToken } from "@/lib/auth-client";
 import { GET_USER_POSTINGS } from "@/lib/queries";
 import { convertToAbbreviation } from "@/lib/utils";
 
-import { renderRichText } from "../../campaigns/components/posting-card";
 import { WRAPPER_ID } from "../../campaigns/constants";
 import AccountCard from "../../profile/components/account-card";
 export default function PostingsTable({
@@ -127,7 +127,7 @@ export default function PostingsTable({
                 }
               >
                 <div className="flex items-center gap-1">
-                  {getPlatforms(posting.platforms)}
+                  {getPlatforms(posting.platform)}
                 </div>
 
                 {price ? (

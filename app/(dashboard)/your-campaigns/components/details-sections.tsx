@@ -6,9 +6,12 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { GetPostingQuery } from "@/__generated__/graphql";
-import { renderRichText } from "@/app/(dashboard)/campaigns/components/posting-card";
 import { POSTING_PLATFORMS } from "@/app/(dashboard)/campaigns/constants";
-import { getCurrency, getPlatforms } from "@/app/(dashboard)/campaigns/utils";
+import {
+  getCurrency,
+  getPlatforms,
+  renderRichText,
+} from "@/app/(dashboard)/campaigns/utils";
 import AccountCard from "@/app/(dashboard)/profile/components/account-card";
 import ManagePostingButton from "@/app/(dashboard)/your-campaigns/components/manage-posting-button";
 import { Button } from "@/components/button";
@@ -60,7 +63,7 @@ export default function DetailsSections({
             <PostingStatus posting={posting} />
             <span className={"text-[10px] text-gray-500"}>•</span>
             <div className="flex items-center gap-1">
-              {getPlatforms(posting.platforms)}
+              {getPlatforms(posting.platform)}
             </div>
             {price ? (
               <>
@@ -141,7 +144,7 @@ function PostingDetailsForm({
           newPosting: {
             description: data.description,
             deliverables,
-            platforms: data.platforms,
+            platform: data.platform,
             currencyCountry: data.currencyCountry,
             price: data.price,
             barter: data.barter,

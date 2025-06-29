@@ -44,7 +44,7 @@ export interface CreatePostingFormFields {
   currencyCountry: number;
   price: number;
   gender?: string;
-  platforms: PostingPlatforms[];
+  platform: string;
 }
 
 export default function CreateNewPostingForm({
@@ -88,7 +88,7 @@ export default function CreateNewPostingForm({
           formData.deliverables.trim() !== ""
             ? formData.deliverables.trim().split(",")
             : undefined,
-        platforms: formData.platforms,
+        platform: formData.platform as PostingPlatforms,
         gender: formData.gender || undefined,
       },
     })
@@ -131,7 +131,7 @@ export default function CreateNewPostingForm({
         extraDetails: postingData.extraDetails,
         maximumAge: postingData.maximumAge || undefined,
         title: postingData.title.slice(0, NAME_MAX_LENGTH * 2),
-        platforms: postingData.platforms,
+        platform: postingData.platform,
         minimumAge: postingData.minimumAge || undefined,
         minimumFollowers: postingData.minimumFollowers || undefined,
         price: postingData.price || undefined,
@@ -215,10 +215,9 @@ export default function CreateNewPostingForm({
         />
         <Input
           label="Platform"
-          name="platforms"
+          name="platform"
           options={POSTING_PLATFORMS}
           placeholder="Select platform"
-          multiple
         />
         <div className="grid grid-cols-2 gap-2">
           <Input

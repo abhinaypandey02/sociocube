@@ -8,8 +8,8 @@ export class PostingGQL {
   title: string;
   @Field()
   description: string;
-  @Field(() => [PostingPlatforms])
-  platforms: string[];
+  @Field(() => PostingPlatforms)
+  platform: PostingPlatforms;
   @Field(() => [String], { nullable: true })
   deliverables: string[] | null;
   @Field(() => [Number], { nullable: true })

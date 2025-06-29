@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { PostingPlatforms } from "@/__generated__/graphql";
+import { type GetFeaturedSellersQuery } from "@/__generated__/graphql";
 import {
   getAgeGroup,
   getCurrency,
@@ -18,26 +18,7 @@ import { getRoute } from "@/constants/routes";
 import { cn, convertToAbbreviation } from "@/lib/utils";
 
 interface JobPostingCardProps {
-  posting: {
-    id: number;
-    price?: number | null;
-    platforms: Array<PostingPlatforms>;
-    currency?: string | null;
-    title: string;
-    open: boolean;
-    minimumAge?: number | null;
-    maximumAge?: number | null;
-    barter: boolean;
-    applicationsCount: number;
-    minimumFollowers?: number | null;
-    externalLink?: string | null;
-    description: string;
-    deliverables?: Array<string> | null;
-    agency: {
-      photo?: string | null;
-      name?: string | null;
-    };
-  };
+  posting: GetFeaturedSellersQuery["postings"][number];
   index: number;
   maxVisibleOnMobile?: number;
 }
@@ -80,7 +61,7 @@ export default function JobPostingCard({
         }
       >
         <div className="flex items-center gap-1">
-          {getPlatforms(posting.platforms)}
+          {getPlatforms(posting.platform)}
         </div>
 
         {posting.price || posting.barter ? (
