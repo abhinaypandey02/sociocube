@@ -2,6 +2,7 @@
 
 import {
   HttpLink,
+  MutationHookOptions,
   type OperationVariables,
   useLazyQuery,
   useMutation,
@@ -81,9 +82,10 @@ export function useAuthQuery<T, V extends OperationVariables>(
 
 export function useAuthMutation<T, V extends OperationVariables>(
   mutation: TypedDocumentNode<T, V>,
+  options?: MutationHookOptions<T, V>,
 ) {
   const token = useToken();
-  const [mutate, result] = useMutation(mutation);
+  const [mutate, result] = useMutation(mutation, options);
   const method = useCallback(
     (variables?: V) =>
       mutate({
