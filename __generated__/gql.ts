@@ -41,7 +41,7 @@ const documents = {
     "\n  #graphql\n  mutation SendReviewByUser($args:SendReviewByUserArgs!) {\n    sendReviewByUser(args: $args)  \n  }\n": types.SendReviewByUserDocument,
     "\n  #graphql\n  mutation UnlinkSocialAccount {\n    unlinkSocialAccount\n  }\n": types.UnlinkSocialAccountDocument,
     "\n  #graphql\n  mutation SendAnnouncement($body:String!, $postingID:Float!, $apps:[Float!]){\n    sendAnnouncement(body: $body, postingID: $postingID, apps: $apps)   \n  }\n": types.SendAnnouncementDocument,
-    "\n  #graphql\n  mutation DeleteUser{\n    deleteUser\n  }\n": types.DeleteUserDocument,
+    "\n  #graphql\n  mutation DeleteUser($password:String!){\n    deleteUser(password: $password)\n  }\n": types.DeleteUserDocument,
     "\n  #graphql\n  query GetCurrentUser {\n    user: getCurrentUser {\n      id\n      bio\n      email\n      username\n      name\n      photo\n      role\n      emailVerified\n      isOnboarded\n      instagramStats {\n        username\n        isVerified\n      }\n    }\n  }\n": types.GetCurrentUserDocument,
     "\n  #graphql\n  query GetUserCurrency {\n    user: getCurrentUser {\n        id\n      locationID {\n        country\n      }\n    }\n  }\n": types.GetUserCurrencyDocument,
     "\n  #graphql\n  query GetDefaultOnboardingDetails {\n    getCurrentUser {\n      id\n      email\n      name\n      photo\n      role\n      isOnboarded\n      instagramStats {\n        username\n      }\n      bio\n      username\n      pricing {\n        starting\n      }\n      gender\n      category\n      dob\n      location {\n        city\n        currency\n      }\n      locationID {\n        city\n        country\n      }\n    }\n  }\n": types.GetDefaultOnboardingDetailsDocument,
@@ -199,7 +199,7 @@ export function gql(source: "\n  #graphql\n  mutation SendAnnouncement($body:Str
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  #graphql\n  mutation DeleteUser{\n    deleteUser\n  }\n"): (typeof documents)["\n  #graphql\n  mutation DeleteUser{\n    deleteUser\n  }\n"];
+export function gql(source: "\n  #graphql\n  mutation DeleteUser($password:String!){\n    deleteUser(password: $password)\n  }\n"): (typeof documents)["\n  #graphql\n  mutation DeleteUser($password:String!){\n    deleteUser(password: $password)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
