@@ -11,6 +11,8 @@ import { RequestTable } from "@graphql/Request/db";
 import { ReviewTable } from "@graphql/Review/db";
 import { eq } from "drizzle-orm";
 
+import { sendTemplateEmail } from "@/app/api/lib/email/send-template";
+
 import { LocationTable, PricingTable, UserTable } from "../db";
 
 export async function deleteUser(ctx: AuthorizedContext): Promise<boolean> {
@@ -40,5 +42,9 @@ export async function deleteUser(ctx: AuthorizedContext): Promise<boolean> {
   if (user.location)
     await db.delete(LocationTable).where(eq(LocationTable.id, user.location));
   if (user.photo) await deleteImage(user.photo);
+
+  if (user.emailVerified) {
+    await sendTemplateEmail(user.email, "DeleteUser", { name: user.name });
+  }
   return true;
 }
