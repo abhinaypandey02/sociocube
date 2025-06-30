@@ -55,15 +55,9 @@ export const POST = async (req: NextRequest) => {
             { status: 500 },
           );
 
-        const text = getShareText(postingRes.data.posting);
-
-        return NextResponse.json(
-          {
-            text,
-            id: res,
-          },
-          { status: 200 },
-        );
+        return new NextResponse(getShareText(postingRes.data.posting), {
+          status: 200,
+        });
       } else {
         return new NextResponse(
           "error while creating posting. it returned null",
