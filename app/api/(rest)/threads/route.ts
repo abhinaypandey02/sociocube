@@ -1,13 +1,46 @@
 // /app/api/threads-auth/route.ts
+import { db } from "@backend/lib/db";
+import { ConfigTable } from "@graphql/Config/db";
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 const FB_APP_ID = process.env.NEXT_PUBLIC_THREADS_CLIENT_ID!;
 const FB_APP_SECRET = process.env.THREADS_CLIENT_SECRET!;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_BASE_URL + "/api/threads"; // replace with your prod URL
 
+export const THREADS_ACCESS_TOKEN = "THREADS_ACCESS_TOKEN";
+
 export async function GET(req: NextRequest) {
-  const url = new URL(req.url);
-  const code = url.searchParams.get("code");
+  const force = req.nextUrl.searchParams.get("force");
+
+  const [token] = await db
+    .select()
+    .from(ConfigTable)
+    .where(eq(ConfigTable.key, THREADS_ACCESS_TOKEN));
+
+  if (token && !force) {
+    if (
+      (new Date().getTime() - token.updatedAt.getTime()) / (1000 * 3600 * 24) >
+      2
+    ) {
+      const longTokenRes = await fetch(
+        `https://graph.threads.net/refresh_access_token?grant_type=th_refresh_token&access_token=${token}`,
+      );
+      const longTokenData = await longTokenRes.json();
+      if (!longTokenData.access_token) {
+        return new NextResponse("Failed to refresh long-lived token");
+      }
+      await db
+        .update(ConfigTable)
+        .set({ value: longTokenData.access_token, updatedAt: new Date() })
+        .where(eq(ConfigTable.key, THREADS_ACCESS_TOKEN));
+      return new NextResponse("Updated");
+    } else {
+      return new NextResponse("Fresh as new");
+    }
+  }
+
+  const code = req.nextUrl.searchParams.get("code");
   // Step 1: No code — redirect user to login
   if (!code) {
     const loginUrl = `https://threads.net/oauth/authorize?client_id=${FB_APP_ID}&redirect_uri=${encodeURIComponent(
@@ -26,10 +59,7 @@ export async function GET(req: NextRequest) {
   const shortLivedToken = tokenData.access_token;
 
   if (!shortLivedToken) {
-    return NextResponse.json({
-      error: "Failed to get short-lived token",
-      data: tokenData,
-    });
+    return new NextResponse("Failed to get short-lived token");
   }
 
   // Step 3: Exchange short-lived token for long-lived token
@@ -40,14 +70,10 @@ export async function GET(req: NextRequest) {
   const longTokenData = await longTokenRes.json();
 
   if (!longTokenData.access_token) {
-    return NextResponse.json({
-      error: "Failed to get long-lived token",
-      data: longTokenData,
-    });
+    return new NextResponse("Failed to get long-lived token");
   }
-
-  return NextResponse.json({
-    long_lived_access_token: longTokenData.access_token,
-    expires_in: longTokenData.expires_in,
-  });
+  await db
+    .update(ConfigTable)
+    .set({ key: THREADS_ACCESS_TOKEN, value: longTokenData.access_token });
+  return new NextResponse("Long lived token is set");
 }

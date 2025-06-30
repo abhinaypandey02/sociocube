@@ -41,10 +41,7 @@ export const POST = async (req: NextRequest) => {
         true,
       );
       if (res) {
-        return new NextResponse(
-          "Created new posting. https://sociocube.com/campaigns/" + res,
-          { status: 200 },
-        );
+        return new NextResponse(res.toString(), { status: 200 });
       } else {
         return new NextResponse(
           "error while creating posting. it returned null",
