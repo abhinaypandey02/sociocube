@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
     return new NextResponse("Failed to get long-lived token");
   }
   await db
-    .update(ConfigTable)
-    .set({ key: THREADS_ACCESS_TOKEN, value: longTokenData.access_token });
+    .insert(ConfigTable)
+    .values({ key: THREADS_ACCESS_TOKEN, value: longTokenData.access_token });
   return new NextResponse("Long lived token is set");
 }
