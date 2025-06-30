@@ -1,4 +1,5 @@
 // /app/api/threads-auth/route.ts
+import { THREADS_ACCESS_TOKEN } from "@backend/(rest)/threads/constants";
 import { db } from "@backend/lib/db";
 import { ConfigTable } from "@graphql/Config/db";
 import { eq } from "drizzle-orm";
@@ -7,8 +8,6 @@ import { NextRequest, NextResponse } from "next/server";
 const FB_APP_ID = process.env.NEXT_PUBLIC_THREADS_CLIENT_ID!;
 const FB_APP_SECRET = process.env.THREADS_CLIENT_SECRET!;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_BASE_URL + "/api/threads"; // replace with your prod URL
-
-export const THREADS_ACCESS_TOKEN = "THREADS_ACCESS_TOKEN";
 
 export async function GET(req: NextRequest) {
   const force = req.nextUrl.searchParams.get("force");

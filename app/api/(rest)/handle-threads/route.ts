@@ -1,4 +1,4 @@
-import { THREADS_ACCESS_TOKEN } from "@backend/(rest)/threads/route";
+import { THREADS_ACCESS_TOKEN } from "@backend/(rest)/threads/constants";
 import { db } from "@backend/lib/db";
 import { ConfigTable } from "@graphql/Config/db";
 import { eq } from "drizzle-orm";
