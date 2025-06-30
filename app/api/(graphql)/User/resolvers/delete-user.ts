@@ -9,12 +9,25 @@ import { PortfolioTable } from "@graphql/Portfolio/db";
 import { PostingTable } from "@graphql/Posting/db";
 import { RequestTable } from "@graphql/Request/db";
 import { ReviewTable } from "@graphql/Review/db";
+import { compare } from "bcryptjs";
 import { eq } from "drizzle-orm";
 
 import { LocationTable, PricingTable, UserTable } from "../db";
 
-export async function deleteUser(ctx: AuthorizedContext): Promise<boolean> {
+export async function deleteUser(
+  ctx: AuthorizedContext,
+  password: string,
+): Promise<boolean> {
   if (!ctx.userId) throw GQLError(403);
+  const [existingUser] = await db
+    .select()
+    .from(UserTable)
+    .where(eq(UserTable.id, ctx.userId));
+  if (!existingUser) throw GQLError(403);
+  if (existingUser.password) {
+    if (!(await compare(password, existingUser.password)))
+      throw GQLError(403, "Incorrect password");
+  }
 
   const id = ctx.userId;
   await db.delete(InstagramMediaTable).where(eq(InstagramMediaTable.user, id));
@@ -24,21 +37,19 @@ export async function deleteUser(ctx: AuthorizedContext): Promise<boolean> {
   await db.delete(ApplicationTable).where(eq(ApplicationTable.user, id));
   await db.delete(RequestTable).where(eq(RequestTable.user, id));
   await db.delete(PricingTable).where(eq(PricingTable.user, id));
-  const [user] = await db
-    .delete(UserTable)
-    .where(eq(UserTable.id, id))
-    .returning();
-  if (!user) throw GQLError(404, "User not found");
-  if (user.instagramDetails)
+  await db.delete(UserTable).where(eq(UserTable.id, id)).returning();
+  if (existingUser.instagramDetails)
     try {
       await db
         .delete(InstagramDetails)
-        .where(eq(InstagramDetails.id, user.instagramDetails));
+        .where(eq(InstagramDetails.id, existingUser.instagramDetails));
     } catch (err) {
       console.error("IN USE", err);
     }
-  if (user.location)
-    await db.delete(LocationTable).where(eq(LocationTable.id, user.location));
-  if (user.photo) await deleteImage(user.photo);
+  if (existingUser.location)
+    await db
+      .delete(LocationTable)
+      .where(eq(LocationTable.id, existingUser.location));
+  if (existingUser.photo) await deleteImage(existingUser.photo);
   return true;
 }

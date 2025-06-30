@@ -334,7 +334,7 @@ type Mutation {
   createPosting(newPosting: NewPostingInput!): Float
   deletePortfolio(id: Float!): Boolean!
   deletePosting(postingID: Float!): Boolean!
-  deleteUser: Boolean!
+  deleteUser(password: String!): Boolean!
   disconnectInstagram: Boolean!
   likeApplication(id: Float!): Boolean!
   pausePosting(postingID: Float!): Boolean!

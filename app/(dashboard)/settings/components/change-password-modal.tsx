@@ -49,7 +49,7 @@ export default function ChangePasswordModal({
         <Input
           type={"password"}
           placeholder={"Enter your old password"}
-          label={"Old password"}
+          label={"Old password (Skip if not set)"}
           name={"oldPassword"}
         />
         <Input
