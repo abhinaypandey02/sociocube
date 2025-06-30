@@ -9,10 +9,11 @@ import { PortfolioTable } from "@graphql/Portfolio/db";
 import { PostingTable } from "@graphql/Posting/db";
 import { RequestTable } from "@graphql/Request/db";
 import { ReviewTable } from "@graphql/Review/db";
-import { eq } from "drizzle-orm";
+import { arrayContains, eq, inArray } from "drizzle-orm";
 
 import { sendTemplateEmail } from "@/app/api/lib/email/send-template";
 
+import { ConversationMessageTable, ConversationTable } from "../../Chat/db";
 import { LocationTable, PricingTable, UserTable } from "../db";
 
 export async function deleteUser(ctx: AuthorizedContext): Promise<boolean> {
@@ -26,6 +27,18 @@ export async function deleteUser(ctx: AuthorizedContext): Promise<boolean> {
   await db.delete(ApplicationTable).where(eq(ApplicationTable.user, id));
   await db.delete(RequestTable).where(eq(RequestTable.user, id));
   await db.delete(PricingTable).where(eq(PricingTable.user, id));
+  await db.delete(ConversationMessageTable).where(
+    inArray(
+      ConversationMessageTable.conversation,
+      db
+        .select({ id: ConversationTable.id })
+        .from(ConversationTable)
+        .where(arrayContains(ConversationTable.users, [id])),
+    ),
+  );
+  await db
+    .delete(ConversationTable)
+    .where(arrayContains(ConversationTable.users, [id]));
   const [user] = await db
     .delete(UserTable)
     .where(eq(UserTable.id, id))
