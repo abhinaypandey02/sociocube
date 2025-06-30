@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
 
   // Step 3: Exchange short-lived token for long-lived token
   const longTokenRes = await fetch(
-    `https://graph.threads.net/access_token?grant_type=fb_exchange_token&client_secret=${FB_APP_SECRET}&access_token=${shortLivedToken}`,
+    `https://graph.threads.net/access_token?grant_type=th_exchange_token&client_secret=${FB_APP_SECRET}&access_token=${shortLivedToken}`,
   );
 
   const longTokenData = await longTokenRes.json();
