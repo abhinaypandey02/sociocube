@@ -12,7 +12,7 @@ export const PasswordChange = ({
   components: [
     {
       type: EmailComponentType.PARAGRAPH,
-      content: `Hi ${name ? name : "there"},
+      content: `Hi ${name},
 Your password has been successfully changed.
 
 If you did not initiate this change, please reset your password immediately.`,
