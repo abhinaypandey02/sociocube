@@ -5,7 +5,9 @@ import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
-  const { thread } = await req.json();
+  const { thread, token: authToken } = await req.json();
+  if (authToken !== process.env.WHATSAPP_AUTH)
+    return new NextResponse("token not found");
   if (!thread) return new NextResponse("id not found");
   const [token] = await db
     .select()
