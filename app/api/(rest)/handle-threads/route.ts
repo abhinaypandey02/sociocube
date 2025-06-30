@@ -36,9 +36,9 @@ export const POST = async (req: NextRequest) => {
       if (!postRes.id) {
         return new NextResponse("Cant create post");
       }
-      if (i > 0) {
+      if (thread[i + 1]) {
         container = await fetch(
-          `https://graph.threads.net/v1.0/me/threads?media_type=TEXT&text=${thread[i].split("\n").join("%0A")}&reply_to_id=${postRes.id}&access_token=${token.value}"
+          `https://graph.threads.net/v1.0/me/threads?media_type=TEXT&text=${thread[i + 1].split("\n").join("%0A")}&reply_to_id=${postRes.id}&access_token=${token.value}"
 `,
           { method: "POST" },
         );
