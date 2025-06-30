@@ -12,6 +12,7 @@ import { CampaignCreated } from "./templates/campaign-created";
 import { CampaignRejected } from "./templates/campaign-rejected";
 import { MessageReceived } from "./templates/message-received";
 import { NewCampaigns } from "./templates/new-campaigns";
+import { PasswordChange } from "./templates/password-change";
 import { PostingAnnouncement } from "./templates/posting-announcement";
 import { ResetPassword } from "./templates/reset-password";
 import { ShortlistAccepted } from "./templates/shortlist-accepted";
@@ -23,6 +24,7 @@ export const Template = {
   WelcomeUser,
   VerifyEmail,
   ResetPassword,
+  PasswordChange,
   CampaignApproved,
   CampaignCreated,
   CampaignRejected,
