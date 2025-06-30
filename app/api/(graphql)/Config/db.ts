@@ -1,6 +1,6 @@
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
-export const ConfigTable = pgTable("subscription", {
+export const ConfigTable = pgTable("config", {
   key: text("key").primaryKey(),
   value: text("value"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
