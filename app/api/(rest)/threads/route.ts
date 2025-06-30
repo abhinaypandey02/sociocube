@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
   if (!code) {
     const loginUrl = `https://threads.net/oauth/authorize?client_id=${FB_APP_ID}&redirect_uri=${encodeURIComponent(
       REDIRECT_URI,
-    )}&scope=threads_basic,threads_content_publish&response_type=code`;
+    )}&scope=threads_basic,threads_content_publish,threads_manage_replies&response_type=code`;
     return NextResponse.redirect(loginUrl);
   }
   // Step 2: Exchange code for short-lived access token
