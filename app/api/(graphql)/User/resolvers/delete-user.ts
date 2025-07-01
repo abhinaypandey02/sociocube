@@ -9,9 +9,16 @@ import { PortfolioTable } from "@graphql/Portfolio/db";
 import { PostingTable } from "@graphql/Posting/db";
 import { RequestTable } from "@graphql/Request/db";
 import { ReviewTable } from "@graphql/Review/db";
+
+import { arrayContains, eq, inArray } from "drizzle-orm";
 import { compare } from "bcryptjs";
 import { eq } from "drizzle-orm";
 
+
+import { Roles } from "@/app/api/lib/constants/roles";
+import { sendTemplateEmail } from "@/app/api/lib/email/send-template";
+
+import { ConversationMessageTable, ConversationTable } from "../../Chat/db";
 import { LocationTable, PricingTable, UserTable } from "../db";
 
 export async function deleteUser(
@@ -30,15 +37,46 @@ export async function deleteUser(
   }
 
   const id = ctx.userId;
+  const [userRole] = await db
+    .select({ role: UserTable.role })
+    .from(UserTable)
+    .where(eq(UserTable.id, id));
   await db.delete(InstagramMediaTable).where(eq(InstagramMediaTable.user, id));
+  if (userRole?.role === Roles.Agency || userRole?.role === Roles.Brand) {
+    await db
+      .delete(ApplicationTable)
+      .where(
+        inArray(
+          ApplicationTable.posting,
+          db
+            .select({ id: PostingTable.id })
+            .from(PostingTable)
+            .where(eq(PostingTable.agency, id)),
+        ),
+      );
+  }
   await db.delete(PostingTable).where(eq(PostingTable.agency, id));
   await db.delete(ReviewTable).where(eq(ReviewTable.user, id));
   await db.delete(PortfolioTable).where(eq(PortfolioTable.user, id));
   await db.delete(ApplicationTable).where(eq(ApplicationTable.user, id));
   await db.delete(RequestTable).where(eq(RequestTable.user, id));
   await db.delete(PricingTable).where(eq(PricingTable.user, id));
+
+  await db.delete(ConversationMessageTable).where(
+    inArray(
+      ConversationMessageTable.conversation,
+      db
+        .select({ id: ConversationTable.id })
+        .from(ConversationTable)
+        .where(arrayContains(ConversationTable.users, [id])),
+    ),
+  );
+  await db
+    .delete(ConversationTable)
+    .where(arrayContains(ConversationTable.users, [id]));
   await db.delete(UserTable).where(eq(UserTable.id, id)).returning();
   if (existingUser.instagramDetails)
+
     try {
       await db
         .delete(InstagramDetails)
@@ -51,5 +89,8 @@ export async function deleteUser(
       .delete(LocationTable)
       .where(eq(LocationTable.id, existingUser.location));
   if (existingUser.photo) await deleteImage(existingUser.photo);
+  if (existingUser.emailVerified) {
+    await sendTemplateEmail(user.email, "DeleteUser", { name: user.name });
+  }
   return true;
 }
