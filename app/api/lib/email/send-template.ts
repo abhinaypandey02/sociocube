@@ -10,8 +10,10 @@ import { ApplicationShortlisted } from "./templates/application-shortlisted";
 import { CampaignApproved } from "./templates/campaign-approved";
 import { CampaignCreated } from "./templates/campaign-created";
 import { CampaignRejected } from "./templates/campaign-rejected";
+import { DeleteUser } from "./templates/delete-user";
 import { MessageReceived } from "./templates/message-received";
 import { NewCampaigns } from "./templates/new-campaigns";
+import { PasswordChange } from "./templates/password-change";
 import { PostingAnnouncement } from "./templates/posting-announcement";
 import { ResetPassword } from "./templates/reset-password";
 import { ShortlistAccepted } from "./templates/shortlist-accepted";
@@ -21,8 +23,10 @@ import { WelcomeUser } from "./templates/welcome";
 
 export const Template = {
   WelcomeUser,
+  DeleteUser,
   VerifyEmail,
   ResetPassword,
+  PasswordChange,
   CampaignApproved,
   CampaignCreated,
   CampaignRejected,
