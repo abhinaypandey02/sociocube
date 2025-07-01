@@ -14,7 +14,7 @@ import { Suspense } from "react";
 
 import { GET_CURRENT_USER } from "./queries";
 
-export const { query } = registerApolloClient(() => {
+export const getClient = () => {
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: new HttpLink({
@@ -22,7 +22,9 @@ export const { query } = registerApolloClient(() => {
       credentials: "include",
     }),
   });
-});
+};
+
+export const { query } = registerApolloClient(getClient);
 
 type OmittedProps<Y> = Omit<Omit<Y, "loading">, "data">;
 
