@@ -2,7 +2,11 @@ import { PostingPlatforms } from "@backend/lib/constants/platforms";
 import { createPosting } from "@graphql/Posting/resolvers/create-posting";
 import { NextRequest, NextResponse } from "next/server";
 
+import { getShareText } from "@/app/(dashboard)/campaigns/[id]/utils";
+import { getClient } from "@/lib/apollo-server";
+import { GET_POSTING } from "@/lib/queries";
 import { getTransformedPostingData } from "@/lib/server-actions";
+import { extractFormsLink, getMetaInfo } from "@/lib/utils";
 
 export const POST = async (req: NextRequest) => {
   const { body } = (await req.json()) as {
@@ -11,16 +15,19 @@ export const POST = async (req: NextRequest) => {
     to: string;
   };
   if (!body.includes("https://") || !body.includes("forms"))
-    return new NextResponse();
+    return new NextResponse("Invalid form link not found", { status: 500 });
+  const externalLink = extractFormsLink(body);
+  const ogData = await getMetaInfo(externalLink);
+  if (!ogData) return new NextResponse("Invalid form data", { status: 500 });
   try {
-    const posting = await getTransformedPostingData(body);
+    const posting = await getTransformedPostingData(body, ogData);
     if (posting) {
       if (
         !posting.title ||
         !posting.description ||
         !posting.externalLink?.includes("form")
       ) {
-        return new NextResponse("No title or desription", { status: 200 });
+        return new NextResponse("No title or desription", { status: 500 });
       }
       const res = await createPosting(
         { userId: 134 },
@@ -41,10 +48,20 @@ export const POST = async (req: NextRequest) => {
         true,
       );
       if (res) {
-        return new NextResponse(
-          "Created new posting. https://sociocube.com/campaigns/" + res,
-          { status: 200 },
-        );
+        const client = getClient();
+        const postingRes = await client.query({
+          query: GET_POSTING,
+          variables: { id: res },
+        });
+        if (!postingRes.data.posting)
+          return new NextResponse(
+            "error while creating posting. it returned null",
+            { status: 500 },
+          );
+
+        return new NextResponse(getShareText(postingRes.data.posting), {
+          status: 200,
+        });
       } else {
         return new NextResponse(
           "error while creating posting. it returned null",
@@ -59,6 +76,6 @@ export const POST = async (req: NextRequest) => {
     }
   } catch (e: unknown) {
     console.error(e);
-    return new NextResponse((e as Error).message, { status: 501 });
+    return new NextResponse((e as Error).message, { status: 500 });
   }
 };

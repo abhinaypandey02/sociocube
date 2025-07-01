@@ -20,7 +20,10 @@ export async function sendEmail(
     );
   }
   const email = emails[0];
-  if (email)
+  if (
+    email &&
+    !(email.to.startsWith("test") && email.to.endsWith("sociocube.com"))
+  )
     return resend.emails.send({
       from: "Sociocube <info@mail.sociocube.com>",
       to: email.to,

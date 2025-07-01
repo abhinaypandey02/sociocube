@@ -62,7 +62,10 @@ export class UserMutationResolver {
   }
   @Authorized()
   @Mutation(() => Boolean)
-  deleteUser(@Ctx() ctx: AuthorizedContext): Promise<boolean> {
-    return deleteUser(ctx);
+  deleteUser(
+    @Ctx() ctx: AuthorizedContext,
+    @Arg("password") password: string,
+  ): Promise<boolean> {
+    return deleteUser(ctx, password);
   }
 }
