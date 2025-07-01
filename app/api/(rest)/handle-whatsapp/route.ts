@@ -15,9 +15,10 @@ export const POST = async (req: NextRequest) => {
     to: string;
   };
   if (!body.includes("https://") || !body.includes("forms"))
-    return new NextResponse();
+    return new NextResponse("Invalid form link not found", { status: 500 });
   const externalLink = extractFormsLink(body);
   const ogData = await getMetaInfo(externalLink);
+  if (!ogData) return new NextResponse("Invalid form data", { status: 500 });
   try {
     const posting = await getTransformedPostingData(body, ogData);
     if (posting) {

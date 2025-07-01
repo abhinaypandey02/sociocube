@@ -26,10 +26,10 @@ export async function getMetaInfo(url: string | null) {
   if (!url) return null;
   const response = await fetch(url);
   const html = await response.text();
-
+  if (html.includes("is no longer accepting responses.")) return null;
   // Extract <title>
   const titleMatch = html.match(/<title[^>]*>([^<]*)<\/title>/i);
-  const title = titleMatch?.[1]?.trim() || "No title found";
+  const title = titleMatch?.[1]?.trim() || "";
 
   // Extract meta[name="description"]
   const descMatch = html.match(
@@ -45,7 +45,7 @@ export async function getMetaInfo(url: string | null) {
     description = ogDescMatch?.[1];
   }
 
-  description = description || "No description found";
+  description = description || "";
 
   return { title, description };
 }
