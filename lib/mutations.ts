@@ -194,7 +194,7 @@ export const SEND_ANNOUNCEMENT = gql(`
 
 export const DELETE_USER = gql(`
   #graphql
-  mutation DeleteUser{
-    deleteUser
+  mutation DeleteUser($password:String!){
+    deleteUser(password: $password)
   }
 `);
