@@ -12,6 +12,7 @@ import type {
 } from "@/__generated__/graphql";
 import { POSTING_PLATFORMS } from "@/app/(dashboard)/campaigns/constants";
 import LocationSelector from "@/app/(dashboard)/your-campaigns/components/location-selector";
+import GetEmailVerificationModal from "@/app/(public)/components/get-email-verification-modal";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import Form from "@/components/form";
@@ -64,6 +65,7 @@ export default function CreateNewPostingForm({
     useAuthMutation(CREATE_POSTING);
   const [loading, setLoading] = useState(false);
   const isLoading = creatingPost || loading;
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [locationValues, setLocationValues] = useState<{
     cities: number[];
     states: number[];
@@ -75,6 +77,10 @@ export default function CreateNewPostingForm({
     }
   }, [data]);
   const onSubmit = (formData: CreatePostingFormFields) => {
+    if (!user?.emailVerified) {
+      setShowVerificationModal(true);
+      return;
+    }
     setLoading(true);
     createPosting({
       newPosting: {
@@ -151,6 +157,10 @@ export default function CreateNewPostingForm({
   };
   return (
     <>
+      <GetEmailVerificationModal
+        isOpen={showVerificationModal}
+        close={() => setShowVerificationModal(false)}
+      />
       <Form className="space-y-6" form={aiForm} onSubmit={handleAiSubmit}>
         {aiQuestions.map((question, i) => (
           <Input
