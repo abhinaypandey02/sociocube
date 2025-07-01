@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest) => {
         !posting.description ||
         !posting.externalLink?.includes("form")
       ) {
-        return new NextResponse("No title or desription", { status: 200 });
+        return new NextResponse("No title or desription", { status: 500 });
       }
       const res = await createPosting(
         { userId: 134 },
