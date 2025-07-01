@@ -4,6 +4,52 @@ import { twMerge } from "tailwind-merge";
 import { USERNAME_MAX_LENGTH } from "@/constants/constraints";
 import { USERNAME_REGEX } from "@/constants/regex";
 
+export function extractFormsLink(text: string) {
+  const lowerText = text.toLowerCase();
+  const index = lowerText.indexOf("http");
+
+  if (index === -1) return null;
+
+  // Find all URLs starting with http or https
+  const parts = text.split(/\s+/); // split by whitespace
+  for (const part of parts) {
+    if (part.startsWith("http") && part.includes("forms")) {
+      // Remove trailing punctuation if any
+      return part.replace(/[.,!?)]*$/, "");
+    }
+  }
+
+  return null; // no link with "forms" found
+}
+
+export async function getMetaInfo(url: string | null) {
+  if (!url) return null;
+  const response = await fetch(url);
+  const html = await response.text();
+
+  // Extract <title>
+  const titleMatch = html.match(/<title[^>]*>([^<]*)<\/title>/i);
+  const title = titleMatch?.[1]?.trim() || "No title found";
+
+  // Extract meta[name="description"]
+  const descMatch = html.match(
+    /<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i,
+  );
+  let description = descMatch?.[1];
+
+  // Fallback to meta[property="og:description"]
+  if (!description) {
+    const ogDescMatch = html.match(
+      /<meta[^>]*property=["']og:description["'][^>]*content=["']([^"']+)["']/i,
+    );
+    description = ogDescMatch?.[1];
+  }
+
+  description = description || "No description found";
+
+  return { title, description };
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

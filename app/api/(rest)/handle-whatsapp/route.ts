@@ -6,6 +6,7 @@ import { getShareText } from "@/app/(dashboard)/campaigns/[id]/utils";
 import { getClient } from "@/lib/apollo-server";
 import { GET_POSTING } from "@/lib/queries";
 import { getTransformedPostingData } from "@/lib/server-actions";
+import { extractFormsLink, getMetaInfo } from "@/lib/utils";
 
 export const POST = async (req: NextRequest) => {
   const { body } = (await req.json()) as {
@@ -15,8 +16,10 @@ export const POST = async (req: NextRequest) => {
   };
   if (!body.includes("https://") || !body.includes("forms"))
     return new NextResponse();
+  const externalLink = extractFormsLink(body);
+  const ogData = await getMetaInfo(externalLink);
   try {
-    const posting = await getTransformedPostingData(body);
+    const posting = await getTransformedPostingData(body, ogData);
     if (posting) {
       if (
         !posting.title ||
