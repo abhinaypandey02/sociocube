@@ -23,8 +23,8 @@ export async function getTransformedPostingData(message: string) {
     }
       
     interface FormFields {
-      title: string; // Max length ${NAME_MAX_LENGTH * 2}. The title of the job posting, include the brand name that is looking for creators 
-      description: string; // Description of the job posting. Max length ${POSTING_BIO_MAX_LENGTH - 200}. Format it with the newline character \\n and wrap any important title with * to make it bold, also you can wrap anything important with _ to make it italics/emphasis. Summarize the opportunity with proper formatting with newline character. Should NOT include repeated data from other fields or unnecessary data like posting title, agency names, or any kind of greetings like "We are excited to work with you". Keep it brief and don't add unnecessary headings or details, try to make it as concise and short as possible.
+      title: string; // Max length ${NAME_MAX_LENGTH * 2}. The title of the job posting, empty if no details are present with the form.
+      description: string; // Description of the job posting. Max length ${POSTING_BIO_MAX_LENGTH - 200}. Format it with the newline character \\n and wrap any important title with * to make it bold, also you can wrap anything important with _ to make it italics/emphasis. Summarize the opportunity with proper formatting with newline character. Try not to include repeated data from other fields or unnecessary data like posting title, agency names, or any kind of greetings like "We are excited to work with you". Keep it brief and don't add unnecessary headings or details. If there is nothing to put for it, then only take help from other fields.
       deliverables: string; // A comma separated list of deliverables that are requested by the content creator. No space between commas. Each deliverable should be what is required by the creator, this should only include real digital items. Each deliverable must have space if it has more than 1 word.
       externalLink?: string; // Link to the google form in the message, if any. ex- forms.gle/tenehutsgybi
       barter: boolean; // Is this a barter collaboration or a paid collaboration

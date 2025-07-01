@@ -27,6 +27,7 @@ export async function handleChangePassword(
     .select()
     .from(UserTable)
     .where(eq(UserTable.id, ctx.userId));
+  if (!user) throw GQLError(404, "User not found");
   if (user?.password) {
     const valid = await compare(oldPassword, user.password);
     if (!valid) throw GQLError(400, "Incorrect current password");

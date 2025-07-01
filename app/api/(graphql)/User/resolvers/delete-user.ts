@@ -9,11 +9,8 @@ import { PortfolioTable } from "@graphql/Portfolio/db";
 import { PostingTable } from "@graphql/Posting/db";
 import { RequestTable } from "@graphql/Request/db";
 import { ReviewTable } from "@graphql/Review/db";
-
-import { arrayContains, eq, inArray } from "drizzle-orm";
 import { compare } from "bcryptjs";
-import { eq } from "drizzle-orm";
-
+import { arrayContains, eq, inArray } from "drizzle-orm";
 
 import { Roles } from "@/app/api/lib/constants/roles";
 import { sendTemplateEmail } from "@/app/api/lib/email/send-template";
@@ -76,7 +73,6 @@ export async function deleteUser(
     .where(arrayContains(ConversationTable.users, [id]));
   await db.delete(UserTable).where(eq(UserTable.id, id)).returning();
   if (existingUser.instagramDetails)
-
     try {
       await db
         .delete(InstagramDetails)
@@ -90,7 +86,9 @@ export async function deleteUser(
       .where(eq(LocationTable.id, existingUser.location));
   if (existingUser.photo) await deleteImage(existingUser.photo);
   if (existingUser.emailVerified) {
-    await sendTemplateEmail(user.email, "DeleteUser", { name: user.name });
+    await sendTemplateEmail(existingUser.email, "DeleteUser", {
+      name: existingUser.name,
+    });
   }
   return true;
 }
