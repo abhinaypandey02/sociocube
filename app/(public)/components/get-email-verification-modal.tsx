@@ -13,12 +13,14 @@ import Modal from "../../../components/modal";
 const GetEmailVerificationModal = ({
   isOpen,
   close,
+  message,
 }: {
   isOpen: boolean;
   close: () => void;
+  message?: string;
 }) => {
   const [user] = useUser();
-  const [sendEmail, { data: success, loading, called }] = useAuthMutation(
+  const [sendEmail, { data: success, loading }] = useAuthMutation(
     SEND_VERIFICATION_EMAIL,
   );
 
@@ -32,7 +34,9 @@ const GetEmailVerificationModal = ({
         </p>
       ) : (
         <p className="text-center italic text-primary mt-4 font-medium">
-          You need to verify your email to perform this action.
+          {message
+            ? message
+            : `You need to verify your email to perform this action.`}
         </p>
       )}
 
