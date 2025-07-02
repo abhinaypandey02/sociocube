@@ -26,6 +26,7 @@ import genders from "@/constants/genders";
 import { getRoute } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { useUser } from "@/lib/auth-client";
+import { useRequireEmailVerification } from "@/lib/auth-client";
 import { CREATE_POSTING } from "@/lib/mutations";
 import { getCreatePostingQuestions } from "@/lib/server-actions";
 
@@ -62,6 +63,7 @@ export default function CreateNewPostingForm({
     useState<string[]>(DEFAULT_AI_QUESTIONS);
   const [createPosting, { loading: creatingPost }] =
     useAuthMutation(CREATE_POSTING);
+  const requireEmailVerification = useRequireEmailVerification();
   const [loading, setLoading] = useState(false);
   const isLoading = creatingPost || loading;
   const [locationValues, setLocationValues] = useState<{
@@ -75,6 +77,13 @@ export default function CreateNewPostingForm({
     }
   }, [data]);
   const onSubmit = (formData: CreatePostingFormFields) => {
+    if (
+      !requireEmailVerification(
+        "You need to verify your email to create campaigns.",
+      )
+    ) {
+      return;
+    }
     setLoading(true);
     createPosting({
       newPosting: {

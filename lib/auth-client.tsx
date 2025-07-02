@@ -15,6 +15,7 @@ import {
   GetCurrentUserQuery,
   GetSubscriptionQuery,
 } from "@/__generated__/graphql";
+import GetEmailVerificationModal from "@/app/(public)/components/get-email-verification-modal";
 import GetSubscriptionModal from "@/app/(public)/components/get-subscription-modal";
 
 type CurrentUser = GetCurrentUserQuery["user"];
@@ -34,11 +35,14 @@ const GlobalState = createContext<{
   setSubscription: Dispatch<SetStateAction<Subscription>>;
   showSubscribeModal?: string;
   setShowSubscribeModal: Dispatch<SetStateAction<string | undefined>>;
+  showEmailVerificationModal?: string;
+  setShowEmailVerificationModal: Dispatch<SetStateAction<string | undefined>>;
 }>({
   setToken: () => null,
   setUser: () => null,
   setSubscription: () => null,
   setShowSubscribeModal: () => null,
+  setShowEmailVerificationModal: () => null,
 });
 
 export function useUser() {
@@ -51,12 +55,42 @@ export function useSubscription() {
   return [subscription, setSubscription] as const;
 }
 
+export function useEmailVerified() {
+  const [user] = useUser();
+  return user?.emailVerified || false;
+}
+
 export function useToggleSubscribeModal() {
   const { setShowSubscribeModal } = useContext(GlobalState);
   return useCallback(
     (message: string) =>
       setShowSubscribeModal((prev) => (prev ? undefined : message)),
     [setShowSubscribeModal],
+  );
+}
+
+export function useToggleEmailVerificationModal() {
+  const { setShowEmailVerificationModal } = useContext(GlobalState);
+  return useCallback(
+    (message: string) =>
+      setShowEmailVerificationModal((prev) => (prev ? undefined : message)),
+    [setShowEmailVerificationModal],
+  );
+}
+
+export function useRequireEmailVerification() {
+  const [user] = useUser();
+  const toggleModal = useToggleEmailVerificationModal();
+
+  return useCallback(
+    (customMessage: string) => {
+      if (!user?.emailVerified) {
+        toggleModal(customMessage);
+        return false;
+      }
+      return true;
+    },
+    [user?.emailVerified, toggleModal],
   );
 }
 
@@ -73,6 +107,8 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
   const [token, setToken] = useState<string | null>();
   const [user, setUser] = useState<CurrentUser>();
   const [showSubscribeModal, setShowSubscribeModal] = useState<string>();
+  const [showEmailVerificationModal, setShowEmailVerificationModal] =
+    useState<string>();
   const [subscription, setSubscription] = useState<Subscription>();
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
@@ -93,11 +129,18 @@ export function GlobalStateWrapper({ children }: PropsWithChildren) {
         setSubscription,
         showSubscribeModal,
         setShowSubscribeModal,
+        showEmailVerificationModal,
+        setShowEmailVerificationModal,
       }}
     >
       <GetSubscriptionModal
         message={showSubscribeModal}
         close={() => setShowSubscribeModal(undefined)}
+      />
+      <GetEmailVerificationModal
+        isOpen={!!showEmailVerificationModal}
+        message={showEmailVerificationModal!}
+        close={() => setShowEmailVerificationModal(undefined)}
       />
       <Suspense>
         <ProgressLoader color="#5b9364" showSpinner={false} />
