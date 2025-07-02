@@ -1,8 +1,10 @@
 "use client";
+import type { GraphQLError } from "graphql/error";
 import React from "react";
 
 import { Button } from "@/components/button";
 import { useAuthMutation } from "@/lib/apollo-client";
+import { handleGQLErrors } from "@/lib/apollo-client";
 import { useUser } from "@/lib/auth-client";
 import { SEND_VERIFICATION_EMAIL } from "@/lib/mutations";
 
@@ -37,8 +39,12 @@ const GetEmailVerificationModal = ({
       <Button
         className="mx-auto mt-6"
         onClick={() => {
-          if (!user) return;
-          sendEmail();
+          try {
+            if (!user) return;
+            sendEmail();
+          } catch (error) {
+            handleGQLErrors(error as GraphQLError);
+          }
         }}
         loading={loading}
         disabled={success ? true : false}
