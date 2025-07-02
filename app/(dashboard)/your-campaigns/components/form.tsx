@@ -12,7 +12,6 @@ import type {
 } from "@/__generated__/graphql";
 import { POSTING_PLATFORMS } from "@/app/(dashboard)/campaigns/constants";
 import LocationSelector from "@/app/(dashboard)/your-campaigns/components/location-selector";
-import GetEmailVerificationModal from "@/app/(public)/components/get-email-verification-modal";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import Form from "@/components/form";
@@ -27,6 +26,7 @@ import genders from "@/constants/genders";
 import { getRoute } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { useUser } from "@/lib/auth-client";
+import { useRequireEmailVerification } from "@/lib/auth-client";
 import { CREATE_POSTING } from "@/lib/mutations";
 import { getCreatePostingQuestions } from "@/lib/server-actions";
 
@@ -63,9 +63,9 @@ export default function CreateNewPostingForm({
     useState<string[]>(DEFAULT_AI_QUESTIONS);
   const [createPosting, { loading: creatingPost }] =
     useAuthMutation(CREATE_POSTING);
+  const requireEmailVerification = useRequireEmailVerification();
   const [loading, setLoading] = useState(false);
   const isLoading = creatingPost || loading;
-  const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [locationValues, setLocationValues] = useState<{
     cities: number[];
     states: number[];
@@ -77,8 +77,11 @@ export default function CreateNewPostingForm({
     }
   }, [data]);
   const onSubmit = (formData: CreatePostingFormFields) => {
-    if (!user?.emailVerified) {
-      setShowVerificationModal(true);
+    if (
+      !requireEmailVerification(
+        "You need to verify your email to create campaigns.",
+      )
+    ) {
       return;
     }
     setLoading(true);
@@ -157,10 +160,6 @@ export default function CreateNewPostingForm({
   };
   return (
     <>
-      <GetEmailVerificationModal
-        isOpen={showVerificationModal}
-        close={() => setShowVerificationModal(false)}
-      />
       <Form className="space-y-6" form={aiForm} onSubmit={handleAiSubmit}>
         {aiQuestions.map((question, i) => (
           <Input

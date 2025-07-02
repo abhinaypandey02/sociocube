@@ -17,7 +17,7 @@ const GetEmailVerificationModal = ({
 }: {
   isOpen: boolean;
   close: () => void;
-  message?: string;
+  message: string;
 }) => {
   const [user] = useUser();
   const [sendEmail, { data: success, loading }] = useAuthMutation(
@@ -34,9 +34,7 @@ const GetEmailVerificationModal = ({
         </p>
       ) : (
         <p className="text-center italic text-primary mt-4 font-medium">
-          {message
-            ? message
-            : `You need to verify your email to perform this action.`}
+          {message}
         </p>
       )}
 
