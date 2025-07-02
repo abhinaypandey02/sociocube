@@ -34,7 +34,8 @@ export async function handleSendAnnouncement(
     .innerJoin(UserTable, eq(UserTable.id, PostingTable.agency))
     .leftJoin(SubscriptionTable, eq(SubscriptionTable.user, UserTable.id));
   if (!posting) throw GQLError(400, "Posting not found");
-
+  if (!posting.subscription?.plan)
+    throw GQLError(400, `You need Sociocube+ to send announcements`);
   const pendingPostingAnnouncements = await getPendingUsage({
     plan: posting.subscription?.plan,
     feature: UsageType.PostingAnnouncement,

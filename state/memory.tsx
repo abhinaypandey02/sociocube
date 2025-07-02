@@ -1,14 +1,8 @@
 "use client";
 
 import { ProgressLoader } from "nextjs-progressloader";
-import { Dispatch, PropsWithChildren, SetStateAction, useMemo } from "react";
-import React, {
-  createContext,
-  Suspense,
-  useCallback,
-  useContext,
-  useState,
-} from "react";
+import { Dispatch, PropsWithChildren, SetStateAction } from "react";
+import React, { createContext, Suspense, useState } from "react";
 
 import {
   GetCurrentUserQuery,

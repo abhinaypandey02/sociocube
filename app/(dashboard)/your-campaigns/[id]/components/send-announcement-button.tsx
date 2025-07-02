@@ -14,7 +14,7 @@ import { Input } from "@/components/input";
 import Modal from "@/components/modal";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
 import { SEND_ANNOUNCEMENT } from "@/lib/mutations";
-import { useOpenPopup } from "@/state/hooks";
+import { useOpenPopup, useSubscription } from "@/state/hooks";
 
 interface FormType {
   announcement: string;
@@ -32,13 +32,15 @@ export default function SendAnnouncementButton({
   dailyCount: number;
 }) {
   const toggleSubscribeModal = useOpenPopup("GET_SUBSCRIPTION");
-
+  const [subscription] = useSubscription();
   const form = useForm<FormType>();
   const [announce, { loading: announceLoading }] =
     useAuthMutation(SEND_ANNOUNCEMENT);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleClick = () => {
+    if (!subscription?.existing.plan)
+      return toggleSubscribeModal("Subscribe now to send broadcast emails");
     if (count === 0) {
       toggleSubscribeModal(
         "You have used all the announcements for this posting.",
@@ -51,8 +53,9 @@ export default function SendAnnouncementButton({
     setIsModalOpen(false);
     form.reset();
   };
-  const handleSendAnnouncement = (data: FormType) => {
-    const { announcement } = data;
+  const handleSendAnnouncement = ({ announcement }: FormType) => {
+    if (!subscription?.existing.plan)
+      return toggleSubscribeModal("Subscribe now to send broadcast emails");
     if (announcement) {
       announce({
         apps: applications.length
@@ -69,11 +72,18 @@ export default function SendAnnouncementButton({
     }
   };
 
-  const handleCustomEmail = () => {
+  const handleCustomEmail = async () => {
+    if (!subscription?.existing.plan)
+      return toggleSubscribeModal("Subscribe now to send broadcast emails");
     const emails = applications
       .map((app) => app.user?.email)
       .filter((e): e is string => Boolean(e));
     if (emails.length === 0) return;
+
+    navigator.clipboard
+      .writeText(emails.join(","))
+      .then(() => toast.success("Emails copied to clipboard"));
+
     window.location.href = `mailto:?bcc=${emails
       .map((e) => encodeURIComponent(e))
       .join(",")}`;
@@ -102,7 +112,7 @@ export default function SendAnnouncementButton({
               type="button"
             >
               <EnvelopeSimple size={16} />
-              <span className="shrink-0">Send custom email</span>
+              <span className="shrink-0">Copy selected emails</span>
             </Button>
             <Button className="text-sm" loading={announceLoading} type="submit">
               <span className={"shrink-0 pr-2"}> Send </span>
