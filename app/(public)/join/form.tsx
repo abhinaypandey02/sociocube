@@ -11,7 +11,7 @@ import Form from "@/components/form";
 import { Input } from "@/components/input";
 import { getRoute, Route } from "@/constants/routes";
 import { EMAIL_REGEX } from "@/constants/validations";
-import { useSignUpWithEmail } from "@/lib/auth-client";
+import { useSignUpWithEmail } from "@/lib/auth";
 
 import AuthLayout from "../components/auth/auth-layout";
 import useTurnstileToken from "../components/auth/use-turnstile-token";

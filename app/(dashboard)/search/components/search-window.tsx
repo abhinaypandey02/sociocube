@@ -18,12 +18,8 @@ import { Input } from "@/components/input";
 import LinkWrapper from "@/components/link-wrapper";
 import LoaderSkeleton from "@/components/loader-skeleton";
 import { getRoute, Route } from "@/constants/routes";
-import {
-  useSubscription,
-  useToggleSubscribeModal,
-  useToken,
-} from "@/lib/auth-client";
 import { convertToAbbreviation } from "@/lib/utils";
+import { useOpenPopup, useSubscription, useToken } from "@/state/hooks";
 
 const NoResults = dynamic(() => import("./no-results"));
 export default function SearchWindow({
@@ -36,9 +32,9 @@ export default function SearchWindow({
     error?: string;
   };
 }) {
-  const toggleSubscriptionModal = useToggleSubscribeModal();
+  const toggleSubscriptionModal = useOpenPopup("GET_SUBSCRIPTION");
   const [subscription] = useSubscription();
-  const token = useToken();
+  const [token] = useToken();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [variables, setVariables] = useState<SearchSellersFilters>(

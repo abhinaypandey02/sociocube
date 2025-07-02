@@ -18,8 +18,8 @@ import Schema from "@/app/(public)/components/schema";
 import { getSEO, SEO } from "@/constants/seo";
 import { ApolloWrapper } from "@/lib/apollo-client";
 import { Injector, queryGQL } from "@/lib/apollo-server";
-import { GlobalStateWrapper } from "@/lib/auth-client";
 import { GET_CURRENT_USER, GET_SUBSCRIPTION } from "@/lib/queries";
+import { GlobalStateWrapper } from "@/state/memory";
 
 const madina = localFont({
   src: "../fonts/madina.woff2",

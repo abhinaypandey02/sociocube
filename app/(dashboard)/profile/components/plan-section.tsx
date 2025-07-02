@@ -3,13 +3,13 @@ import React from "react";
 
 import { SubscriptionPlanStatus } from "@/__generated__/graphql";
 import { Button } from "@/components/button";
-import { useSubscription, useToggleSubscribeModal } from "@/lib/auth-client";
+import { useOpenPopup, useSubscription } from "@/state/hooks";
 
 import AccountCard from "./account-card";
 
 export default function PlanSection() {
   const [sub] = useSubscription();
-  const toggleSubModal = useToggleSubscribeModal();
+  const toggleSubModal = useOpenPopup("GET_SUBSCRIPTION");
 
   return (
     <AccountCard

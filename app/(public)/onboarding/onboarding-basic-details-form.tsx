@@ -13,9 +13,9 @@ import categories from "@/constants/categories";
 import { BIO_MAX_LENGTH, NAME_MAX_LENGTH } from "@/constants/constraints";
 import genders from "@/constants/genders";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
-import { useUser } from "@/lib/auth-client";
 import { UPDATE_USER } from "@/lib/mutations";
 import { getProxiedForInstagramURL } from "@/lib/utils";
+import { useUser } from "@/state/hooks";
 
 interface FormFields {
   name: string;

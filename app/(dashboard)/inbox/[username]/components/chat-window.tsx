@@ -11,8 +11,8 @@ import { useForm } from "react-hook-form";
 import type { GetChatQuery } from "@/__generated__/graphql";
 import { Input } from "@/components/input";
 import { useAuthMutation } from "@/lib/apollo-client";
-import { useToken, useUser } from "@/lib/auth-client";
 import { READ_MESSAGE, SEND_CHAT } from "@/lib/mutations";
+import { useToken, useUser } from "@/state/hooks";
 
 import { ChatBubble } from "./chat-bubble";
 
@@ -26,7 +26,7 @@ export default function ChatWindow({
   chat: NonNullable<GetChatQuery["chat"]>;
 }) {
   const [user] = useUser();
-  const token = useToken();
+  const [token] = useToken();
   const { register, handleSubmit, resetField } = useForm<FormValues>();
   const [sendMessage] = useAuthMutation(SEND_CHAT);
   const [readMessage] = useAuthMutation(READ_MESSAGE);

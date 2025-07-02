@@ -15,8 +15,8 @@ import SelectedActions from "@/app/(dashboard)/your-campaigns/[id]/selected/comp
 import Table from "@/components/table";
 import { getAgeRange } from "@/constants/age";
 import { getRoute } from "@/constants/routes";
-import { useToggleSubscribeModal } from "@/lib/auth-client";
 import { convertToAbbreviation } from "@/lib/utils";
+import { useOpenPopup } from "@/state/hooks";
 
 import ApplicationActions from "../applications/components/application-actions";
 import { ContactButtons } from "./contact-buttons";
@@ -30,7 +30,7 @@ export type ApplicationTableRow = Omit<
 };
 
 function SubscriptionStat() {
-  const toggleSubscribeModal = useToggleSubscribeModal();
+  const toggleSubscribeModal = useOpenPopup("GET_SUBSCRIPTION");
 
   return (
     <span

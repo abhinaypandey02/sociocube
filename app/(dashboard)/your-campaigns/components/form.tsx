@@ -25,10 +25,10 @@ import countries from "@/constants/countries";
 import genders from "@/constants/genders";
 import { getRoute } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
-import { useUser } from "@/lib/auth-client";
-import { useRequireEmailVerification } from "@/lib/auth-client";
 import { CREATE_POSTING } from "@/lib/mutations";
 import { getCreatePostingQuestions } from "@/lib/server-actions";
+import { useUser } from "@/state/hooks";
+import { useRequireEmailVerification } from "@/state/hooks";
 
 const DEFAULT_AI_QUESTIONS = ["Describe the campaign and the requirements"];
 

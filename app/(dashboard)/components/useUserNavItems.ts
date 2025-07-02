@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import { Roles } from "@/__generated__/graphql";
-import { useUser } from "@/lib/auth-client";
+import { useUser } from "@/state/hooks";
 
 import { NAV_ITEMS } from "../constants";
 

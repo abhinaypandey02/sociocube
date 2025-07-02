@@ -20,8 +20,8 @@ import type {
 } from "@/__generated__/graphql";
 import { Roles } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
-import { useUser } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/state/hooks";
 
 import OnboardingBasicDetailsForm from "./onboarding-basic-details-form";
 import OnboardingDOB from "./onboarding-dob";

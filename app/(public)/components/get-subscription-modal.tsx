@@ -3,8 +3,9 @@ import { ArrowSquareOut, Check } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
 
 import { Button } from "@/components/button";
-import { useSubscription } from "@/lib/auth-client";
 import { MaxUsages, SearchResultsLength } from "@/lib/usages";
+import { useSubscription } from "@/state/hooks";
+import { GlobalModalProps } from "@/state/modals";
 
 import Modal from "../../../components/modal";
 
@@ -20,15 +21,13 @@ const FEATURES = [
 ];
 
 export default function GetSubscriptionModal({
-  close,
+  isOpen,
+  onClose,
   message,
-}: {
-  close: () => void;
-  message?: string;
-}) {
+}: GlobalModalProps) {
   const [sub] = useSubscription();
   return (
-    <Modal title={"Get Sociocube plus"} close={close} open={!!message}>
+    <Modal title={"Get Sociocube plus"} close={onClose} open={isOpen}>
       <p className=" text-center italic text-primary mt-4 font-medium">
         {message}
       </p>

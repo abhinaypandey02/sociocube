@@ -2,7 +2,7 @@
 import React from "react";
 
 import { Navbar } from "@/components/navbar";
-import { useUser } from "@/lib/auth-client";
+import { useUser } from "@/state/hooks";
 
 import {
   AUTHORISED_USER_NAVBAR_SECTIONS,

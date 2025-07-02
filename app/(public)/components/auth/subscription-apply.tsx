@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 
 import { GetSubscriptionQuery } from "@/__generated__/graphql";
-import { useSubscription } from "@/lib/auth-client";
+import { useSubscription } from "@/state/hooks";
 
 export default function SubscriptionApply({
   data,

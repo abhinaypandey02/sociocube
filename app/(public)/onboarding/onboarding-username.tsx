@@ -15,10 +15,10 @@ import {
   useAuthMutation,
   useAuthQuery,
 } from "@/lib/apollo-client";
-import { useUser } from "@/lib/auth-client";
 import { UPDATE_USER } from "@/lib/mutations";
 import { IS_USERNAME_AVAILABLE } from "@/lib/queries";
 import { getUsernameInputRules } from "@/lib/utils";
+import { useUser } from "@/state/hooks";
 
 export default function OnboardingUsername({
   defaultValues,

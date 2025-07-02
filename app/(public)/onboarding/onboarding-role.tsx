@@ -10,8 +10,8 @@ import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import { getRoute } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
-import { useUser } from "@/lib/auth-client";
 import { UPDATE_USER } from "@/lib/mutations";
+import { useUser } from "@/state/hooks";
 
 export default function OnboardingRole({
   nextStep,

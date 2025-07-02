@@ -8,7 +8,7 @@ import DashboardWrapper from "@/app/(dashboard)/components/dashboard-wrapper";
 import ChangePasswordModal from "@/app/(dashboard)/settings/components/change-password-modal";
 import DeleteUserModal from "@/app/(dashboard)/settings/components/delete-user-modal";
 import { Route } from "@/constants/routes";
-import { useLogout } from "@/lib/auth-client";
+import { useLogout } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 
 export default function SettingsPage() {

@@ -4,7 +4,7 @@ import { ArrowSquareOut, SealCheck } from "@phosphor-icons/react/dist/ssr";
 import React, { useState } from "react";
 
 import { Button } from "@/components/button";
-import { useToken } from "@/lib/auth-client";
+import { useToken } from "@/state/hooks";
 
 import Modal from "../../../components/modal";
 
@@ -16,7 +16,7 @@ export default function GetVerifiedModal({
   close: () => void;
 }) {
   const [loading, setLoading] = useState(false);
-  const token = useToken();
+  const [token] = useToken();
   return (
     <Modal
       title={

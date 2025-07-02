@@ -22,9 +22,9 @@ import LinkWrapper from "@/components/link-wrapper";
 import LoaderSkeleton from "@/components/loader-skeleton";
 import { getRoute, Route } from "@/constants/routes";
 import { useAuthQuery } from "@/lib/apollo-client";
-import { useToken } from "@/lib/auth-client";
 import { GET_USER_POSTINGS } from "@/lib/queries";
 import { convertToAbbreviation } from "@/lib/utils";
+import { useToken } from "@/state/hooks";
 
 import { WRAPPER_ID } from "../../campaigns/constants";
 import AccountCard from "../../profile/components/account-card";
@@ -35,7 +35,7 @@ export default function PostingsTable({
   data?: GetUserPostingsQuery;
   loading?: boolean;
 }) {
-  const token = useToken();
+  const [token] = useToken();
   const [page, setPage] = useState(1);
   const ref = useRef<HTMLDivElement>(null);
   const [, { data: nextPostings, loading: loadingNextPostings }] = useAuthQuery(

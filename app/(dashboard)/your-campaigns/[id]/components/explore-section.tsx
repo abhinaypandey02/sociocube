@@ -4,14 +4,14 @@ import { ArrowRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
 
 import { Route } from "@/constants/routes";
-import { useSubscription, useToggleSubscribeModal } from "@/lib/auth-client";
+import { useOpenPopup, useSubscription } from "@/state/hooks";
 
 export default function ExploreRecommendationsLink({
   postingId,
 }: {
   postingId: number;
 }) {
-  const toggleSubscribeModal = useToggleSubscribeModal();
+  const toggleSubscribeModal = useOpenPopup("GET_SUBSCRIPTION");
   const [subscription] = useSubscription();
   const router = useRouter();
 

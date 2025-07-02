@@ -1,7 +1,7 @@
 "use client";
 import { Footer } from "@/components/footer";
 import { getRoute } from "@/constants/routes";
-import { useUser } from "@/lib/auth-client";
+import { useUser } from "@/state/hooks";
 
 export function AuthFooter() {
   const [user] = useUser();

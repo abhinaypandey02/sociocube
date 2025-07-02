@@ -7,7 +7,7 @@ import Form from "@/components/form";
 import { Input } from "@/components/input";
 import Modal from "@/components/modal";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
-import { useLogout } from "@/lib/auth-client";
+import { useLogout } from "@/lib/auth";
 import { DELETE_USER } from "@/lib/mutations";
 
 interface FormValues {

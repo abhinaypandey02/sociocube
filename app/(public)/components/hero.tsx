@@ -13,7 +13,7 @@ import BrandsSlider from "@/app/(public)/components/brands-slider";
 import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import { getRoute } from "@/constants/routes";
-import { useUser } from "@/lib/auth-client";
+import { useUser } from "@/state/hooks";
 
 export default function Hero() {
   const [user] = useUser();

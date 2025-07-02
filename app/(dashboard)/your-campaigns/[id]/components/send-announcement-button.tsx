@@ -13,8 +13,8 @@ import Form from "@/components/form";
 import { Input } from "@/components/input";
 import Modal from "@/components/modal";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
-import { useToggleSubscribeModal } from "@/lib/auth-client";
 import { SEND_ANNOUNCEMENT } from "@/lib/mutations";
+import { useOpenPopup } from "@/state/hooks";
 
 interface FormType {
   announcement: string;
@@ -31,7 +31,7 @@ export default function SendAnnouncementButton({
   count: number;
   dailyCount: number;
 }) {
-  const toggleSubscribeModal = useToggleSubscribeModal();
+  const toggleSubscribeModal = useOpenPopup("GET_SUBSCRIPTION");
 
   const form = useForm<FormType>();
   const [announce, { loading: announceLoading }] =

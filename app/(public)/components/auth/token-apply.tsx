@@ -1,10 +1,10 @@
 "use client";
 import { useEffect } from "react";
 
-import { useSetToken } from "@/lib/auth-client";
+import { useToken } from "@/state/hooks";
 
 export default function TokenApply({ data: token }: { data?: string | null }) {
-  const setToken = useSetToken();
+  const [, setToken] = useToken();
   useEffect(() => {
     if (token !== undefined) setToken(token);
   }, [token, setToken]);

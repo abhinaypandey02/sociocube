@@ -12,8 +12,8 @@ import { IconButton } from "@/components/icon-button";
 import { Input } from "@/components/input";
 import { getRoute, Route } from "@/constants/routes";
 import { handleGQLErrors, useAuthMutation } from "@/lib/apollo-client";
-import { useToken } from "@/lib/auth-client";
 import { APPLY_NOW } from "@/lib/mutations";
+import { useToken } from "@/state/hooks";
 
 import LinkWrapper from "../../../../components/link-wrapper";
 import Modal from "../../../../components/modal";
@@ -44,7 +44,7 @@ export default function ApplyNowButton({
   const [appliedSuccess, setAppliedSuccess] = useState(
     Boolean(posting.hasApplied),
   );
-  const token = useToken();
+  const [token] = useToken();
   const [applyNow, { loading: applyNowLoading }] = useAuthMutation(APPLY_NOW);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRouteLoading, setIsRouteLoading] = useState(false);

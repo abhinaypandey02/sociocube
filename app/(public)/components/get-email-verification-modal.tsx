@@ -5,27 +5,24 @@ import React from "react";
 import { Button } from "@/components/button";
 import { useAuthMutation } from "@/lib/apollo-client";
 import { handleGQLErrors } from "@/lib/apollo-client";
-import { useUser } from "@/lib/auth-client";
 import { SEND_VERIFICATION_EMAIL } from "@/lib/mutations";
+import { useUser } from "@/state/hooks";
+import { GlobalModalProps } from "@/state/modals";
 
 import Modal from "../../../components/modal";
 
 const GetEmailVerificationModal = ({
   isOpen,
-  close,
+  onClose,
   message,
-}: {
-  isOpen: boolean;
-  close: () => void;
-  message: string;
-}) => {
+}: GlobalModalProps) => {
   const [user] = useUser();
   const [sendEmail, { data: success, loading }] = useAuthMutation(
     SEND_VERIFICATION_EMAIL,
   );
 
   return (
-    <Modal title={"Verify Your Email"} close={close} open={isOpen}>
+    <Modal title={"Verify Your Email"} close={onClose} open={isOpen}>
       {success ? (
         <p className="text-center italic text-green-600 mt-4 font-medium">
           A verification email has been sent to{" "}

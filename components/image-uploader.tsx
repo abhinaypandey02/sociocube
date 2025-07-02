@@ -11,8 +11,8 @@ import { toast } from "react-hot-toast";
 
 import { getProperSizedGif } from "@/app/(public)/profile/[username]/components/utils";
 import { ALLOWED_IMAGE_TYPES, MAXIMUM_FILE_SIZE } from "@/constants/file";
-import { useToken } from "@/lib/auth-client";
 import { handleImageUpload } from "@/lib/utils";
+import { useToken } from "@/state/hooks";
 
 interface ImageUploaderProps {
   defaultPhoto?: string | null;
@@ -38,7 +38,7 @@ export default function ImageUploader({
   allowVideo = false,
   onGifLoadStart,
 }: PropsWithChildren<ImageUploaderProps>) {
-  const token = useToken();
+  const [token] = useToken();
   const ref = useRef<HTMLInputElement>(null);
   const [profilePictureURL, setProfilePictureURL] = useState(defaultPhoto);
 

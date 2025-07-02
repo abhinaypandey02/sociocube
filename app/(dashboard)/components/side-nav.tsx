@@ -4,8 +4,8 @@ import React, { useMemo } from "react";
 
 import Logo from "@/app/logo";
 import { getRoute, Route } from "@/constants/routes";
-import { useToken, useUser } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
+import { useToken, useUser } from "@/state/hooks";
 
 import { useUserNavItems } from "./useUserNavItems";
 
@@ -18,7 +18,7 @@ export default function SideNav({
 }) {
   const [user] = useUser();
   const { primary, all } = useUserNavItems();
-  const token = useToken();
+  const [token] = useToken();
   const primaryKey =
     all.find((item) => item.href === activeKey)?.parent || activeKey;
   const subLinks = useMemo(

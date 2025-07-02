@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import { useLogout } from "@/lib/auth-client";
+import { useLogout } from "@/lib/auth";
 
 export default function Logout() {
   const logout = useLogout();

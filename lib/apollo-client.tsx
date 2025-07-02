@@ -18,7 +18,7 @@ import type { PropsWithChildren } from "react";
 import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
-import { useToken } from "./auth-client";
+import { useToken } from "@/state/hooks";
 
 function makeClient() {
   return new ApolloClient({
@@ -57,7 +57,7 @@ export function useAuthQuery<T, V extends OperationVariables>(
   query: TypedDocumentNode<T, V>,
   variables?: V,
 ) {
-  const token = useToken();
+  const [token] = useToken();
   const [fetch, result] = useLazyQuery(query);
   const [calledVars, setCalledVars] = useState<string | undefined>();
   useEffect(() => {
@@ -84,7 +84,7 @@ export function useAuthMutation<T, V extends OperationVariables>(
   mutation: TypedDocumentNode<T, V>,
   options?: MutationHookOptions<T, V>,
 ) {
-  const token = useToken();
+  const [token] = useToken();
   const [mutate, result] = useMutation(mutation, options);
   const method = useCallback(
     (variables?: V) =>

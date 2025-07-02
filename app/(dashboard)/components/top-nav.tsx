@@ -9,7 +9,7 @@ import { Button } from "@/components/button";
 import { Variants } from "@/components/constants";
 import LinkWrapper from "@/components/link-wrapper";
 import { getRoute } from "@/constants/routes";
-import { useToken, useUser } from "@/lib/auth-client";
+import { useToken, useUser } from "@/state/hooks";
 
 export default function TopNav({
   title,
@@ -20,7 +20,7 @@ export default function TopNav({
   title: string;
   activeKey: string;
 }) {
-  const token = useToken();
+  const [token] = useToken();
 
   const { all } = useUserNavItems();
   const subPages = useMemo(

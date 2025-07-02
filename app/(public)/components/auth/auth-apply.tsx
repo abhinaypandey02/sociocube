@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 
 import { GetCurrentUserQuery } from "@/__generated__/graphql";
-import { useUser } from "@/lib/auth-client";
+import { useUser } from "@/state/hooks";
 
 export default function AuthApply({ data }: { data?: GetCurrentUserQuery }) {
   const [, setUser] = useUser();

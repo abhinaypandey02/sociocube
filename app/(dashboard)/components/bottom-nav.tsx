@@ -3,15 +3,15 @@ import Link from "next/link";
 import React from "react";
 
 import { getRoute } from "@/constants/routes";
-import { useToken, useUser } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
+import { useToken, useUser } from "@/state/hooks";
 
 import { useUserNavItems } from "./useUserNavItems";
 
 export default function BottomNav({ activeKey }: { activeKey: string }) {
   const { primary, all } = useUserNavItems();
   const [user] = useUser();
-  const token = useToken();
+  const [token] = useToken();
   const primaryKey =
     all.find((item) => item.href === activeKey)?.parent || activeKey;
   return (

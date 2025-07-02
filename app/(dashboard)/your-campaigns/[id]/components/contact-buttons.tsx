@@ -8,8 +8,8 @@ import React from "react";
 import { toast } from "react-hot-toast";
 
 import { getRoute } from "@/constants/routes";
-import { useToggleSubscribeModal } from "@/lib/auth-client";
-import { useSubscription } from "@/lib/auth-client";
+import { useOpenPopup } from "@/state/hooks";
+import { useSubscription } from "@/state/hooks";
 
 export function ContactButtons({
   email,
@@ -22,7 +22,7 @@ export function ContactButtons({
   chatUsername?: string | null;
   instaUsername?: string | null;
 }) {
-  const toggleSubscribeModal = useToggleSubscribeModal();
+  const toggleSubscribeModal = useOpenPopup("GET_SUBSCRIPTION");
   const [subscription] = useSubscription();
 
   const copyEmail = async () => {

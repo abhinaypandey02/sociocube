@@ -13,13 +13,13 @@ import { Input } from "@/components/input";
 import LinkWrapper from "@/components/link-wrapper";
 import Modal from "@/components/modal";
 import { useAuthMutation } from "@/lib/apollo-client";
-import { useToken } from "@/lib/auth-client";
 import {
   ADD_PORTFOLIO,
   DELETE_PORTFOLIO,
   UPDATE_PORTFOLIO,
 } from "@/lib/mutations";
 import { handleImageUpload, HandleImageUploadType } from "@/lib/utils";
+import { useToken } from "@/state/hooks";
 
 import AccountCard from "./account-card";
 type Portfolio = NonNullable<
@@ -41,7 +41,7 @@ export default function PortfolioSection({
     useState<Portfolio | null>();
   const [selectedImage, setSelectedImage] = useState<FormData>();
   const [selectedImageURL, setSelectedImageURL] = useState<string | null>();
-  const token = useToken();
+  const [token] = useToken();
   const [updatePortfolio] = useAuthMutation(UPDATE_PORTFOLIO);
   const [addPortfolio, { loading }] = useAuthMutation(ADD_PORTFOLIO);
   const [deletePortfolio] = useAuthMutation(DELETE_PORTFOLIO);
