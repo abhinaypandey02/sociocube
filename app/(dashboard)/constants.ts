@@ -6,6 +6,7 @@ import {
   MagnifyingGlass,
   MoneyWavy,
   Plus,
+  Ranking,
   UserCircle,
 } from "@phosphor-icons/react/dist/ssr";
 
@@ -75,5 +76,11 @@ export const NAV_ITEMS: NavItem[] = [
     href: Route.Settings,
     parent: Route.Profile,
     requireAuth: true,
+  },
+  {
+    icon: Ranking,
+    navTitle: "Ranking",
+    href: Route.AgencyRank,
+    roles: [Roles.Brand, Roles.Agency],
   },
 ];
