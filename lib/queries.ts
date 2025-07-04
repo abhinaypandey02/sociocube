@@ -723,11 +723,11 @@ export const GET_AGENCY_RANK = gql(`
       name
       photo
       username
+      category
       instagramStats {
         isVerified
-        username
         followers
-        er
+        username
       }
       totalApplications
     }
