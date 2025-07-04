@@ -442,6 +442,7 @@ input PricingInput {
 }
 
 type Query {
+  getAgencyRank(page: Float!): [User!]!
   getAllPostings(page: Float!): [Posting!]!
   getChat(username: String!): Conversation
   getChats: [Conversation!]!
@@ -605,5 +606,6 @@ type User {
   pricing: Pricing
   reviews: [Review!]!
   role: ROLES!
+  totalApplications: Int!
   username: String
 }
