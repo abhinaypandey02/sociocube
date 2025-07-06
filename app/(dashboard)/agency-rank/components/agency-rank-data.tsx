@@ -1,50 +1,101 @@
 "use client";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import type { GetAgencyRankQuery } from "@/__generated__/graphql";
-import { Button } from "@/components/button";
+import { getRoute } from "@/constants/routes";
 import { useAuthQuery } from "@/lib/apollo-client";
 import { GET_AGENCY_RANK } from "@/lib/queries";
 
-import AgencyList from "./agency-list";
+import AgencyCard from "./agency-card";
 
 interface AgencyRankDataProps {
-  fetchData: boolean;
   data: GetAgencyRankQuery;
 }
 
 export default function AgencyRankData({
-  fetchData,
   data: serverData,
 }: AgencyRankDataProps) {
   const [page, setPage] = useState(1);
   const [allAgencies, setAllAgencies] = useState<
     GetAgencyRankQuery["agencies"]
   >(serverData?.agencies || []);
-  const [hasMore, setHasMore] = useState(serverData?.agencies.length >= 10);
-
+  const [hasMore, setHasMore] = useState(serverData?.agencies.length >= 9);
+  const [isFetching, setIsFetching] = useState(false);
+  const observer = useRef<IntersectionObserver | null>(null);
   const [fetchAgencies, { data: clientData, loading }] =
     useAuthQuery(GET_AGENCY_RANK);
 
   useEffect(() => {
     if (clientData?.agencies) {
       setAllAgencies((prev) => [...prev, ...clientData.agencies]);
-      setHasMore(clientData.agencies.length >= 10);
+      setHasMore(clientData.agencies.length >= 9);
     }
   }, [clientData]);
-  const handleLoadMore = async () => {
+
+  const loadMoreAgencies = useCallback(async () => {
+    if (loading || isFetching || !hasMore) return;
+
+    setIsFetching(true);
     const nextPage = page + 1;
     setPage(nextPage);
     await fetchAgencies({ page: nextPage });
-  };
+  }, [loading, isFetching, hasMore, page, fetchAgencies]);
+  const lastAgencyElementRef = useCallback(
+    (node: HTMLLIElement | null) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          if (
+            entries.length > 0 &&
+            entries[0]?.isIntersecting &&
+            hasMore &&
+            !isFetching
+          ) {
+            loadMoreAgencies();
+          }
+        },
+        {
+          threshold: 0.1,
+          rootMargin: "100px",
+        },
+      );
+
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore, isFetching, loadMoreAgencies],
+  );
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-6">
-      <AgencyList agencies={allAgencies} startingRank={1} />
-      {hasMore && allAgencies.length > 0 && (
-        <div className="flex justify-center mt-6">
-          <Button onClick={handleLoadMore} disabled={loading} loading={loading}>
-            View More
-          </Button>
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        {allAgencies.map((agency, index) => (
+          <li
+            key={agency.id}
+            ref={index === allAgencies.length - 1 ? lastAgencyElementRef : null}
+          >
+            <Link
+              href={`${getRoute("Profile")}/${agency.username}`}
+              className="block group"
+            >
+              <AgencyCard
+                category={agency.category || " "}
+                name={agency.name || " "}
+                bio={agency.bio || " "}
+                photo={agency.photo || " "}
+                isVerified={agency.instagramStats?.isVerified || false}
+              />
+            </Link>
+          </li>
+        ))}
+      </ul>
+      {loading && (
+        <div className="flex justify-center py-8">
+          <div className="flex items-center gap-2 text-gray-600">
+            <div className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
+            <span>Loading more agencies...</span>
+          </div>
         </div>
       )}
     </div>

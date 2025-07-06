@@ -26,7 +26,6 @@ export default async function AgencyRankPage() {
           );
         }}
         Component={AgencyRankData}
-        props={{ fetchData: false }}
       />
     </DashboardWrapper>
   );

@@ -724,6 +724,7 @@ export const GET_AGENCY_RANK = gql(`
       photo
       username
       category
+      bio
       instagramStats {
         isVerified
         followers
