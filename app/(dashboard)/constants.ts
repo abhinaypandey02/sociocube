@@ -57,6 +57,12 @@ export const NAV_ITEMS: NavItem[] = [
     roles: [Roles.Brand, Roles.Agency],
   },
   {
+    icon: Ranking,
+    navTitle: "Top Agencies",
+    href: Route.AgencyRank,
+    roles: [Roles.Brand, Roles.Agency],
+  },
+  {
     icon: ChatCircleDots,
     navTitle: "Messages",
     href: Route.Inbox,
@@ -76,11 +82,5 @@ export const NAV_ITEMS: NavItem[] = [
     href: Route.Settings,
     parent: Route.Profile,
     requireAuth: true,
-  },
-  {
-    icon: Ranking,
-    navTitle: "Top Agencies",
-    href: Route.AgencyRank,
-    roles: [Roles.Brand, Roles.Agency],
   },
 ];

@@ -21,7 +21,6 @@ export default function AgencyRankData({
     GetAgencyRankQuery["agencies"]
   >(serverData?.agencies || []);
   const [hasMore, setHasMore] = useState(serverData?.agencies.length >= 9);
-  const [isFetching, setIsFetching] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
   const [fetchAgencies, { data: clientData, loading }] =
     useAuthQuery(GET_AGENCY_RANK);
@@ -30,18 +29,15 @@ export default function AgencyRankData({
     if (clientData?.agencies) {
       setAllAgencies((prev) => [...prev, ...clientData.agencies]);
       setHasMore(clientData.agencies.length >= 9);
-      setIsFetching(false);
     }
   }, [clientData]);
 
   const loadMoreAgencies = useCallback(async () => {
-    if (loading || isFetching || !hasMore) return;
-
-    setIsFetching(true);
+    if (loading || !hasMore) return;
     const nextPage = page + 1;
     setPage(nextPage);
     await fetchAgencies({ page: nextPage });
-  }, [loading, isFetching, hasMore, page, fetchAgencies]);
+  }, [loading, hasMore, page, fetchAgencies]);
   const lastAgencyElementRef = useCallback(
     (node: HTMLLIElement | null) => {
       if (loading) return;
@@ -53,7 +49,7 @@ export default function AgencyRankData({
             entries.length > 0 &&
             entries[0]?.isIntersecting &&
             hasMore &&
-            !isFetching
+            !loading
           ) {
             loadMoreAgencies();
           }
@@ -66,7 +62,7 @@ export default function AgencyRankData({
 
       if (node) observer.current.observe(node);
     },
-    [loading, hasMore, isFetching, loadMoreAgencies],
+    [loading, hasMore, loadMoreAgencies],
   );
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-6">
