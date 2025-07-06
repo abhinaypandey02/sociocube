@@ -79,7 +79,7 @@ export const NAV_ITEMS: NavItem[] = [
   },
   {
     icon: Ranking,
-    navTitle: "Ranking",
+    navTitle: "Top Agencies",
     href: Route.AgencyRank,
     roles: [Roles.Brand, Roles.Agency],
   },
