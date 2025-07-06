@@ -24,8 +24,7 @@ export default function AgencyCard({
             src={photo}
             alt={name}
             fill
-            objectFit="cover"
-            className="rounded-lg"
+            className="object-cover rounded-lg"
           />
         </div>
       </div>

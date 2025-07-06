@@ -30,6 +30,7 @@ export default function AgencyRankData({
     if (clientData?.agencies) {
       setAllAgencies((prev) => [...prev, ...clientData.agencies]);
       setHasMore(clientData.agencies.length >= 9);
+      setIsFetching(false);
     }
   }, [clientData]);
 
