@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 
 import DashboardWrapper from "@/app/(dashboard)/components/dashboard-wrapper";
@@ -67,7 +68,7 @@ export default function SearchPage({
     </DashboardWrapper>
   );
 }
-export const metadata = getSEO(
+export const metadata: Metadata = getSEO(
   "Find UGC & Content Creators for Your Campaign",
   "Search and filter thousands of verified UGC and content creators by location, followers, engagement, and more. Launch influencer campaigns in minutes with Sociocube.",
 );

@@ -1,5 +1,6 @@
 import { CheckCircle, WarningCircle } from "@phosphor-icons/react/dist/ssr";
 import type { GraphQLError } from "graphql/error";
+import { Metadata } from "next";
 
 import { getSEO } from "@/constants/seo";
 import { queryGQL } from "@/lib/apollo-server";
@@ -38,4 +39,4 @@ export default async function VerifyEmailPage({
     </AuthLayout>
   );
 }
-export const metadata = getSEO("Forgot password");
+export const metadata: Metadata = getSEO("Forgot password");

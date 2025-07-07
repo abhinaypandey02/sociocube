@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import React from "react";
 
@@ -33,4 +34,4 @@ export default async function OnboardingPage({
     </div>
   );
 }
-export const metadata = getSEO("Become an influencer");
+export const metadata: Metadata = getSEO("Become an influencer");

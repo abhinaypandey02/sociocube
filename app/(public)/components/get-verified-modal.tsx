@@ -1,4 +1,3 @@
-"use client";
 import { getInstagramAuthorizationURL } from "@backend/(auth)/instagram/utils";
 import { ArrowSquareOut, SealCheck } from "@phosphor-icons/react/dist/ssr";
 import React, { useState } from "react";

@@ -1,32 +1,59 @@
-import { useCallback, useContext } from "react";
-import { GlobalState } from "@/state/memory";
+import { useCallback } from "react";
+import { MemoryActionType, MemoryState, useMemoryState } from "@/state/memory";
 import { OpenModalParams } from "@/state/modals";
 
 export function useUser() {
-  const { userState } = useContext(GlobalState);
-  return userState;
+  const { state, dispatch } = useMemoryState();
+  return [
+    state.user,
+    (payload: Partial<MemoryState["user"]>) => {
+      dispatch({
+        payload,
+        type: MemoryActionType.SET_USER,
+      });
+    },
+  ] as const;
 }
 
 export function useSubscription() {
-  const { subscriptionState } = useContext(GlobalState);
-  return subscriptionState;
+  const { state, dispatch } = useMemoryState();
+  return [
+    state.subscription,
+    (payload: MemoryState["subscription"]) => {
+      dispatch({
+        payload,
+        type: MemoryActionType.SET_SUBSCRIPTION,
+      });
+    },
+  ] as const;
 }
 
 export function useToken() {
-  const { tokenState } = useContext(GlobalState);
-  return tokenState;
+  const { state, dispatch } = useMemoryState();
+  return [
+    state.token,
+    (payload: MemoryState["token"]) => {
+      dispatch({
+        payload,
+        type: MemoryActionType.SET_TOKEN,
+      });
+    },
+  ] as const;
 }
 
 export function useOpenPopup(type: OpenModalParams["type"]) {
-  const { setGlobalModal } = useContext(GlobalState);
+  const { dispatch } = useMemoryState();
   return useCallback(
     (message: string) => {
-      setGlobalModal({
-        message,
-        type,
+      dispatch({
+        payload: {
+          type,
+          message,
+        },
+        type: MemoryActionType.SET_GLOBAL_MODAL,
       });
     },
-    [setGlobalModal, type],
+    [dispatch, type],
   );
 }
 

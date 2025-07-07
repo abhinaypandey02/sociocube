@@ -1,4 +1,3 @@
-"use client";
 import { User } from "@phosphor-icons/react";
 import { GraphQLError } from "graphql/error";
 import React, { useState } from "react";
@@ -46,13 +45,9 @@ export default function OnboardingBasicDetailsForm({
       return;
     }
     nextStep();
-    setUser(
-      (prev) =>
-        prev && {
-          ...prev,
-          name: data.name,
-        },
-    );
+    setUser({
+      name: data.name,
+    });
     updateBasicDetails({
       updatedUser: {
         name: data.name,
@@ -70,7 +65,7 @@ export default function OnboardingBasicDetailsForm({
       <ImageUploader
         className="mx-auto flex size-28 items-center justify-center overflow-hidden rounded-full border"
         onNewURL={(url) => {
-          setUser((prev) => (!prev ? prev : { ...prev, photo: url }));
+          setUser({ photo: url });
         }}
         defaultPhoto={getProxiedForInstagramURL(user?.photo)}
       >

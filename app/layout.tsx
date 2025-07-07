@@ -2,7 +2,7 @@ import "./globals.css";
 import "./animations.css";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
-import type { Viewport } from "next";
+import { Metadata, Viewport } from "next";
 import { Nunito_Sans as NunitoSans } from "next/font/google";
 import localFont from "next/font/local";
 import { cookies } from "next/headers";
@@ -19,7 +19,7 @@ import { getSEO, SEO } from "@/constants/seo";
 import { ApolloWrapper } from "@/lib/apollo-client";
 import { Injector, queryGQL } from "@/lib/apollo-server";
 import { GET_CURRENT_USER, GET_SUBSCRIPTION } from "@/lib/queries";
-import { GlobalStateWrapper } from "@/state/memory";
+import { MemoryStateWrapper } from "@/state/memory";
 
 const madina = localFont({
   src: "../fonts/madina.woff2",
@@ -96,7 +96,7 @@ const nunitoSans = NunitoSans({
   subsets: ["latin"],
 });
 
-export const metadata = getSEO();
+export const metadata: Metadata = getSEO();
 export const viewport: Viewport = {
   themeColor: SEO.themeColor,
   colorScheme: "light",
@@ -123,7 +123,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           <ErrorToaster />
         </Suspense>
         <ApolloWrapper>
-          <GlobalStateWrapper>
+          <MemoryStateWrapper>
             <Injector
               fetch={async () =>
                 queryGQL(GET_CURRENT_USER, undefined, await cookies(), 0)
@@ -150,7 +150,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
               Component={TokenApply}
             />
             {children}
-          </GlobalStateWrapper>
+          </MemoryStateWrapper>
         </ApolloWrapper>
       </body>
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />

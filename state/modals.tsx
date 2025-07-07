@@ -1,6 +1,7 @@
 import GetEmailVerificationModal from "@/app/(public)/components/get-email-verification-modal";
 import GetSubscriptionModal from "@/app/(public)/components/get-subscription-modal";
-import React, { Dispatch, SetStateAction, useCallback, useMemo } from "react";
+import React, { useCallback, useContext, useMemo } from "react";
+import { MemoryActionType, useMemoryState } from "@/state/memory";
 
 const GLOBAL_MODALS = {
   VERIFY_EMAIL: GetEmailVerificationModal,
@@ -18,17 +19,16 @@ export interface OpenModalParams {
   message?: string;
 }
 
-export function GlobalModals({
-  globalModal,
-  setGlobalModal,
-}: {
-  globalModal?: OpenModalParams;
-  setGlobalModal: Dispatch<SetStateAction<OpenModalParams | undefined>>;
-}) {
-  const onModalClose = useCallback(() => {
-    setGlobalModal((prev) => (prev ? { ...prev, type: undefined } : prev));
-  }, [setGlobalModal]);
+export function GlobalModals() {
+  const { state, dispatch } = useMemoryState();
+  const globalModal = state.globalModal;
 
+  const onModalClose = useCallback(() => {
+    dispatch({
+      type: MemoryActionType.SET_GLOBAL_MODAL,
+      payload: globalModal ? { ...globalModal, type: undefined } : undefined,
+    });
+  }, [dispatch, globalModal]);
   return useMemo(
     () =>
       Object.keys(GLOBAL_MODALS).map((type) => {

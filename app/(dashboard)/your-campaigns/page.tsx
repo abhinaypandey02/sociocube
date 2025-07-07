@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import React from "react";
 
@@ -22,7 +23,7 @@ export default async function PostingsPage() {
   );
 }
 
-export const metadata = getSEO(
+export const metadata: Metadata = getSEO(
   "Post UGC Campaigns & Find Content Creators Fast",
   "Launch influencer or UGC campaigns and connect with verified content creators who match your brand’s goals. Post once, get applications instantly, and manage everything in one place with Sociocube.",
 );

@@ -1,4 +1,3 @@
-"use client";
 import { ArrowRight } from "@phosphor-icons/react";
 import { GraphQLError } from "graphql/error";
 import Image from "next/image";
@@ -34,8 +33,7 @@ export default function OnboardingRole({
       setSelectedRole(newRole);
     }
     setShowCreatorSteps(newRoleSelected === Roles.Creator);
-    if (newRoleSelected)
-      setUser((prev) => (prev ? { ...prev, role: newRoleSelected } : prev));
+    if (newRoleSelected) setUser({ role: newRoleSelected });
     if (newRoleSelected !== role)
       update({
         updatedUser: {

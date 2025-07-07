@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -69,4 +70,4 @@ export default async function ProfilePage() {
     </DashboardWrapper>
   );
 }
-export const metadata = getSEO("Manage your Account");
+export const metadata: Metadata = getSEO("Manage your Account");

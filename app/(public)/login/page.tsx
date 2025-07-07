@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import React from "react";
 
 import { getSEO } from "@/constants/seo";
@@ -18,4 +19,4 @@ export default function LoginPage({
   );
 }
 
-export const metadata = getSEO("Login to your account");
+export const metadata: Metadata = getSEO("Login to your account");

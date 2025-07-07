@@ -94,11 +94,7 @@ export default function ConnectionsSection({
               <div className="flex gap-2 justify-end  text-sm  items-center">
                 <button
                   onClick={() => {
-                    setUser((prev) => ({
-                      ...prev,
-                      instagramStats: null,
-                      id: user.id,
-                    }));
+                    setUser({ instagramStats: null, id: user.id });
                     unlinkSocialAccount();
                   }}
                   className={"text-red-600 underline"}

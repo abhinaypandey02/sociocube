@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+
 import { getSEO } from "@/constants/seo";
 import { Injector } from "@/lib/apollo-server";
 
@@ -15,4 +17,6 @@ export default function SignUpPage({
     />
   );
 }
-export const metadata = getSEO("Join the biggest influencer platform");
+export const metadata: Metadata = getSEO(
+  "Join the biggest influencer platform",
+);

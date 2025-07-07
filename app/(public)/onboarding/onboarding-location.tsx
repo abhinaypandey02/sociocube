@@ -1,4 +1,3 @@
-"use client";
 import { GraphQLError } from "graphql/error";
 import React, { useEffect, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";

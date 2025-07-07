@@ -1,4 +1,5 @@
 // TermsAndConditions.js
+import { Metadata } from "next";
 import React from "react";
 
 import { getSEO } from "@/constants/seo";
@@ -141,4 +142,4 @@ function TermsAndConditions() {
 }
 
 export default TermsAndConditions;
-export const metadata = getSEO("Terms and Conditions");
+export const metadata: Metadata = getSEO("Terms and Conditions");

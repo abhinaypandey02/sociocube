@@ -1,7 +1,13 @@
 "use client";
 
 import { ProgressLoader } from "nextjs-progressloader";
-import { Dispatch, PropsWithChildren, SetStateAction } from "react";
+import {
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  useContext,
+  useReducer,
+} from "react";
 import React, { createContext, Suspense, useState } from "react";
 
 import {
@@ -10,37 +16,84 @@ import {
 } from "@/__generated__/graphql";
 import { GlobalModals, OpenModalParams } from "@/state/modals";
 
-const initialState = {
-  userState: getDefaultState<CurrentUser>(),
-  tokenState: getDefaultState<string | null | undefined>(),
-  subscriptionState: getDefaultState<Subscription>(),
-  setGlobalModal: (_: OpenModalParams) => {},
+export interface MemoryState {
+  user?: CurrentUser;
+  token?: string | null;
+  subscription?: Subscription;
+  globalModal?: OpenModalParams;
+}
+
+export enum MemoryActionType {
+  SET_USER,
+  SET_TOKEN,
+  SET_SUBSCRIPTION,
+  SET_GLOBAL_MODAL,
+}
+
+type Action =
+  | {
+      type: MemoryActionType.SET_USER;
+      payload?: Partial<MemoryState["user"]>;
+    }
+  | {
+      type: MemoryActionType.SET_TOKEN;
+      payload?: MemoryState["token"];
+    }
+  | {
+      type: MemoryActionType.SET_SUBSCRIPTION;
+      payload?: MemoryState["subscription"];
+    }
+  | {
+      type: MemoryActionType.SET_GLOBAL_MODAL;
+      payload?: MemoryState["globalModal"];
+    };
+
+const reducer = (state: MemoryState, action: Action): MemoryState => {
+  switch (action.type) {
+    case MemoryActionType.SET_USER:
+      return {
+        ...state,
+        user: state.user ? { ...state.user, ...action.payload } : state.user,
+      };
+    case MemoryActionType.SET_SUBSCRIPTION:
+      return {
+        ...state,
+        subscription: action.payload,
+      };
+    case MemoryActionType.SET_TOKEN:
+      return {
+        ...state,
+        token: action.payload,
+      };
+    case MemoryActionType.SET_GLOBAL_MODAL:
+      return {
+        ...state,
+        globalModal: action.payload,
+      };
+  }
 };
 
-export const GlobalState = createContext<typeof initialState>(initialState);
+const initialState: MemoryState = {};
 
-export function GlobalStateWrapper({ children }: PropsWithChildren) {
-  const tokenState = useState<string | null>();
-  const userState = useState<CurrentUser>();
-  const [globalModal, setGlobalModal] = useState<OpenModalParams>();
-  const subscriptionState = useState<Subscription>();
+const State = createContext({
+  state: initialState,
+  dispatch: (action: Action) => {},
+});
+
+export function MemoryStateWrapper({ children }: PropsWithChildren) {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <GlobalState.Provider
-      value={{
-        userState,
-        subscriptionState,
-        tokenState,
-        setGlobalModal,
-      }}
-    >
-      <GlobalModals globalModal={globalModal} setGlobalModal={setGlobalModal} />
-      <Suspense>
-        <ProgressLoader color="#5b9364" showSpinner={false} />
-      </Suspense>
+    <State.Provider value={{ state, dispatch }}>
+      <GlobalModals />
+      <ProgressLoader color="#5b9364" showSpinner={false} />
       {children}
-    </GlobalState.Provider>
+    </State.Provider>
   );
+}
+
+export function useMemoryState() {
+  return useContext(State);
 }
 
 type CurrentUser = GetCurrentUserQuery["user"];
@@ -50,8 +103,3 @@ type Subscription =
       link?: string | null;
     }
   | undefined;
-
-type ReactState<T> = [T, Dispatch<SetStateAction<T>>];
-function getDefaultState<T>(v?: T) {
-  return [v, () => null] as ReactState<T>;
-}

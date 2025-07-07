@@ -71,7 +71,7 @@ function OnboardingWizard({
   const [showCreatorSteps, setShowCreatorSteps] = useState(
     !currentUser || currentUser.role === Roles.Creator,
   );
-  const [, setUser] = useUser();
+  const [prev, setUser] = useUser();
   const router = useRouter();
   const [step, setStep] = useState(getStep(currentUser));
   const [maxTouchedStep, setMaxTouchedStep] = useState(getStep(currentUser));
@@ -130,16 +130,11 @@ function OnboardingWizard({
             nextStep={nextStep}
             isCreator={showCreatorSteps}
             setBasicDetails={(val) => {
-              setUser((prev) =>
-                prev
-                  ? {
-                      ...prev,
-                      name: val.name || prev.name,
-                      photo: val.photo || prev.photo,
-                      username: val.username || prev.username,
-                    }
-                  : prev,
-              );
+              setUser({
+                name: val.name || prev?.name,
+                photo: val.photo || prev?.photo,
+                username: val.username || prev?.username,
+              });
               setBasicDetails(val);
             }}
           />
