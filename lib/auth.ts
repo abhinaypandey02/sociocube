@@ -1,7 +1,8 @@
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
-import { useToken, useUser } from "@/state/hooks";
+import { useToken } from "@/state/hooks";
+import { MemoryActionType, useMemoryState } from "@/state/memory";
 
 export function useSignUpWithEmail() {
   const [, setToken] = useToken();
@@ -49,7 +50,7 @@ export function useLoginWithEmail() {
 }
 export function useLogout() {
   const [, setToken] = useToken();
-  const [, setUser] = useUser();
+  const { dispatch } = useMemoryState();
   const router = useRouter();
   return useCallback(async () => {
     const res = await fetch(`/api/email`, {
@@ -57,9 +58,12 @@ export function useLogout() {
       credentials: "include",
     });
     if (res.ok) {
-      setUser(null);
+      dispatch({
+        type: MemoryActionType.SET_ABSOLUTE_USER,
+        payload: null,
+      });
       setToken(undefined);
       router.push("/");
     }
-  }, [setToken, setUser, router]);
+  }, [setToken, router]);
 }

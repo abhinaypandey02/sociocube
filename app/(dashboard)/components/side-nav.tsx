@@ -44,7 +44,7 @@ export default function SideNav({
         <React.Fragment key={item.href}>
           <Link
             className={cn(
-              "flex gap-2.5 items-center py-3 hover:bg-gray-100 rounded-lg",
+              "flex gap-2.5 items-center py-2 hover:bg-gray-50 text-gray-800 rounded-md",
               activeKey === item.href && "bg-gray-100 text-primary",
               collapse ? "px-3" : "pl-3 pr-14",
             )}
@@ -58,12 +58,10 @@ export default function SideNav({
             key={item.href}
           >
             <item.icon
-              size={28}
+              size={24}
               weight={activeKey === item.href ? "bold" : "regular"}
             />
-            {!collapse && (
-              <h4 className="text-lg font-medium">{item.navTitle}</h4>
-            )}
+            {!collapse && <h4 className="text-lg ">{item.navTitle}</h4>}
           </Link>
           {primaryKey === item.href
             ? subLinks.map((page) => (

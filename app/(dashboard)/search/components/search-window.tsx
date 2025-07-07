@@ -75,7 +75,7 @@ export default function SearchWindow({
             onChange={(e) => {
               setVariables((prev) => ({ ...prev, query: e.target.value }));
             }}
-            placeholder="Describe your requirements to AI"
+            placeholder={'"Content creators in New york..."'}
             value={variables.query || ""}
           />
           <LinkWrapper
@@ -103,7 +103,7 @@ export default function SearchWindow({
             {!loading &&
               !data?.error &&
               data?.response?.sellers?.map((person) => (
-                <li key={person.name || ""}>
+                <li key={person.instagramStats?.username || ""}>
                   <Link
                     className="flex items-center gap-3 rounded-md px-4 py-3 hover:shadow-sm"
                     href={`${getRoute("Profile")}/${person.username}`}

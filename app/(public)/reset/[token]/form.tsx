@@ -24,7 +24,6 @@ export default function ResetForm({ token }: { token: string }) {
   const form = useForm({ defaultValues });
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [resetPassword] = useMutation(RESET_PASSWORD);
   const onSubmit: SubmitHandler<typeof defaultValues> = (data) => {
     setIsLoading(true);
@@ -37,7 +36,6 @@ export default function ResetForm({ token }: { token: string }) {
       .then((res) => {
         if (res.data?.resetPassword) {
           toast.success("Password updated successfully");
-          setSuccess(true);
         }
       })
       .catch(handleGQLErrors)
@@ -79,12 +77,7 @@ export default function ResetForm({ token }: { token: string }) {
           }}
           type="password"
         />
-        <Button
-          className="w-full"
-          loading={isLoading}
-          success={success}
-          type="submit"
-        >
+        <Button className="w-full" loading={isLoading} type="submit">
           Update password
         </Button>
       </Form>

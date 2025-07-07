@@ -2,12 +2,16 @@
 import { useEffect } from "react";
 
 import { GetCurrentUserQuery } from "@/__generated__/graphql";
-import { useUser } from "@/state/hooks";
+import { MemoryActionType, useMemoryState } from "@/state/memory";
 
 export default function AuthApply({ data }: { data?: GetCurrentUserQuery }) {
-  const [, setUser] = useUser();
+  const { dispatch } = useMemoryState();
   useEffect(() => {
-    if (data !== undefined) setUser(data.user || null);
-  }, [data, setUser]);
+    if (data !== undefined)
+      dispatch({
+        type: MemoryActionType.SET_ABSOLUTE_USER,
+        payload: data.user || null,
+      });
+  }, [data]);
   return null;
 }

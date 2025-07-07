@@ -25,7 +25,6 @@ export default function ForgotPasswordForm() {
   const form = useForm({ defaultValues });
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [forgotPassword] = useMutation(SEND_RESET_PASSWORD_EMAIL);
   const onSubmit: SubmitHandler<typeof defaultValues> = (data) => {
     setIsLoading(true);
@@ -38,7 +37,6 @@ export default function ForgotPasswordForm() {
         toast.success(
           "An email with further details sent if an account exists with this email",
         );
-        setSuccess(true);
       })
       .catch(handleGQLErrors)
       .finally(() => {
@@ -64,12 +62,7 @@ export default function ForgotPasswordForm() {
           placeholder="Enter your email"
           rules={{ required: true }}
         />
-        <Button
-          className="w-full"
-          loading={isLoading}
-          success={success}
-          type="submit"
-        >
+        <Button className="w-full" loading={isLoading} type="submit">
           Send reset email
         </Button>
       </Form>

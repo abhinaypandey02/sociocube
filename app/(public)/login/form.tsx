@@ -37,7 +37,6 @@ export default function LoginForm({
   const [isLoading, setIsLoading] = useState(false);
   const { turnstileToken, resetTurnstileToken } =
     useTurnstileToken(CONTAINER_ID);
-  const [success, setSuccess] = useState(false);
 
   const loginWithEmail = useLoginWithEmail();
   const redirectURL = paramsRedirectURL || Route.Home;
@@ -52,7 +51,6 @@ export default function LoginForm({
       turnstileToken,
     );
     if (error === null) {
-      setSuccess(true);
       router.push(redirectURL);
       router.refresh();
     } else {
@@ -110,7 +108,6 @@ export default function LoginForm({
           <Button
             className="w-full"
             loading={!turnstileToken || isLoading}
-            success={success}
             type="submit"
           >
             Login

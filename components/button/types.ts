@@ -8,7 +8,6 @@ export type ButtonProps = {
   invert?: boolean;
   borderless?: boolean;
   loading?: boolean;
-  success?: boolean;
   square?: boolean;
   compact?: boolean;
 } & ComponentProps<"button">;

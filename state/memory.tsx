@@ -25,6 +25,7 @@ export interface MemoryState {
 
 export enum MemoryActionType {
   SET_USER,
+  SET_ABSOLUTE_USER,
   SET_TOKEN,
   SET_SUBSCRIPTION,
   SET_GLOBAL_MODAL,
@@ -33,19 +34,23 @@ export enum MemoryActionType {
 type Action =
   | {
       type: MemoryActionType.SET_USER;
-      payload?: Partial<MemoryState["user"]>;
+      payload: Partial<MemoryState["user"]>;
+    }
+  | {
+      type: MemoryActionType.SET_ABSOLUTE_USER;
+      payload: MemoryState["user"];
     }
   | {
       type: MemoryActionType.SET_TOKEN;
-      payload?: MemoryState["token"];
+      payload: MemoryState["token"];
     }
   | {
       type: MemoryActionType.SET_SUBSCRIPTION;
-      payload?: MemoryState["subscription"];
+      payload: MemoryState["subscription"];
     }
   | {
       type: MemoryActionType.SET_GLOBAL_MODAL;
-      payload?: MemoryState["globalModal"];
+      payload: MemoryState["globalModal"];
     };
 
 const reducer = (state: MemoryState, action: Action): MemoryState => {
@@ -54,6 +59,11 @@ const reducer = (state: MemoryState, action: Action): MemoryState => {
       return {
         ...state,
         user: state.user ? { ...state.user, ...action.payload } : state.user,
+      };
+    case MemoryActionType.SET_ABSOLUTE_USER:
+      return {
+        ...state,
+        user: action.payload,
       };
     case MemoryActionType.SET_SUBSCRIPTION:
       return {

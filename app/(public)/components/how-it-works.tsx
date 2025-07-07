@@ -56,7 +56,7 @@ export default function HowItWorks() {
                 <circle cx={2} cy={2} fill="currentColor" r={2} />
               </svg>
               Step {i + 1}
-              <div
+              <span
                 aria-hidden="true"
                 className="absolute -ml-2 h-px w-screen -translate-x-full bg-gray-900/10 sm:-ml-4 lg:static lg:-mr-6 lg:ml-8 lg:w-auto lg:flex-auto lg:translate-x-0"
               />

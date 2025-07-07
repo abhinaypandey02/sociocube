@@ -34,7 +34,6 @@ export default function SignupForm({
   const { turnstileToken, resetTurnstileToken } =
     useTurnstileToken(CONTAINER_ID);
   const [isLoading, setIsLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const signupWithEmail = useSignUpWithEmail();
   const redirectURL =
     Route.Onboarding +
@@ -51,7 +50,6 @@ export default function SignupForm({
       turnstileToken,
     );
     if (error === null) {
-      setSuccess(true);
       router.push(redirectURL);
       router.refresh();
     } else {
@@ -96,7 +94,6 @@ export default function SignupForm({
         <Button
           className="w-full"
           loading={!turnstileToken || isLoading}
-          success={success}
           type="submit"
         >
           Sign up

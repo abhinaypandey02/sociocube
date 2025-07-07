@@ -4,45 +4,55 @@ import { OpenModalParams } from "@/state/modals";
 
 export function useUser() {
   const { state, dispatch } = useMemoryState();
-  return [
-    state.user,
+
+  const setUser = useCallback(
     (payload: Partial<MemoryState["user"]>) => {
       dispatch({
         payload,
         type: MemoryActionType.SET_USER,
       });
     },
-  ] as const;
+    [dispatch],
+  );
+
+  return [state.user, setUser] as const;
 }
 
 export function useSubscription() {
   const { state, dispatch } = useMemoryState();
-  return [
-    state.subscription,
+
+  const setSubscription = useCallback(
     (payload: MemoryState["subscription"]) => {
       dispatch({
         payload,
         type: MemoryActionType.SET_SUBSCRIPTION,
       });
     },
-  ] as const;
+    [dispatch],
+  );
+
+  return [state.subscription, setSubscription] as const;
 }
 
 export function useToken() {
   const { state, dispatch } = useMemoryState();
-  return [
-    state.token,
+
+  const setToken = useCallback(
     (payload: MemoryState["token"]) => {
       dispatch({
         payload,
         type: MemoryActionType.SET_TOKEN,
       });
     },
-  ] as const;
+    [dispatch],
+  );
+
+  return [state.token, setToken] as const;
 }
 
 export function useOpenPopup(type: OpenModalParams["type"]) {
   const { dispatch } = useMemoryState();
+
   return useCallback(
     (message: string) => {
       dispatch({

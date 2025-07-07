@@ -116,7 +116,6 @@ export default function ApplyNowButton({
           <Button
             className="ml-auto mt-3 text-sm"
             loading={loading}
-            success={appliedSuccess}
             type="submit"
           >
             {posting.externalLink
