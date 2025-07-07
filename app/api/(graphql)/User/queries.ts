@@ -1,13 +1,13 @@
 import type { AuthorizedContext, Context } from "@backend/lib/auth/context";
 import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
 
-import { handleGetAgencyRank } from "./resolvers/get-agency-rank";
 import { handleGetCurrentUser } from "./resolvers/get-current-user";
 import {
   GetFeaturedPostsResponse,
   handleGetFeaturedPosts,
 } from "./resolvers/get-featured-posts";
 import { handleGetFeaturedSellers } from "./resolvers/get-featured-sellers";
+import { handleGetRankedAgency } from "./resolvers/get-ranked-agency";
 import { handleGetSeller } from "./resolvers/get-seller";
 import { handleIsUsernameAvailable } from "./resolvers/is-username-available";
 import {
@@ -50,7 +50,7 @@ export class UserQueryResolver {
     return handleIsUsernameAvailable(ctx, username);
   }
   @Query(() => [UserGQL])
-  async getAgencyRank(@Arg("page") page: number) {
-    return handleGetAgencyRank(page);
+  async getRankedAgency(@Arg("page") page: number) {
+    return handleGetRankedAgency(page);
   }
 }

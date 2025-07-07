@@ -715,10 +715,10 @@ export const GET_SUBSCRIPTION = gql(`
   }
 `);
 
-export const GET_AGENCY_RANK = gql(`
+export const GET_RANKED_AGENCY = gql(`
   #graphql
-  query GetAgencyRank($page:Float!) {
-    agencies: getAgencyRank(page:$page) {
+  query GetRankedAgency($page:Float!) {
+    agencies: getRankedAgency(page:$page) {
       id
       name
       photo

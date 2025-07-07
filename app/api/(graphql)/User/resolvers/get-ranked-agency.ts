@@ -1,6 +1,6 @@
 import { db } from "@backend/lib/db";
 import { desc, eq, getTableColumns, sql } from "drizzle-orm";
-import { and, isNotNull } from "drizzle-orm";
+import { and, isNotNull, or } from "drizzle-orm";
 
 import { Roles } from "@/app/api/lib/constants/roles";
 import { withPagination } from "@/app/api/lib/utils/pagination";
@@ -9,7 +9,7 @@ import { ApplicationTable } from "../../Application/db";
 import { PostingTable } from "../../Posting/db";
 import { UserTable } from "../db";
 
-export async function handleGetAgencyRank(page: number) {
+export async function handleGetRankedAgency(page: number) {
   return withPagination(
     db
       .select(getTableColumns(UserTable))
@@ -23,7 +23,7 @@ export async function handleGetAgencyRank(page: number) {
           isNotNull(UserTable.instagramDetails),
           isNotNull(UserTable.name),
           isNotNull(UserTable.username),
-          eq(UserTable.role, Roles.Agency),
+          or(eq(UserTable.role, Roles.Agency), eq(UserTable.role, Roles.Brand)),
         ),
       )
       .groupBy(UserTable.id)

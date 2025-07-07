@@ -2,15 +2,15 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import type { GetAgencyRankQuery } from "@/__generated__/graphql";
+import type { GetRankedAgencyQuery } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
 import { useAuthQuery } from "@/lib/apollo-client";
-import { GET_AGENCY_RANK } from "@/lib/queries";
+import { GET_RANKED_AGENCY } from "@/lib/queries";
 
 import AgencyCard from "./agency-card";
 
 interface AgencyRankDataProps {
-  data: GetAgencyRankQuery;
+  data: GetRankedAgencyQuery;
 }
 
 export default function AgencyRankData({
@@ -18,12 +18,12 @@ export default function AgencyRankData({
 }: AgencyRankDataProps) {
   const [page, setPage] = useState(1);
   const [allAgencies, setAllAgencies] = useState<
-    GetAgencyRankQuery["agencies"]
+    GetRankedAgencyQuery["agencies"]
   >(serverData?.agencies || []);
   const [hasMore, setHasMore] = useState(serverData?.agencies.length >= 9);
   const observer = useRef<IntersectionObserver | null>(null);
   const [fetchAgencies, { data: clientData, loading }] =
-    useAuthQuery(GET_AGENCY_RANK);
+    useAuthQuery(GET_RANKED_AGENCY);
 
   useEffect(() => {
     if (clientData?.agencies) {
