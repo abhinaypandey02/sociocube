@@ -1,10 +1,8 @@
-"use client";
-
 import { ArrowDown, User } from "@phosphor-icons/react";
 import { Cake, SealCheck, Users, Wallet } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import type { GetAllPostingsQuery } from "@/__generated__/graphql";
 import ApplyNowButton from "@/app/(dashboard)/campaigns/[id]/apply-now-button";
@@ -12,6 +10,7 @@ import { Button } from "@/components/button";
 import Modal from "@/components/modal";
 import countriesData from "@/constants/countries";
 import { getRoute } from "@/constants/routes";
+import { useVisibility } from "@/lib/hooks";
 import { convertToAbbreviation } from "@/lib/utils";
 
 import { renderRichText } from "../utils";
@@ -32,7 +31,7 @@ export default function PostingCard({
 }) {
   const aboutRef = useRef<HTMLDivElement>(null);
   const [showDescription, setShowDescription] = useState(false);
-  const mainRef = useRef<HTMLDivElement>(null);
+  const mainRef = useVisibility(fetchMore);
   const locationNames = [
     ...countriesData
       .filter((c) => posting.countries?.includes(c.value))
@@ -40,34 +39,6 @@ export default function PostingCard({
     ...(posting.states || []).map((state) => state.label),
     ...(posting.cities || []).map((city) => city.label),
   ];
-  useEffect(() => {
-    if (!fetchMore) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const target = entries[0];
-        if (target?.isIntersecting) {
-          fetchMore();
-        }
-      },
-      {
-        root: null,
-        rootMargin: "100px",
-        threshold: 0.1,
-      },
-    );
-
-    const currentTarget = mainRef.current;
-    if (currentTarget) {
-      observer.observe(currentTarget);
-    }
-
-    return () => {
-      if (currentTarget) {
-        observer.unobserve(currentTarget);
-      }
-      observer.disconnect();
-    };
-  }, [fetchMore]);
 
   const price = getCurrency(posting.barter, posting.currency, posting.price);
 
