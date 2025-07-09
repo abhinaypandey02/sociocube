@@ -1,4 +1,5 @@
-import { ChartLineUp, SealCheck } from "@phosphor-icons/react";
+import { SealCheck } from "@phosphor-icons/react";
+import { TrendUp } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 
 import { useVisibility } from "@/lib/hooks";
@@ -43,8 +44,10 @@ export default function AgencyCard({
           </p>
 
           <div className="flex text-xs items-center gap-1">
-            <ChartLineUp />
-            <strong>{convertToAbbreviation(totalApplications)}</strong>
+            <TrendUp />
+            <p className={"font-medium text-gray-800"}>
+              {convertToAbbreviation(totalApplications)}
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-2 overflow-hidden text-lg sm:text-2xl">

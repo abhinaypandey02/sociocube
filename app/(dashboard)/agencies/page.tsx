@@ -10,10 +10,7 @@ import AgencyRankData from "./components/agency-rank-data";
 
 export default async function AgencyRankPage() {
   return (
-    <DashboardWrapper
-      title={"Top Performing Agencies"}
-      activeKey={Route.Agencies}
-    >
+    <DashboardWrapper title={"Top Agencies"} activeKey={Route.Agencies}>
       <Injector
         fetch={async () => {
           const Cookie = await cookies();
@@ -26,6 +23,6 @@ export default async function AgencyRankPage() {
 }
 
 export const metadata = getSEO(
-  "Top Performing Agencies | Agency Rankings",
+  "Top Performing Agencies",
   "Discover the most successful agencies on our platform. Connect with top-performing agencies for your brand campaigns.",
 );

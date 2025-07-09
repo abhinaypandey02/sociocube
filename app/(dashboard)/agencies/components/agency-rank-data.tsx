@@ -38,8 +38,8 @@ export default function AgencyRankData({
     }
   };
   return (
-    <div className="max-w-4xl mx-auto space-y-6 pb-6">
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+    <div className=" space-y-6 pb-6">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-14 px-6">
         {allAgencies.map((agency, index) => (
           <li key={agency.id}>
             <Link
