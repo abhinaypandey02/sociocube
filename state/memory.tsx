@@ -1,14 +1,8 @@
 "use client";
 
 import { ProgressLoader } from "nextjs-progressloader";
-import {
-  Dispatch,
-  PropsWithChildren,
-  SetStateAction,
-  useContext,
-  useReducer,
-} from "react";
-import React, { createContext, Suspense, useState } from "react";
+import { PropsWithChildren, useContext, useReducer } from "react";
+import React, { createContext, Suspense } from "react";
 
 import {
   GetCurrentUserQuery,
@@ -96,7 +90,9 @@ export function MemoryStateWrapper({ children }: PropsWithChildren) {
   return (
     <State.Provider value={{ state, dispatch }}>
       <GlobalModals />
-      <ProgressLoader color="#5b9364" showSpinner={false} />
+      <Suspense>
+        <ProgressLoader color="#5b9364" showSpinner={false} />
+      </Suspense>
       {children}
     </State.Provider>
   );
