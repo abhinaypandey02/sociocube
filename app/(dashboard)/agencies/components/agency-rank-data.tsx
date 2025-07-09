@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import type { GetRankedAgencyQuery } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
+import { useVisibility } from "@/hooks/useVisibility";
 import { useAuthQuery } from "@/lib/apollo-client";
 import { GET_RANKED_AGENCY } from "@/lib/queries";
 
@@ -21,16 +22,8 @@ export default function AgencyRankData({
     GetRankedAgencyQuery["agencies"]
   >(serverData?.agencies || []);
   const [hasMore, setHasMore] = useState(serverData?.agencies.length >= 9);
-  const observer = useRef<IntersectionObserver | null>(null);
   const [fetchAgencies, { data: clientData, loading }] =
     useAuthQuery(GET_RANKED_AGENCY);
-
-  useEffect(() => {
-    if (clientData?.agencies) {
-      setAllAgencies((prev) => [...prev, ...clientData.agencies]);
-      setHasMore(clientData.agencies.length >= 9);
-    }
-  }, [clientData]);
 
   const loadMoreAgencies = useCallback(async () => {
     if (loading || !hasMore) return;
@@ -38,39 +31,26 @@ export default function AgencyRankData({
     setPage(nextPage);
     await fetchAgencies({ page: nextPage });
   }, [loading, hasMore, page, fetchAgencies]);
-  const lastAgencyElementRef = useCallback(
-    (node: HTMLLIElement | null) => {
-      if (loading) return;
-      if (observer.current) observer.current.disconnect();
 
-      observer.current = new IntersectionObserver(
-        (entries) => {
-          if (
-            entries.length > 0 &&
-            entries[0]?.isIntersecting &&
-            hasMore &&
-            !loading
-          ) {
-            loadMoreAgencies();
-          }
-        },
-        {
-          threshold: 0.1,
-          rootMargin: "100px",
-        },
-      );
+  const [lastAgencyRef] = useVisibility<HTMLLIElement>({
+    threshold: 1,
+    rootMargin: "100px",
+    onVisible: loadMoreAgencies,
+  });
 
-      if (node) observer.current.observe(node);
-    },
-    [loading, hasMore, loadMoreAgencies],
-  );
+  useEffect(() => {
+    if (clientData?.agencies) {
+      setAllAgencies((prev) => [...prev, ...clientData.agencies]);
+      setHasMore(clientData.agencies.length >= 9);
+    }
+  }, [clientData]);
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-6">
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {allAgencies.map((agency, index) => (
           <li
             key={agency.id}
-            ref={index === allAgencies.length - 1 ? lastAgencyElementRef : null}
+            ref={index === allAgencies.length - 1 ? lastAgencyRef : null}
           >
             <Link
               href={`${getRoute("Profile")}/${agency.username}`}
