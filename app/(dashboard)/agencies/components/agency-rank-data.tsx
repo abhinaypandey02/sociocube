@@ -55,6 +55,7 @@ export default function AgencyRankData({
                 fetchMore={
                   index === allAgencies.length - 1 ? fetchMore : undefined
                 }
+                totalApplications={agency.totalApplications || 0}
               />
             </Link>
           </li>

@@ -1,7 +1,8 @@
-import { SealCheck } from "@phosphor-icons/react";
+import { ChartLineUp, SealCheck } from "@phosphor-icons/react";
 import Image from "next/image";
 
 import { useVisibility } from "@/lib/hooks";
+import { convertToAbbreviation } from "@/lib/utils";
 interface CardProps {
   category: string;
   name: string;
@@ -9,6 +10,7 @@ interface CardProps {
   photo: string;
   isVerified: boolean;
   fetchMore?: () => void;
+  totalApplications: number;
 }
 
 export default function AgencyCard({
@@ -18,6 +20,7 @@ export default function AgencyCard({
   photo,
   isVerified,
   fetchMore,
+  totalApplications,
 }: CardProps) {
   const mainRef = useVisibility(fetchMore);
 
@@ -34,9 +37,16 @@ export default function AgencyCard({
         </div>
       </div>
       <div className="pt-4 space-y-1">
-        <p className="text-sm font-semibold text-accent uppercase">
-          {category}
-        </p>
+        <div className={"flex justify-between"}>
+          <p className="text-sm font-semibold text-accent uppercase">
+            {category}
+          </p>
+
+          <div className="flex text-xs items-center gap-1">
+            <ChartLineUp />
+            <strong>{convertToAbbreviation(totalApplications)}</strong>
+          </div>
+        </div>
         <div className="flex items-center gap-2 overflow-hidden text-lg sm:text-2xl">
           <h3 className=" truncate font-poppins  font-semibold  ">{name} </h3>
           {isVerified ? (

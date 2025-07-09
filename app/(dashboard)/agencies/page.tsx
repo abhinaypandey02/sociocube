@@ -17,7 +17,7 @@ export default async function AgencyRankPage() {
       <Injector
         fetch={async () => {
           const Cookie = await cookies();
-          return queryGQL(GET_RANKED_AGENCY, { page: 1 }, Cookie, 3600);
+          return queryGQL(GET_RANKED_AGENCY, { page: 1 }, Cookie, 0);
         }}
         Component={AgencyRankData}
       />

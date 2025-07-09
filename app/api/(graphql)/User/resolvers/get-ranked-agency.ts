@@ -15,7 +15,10 @@ export async function handleGetRankedAgency(page: number) {
       .select(getTableColumns(UserTable))
       .from(UserTable)
       .leftJoin(PostingTable, eq(PostingTable.agency, UserTable.id))
-      .leftJoin(ApplicationTable, eq(ApplicationTable.posting, PostingTable.id))
+      .innerJoin(
+        ApplicationTable,
+        eq(ApplicationTable.posting, PostingTable.id),
+      )
       .where(
         and(
           isNotNull(UserTable.photo),
@@ -23,6 +26,7 @@ export async function handleGetRankedAgency(page: number) {
           isNotNull(UserTable.instagramDetails),
           isNotNull(UserTable.name),
           isNotNull(UserTable.username),
+          isNotNull(UserTable.location),
           ne(UserTable.id, 134),
           or(eq(UserTable.role, Roles.Agency), eq(UserTable.role, Roles.Brand)),
         ),
