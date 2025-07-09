@@ -1,12 +1,14 @@
 import { SealCheck } from "@phosphor-icons/react";
 import Image from "next/image";
 
+import { useVisibility } from "@/lib/hooks";
 interface CardProps {
   category: string;
   name: string;
   bio: string;
   photo: string;
   isVerified: boolean;
+  fetchMore?: () => void;
 }
 
 export default function AgencyCard({
@@ -15,9 +17,12 @@ export default function AgencyCard({
   bio,
   photo,
   isVerified,
+  fetchMore,
 }: CardProps) {
+  const mainRef = useVisibility(fetchMore);
+
   return (
-    <div className="bg-white overflow-hidden">
+    <div ref={fetchMore ? mainRef : null} className="bg-white overflow-hidden">
       <div className="relative w-full h-48">
         <div className="relative w-full h-full rounded-lg overflow-hidden">
           <Image
