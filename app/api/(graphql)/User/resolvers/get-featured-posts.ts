@@ -6,7 +6,7 @@ import { InstagramDetails } from "../../Instagram/db";
 import { InstagramMediaTable } from "../../Instagram/db2";
 import { UserTable } from "../db";
 
-@ObjectType()
+@ObjectType("GetFeaturedPostsResponse")
 export class GetFeaturedPostsResponse {
   @Field()
   mediaURL: string;
