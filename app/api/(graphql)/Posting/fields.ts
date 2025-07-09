@@ -11,12 +11,14 @@ import { ReviewGQL } from "../Review/type";
 import type { UserDB } from "../User/db";
 import { UserTable } from "../User/db";
 import { UserGQL } from "../User/type";
-import type { PostingDB } from "./db";
+import type { PostingAccessDB, PostingDB } from "./db";
+import { PostingTable } from "./db";
+import { PostingAccessTable } from "./db";
 import {
   getRecommendations,
   Recommendation,
 } from "./resolvers/get-recommendations";
-import { PostingGQL } from "./type";
+import { PostingAccessGQL, PostingGQL } from "./type";
 
 @Resolver(() => PostingGQL)
 export class PostingFieldResolvers {
@@ -125,5 +127,37 @@ export class PostingFieldResolvers {
       value: city.id,
       label: city.name,
     }));
+  }
+
+  @FieldResolver(() => [PostingAccessGQL])
+  async access(@Root() posting: PostingDB): Promise<PostingAccessGQL[]> {
+    return db
+      .select()
+      .from(PostingAccessTable)
+      .where(eq(PostingAccessTable.posting, posting.id));
+  }
+}
+
+@Resolver(() => PostingAccessGQL)
+export class PostingAccessFieldResolvers {
+  @FieldResolver(() => UserGQL, { nullable: true })
+  async user(@Root() access: PostingAccessDB) {
+    if (!access.user) return null;
+    const [user] = await db
+      .select()
+      .from(UserTable)
+      .where(eq(UserTable.id, access.user));
+
+    return user;
+  }
+
+  @FieldResolver(() => PostingGQL, { nullable: true })
+  async posting(@Root() access: PostingAccessDB) {
+    const [posting] = await db
+      .select()
+      .from(PostingTable)
+      .where(eq(PostingTable.id, access.posting));
+
+    return posting;
   }
 }

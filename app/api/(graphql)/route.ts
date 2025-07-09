@@ -14,7 +14,10 @@ import { ChatMutationResolvers } from "@graphql/Chat/mutations";
 import { ChatQueryResolvers } from "@graphql/Chat/queries";
 import { MapQueryResolvers } from "@graphql/Map/queries";
 import { PortfolioMutationResolver } from "@graphql/Portfolio/mutations";
-import { PostingFieldResolvers } from "@graphql/Posting/fields";
+import {
+  PostingAccessFieldResolvers,
+  PostingFieldResolvers,
+} from "@graphql/Posting/fields";
 import { PostingMutationResolvers } from "@graphql/Posting/mutations";
 import { PostingQueryResolvers } from "@graphql/Posting/queries";
 import { RequestMutationResolver } from "@graphql/Request/mutations";
@@ -46,6 +49,7 @@ const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
     MapQueryResolvers,
     PortfolioMutationResolver,
     PostingFieldResolvers,
+    PostingAccessFieldResolvers,
     PostingQueryResolvers,
     PostingMutationResolvers,
     RequestMutationResolver,

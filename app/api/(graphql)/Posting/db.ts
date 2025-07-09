@@ -1,4 +1,5 @@
 import { PostingPlatforms } from "@backend/lib/constants/platforms";
+import { PostingRole } from "@graphql/Posting/constants";
 import { sql } from "drizzle-orm";
 import {
   boolean,
@@ -70,4 +71,23 @@ export const PostingTable = pgTable(
   }),
 );
 
+export const postingAccessRole = pgEnum("posting_access_role", [
+  PostingRole.ADMIN,
+  PostingRole.CLIENT,
+]);
+
+export const PostingAccessTable = pgTable("posting_access", {
+  id: serial("id").primaryKey(),
+  posting: integer("posting")
+    .references(() => PostingTable.id)
+    .notNull(),
+  pending: boolean("pending").default(false).notNull(),
+  email: text("email").notNull(),
+  user: integer("user").references(() => UserTable.id),
+  role: postingAccessRole("posting_access_role").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
 export type PostingDB = typeof PostingTable.$inferSelect;
+export type PostingAccessDB = typeof PostingAccessTable.$inferSelect;

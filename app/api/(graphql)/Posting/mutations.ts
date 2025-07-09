@@ -5,8 +5,14 @@ import { rejectPosting } from "@graphql/Posting/resolvers/reject-posting";
 import { handleSendAnnouncement } from "@graphql/Posting/resolvers/send-announcement";
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 
+import { acceptInvitation } from "./resolvers/accept-invitation";
 import { createPosting, NewPostingInput } from "./resolvers/create-posting";
+import { deleteInvitation } from "./resolvers/delete-invitation";
 import { deletePosting } from "./resolvers/delete-posting";
+import {
+  inviteToPosting,
+  InviteToPostingInput,
+} from "./resolvers/invite-to-posting";
 import { pausePosting } from "./resolvers/pause-posting";
 import { resumePosting } from "./resolvers/resume-posting";
 import { updatePosting, UpdatePostingInput } from "./resolvers/update-posting";
@@ -76,5 +82,32 @@ export class PostingMutationResolvers {
   @Mutation(() => Boolean)
   async acceptPosting(@Arg("postingID") postingID: number): Promise<boolean> {
     return acceptPosting(postingID);
+  }
+
+  @Authorized(BRAND_ROLES)
+  @Mutation(() => Boolean)
+  async inviteToPosting(
+    @Ctx() ctx: AuthorizedContext,
+    @Arg("input") input: InviteToPostingInput,
+  ): Promise<boolean> {
+    return inviteToPosting(ctx, input);
+  }
+
+  @Authorized(BRAND_ROLES)
+  @Mutation(() => Boolean)
+  async deleteInvitation(
+    @Ctx() ctx: AuthorizedContext,
+    @Arg("accessId") accessId: number,
+  ): Promise<boolean> {
+    return deleteInvitation(ctx, accessId);
+  }
+
+  @Authorized()
+  @Mutation(() => Boolean)
+  async acceptInvitation(
+    @Ctx() ctx: AuthorizedContext,
+    @Arg("token") token: string,
+  ): Promise<boolean> {
+    return acceptInvitation(ctx, token);
   }
 }

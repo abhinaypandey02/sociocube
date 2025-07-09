@@ -5,10 +5,11 @@ import { Arg, Authorized, Ctx, Int, Query, Resolver } from "type-graphql";
 
 import { getAllPostings } from "./resolvers/get-all-postings";
 import { getFeaturedPostings } from "./resolvers/get-featured-postings";
+import { getInvitationDetail } from "./resolvers/get-invitation-detail";
 import { getPosting } from "./resolvers/get-posting";
 import { getUserPostings } from "./resolvers/get-user-postings";
 import { getUserPostingsLatest } from "./resolvers/get-user-postings-latest";
-import { PostingGQL } from "./type";
+import { PostingAccessGQL, PostingGQL } from "./type";
 @Resolver()
 export class PostingQueryResolvers {
   @Query(() => [PostingGQL])
@@ -49,5 +50,10 @@ export class PostingQueryResolvers {
   @Query(() => [PostingGQL])
   getPostingsInReview() {
     return handleGetPostingsInReview();
+  }
+
+  @Query(() => PostingAccessGQL, { nullable: true })
+  getInvitationDetail(@Arg("token") token: string) {
+    return getInvitationDetail(token);
   }
 }

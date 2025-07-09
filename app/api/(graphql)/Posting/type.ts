@@ -2,6 +2,8 @@ import { Eligibility } from "@backend/lib/constants/eligibility";
 import { PostingPlatforms } from "@backend/lib/constants/platforms";
 import { Field, Int, ObjectType } from "type-graphql";
 
+import { PostingRole } from "./constants";
+
 @ObjectType("Posting")
 export class PostingGQL {
   @Field()
@@ -46,4 +48,18 @@ export class PostingGQL {
   currencyCountry: number | null;
   @Field(() => String, { nullable: true })
   gender?: string | null;
+  @Field(() => [PostingAccessGQL], { nullable: true })
+  access?: PostingAccessGQL[] | null;
+}
+
+@ObjectType("PostingAccess")
+export class PostingAccessGQL {
+  @Field()
+  id: number;
+  @Field()
+  pending: boolean;
+  @Field()
+  email: string;
+  @Field(() => PostingRole)
+  role: PostingRole;
 }
