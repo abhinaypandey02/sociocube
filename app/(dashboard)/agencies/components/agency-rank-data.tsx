@@ -47,7 +47,7 @@ export default function AgencyRankData({
               className="block group"
             >
               <AgencyCard
-                category={agency.category || " "}
+                category={agency.category || ""}
                 name={agency.name || " "}
                 bio={agency.bio || " "}
                 photo={agency.photo || " "}

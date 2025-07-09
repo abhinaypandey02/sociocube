@@ -39,9 +39,11 @@ export default function AgencyCard({
       </div>
       <div className="pt-4 space-y-1">
         <div className={"flex justify-between"}>
-          <p className="text-sm font-semibold text-accent uppercase">
-            {category}
-          </p>
+          {category && (
+            <p className="text-sm font-semibold text-accent uppercase">
+              {category}
+            </p>
+          )}
 
           <div className="flex text-xs items-center gap-1">
             <TrendUp />
