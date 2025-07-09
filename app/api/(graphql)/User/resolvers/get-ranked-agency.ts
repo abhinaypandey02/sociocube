@@ -1,6 +1,6 @@
 import { db } from "@backend/lib/db";
 import { desc, eq, getTableColumns, sql } from "drizzle-orm";
-import { and, isNotNull, or } from "drizzle-orm";
+import { and, isNotNull, ne, or } from "drizzle-orm";
 
 import { Roles } from "@/app/api/lib/constants/roles";
 import { withPagination } from "@/app/api/lib/utils/pagination";
@@ -23,6 +23,7 @@ export async function handleGetRankedAgency(page: number) {
           isNotNull(UserTable.instagramDetails),
           isNotNull(UserTable.name),
           isNotNull(UserTable.username),
+          ne(UserTable.id, 134),
           or(eq(UserTable.role, Roles.Agency), eq(UserTable.role, Roles.Brand)),
         ),
       )
