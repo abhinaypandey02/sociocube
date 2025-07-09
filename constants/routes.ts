@@ -19,6 +19,7 @@ export enum Route {
   Explore = `/explore`,
   Selected = `/selected`,
   NewCampaign = `${YourCampaigns}/new`,
+  Agencies = `/agencies`,
 }
 
 export function getRoute(route: keyof typeof Route) {

@@ -1,10 +1,11 @@
-import { Ctx, FieldResolver, Resolver, Root } from "type-graphql";
+import { Ctx, FieldResolver, Int, Resolver, Root } from "type-graphql";
 
 import type { Context } from "../../lib/auth/context";
 import { InstagramMedia, InstagramStats } from "../Instagram/type";
 import { PortfolioGQL } from "../Portfolio/type";
 import { ReviewGQL } from "../Review/type";
 import type { UserDB } from "./db";
+import { getTotalApplications } from "./resolvers/get-total-applications";
 import { getInstagramMedia, getInstagramStats } from "./resolvers/instagram";
 import { getLocation, getLocationID } from "./resolvers/location";
 import { getIsOnboarded } from "./resolvers/onboarding-data";
@@ -51,5 +52,9 @@ export class UserFieldResolver {
   @FieldResolver(() => [ReviewGQL])
   async reviews(@Root() user: UserDB): Promise<ReviewGQL[]> {
     return getReviews(user);
+  }
+  @FieldResolver(() => Int)
+  async totalApplications(@Root() user: UserDB): Promise<number> {
+    return getTotalApplications(user.id);
   }
 }

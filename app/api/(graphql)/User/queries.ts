@@ -7,6 +7,7 @@ import {
   handleGetFeaturedPosts,
 } from "./resolvers/get-featured-posts";
 import { handleGetFeaturedSellers } from "./resolvers/get-featured-sellers";
+import { handleGetRankedAgency } from "./resolvers/get-ranked-agency";
 import { handleGetSeller } from "./resolvers/get-seller";
 import { handleIsUsernameAvailable } from "./resolvers/is-username-available";
 import {
@@ -47,5 +48,9 @@ export class UserQueryResolver {
     @Arg("username") username: string,
   ) {
     return handleIsUsernameAvailable(ctx, username);
+  }
+  @Query(() => [UserGQL])
+  async getRankedAgency(@Arg("page") page: number) {
+    return handleGetRankedAgency(page);
   }
 }
