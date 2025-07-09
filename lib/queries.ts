@@ -714,3 +714,23 @@ export const GET_SUBSCRIPTION = gql(`
       getSubscriptionLink
   }
 `);
+
+export const GET_RANKED_AGENCY = gql(`
+  #graphql
+  query GetRankedAgency($page:Float!) {
+    agencies: getRankedAgency(page:$page) {
+      id
+      name
+      photo
+      username
+      category
+      bio
+      instagramStats {
+        isVerified
+        followers
+        username
+      }
+      totalApplications
+    }
+  }
+`);

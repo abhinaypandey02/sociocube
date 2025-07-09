@@ -456,6 +456,7 @@ type Query {
   getPostingApplications(postingID: Int!): [Application!]!
   getPostingSelected(postingID: Int!): [Application!]!
   getPostingsInReview: [Posting!]!
+  getRankedAgency(page: Float!): [User!]!
   getSeller(username: String!): User
   getStates(countryID: Int!): [CitySelectOption!]!
   getSubscription: SubscriptionGQL!
@@ -605,5 +606,6 @@ type User {
   pricing: Pricing
   reviews: [Review!]!
   role: ROLES!
+  totalApplications: Int!
   username: String
 }
