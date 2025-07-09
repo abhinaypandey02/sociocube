@@ -4,9 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 
 import type { GetRankedAgencyQuery } from "@/__generated__/graphql";
 import { getRoute } from "@/constants/routes";
-import { useVisibility } from "@/hooks/useVisibility";
 import { useAuthQuery } from "@/lib/apollo-client";
 import { GET_RANKED_AGENCY } from "@/lib/queries";
+import { useVisibility } from "@/state/hooks";
 
 import AgencyCard from "./agency-card";
 
