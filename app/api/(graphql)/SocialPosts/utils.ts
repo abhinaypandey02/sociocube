@@ -1,6 +1,6 @@
 import { db } from "@backend/lib/db";
 import { SocialPostsTable } from "@graphql/SocialPosts/db";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 import { getShareText } from "@/app/(dashboard)/campaigns/[id]/utils";
 import { getClient } from "@/lib/apollo-server";
@@ -54,7 +54,14 @@ export async function getWhatsappNextPost() {
     .from(SocialPostsTable)
     .where(eq(SocialPostsTable.platform, "whatsapp"));
   if (post)
-    await db.delete(SocialPostsTable).where(eq(SocialPostsTable.id, post.id));
+    await db
+      .delete(SocialPostsTable)
+      .where(
+        and(
+          eq(SocialPostsTable.id, post.id),
+          eq(SocialPostsTable.platform, post.platform),
+        ),
+      );
   return post?.body;
 }
 
