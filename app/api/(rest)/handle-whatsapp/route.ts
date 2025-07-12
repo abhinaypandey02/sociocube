@@ -9,6 +9,9 @@ import { extractFormsLink, getMetaInfo } from "@/lib/utils";
 export const POST = async (req: NextRequest) => {
   const nextPost = await getWhatsappNextPost();
   const body = await req.text();
+  if (!body) {
+    return NextResponse.json({ nextPost }, { status: 200 });
+  }
   if (!body.includes("https://") || !body.includes("forms"))
     return NextResponse.json(
       { nextPost, error: "Invalid form link not found" },
