@@ -1,6 +1,8 @@
 import { db } from "@backend/lib/db";
 import { sendTemplateEmail } from "@backend/lib/email/send-template";
+import { queuePost } from "@graphql/SocialPosts/utils";
 import { UserTable } from "@graphql/User/db";
+import { waitUntil } from "@vercel/functions";
 import { and, eq } from "drizzle-orm";
 import { revalidateTag } from "next/cache";
 
@@ -26,5 +28,6 @@ export async function acceptPosting(postingID: number): Promise<boolean> {
       });
   }
   revalidateTag(getPostingCacheTag(postingID));
+  waitUntil(queuePost(postingID));
   return true;
 }

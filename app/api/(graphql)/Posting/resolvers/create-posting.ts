@@ -4,6 +4,7 @@ import { PostingPlatforms } from "@backend/lib/constants/platforms";
 import { Roles } from "@backend/lib/constants/roles";
 import { db } from "@backend/lib/db";
 import { sendTemplateEmail } from "@backend/lib/email/send-template";
+import { queuePost } from "@graphql/SocialPosts/utils";
 import { UserTable } from "@graphql/User/db";
 import { getIsOnboarded } from "@graphql/User/resolvers/onboarding-data";
 import { getUser } from "@graphql/User/utils";
@@ -111,20 +112,24 @@ export async function createPosting(
       .returning({ id: PostingTable.id });
 
     // Send email notification
-    if (posting?.id && !force) {
-      if (user.emailVerified)
+    if (posting?.id) {
+      if (!force) {
+        if (user.emailVerified)
+          waitUntil(
+            sendTemplateEmail(user.email, "CampaignCreated", {
+              campaignName: newPosting.title,
+              campaignID: posting?.id,
+            }),
+          );
         waitUntil(
-          sendTemplateEmail(user.email, "CampaignCreated", {
+          sendTemplateEmail("abhinaypandey02@gmail.com", "CampaignCreated", {
             campaignName: newPosting.title,
             campaignID: posting?.id,
           }),
         );
-      waitUntil(
-        sendTemplateEmail("abhinaypandey02@gmail.com", "CampaignCreated", {
-          campaignName: newPosting.title,
-          campaignID: posting?.id,
-        }),
-      );
+      } else {
+        waitUntil(queuePost(posting.id));
+      }
     }
 
     return posting?.id || null;
